@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="AdminClientesPU" transaction-type="RESOURCE_LOCAL">
+      
+    <non-jta-data-source>java:comp/env/jdbc/sgcDS</non-jta-data-source>
+    <class>com.invbf.sistemagestionmercadeo.entity.Log</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Solicitudentrega</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Tipodocumento</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Cliente</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Usuariodetalle</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Bono</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Clienteatributo</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Casinodetalle</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Listasclientestareas</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Controlsalidabono</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Casino</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Denominacion</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Permiso</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Bononoincluido</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Atributo</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Cargo</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Area</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Vista</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Evento</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Solicitudcambiocupofidelizacion</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Solicitudentregacliente</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Tipotarea</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Acceso</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Bononofisico</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Propositoentrega</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Configuracion</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Tarea</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Accion</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Formulario</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Perfil</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Tipobono</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Usuario</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.ComputadorRegistrado</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Tipojuego</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Categoria</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Lotebono</class>
+    
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties/>
+  </persistence-unit>
+</persistence>
