@@ -20,8 +20,7 @@ import javax.persistence.Persistence;
 public class UsuarioDetalleDao {
     
     public static void create(Usuariodetalle usuario) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
