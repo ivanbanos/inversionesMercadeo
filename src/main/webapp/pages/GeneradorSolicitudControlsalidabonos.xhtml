@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-md-12 ">
+
+                    <h:form id="form">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading"><h4>#{label['generarsolicitudcontrolsalida']}</h4></div>
+                            <div class="panel-body">
+                                <c:if id="generado" test="#{generadorControlSalidaBean.elemento.id != null}">
+                                    <div class="row">
+                                        <div class="control-group">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" >#{label['id']}</label>
+                                                <div class="col-md-4">
+                                                    #{generadorControlSalidaBean.elemento.id}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" >#{label['fechacreacion']}</label>
+                                                <div class="col-md-4">
+                                                    <h:outputText value="#{generadorControlSalidaBean.elemento.fecha}">
+                                                        <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es" timeZone="GTM-5"  />
+                                                    </h:outputText>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="control-group">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" >#{label['usuario']}</label>
+                                                <div class="col-md-4">
+                                                    #{generadorControlSalidaBean.usuario.nombreUsuario}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" >#{label['cargo']}</label>
+                                                <div class="col-md-4">
+                                                    #{generadorControlSalidaBean.usuariosdetalles.idcargo.nombre}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="control-group">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" >#{label['casino']}</label>
+                                                <div class="col-md-4">
+                                                    #{generadorControlSalidaBean.getCasinoById(generadorControlSalidaBean.elemento.solicitudEntregaid.idCasino).nombre}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" >#{label['estado']}</label>
+                                                <div class="col-md-4">
+                                                    #{generadorControlSalidaBean.elemento.estado}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="control-group">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" >#{label['tipobono']}</label>
+                                                <div class="col-md-4">
+                                                    #{generadorControlSalidaBean.elemento.solicitudEntregaid.tipoBono.nombre}
+                                                </div>
+                                            </div>
+                                        </div><div class="control-group">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" >#{label['fechavencimientobono']}</label>
+                                                <div class="col-md-4">
+                                                    <p:calendar value="#{generadorControlSalidaBean.elemento.fechavencimientobonos}" pattern="dd/MMMM/yyyy" locale="es"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:if>
+                                <div class="row">
+                                    <div class="control-group">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <table class="table table-striped">
+                                                    <tr>
+                                                        <th>#{'cliente'}</th>
+                                                        <th>#{'monto'}</th>
+                                                        <th>#{'cantidad'}</th>
+                                                        <th>#{'denominacion'}</th>
+                                                    </tr>
+                                                    <c:forEach items="#{generadorControlSalidaBean.clientesMontos}" var="cliente" varStatus="status">
+
+
+                                                        <tr>
+                                                            <td>#{cliente.nombre}</td>
+                                                            <td>#{cliente.monto}</td>
+                                                            <td>
+                                                                <p:outputPanel id="usertable#{status.count}" style="display:block">
+                                                                    <c:choose>
+                                                                        <c:when test="#{cliente.isOk}">
+                                                                            <h:graphicImage value="#{resource['images/GreenBall.png']}" />
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <h:graphicImage  value="#{resource['images/RedBall.png']}" />
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </p:outputPanel>
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <c:forEach items="#{cliente.denominacionCant}" var="denominacion">
+                                                            <tr>
+                                                                <td colspan="2"/>
+                                                                <td><p:spinner min="0" stepFactor="1" 
+                                                                               value="#{denominacion.cantidad}" >
+                                                                        <p:ajax event="change" update="form:usertable#{status.count}"  />
+                                                                    </p:spinner></td>
+                                                                <td>#{denominacion.denomiancion.valor}</td>
+                                                            </tr>
+                                                        </c:forEach>
+
+                                                    </c:forEach>
+
+
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <div class="panel-footer text-right"> 
+                                <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{generadorControlSalidaBean.guardar()}" 
+                                                 ajax="false" style="margin:0" />
+                            </div>
+                        </div>
+                    </h:form>
+
+                </div>
+            </div>
+        </div>
+    </ui:define>            
+</ui:composition>

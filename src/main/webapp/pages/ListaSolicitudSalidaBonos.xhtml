@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-md-12 ">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h4>#{label['listasalidabonos']}</h4></div>
+                        <div class="panel-body">
+                            <div class="row">
+
+
+
+
+                                <h:form class="form-horizontal">
+                                    <p:dataTable id="detailsTable" var="element" value="#{listaSolicitudesdeSalidadeBonos.lista}"  
+                                                 emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable"
+                                                 rows="#{sessionBean.paginacion}"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 >
+
+                                        <p:column headerText="#{label['id']}" sortBy="#{element.id}" filterBy="#{element.id}" filterMatchMode="contains" >
+                                            <h:outputText value="#{element.id}" />
+                                        </p:column>
+
+                                        <p:column headerText="#{label['fechacreacion']}" sortBy="#{element.fecha}" filterBy="#{element.fecha}" filterMatchMode="contains" >
+                                            <h:outputText value="#{element.fecha}" >
+                                                <f:convertDateTime pattern="dd/MMMMM/yyyy " locale="es" />
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column headerText="#{label['estado']}" sortBy="#{element.estado}" filterBy="#{element.estado}" filterMatchMode="contains" >
+                                            <h:outputText value="#{element.estado}" />
+                                        </p:column>
+
+                                        <p:column headerText="#{label['acciones']}" >   
+                                            <p:commandButton id="editButton" action="#{listaSolicitudesdeSalidadeBonos.goSolicitud(element.id)}" icon="ui-icon-pencil" 
+                                                             title="#{label['lb_btn.editar']}"
+                                                             rendered="#{sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;) and !element.estado.equals(&quot;ACEPTADA&quot;)}"/> 
+                                            <p:commandButton id="aceptar" action="#{listaSolicitudesdeSalidadeBonos.goSolicitudAceptar(element.id)}" icon="ui-icon-gear" 
+                                                             title="#{label['lb_btn.aceptar']}"
+                                                             rendered="#{sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;) and !element.estado.equals(&quot;ACEPTADA&quot;)}"/> 
+                                        </p:column>
+
+
+                                    </p:dataTable>
+
+                                </h:form>
+
+
+
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </ui:define>            
+</ui:composition>

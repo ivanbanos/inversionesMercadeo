@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-md-12 ">
+
+                    <h:form id="form">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading"><h4>#{label['preaprobarsolicitud']}</h4></div>
+                            <div class="panel-body">
+
+                                <div class="row">
+                                    <div class="control-group">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label" >#{label['id']}</label>
+                                            <div class="col-md-4">
+                                                #{preaprobarSolicitudBonos.elemento.id}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label" >#{label['fechacreacion']}</label>
+                                            <div class="col-md-4">
+                                                #{preaprobarSolicitudBonos.elemento.fecha}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="control-group">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label" >#{label['solicitante']}</label>
+                                            <div class="col-md-4">
+                                                #{preaprobarSolicitudBonos.getUsuarioById(preaprobarSolicitudBonos.elemento.solicitante).nombreUsuario}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label" >#{label['cargo']}</label>
+                                            <div class="col-md-4">
+                                                #{preaprobarSolicitudBonos.getUsuariodetalleById(preaprobarSolicitudBonos.elemento.solicitante).idcargo.nombre}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="control-group">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label" >#{label['proposito']}</label>
+                                            <div class="col-md-4">
+                                                #{preaprobarSolicitudBonos.elemento.propositoEntrega.nombre}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label" >#{label['tipobono']}</label>
+                                            <div class="col-md-4">
+                                                #{preaprobarSolicitudBonos.elemento.tipoBono.nombre}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="control-group">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label" >#{label['casino']}</label>
+                                            <div class="col-md-4">
+                                                #{preaprobarSolicitudBonos.getCasinoById(generadorSolicitudBonos.elemento.idCasino).nombre}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label" >#{label['estado']}</label>
+                                            <div class="col-md-4">
+                                                #{preaprobarSolicitudBonos.elemento.estado}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="control-group">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" >#{label['justificacion']}</label>
+                                            <div class="col-md-9">
+                                                #{preaprobarSolicitudBonos.elemento.justificacion}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <c:if test="#{preaprobarSolicitudBonos.elemento.id!=null}">
+
+                                    <div class="row">
+                                        <div class="control-group">
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+
+                                                    <h:dataTable class="table table-striped" value="#{preaprobarSolicitudBonos.solicitudentregaclienteses}" var="cli"
+                                                                 >
+                                                        <f:facet name="header">
+                                                            <h:outputText value="Clientes" />
+                                                        </f:facet>
+                                                        <h:column >
+                                                            <f:facet name="header">
+                                                                <h:outputText value="#{'item'}" />
+                                                            </f:facet>
+                                                            <label>#{cli.clientessgb.id}</label>
+                                                        </h:column>
+                                                        <h:column >
+                                                            <f:facet name="header">
+                                                                <h:outputText value="#{'nombre'}" />
+                                                            </f:facet>
+                                                            <label>#{cli.clientessgb.nombres} #{cli.clientessgb.apellidos}</label>
+                                                        </h:column>
+                                                        <h:column >
+                                                            <f:facet name="header">
+                                                                <h:outputText value="#{'valor'}" />
+                                                            </f:facet>
+                                                            
+                                                            <label>#{cli.valorTotal}</label>
+                                                        </h:column>
+                                                        <h:column >
+                                                            <f:facet name="header">
+                                                                <h:outputText value="#{'area'}" />
+                                                            </f:facet>
+                                                            
+                                                            <label>#{cli.areaid.nombre}</label>
+                                                        </h:column>
+                                                        <h:column >
+                                                            <f:facet name="header">
+                                                                <h:outputText value="#{'observaciones'}" />
+                                                            </f:facet>
+                                                            <h:inputTextarea value="#{cli.observaciones}" />
+                                                        </h:column>
+                                                    </h:dataTable>
+
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                </c:if>
+
+
+
+                            </div>
+                            <div class="panel-footer text-right"> 
+                                <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{preaprobarSolicitudBonos.guardar()}"
+                                                 ajax="false" style="margin:0" />
+                            </div>
+                        </div>
+                    </h:form>
+
+                </div>
+            </div>
+        </div>
+    </ui:define>            
+</ui:composition>

@@ -315,10 +315,10 @@ public class SessionBean implements Serializable, Subject {
             active = "requisiciones";
             return "/pages/notificaciones.xhtml";
         } else if (page.equals("logs")) {
-            active = "logs";
+            active = "configuracion";
             return "/pages/logs.xhtml";
         } else if (page.equals("atributosbonos")) {
-            active = "atributosbonos";
+            active = "configuracion";
             return "/pages/AtributosBonos.xhtml";
         } else if (page.equals("GenerarSolicitudLotesBonos")) {
             active = "lotesdebonos";

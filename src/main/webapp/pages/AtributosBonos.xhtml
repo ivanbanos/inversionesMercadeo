@@ -1,0 +1,579 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+
+                    <!--Denominaciones-->
+                    <c:if test="#{sessionBean.perfilViewMatch(&quot;denominaciones&quot;)}">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="clickable">
+                                    <h3 class="panel-title">#{label['denominaciones']}</h3>
+
+                                    <span class="pull-right "><i class="fa fa-minus"></i></span>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <h:form class="form-horizontal">
+                                    <p:dataTable id="detailsTableDenom" var="element" value="#{crudDenominacionesBonosBean.lista}"  
+                                                 emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTableDenom"
+                                                 rows="#{sessionBean.paginacion}"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 >
+
+                                        <f:facet name="header">
+
+                                        </f:facet>
+
+                                        <p:column headerText="#{label['valor']}" sortBy="#{element.valor}" filterBy="#{element.valor}" filterMatchMode="contains">
+                                            <h:outputText value="#{element.valor}" />
+                                        </p:column>
+
+
+                                        <p:column headerText="Acciones" >
+                                            <p:commandButton id="editButtonCasinos" update=":#{p:component('editDialogDenom')}" 
+                                                             oncomplete="PF('editDialogDenom').show()" icon="ui-icon-pencil" 
+                                                             title="#{label['lb_btn.editar']}" 
+                                                             rendered="#{sessionBean.perfilFormMatch(&quot;denominaciones&quot;, &quot;actualizar&quot;)}">  
+                                                <f:setPropertyActionListener value="#{element}" target="#{crudDenominacionesBonosBean.elemento}" />  
+                                            </p:commandButton>
+                                            <p:commandButton id="deleteButtonCasinos" oncomplete="PF('deleteDialogDenom').show();" 
+                                                             icon="ui-icon-trash" title="#{label['lb_btn.borrar']}"  update=":#{p:component('deleteDialogDenom')}"
+                                                             rendered="#{sessionBean.perfilFormMatch(&quot;denominaciones&quot;, &quot;eliminar&quot;)}">
+                                                <f:setPropertyActionListener value="#{element}" target="#{crudDenominacionesBonosBean.elemento}" /> 
+                                            </p:commandButton> 
+                                        </p:column>
+
+                                        <f:facet name="footer">  
+                                            <p:commandButton id="addButtonCasinos" oncomplete="PF('addDialogDenom').show();" 
+                                                             value="#{label['lb_btn.agregar']}" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
+                                                             rendered="#{sessionBean.perfilFormMatch(&quot;denominaciones&quot;, &quot;crear&quot;)}"/>  
+                                        </f:facet>
+                                    </p:dataTable>
+
+                                </h:form>
+                            </div>
+                        </div>
+
+                        <h:form>
+                            <p:dialog id="addDialogDenom" header="Agregar" widgetVar="addDialogDenom" modal="true" closable="false" resizable="false">
+                                <div class="panel panel-primary">
+
+                                    <div class="panel-body">
+                                        <fieldset>
+                                            <div class="row">
+
+
+                                                <div class="control-group">
+                                                    <!-- Username -->
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label" >#{label['valor']}</label>
+                                                        <div class="col-md-9">
+                                                            <h:inputText id="codigo" value="#{crudDenominacionesBonosBean.elemento.valor}" required="true" class="form-control"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="panel-footer text-right"> 
+                                        <p:commandButton value="Confirmar" actionListener="#{crudDenominacionesBonosBean.guardar()}" 
+                                                         oncomplete="PF('addDialogDenom').hide()" icon="ui-icon-check" 
+                                                         update=":#{p:component('detailsTableDenom')} :#{p:component('addDialogDenom')} :#{p:component('messages')}" style="margin:0" />   
+                                        <p:commandButton value="Cerrar" oncomplete="PF('addDialogDenom').hide()" update=":#{p:component('addDialogDenom')}" icon="ui-icon-closethick"/>  
+                                    </div>
+                                </div>
+                            </p:dialog> 
+                        </h:form>
+
+                        <h:form>
+                            <p:dialog id="editDialogDenom" header="Editar" widgetVar="editDialogDenom" modal="true" closable="false" resizable="false">  
+                                <div class="panel panel-primary">
+
+                                    <div class="panel-body">
+                                        <fieldset>
+                                            <div class="row">
+
+
+                                                <div class="control-group">
+                                                    <!-- Username -->
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label" >#{label['valor']}</label>
+                                                        <div class="col-md-9">
+                                                            <h:inputText id="codigo" value="#{crudDenominacionesBonosBean.elemento.valor}" required="true" class="form-control"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="panel-footer text-right"> 
+                                        <p:commandButton value="Confirmar" action="#{crudDenominacionesBonosBean.guardar()}" 
+                                                         oncomplete="PF('editDialogDenom').hide()" icon="ui-icon-check"
+                                                         update=":#{p:component('detailsTableDenom')} :#{p:component('messages')}" style="margin:0"/>    
+                                        <p:commandButton value="Cerrar" oncomplete="PF('editDialogDenom').hide()" icon="ui-icon-closethick"/> 
+                                    </div>
+                                </div>
+                            </p:dialog>
+                        </h:form>
+                        <h:form>
+                            <p:confirmDialog id="deleteDialogDenom" message="Quiere borrar la denominación #{crudDenominacionesBonosBean.elemento.valor}?"  
+                                             header="Borrar" severity="alert" widgetVar="deleteDialogDenom" closable="false">  
+
+                                <p:commandButton id="confirm" value="Aceptar" oncomplete="PF('deleteDialogDenom').hide()"  
+                                                 action="#{crudDenominacionesBonosBean.delete()}" update=":#{p:component('detailsTableDenom')} :#{p:component('messages')}"/>  
+                                <p:commandButton id="decline" value="Cancelar" onclick="PF('deleteDialogDenom').hide()" type="button" />   
+
+                            </p:confirmDialog> 
+                        </h:form>
+
+                    </c:if>
+
+
+                    <!--Fin Denominaciones-->
+
+
+                </div>
+
+                <div class="col-md-12 column">
+
+                    <!--TipoBono-->
+                    <c:if test="#{sessionBean.perfilViewMatch(&quot;TipoBono&quot;)}">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="clickable">
+                                    <h3 class="panel-title">#{label['TipoBono']}</h3>
+
+                                    <span class="pull-right "><i class="fa fa-minus"></i></span>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <h:form class="form-horizontal">
+                                    <p:dataTable id="detailsTableTipoBono" var="element" value="#{crudTipoBonoBean.lista}"  
+                                                 emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTableTipoBono"
+                                                 rows="#{sessionBean.paginacion}"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 >
+
+                                        <f:facet name="header">
+
+                                        </f:facet>
+
+                                        <p:column headerText="#{label['nombre']}" sortBy="#{element.nombre}" filterBy="#{element.nombre}" filterMatchMode="contains">
+                                            <h:outputText value="#{element.nombre}" />
+                                        </p:column>
+
+
+                                        <p:column headerText="Acciones" >
+                                            <p:commandButton id="editButtonCasinos" update=":#{p:component('editDialogTipoBono')}" 
+                                                             oncomplete="PF('editDialogTipoBono').show()" icon="ui-icon-pencil" 
+                                                             title="#{label['lb_btn.editar']}" 
+                                                             rendered="#{sessionBean.perfilFormMatch(&quot;TipoBono&quot;, &quot;actualizar&quot;)}">  
+                                                <f:setPropertyActionListener value="#{element}" target="#{crudTipoBonoBean.elemento}" />  
+                                            </p:commandButton>
+                                            <p:commandButton id="deleteButtonCasinos" oncomplete="PF('deleteDialogTipoBono').show();" 
+                                                             icon="ui-icon-trash" title="#{label['lb_btn.borrar']}"  update=":#{p:component('deleteDialogTipoBono')}"
+                                                             rendered="#{sessionBean.perfilFormMatch(&quot;TipoBono&quot;, &quot;eliminar&quot;)}">
+                                                <f:setPropertyActionListener value="#{element}" target="#{crudTipoBonoBean.elemento}" /> 
+                                            </p:commandButton> 
+                                        </p:column>
+
+                                        <f:facet name="footer">  
+                                            <p:commandButton id="addButtonCasinos" oncomplete="PF('addDialogTipoBono').show();" 
+                                                             value="#{label['lb_btn.agregar']}" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
+                                                             rendered="#{sessionBean.perfilFormMatch(&quot;TipoBono&quot;, &quot;crear&quot;)}"/>  
+                                        </f:facet>
+                                    </p:dataTable>
+
+                                </h:form>
+                            </div>
+                        </div>
+
+                        <h:form>
+                            <p:dialog id="addDialogTipoBono" header="Agregar" widgetVar="addDialogTipoBono" modal="true" closable="false" resizable="false">
+                                <div class="panel panel-primary">
+
+                                    <div class="panel-body">
+                                        <fieldset>
+                                            <div class="row">
+
+
+                                                <div class="control-group">
+                                                    <!-- Username -->
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label" >#{label['nombre']}</label>
+                                                        <div class="col-md-9">
+                                                            <h:inputText id="codigo" value="#{crudTipoBonoBean.elemento.nombre}" required="true" class="form-control"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="panel-footer text-right"> 
+                                        <p:commandButton value="Confirmar" actionListener="#{crudTipoBonoBean.guardar()}" 
+                                                         oncomplete="PF('addDialogTipoBono').hide()" icon="ui-icon-check" 
+                                                         update=":#{p:component('detailsTableTipoBono')} :#{p:component('addDialogTipoBono')} :#{p:component('messages')}" style="margin:0" />   
+                                        <p:commandButton value="Cerrar" oncomplete="PF('addDialogTipoBono').hide()" update=":#{p:component('addDialogTipoBono')}" icon="ui-icon-closethick"/>  
+                                    </div>
+                                </div>
+                            </p:dialog> 
+                        </h:form>
+
+                        <h:form>
+                            <p:dialog id="editDialogTipoBono" header="Editar" widgetVar="editDialogTipoBono" modal="true" closable="false" resizable="false">  
+                                <div class="panel panel-primary">
+
+                                    <div class="panel-body">
+                                        <fieldset>
+                                            <div class="row">
+
+
+                                                <div class="control-group">
+                                                    <!-- Username -->
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label" >#{label['nombre']}</label>
+                                                        <div class="col-md-9">
+                                                            <h:inputText id="codigo" value="#{crudTipoBonoBean.elemento.nombre}" required="true" class="form-control"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="panel-footer text-right"> 
+                                        <p:commandButton value="Confirmar" action="#{crudTipoBonoBean.guardar()}" 
+                                                         oncomplete="PF('editDialogTipoBono').hide()" icon="ui-icon-check"
+                                                         update=":#{p:component('detailsTableTipoBono')} :#{p:component('messages')}" style="margin:0"/>    
+                                        <p:commandButton value="Cerrar" oncomplete="PF('editDialogTipoBono').hide()" icon="ui-icon-closethick"/> 
+                                    </div>
+                                </div>
+                            </p:dialog>
+                        </h:form>
+                        <h:form>
+                            <p:confirmDialog id="deleteDialogTipoBono" message="Quiere borrar el tipo de bono #{crudTipoBonoBean.elemento.nombre}?"  
+                                             header="Borrar" severity="alert" widgetVar="deleteDialogTipoBono" closable="false">  
+
+                                <p:commandButton id="confirm" value="Aceptar" oncomplete="PF('deleteDialogTipoBono').hide()"  
+                                                 action="#{crudTipoBonoBean.delete()}" update=":#{p:component('detailsTableTipoBono')} :#{p:component('messages')}"/>  
+                                <p:commandButton id="decline" value="Cancelar" onclick="PF('deleteDialogTipoBono').hide()" type="button" />   
+
+                            </p:confirmDialog> 
+                        </h:form>
+
+                    </c:if>
+
+
+                    <!--Fin TipoBono-->
+
+
+                </div>
+                
+                
+                
+                
+                <div class="col-md-12 column">
+
+                    <!--Propositos-->
+                    <c:if test="#{sessionBean.perfilViewMatch(&quot;Propositos&quot;)}">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="clickable">
+                                    <h3 class="panel-title">#{label['Propositos']}</h3>
+
+                                    <span class="pull-right "><i class="fa fa-minus"></i></span>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <h:form class="form-horizontal">
+                                    <p:dataTable id="detailsTablePropositos" var="element" value="#{crudPropositos.lista}"  
+                                                 emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTablePropositos"
+                                                 rows="#{sessionBean.paginacion}"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 >
+
+                                        <f:facet name="header">
+
+                                        </f:facet>
+
+                                        <p:column headerText="#{label['nombre']}" sortBy="#{element.nombre}" filterBy="#{element.nombre}" filterMatchMode="contains">
+                                            <h:outputText value="#{element.nombre}" />
+                                        </p:column>
+
+
+                                        <p:column headerText="Acciones" >
+                                            <p:commandButton id="editButtonPropositos" update=":#{p:component('editDialogPropositos')}" 
+                                                             oncomplete="PF('editDialogPropositos').show()" icon="ui-icon-pencil" 
+                                                             title="#{label['lb_btn.editar']}" 
+                                                             rendered="#{sessionBean.perfilFormMatch(&quot;Propositos&quot;, &quot;actualizar&quot;)}">  
+                                                <f:setPropertyActionListener value="#{element}" target="#{crudPropositos.elemento}" />  
+                                            </p:commandButton>
+                                            <p:commandButton id="deleteButtonPropositos" oncomplete="PF('deleteDialogPropositos').show();" 
+                                                             icon="ui-icon-trash" title="#{label['lb_btn.borrar']}"  update=":#{p:component('deleteDialogPropositos')}"
+                                                             rendered="#{sessionBean.perfilFormMatch(&quot;Propositos&quot;, &quot;eliminar&quot;)}">
+                                                <f:setPropertyActionListener value="#{element}" target="#{crudPropositos.elemento}" /> 
+                                            </p:commandButton> 
+                                        </p:column>
+
+                                        <f:facet name="footer">  
+                                            <p:commandButton id="addButtonPropositos" oncomplete="PF('addDialogPropositos').show();" 
+                                                             value="#{label['lb_btn.agregar']}" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
+                                                             rendered="#{sessionBean.perfilFormMatch(&quot;Propositos&quot;, &quot;crear&quot;)}"/>  
+                                        </f:facet>
+                                    </p:dataTable>
+
+                                </h:form>
+                            </div>
+                        </div>
+
+                        <h:form>
+                            <p:dialog id="addDialogPropositos" header="Agregar" widgetVar="addDialogPropositos" modal="true" closable="false" resizable="false">
+                                <div class="panel panel-primary">
+
+                                    <div class="panel-body">
+                                        <fieldset>
+                                            <div class="row">
+
+
+                                                <div class="control-group">
+                                                    <!-- Username -->
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label" >#{label['nombre']}</label>
+                                                        <div class="col-md-9">
+                                                            <h:inputText id="codigo" value="#{crudPropositos.elemento.nombre}" required="true" class="form-control"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="panel-footer text-right"> 
+                                        <p:commandButton value="Confirmar" actionListener="#{crudPropositos.guardar()}" 
+                                                         oncomplete="PF('addDialogPropositos').hide()" icon="ui-icon-check" 
+                                                         update=":#{p:component('detailsTablePropositos')} :#{p:component('addDialogPropositos')} :#{p:component('messages')}" style="margin:0" />   
+                                        <p:commandButton value="Cerrar" oncomplete="PF('addDialogPropositos').hide()" update=":#{p:component('addDialogPropositos')}" icon="ui-icon-closethick"/>  
+                                    </div>
+                                </div>
+                            </p:dialog> 
+                        </h:form>
+
+                        <h:form>
+                            <p:dialog id="editDialogPropositos" header="Editar" widgetVar="editDialogPropositos" modal="true" closable="false" resizable="false">  
+                                <div class="panel panel-primary">
+
+                                    <div class="panel-body">
+                                        <fieldset>
+                                            <div class="row">
+
+
+                                                <div class="control-group">
+                                                    <!-- Username -->
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label" >#{label['nombre']}</label>
+                                                        <div class="col-md-9">
+                                                            <h:inputText id="codigo" value="#{crudPropositos.elemento.nombre}" required="true" class="form-control"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="panel-footer text-right"> 
+                                        <p:commandButton value="Confirmar" action="#{crudPropositos.guardar()}" 
+                                                         oncomplete="PF('editDialogPropositos').hide()" icon="ui-icon-check"
+                                                         update=":#{p:component('detailsTablePropositos')} :#{p:component('messages')}" style="margin:0"/>    
+                                        <p:commandButton value="Cerrar" oncomplete="PF('editDialogPropositos').hide()" icon="ui-icon-closethick"/> 
+                                    </div>
+                                </div>
+                            </p:dialog>
+                        </h:form>
+                        <h:form>
+                            <p:confirmDialog id="deleteDialogPropositos" message="Quiere borrar el proposito de entrega #{crudPropositos.elemento.nombre}?"  
+                                             header="Borrar" severity="alert" widgetVar="deleteDialogPropositos" closable="false">  
+
+                                <p:commandButton id="confirm" value="Aceptar" oncomplete="PF('deleteDialogPropositos').hide()"  
+                                                 action="#{crudPropositos.delete()}" update=":#{p:component('detailsTablePropositos')} :#{p:component('messages')}"/>  
+                                <p:commandButton id="decline" value="Cancelar" onclick="PF('deleteDialogPropositos').hide()" type="button" />   
+
+                            </p:confirmDialog> 
+                        </h:form>
+
+                    </c:if>
+
+
+                    <!--Fin Propositos-->
+
+
+                </div>
+                
+                <div class="col-md-12 column">
+
+                    <!--Area-->
+                    <c:if test="#{sessionBean.perfilViewMatch(&quot;Areas&quot;)}">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="clickable">
+                                    <h3 class="panel-title">#{label['Areas']}</h3>
+
+                                    <span class="pull-right "><i class="fa fa-minus"></i></span>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <h:form class="form-horizontal">
+                                    <p:dataTable id="detailsTableAreas" var="element" value="#{crudAreaBean.lista}"  
+                                                 emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTablePropositos"
+                                                 rows="#{sessionBean.paginacion}"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 >
+
+                                        <f:facet name="header">
+
+                                        </f:facet>
+
+                                        <p:column headerText="#{label['nombre']}" sortBy="#{element.nombre}" filterBy="#{element.nombre}" filterMatchMode="contains">
+                                            <h:outputText value="#{element.nombre}" />
+                                        </p:column>
+
+
+                                        <p:column headerText="Acciones" >
+                                            <p:commandButton id="editButtonAreas" update=":#{p:component('editDialogAreas')}" 
+                                                             oncomplete="PF('editDialogAreas').show()" icon="ui-icon-pencil" 
+                                                             title="#{label['lb_btn.editar']}" 
+                                                             rendered="#{sessionBean.perfilFormMatch(&quot;Areas&quot;, &quot;actualizar&quot;)}">  
+                                                <f:setPropertyActionListener value="#{element}" target="#{crudAreaBean.elemento}" />  
+                                            </p:commandButton>
+                                            <p:commandButton id="deleteButtonAreas" oncomplete="PF('deleteDialogAreas').show();" 
+                                                             icon="ui-icon-trash" title="#{label['lb_btn.borrar']}"  update=":#{p:component('deleteDialogAreas')}"
+                                                             rendered="#{sessionBean.perfilFormMatch(&quot;Areas&quot;, &quot;eliminar&quot;)}">
+                                                <f:setPropertyActionListener value="#{element}" target="#{crudAreaBean.elemento}" /> 
+                                            </p:commandButton> 
+                                        </p:column>
+
+                                        <f:facet name="footer">  
+                                            <p:commandButton id="addButtonAreas" oncomplete="PF('addDialogAreas').show();" update=":#{p:component('addDialogAreas')}" 
+                                                             value="#{label['lb_btn.agregar']}" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
+                                                             rendered="#{sessionBean.perfilFormMatch(&quot;Areas&quot;, &quot;crear&quot;)}"/>  
+                                        </f:facet>
+                                    </p:dataTable>
+
+                                </h:form>
+                            </div>
+                        </div>
+
+                        <h:form>
+                            <p:dialog id="addDialogAreas" header="Agregar" widgetVar="addDialogAreas" modal="true" closable="false" resizable="false">
+                                <div class="panel panel-primary">
+
+                                    <div class="panel-body">
+                                        <fieldset>
+                                            <div class="row">
+
+
+                                                <div class="control-group">
+                                                    <!-- Username -->
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label" >#{label['nombre']}</label>
+                                                        <div class="col-md-9">
+                                                            <h:inputText id="codigo" value="#{crudAreaBean.elemento.nombre}" required="true" class="form-control"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="panel-footer text-right"> 
+                                        <p:commandButton value="Confirmar" actionListener="#{crudAreaBean.guardar()}" 
+                                                         oncomplete="PF('addDialogAreas').hide()" icon="ui-icon-check" 
+                                                         update=":#{p:component('detailsTableAreas')} :#{p:component('addDialogAreas')} :#{p:component('messages')}" style="margin:0" />   
+                                        <p:commandButton value="Cerrar" onclick="PF('addDialogAreas').hide()" update=":#{p:component('addDialogAreas')}" icon="ui-icon-closethick"/>  
+                                    </div>
+                                </div>
+                            </p:dialog> 
+                        </h:form>
+
+                        <h:form>
+                            <p:dialog id="editDialogAreas" header="Editar" widgetVar="editDialogAreas" modal="true" closable="false" resizable="false">  
+                                <div class="panel panel-primary">
+
+                                    <div class="panel-body">
+                                        <fieldset>
+                                            <div class="row">
+
+
+                                                <div class="control-group">
+                                                    <!-- Username -->
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label" >#{label['nombre']}</label>
+                                                        <div class="col-md-9">
+                                                            <h:inputText id="codigo" value="#{crudAreaBean.elemento.nombre}" required="true" class="form-control"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="panel-footer text-right"> 
+                                        <p:commandButton value="Confirmar" action="#{crudAreaBean.guardar()}" 
+                                                         oncomplete="PF('editDialogAreas').hide()" icon="ui-icon-check"
+                                                         update=":#{p:component('detailsTableAreas')} :#{p:component('messages')}" style="margin:0"/>    
+                                        <p:commandButton value="Cerrar" onclick="PF('editDialogAreas').hide()" icon="ui-icon-closethick" /> 
+                                    </div>
+                                </div>
+                            </p:dialog>
+                        </h:form>
+                        <h:form>
+                            <p:confirmDialog id="deleteDialogAreas" message="Quiere borrar el area #{crudAreaBean.elemento.nombre}?"  
+                                             header="Borrar" severity="alert" widgetVar="deleteDialogAreas" closable="false">  
+
+                                <p:commandButton id="confirm" value="Aceptar" oncomplete="PF('deleteDialogAreas').hide()"  
+                                                 action="#{crudAreaBean.delete()}" update=":#{p:component('detailsTableAreas')} :#{p:component('messages')}"/>  
+                                <p:commandButton id="decline" value="Cancelar" onclick="PF('deleteDialogAreas').hide()" type="button" />   
+
+                            </p:confirmDialog> 
+                        </h:form>
+
+                    </c:if>
+
+
+                    <!--Fin Area-->
+
+
+                </div>
+                
+            </div>
+
+        </div>
+
+    </ui:define>            
+</ui:composition>

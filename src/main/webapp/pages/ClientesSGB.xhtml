@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+        <div class="container">
+
+
+
+            <div class="row clearfix">
+
+                <div class="col-md-12 ">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h4>#{label['clientes']}</h4></div>
+                        <div class="panel-body">
+                            <div class="row">
+
+
+
+
+                                <h:form class="form-horizontal">
+                                    <p:dataTable id="detailsTable" var="element" value="#{crudClientesSGBBean.lista}"  
+                                                 emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable"
+                                                 rows="#{sessionBean.paginacion}"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 >
+
+                                        <p:column headerText="#{label['nombres']}" sortBy="#{element.nombres}" filterBy="#{element.nombres}" filterMatchMode="contains" >
+                                            <h:outputText value="#{element.nombres}" />
+                                        </p:column>
+                                        <p:column headerText="#{label['apellidos']}" sortBy="#{element.apellidos}" filterBy="#{element.apellidos}" filterMatchMode="contains" >
+                                            <h:outputText value="#{element.apellidos}" />
+                                        </p:column>
+                                        <p:column headerText="#{label['casino']}" sortBy="#{element.apellidos}" filterBy="#{element.apellidos}" filterMatchMode="contains" >
+                                            <h:outputText value="#{crudClientesSGBBean.getCasinoById(element.idCasino).nombre}" />
+                                        </p:column>
+
+                                        <p:column headerText="#{label['acciones']}" >  
+                                            <p:commandButton id="editButton" update=":#{p:component('editDialog')}" 
+                                                             oncomplete="PF('editDialog').show()" icon="ui-icon-pencil" 
+                                                             title="#{label['lb_btn.editar']}" 
+                                                             rendered="#{sessionBean.perfilFormMatch(&quot;ClientesSGB&quot;, &quot;actualizar&quot;)}">  
+                                                <f:setPropertyActionListener value="#{element}" target="#{crudClientesSGBBean.elemento}" />  
+                                            </p:commandButton>
+                                            <p:commandButton id="deleteButton" oncomplete="PF('deleteDialog').show();" 
+                                                             icon="ui-icon-trash" title="#{label['lb_btn.borrar']}"  update=":#{p:component('deleteDialog')}"
+                                                             rendered="#{sessionBean.perfilFormMatch(&quot;ClientesSGB&quot;, &quot;eliminar&quot;)}">
+                                                <f:setPropertyActionListener value="#{element}" target="#{crudClientesSGBBean.elemento}" /> 
+                                            </p:commandButton> 
+                                        </p:column>
+
+                                        <f:facet name="footer"> 
+                                            <p:commandButton id="addButton" oncomplete="PF('addDialog').show();" update=":#{p:component('addDialog')}" 
+                                                             value="#{label['lb_btn.agregar']}" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
+                                                             rendered="#{sessionBean.perfilFormMatch(&quot;ClientesSGB&quot;, &quot;crear&quot;)}"/>  
+                                        </f:facet>
+
+                                    </p:dataTable>
+
+                                </h:form>
+
+
+
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+                <h:form>
+                    <p:dialog id="addDialog" header="Agregar" widgetVar="addDialog" modal="true" closable="false" resizable="false">
+                        <div class="panel panel-primary">
+
+                            <div class="panel-body">
+                                <fieldset>
+                                    <div class="row">
+
+
+                                        <div class="control-group">
+                                            <!-- Username -->
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" >#{label['nombres']}</label>
+                                                <div class="col-md-9">
+                                                    <h:inputText id="nombre" value="#{crudClientesSGBBean.elemento.nombres}" required="true" class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="control-group">
+                                            <!-- Username -->
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" >#{label['apellidos']}</label>
+                                                <div class="col-md-9">
+                                                    <h:inputText id="apellido" value="#{crudClientesSGBBean.elemento.apellidos}" required="true" class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <c:if test="#{sessionBean.perfilViewMatch(&quot;verTodosClientes&quot;)}">
+
+                                        <div class="row">
+                                            <div class="control-group">
+                                                <!-- Username -->
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" >#{label['casinos']}</label>
+                                                    <div class="col-md-9">
+                                                        <p:selectOneMenu id="casino" value="#{crudClientesSGBBean.elemento.idCasino}"  required="true">
+                                                            <f:selectItem itemLabel="Select One" itemValue="" />
+                                                            <f:selectItems value="#{crudClientesSGBBean.casinos}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.idCasino}"/>  
+                                                        </p:selectOneMenu>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:if>
+                                </fieldset>
+                            </div>
+                            <div class="panel-footer text-right"> 
+                                <p:commandButton value="Confirmar" actionListener="#{crudClientesSGBBean.guardar()}" 
+                                                 oncomplete="PF('addDialog').hide()" icon="ui-icon-check" 
+                                                 update=":#{p:component('detailsTable')} :#{p:component('addDialog')} :#{p:component('messages')}" style="margin:0" />   
+                                <p:commandButton value="Cerrar" onclick="PF('addDialog').hide()" update=":#{p:component('addDialog')}" icon="ui-icon-closethick"/>  
+                            </div>
+                        </div>
+                    </p:dialog> 
+                </h:form>
+
+                <h:form>
+                    <p:dialog id="editDialog" header="Editar" widgetVar="editDialog" modal="true" closable="false" resizable="false">  
+                        <div class="panel panel-primary">
+
+                            <div class="panel-body">
+                                <fieldset>
+                                    <div class="row">
+
+
+                                        <div class="control-group">
+                                            <!-- Username -->
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" >#{label['nombres']}</label>
+                                                <div class="col-md-9">
+                                                    <h:inputText id="nombre" value="#{crudClientesSGBBean.elemento.nombres}" required="true" class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="control-group">
+                                            <!-- Username -->
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" >#{label['apellidos']}</label>
+                                                <div class="col-md-9">
+                                                    <h:inputText id="apellido" value="#{crudClientesSGBBean.elemento.apellidos}" required="true" class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <c:if test="#{sessionBean.perfilViewMatch(&quot;verTodosClientes&quot;)}">
+
+                                        <div class="row">
+                                            <div class="control-group">
+                                                <!-- Username -->
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" >#{label['casinos']}</label>
+                                                    <div class="col-md-9">
+                                                        <p:selectOneMenu id="casino" value="#{crudClientesSGBBean.elemento.idCasino}"  required="true">
+                                                            <f:selectItem itemLabel="Select One" itemValue="" />
+                                                            <f:selectItems value="#{crudClientesSGBBean.casinos}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.idCasino}"/>  
+                                                        </p:selectOneMenu>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:if>
+                                </fieldset>
+                            </div>
+                            <div class="panel-footer text-right"> 
+                                <p:commandButton value="Confirmar" action="#{crudClientesSGBBean.guardar()}" 
+                                                 oncomplete="PF('editDialog').hide()" icon="ui-icon-check"
+                                                 update=":#{p:component('detailsTable')} :#{p:component('messages')}" style="margin:0"/>    
+                                <p:commandButton value="Cerrar" onclick="PF('editDialog').hide()" icon="ui-icon-closethick" /> 
+                            </div>
+                        </div>
+                    </p:dialog>
+                </h:form>
+                <h:form>
+                    <p:confirmDialog id="deleteDialog" message="Quiere borrar el cliente #{crudClientesSGBBean.elemento.nombres} #{crudClientesSGBBean.elemento.apellidos}?"  
+                                     header="Borrar" severity="alert" widgetVar="deleteDialog" closable="false">  
+
+                        <p:commandButton id="confirm" value="Aceptar" oncomplete="PF('deleteDialog').hide()"  
+                                         action="#{crudClientesSGBBean.delete()}" update=":#{p:component('detailsTable')} :#{p:component('messages')}"/>  
+                        <p:commandButton id="decline" value="Cancelar" onclick="PF('deleteDialog').hide()" type="button" />   
+
+                    </p:confirmDialog> 
+                </h:form>
+            </div>
+        </div>
+
+
+    </ui:define>            
+</ui:composition>

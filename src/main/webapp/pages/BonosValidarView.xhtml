@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+        <div class="container">
+            <div class="row clearfix">
+                <h:form>
+                    <div class="panel panel-primary">
+
+                        <div class="panel-heading"><h4>#{label['generarsolicitudbonos']}</h4></div>
+                        <div class="panel-body">
+                            <p:dataTable id="bonos" var="bono" value="#{bonoValidarBean.bonosPorValidar}" 
+                                         selection="#{bonoValidarBean.bonosSeleccionados}" rowKey="#{bono.consecutivo}" style="margin-bottom:0">
+                                <f:facet name="header">
+                                    Bonos por Validar
+                                </f:facet>
+                                <p:column headerText="Seleccionar" selectionMode="multiple" />
+                                <p:column headerText="consecutivo" sortBy="#{bono.consecutivo}" filterBy="#{bono.consecutivo}" filterMatchMode="contains">
+                                    <h:outputText value="#{bono.consecutivo}" />
+                                </p:column>
+                                <p:column headerText="cliente" sortBy="#{bono.cliente.nombres} #{bono.cliente.apellidos}" filterBy="#{bono.cliente.nombres} #{bono.cliente.apellidos}" filterMatchMode="contains">
+                                    <h:outputText value="#{bono.cliente.nombres} #{bono.cliente.apellidos}" />
+                                </p:column>
+                                <p:column headerText="fecha de vencimiento" sortBy="#{bono.fechaExpiracion}" filterBy="#{bono.cfechaExpiracion}" filterMatchMode="contains">
+                                    <h:outputText value="#{bono.fechaExpiracion}" >
+                                        <f:convertDateTime pattern="dd/MMMMM/yyyy " locale="es" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Casinos" sortBy="#{bonoValidarBean.getCasinoById(bono.casino).nombre}"
+                                          filterBy="#{bonoValidarBean.getCasinoById(bono.casino).nombre}" filterMatchMode="contains">
+                                    <h:outputText value="#{bonoValidarBean.getCasinoById(bono.casino).nombre}" />
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                        <div class="panel-footer text-right"> 
+                            <p:commandButton value="Confirmar" actionListener="#{bonoValidarBean.validar()}" 
+                                             oncomplete="PF('addClienteDialog').hide()" icon="ui-icon-check" 
+                                             ajax="false" style="margin:0" />   
+                        </div>
+                    </div>
+
+                </h:form>
+
+            </div>
+        </div>
+    </ui:define>            
+</ui:composition>
