@@ -36,7 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Formulario.findAll", query = "SELECT f FROM Formulario f"),
     @NamedQuery(name = "Formulario.findByIdFormulario", query = "SELECT f FROM Formulario f WHERE f.idFormulario = :idFormulario"),
     @NamedQuery(name = "Formulario.findByTabla", query = "SELECT f FROM Formulario f WHERE f.tabla = :tabla"),
-    @NamedQuery(name = "Formulario.findByAccion", query = "SELECT f FROM Formulario f WHERE f.accion = :accion")})
+    @NamedQuery(name = "Formulario.findByAccion", query = "SELECT f FROM Formulario f WHERE f.accion = :accion"),
+    @NamedQuery(name = "Formularios.findByAccionAndTabla", query = "SELECT f FROM Formulario f WHERE f.accion = :accion AND f.tabla = :tabla")})
 public class Formulario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

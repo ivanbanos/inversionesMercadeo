@@ -30,7 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Solicitudcambiocupofidelizacion.findAll", query = "SELECT s FROM Solicitudcambiocupofidelizacion s"),
     @NamedQuery(name = "Solicitudcambiocupofidelizacion.findById", query = "SELECT s FROM Solicitudcambiocupofidelizacion s WHERE s.id = :id"),
-    @NamedQuery(name = "Solicitudcambiocupofidelizacion.findByNuevoValor", query = "SELECT s FROM Solicitudcambiocupofidelizacion s WHERE s.nuevoValor = :nuevoValor")})
+    @NamedQuery(name = "Solicitudcambiocupofidelizacion.findByNuevoValor", query = "SELECT s FROM Solicitudcambiocupofidelizacion s WHERE s.nuevoValor = :nuevoValor"),
+    @NamedQuery(name = "Solicitudcambiocupofidelizacion.findByIdCliente", query = "SELECT s FROM Solicitudcambiocupofidelizacion s WHERE s.idCliente = :idCliente"),
+    @NamedQuery(name = "Solicitudcambiocupofidelizacion.findBySolicitante", query = "SELECT s FROM Solicitudcambiocupofidelizacion s WHERE s.solicitante = :solicitante")})
 public class Solicitudcambiocupofidelizacion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

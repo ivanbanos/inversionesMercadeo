@@ -39,7 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Solicitudentregalotesmaestro.findById", query = "SELECT s FROM Solicitudentregalotesmaestro s WHERE s.id = :id"),
     @NamedQuery(name = "Solicitudentregalotesmaestro.findByFecha", query = "SELECT s FROM Solicitudentregalotesmaestro s WHERE s.fecha = :fecha"),
     @NamedQuery(name = "Solicitudentregalotesmaestro.findByObservaciones", query = "SELECT s FROM Solicitudentregalotesmaestro s WHERE s.observaciones = :observaciones"),
-    @NamedQuery(name = "Solicitudentregalotesmaestro.findByEstado", query = "SELECT s FROM Solicitudentregalotesmaestro s WHERE s.estado = :estado")})
+    @NamedQuery(name = "Solicitudentregalotesmaestro.findByEstado", query = "SELECT s FROM Solicitudentregalotesmaestro s WHERE s.estado = :estado"),
+    @NamedQuery(name = "Solicitudentregalotesmaestro.findNoAceptada", query = "SELECT s FROM Solicitudentregalotesmaestro s WHERE s.estado != 'ACEPTADA'"),
+    @NamedQuery(name = "Solicitudentregalotesmaestro.findByRemitente", query = "SELECT s FROM Solicitudentregalotesmaestro s WHERE s.remitente = :remitente")})
 public class Solicitudentregalotesmaestro implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
