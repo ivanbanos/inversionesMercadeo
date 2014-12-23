@@ -77,23 +77,23 @@
                                     <ul class="dropdown-menu" role="menu">
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;AtributosSistema&quot;)}">
                                             <li >
-                                                <h:commandLink  action="#{sessionBean.go(&quot;AtributosSistema&quot;)}" class="navbar-text" value="#{label['atributossistemas']}"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;AtributosSistema&quot;)}" value="#{label['atributossistemas']}"/>
                                             </li>
                                         </c:if>
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;AtributosMarketing&quot;)}">
                                             <li>
-                                                <h:commandLink  action="#{sessionBean.go(&quot;AtributosMarketing&quot;)}" class="navbar-text" value="#{label['atributosmarketing']}"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;AtributosMarketing&quot;)}" value="#{label['atributosmarketing']}"/>
                                             </li>
                                         </c:if>
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;ConfiguracionesGenerales&quot;)}">
                                             <li>
-                                                <h:commandLink  action="#{sessionBean.go(&quot;ConfiguracionesGenerales&quot;)}" class="navbar-text" value="#{label['configuraciones']}"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;ConfiguracionesGenerales&quot;)}" value="#{label['configuraciones']}"/>
                                             </li>
                                         </c:if>
 
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;logs&quot;)}">
                                             <li>
-                                                <h:commandLink  action="#{sessionBean.go(&quot;logs&quot;)}" class="navbar-text" value="#{label['logs']}"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;logs&quot;)}" value="#{label['logs']}"/>
                                             </li>
                                         </c:if>
 
@@ -102,8 +102,7 @@
                                                       or sessionBean.perfilViewMatch(&quot;denominaciones&quot;)
                                                       or sessionBean.perfilViewMatch(&quot;TipoBono&quot;)}">
                                             <li >
-                                                <h:commandLink  action="#{sessionBean.go(&quot;atributosbonos&quot;)}" class="navbar-text-selected" value="#{label['atributosbono']}" rendered="#{sessionBean.isActive(&quot;atributosbonos&quot;)}"/>
-                                                <h:commandLink  action="#{sessionBean.go(&quot;atributosbonos&quot;)}" class="navbar-text" value="#{label['atributosbono']}" rendered="#{sessionBean.isNotActive(&quot;atributosbonos&quot;)}"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;atributosbonos&quot;)}"  value="#{label['atributosbono']}"/>
 
                                             </li>
                                         </c:if>
@@ -122,25 +121,25 @@
                                     <ul class="dropdown-menu" role="menu">
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Clientes&quot;)}">
                                             <li >
-                                                <h:commandLink  action="#{sessionBean.go(&quot;clientes&quot;)}" class="navbar-text" value="#{label['clientes']}"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;clientes&quot;)}" value="#{label['clientes']}"/>
                                             </li>
                                         </c:if>
 
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Eventos&quot;)}">
                                             <li>
-                                                <h:commandLink  action="#{sessionBean.go(&quot;eventos&quot;)}" class="navbar-text" value="#{label['eventos']}"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;eventos&quot;)}" value="#{label['eventos']}"/>
                                             </li>
                                         </c:if>
 
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Tareas&quot;)}">
                                             <li>
-                                                <h:commandLink  action="#{sessionBean.go(&quot;tareas&quot;)}" class="navbar-text" value="#{label['tareas']}"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;tareas&quot;)}" value="#{label['tareas']}"/>
                                             </li>
                                         </c:if>
 
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;ManejadorEventosHostess&quot;)}">
                                             <li>
-                                                <h:commandLink  action="#{sessionBean.go(&quot;eventoshostess&quot;)}" class="navbar-text" value="#{label['manejadortareas']}"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;eventoshostess&quot;)}" value="#{label['manejadortareas']}"/>
                                             </li>
                                         </c:if>
                                     </ul>
@@ -148,7 +147,11 @@
                             </c:if>
 
 
-                            <c:if test="#{sessionBean.perfilViewMatch(&quot;notificaciones&quot;)}">
+                            <c:if test="#{sessionBean.perfilViewMatch(&quot;notificaciones&quot;)
+                                          or sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;)
+                                          or sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;)
+                                          or sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;)
+                                          or sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;)}">
                                 <li class="dropdown ">
                                     <a href="#" class="dropdown-toggle #{sessionBean.isActive(&quot;requisiciones&quot;)}" data-toggle="dropdown">Requisiciones<span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
@@ -157,8 +160,25 @@
 
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;notificaciones&quot;)}">
                                             <li>
-                                                <h:commandLink  action="#{sessionBean.go(&quot;notificaciones&quot;)}" class="navbar-text" value="#{label['cambiosusuario']}"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;notificaciones&quot;)}"  value="#{label['cambiosusuario']}"/>
                                             </li> 
+                                        </c:if>
+
+                                        <c:if test="#{sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;)
+                                                      or sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;)
+                                                      or sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;)}">
+                                            <li >
+                                                <h:commandLink  action="#{sessionBean.go(&quot;solicitudesbonos&quot;)}"  value="#{label['solicitudesbonos']}"/>
+                                            </li>
+                                        </c:if>
+
+                                        <li role="presentation" class="dropdown-header">Ordenes</li>
+
+
+                                        <c:if test="#{sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;)}">
+                                            <li >
+                                                <h:commandLink  action="#{sessionBean.go(&quot;listasolicitudlotes&quot;)}"  value="#{label['listasolicitudeslotesbonos']}"/>
+                                            </li>
                                         </c:if>
                                     </ul>
                                 </li>
@@ -170,108 +190,34 @@
                                     <ul class="dropdown-menu" role="menu">
 
                                         <li>
-                                            <h:commandLink  action="#{sessionBean.go(&quot;reportesclientes&quot;)}" class="navbar-text" value="#{label['clientes']}"/>
+                                            <h:commandLink  action="#{sessionBean.go(&quot;reportesclientes&quot;)}" value="#{label['clientes']}"/>
                                         </li>
                                         <li>
-                                            <h:commandLink  action="#{sessionBean.go(&quot;reportestareas&quot;)}" class="navbar-text" value="#{label['tareas']}"/>
+                                            <h:commandLink  action="#{sessionBean.go(&quot;reportestareas&quot;)}" value="#{label['tareas']}"/>
                                         </li>
                                         <li>
-                                            <h:commandLink  action="#{sessionBean.go(&quot;reporteseventos&quot;)}" class="navbar-text" value="#{label['eventos']}"/>
+                                            <h:commandLink  action="#{sessionBean.go(&quot;reporteseventos&quot;)}" value="#{label['eventos']}"/>
                                         </li>
                                     </ul>
                                 </li>
                             </c:if>
-                            
-                            
-                            <c:if test="#{sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;LoteBono&quot;)}">
-                                <c:if test="#{sessionBean.isActive(&quot;lotesdebonos&quot;)}">
-                                    <li class="dropdown ">
-                                        <a href="#" class="dropdown-toggle navbar-text-selected" data-toggle="dropdown">#{label['lotesdebonos']}<span class="caret"></span></a>
-                                        <ul class="dropdown-menu" role="menu">
 
-                                            <c:if test="#{sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;)}">
-                                                <li >
-                                                    <h:commandLink  action="#{sessionBean.go(&quot;listasolicitudlotes&quot;)}" class="navbar-text" value="#{label['listasolicitudeslotesbonos']}"/>
-                                                </li>
-                                            </c:if>
-                                            <c:if test="#{sessionBean.perfilViewMatch(&quot;LoteBono&quot;)}">
-                                                <li >
-                                                    <h:commandLink  action="#{sessionBean.go(&quot;LoteBono&quot;)}" class="navbar-text" value="#{label['lotesdebonos']}"/>
-                                                </li>
-                                            </c:if>
-                                        </ul>
-                                    </li>
-                                </c:if>
-                                <c:if test="#{sessionBean.isNotActive(&quot;lotesdebonos&quot;)}">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle navbar-text" data-toggle="dropdown">#{label['lotesdebonos']}<span class="caret"></span></a>
-                                        <ul class="dropdown-menu" role="menu">
+                            <c:if test="#{sessionBean.perfilViewMatch(&quot;LoteBono&quot;)}">
+                                <li class="dropdown ">
+                                    <a href="#" class="dropdown-toggle #{sessionBean.isActive(&quot;inventario&quot;)}" data-toggle="dropdown">#{label['inventario']}<span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
 
-                                            <c:if test="#{sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;)}">
-                                                <li >
-                                                    <h:commandLink  action="#{sessionBean.go(&quot;listasolicitudlotes&quot;)}" class="navbar-text" value="#{label['listasolicitudeslotesbonos']}"/>
-                                                </li>
-                                            </c:if>
-                                            <c:if test="#{sessionBean.perfilViewMatch(&quot;LoteBono&quot;)}">
-                                                <li >
-                                                    <h:commandLink  action="#{sessionBean.go(&quot;LoteBono&quot;)}" class="navbar-text" value="#{label['lotesdebonos']}"/>
-                                                </li>
-                                            </c:if>
-                                        </ul>
-                                    </li>
-                                </c:if>
+                                        <c:if test="#{sessionBean.perfilViewMatch(&quot;LoteBono&quot;)}">
+                                            <li >
+                                                <h:commandLink  action="#{sessionBean.go(&quot;LoteBono&quot;)}" value="#{label['lotesdebonos']}"/>
+                                            </li>
+                                        </c:if>
+                                    </ul>
+
+                                </li>
                             </c:if>
 
 
-
-                            <c:if test="#{sessionBean.perfilViewMatch(&quot;ClientesSGB&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;)}">
-                                <c:if test="#{sessionBean.isActive(&quot;solicitudbonos&quot;)}">
-                                    <li class="dropdown ">
-                                        <a href="#" class="dropdown-toggle navbar-text-selected" data-toggle="dropdown">#{label['solicitudbonos']}<span class="caret"></span></a>
-                                        <ul class="dropdown-menu" role="menu">
-
-                                            <c:if test="#{sessionBean.perfilViewMatch(&quot;ClientesSGB&quot;)}">
-                                                <li >
-                                                    <h:commandLink  action="#{sessionBean.go(&quot;ClientesSGB&quot;)}" class="navbar-text" value="#{label['clientes']}"/>
-                                                </li>
-                                            </c:if>
-                                            <c:if test="#{sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;)
-                                                          or sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;)
-                                                          or sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;)}">
-                                                <li >
-                                                    <h:commandLink  action="#{sessionBean.go(&quot;solicitudesbonos&quot;)}" class="navbar-text" value="#{label['solicitudesbonos']}"/>
-                                                </li>
-                                            </c:if>
-                                        </ul>
-                                    </li>
-                                </c:if>
-                                <c:if test="#{sessionBean.isNotActive(&quot;solicitudbonos&quot;)}">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle navbar-text" data-toggle="dropdown">#{label['solicitudbonos']}<span class="caret"></span></a>
-                                        <ul class="dropdown-menu" role="menu">
-
-                                            <c:if test="#{sessionBean.perfilViewMatch(&quot;ClientesSGB&quot;)}">
-                                                <li >
-                                                    <h:commandLink  action="#{sessionBean.go(&quot;ClientesSGB&quot;)}" class="navbar-text" value="#{label['clientes']}"/>
-                                                </li>
-                                            </c:if>
-                                            <c:if test="#{sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;)
-                                                          or sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;)
-                                                          or sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;)}">
-                                                <li >
-                                                    <h:commandLink  action="#{sessionBean.go(&quot;solicitudesbonos&quot;)}" class="navbar-text" value="#{label['solicitudesbonos']}"/>
-                                                </li>
-                                            </c:if>
-                                        </ul>
-                                    </li>
-                                </c:if>
-                            </c:if>
-                            
-                            
                             <c:if test="#{sessionBean.perfilViewMatch(&quot;Verbonosporvalidar&quot;)
                                           or sessionBean.perfilViewMatch(&quot;Verbonosporentregarcaja&quot;)
                                           or sessionBean.perfilViewMatch(&quot;Verbonosporrecibir&quot;)
@@ -344,10 +290,10 @@
                                     </li>
                                 </c:if>
                             </c:if>
-                            
-                            
-                            
-                            
+
+
+
+
 
 
                             <c:if test="#{sessionBean.perfilViewMatch(&quot;Controlsalidabonos&quot;)
@@ -364,8 +310,8 @@
                                     </li>
                                 </c:if>
                             </c:if>
-                            
-                            
+
+
 
                             <li>
                                 <h:commandLink  action="#{sessionBean.go(&quot;cuenta&quot;)}" class="#{sessionBean.isActive(&quot;cuenta&quot;)}" value="#{label['cuentausuarios']}"/>

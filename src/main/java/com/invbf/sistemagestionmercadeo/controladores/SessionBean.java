@@ -324,13 +324,13 @@ public class SessionBean implements Serializable, Subject {
             active = "lotesdebonos";
             return "/pages/GeneradorSolicitudLoteBono.xhtml";
         } else if (page.equals("listasolicitudlotes")) {
-            active = "lotesdebonos";
+            active = "requisiciones";
             return "/pages/ListaSolicitudLotesBonosView.xhtml";
         } else if (page.equals("LoteBono")) {
-            active = "lotesdebonos";
+            active = "inventario";
             return "/pages/AdminLotesBonos.xhtml";
         } else if (page.equals("solicitudesbonos")) {
-            active = "solicitudbonos";
+            active = "requisiciones";
             return "/pages/ListaSolicitudBono.xhtml";
         } else if (page.equals("ControlSalidaBono")) {
             active = "salidadebonos";
