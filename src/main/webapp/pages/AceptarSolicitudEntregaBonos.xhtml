@@ -48,7 +48,7 @@
                                         <div class="form-group">
                                             <label class="col-md-2 control-label" >#{label['usuario']}</label>
                                             <div class="col-md-4">
-                                                #{aceptarSolicitudEntregaBonosBean.getNombreDeUsuario(aceptarSolicitudEntregaBonosBean.elemento.remitente)}
+                                                #{aceptarSolicitudEntregaBonosBean.elemento.remitente.nombreUsuario}
                                             </div>
                                         </div>
                                     </div>
@@ -75,7 +75,7 @@
                                                     <th>#{'denominacion'}</th>
                                                     <th>#{'tipobono'}</th>
                                                 </tr>
-                                                <c:forEach items="#{aceptarSolicitudEntregaBonosBean.elemento.solicitudentregalotesList}" var="solicitudes" varStatus="status">
+                                                <c:forEach items="#{aceptarSolicitudEntregaBonosBean.elemento.solicitudentregaloteList}" var="solicitudes" varStatus="status">
                                                     <tr>
                                                         <td id="cantidad#{status.count}">
                                                             <label>#{solicitudes.cantidad}</label>
@@ -83,7 +83,7 @@
                                                         <td id="desde#{status.count}"><label>#{solicitudes.lotesBonosid.hasta}</label></td>
                                                         <td id="hasta#{status.count}"><label>#{aceptarSolicitudEntregaBonosBean.getConsecutivo(solicitudes.lotesBonosid.hasta,solicitudes.cantidad)}</label></td>
 
-                                                        <td>#{aceptarSolicitudEntregaBonosBean.getCasinoById(solicitudes.lotesBonosid.idCasino).nombre}</td>
+                                                        <td>#{solicitudes.lotesBonosid.idCasino.nombre}</td>
                                                         <td>#{solicitudes.lotesBonosid.denominacion.valor}</td>
                                                         <td>#{solicitudes.lotesBonosid.tipoBono.nombre}</td>
                                                     </tr>
@@ -91,8 +91,8 @@
                                                         <td colspan="6">
                                                             Bonos no incluidos
                                                             <hr/>
-                                                            <c:forEach items="#{solicitudes.bonosnoincluidosList}" var="bonosno" >
-                                                                <h:outputText value="#{bonosno.consecutivo}"/>,&nbsp;
+                                                            <c:forEach items="#{solicitudes.bononoincluidoList}" var="bonosno" >
+                                                                <h:outputText value="#{bonosno.consecutivo}"/>&nbsp;
                                                             </c:forEach>
 
 

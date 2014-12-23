@@ -178,14 +178,14 @@ public class ClienteDao {
     public static List<Cliente> findByIdCasino(Integer idCasino) {
 
         EntityManagerFactory emf
-                = Persistence.createEntityManagerFactory("gestionBonosPU");
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Cliente> cargos = null;
         tx.begin();
         try {
-            cargos = (List<Cliente>) em.createNamedQuery("Clientessgb.findByIdCasino")
-                    .setParameter("idCasino", idCasino)
+            cargos = (List<Cliente>) em.createNamedQuery("Cliente.findByCasino")
+                    .setParameter("casino", idCasino)
                     .getResultList();
             tx.commit();
         } catch (Exception e) {

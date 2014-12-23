@@ -42,7 +42,7 @@
                                         <div class="form-group">
                                             <label class="col-md-2 control-label" >#{label['solicitante']}</label>
                                             <div class="col-md-4">
-                                                #{generadorSolicitudBonos.getUsuarioById(generadorSolicitudBonos.elemento.solicitante).nombreUsuario}
+                                                #{generadorSolicitudBonos.elemento.solicitante.nombreUsuario}
                                             </div>
                                         </div>
                                     </div>
@@ -50,7 +50,7 @@
                                         <div class="form-group">
                                             <label class="col-md-2 control-label" >#{label['cargo']}</label>
                                             <div class="col-md-4">
-                                                #{generadorSolicitudBonos.getUsuariodetalleById(generadorSolicitudBonos.elemento.solicitante).idcargo.nombre}
+                                                #{generadorSolicitudBonos.elemento.solicitante.usuariodetalle.idcargo.nombre}
                                             </div>
                                         </div>
                                     </div>
@@ -89,7 +89,7 @@
                                                 <div class="form-group">
                                                     <label class="col-md-2 control-label" >#{label['casinos']}</label>
                                                     <div class="col-md-4">
-                                                        <p:selectOneMenu id="casinos" value="#{generadorSolicitudBonos.elemento.idCasino}"  required="true">
+                                                        <p:selectOneMenu id="casinos" value="#{generadorSolicitudBonos.elemento.idCasino.idCasino}"  required="true">
                                                             <p:ajax event="change" update="@all"/>
                                                             <f:selectItem itemLabel="Seleciona Uno" itemValue="" />
                                                             <f:selectItems value="#{generadorSolicitudBonos.casinos}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.idCasino}"/>  
@@ -104,7 +104,7 @@
                                                 <div class="form-group">
                                                     <label class="col-md-2 control-label" >#{label['casino']}</label>
                                                     <div class="col-md-4">
-                                                        #{generadorSolicitudBonos.getCasinoById(generadorSolicitudBonos.elemento.idCasino).nombre}
+                                                        #{generadorSolicitudBonos.elemento.idCasino.nombre}
                                                     </div>
                                                 </div>
                                             </div>
@@ -131,6 +131,121 @@
                                         </div>
                                     </div>
                                 </div>
+
+
+
+                                <div class="row">
+
+
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <div >
+                                                <h3 class="panel-title">Busqueda avanzada</h3>
+
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row clearfix">
+                                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                    <h:outputLabel class="col-md-6 control-label" value="Pais:" />
+                                                    <h:inputText class="col-md-6" value="#{generadorSolicitudBonos.pais}" />
+                                                </div>
+                                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                    <h:outputLabel class="col-md-6 control-label" value="Ciudad:" />
+                                                    <h:inputText class="col-md-6" value="#{generadorSolicitudBonos.ciudad}" />
+                                                </div>
+                                                <div id="clientes" class="row clearfix">
+                                                    <div class="form-group col-md-12">
+                                                        <div class="col-md-4">
+                                                            <div class="panel panel-primary">
+
+                                                                <div class="panel-heading">
+                                                                    #{label['categorias']}
+                                                                </div>
+                                                                <div class="panel-body">
+                                                                    <ul id="categoriaslist">
+                                                                        <li>
+                                                                            <h:selectBooleanCheckbox value="#{generadorSolicitudBonos.todosCat}" onclick="toggle('categoriaslist')">
+                                                                            </h:selectBooleanCheckbox>
+                                                                            <label>Todos</label>
+                                                                        </li>
+
+                                                                        <c:forEach var="itemcat" items="#{generadorSolicitudBonos.categoriaBooleans}">
+                                                                            <li>
+                                                                                <h:selectBooleanCheckbox value="#{itemcat.selected}" onclick="deselecttodo('categoriaslist')"/>&nbsp;
+                                                                                <label>#{itemcat.categoria.nombre}</label>
+                                                                            </li>
+                                                                        </c:forEach>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="panel panel-primary">
+
+                                                                <div class="panel-heading">
+                                                                    #{label['casinos']}
+                                                                </div>
+                                                                <div class="panel-body">
+                                                                    <ul id="casinosList">
+                                                                        <li>
+                                                                            <h:selectBooleanCheckbox value="#{generadorSolicitudBonos.todoscasinos}" onclick="toggle('casinosList')">
+                                                                            </h:selectBooleanCheckbox>
+                                                                            <label>Todos</label>
+                                                                        </li>
+
+                                                                        <c:forEach var="itemcas" items="#{generadorSolicitudBonos.casinoBooleans}">
+                                                                            <li>
+                                                                                <h:selectBooleanCheckbox value="#{itemcas.selected}" onclick="deselecttodo('casinosList')"/>&nbsp;
+                                                                                <label>#{itemcas.casino.nombre}</label>
+                                                                            </li>
+                                                                        </c:forEach>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="panel panel-primary">
+
+                                                                <div class="panel-heading">#{label['tipojuegos']}</div>
+                                                                <div class="panel-body">
+                                                                    <ul id="tipojuegosList">
+                                                                        <li>
+                                                                            <h:selectBooleanCheckbox value="#{generadorSolicitudBonos.todostip}" onclick="toggle('tipojuegosList')">
+                                                                            </h:selectBooleanCheckbox>
+                                                                            <label>Todos</label>
+                                                                        </li>
+                                                                        <c:forEach var="itemtip" items="#{generadorSolicitudBonos.juegoBooleans}">
+                                                                            <li>
+                                                                                <h:selectBooleanCheckbox value="#{itemtip.selected}" onclick="deselecttodo('tipojuegosList')"/>&nbsp;
+                                                                                <label >#{itemtip.tipoJuego.nombre}</label>
+                                                                            </li>
+                                                                        </c:forEach>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <p:commandButton id="addButton" icon="ui-icon-search" value="#{label['lb_btn.Buscar']}"
+                                                                     title="#{label['lb_btn.Go']}" action="#{generadorSolicitudBonos.busquedaClientes()}"
+                                                                     update="form:tablaclientes">
+                                                    </p:commandButton> 
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
                                 <div class="row">
                                     <div class="control-group">
                                         <div class="form-group">
@@ -146,7 +261,7 @@
                                                             <f:facet name="header">
                                                                 <h:outputText value="#{'item'}" />
                                                             </f:facet>
-                                                            <label>#{cli.clientessgb.id}</label>
+                                                            <label>#{cli.clientessgb.idCliente}</label>
                                                         </h:column>
                                                         <h:column >
                                                             <f:facet name="header">
@@ -158,19 +273,19 @@
                                                             <f:facet name="header">
                                                                 <h:outputText value="#{'valor'}" />
                                                             </f:facet>
-                                                            <p:spinner min="0" stepFactor="5000" id="valor#{cli.clientessgb.id}" value="#{cli.valorTotal}" />
+                                                            <p:spinner min="0" stepFactor="5000" id="valor#{cli.clientessgb.idCliente}" value="#{cli.valorTotal}" />
                                                         </h:column>
                                                         <h:column >
                                                             <f:facet name="header">
                                                                 <h:outputText value="#{'area'}" />
                                                             </f:facet>
-                                                            <h:selectOneMenu id="area#{cli.clientessgb.id}" value="#{cli.areaid.id}"  required="true">
+                                                            <h:selectOneMenu id="area#{cli.clientessgb.idCliente}" value="#{cli.areaid.id}"  required="true">
                                                                 <f:selectItem itemLabel="Seleciona Uno" itemValue="" />
                                                                 <f:selectItems value="#{generadorSolicitudBonos.areas}" var="area" itemLabel="#{area.nombre}" itemValue="#{area.id}"/>  
                                                             </h:selectOneMenu>
                                                         </h:column>
                                                         <h:column >
-                                                            <p:commandButton id="quitar#{cli.clientessgb.id}" update=":#{p:component('tablaclientes')}" action="#{generadorSolicitudBonos.quitarCliente(cli.clientessgb.id)}" 
+                                                            <p:commandButton id="quitar#{cli.clientessgb.idCliente}" update=":#{p:component('tablaclientes')}" action="#{generadorSolicitudBonos.quitarCliente(cli.clientessgb.id)}" 
                                                                              icon="ui-icon-closethick" title="#{label['lb_btn.borrar']}" />
                                                         </h:column>
                                                         <f:facet name="footer">
@@ -212,7 +327,12 @@
 
                     <div class="panel-body">
                         <p:dataTable id="clientes" var="cliente" value="#{generadorSolicitudBonos.clientessgbs}" 
-                                     selection="#{generadorSolicitudBonos.selectedClientessgbs}" rowKey="#{cliente.id}" style="margin-bottom:0">
+                                     rows="#{sessionBean.paginacion}"
+                                     selection="#{generadorSolicitudBonos.selectedClientessgbs}" rowKey="#{cliente.idCliente}" style="margin-bottom:0"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+
+                                     >
                             <f:facet name="header">
                                 Clientes
                             </f:facet>
@@ -223,9 +343,9 @@
                             <p:column headerText="Apellidos" sortBy="#{cliente.apellidos}" filterBy="#{cliente.apellidos}" filterMatchMode="contains">
                                 <h:outputText value="#{cliente.apellidos}" />
                             </p:column>
-                            <p:column headerText="Casinos" sortBy="#{generadorSolicitudBonos.getCasinoById(cliente.idCasino).nombre}"
-                                      filterBy="#{generadorSolicitudBonos.getCasinoById(cliente.idCasino).nombre}" filterMatchMode="contains">
-                                <h:outputText value="#{generadorSolicitudBonos.getCasinoById(cliente.idCasino).nombre}" />
+                            <p:column headerText="Casinos" sortBy="#{cliente.idCasinoPreferencial.nombre}"
+                                      filterBy="#{cliente.idCasinoPreferencial.nombre}" filterMatchMode="contains">
+                                <h:outputText value="#{cliente.idCasinoPreferencial.nombre}" />
                             </p:column>
                         </p:dataTable>
                     </div>

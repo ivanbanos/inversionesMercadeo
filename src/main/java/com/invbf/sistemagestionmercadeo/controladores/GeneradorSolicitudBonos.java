@@ -7,15 +7,19 @@ package com.invbf.sistemagestionmercadeo.controladores;
 
 import com.invbf.sistemagestionmercadeo.entity.Area;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
+import com.invbf.sistemagestionmercadeo.entity.Categoria;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Propositoentrega;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentrega;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregacliente;
 import com.invbf.sistemagestionmercadeo.entity.Tipobono;
+import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
-import com.invbf.sistemagestionmercadeo.entity.Usuariodetalle;
+import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
+import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
 import com.invbf.sistemagestionmercadeo.util.ClienteSGBDTO;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
+import com.invbf.sistemagestionmercadeo.util.TipoJuegoBoolean;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -53,6 +57,15 @@ public class GeneradorSolicitudBonos {
     private List<Cliente> selectedClientessgbs;
     private List<ClienteSGBDTO> clientes;
     private List<Integer> clientesABorrar;
+    
+    private String pais;
+    private String ciudad;
+    private List<CasinoBoolean> casinoBooleans;
+    private List<TipoJuegoBoolean> juegoBooleans;
+    private List<CategoriaBoolean> categoriaBooleans;
+    private boolean todoscasinos;
+    private boolean todosCat;
+    private boolean todostip;
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -112,7 +125,21 @@ public class GeneradorSolicitudBonos {
         areas = sessionBean.adminFacade.findAllAreas();
         clientessgbs = new ArrayList<Cliente>();
         selectedClientessgbs = new ArrayList<Cliente>();
-        busquedaClientes();
+        
+        List<Tipojuego> tipoJuegos = sessionBean.marketingUserFacade.findAllTiposjuegos();
+        List<Categoria> categorias = sessionBean.marketingUserFacade.findAllCategorias();
+        juegoBooleans = new ArrayList<TipoJuegoBoolean>();
+        casinoBooleans = new ArrayList<CasinoBoolean>();
+        categoriaBooleans = new ArrayList<CategoriaBoolean>();
+        for (Tipojuego tipoJuego : tipoJuegos) {
+            juegoBooleans.add(new TipoJuegoBoolean(tipoJuego, false));
+        }
+        for (Casino casinob : casinos) {
+            casinoBooleans.add(new CasinoBoolean(casinob, false));
+        }
+        for (Categoria categoria : categorias) {
+            categoriaBooleans.add(new CategoriaBoolean(categoria, false));
+        }
 
     }
 
@@ -254,7 +281,109 @@ public class GeneradorSolicitudBonos {
     }
 
     public void busquedaClientes() {
-        clientessgbs = sessionBean.adminFacade.findClientessgbByCasino(elemento.getIdCasino());
+        clientessgbs = sessionBean.marketingUserFacade.findAllClientes();
+
+        boolean noCatselected = true;
+        boolean noTipselected = true;
+        boolean noCasselected = true;
+        for (CasinoBoolean cb : casinoBooleans) {
+            if (todoscasinos) {
+                cb.setSelected(true);
+                continue;
+            }
+            if (cb.isSelected()) {
+                noCasselected = false;
+                break;
+            }
+        }
+        for (CategoriaBoolean cb : categoriaBooleans) {
+            if (todosCat) {
+                cb.setSelected(true);
+                continue;
+            }
+            if (cb.isSelected()) {
+                noCatselected = false;
+                break;
+            }
+        }
+        for (TipoJuegoBoolean tjb : juegoBooleans) {
+            if (todostip) {
+                tjb.setSelected(true);
+                continue;
+            }
+            if (tjb.isSelected()) {
+                noTipselected = false;
+                break;
+            }
+        }
+
+        for (Iterator<Cliente> it = clientessgbs.iterator(); it.hasNext();) {
+            Cliente cliente = it.next();
+
+            boolean siCategoria = false;
+            boolean siTipoJuego = false;
+            boolean siCasino = false;
+            if (noCasselected) {
+                siCasino = true;
+            } else {
+                for (CasinoBoolean cb : casinoBooleans) {
+                    if (cb.isSelected()) {
+                        if (cliente.getIdCasinoPreferencial().equals(cb.getCasino())) {
+                            siCasino = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (noCatselected) {
+                siCategoria = true;
+            } else {
+                for (CategoriaBoolean cb : categoriaBooleans) {
+                    if (cb.isSelected()) {
+                        if (cliente.getIdCategorias().equals(cb.getCategoria())) {
+                            siCategoria = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (noTipselected) {
+                siTipoJuego = true;
+            } else {
+                for (TipoJuegoBoolean tjb : juegoBooleans) {
+                    if (tjb.isSelected()) {
+                        for (Tipojuego tj : cliente.getTipojuegoList()) {
+                            if (tj.equals(tjb.getTipoJuego())) {
+                                siTipoJuego = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!siCategoria) {
+                it.remove();
+            }
+            if (!siTipoJuego) {
+                it.remove();
+            }
+            if (!siCasino) {
+                it.remove();
+            }
+            if (ciudad != null && !ciudad.equals("")) {
+                if (!cliente.getCiudad().contains(ciudad)) {
+                    it.remove();
+                }
+            }
+            if (pais != null && !pais.equals("")) {
+                if (!cliente.getPais().contains(pais)) {
+                    it.remove();
+                }
+            }
+
+        }
+        creadorClientesSolicitud();
     }
 
     public List<Cliente> getSelectedClientessgbs() {
@@ -305,6 +434,78 @@ public class GeneradorSolicitudBonos {
 
     public void setClientes(List<ClienteSGBDTO> clientes) {
         this.clientes = clientes;
+    }
+
+    public List<Integer> getClientesABorrar() {
+        return clientesABorrar;
+    }
+
+    public void setClientesABorrar(List<Integer> clientesABorrar) {
+        this.clientesABorrar = clientesABorrar;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public List<CasinoBoolean> getCasinoBooleans() {
+        return casinoBooleans;
+    }
+
+    public void setCasinoBooleans(List<CasinoBoolean> casinoBooleans) {
+        this.casinoBooleans = casinoBooleans;
+    }
+
+    public List<TipoJuegoBoolean> getJuegoBooleans() {
+        return juegoBooleans;
+    }
+
+    public void setJuegoBooleans(List<TipoJuegoBoolean> juegoBooleans) {
+        this.juegoBooleans = juegoBooleans;
+    }
+
+    public List<CategoriaBoolean> getCategoriaBooleans() {
+        return categoriaBooleans;
+    }
+
+    public void setCategoriaBooleans(List<CategoriaBoolean> categoriaBooleans) {
+        this.categoriaBooleans = categoriaBooleans;
+    }
+
+    public boolean isTodoscasinos() {
+        return todoscasinos;
+    }
+
+    public void setTodoscasinos(boolean todoscasinos) {
+        this.todoscasinos = todoscasinos;
+    }
+
+    public boolean isTodosCat() {
+        return todosCat;
+    }
+
+    public void setTodosCat(boolean todosCat) {
+        this.todosCat = todosCat;
+    }
+
+    public boolean isTodostip() {
+        return todostip;
+    }
+
+    public void setTodostip(boolean todostip) {
+        this.todostip = todostip;
     }
 
 

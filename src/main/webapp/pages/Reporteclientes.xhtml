@@ -218,7 +218,7 @@
 
                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <h:outputLabel class="col-md-12 control-label" value="Preferencias de Juegos:" />
-                                            <p:dataList value="#{element.tiposjuegosList}" var="tipo" emptyMessage="No tiene juegos favoritos">
+                                            <p:dataList value="#{element.tipojuegoList}" var="tipo" emptyMessage="No tiene juegos favoritos">
                                                 #{tipo.nombre}
                                             </p:dataList>
                                         </div>
@@ -226,8 +226,8 @@
                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
                                             <h:outputLabel class="col-md-12 control-label" value="Atributos adicionales:" />
-                                            <p:dataList value="#{element.clientesatributosList}" var="attr" >
-                                                <b>#{attr.atributos.nombre}</b>:&nbsp;#{attr.valor} 
+                                            <p:dataList value="#{element.clienteatributoList}" var="attr" >
+                                                <b>#{attr.atributo.nombre}</b>:&nbsp;#{attr.valor} 
                                             </p:dataList>
                                         </div>
 

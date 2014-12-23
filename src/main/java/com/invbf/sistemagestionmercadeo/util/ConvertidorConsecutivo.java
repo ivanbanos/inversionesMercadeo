@@ -74,6 +74,7 @@ public class ConvertidorConsecutivo {
     }
 
     public static Long getNumeroFromConsecutivo(String consecutivo) {
+        System.out.println(consecutivo);
         long numerofrom = Long.parseLong(consecutivo.substring(0, 4));
         long total = numerofrom;
         Long cantidad = 0l;
@@ -113,5 +114,11 @@ public class ConvertidorConsecutivo {
 
     public static String sumarUno(String desde) {
         return getConsecutivoFromNumero(getNumeroFromConsecutivo(desde) + 1);
+    }
+    
+    public static String getCantidad(String desde, String hasta){
+        System.out.println("desde"+desde);
+        System.out.println("hasta"+hasta);
+        return (getNumeroFromConsecutivo(hasta) - getNumeroFromConsecutivo(desde))+"";
     }
 }

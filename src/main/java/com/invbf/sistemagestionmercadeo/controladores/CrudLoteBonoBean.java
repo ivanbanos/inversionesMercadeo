@@ -5,14 +5,18 @@
  */
 package com.invbf.sistemagestionmercadeo.controladores;
 
+import com.invbf.sistemagestionmercadeo.entity.Bononofisico;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Denominacion;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
 import com.invbf.sistemagestionmercadeo.entity.Tipobono;
 import com.invbf.sistemagestionmercadeo.exceptions.ExistenBonosFisicosException;
 import com.invbf.sistemagestionmercadeo.exceptions.LoteBonosExistenteException;
+import com.invbf.sistemagestionmercadeo.util.ConvertidorConsecutivo;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
+import com.invbf.sistemagestionmercadeo.util.LoteBonoDTO;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -28,7 +32,7 @@ import javax.faces.context.FacesContext;
 @ViewScoped
 public class CrudLoteBonoBean {
 
-    private List<Lotebono> lista;
+    private List<LoteBonoDTO> lista;
     private Lotebono elemento;
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -54,20 +58,26 @@ public class CrudLoteBonoBean {
             } catch (IOException ex) {
             }
         }
-        lista = sessionBean.marketingUserFacade.getAllLotesBonos();
+        List<Lotebono> lotes = sessionBean.marketingUserFacade.getAllLotesBonos();
+        lista = new ArrayList<LoteBonoDTO>();
+        for (Lotebono lote : lotes) {
+            lista.add(new LoteBonoDTO(lote.getId(), lote.getDesde(), lote.getHasta(), lote.getBononofisicoList(), lote.getDenominacion(), lote.getTipoBono(), lote.getIdCasino()));
+        }
         elemento = new Lotebono();
         elemento.setDenominacion(new Denominacion());
         elemento.setTipoBono(new Tipobono());
+        elemento.setIdCasino(new Casino());
+        elemento.setBononofisicoList(new ArrayList<Bononofisico>());
         casinos = sessionBean.adminFacade.findAllCasinos();
         denominaciones = sessionBean.adminFacade.findAllDenominaciones();
         tiposbonos = sessionBean.adminFacade.findAllTiposbonos();
     }
 
-    public List<Lotebono> getLista() {
+    public List<LoteBonoDTO> getLista() {
         return lista;
     }
 
-    public void setLista(List<Lotebono> lista) {
+    public void setLista(List<LoteBonoDTO> lista) {
         this.lista = lista;
     }
 
@@ -83,8 +93,11 @@ public class CrudLoteBonoBean {
         try {
             sessionBean.marketingUserFacade.borrarLote(elemento);
             FacesUtil.addInfoMessage("Lote eliminado con exito!", "");
-
-            lista = sessionBean.marketingUserFacade.getAllLotesBonos();
+            List<Lotebono> lotes = sessionBean.marketingUserFacade.getAllLotesBonos();
+            lista = new ArrayList<LoteBonoDTO>();
+            for (Lotebono lote : lotes) {
+                lista.add(new LoteBonoDTO(lote.getId(), lote.getDesde(), lote.getHasta(), lote.getBononofisicoList(), lote.getDenominacion(), lote.getTipoBono(), lote.getIdCasino()));
+            }
             elemento = new Lotebono();
             elemento.setDenominacion(new Denominacion());
             elemento.setTipoBono(new Tipobono());
@@ -99,11 +112,16 @@ public class CrudLoteBonoBean {
             elemento.setHasta("0000-A");
             sessionBean.marketingUserFacade.guardarLote(elemento);
             FacesUtil.addInfoMessage("Lote creado con exito!", "");
-
-            lista = sessionBean.marketingUserFacade.getAllLotesBonos();
+            List<Lotebono> lotes = sessionBean.marketingUserFacade.getAllLotesBonos();
+            lista = new ArrayList<LoteBonoDTO>();
+            for (Lotebono lote : lotes) {
+                lista.add(new LoteBonoDTO(lote.getId(), lote.getDesde(), lote.getHasta(), lote.getBononofisicoList(), lote.getDenominacion(), lote.getTipoBono(), lote.getIdCasino()));
+            }
             elemento = new Lotebono();
             elemento.setDenominacion(new Denominacion());
             elemento.setTipoBono(new Tipobono());
+            elemento.setIdCasino(new Casino());
+            elemento.setBononofisicoList(new ArrayList<Bononofisico>());
         } catch (LoteBonosExistenteException ex) {
             FacesUtil.addErrorMessage("No se pudo crear el lote de bonos", "Existe un lote de bonos con la misma combinacion de casino, denominación y tipo de bono");
         }
@@ -140,5 +158,5 @@ public class CrudLoteBonoBean {
     public void setTiposbonos(List<Tipobono> tiposbonos) {
         this.tiposbonos = tiposbonos;
     }
-    
+
 }

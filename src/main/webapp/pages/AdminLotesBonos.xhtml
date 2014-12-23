@@ -28,34 +28,27 @@
                                     <p:dataTable id="detailsTable" var="element" value="#{crudLoteBonoBean.lista}"  
                                                  emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable"
                                                  rows="#{sessionBean.paginacion}"
-                                                 paginator="true" 
+                                                 paginator="true"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  >
 
-                                        <p:column style="width:5%">
+                                        <p:column style="width:7%">
                                             <p:rowToggler />
                                         </p:column>
-
-                                        <p:column headerText="#{label['id']}" sortBy="#{element.id}" >
-                                            <h:outputText value="#{element.id}" />
+                                        <p:column headerText="#{label['cantidad']}" sortBy="#{element.cantidad}" style="width:13%">
+                                            <h:outputText value="#{element.cantidad}" />
                                         </p:column>
-                                        <p:column headerText="#{label['desde']}" sortBy="#{element.desde}" >
-                                            <h:outputText value="#{element.desde}" />
-                                        </p:column>
-                                        <p:column headerText="#{label['hasta']}" sortBy="#{element.hasta}" >
-                                            <h:outputText value="#{element.hasta}" />
-                                        </p:column>
-                                        <p:column headerText="#{label['denominacion']}" sortBy="#{element.denominacion.valor}" >
+                                        <p:column headerText="#{label['denominacion']}" sortBy="#{element.denominacion.valor}" style="width:17%">
                                             <h:outputText value="#{element.denominacion.valor}" />
                                         </p:column>
-                                        <p:column headerText="#{label['tipobono']}" sortBy="#{element.tipoBono.nombre}" >
+                                        <p:column headerText="#{label['tipobono']}" sortBy="#{element.tipoBono.nombre}" style="width:17%" >
                                             <h:outputText value="#{element.tipoBono.nombre}" />
                                         </p:column>
-                                        <p:column headerText="#{label['casino']}" sortBy="#{element.idCasino}" >
-                                            <h:outputText value="#{crudLoteBonoBean.getCasinoById(element.idCasino).nombre}" />
+                                        <p:column headerText="#{label['casino']}" sortBy="#{element.idCasino}" style="width:35%" >
+                                            <h:outputText value="#{element.idCasino.nombre}" />
                                         </p:column>
 
-                                        <p:column headerText="#{label['acciones']}" >    
+                                        <p:column headerText="#{label['acciones']}" style="width:11%">    
                                             <p:commandButton id="deleteButton" oncomplete="PF('deleteDialog').show();" 
                                                              icon="ui-icon-trash" title="#{label['lb_btn.borrar']}"  update=":#{p:component('deleteDialog')}"
                                                              rendered="#{sessionBean.perfilFormMatch(&quot;LoteBono&quot;, &quot;eliminar&quot;)}">
@@ -64,7 +57,8 @@
                                         </p:column>
 
                                         <p:rowExpansion>
-                                            <p:dataList value="#{element.bonosnofisicosList}" var="bnf" type="ordered">
+                                            Consecutivo desde: #{element.desde}, hasta: #{element.hasta}.
+                                            <p:dataList value="#{element.bononofisicoList}" var="bnf" type="ordered">
                                                 <f:facet name="header">
                                                     Bonos no fisicos
                                                 </f:facet>
@@ -146,7 +140,7 @@
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" >#{label['casino']}</label>
                                         <div class="col-md-9">
-                                            <p:selectOneMenu id="casinos" value="#{crudLoteBonoBean.elemento.idCasino}"  required="true">
+                                            <p:selectOneMenu id="casinos" value="#{crudLoteBonoBean.elemento.idCasino.idCasino}"  required="true">
                                                 <f:selectItem itemLabel="Select One" itemValue="" />
                                                 <f:selectItems value="#{crudLoteBonoBean.casinos}" var="cas" itemLabel="#{cas.nombre}" itemValue="#{cas.idCasino}"/>  
                                             </p:selectOneMenu>
