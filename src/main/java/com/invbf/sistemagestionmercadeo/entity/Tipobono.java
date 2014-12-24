@@ -130,7 +130,7 @@ public class Tipobono implements Serializable {
 
     @Override
     public String toString() {
-        return "com.invbf.sistemagestionmercadeo.entity.Tipobono[ id=" + id + " ]";
+        return id + " " + nombre;
     }
     
 }

@@ -34,6 +34,7 @@ public class SolicitudEntregaDao {
             em.persist(cargo);
             tx.commit();
         } catch (Exception e) {
+            System.out.println(e);
             tx.rollback();
         }
 

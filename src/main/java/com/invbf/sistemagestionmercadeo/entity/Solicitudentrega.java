@@ -23,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -44,6 +45,15 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Solicitudentrega.findByJustificacion", query = "SELECT s FROM Solicitudentrega s WHERE s.justificacion = :justificacion"),
     @NamedQuery(name = "Solicitudentrega.findByEstado", query = "SELECT s FROM Solicitudentrega s WHERE s.estado = :estado")})
 public class Solicitudentrega implements Serializable {
+    @Column(name = "totalpreaprobado")
+    private Float totalpreaprobado;
+    @Column(name = "totalaprobado")
+    private Float totalaprobado;
+    @Column(name = "formareparticrbonos")
+    private Integer formareparticrbonos;
+    @Min(value=0)// @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "total")
+    private Float total;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -206,6 +216,38 @@ public class Solicitudentrega implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Solicitudentrega[ id=" + id + " ]";
+    }
+
+    public Integer getFormareparticrbonos() {
+        return formareparticrbonos;
+    }
+
+    public void setFormareparticrbonos(Integer formareparticrbonos) {
+        this.formareparticrbonos = formareparticrbonos;
+    }
+
+    public Float getTotal() {
+        return total;
+    }
+
+    public void setTotal(Float total) {
+        this.total = total;
+    }
+
+    public Float getTotalpreaprobado() {
+        return totalpreaprobado;
+    }
+
+    public void setTotalpreaprobado(Float totalpreaprobado) {
+        this.totalpreaprobado = totalpreaprobado;
+    }
+
+    public Float getTotalaprobado() {
+        return totalaprobado;
+    }
+
+    public void setTotalaprobado(Float totalaprobado) {
+        this.totalaprobado = totalaprobado;
     }
     
 }

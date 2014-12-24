@@ -54,12 +54,12 @@
                                             <h:outputText value="#{element.tipoBono.nombre}" />
                                         </p:column>
                                         
-                                        <p:column headerText="#{label['casino']}" sortBy="#{listaSolicitudBonosBean.getCasinoById(element.idCasino).nombre}" filterBy="#{listaSolicitudBonosBean.getCasinoById(element.idCasino).nombre}" filterMatchMode="contains" >
-                                            <h:outputText value="#{listaSolicitudBonosBean.getCasinoById(element.idCasino).nombre}" />
+                                        <p:column headerText="#{label['casino']}" sortBy="#{element.idCasino.nombre}" filterBy="#{listaSolicitudBonosBean.getCasinoById(element.idCasino).nombre}" filterMatchMode="contains" >
+                                            <h:outputText value="#{element.idCasino.nombre}" />
                                         </p:column>
                                         
-                                        <p:column headerText="#{label['solicitante']}" sortBy="#{listaSolicitudBonosBean.getUsuarioById(element.solicitante).nombreUsuario}" filterBy="#{listaSolicitudBonosBean.getUsuarioById(element.solicitante).nombreUsuario}" filterMatchMode="contains" >
-                                            <h:outputText value="#{listaSolicitudBonosBean.getUsuarioById(element.solicitante).nombreUsuario}" />
+                                        <p:column headerText="#{label['solicitante']}" sortBy="#{element.solicitante.nombreUsuario}" filterBy="#{listaSolicitudBonosBean.getUsuarioById(element.solicitante).nombreUsuario}" filterMatchMode="contains" >
+                                            <h:outputText value="#{element.solicitante.nombreUsuario}" />
                                         </p:column>
 
                                         <p:column headerText="#{label['acciones']}" >   
