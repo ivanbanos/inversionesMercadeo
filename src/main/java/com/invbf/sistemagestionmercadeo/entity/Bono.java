@@ -78,7 +78,7 @@ public class Bono implements Serializable {
     @ManyToOne(optional = false)
     private Casino casino;
     @JoinColumn(name = "Cliente", referencedColumnName = "idCliente")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Cliente cliente;
 
     public Bono() {

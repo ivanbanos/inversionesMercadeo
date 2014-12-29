@@ -100,11 +100,11 @@ public class AceptarSolicitudSalidaBonosBean {
         List<ControlsalidabonosHasLotesbonos> controlsalidabonosHasLotesbonoses = elemento.getControlsalidabonosHasLotesbonosList();
         for (ControlsalidabonosHasLotesbonos controlsalidabonosHasLotesbonos : controlsalidabonosHasLotesbonoses) {
             if (!loteBonoCants.contains(new LoteBonoCant(controlsalidabonosHasLotesbonos.getLotebono()))) {
-                loteBonoCants.add(new LoteBonoCant(controlsalidabonosHasLotesbonos.getLotebono(), Long.parseLong(controlsalidabonosHasLotesbonos.getCantidad())));
+                loteBonoCants.add(new LoteBonoCant(controlsalidabonosHasLotesbonos.getLotebono(), controlsalidabonosHasLotesbonos.getCantidad()));
             } else {
-                loteBonoCants.get(loteBonoCants.indexOf(new LoteBonoCant(controlsalidabonosHasLotesbonos.getLotebono()))).sumCantidad(Long.parseLong(controlsalidabonosHasLotesbonos.getCantidad()));
+                loteBonoCants.get(loteBonoCants.indexOf(new LoteBonoCant(controlsalidabonosHasLotesbonos.getLotebono()))).sumCantidad(controlsalidabonosHasLotesbonos.getCantidad());
             }
-            total += (Integer.parseInt(controlsalidabonosHasLotesbonos.getCantidad()) * controlsalidabonosHasLotesbonos.getLotebono().getDenominacion().getValor());
+            total += (controlsalidabonosHasLotesbonos.getCantidad() * controlsalidabonosHasLotesbonos.getLotebono().getDenominacion().getValor());
         }
         
         casinos = sessionBean.adminFacade.findAllCasinos();
@@ -185,8 +185,8 @@ public class AceptarSolicitudSalidaBonosBean {
                     if (control.getLotebono().equals(lote)) {
                         
                         System.out.println("Cantidad de Bonos "+control.getCantidad());
-                        System.out.println("Cantidad de Bonos "+Integer.parseInt(control.getCantidad()));
-                        for (int i = Integer.parseInt(control.getCantidad()); i > 0; i--) {
+                        System.out.println("Cantidad de Bonos "+control.getCantidad());
+                        for (int i = control.getCantidad(); i > 0; i--) {
                             System.out.println(i);
                             while (true) {
                                 boolean seencontro = false;
@@ -204,7 +204,6 @@ public class AceptarSolicitudSalidaBonosBean {
                             }
                             Bono b = new Bono();
                             b.setCasino(casino);
-                            b.setCliente(control.getCliente());
                             b.setDenominacion(lote.getDenominacion());
                             b.setTipo(lote.getTipoBono());
                             b.setEstado("POR VALIDAR");
