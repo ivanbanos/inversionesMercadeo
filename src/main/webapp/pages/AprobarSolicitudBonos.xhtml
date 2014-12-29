@@ -42,7 +42,7 @@
                                         <div class="form-group">
                                             <label class="col-md-2 control-label" >#{label['solicitante']}</label>
                                             <div class="col-md-4">
-                                                #{aprobarSolicitudBonos.getUsuarioById(preaprobarSolicitudBonos.elemento.solicitante).nombreUsuario}
+                                                #{preaprobarSolicitudBonos.elemento.solicitante.nombreUsuario}
                                             </div>
                                         </div>
                                     </div>
@@ -50,7 +50,7 @@
                                         <div class="form-group">
                                             <label class="col-md-2 control-label" >#{label['cargo']}</label>
                                             <div class="col-md-4">
-                                                #{aprobarSolicitudBonos.getUsuariodetalleById(preaprobarSolicitudBonos.elemento.solicitante).idcargo.nombre}
+                                                #{preaprobarSolicitudBonos.elemento.solicitante.usuariodetalle.idcargo.nombre}
                                             </div>
                                         </div>
                                     </div>
@@ -80,7 +80,7 @@
                                         <div class="form-group">
                                             <label class="col-md-2 control-label" >#{label['casino']}</label>
                                             <div class="col-md-4">
-                                                #{aprobarSolicitudBonos.getCasinoById(generadorSolicitudBonos.elemento.idCasino).nombre}
+                                                #{generadorSolicitudBonos.elemento.idCasino.nombre}
                                             </div>
                                         </div>
                                     </div>
@@ -106,7 +106,8 @@
                                     </div>
                                 </div>
 
-                                <c:if test="#{aprobarSolicitudBonos.elemento.id!=null}">
+
+                                <c:if test="#{aprobarSolicitudBonos.elemento.tipoBono.nombre eq 'NO PROMOCIONAL'}">
 
                                     <div class="row">
                                         <div class="control-group">
@@ -122,13 +123,13 @@
                                                             <f:facet name="header">
                                                                 <h:outputText value="#{'item'}" />
                                                             </f:facet>
-                                                            <label>#{cli.clientessgb.id}</label>
+                                                            <label>#{cli.cliente.idCliente}</label>
                                                         </h:column>
                                                         <h:column >
                                                             <f:facet name="header">
                                                                 <h:outputText value="#{'nombre'}" />
                                                             </f:facet>
-                                                            <label>#{cli.clientessgb.nombres} #{cli.clientessgb.apellidos}</label>
+                                                            <label>#{cli.cliente.nombres} #{cli.cliente.apellidos}</label>
                                                         </h:column>
                                                         <h:column >
                                                             <f:facet name="header">
@@ -136,6 +137,20 @@
                                                             </f:facet>
 
                                                             <label>#{cli.valorTotal}</label>
+                                                        </h:column>
+                                                        <h:column >
+                                                            <f:facet name="header">
+                                                                <h:outputText value="#{'valorpreaprobado'}" />
+                                                            </f:facet>
+
+                                                            <label>#{cli.valorPreAprobado}</label>
+                                                        </h:column>
+                                                        <h:column >
+                                                            <f:facet name="header">
+                                                                <h:outputText value="#{'valoraprobar'}" />
+                                                            </f:facet>
+
+                                                            <p:spinner min="0" stepFactor="5000" id="valor#{cli.cliente.idCliente}" value="#{cli.valorAprobado}" />
                                                         </h:column>
                                                         <h:column >
                                                             <f:facet name="header">
@@ -163,7 +178,35 @@
 
                                 </c:if>
 
-
+                                <c:if test="#{preaprobarSolicitudBonos.elemento.tipoBono.nombre eq 'PROMOCIONAL'}">
+                                    <div class="row">
+                                        <div class="control-group">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" >#{label['total']}</label>
+                                                <div class="col-md-4">
+                                                    <h:outputText value="#{aprobarSolicitudBonos.elemento.total}" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" >#{label['totalpreaprobado']}</label>
+                                                <div class="col-md-4">
+                                                    <h:outputText value="#{aprobarSolicitudBonos.elemento.totalpreaprobado}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="control-group">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" >#{label['totalaprobar']}</label>
+                                                <div class="col-md-4">
+                                                    <p:spinner min="0" stepFactor="5000" value="#{aprobarSolicitudBonos.elemento.totalaprobado}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </c:if>
 
                             </div>
                             <div class="panel-footer text-right"> 
