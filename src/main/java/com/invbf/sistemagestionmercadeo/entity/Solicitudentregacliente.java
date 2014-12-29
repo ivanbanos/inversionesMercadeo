@@ -31,6 +31,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Solicitudentregacliente.findByValorTotal", query = "SELECT s FROM Solicitudentregacliente s WHERE s.valorTotal = :valorTotal"),
     @NamedQuery(name = "Solicitudentregacliente.findByObservaciones", query = "SELECT s FROM Solicitudentregacliente s WHERE s.observaciones = :observaciones")})
 public class Solicitudentregacliente implements Serializable {
+    @Column(name = "valorPreAprobado")
+    private Float valorPreAprobado;
+    @Column(name = "valorAprobado")
+    private Float valorAprobado;
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected SolicitudentregaclientePK solicitudentregaclientePK;
@@ -132,6 +136,22 @@ public class Solicitudentregacliente implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Solicitudentregacliente[ solicitudentregaclientePK=" + solicitudentregaclientePK + " ]";
+    }
+
+    public Float getValorPreAprobado() {
+        return valorPreAprobado;
+    }
+
+    public void setValorPreAprobado(Float valorPreAprobado) {
+        this.valorPreAprobado = valorPreAprobado;
+    }
+
+    public Float getValorAprobado() {
+        return valorAprobado;
+    }
+
+    public void setValorAprobado(Float valorAprobado) {
+        this.valorAprobado = valorAprobado;
     }
     
 }

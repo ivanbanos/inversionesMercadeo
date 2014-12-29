@@ -13,16 +13,10 @@ import com.invbf.sistemagestionmercadeo.entity.Solicitudentrega;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregacliente;
 import com.invbf.sistemagestionmercadeo.entity.Tipobono;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
-import com.invbf.sistemagestionmercadeo.entity.Usuariodetalle;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -76,26 +70,13 @@ public class PreaprobarSolicitudBonos {
         if (sessionBean.getAttributes().containsKey("idSolicitudentrega") && (Integer) sessionBean.getAttributes().get("idSolicitudentrega") != 0) {
             Integer id = (Integer) sessionBean.getAttributes().get("idSolicitudentrega");
             elemento = sessionBean.marketingUserFacade.getSolicitudbono(id);
+            System.out.println("PROPOSITO "+elemento.getPropositoEntrega().getNombre());
             solicitudentregaclienteses = elemento.getSolicitudentregaclienteList();
         } else {
             try {
-                elemento = new Solicitudentrega();
-                elemento.setEstado("EN CREACION");
-                DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
-                DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
-                TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
-                df.setTimeZone(timeZone);
-                Calendar nowDate = Calendar.getInstance();
-                nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
-                elemento.setFecha(nowDate.getTime());
-                elemento.setIdCasino(sessionBean.getUsuario().getIdCasino());
-                elemento.setPropositoEntrega(new Propositoentrega());
-                elemento.setSolicitante(sessionBean.getUsuario());
-                elemento.setTipoBono(new Tipobono());
-                elemento.setSolicitudentregaclienteList(new ArrayList<Solicitudentregacliente>());
-                solicitudentregaclienteses = new ArrayList<Solicitudentregacliente>();
-            } catch (ParseException ex) {
-                Logger.getLogger(GeneradorSolicitudBonos.class.getName()).log(Level.SEVERE, null, ex);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(PreaprobarSolicitudBonos.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
