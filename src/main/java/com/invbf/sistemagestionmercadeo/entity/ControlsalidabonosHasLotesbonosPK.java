@@ -25,18 +25,13 @@ public class ControlsalidabonosHasLotesbonosPK implements Serializable {
     @NotNull
     @Column(name = "LotesBonos_id")
     private int lotesBonosid;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "idCliente")
-    private int idCliente;
 
     public ControlsalidabonosHasLotesbonosPK() {
     }
 
-    public ControlsalidabonosHasLotesbonosPK(int controlSalidaBonosid, int lotesBonosid, int idCliente) {
+    public ControlsalidabonosHasLotesbonosPK(int controlSalidaBonosid, int lotesBonosid) {
         this.controlSalidaBonosid = controlSalidaBonosid;
         this.lotesBonosid = lotesBonosid;
-        this.idCliente = idCliente;
     }
 
     public int getControlSalidaBonosid() {
@@ -55,20 +50,11 @@ public class ControlsalidabonosHasLotesbonosPK implements Serializable {
         this.lotesBonosid = lotesBonosid;
     }
 
-    public int getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (int) controlSalidaBonosid;
         hash += (int) lotesBonosid;
-        hash += (int) idCliente;
         return hash;
     }
 
@@ -85,15 +71,12 @@ public class ControlsalidabonosHasLotesbonosPK implements Serializable {
         if (this.lotesBonosid != other.lotesBonosid) {
             return false;
         }
-        if (this.idCliente != other.idCliente) {
-            return false;
-        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosPK[ controlSalidaBonosid=" + controlSalidaBonosid + ", lotesBonosid=" + lotesBonosid + ", idCliente=" + idCliente + " ]";
+        return "com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosPK[ controlSalidaBonosid=" + controlSalidaBonosid + ", lotesBonosid=" + lotesBonosid + " ]";
     }
     
 }

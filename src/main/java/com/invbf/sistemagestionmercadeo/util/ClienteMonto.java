@@ -5,6 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.util;
 
+import com.invbf.sistemagestionmercadeo.entity.Denominacion;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +24,15 @@ public class ClienteMonto {
     public ClienteMonto() {
     }
 
-    public ClienteMonto(Integer id, String nombre, Float monto, List<Lotebono> lotes) {
+    public ClienteMonto(Integer id, String nombre, Float monto, List<Lotebono> lotes, Integer formaentrega) {
         this.nombre = nombre;
         this.monto = monto;
         this.id = id;
         denominacionCant = new ArrayList<DenoinacionCant>();
-        for (Lotebono lote : lotes) {
-            denominacionCant.add(new DenoinacionCant(lote.getDenominacion(), 0));
+        if (formaentrega == 1) {
+            denominacionCant = MatematicaAplicada.getBonosAsignadosDEnominacinesGrandes(lotes, monto);
+        } else {
+            denominacionCant = MatematicaAplicada.getBonosAsignadosDEnominacinesGrandes(lotes, monto);
         }
     }
 
@@ -68,7 +71,7 @@ public class ClienteMonto {
     public boolean getIsOk() {
         float cantidad = 0;
         for (DenoinacionCant d : denominacionCant) {
-            cantidad += d.getCantidad() * d.getDenomiancion().getValor();
+            cantidad += d.getCantidad() * d.getDenomiancion().getDenominacion().getValor();
         }
         return monto == cantidad;
     }

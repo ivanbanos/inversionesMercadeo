@@ -5,7 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.util;
 
-import com.invbf.sistemagestionmercadeo.entity.Denominacion;
+import com.invbf.sistemagestionmercadeo.entity.Lotebono;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,10 +37,10 @@ public class MatematicaAplicada {
         return false;
     }
 
-    public static List<DenoinacionCant> getBonosAsignadosDEnominacinesGrandes(List<Denominacion> denominaciones, Float cantidad) {
+    public static List<DenoinacionCant> getBonosAsignadosDEnominacinesGrandes(List<Lotebono> denominaciones, Float cantidad) {
         for (int i = denominaciones.size(); i > 0; i--) {
             for (int j = 0; j < i; j++) {
-                if (denominaciones.get(j).getValor() > denominaciones.get(j + 1).getValor()) {
+                if (denominaciones.get(j).getDenominacion().getValor() > denominaciones.get(j + 1).getDenominacion().getValor()) {
                     Collections.swap(denominaciones, j + 1, j);
                 }
             }
@@ -51,10 +51,10 @@ public class MatematicaAplicada {
         int punto = denominaciones.size();
         while (restante > 0) {
             for (int i = punto; i >= 0; i--) {
-                Denominacion get = denominaciones.get(i);
-                if (get.getValor() < restante) {
-                    denoinacionCants.add(new DenoinacionCant(get, (int) (restante / get.getValor())));
-                    restante %= get.getValor();
+                Lotebono get = denominaciones.get(i);
+                if (get.getDenominacion().getValor() < restante) {
+                    denoinacionCants.add(new DenoinacionCant(get, (int) (restante / get.getDenominacion().getValor())));
+                    restante %= get.getDenominacion().getValor();
                 }
             }
             if(restante!=0){
@@ -62,7 +62,7 @@ public class MatematicaAplicada {
                 if(punto <0){
                     break;
                 }
-                restante += denoinacionCants.get(0).getDenomiancion().getValor();
+                restante += denoinacionCants.get(0).getDenomiancion().getDenominacion().getValor();
                 denoinacionCants.get(0).setCantidad(denoinacionCants.get(0).getCantidad()-1);
                 if(denoinacionCants.get(0).getCantidad()==0){
                     denoinacionCants.remove(0);
@@ -73,10 +73,10 @@ public class MatematicaAplicada {
         return denoinacionCants;
     }
 
-    public static List<DenoinacionCant> getBonosAsignadosDEnominacinesNormales(List<Denominacion> denominaciones, Float cantidad) {
+    public static List<DenoinacionCant> getBonosAsignadosDEnominacinesNormales(List<Lotebono> denominaciones, Float cantidad) {
         for (int i = denominaciones.size(); i > 0; i--) {
             for (int j = 0; j < i; j++) {
-                if (denominaciones.get(j).getValor() > denominaciones.get(j + 1).getValor()) {
+                if (denominaciones.get(j).getDenominacion().getValor() > denominaciones.get(j + 1).getDenominacion().getValor()) {
                     Collections.swap(denominaciones, j + 1, j);
                 }
             }
@@ -88,10 +88,10 @@ public class MatematicaAplicada {
         
         while (restante > 0) {
             for (int i = punto; i >= 0; i--) {
-                Denominacion get = denominaciones.get(i);
-                if (get.getValor() < restante) {
-                    denoinacionCants.add(new DenoinacionCant(get, (int) (restante / get.getValor())));
-                    restante %= get.getValor();
+                Lotebono get = denominaciones.get(i);
+                if (get.getDenominacion().getValor() < restante) {
+                    denoinacionCants.add(new DenoinacionCant(get, (int) (restante / get.getDenominacion().getValor())));
+                    restante %= get.getDenominacion().getValor();
                 }
             }
             if(restante!=0){
@@ -99,7 +99,7 @@ public class MatematicaAplicada {
                 if(punto <0){
                     break;
                 }
-                restante += denoinacionCants.get(0).getDenomiancion().getValor();
+                restante += denoinacionCants.get(0).getDenomiancion().getDenominacion().getValor();
                 denoinacionCants.get(0).setCantidad(denoinacionCants.get(0).getCantidad()-1);
                 if(denoinacionCants.get(0).getCantidad()==0){
                     denoinacionCants.remove(0);

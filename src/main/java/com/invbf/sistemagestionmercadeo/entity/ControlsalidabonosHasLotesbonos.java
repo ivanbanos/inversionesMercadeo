@@ -40,19 +40,14 @@ public class ControlsalidabonosHasLotesbonos implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ControlsalidabonosHasLotesbonosPK controlsalidabonosHasLotesbonosPK;
-    @Lob
-    @Size(max = 16777215)
     @Column(name = "cantidad")
-    private String cantidad;
+    private Integer cantidad;
     @JoinColumn(name = "LotesBonos_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Lotebono lotebono;
     @JoinColumn(name = "ControlSalidaBonos_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Controlsalidabono controlsalidabono;
-    @JoinColumn(name = "idCliente", referencedColumnName = "idCliente", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Cliente cliente;
 
     public ControlsalidabonosHasLotesbonos() {
     }
@@ -61,8 +56,8 @@ public class ControlsalidabonosHasLotesbonos implements Serializable {
         this.controlsalidabonosHasLotesbonosPK = controlsalidabonosHasLotesbonosPK;
     }
 
-    public ControlsalidabonosHasLotesbonos(int controlSalidaBonosid, int lotesBonosid, int idCliente) {
-        this.controlsalidabonosHasLotesbonosPK = new ControlsalidabonosHasLotesbonosPK(controlSalidaBonosid, lotesBonosid, idCliente);
+    public ControlsalidabonosHasLotesbonos(int controlSalidaBonosid, int lotesBonosid) {
+        this.controlsalidabonosHasLotesbonosPK = new ControlsalidabonosHasLotesbonosPK(controlSalidaBonosid, lotesBonosid);
     }
 
     public ControlsalidabonosHasLotesbonosPK getControlsalidabonosHasLotesbonosPK() {
@@ -73,11 +68,11 @@ public class ControlsalidabonosHasLotesbonos implements Serializable {
         this.controlsalidabonosHasLotesbonosPK = controlsalidabonosHasLotesbonosPK;
     }
 
-    public String getCantidad() {
+    public Integer getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(String cantidad) {
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
 
@@ -97,14 +92,6 @@ public class ControlsalidabonosHasLotesbonos implements Serializable {
         this.controlsalidabono = controlsalidabono;
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -119,10 +106,7 @@ public class ControlsalidabonosHasLotesbonos implements Serializable {
             return false;
         }
         ControlsalidabonosHasLotesbonos other = (ControlsalidabonosHasLotesbonos) object;
-        if ((this.controlsalidabonosHasLotesbonosPK == null && other.controlsalidabonosHasLotesbonosPK != null) || (this.controlsalidabonosHasLotesbonosPK != null && !this.controlsalidabonosHasLotesbonosPK.equals(other.controlsalidabonosHasLotesbonosPK))) {
-            return false;
-        }
-        return true;
+        return !((this.controlsalidabonosHasLotesbonosPK == null && other.controlsalidabonosHasLotesbonosPK != null) || (this.controlsalidabonosHasLotesbonosPK != null && !this.controlsalidabonosHasLotesbonosPK.equals(other.controlsalidabonosHasLotesbonosPK)));
     }
 
     @Override

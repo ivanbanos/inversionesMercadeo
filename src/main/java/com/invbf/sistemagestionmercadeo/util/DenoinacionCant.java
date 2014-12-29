@@ -5,7 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.util;
 
-import com.invbf.sistemagestionmercadeo.entity.Denominacion;
+import com.invbf.sistemagestionmercadeo.entity.Lotebono;
 
 
 /**
@@ -14,27 +14,27 @@ import com.invbf.sistemagestionmercadeo.entity.Denominacion;
  */
 public class DenoinacionCant {
 
-    private Denominacion denomiancion;
+    private Lotebono denomiancion;
     private int cantidad;
 
     public DenoinacionCant() {
     }
 
-    public DenoinacionCant(Denominacion denomiancion) {
+    public DenoinacionCant(Lotebono denomiancion) {
         this.denomiancion = denomiancion;
         cantidad =0;
     }
 
-    public DenoinacionCant(Denominacion denomiancion, int cantidad) {
+    public DenoinacionCant(Lotebono denomiancion, int cantidad) {
         this.denomiancion = denomiancion;
         this.cantidad = cantidad;
     }
 
-    public Denominacion getDenomiancion() {
+    public Lotebono getDenomiancion() {
         return denomiancion;
     }
 
-    public void setDenomiancion(Denominacion denomiancion) {
+    public void setDenomiancion(Lotebono denomiancion) {
         this.denomiancion = denomiancion;
     }
 

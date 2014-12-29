@@ -35,10 +35,9 @@ public class ControlsalidabonosHasLotesbonosHasClientes implements Serializable 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ControlsalidabonosHasLotesbonosHasClientesPK controlsalidabonosHasLotesbonosHasClientesPK;
-    @Lob
-    @Size(max = 16777215)
+    
     @Column(name = "cantidad")
-    private String cantidad;
+    private Integer cantidad;
     @JoinColumn(name = "idCliente", referencedColumnName = "idCliente", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Cliente cliente;
@@ -67,11 +66,11 @@ public class ControlsalidabonosHasLotesbonosHasClientes implements Serializable 
         this.controlsalidabonosHasLotesbonosHasClientesPK = controlsalidabonosHasLotesbonosHasClientesPK;
     }
 
-    public String getCantidad() {
+    public Integer getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(String cantidad) {
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
 
