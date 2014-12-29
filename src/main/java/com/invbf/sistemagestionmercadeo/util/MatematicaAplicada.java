@@ -85,6 +85,7 @@ public class MatematicaAplicada {
         float restante = cantidad;
         List<DenoinacionCant> denoinacionCants = new ArrayList<DenoinacionCant>();
         int punto = denominaciones.size()-1;
+        
         while (restante > 0) {
             for (int i = punto; i >= 0; i--) {
                 Denominacion get = denominaciones.get(i);
