@@ -115,8 +115,6 @@ public class Cliente implements Serializable {
     private List<Listasclientestareas> listasclientestareasList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
     private List<Clienteatributo> clienteatributoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
-    private List<ControlsalidabonosHasLotesbonos> controlsalidabonosHasLotesbonosList;
     @JoinColumn(name = "idTipoDocumento", referencedColumnName = "idTipoDocumento")
     @ManyToOne
     private Tipodocumento idTipoDocumento;
@@ -289,15 +287,6 @@ public class Cliente implements Serializable {
 
     public void setClienteatributoList(List<Clienteatributo> clienteatributoList) {
         this.clienteatributoList = clienteatributoList;
-    }
-
-    @XmlTransient
-    public List<ControlsalidabonosHasLotesbonos> getControlsalidabonosHasLotesbonosList() {
-        return controlsalidabonosHasLotesbonosList;
-    }
-
-    public void setControlsalidabonosHasLotesbonosList(List<ControlsalidabonosHasLotesbonos> controlsalidabonosHasLotesbonosList) {
-        this.controlsalidabonosHasLotesbonosList = controlsalidabonosHasLotesbonosList;
     }
 
     public Tipodocumento getIdTipoDocumento() {

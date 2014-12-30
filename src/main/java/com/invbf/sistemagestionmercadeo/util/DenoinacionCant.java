@@ -68,4 +68,8 @@ public class DenoinacionCant {
         return true;
     }
 
+    public void sumCantidad(int cantidad) {
+        this.cantidad += cantidad;
+    }
+
 }

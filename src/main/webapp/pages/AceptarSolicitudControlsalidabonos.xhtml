@@ -15,7 +15,11 @@
 
                     <h:form id="form">
                         <div class="panel panel-primary">
-                            <div class="panel-heading"><h4>#{label['generarsolicitudcontrolsalida']}</h4></div>
+                            <div class="panel-heading">
+                                <h4>
+                                    #{label['generarsolicitudcontrolsalida']}
+                                </h4>
+                            </div>
                             <div class="panel-body">
                                 <c:if id="generado" test="#{aceptarSolicitudSalidaBonosBean.elemento.id != null}">
                                     <div class="row">
@@ -63,7 +67,7 @@
                                             <div class="form-group">
                                                 <label class="col-md-2 control-label" >#{label['casino']}</label>
                                                 <div class="col-md-4">
-                                                    #{aceptarSolicitudSalidaBonosBean.getCasinoById(aceptarSolicitudSalidaBonosBean.elemento.solicitudEntregaid.idCasino).nombre}
+                                                    #{aceptarSolicitudSalidaBonosBean.elemento.solicitudEntregaid.idCasino.nombre}
                                                 </div>
                                             </div>
                                         </div>
@@ -109,14 +113,26 @@
                                                     <c:forEach items="#{aceptarSolicitudSalidaBonosBean.loteBonoCants}" var="lote" varStatus="status">
                                                         <tr> 
                                                             <td>#{lote.cantidad}</td>
-                                                            <td>#{lote.lote.denominacion.valor}</td>
-                                                            <td>#{lote.total}</td>
+                                                            <td>
+                                                                <h:outputLabel value="#{lote.lote.denominacion.valor}">
+                                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                                </h:outputLabel>
+                                                            </td>
+                                                            <td>
+                                                                <h:outputLabel value="#{lote.total}">
+                                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                                </h:outputLabel>
+                                                            </td>
                                                         </tr>
                                                     </c:forEach>
 
                                                     <tr>
                                                         <td colspan="2"><label>#{label['totalretirado']}</label></td>
-                                                        <td><label>#{aceptarSolicitudSalidaBonosBean.total}</label></td>
+                                                        <td>
+                                                            <h:outputLabel value="#{aceptarSolicitudSalidaBonosBean.total}">
+                                                                <f:converter  converterId="numberSeparationConverter"  />
+                                                            </h:outputLabel>
+                                                        </td>
                                                     </tr>
                                                 </table>
 

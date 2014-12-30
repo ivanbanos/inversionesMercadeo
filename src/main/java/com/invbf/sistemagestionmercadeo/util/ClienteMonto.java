@@ -18,17 +18,22 @@ public class ClienteMonto {
 
     private String nombre;
     private Float monto;
+    private Float normal;
+    private Float preaprobado;
+    private Float aprobado;
     private List<DenoinacionCant> denominacionCant;
     private Integer id;
 
     public ClienteMonto() {
     }
 
-    public ClienteMonto(Integer id, String nombre, Float monto, List<Lotebono> lotes, Integer formaentrega) {
+    public ClienteMonto(Integer id, String nombre, Float monto, List<Lotebono> lotes, Integer formaentrega, Float normal, Float preaprobado, Float aprobado) {
         this.nombre = nombre;
         this.monto = monto;
+        this.normal = normal;
+        this.preaprobado = preaprobado;
+        this.aprobado = aprobado;
         this.id = id;
-        denominacionCant = new ArrayList<DenoinacionCant>();
         if (formaentrega == 1) {
             denominacionCant = MatematicaAplicada.getBonosAsignadosDEnominacinesGrandes(lotes, monto);
         } else {
@@ -75,4 +80,30 @@ public class ClienteMonto {
         }
         return monto == cantidad;
     }
+
+    public Float getNormal() {
+        return normal;
+    }
+
+    public void setNormal(Float normal) {
+        this.normal = normal;
+    }
+
+    public Float getPreaprobado() {
+        return preaprobado;
+    }
+
+    public void setPreaprobado(Float preaprobado) {
+        this.preaprobado = preaprobado;
+    }
+
+    public Float getAprobado() {
+        return aprobado;
+    }
+
+    public void setAprobado(Float aprobado) {
+        this.aprobado = aprobado;
+    }
+    
+    
 }

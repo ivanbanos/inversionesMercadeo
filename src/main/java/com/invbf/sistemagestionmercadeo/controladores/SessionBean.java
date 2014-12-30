@@ -333,7 +333,7 @@ public class SessionBean implements Serializable, Subject {
             active = "requisiciones";
             return "/pages/ListaSolicitudBono.xhtml";
         } else if (page.equals("ControlSalidaBono")) {
-            active = "salidadebonos";
+            active = "requisiciones";
             return "/pages/ListaSolicitudSalidaBonos.xhtml";
         } else if (page.equals("Verbonosporvalidar")) {
             active = "bonos";

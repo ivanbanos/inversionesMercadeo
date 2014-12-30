@@ -12,13 +12,11 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -32,8 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "ControlsalidabonosHasLotesbonos.findAll", query = "SELECT c FROM ControlsalidabonosHasLotesbonos c"),
     @NamedQuery(name = "ControlsalidabonosHasLotesbonos.findByControlSalidaBonosid", query = "SELECT c FROM ControlsalidabonosHasLotesbonos c WHERE c.controlsalidabonosHasLotesbonosPK.controlSalidaBonosid = :controlSalidaBonosid"),
-    @NamedQuery(name = "ControlsalidabonosHasLotesbonos.findByLotesBonosid", query = "SELECT c FROM ControlsalidabonosHasLotesbonos c WHERE c.controlsalidabonosHasLotesbonosPK.lotesBonosid = :lotesBonosid"),
-    @NamedQuery(name = "ControlsalidabonosHasLotesbonos.findByIdCliente", query = "SELECT c FROM ControlsalidabonosHasLotesbonos c WHERE c.controlsalidabonosHasLotesbonosPK.idCliente = :idCliente")})
+    @NamedQuery(name = "ControlsalidabonosHasLotesbonos.findByLotesBonosid", query = "SELECT c FROM ControlsalidabonosHasLotesbonos c WHERE c.controlsalidabonosHasLotesbonosPK.lotesBonosid = :lotesBonosid")})
 public class ControlsalidabonosHasLotesbonos implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "controlsalidabonosHasLotesbonos")
     private List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClientesList;

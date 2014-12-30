@@ -38,7 +38,7 @@ public class MatematicaAplicada {
     }
 
     public static List<DenoinacionCant> getBonosAsignadosDEnominacinesGrandes(List<Lotebono> denominaciones, Float cantidad) {
-        for (int i = denominaciones.size(); i > 0; i--) {
+        for (int i = denominaciones.size() - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if (denominaciones.get(j).getDenominacion().getValor() > denominaciones.get(j + 1).getDenominacion().getValor()) {
                     Collections.swap(denominaciones, j + 1, j);
@@ -48,27 +48,29 @@ public class MatematicaAplicada {
         }
         float restante = cantidad;
         List<DenoinacionCant> denoinacionCants = new ArrayList<DenoinacionCant>();
-        int punto = denominaciones.size();
+        int punto = denominaciones.size() - 1;
         while (restante > 0) {
             for (int i = punto; i >= 0; i--) {
                 Lotebono get = denominaciones.get(i);
-                if (get.getDenominacion().getValor() < restante) {
+                if (get.getDenominacion().getValor() <= restante) {
                     denoinacionCants.add(new DenoinacionCant(get, (int) (restante / get.getDenominacion().getValor())));
                     restante %= get.getDenominacion().getValor();
                 }
             }
-            if(restante!=0){
+            if (restante != 0) {
                 punto--;
-                if(punto <0){
+                if (punto < 0) {
                     break;
                 }
-                restante += denoinacionCants.get(0).getDenomiancion().getDenominacion().getValor();
-                denoinacionCants.get(0).setCantidad(denoinacionCants.get(0).getCantidad()-1);
-                if(denoinacionCants.get(0).getCantidad()==0){
-                    denoinacionCants.remove(0);
+                if (denoinacionCants.size() > 0) {
+                    restante += denoinacionCants.get(0).getDenomiancion().getDenominacion().getValor();
+                    denoinacionCants.get(0).setCantidad(denoinacionCants.get(0).getCantidad() - 1);
+                    if (denoinacionCants.get(0).getCantidad() == 0) {
+                        denoinacionCants.remove(0);
+                    }
                 }
             }
-            
+
         }
         return denoinacionCants;
     }
@@ -84,8 +86,8 @@ public class MatematicaAplicada {
         }
         float restante = cantidad;
         List<DenoinacionCant> denoinacionCants = new ArrayList<DenoinacionCant>();
-        int punto = denominaciones.size()-1;
-        
+        int punto = denominaciones.size() - 1;
+
         while (restante > 0) {
             for (int i = punto; i >= 0; i--) {
                 Lotebono get = denominaciones.get(i);
@@ -94,18 +96,18 @@ public class MatematicaAplicada {
                     restante %= get.getDenominacion().getValor();
                 }
             }
-            if(restante!=0){
+            if (restante != 0) {
                 punto--;
-                if(punto <0){
+                if (punto < 0) {
                     break;
                 }
                 restante += denoinacionCants.get(0).getDenomiancion().getDenominacion().getValor();
-                denoinacionCants.get(0).setCantidad(denoinacionCants.get(0).getCantidad()-1);
-                if(denoinacionCants.get(0).getCantidad()==0){
+                denoinacionCants.get(0).setCantidad(denoinacionCants.get(0).getCantidad() - 1);
+                if (denoinacionCants.get(0).getCantidad() == 0) {
                     denoinacionCants.remove(0);
                 }
             }
-            
+
         }
         return denoinacionCants;
     }

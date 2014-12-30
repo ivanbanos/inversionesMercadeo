@@ -168,7 +168,10 @@
                                           or sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;)
                                           or sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;)
                                           or sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;)}">
+                                          or sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;)
+                                          or sessionBean.perfilViewMatch(&quot;Controlsalidabonos&quot;)
+                                          or sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;)
+                                          or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)}">
                                 <li class="dropdown ">
                                     <a href="#" class="dropdown-toggle #{sessionBean.isActive(&quot;requisiciones&quot;)}" data-toggle="dropdown">Requisiciones<span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
@@ -195,6 +198,13 @@
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;)}">
                                             <li >
                                                 <h:commandLink  action="#{sessionBean.go(&quot;listasolicitudlotes&quot;)}"  value="#{label['listasolicitudeslotesbonos']}"/>
+                                            </li>
+                                        </c:if>
+                                        <c:if test="#{sessionBean.perfilViewMatch(&quot;Controlsalidabonos&quot;)
+                                                      or sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;)
+                                                      or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)}">
+                                            <li>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;ControlSalidaBono&quot;)}" value="#{label['ControlSalidaBono']}"/>
                                             </li>
                                         </c:if>
                                     </ul>
@@ -304,26 +314,6 @@
                                                 </li>
                                             </c:if>
                                         </ul>
-                                    </li>
-                                </c:if>
-                            </c:if>
-
-
-
-
-
-
-                            <c:if test="#{sessionBean.perfilViewMatch(&quot;Controlsalidabonos&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)}">
-                                <c:if test="#{sessionBean.isActive(&quot;salidadebonos&quot;)}">
-                                    <li>
-                                        <h:commandLink  action="#{sessionBean.go(&quot;ControlSalidaBono&quot;)}" class="navbar-text-selected" value="#{label['ControlSalidaBono']}"/>
-                                    </li>
-                                </c:if>
-                                <c:if test="#{sessionBean.isNotActive(&quot;salidadebonos&quot;)}">
-                                    <li>
-                                        <h:commandLink  action="#{sessionBean.go(&quot;ControlSalidaBono&quot;)}" class="navbar-text" value="#{label['ControlSalidaBono']}"/>
                                     </li>
                                 </c:if>
                             </c:if>
