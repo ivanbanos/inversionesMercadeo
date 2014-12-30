@@ -173,6 +173,7 @@ public class GeneradorControlSalidaBean {
                 cslb.setControlsalidabonosHasLotesbonosHasClientesList(new ArrayList<ControlsalidabonosHasLotesbonosHasClientes>());
                 controlsalidabonosHasLotesbonoses.add(cslb);
             }
+            
             elemento.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
             elemento.setEstado("SOLICITADA");
             sessionBean.marketingUserFacade.guardarControlSalidaBonos(elemento);
