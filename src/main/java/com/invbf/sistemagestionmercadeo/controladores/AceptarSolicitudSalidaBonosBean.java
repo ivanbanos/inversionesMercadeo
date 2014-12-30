@@ -99,12 +99,8 @@ public class AceptarSolicitudSalidaBonosBean {
         loteBonoCants = new ArrayList<LoteBonoCant>();
         List<ControlsalidabonosHasLotesbonos> controlsalidabonosHasLotesbonoses = elemento.getControlsalidabonosHasLotesbonosList();
         for (ControlsalidabonosHasLotesbonos controlsalidabonosHasLotesbonos : controlsalidabonosHasLotesbonoses) {
-            if (!loteBonoCants.contains(new LoteBonoCant(controlsalidabonosHasLotesbonos.getLotebono()))) {
-                loteBonoCants.add(new LoteBonoCant(controlsalidabonosHasLotesbonos.getLotebono(), controlsalidabonosHasLotesbonos.getCantidad()));
-            } else {
-                loteBonoCants.get(loteBonoCants.indexOf(new LoteBonoCant(controlsalidabonosHasLotesbonos.getLotebono()))).sumCantidad(controlsalidabonosHasLotesbonos.getCantidad());
-            }
-            total += (controlsalidabonosHasLotesbonos.getCantidad() * controlsalidabonosHasLotesbonos.getLotebono().getDenominacion().getValor());
+            loteBonoCants.add(new LoteBonoCant(controlsalidabonosHasLotesbonos.getLotebono(), controlsalidabonosHasLotesbonos.getCantidad()));
+            total += controlsalidabonosHasLotesbonos.getCantidad()*controlsalidabonosHasLotesbonos.getLotebono().getDenominacion().getValor();
         }
         
         casinos = sessionBean.adminFacade.findAllCasinos();
@@ -171,13 +167,10 @@ public class AceptarSolicitudSalidaBonosBean {
         List<Bono> bonosAGuardar = new ArrayList<Bono>();
         System.out.println(elemento.getSolicitudEntregaid().getIdCasino());
         Casino casino = sessionBean.adminFacade.findCasino(elemento.getSolicitudEntregaid().getIdCasino().getIdCasino());
-        System.out.println(casino.getNombre());
-        Casinodetalle casinoDetalle = sessionBean.adminFacade.findDetalleCasino(elemento.getSolicitudEntregaid().getIdCasino().getIdCasino());
-        
-        System.out.println(casinoDetalle.getIdCasino());
         List<Lotebono> lotes = sessionBean.marketingUserFacade.getLotesBonosCasinoTipoBono(elemento.getSolicitudEntregaid().getIdCasino().getIdCasino(), elemento.getSolicitudEntregaid().getTipoBono());
         for (Lotebono lote : lotes) {
             try {
+                System.out.println(lote.getDenominacion().getValor());
                 String desde = lote.getDesde();
                 System.out.println("Desde "+desde);
                 for (ControlsalidabonosHasLotesbonos control : bonosControlSalida) {
@@ -208,11 +201,12 @@ public class AceptarSolicitudSalidaBonosBean {
                             b.setTipo(lote.getTipoBono());
                             b.setEstado("POR VALIDAR");
                             b.setFechaExpiracion(elemento.getFechavencimientobonos());
+                            b.setControlSalidaBonosid(elemento);
                             if (lote.getTipoBono().getNombre().equals("NO PROMOCIONAL")) {
-                                System.out.println(casinoDetalle.getAbreCiudad());
-                                b.setConsecutivo("PRO-"+casinoDetalle.getAbreCiudad()+desde+" DEN"+lote.getDenominacion().getValor());
+                                System.out.println(casino.getCasinodetalle().getAbreCiudad());
+                                b.setConsecutivo("PRO-"+casino.getCasinodetalle().getAbreCiudad()+desde+" DEN"+lote.getDenominacion().getValor());
                             } else {
-                                b.setConsecutivo(casinoDetalle.getAbreviacion()+"-"+casinoDetalle.getAbreCiudad()+desde+" DEN"+lote.getDenominacion().getValor());
+                                b.setConsecutivo(casino.getCasinodetalle().getAbreviacion()+"-"+casino.getCasinodetalle().getAbreCiudad()+desde+" DEN"+lote.getDenominacion().getValor());
                             }
                             bonosAGuardar.add(b);
                             System.out.println("Comprobar que pasa con "+desde);

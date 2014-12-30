@@ -846,6 +846,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
     @Override
     public void guardarBonos(List<Bono> bonosAGuardar) {
         for (Bono bono : bonosAGuardar) {
+            System.out.println("Consecutivo "+bono.getConsecutivo());
             BonoDao.create(bono);
         }
     }
