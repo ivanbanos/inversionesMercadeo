@@ -8,7 +8,6 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Bononofisico;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
-import com.invbf.sistemagestionmercadeo.entity.Casinodetalle;
 import com.invbf.sistemagestionmercadeo.entity.Controlsalidabono;
 import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
@@ -204,9 +203,9 @@ public class AceptarSolicitudSalidaBonosBean {
                             b.setControlSalidaBonosid(elemento);
                             if (lote.getTipoBono().getNombre().equals("NO PROMOCIONAL")) {
                                 System.out.println(casino.getCasinodetalle().getAbreCiudad());
-                                b.setConsecutivo("PRO-"+casino.getCasinodetalle().getAbreCiudad()+desde+" DEN"+lote.getDenominacion().getValor());
+                                b.setConsecutivo("PRO-"+casino.getCasinodetalle().getAbreCiudad()+desde);
                             } else {
-                                b.setConsecutivo(casino.getCasinodetalle().getAbreviacion()+"-"+casino.getCasinodetalle().getAbreCiudad()+desde+" DEN"+lote.getDenominacion().getValor());
+                                b.setConsecutivo(casino.getCasinodetalle().getAbreviacion()+"-"+casino.getCasinodetalle().getAbreCiudad()+desde);
                             }
                             bonosAGuardar.add(b);
                             System.out.println("Comprobar que pasa con "+desde);

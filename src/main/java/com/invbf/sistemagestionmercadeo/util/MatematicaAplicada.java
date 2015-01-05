@@ -72,6 +72,12 @@ public class MatematicaAplicada {
             }
 
         }
+        for(Lotebono lb:denominaciones){
+            DenoinacionCant denominacincant = new DenoinacionCant(lb);
+            if(!denoinacionCants.contains(denominacincant)){
+                denoinacionCants.add(denominacincant);
+            }
+        }
         return denoinacionCants;
     }
 

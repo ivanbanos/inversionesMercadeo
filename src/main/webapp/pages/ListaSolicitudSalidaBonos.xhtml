@@ -49,6 +49,9 @@
                                             <p:commandButton id="aceptar" action="#{listaSolicitudesdeSalidadeBonos.goSolicitudAceptar(element.id)}" icon="ui-icon-gear" 
                                                              title="#{label['lb_btn.aceptar']}"
                                                              rendered="#{sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;) and !element.estado.equals(&quot;ACEPTADA&quot;)}"/> 
+                                            <p:commandButton id="validar" action="#{listaSolicitudesdeSalidadeBonos.goSolicitudValidarBonos(element.id)}" icon="ui-icon-gear" 
+                                                             title="#{label['lb_btn.aceptar']}"
+                                                             rendered="#{sessionBean.perfilViewMatch(&quot;Validarbono&quot;) and element.estado.equals(&quot;ACEPTADA&quot;)}"/> 
                                         </p:column>
 
 

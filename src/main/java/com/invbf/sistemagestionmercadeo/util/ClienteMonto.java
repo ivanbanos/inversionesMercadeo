@@ -5,7 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.util;
 
-import com.invbf.sistemagestionmercadeo.entity.Denominacion;
+import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +27,10 @@ public class ClienteMonto {
     public ClienteMonto() {
     }
 
+    public ClienteMonto(Integer id) {
+        this.id = id;
+    }
+
     public ClienteMonto(Integer id, String nombre, Float monto, List<Lotebono> lotes, Integer formaentrega, Float normal, Float preaprobado, Float aprobado) {
         this.nombre = nombre;
         this.monto = monto;
@@ -39,6 +43,11 @@ public class ClienteMonto {
         } else {
             denominacionCant = MatematicaAplicada.getBonosAsignadosDEnominacinesGrandes(lotes, monto);
         }
+    }
+    public ClienteMonto(Integer id, String nombre) {
+        this.nombre = nombre;
+        this.id = id;
+        denominacionCant = new ArrayList<DenoinacionCant>();
     }
 
     public String getNombre() {
@@ -103,6 +112,43 @@ public class ClienteMonto {
 
     public void setAprobado(Float aprobado) {
         this.aprobado = aprobado;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 23 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ClienteMonto other = (ClienteMonto) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    public void restarBono(Bono bono) {
+        for (DenoinacionCant denomcant : denominacionCant) {    
+            if(denomcant.getDenomiancion().getDenominacion().equals(bono.getDenominacion())){
+                denomcant.resUnoCantidad();
+            }
+        }
+    }
+
+    public void setNuevoMonto() {
+        monto = 0f;
+        for (DenoinacionCant denominacionCant1 : denominacionCant) {
+            monto += denominacionCant1.getCantidad()*denominacionCant1.getDenomiancion().getDenominacion().getValor();
+        }
     }
     
     

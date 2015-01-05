@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -31,17 +33,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Bono.findAll", query = "SELECT b FROM Bono b"),
+    @NamedQuery(name = "Bono.findById", query = "SELECT b FROM Bono b WHERE b.id = :id"),
     @NamedQuery(name = "Bono.findByConsecutivo", query = "SELECT b FROM Bono b WHERE b.consecutivo = :consecutivo"),
     @NamedQuery(name = "Bono.findByEstado", query = "SELECT b FROM Bono b WHERE b.estado = :estado"),
-    @NamedQuery(name = "Bono.findByEstadoYCasino", query = "SELECT b FROM Bono b WHERE b.estado = :estado AND b.casino = :casino"),
     @NamedQuery(name = "Bono.findByFechaValidacion", query = "SELECT b FROM Bono b WHERE b.fechaValidacion = :fechaValidacion"),
     @NamedQuery(name = "Bono.findByFechaExpiracion", query = "SELECT b FROM Bono b WHERE b.fechaExpiracion = :fechaExpiracion"),
-    @NamedQuery(name = "Bono.findByFechaEntrega", query = "SELECT b FROM Bono b WHERE b.fechaEntrega = :fechaEntrega"),
-    @NamedQuery(name = "Bono.findByValidador", query = "SELECT b FROM Bono b WHERE b.validador = :validador"),
-    @NamedQuery(name = "Bono.findByAutorizador", query = "SELECT b FROM Bono b WHERE b.autorizador = :autorizador")})
+    @NamedQuery(name = "Bono.findByFechaEntrega", query = "SELECT b FROM Bono b WHERE b.fechaEntrega = :fechaEntrega")})
 public class Bono implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -59,33 +63,46 @@ public class Bono implements Serializable {
     @Column(name = "fechaEntrega")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaEntrega;
-    @JoinColumn(name = "Denominacion", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Denominacion denominacion;
-    @JoinColumn(name = "ControlSalidaBonos_id", referencedColumnName = "id")
-    @ManyToOne
-    private Controlsalidabono controlSalidaBonosid;
-    @JoinColumn(name = "tipo", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Tipobono tipo;
     @JoinColumn(name = "autorizador", referencedColumnName = "idUsuario")
     @ManyToOne
     private Usuario autorizador;
     @JoinColumn(name = "validador", referencedColumnName = "idUsuario")
     @ManyToOne
     private Usuario validador;
-    @JoinColumn(name = "casino", referencedColumnName = "idCasino")
+    @JoinColumn(name = "tipo", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Casino casino;
+    private Tipobono tipo;
+    @JoinColumn(name = "Denominacion", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Denominacion denominacion;
+    @JoinColumn(name = "ControlSalidaBonos_id", referencedColumnName = "id")
+    @ManyToOne
+    private Controlsalidabono controlSalidaBonosid;
     @JoinColumn(name = "Cliente", referencedColumnName = "idCliente")
     @ManyToOne
     private Cliente cliente;
+    @JoinColumn(name = "casino", referencedColumnName = "idCasino")
+    @ManyToOne(optional = false)
+    private Casino casino;
 
     public Bono() {
     }
 
-    public Bono(String consecutivo) {
+    public Bono(Integer id) {
+        this.id = id;
+    }
+
+    public Bono(Integer id, String consecutivo) {
+        this.id = id;
         this.consecutivo = consecutivo;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getConsecutivo() {
@@ -128,30 +145,6 @@ public class Bono implements Serializable {
         this.fechaEntrega = fechaEntrega;
     }
 
-    public Denominacion getDenominacion() {
-        return denominacion;
-    }
-
-    public void setDenominacion(Denominacion denominacion) {
-        this.denominacion = denominacion;
-    }
-
-    public Controlsalidabono getControlSalidaBonosid() {
-        return controlSalidaBonosid;
-    }
-
-    public void setControlSalidaBonosid(Controlsalidabono controlSalidaBonosid) {
-        this.controlSalidaBonosid = controlSalidaBonosid;
-    }
-
-    public Tipobono getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(Tipobono tipo) {
-        this.tipo = tipo;
-    }
-
     public Usuario getAutorizador() {
         return autorizador;
     }
@@ -168,12 +161,28 @@ public class Bono implements Serializable {
         this.validador = validador;
     }
 
-    public Casino getCasino() {
-        return casino;
+    public Tipobono getTipo() {
+        return tipo;
     }
 
-    public void setCasino(Casino casino) {
-        this.casino = casino;
+    public void setTipo(Tipobono tipo) {
+        this.tipo = tipo;
+    }
+
+    public Denominacion getDenominacion() {
+        return denominacion;
+    }
+
+    public void setDenominacion(Denominacion denominacion) {
+        this.denominacion = denominacion;
+    }
+
+    public Controlsalidabono getControlSalidaBonosid() {
+        return controlSalidaBonosid;
+    }
+
+    public void setControlSalidaBonosid(Controlsalidabono controlSalidaBonosid) {
+        this.controlSalidaBonosid = controlSalidaBonosid;
     }
 
     public Cliente getCliente() {
@@ -184,10 +193,18 @@ public class Bono implements Serializable {
         this.cliente = cliente;
     }
 
+    public Casino getCasino() {
+        return casino;
+    }
+
+    public void setCasino(Casino casino) {
+        this.casino = casino;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (consecutivo != null ? consecutivo.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -198,7 +215,7 @@ public class Bono implements Serializable {
             return false;
         }
         Bono other = (Bono) object;
-        if ((this.consecutivo == null && other.consecutivo != null) || (this.consecutivo != null && !this.consecutivo.equals(other.consecutivo))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -206,7 +223,7 @@ public class Bono implements Serializable {
 
     @Override
     public String toString() {
-        return "com.invbf.sistemagestionmercadeo.entity.Bono[ consecutivo=" + consecutivo + " ]";
+        return "com.invbf.sistemagestionmercadeo.entity.Bono[ id=" + id + " ]";
     }
     
 }

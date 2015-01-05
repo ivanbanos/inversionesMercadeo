@@ -72,4 +72,8 @@ public class DenoinacionCant {
         this.cantidad += cantidad;
     }
 
+    void resUnoCantidad() {
+        cantidad -=1;
+    }
+
 }

@@ -14,35 +14,19 @@
                 <h:form>
                     <div class="panel panel-primary">
 
-                        <div class="panel-heading"><h4>#{label['generarsolicitudbonos']}</h4></div>
+                        <div class="panel-heading"><h4>#{label['validacionbonos']}</h4></div>
                         <div class="panel-body">
-                            <p:dataTable id="bonos" var="bono" value="#{bonoValidarBean.bonosPorValidar}" 
-                                         selection="#{bonoValidarBean.bonosSeleccionados}" rowKey="#{bono.consecutivo}" style="margin-bottom:0">
+                            <p:dataTable id="bonos" var="bono" value="#{bonoValidarBean.clientes}" style="margin-bottom:0">
                                 <f:facet name="header">
                                     Bonos por Validar
                                 </f:facet>
-                                <p:column headerText="Seleccionar" selectionMode="multiple" />
-                                <p:column headerText="consecutivo" sortBy="#{bono.consecutivo}" filterBy="#{bono.consecutivo}" filterMatchMode="contains">
-                                    <h:outputText value="#{bono.consecutivo}" />
+                                <p:column headerText="consecutivo" sortBy="#{bono.nombre}" filterBy="#{bono.nombre}" filterMatchMode="contains">
+                                    <h:outputText value="#{bono.nombre}" />
                                 </p:column>
-                                <p:column headerText="cliente" sortBy="#{bono.cliente.nombres} #{bono.cliente.apellidos}" filterBy="#{bono.cliente.nombres} #{bono.cliente.apellidos}" filterMatchMode="contains">
-                                    <h:outputText value="#{bono.cliente.nombres} #{bono.cliente.apellidos}" />
-                                </p:column>
-                                <p:column headerText="fecha de vencimiento" sortBy="#{bono.fechaExpiracion}" filterBy="#{bono.cfechaExpiracion}" filterMatchMode="contains">
-                                    <h:outputText value="#{bono.fechaExpiracion}" >
-                                        <f:convertDateTime pattern="dd/MMMMM/yyyy " locale="es" />
-                                    </h:outputText>
-                                </p:column>
-                                <p:column headerText="Casinos" sortBy="#{bonoValidarBean.getCasinoById(bono.casino).nombre}"
-                                          filterBy="#{bonoValidarBean.getCasinoById(bono.casino).nombre}" filterMatchMode="contains">
-                                    <h:outputText value="#{bonoValidarBean.getCasinoById(bono.casino).nombre}" />
+                                <p:column headerText="denominación" sortBy="#{bono.monto}" filterBy="#{bono.monto}" filterMatchMode="contains">
+                                    <h:outputText value="#{bono.monto}" />
                                 </p:column>
                             </p:dataTable>
-                        </div>
-                        <div class="panel-footer text-right"> 
-                            <p:commandButton value="Confirmar" actionListener="#{bonoValidarBean.validar()}" 
-                                             oncomplete="PF('addClienteDialog').hide()" icon="ui-icon-check" 
-                                             ajax="false" style="margin:0" />   
                         </div>
                     </div>
 
@@ -52,3 +36,5 @@
         </div>
     </ui:define>            
 </ui:composition>
+
+

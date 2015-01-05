@@ -96,4 +96,12 @@ public class ListaSolicitudesEntregaLotesBonosBean {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public void goSolicitudValidarBonos(Integer i) {
+        try {
+            sessionBean.getAttributes().put("idsolicitudentregalotes", i);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("BonosValidarView.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

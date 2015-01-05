@@ -74,4 +74,12 @@ public class ListaSolicitudesdeSalidadeBonos {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public void goSolicitudValidarBonos(Integer i){
+        try {
+            sessionBean.getAttributes().put("idsolicitudsalida", i);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("BonosValidarView.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
