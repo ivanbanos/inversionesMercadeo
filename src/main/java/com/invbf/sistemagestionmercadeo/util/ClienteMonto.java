@@ -6,6 +6,7 @@
 package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.entity.Bono;
+import com.invbf.sistemagestionmercadeo.entity.Denominacion;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,7 @@ public class ClienteMonto {
             denominacionCant = MatematicaAplicada.getBonosAsignadosDEnominacinesGrandes(lotes, monto);
         }
     }
+
     public ClienteMonto(Integer id, String nombre) {
         this.nombre = nombre;
         this.id = id;
@@ -136,9 +138,9 @@ public class ClienteMonto {
         return true;
     }
 
-    public void restarBono(Bono bono) {
-        for (DenoinacionCant denomcant : denominacionCant) {    
-            if(denomcant.getDenomiancion().getDenominacion().equals(bono.getDenominacion())){
+    public void restarBono(Denominacion denominacion) {
+        for (DenoinacionCant denomcant : denominacionCant) {
+            if (denomcant.getDenomiancion().getDenominacion().equals(denominacion)) {
                 denomcant.resUnoCantidad();
             }
         }
@@ -147,9 +149,19 @@ public class ClienteMonto {
     public void setNuevoMonto() {
         monto = 0f;
         for (DenoinacionCant denominacionCant1 : denominacionCant) {
-            monto += denominacionCant1.getCantidad()*denominacionCant1.getDenomiancion().getDenominacion().getValor();
+            monto += denominacionCant1.getCantidad() * denominacionCant1.getDenomiancion().getDenominacion().getValor();
         }
     }
-    
-    
+
+    public boolean haveLeftDenomination(Integer idDenominacion) {
+        for (DenoinacionCant denomcant : denominacionCant) {
+            if (denomcant.getDenomiancion().getDenominacion().equals(new Denominacion(idDenominacion))) {
+                if (denomcant.getCantidad() > 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

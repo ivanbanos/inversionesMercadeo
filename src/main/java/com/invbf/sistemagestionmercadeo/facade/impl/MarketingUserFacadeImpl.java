@@ -4,6 +4,7 @@
  */
 package com.invbf.sistemagestionmercadeo.facade.impl;
 
+import com.invbf.sistemagestionmercadeo.controladores.SessionBean;
 import com.invbf.sistemagestionmercadeo.dao.AccionDao;
 import com.invbf.sistemagestionmercadeo.dao.AreaDao;
 import com.invbf.sistemagestionmercadeo.dao.AtributoDao;
@@ -385,7 +386,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
             TipostareasDao.create(elemento);
             for (Accion a : elemento.getAccionList()) {
                 a = AccionDao.find(a.getIdAccion());
-                if (a.getTipotareaList()== null) {
+                if (a.getTipotareaList() == null) {
                     a.setTipotareaList(new ArrayList<Tipotarea>());
                 }
                 a.getTipotareaList().add(elemento);
@@ -396,7 +397,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
             TipostareasDao.edit(elemento);
             for (Accion a : elemento.getAccionList()) {
                 a = AccionDao.find(a.getIdAccion());
-                if (a.getTipotareaList()== null) {
+                if (a.getTipotareaList() == null) {
                     a.setTipotareaList(new ArrayList<Tipotarea>());
                 }
                 a.getTipotareaList().add(elemento);
@@ -566,7 +567,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
 
     @Override
     public Casinodetalle guardarDetalleCasino(Casinodetalle detalleElemento) {
-        if (detalleElemento.getIdCasino()== null) {
+        if (detalleElemento.getIdCasino() == null) {
             DetalleCasinoDao.create(detalleElemento);
             return detalleElemento;
         } else {
@@ -579,7 +580,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
     public void deleteDetalleCasino(Casinodetalle detalleElemento) {
         DetalleCasinoDao.remove(detalleElemento);
     }
-    
+
     @Override
     public Solicitudentregalotesmaestro getSolicitudentregalotesbono(Integer id) {
         return SolicitudentregalotesmaestroDao.find(id);
@@ -640,7 +641,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
 
     @Override
     public void deleteSolicitudentrega(Solicitudentrega elemento) {
-        if (elemento.getSolicitudentregaclienteList()!= null) {
+        if (elemento.getSolicitudentregaclienteList() != null) {
             for (Solicitudentregacliente col : elemento.getSolicitudentregaclienteList()) {
                 SolicitudEntregaClientesDao.remove(col);
             }
@@ -846,10 +847,11 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
     @Override
     public void guardarBonos(List<Bono> bonosAGuardar) {
         for (Bono bono : bonosAGuardar) {
-            System.out.println("Consecutivo "+bono.getConsecutivo());
+            System.out.println("Consecutivo " + bono.getConsecutivo());
             BonoDao.create(bono);
         }
     }
+
     @Override
     public void editarBonos(List<Bono> bonosAGuardar) {
         for (Bono bono : bonosAGuardar) {
@@ -865,5 +867,21 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
     @Override
     public List<Bono> getBonosPorEstadoYCasino(String estado, Casino idCasino) {
         return BonoDao.getBonosPorEstadoYCasino(estado, idCasino);
+    }
+
+    @Override
+    public void saveBonos(Controlsalidabono elemento, Integer idUsuario) {
+        List<Bono> bonos = elemento.getBonoList();
+        for (Bono bono : bonos) {
+            if (bono.getCliente() != null && bono.getCliente().getIdCliente() != null) {
+                if (bono.getEstado().equals("VALIDADO")) {
+                    continue;
+                }
+                bono.setEstado("VALIDADO");
+                if (bono.getValidador() == null) {
+                    bono.setValidador(new Usuario(idUsuario));
+                }
+            }
+        }
     }
 }

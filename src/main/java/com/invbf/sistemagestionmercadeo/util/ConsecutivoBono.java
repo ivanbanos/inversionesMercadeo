@@ -13,6 +13,7 @@ public class ConsecutivoBono {
     private Integer id;
     private String consecutivo;
     private Float denominacion;
+    private Integer idDenominacion;
     private Integer idCliente;
     private String nombreClietne;
 
@@ -20,16 +21,18 @@ public class ConsecutivoBono {
         this.id = id;
     }
 
-    public ConsecutivoBono(Integer id, String consecutivo, Float denominacion) {
+    public ConsecutivoBono(Integer id, String consecutivo, Float denominacion, Integer idDenominacion) {
         this.id = id;
         this.consecutivo = consecutivo;
         this.denominacion = denominacion;
+        this.idDenominacion = idDenominacion;
     }
 
-    public ConsecutivoBono(Integer id, String consecutivo, Float denominacion, Integer idCliente, String nombreClietne) {
+    public ConsecutivoBono(Integer id, String consecutivo, Float denominacion, Integer idDenominacion, Integer idCliente, String nombreClietne) {
         this.id = id;
         this.consecutivo = consecutivo;
         this.denominacion = denominacion;
+        this.idDenominacion = idDenominacion;
         this.idCliente = idCliente;
         this.nombreClietne = nombreClietne;
     }
@@ -73,4 +76,35 @@ public class ConsecutivoBono {
     public void setNombreClietne(String nombreClietne) {
         this.nombreClietne = nombreClietne;
     }
+
+    public Integer getIdDenominacion() {
+        return idDenominacion;
+    }
+
+    public void setIdDenominacion(Integer idDenominacion) {
+        this.idDenominacion = idDenominacion;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 79 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ConsecutivoBono other = (ConsecutivoBono) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+    
 }

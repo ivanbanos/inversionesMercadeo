@@ -16,24 +16,68 @@
 
                         <div class="panel-heading"><h4>#{label['validacionbonos']}</h4></div>
                         <div class="panel-body">
-                            <p:dataTable id="bonos" var="bono" value="#{bonoValidarBean.clientes}" style="margin-bottom:0">
+                            <p:dataTable id="bonos" var="bono" value="#{bonoValidarBean.bonosPorAsignar}" style="margin-bottom:0">
                                 <f:facet name="header">
                                     Bonos por Validar
                                 </f:facet>
-                                <p:column headerText="consecutivo" sortBy="#{bono.nombre}" filterBy="#{bono.nombre}" filterMatchMode="contains">
-                                    <h:outputText value="#{bono.nombre}" />
+                                <p:column headerText="consecutivo" sortBy="#{bono.consecutivo}" filterBy="#{bono.consecutivo}" filterMatchMode="contains">
+                                    <h:outputText value="#{bono.consecutivo}" />
                                 </p:column>
-                                <p:column headerText="denominación" sortBy="#{bono.monto}" filterBy="#{bono.monto}" filterMatchMode="contains">
-                                    <h:outputText value="#{bono.monto}" />
+                                <p:column headerText="denominación" sortBy="#{bono.denominacion}" filterBy="#{bono.denominacion}" filterMatchMode="contains">
+                                    <h:outputText value="#{bono.denominacion}" />
+                                </p:column>
+                                <p:column headerText="cliente" sortBy="#{bono.nombreClietne}" filterBy="#{bono.nombreClietne}" filterMatchMode="contains">
+                                    <h:outputText value="#{bono.nombreClietne}" />
+                                </p:column>
+                                <p:column headerText="acciones" >
+                                    <p:commandButton id="setbonocliente" oncomplete="PF('setbonocliente').show();" 
+                                                     icon="ui-icon-trash" title="#{label['lb_btn.borrar']}"  update=":#{p:component('setbonoclienteDialog')}"
+                                                     action="#{bonoValidarBean.buscarClientesQueNecesiteBonoDeDenominacion(bono.id)}"/>
                                 </p:column>
                             </p:dataTable>
+                        </div>
+                        <div class="panel-footer text-right"> 
+                            <p:commandButton value="guardar" actionListener="#{bonoValidarBean.guardarCambiosBonos()}" icon="ui-icon-check" 
+                                             update=":#{p:component('bonos')} :#{p:component('setbonocliente')} :#{p:component('messages')}" style="margin:0" />   
                         </div>
                     </div>
 
                 </h:form>
 
             </div>
+            <h:form>
+                <p:dialog id="setbonoclienteDialog" widgetVar="setbonocliente" modal="true" resizable="false">
+                    <div class="panel panel-primary">
+
+                        <div class="panel-heading"><h4>#{label['agregarcliente']}</h4></div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="control-group">
+                                    <!-- Username -->
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" >#{label['clientes']}</label>
+                                        <div class="col-md-9">
+                                            <p:selectOneMenu id="clientes" value="#{bonoValidarBean.idCliente}"  required="true">
+                                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                                <f:selectItems value="#{bonoValidarBean.clientesNecesitanDenominacion}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.id}"/>  
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="panel-footer text-right"> 
+                            <p:commandButton value="Confirmar" actionListener="#{bonoValidarBean.asignarBonoCliente()}" 
+                                             oncomplete="PF('setbonocliente').hide()" icon="ui-icon-check" 
+                                             update=":#{p:component('bonos')} :#{p:component('setbonocliente')} :#{p:component('messages')}" style="margin:0" />   
+                        </div>
+                    </div>
+                </p:dialog>
+            </h:form>
         </div>
+
+
     </ui:define>            
 </ui:composition>
 

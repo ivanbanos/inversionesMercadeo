@@ -187,4 +187,6 @@ public interface MarketingUserFacade {
 
     public List<Bono> getBonosPorEstadoYCasino(String por_validar, Casino idCasino);
 
+    public void saveBonos(Controlsalidabono elemento, Integer idUsuario);
+
 }
