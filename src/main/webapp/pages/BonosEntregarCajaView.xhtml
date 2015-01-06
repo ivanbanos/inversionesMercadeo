@@ -11,8 +11,51 @@
     <ui:define name="content">
         <div class="container">
             <div class="row clearfix">
-                
+                <h:form>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>#{label['validacionbonos']}</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="control-group">
+                                    <!-- Username -->
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" >#{label['casinos']}</label>
+                                        <div class="col-md-9">
+                                            <p:selectOneMenu id="clientes" value="#{bonoEntregarCajaBean.casinoSelected.idCasino}"  required="true">
+                                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                                <f:selectItems value="#{bonoEntregarCajaBean.casinos}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.idCasino}"/>  
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p:commandButton value="Buscar" actionListener="#{bonoEntregarCajaBean.buscarBonosValidadosPorCasino()}" 
+                                                 icon="ui-icon-check" 
+                                                 update=":#{p:component('bonos')} :#{p:component('messages')}" style="margin:0" /> 
+                            </div>
+
+                            <p:dataTable id="bonos" var="bono" value="#{bonoEntregarCajaBean.bonosCasinoPorEntregar}" style="margin-bottom:0"
+                                         selection="#{bonoEntregarCajaBean.bonosCasinoPorEntregarSelected}" rowKey="#{bono.id}">
+                                <f:facet name="header">
+                                    Bonos por Entregar
+                                </f:facet>
+                                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                                <p:column headerText="consecutivo" sortBy="#{bono.consecutivo}" filterBy="#{bono.consecutivo}" filterMatchMode="contains">
+                                    <h:outputText value="#{bono.consecutivo}" />
+                                </p:column>
+
+                            </p:dataTable>
+                        </div>
+                        <div class="panel-footer text-right"> 
+                            <p:commandButton value="guardar" actionListener="#{bonoEntregarCajaBean.entregar()}" icon="ui-icon-check" 
+                                             update=":#{p:component('bonos')} :#{p:component('messages')}" style="margin:0" />   
+                        </div>
+                    </div>
+                </h:form>
             </div>
+
         </div>
+
     </ui:define>            
 </ui:composition>

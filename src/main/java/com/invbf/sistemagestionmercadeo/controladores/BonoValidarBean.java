@@ -50,7 +50,7 @@ public class BonoValidarBean {
     @PostConstruct
     public void init() {
         sessionBean.checkUsuarioConectado();
-        sessionBean.setActive("salidadebonos");
+        sessionBean.setActive("requisiciones");
         if (!sessionBean.perfilViewMatch("Validarbono")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");

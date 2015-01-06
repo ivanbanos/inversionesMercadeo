@@ -848,7 +848,11 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
     public void guardarBonos(List<Bono> bonosAGuardar) {
         for (Bono bono : bonosAGuardar) {
             System.out.println("Consecutivo " + bono.getConsecutivo());
-            BonoDao.create(bono);
+            if (bono.getId() == null) {
+                BonoDao.create(bono);
+            } else {
+                BonoDao.edit(bono);
+            }
         }
     }
 

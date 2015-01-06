@@ -202,9 +202,15 @@
                                         </c:if>
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Controlsalidabonos&quot;)
                                                       or sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;)
-                                                      or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)}">
+                                                      or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)
+                                                      or sessionBean.perfilViewMatch(&quot;Validarbono&quot;)}">
                                             <li>
                                                 <h:commandLink  action="#{sessionBean.go(&quot;ControlSalidaBono&quot;)}" value="#{label['ControlSalidaBono']}"/>
+                                            </li>
+                                        </c:if>
+                                        <c:if test="#{sessionBean.perfilViewMatch(&quot;Entregarbonocaja&quot;)}">
+                                            <li >
+                                                <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporentregarcaja&quot;)}"  value="#{label['entregarbonoscaja']}"/>
                                             </li>
                                         </c:if>
                                     </ul>

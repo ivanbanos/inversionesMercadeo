@@ -212,7 +212,7 @@ public class BonoDao {
         try {
             cargos = (List<Bono>) em.createNamedQuery("Bono.findByEstadoYCasino")
                     .setParameter("estado", estado)
-                    .setParameter("casino", idCasino.getIdCasino())
+                    .setParameter("casino", idCasino)
                     .getResultList();
             tx.commit();
         } catch (Exception e) {
