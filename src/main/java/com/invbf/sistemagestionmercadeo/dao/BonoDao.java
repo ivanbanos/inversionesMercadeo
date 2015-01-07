@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.dao;
 import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,6 +20,10 @@ import javax.persistence.Persistence;
  * @author ivan
  */
 public class BonoDao {
+
+    public static List<Bono> getBonosRangoFecha(Date desde, Date hasta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     public BonoDao() {
     }

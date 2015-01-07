@@ -4,8 +4,10 @@
  */
 package com.invbf.sistemagestionmercadeo.facade;
 
+import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Permiso;
 import com.invbf.sistemagestionmercadeo.exceptions.clienteInexistenteException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,6 +23,8 @@ public interface ManagerUserFacade {
     public String ejecutarPermiso(Permiso permiso)throws clienteInexistenteException;
 
     public void addPermiso(Permiso permiso);
+
+    public List<Bono> getBonosPorFechas(Date time, Date time0);
 
     
 }

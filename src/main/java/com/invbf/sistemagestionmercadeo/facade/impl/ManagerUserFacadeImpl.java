@@ -5,11 +5,13 @@
 package com.invbf.sistemagestionmercadeo.facade.impl;
 
 
+import com.invbf.sistemagestionmercadeo.dao.BonoDao;
 import com.invbf.sistemagestionmercadeo.dao.CasinoDao;
 import com.invbf.sistemagestionmercadeo.dao.CategoriaDao;
 import com.invbf.sistemagestionmercadeo.dao.ClienteDao;
 import com.invbf.sistemagestionmercadeo.dao.PermisosDao;
 import com.invbf.sistemagestionmercadeo.dao.TipoDocumentoDao;
+import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Permiso;
 import com.invbf.sistemagestionmercadeo.exceptions.clienteInexistenteException;
@@ -103,5 +105,10 @@ public class ManagerUserFacadeImpl implements ManagerUserFacade {
     @Override
     public void addPermiso(Permiso permiso) {
         PermisosDao.create(permiso);
+    }
+
+    @Override
+    public List<Bono> getBonosPorFechas(Date desde, Date hasta) {
+        return BonoDao.getBonosRangoFecha(desde, hasta);
     }
 }
