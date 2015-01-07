@@ -32,18 +32,10 @@
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  >
 
-                                        <p:column headerText="#{label['id']}" sortBy="#{element.id}" filterBy="#{element.id}" filterMatchMode="contains" >
-                                            <h:outputText value="#{element.id}" />
-                                        </p:column>
-
                                         <p:column headerText="#{label['fechacreacion']}" sortBy="#{element.fecha}" filterBy="#{element.fecha}" filterMatchMode="contains" >
                                             <h:outputText value="#{element.fecha}" >
                                                 <f:convertDateTime pattern="dd/MMMMM/yyyy " locale="es" />
                                             </h:outputText>
-                                        </p:column>
-
-                                        <p:column headerText="#{label['estado']}" sortBy="#{element.estado}" filterBy="#{element.estado}" filterMatchMode="contains" >
-                                            <h:outputText value="#{element.estado}" />
                                         </p:column>
                                         
                                         <p:column headerText="#{label['proposito']}" sortBy="#{element.propositoEntrega.nombre}" filterBy="#{element.propositoEntrega.nombre}" filterMatchMode="contains" >
@@ -57,9 +49,9 @@
                                         <p:column headerText="#{label['casino']}" sortBy="#{element.idCasino.nombre}" filterBy="#{listaSolicitudBonosBean.getCasinoById(element.idCasino).nombre}" filterMatchMode="contains" >
                                             <h:outputText value="#{element.idCasino.nombre}" />
                                         </p:column>
-                                        
-                                        <p:column headerText="#{label['solicitante']}" sortBy="#{element.solicitante.nombreUsuario}" filterBy="#{listaSolicitudBonosBean.getUsuarioById(element.solicitante).nombreUsuario}" filterMatchMode="contains" >
-                                            <h:outputText value="#{element.solicitante.nombreUsuario}" />
+
+                                        <p:column headerText="#{label['estado']}" sortBy="#{element.estado}" filterBy="#{element.estado}" filterMatchMode="contains" >
+                                            <h:outputText value="#{element.estado}" />
                                         </p:column>
 
                                         <p:column headerText="#{label['acciones']}" >   
