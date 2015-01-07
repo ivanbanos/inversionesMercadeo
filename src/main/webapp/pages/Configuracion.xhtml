@@ -17,7 +17,7 @@
                                       or sessionBean.perfilViewMatch(&quot;Cargo&quot;) 
                                       or sessionBean.perfilViewMatch(&quot;Perfiles&quot;) 
                                       or sessionBean.perfilViewMatch(&quot;Usuarios&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;AtributosSistema&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                            <h:commandLink  action="#{sessionBean.go(&quot;AtributosSistema&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-laptop fa-5x"></i> 
                                 <br/>#{label['atributossistemas']}</h:commandLink>
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Casinos&quot;)
@@ -27,22 +27,22 @@
                                       or sessionBean.perfilViewMatch(&quot;Atributos&quot;)
                                       or sessionBean.perfilViewMatch(&quot;Tipotareas&quot;)
                                       or sessionBean.perfilViewMatch(&quot;tipodocumento&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;AtributosMarketing&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                            <h:commandLink  action="#{sessionBean.go(&quot;AtributosMarketing&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-sitemap fa-5x"></i> 
                                 <br/>#{label['atributosmarketing']}</h:commandLink>
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;ConfiguracionesGenerales&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;ConfiguracionesGenerales&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                            <h:commandLink  action="#{sessionBean.go(&quot;ConfiguracionesGenerales&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-gear fa-5x"></i> 
                                 <br/>#{label['configuraciones']}</h:commandLink>
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;logs&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;logs&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                            <h:commandLink  action="#{sessionBean.go(&quot;logs&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-terminal fa-5x"></i> 
                                 <br/>#{label['logs']}</h:commandLink>
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Propositos&quot;)
                                       or sessionBean.perfilViewMatch(&quot;Areas&quot;)
                                       or sessionBean.perfilViewMatch(&quot;denominaciones&quot;)
                                       or sessionBean.perfilViewMatch(&quot;TipoBono&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;atributosbonos&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                            <h:commandLink  action="#{sessionBean.go(&quot;atributosbonos&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-ticket fa-5x"></i> 
                                 <br/>#{label['atributosbono']}</h:commandLink>
 
                         </c:if>

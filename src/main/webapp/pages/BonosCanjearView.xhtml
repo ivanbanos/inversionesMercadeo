@@ -14,16 +14,14 @@
                 <h:form>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h4>#{label['validacionbonos']}</h4>
+                            <h4>#{label['bonosporcanjear']}</h4>
                         </div>
                         <div class="panel-body">
 
 
                             <p:dataTable id="bonos" var="bono" value="#{bonoCanjeCliente.bonosCasinoEntregados}" style="margin-bottom:0"
                                          selection="#{bonoCanjeCliente.bonosCasinoEntregadosSelected}" rowKey="#{bono.id}">
-                                <f:facet name="header">
-                                    Bonos por Recibir
-                                </f:facet>
+                                
                                 <p:column selectionMode="multiple" style="width:5%;text-align:center"/>
                                 <p:column headerText="consecutivo" sortBy="#{bono.consecutivo}" filterBy="#{bono.consecutivo}" filterMatchMode="contains">
                                     <h:outputText value="#{bono.consecutivo}" />

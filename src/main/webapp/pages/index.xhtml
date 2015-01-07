@@ -31,14 +31,14 @@
                                       or sessionBean.perfilViewMatch(&quot;Areas&quot;)
                                       or sessionBean.perfilViewMatch(&quot;denominaciones&quot;)
                                       or sessionBean.perfilViewMatch(&quot;TipoBono&quot;)}">
-                            <h:link outcome="/pages/Configuracion.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                            <h:link outcome="/pages/Configuracion.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-cogs fa-5x"></i> 
                                 <br/>#{label['configuracion']}</h:link>
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Clientes&quot;) 
                                           or sessionBean.perfilViewMatch(&quot;Eventos&quot;)
                                           or sessionBean.perfilViewMatch(&quot;Tareas&quot;)
                                           or sessionBean.perfilViewMatch(&quot;ManejadorEventosHostess&quot;)}">
-                            <h:link outcome="/pages/ClientesEventos.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                            <h:link outcome="/pages/ClientesEventos.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-male fa-5x"></i> 
                                 <br/>#{label['clientes']}</h:link>
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;notificaciones&quot;)
@@ -50,17 +50,17 @@
                                           or sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;)
                                           or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)
                                           or sessionBean.perfilViewMatch(&quot;Recibirbono&quot;)}">
-                            <h:link outcome="/pages/Requisiciones.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                            <h:link outcome="/pages/Requisiciones.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-pencil-square-o fa-5x"></i> 
                                 <br/>#{label['requisiciones']}</h:link>
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Reportes&quot;)}">
-                            <h:link outcome="/pages/Reportes.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                            <h:link outcome="/pages/Reportes.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-bar-chart-o fa-5x"></i> 
                                 <br/>#{label['reportes']}</h:link>
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;LoteBono&quot;)
                                           or sessionBean.perfilViewMatch(&quot;Verbonosporcanjear&quot;)
                                           or sessionBean.perfilViewMatch(&quot;Verbonosporentregarcliente&quot;)}">
-                            <h:link outcome="/pages/Inventario.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                            <h:link outcome="/pages/Inventario.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-briefcase fa-5x"></i> 
                                 <br/>#{label['inventario']}</h:link>
                         </c:if>
                         

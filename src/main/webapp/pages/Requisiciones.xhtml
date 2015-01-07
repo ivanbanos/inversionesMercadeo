@@ -15,14 +15,14 @@
                     <legend >Solicitudes</legend>
 
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;notificaciones&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;notificaciones&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                        <h:commandLink  action="#{sessionBean.go(&quot;notificaciones&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-exchange fa-5x"></i> 
                             <br/>#{label['cambiosusuario']}</h:commandLink>
                     </c:if>
 
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;)
                                   or sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;)
                                   or sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;solicitudesbonos&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                        <h:commandLink  action="#{sessionBean.go(&quot;solicitudesbonos&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-edit fa-5x"></i> 
                             <br/>#{label['solicitudesbonos']}</h:commandLink>
                     </c:if>
                     
@@ -30,23 +30,23 @@
 
 
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;listasolicitudlotes&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
-                            <br/>#{label['listasolicitudeslotesbonos']}</h:commandLink>
+                        <h:commandLink  action="#{sessionBean.go(&quot;listasolicitudlotes&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-truck fa-5x"></i> 
+                            <br/>#{label['entradalotebonos']}</h:commandLink>
                     </c:if>
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;Controlsalidabonos&quot;)
                                   or sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;)
                                   or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)
                                   or sessionBean.perfilViewMatch(&quot;Validarbono&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;ControlSalidaBono&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
-                            <br/>#{label['ControlSalidaBono']}</h:commandLink>
+                        <h:commandLink  action="#{sessionBean.go(&quot;ControlSalidaBono&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-sign-out fa-5x"></i> 
+                            <br/>#{label['salidabonoscaja']}</h:commandLink>
                     </c:if>
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;Entregarbonocaja&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporentregarcaja&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
-                            <br/>#{label['bonosporentregarcaja']}</h:commandLink>
+                        <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporentregarcaja&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-envelope fa-5x"></i> 
+                            <br/>#{label['entregabonocaja']}</h:commandLink>
                     </c:if>
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;Recibirbono&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporrecibir&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
-                            <br/>#{label['bonosporrecibir']}</h:commandLink>
+                        <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporrecibir&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-envelope-square fa-5x"></i> 
+                            <br/>#{label['recibobonoscaja']}</h:commandLink>
                     </c:if>
 
                 </h:form>

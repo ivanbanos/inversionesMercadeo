@@ -13,15 +13,15 @@
             <div class="row clearfix">
                 <h:form>
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;LoteBono&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;LoteBono&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
-                            <br/>#{label['lotesdebonos']}</h:commandLink>
+                            <h:commandLink  action="#{sessionBean.go(&quot;LoteBono&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
+                            <br/>#{label['stockbonos']}</h:commandLink>
                     </c:if>
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;Verbonosporentregarcliente&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporentregarcliente&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                            <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporentregarcliente&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-reorder fa-5x"></i> 
                             <br/>#{label['bonosporentregarcliente']}</h:commandLink>
                     </c:if>
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;Verbonosporcanjear&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporcanjear&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                            <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporcanjear&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-exchange fa-5x"></i> 
                             <br/>#{label['bonosporcanjear']}</h:commandLink>
                     </c:if>
                 </h:form>

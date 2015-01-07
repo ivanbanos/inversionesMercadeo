@@ -13,19 +13,19 @@
             <div class="row clearfix">
                 <h:form>
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;Clientes&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;clientes&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                        <h:commandLink  action="#{sessionBean.go(&quot;clientes&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-male fa-5x"></i> 
                             <br/>#{label['clientes']}</h:commandLink>
                     </c:if>
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;Eventos&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;eventos&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                        <h:commandLink  action="#{sessionBean.go(&quot;eventos&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-globe fa-5x"></i> 
                             <br/>#{label['eventos']}</h:commandLink>
                     </c:if>
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;Tareas&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;tareas&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                        <h:commandLink  action="#{sessionBean.go(&quot;tareas&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-tasks fa-5x"></i> 
                             <br/>#{label['tareas']}</h:commandLink>
                     </c:if>
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;ManejadorEventosHostess&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;eventoshostess&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                        <h:commandLink  action="#{sessionBean.go(&quot;eventoshostess&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-fax fa-5x"></i> 
                             <br/>#{label['manejadortareas']}</h:commandLink>
                     </c:if>
                 </h:form>

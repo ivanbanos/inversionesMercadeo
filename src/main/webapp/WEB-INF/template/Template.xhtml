@@ -198,7 +198,7 @@
 
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;)}">
                                             <li >
-                                                <h:commandLink  action="#{sessionBean.go(&quot;listasolicitudlotes&quot;)}"  value="#{label['listasolicitudeslotesbonos']}"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;listasolicitudlotes&quot;)}"  value="#{label['entradalotebonos']}"/>
                                             </li>
                                         </c:if>
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Controlsalidabonos&quot;)
@@ -206,7 +206,7 @@
                                                       or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)
                                                       or sessionBean.perfilViewMatch(&quot;Validarbono&quot;)}">
                                             <li>
-                                                <h:commandLink  action="#{sessionBean.go(&quot;ControlSalidaBono&quot;)}" value="#{label['ControlSalidaBono']}"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;ControlSalidaBono&quot;)}" value="#{label['salidabonoscaja']}"/>
                                             </li>
                                         </c:if>
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Entregarbonocaja&quot;)}">
@@ -250,7 +250,7 @@
 
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;LoteBono&quot;)}">
                                             <li >
-                                                <h:commandLink  action="#{sessionBean.go(&quot;LoteBono&quot;)}" value="#{label['lotesdebonos']}"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;LoteBono&quot;)}" value="#{label['stockbonos']}"/>
                                             </li>
                                         </c:if>
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Verbonosporentregarcliente&quot;)}">
