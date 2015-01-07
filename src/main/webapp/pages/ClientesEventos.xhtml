@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+        <div class="container">
+            <div class="row clearfix">
+                <h:form>
+                    <c:if test="#{sessionBean.perfilViewMatch(&quot;Clientes&quot;)}">
+                        <h:commandLink  action="#{sessionBean.go(&quot;clientes&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                            <br/>#{label['clientes']}</h:commandLink>
+                    </c:if>
+                    <c:if test="#{sessionBean.perfilViewMatch(&quot;Eventos&quot;)}">
+                        <h:commandLink  action="#{sessionBean.go(&quot;eventos&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                            <br/>#{label['eventos']}</h:commandLink>
+                    </c:if>
+                    <c:if test="#{sessionBean.perfilViewMatch(&quot;Tareas&quot;)}">
+                        <h:commandLink  action="#{sessionBean.go(&quot;tareas&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                            <br/>#{label['tareas']}</h:commandLink>
+                    </c:if>
+                    <c:if test="#{sessionBean.perfilViewMatch(&quot;ManejadorEventosHostess&quot;)}">
+                        <h:commandLink  action="#{sessionBean.go(&quot;eventoshostess&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                            <br/>#{label['manejadortareas']}</h:commandLink>
+                    </c:if>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>            
+</ui:composition>

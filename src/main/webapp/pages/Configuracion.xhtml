@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+        <div class="container">
+            <div class="row clearfix">
+                <h:form>
+                    <div class="col-xs-12 col-md-9 col-md-offset-1 panel-body panel-bodyindex">
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;acceso&quot;) 
+                                      or sessionBean.perfilViewMatch(&quot;Cargo&quot;) 
+                                      or sessionBean.perfilViewMatch(&quot;Perfiles&quot;) 
+                                      or sessionBean.perfilViewMatch(&quot;Usuarios&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;AtributosSistema&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                                <br/>#{label['atributossistemas']}</h:commandLink>
+                        </c:if>
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;Casinos&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;Acciones&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;Categorias&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;TipoJuego&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;Atributos&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;Tipotareas&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;tipodocumento&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;AtributosMarketing&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                                <br/>#{label['atributosmarketing']}</h:commandLink>
+                        </c:if>
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;ConfiguracionesGenerales&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;ConfiguracionesGenerales&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                                <br/>#{label['configuraciones']}</h:commandLink>
+                        </c:if>
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;logs&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;logs&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                                <br/>#{label['logs']}</h:commandLink>
+                        </c:if>
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;Propositos&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;Areas&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;denominaciones&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;TipoBono&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;atributosbonos&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-user fa-5x"></i> 
+                                <br/>#{label['atributosbono']}</h:commandLink>
+
+                        </c:if>
+
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>            
+</ui:composition>
