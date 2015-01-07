@@ -11,8 +11,35 @@
     <ui:define name="content">
         <div class="container">
             <div class="row clearfix">
-                
+                <h:form>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>#{label['validacionbonos']}</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+                            <p:dataTable id="bonos" var="bono" value="#{bonosRecibirBean.bonosCasinoEntregados}" style="margin-bottom:0"
+                                         selection="#{bonosRecibirBean.bonosCasinoEntregadosSelected}" rowKey="#{bono.id}">
+                                <f:facet name="header">
+                                    Bonos por Recibir
+                                </f:facet>
+                                <p:column selectionMode="multiple" style="width:5%;text-align:center"/>
+                                <p:column headerText="consecutivo" sortBy="#{bono.consecutivo}" filterBy="#{bono.consecutivo}" filterMatchMode="contains">
+                                    <h:outputText value="#{bono.consecutivo}" />
+                                </p:column>
+
+                            </p:dataTable>
+                        </div>
+                        <div class="panel-footer text-right"> 
+                            <p:commandButton value="guardar" actionListener="#{bonosRecibirBean.recibir()}" icon="ui-icon-check" 
+                                             update=":#{p:component('bonos')} :#{p:component('messages')}" style="margin:0" />   
+                        </div>
+                    </div>
+                </h:form>
             </div>
+
         </div>
-    </ui:define>            
+
+    </ui:define>           
 </ui:composition>

@@ -171,7 +171,8 @@
                                           or sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;)
                                           or sessionBean.perfilViewMatch(&quot;Controlsalidabonos&quot;)
                                           or sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)}">
+                                          or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)
+                                          or sessionBean.perfilViewMatch(&quot;Recibirbono&quot;)}">
                                 <li class="dropdown ">
                                     <a href="#" class="dropdown-toggle #{sessionBean.isActive(&quot;requisiciones&quot;)}" data-toggle="dropdown">Requisiciones<span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
@@ -210,7 +211,12 @@
                                         </c:if>
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Entregarbonocaja&quot;)}">
                                             <li >
-                                                <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporentregarcaja&quot;)}"  value="#{label['entregarbonoscaja']}"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporentregarcaja&quot;)}"  value="#{label['bonosporentregarcaja']}"/>
+                                            </li>
+                                        </c:if>
+                                        <c:if test="#{sessionBean.perfilViewMatch(&quot;Recibirbono&quot;)}">
+                                            <li >
+                                                <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporrecibir&quot;)}" value="#{label['bonosporrecibir']}"/>
                                             </li>
                                         </c:if>
                                     </ul>

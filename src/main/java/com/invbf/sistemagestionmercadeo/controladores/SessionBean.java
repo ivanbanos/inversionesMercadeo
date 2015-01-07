@@ -336,19 +336,19 @@ public class SessionBean implements Serializable, Subject {
             active = "requisiciones";
             return "/pages/ListaSolicitudSalidaBonos.xhtml";
         } else if (page.equals("Verbonosporvalidar")) {
-            active = "bonos";
+            active = "requisiciones";
             return "/pages/BonosValidarView.xhtml";
         } else if (page.equals("Verbonosporentregarcaja")) {
-            active = "bonos";
+            active = "requisiciones";
             return "/pages/BonosEntregarCajaView.xhtml";
         } else if (page.equals("Verbonosporrecibir")) {
-            active = "bonos";
+            active = "requisiciones";
             return "/pages/BonosRecibirView.xhtml";
         } else if (page.equals("Verbonosporentregarcliente")) {
-            active = "bonos";
+            active = "inventario";
             return "/pages/BonosEntregarClienteView.xhtml";
         } else if (page.equals("Verbonosporcanjear")) {
-            active = "bonos";
+            active = "inventario";
             return "/pages/BonosCanjearView.xhtml";
         }
         return "/pages/InicioSession.xhtml";
