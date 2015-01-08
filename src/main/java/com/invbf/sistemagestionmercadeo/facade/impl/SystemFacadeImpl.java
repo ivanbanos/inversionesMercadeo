@@ -69,10 +69,6 @@ public class SystemFacadeImpl implements SystemFacade {
                 if(du==null){
                     UsuarioDetalleDao.create(du);
                 }
-                Acceso a = AccesoDao.findByNombreAcceso("SGC");
-                if(du.getAccesoList()==null||du.getAccesoList().isEmpty()||!du.getAccesoList().contains(a)){
-                    throw new UsuarioSinAccesoalSistemaException();
-                }
                 if (!EncryptUtil.comparePassword(usuario.getContrasena(), usuarioConectado.getContrasena())) {
                     throw new ClavesNoConcuerdanException();
                 }

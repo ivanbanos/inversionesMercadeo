@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.dao;
 import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -32,6 +33,29 @@ public class BonoDao {
             cargos = (List<Bono>) em.createNamedQuery("Bono.findByRangoFechas")
                     .setParameter("desde", desde)
                     .setParameter("hasta", hasta)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.close();
+        emf.close();
+        return cargos;
+    }
+
+    public static List<Bono> getBonosRangoFechaYCasino(Date desde, Date hasta, Casino casino) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Bono> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Bono>) em.createNamedQuery("Bono.findByRangoFechasCasino")
+                    .setParameter("desde", desde)
+                    .setParameter("hasta", hasta)
+                    .setParameter("casino", casino)
                     .getResultList();
             tx.commit();
         } catch (Exception e) {

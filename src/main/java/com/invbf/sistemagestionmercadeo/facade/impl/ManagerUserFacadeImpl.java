@@ -12,10 +12,12 @@ import com.invbf.sistemagestionmercadeo.dao.ClienteDao;
 import com.invbf.sistemagestionmercadeo.dao.PermisosDao;
 import com.invbf.sistemagestionmercadeo.dao.TipoDocumentoDao;
 import com.invbf.sistemagestionmercadeo.entity.Bono;
+import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Permiso;
 import com.invbf.sistemagestionmercadeo.exceptions.clienteInexistenteException;
 import com.invbf.sistemagestionmercadeo.facade.ManagerUserFacade;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -110,5 +112,10 @@ public class ManagerUserFacadeImpl implements ManagerUserFacade {
     @Override
     public List<Bono> getBonosPorFechas(Date desde, Date hasta) {
         return BonoDao.getBonosRangoFecha(desde, hasta);
+    }
+
+    @Override
+    public List<Bono> getBonosPorFechasYCasinos(Date desde, Date hasta, Casino casino) {
+        return BonoDao.getBonosRangoFechaYCasino(desde, hasta, casino);
     }
 }
