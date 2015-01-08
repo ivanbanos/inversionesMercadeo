@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ivan
  */
 @Entity
-@Table(name = "perfiles")
+@Table(name = "Perfiles")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Perfil.findAll", query = "SELECT p FROM Perfil p"),
@@ -49,7 +49,7 @@ public class Perfil implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "nombre")
     private String nombre;
-    @JoinTable(name = "perfilesvistas", joinColumns = {
+    @JoinTable(name = "PerfilesVistas", joinColumns = {
         @JoinColumn(name = "idPerfil", referencedColumnName = "idPerfil")}, inverseJoinColumns = {
         @JoinColumn(name = "idVista", referencedColumnName = "idVista")})
     @ManyToMany

@@ -22,7 +22,25 @@ import javax.persistence.Persistence;
 public class BonoDao {
 
     public static List<Bono> getBonosRangoFecha(Date desde, Date hasta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Bono> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Bono>) em.createNamedQuery("Bono.findByRangoFechas")
+                    .setParameter("desde", desde)
+                    .setParameter("hasta", hasta)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.close();
+        emf.close();
+        return cargos;
     }
 
     public BonoDao() {
