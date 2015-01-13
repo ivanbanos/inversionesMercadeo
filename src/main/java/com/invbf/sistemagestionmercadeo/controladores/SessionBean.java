@@ -71,6 +71,7 @@ public class SessionBean implements Serializable, Subject {
     private List<Observer> observers;
     private int paginacion;
     private String active;
+    private String ruta;
 
     /**
      * Creates a new instance of SessionFlowumiUtil
@@ -110,6 +111,7 @@ public class SessionBean implements Serializable, Subject {
 
             sessionFacade.registrarlog(null, null, "Inicio de sesion del usuario " + usuario.getNombreUsuario(), usuario);
             active = "inicio";
+            ruta = "/Inicio";
             return "/pages/index.xhtml";
         } catch (ClavesNoConcuerdanException ex) {
             FacesUtil.addErrorMessage("Usuario no conectado", ex.getMessage());
@@ -277,81 +279,106 @@ public class SessionBean implements Serializable, Subject {
     public String go(String page) {
         if (page.equals("inicio")) {
             active = "inicio";
+            ruta = "/Inicio";
             return "/pages/index.xhtml";
         } else if (page.equals("AtributosSistema")) {
             active = "configuracion";
+            ruta = "/Configuración/Sistema";
             return "/pages/AdministradorAtributosSistema.xhtml";
         } else if (page.equals("AtributosMarketing")) {
             active = "configuracion";
+            ruta = "/Configuración/Atributos";
             return "/pages/AdministradorAtributosMarketing.xhtml";
         } else if (page.equals("ConfiguracionesGenerales")) {
             active = "configuracion";
+            ruta = "/Configuración/General";
             return "/pages/ConfiguracionesGenerales.xhtml";
         } else if (page.equals("clientes")) {
             active = "clientes";
+            ruta = "/Clientes/Cleintes";
             return "/pages/clientes.xhtml";
         } else if (page.equals("eventos")) {
             active = "clientes";
+            ruta = "/Clientes/Eventos";
             return "/pages/eventos.xhtml";
         } else if (page.equals("eventoshostess")) {
             active = "eventoshostess";
+            ruta = "/Cleintes/Manejador de tareas";
             return "/pages/tareasHostess.xhtml";
         } else if (page.equals("reportesclientes")) {
             active = "reportes";
+            ruta = "/Reportes/Clientes";
             return "/pages/Reporteclientes.xhtml";
         } else if (page.equals("reportestareas")) {
             active = "reportes";
+            ruta = "/Reportes/Tareas";
             return "/pages/ReporteTareas.xhtml";
         } else if (page.equals("reporteseventos")) {
             active = "reportes";
+            ruta = "/Reportes/Eventos";
             return "/pages/Reporteeventos.xhtml";
         } else if (page.equals("cuenta")) {
             active = "cuenta";
+            ruta = "/Cuenta";
             return "/pages/CuentaUsuarios.xhtml";
         } else if (page.equals("tareas")) {
             active = "clientes";
+            ruta = "/Clientes/Tareas";
             return "/pages/tareas.xhtml";
         } else if (page.equals("notificaciones")) {
             active = "requisiciones";
+            ruta = "/Requisiciones/Cambios en usuarios";
             return "/pages/notificaciones.xhtml";
         } else if (page.equals("logs")) {
             active = "configuracion";
+            ruta = "/Configuración/Logs";
             return "/pages/logs.xhtml";
         } else if (page.equals("atributosbonos")) {
             active = "configuracion";
+            ruta = "/Configuración/Atributos de Bonos";
             return "/pages/AtributosBonos.xhtml";
         } else if (page.equals("GenerarSolicitudLotesBonos")) {
-            active = "lotesdebonos";
+            active = "requisiciones";
+            ruta = "/Requisiciones/Entrada de lotes de bonos";
             return "/pages/GeneradorSolicitudLoteBono.xhtml";
         } else if (page.equals("listasolicitudlotes")) {
             active = "requisiciones";
+            ruta = "/Requisiciones/Entrada de lotes de bonos";
             return "/pages/ListaSolicitudLotesBonosView.xhtml";
         } else if (page.equals("LoteBono")) {
             active = "inventario";
+            ruta = "/Inventario/Stock de Bonos";
             return "/pages/AdminLotesBonos.xhtml";
         } else if (page.equals("solicitudesbonos")) {
             active = "requisiciones";
+            ruta = "/Requisiciones/Solicitud de bonos";;
             return "/pages/ListaSolicitudBono.xhtml";
         } else if (page.equals("ControlSalidaBono")) {
             active = "requisiciones";
+            ruta = "/Requisiciones/Salida de Bonos de Caja";
             return "/pages/ListaSolicitudSalidaBonos.xhtml";
         } else if (page.equals("Verbonosporvalidar")) {
             active = "requisiciones";
             return "/pages/BonosValidarView.xhtml";
         } else if (page.equals("Verbonosporentregarcaja")) {
             active = "requisiciones";
+            ruta = "/Requisiciones/Bonos por entregar a caja";
             return "/pages/BonosEntregarCajaView.xhtml";
         } else if (page.equals("Verbonosporrecibir")) {
             active = "requisiciones";
+            ruta = "/Requisiciones/Bonos por recibir en caja";
             return "/pages/BonosRecibirView.xhtml";
         } else if (page.equals("Verbonosporentregarcliente")) {
             active = "inventario";
+            ruta = "/Inventario/Bonos por entregar a clientes";
             return "/pages/BonosEntregarClienteView.xhtml";
         } else if (page.equals("Verbonosporcanjear")) {
             active = "inventario";
+            ruta = "/Inventario/Bonos por canjear";
             return "/pages/BonosCanjearView.xhtml";
-        }else if (page.equals("reportesbonos")) {
+        } else if (page.equals("reportesbonos")) {
             active = "reportes";
+            ruta = "/Reportes/Movimiento de bonos";
             return "/pages/ReporteMovimientoBono.xhtml";
         }
         return "/pages/InicioSession.xhtml";
@@ -479,4 +506,21 @@ public class SessionBean implements Serializable, Subject {
         }
         return bytesArray;
     }
+
+    public List<Observer> getObservers() {
+        return observers;
+    }
+
+    public void setObservers(List<Observer> observers) {
+        this.observers = observers;
+    }
+
+    public String getRuta() {
+        return ruta;
+    }
+
+    public void setRuta(String ruta) {
+        this.ruta = ruta;
+    }
+    
 }
