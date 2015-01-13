@@ -11,7 +11,35 @@
     <ui:define name="content">
         <div class="container">
             <div class="row clearfix">
-                
+                <table class="table table-striped">
+                    <tr>
+                        <th>Tipo de bono</th>
+                        <th>Aprobados</th>
+                        <th>Entregados</th>
+                        <th>Canjeados</th>
+                        <th>Vencidos</th>
+                        <th>Totales</th>
+                        <th>Efectividad</th>
+                    </tr>
+                    <tr>
+                        <td>#{reporteMovimientoBonosBean.promocional.tipoBono}</td>
+                        <td>#{reporteMovimientoBonosBean.promocional.aprobados}</td>
+                        <td>#{reporteMovimientoBonosBean.promocional.entregados}</td>
+                        <td>#{reporteMovimientoBonosBean.promocional.canjeados}</td>
+                        <td>#{reporteMovimientoBonosBean.promocional.vencidos}</td>
+                        <td>#{reporteMovimientoBonosBean.promocional.totales}</td>
+                        <td>#{reporteMovimientoBonosBean.promocional.efectividad}</td>
+                    </tr>
+                    <tr>
+                        <td>#{reporteMovimientoBonosBean.noPromocional.tipoBono}</td>
+                        <td>#{reporteMovimientoBonosBean.noPromocional.aprobados}</td>
+                        <td>#{reporteMovimientoBonosBean.noPromocional.entregados}</td>
+                        <td>#{reporteMovimientoBonosBean.noPromocional.canjeados}</td>
+                        <td>#{reporteMovimientoBonosBean.noPromocional.vencidos}</td>
+                        <td>#{reporteMovimientoBonosBean.noPromocional.totales}</td>
+                        <td>#{reporteMovimientoBonosBean.noPromocional.efectividad}</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </ui:define>            

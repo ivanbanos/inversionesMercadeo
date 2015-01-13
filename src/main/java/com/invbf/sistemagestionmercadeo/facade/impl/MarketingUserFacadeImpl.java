@@ -889,4 +889,9 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
             }
         }
     }
+
+    @Override
+    public List<Bono> getAllBonos() {
+        return BonoDao.findAll();
+    }
 }

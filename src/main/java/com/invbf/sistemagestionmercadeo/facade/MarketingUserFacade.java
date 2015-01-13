@@ -189,4 +189,6 @@ public interface MarketingUserFacade {
 
     public void saveBonos(Controlsalidabono elemento, Integer idUsuario);
 
+    public List<Bono> getAllBonos();
+
 }

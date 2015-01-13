@@ -24,10 +24,10 @@ import javax.faces.context.FacesContext;
  *
  * @author ivan
  */
-
 @ManagedBean
 @ViewScoped
 public class ReporteMovimientoBonosBean {
+
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
     private List<Bono> bonosAnalizar;
@@ -36,11 +36,11 @@ public class ReporteMovimientoBonosBean {
     private Date desde;
     private AnalisisBono promocional;
     private AnalisisBono noPromocional;
-    
+
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
     }
-    
+
     @PostConstruct
     public void init() {
         sessionBean.checkUsuarioConectado();
@@ -57,21 +57,23 @@ public class ReporteMovimientoBonosBean {
         monthago.add(Calendar.MONTH, -1);
         hasta = now.getTime();
         desde = monthago.getTime();
-        bonosAnalizar = sessionBean.managerUserFacade.getBonosPorFechas(monthago.getTime(), now.getTime());
+        bonosAnalizar = sessionBean.marketingUserFacade.getAllBonos();
         List<Casino> casinosNormales = sessionBean.adminFacade.findAllCasinos();
         casinos = new ArrayList<CasinoBoolean>();
         for (Casino casinosNormale : casinosNormales) {
             casinos.add(new CasinoBoolean(casinosNormale, true));
         }
+        analizarBonos();
     }
-    
-    public void buscarBonosPorCasinosYFecha(){
+
+    public void buscarBonosPorCasinosYFecha() {
         bonosAnalizar = new ArrayList<Bono>();
         for (CasinoBoolean casino : casinos) {
             if (casino.isSelected()) {
                 bonosAnalizar.addAll(sessionBean.managerUserFacade.getBonosPorFechasYCasinos(desde, hasta, casino.getCasino()));
             }
         }
+        analizarBonos();
     }
 
     public List<Bono> getBonosAnalizar() {
@@ -121,17 +123,17 @@ public class ReporteMovimientoBonosBean {
     public void setNoPromocional(AnalisisBono noPromocional) {
         this.noPromocional = noPromocional;
     }
-    
-    private void analizarBonos(){
+
+    private void analizarBonos() {
         promocional = new AnalisisBono("PROMCIONAL");
         noPromocional = new AnalisisBono("NO PROMOCIONAL");
         for (Bono bono : bonosAnalizar) {
-            if(bono.getTipo().getNombre().equals("PROMOCIONAL")){
-                
-            }else{
-            
+            if (bono.getTipo().getNombre().equals("PROMOCIONAL")) {
+                promocional.addBono(bono);
+            } else {
+                noPromocional.addBono(bono);
             }
         }
     }
-    
+
 }

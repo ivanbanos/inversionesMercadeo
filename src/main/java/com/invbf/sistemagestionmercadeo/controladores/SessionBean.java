@@ -350,6 +350,9 @@ public class SessionBean implements Serializable, Subject {
         } else if (page.equals("Verbonosporcanjear")) {
             active = "inventario";
             return "/pages/BonosCanjearView.xhtml";
+        }else if (page.equals("reportesbonos")) {
+            active = "reportes";
+            return "/pages/ReporteMovimientoBono.xhtml";
         }
         return "/pages/InicioSession.xhtml";
     }
