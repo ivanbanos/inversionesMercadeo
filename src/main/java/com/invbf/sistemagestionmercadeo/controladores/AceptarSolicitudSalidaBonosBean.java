@@ -78,7 +78,7 @@ public class AceptarSolicitudSalidaBonosBean {
             } catch (IOException ex) {
             }
         }
-        if (elemento.getSolicitante().getIdUsuario() == null || elemento.getSolicitante().getIdUsuario() == 0) {
+        if (elemento.getSolicitante() == null || elemento.getSolicitante().getIdUsuario() == null || elemento.getSolicitante().getIdUsuario() == 0) {
             try {
                 elemento.setSolicitante(sessionBean.getUsuario());
                 DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");

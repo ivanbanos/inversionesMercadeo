@@ -885,6 +885,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
                 if (bono.getValidador() == null) {
                     bono.setValidador(new Usuario(idUsuario));
                 }
+                BonoDao.edit(bono);
             }
         }
     }

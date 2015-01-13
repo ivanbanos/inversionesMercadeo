@@ -122,10 +122,10 @@ public class GeneradorControlSalidaBean {
             }
             for (Solicitudentregacliente solec1 : solec) {
                 Float monto = solec1.getValorTotal();
-                if (solec1.getValorPreAprobado() != 0) {
+                if (solec1.getValorPreAprobado()!=null && solec1.getValorPreAprobado() != 0) {
                     monto = solec1.getValorPreAprobado();
                 }
-                if (solec1.getValorAprobado() != 0) {
+                if (solec1.getValorAprobado()!=null && solec1.getValorAprobado() != 0) {
                     monto = solec1.getValorAprobado();
                 }
                 totalEntregar += monto;

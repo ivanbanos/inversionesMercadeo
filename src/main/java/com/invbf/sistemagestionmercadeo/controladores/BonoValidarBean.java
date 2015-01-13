@@ -144,12 +144,15 @@ public class BonoValidarBean {
         idCliente = null;
 
     }
-    
-    public void guardarCambiosBonos(){
+
+    public void guardarCambiosBonos() {
+        System.out.println("Entra a validar");
         for (ConsecutivoBono bono : bonosPorAsignar) {
+            System.out.println("entra bono");
             elemento.getBonoList().get(elemento.getBonoList().indexOf(new Bono(bono.getId()))).setCliente(new Cliente(bono.getIdCliente()));
-            sessionBean.marketingUserFacade.saveBonos(elemento, sessionBean.getUsuario().getIdUsuario());
         }
+
+        sessionBean.marketingUserFacade.saveBonos(elemento, sessionBean.getUsuario().getIdUsuario());
     }
 
     public List<ClienteMonto> getClientesNecesitanDenominacion() {
