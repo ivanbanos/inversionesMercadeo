@@ -54,7 +54,10 @@ public class Perfil implements Serializable {
         @JoinColumn(name = "idVista", referencedColumnName = "idVista")})
     @ManyToMany
     private List<Vista> vistaList;
-    @ManyToMany(mappedBy = "perfilList")
+    @JoinTable(name = "PerfilesFormularios", joinColumns = {
+        @JoinColumn(name = "idPerfil", referencedColumnName = "idPerfil")}, inverseJoinColumns = {
+        @JoinColumn(name = "idFormulario", referencedColumnName = "idFormulario")})
+    @ManyToMany
     private List<Formulario> formularioList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerfil")
     private List<Usuario> usuarioList;

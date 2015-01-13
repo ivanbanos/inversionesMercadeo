@@ -55,10 +55,8 @@ public class Formulario implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "accion")
     private String accion;
-    @JoinTable(name = "PerfilesFormularios", joinColumns = {
-        @JoinColumn(name = "idFormulario", referencedColumnName = "idFormulario")}, inverseJoinColumns = {
-        @JoinColumn(name = "idPerfil", referencedColumnName = "idPerfil")})
-    @ManyToMany
+    
+    @ManyToMany(mappedBy = "formularioList")
     private List<Perfil> perfilList;
     @OneToMany(mappedBy = "idFormulario")
     private List<Log> logList;
