@@ -156,7 +156,9 @@
                                                         </h:column>
                                                         <h:column >
                                                             <f:facet name="header">
-                                                                <h:outputText value="#{'valor'}" />
+                                                                <h:outputText value="#{'valor'}" >
+                                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                                </h:outputText>
                                                             </f:facet>
 
                                                             <label>#{cli.valorTotal}</label>

@@ -219,9 +219,9 @@
 
 
                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-                                            <h:outputLabel class="col-md-6 control-label" value="Cupo de fidelizaci&oacute;n:" />
-                                            <h:outputText class="col-md-6" value="$#{element.bonoFidelizacion}" >
-                                                <f:convertNumber pattern="#000.000"/> 
+                                            <h:outputLabel class="col-md-6 control-label" value="Cupo de fidelizaci&oacute;n: " />
+                                            <h:outputText class="col-md-6" value="#{element.bonoFidelizacion}" >
+                                                <f:converter  converterId="numberSeparationConverter"  />
                                             </h:outputText>
                                         </div>
 
