@@ -31,6 +31,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.event.FlowEvent;
 import org.primefaces.model.DualListModel;
 
 /**
@@ -56,6 +57,7 @@ public class TareaAccionBean {
     private String asunto;
     private String cuerpo;
     private boolean enviarcorreo;
+    private boolean skip;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -141,6 +143,7 @@ public class TareaAccionBean {
         }
 
         tipotareas = sessionBean.marketingUserFacade.findAllTipotarea();
+        skip = false;
     }
 
     public Tarea getElemento() {
@@ -149,6 +152,14 @@ public class TareaAccionBean {
 
     public void setElemento(Tarea elemento) {
         this.elemento = elemento;
+    }
+
+    public boolean isSkip() {
+        return skip;
+    }
+
+    public void setSkip(boolean skip) {
+        this.skip = skip;
     }
 
     public void guardar() {
@@ -161,7 +172,7 @@ public class TareaAccionBean {
                 }
                 Calendar fechainicio = Calendar.getInstance();
                 Calendar fechafinal = Calendar.getInstance();
-                
+
                 DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
                 DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
                 TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
@@ -170,7 +181,7 @@ public class TareaAccionBean {
                 nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
                 fechainicio.setTime(elemento.getFechaInicio());
                 fechafinal.setTime(elemento.getFechaFinalizacion());
-                
+
                 System.out.println(nowDate.getTime());
                 if (elemento.getIdTarea() == null || elemento.getIdTarea() == 0) {
                     if (fechainicio.before(nowDate)) {
@@ -191,7 +202,7 @@ public class TareaAccionBean {
                 }
                 sessionBean.registrarlog("actualizar", "Eventos", "Tarea guardada " + elemento.getNombre());
                 sessionBean.marketingUserFacade.guardarTarea(elemento);
-                
+
                 Accion estadoscliente = sessionBean.marketingUserFacade.findByNombreAccion("INICIAL");
                 elemento.setUsuarioList(todosusuarioses.getTarget());
                 for (Usuario s : todosusuarioses.getTarget()) {
@@ -223,7 +234,7 @@ public class TareaAccionBean {
                     }
                 }
                 for (Cliente c : todosclienteses) {
-                    
+
                     boolean siCategoria = false;
                     boolean siTipoJuego = false;
                     if (elemento.getIdEvento() != null) {
@@ -259,7 +270,7 @@ public class TareaAccionBean {
                     }
                     if (siCategoria && siTipoJuego) {
                         Listasclientestareas listasclientesevento = new Listasclientestareas(elemento.getIdTarea(), c.getIdCliente());
-                        
+
                         if (al.contains(listasclientesevento)) {
                             elemento.getListasclientestareasList().add(al.get(al.indexOf(listasclientesevento)));
                         } else {
@@ -282,7 +293,7 @@ public class TareaAccionBean {
                         elemento.setCategorias(elemento.getCategorias() + cb.getCategoria().getIdCategorias() + " ");
                     }
                 }
-                
+
                 elemento.setTiposdejuegos("");
                 for (TipoJuegoBoolean tjb : tipoJuegosBoolean) {
                     if (tjb.isSelected()) {
@@ -290,7 +301,7 @@ public class TareaAccionBean {
                     }
                 }
                 sessionBean.actualizarUsuario();
-                
+
                 usuarioses = sessionBean.adminFacade.findAllUsuariosHostess();
                 for (Usuario u : elemento.getUsuarioList()) {
                     if (usuarioses.contains(u)) {
@@ -298,13 +309,13 @@ public class TareaAccionBean {
                     }
                 }
                 todosusuarioses = new DualListModel<Usuario>(usuarioses, elemento.getUsuarioList());
-                
+
                 elemento = sessionBean.marketingUserFacade.guardarTarea(elemento);
                 if (evento != null) {
                     evento.getTareaList().add(elemento);
                     sessionBean.marketingUserFacade.guardarEventos(evento);
                 }
-                goBack();                
+                goBack();
                 FacesUtil.addInfoMessage("Tarea guardado con exito", elemento.getNombre());
 
             } catch (ParseException ex) {
@@ -416,5 +427,22 @@ public class TareaAccionBean {
 
     public void setEnviarcorreo(boolean enviarcorreo) {
         this.enviarcorreo = enviarcorreo;
+    }
+
+    public String onFlowProcess(FlowEvent event) {
+        System.out.println(skip);
+        System.out.println(elemento.getTipo().getNombre());
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        if (skip) {
+            return "confirmar";
+        }
+        if (elemento.getTipo().getNombre().equals("EMAIL")) {
+            return "confirmar";
+        } else {
+            return event.getNewStep();
+        }
     }
 }
