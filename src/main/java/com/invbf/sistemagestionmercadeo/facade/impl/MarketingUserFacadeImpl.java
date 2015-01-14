@@ -894,4 +894,9 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
     public List<Bono> getAllBonos() {
         return BonoDao.findAll();
     }
+
+    @Override
+    public Tipotarea findTipoTarea(Integer idTipotarea) {
+        return TipostareasDao.find(idTipotarea);
+    }
 }

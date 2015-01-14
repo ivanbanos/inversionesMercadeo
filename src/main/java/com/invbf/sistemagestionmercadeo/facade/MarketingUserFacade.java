@@ -191,4 +191,6 @@ public interface MarketingUserFacade {
 
     public List<Bono> getAllBonos();
 
+    public Tipotarea findTipoTarea(Integer idTipotarea);
+
 }

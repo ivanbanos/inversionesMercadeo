@@ -439,6 +439,9 @@ public class TareaAccionBean {
         if (skip) {
             return "confirmar";
         }
+        if(elemento.getTipo().getNombre()==null){
+           elemento.setTipo( sessionBean.marketingUserFacade.findTipoTarea(elemento.getTipo().getIdTipotarea()));
+        }
         if (elemento.getTipo().getNombre().equals("EMAIL")) {
             return "confirmar";
         } else {

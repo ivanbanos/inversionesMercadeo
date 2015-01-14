@@ -98,7 +98,7 @@
                                 <div class="form-group col-md-6">
                                     <label class="col-md-4 control-label" >* #{label['tipotarea']}:</label>
                                     <div class="col-md-8">
-                                        <p:selectOneMenu id="tipo" value="#{tareaAccionBean.elemento.tipo.idTipotarea}" required="true" requiredMessage="#{label['msj.req.tipotarea']}">
+                                        <p:selectOneMenu id="tipo" value="#{tareaAccionBean.elemento.tipo.idTipotarea}" required="true" requiredMessage="#{label['msj.req.tipotarea']}" >
                                             <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
                                             <f:selectItems value="#{tareaAccionBean.tipotareas}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.idTipotarea}"/> 
                                         </p:selectOneMenu>
