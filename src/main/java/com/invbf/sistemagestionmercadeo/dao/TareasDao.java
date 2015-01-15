@@ -4,6 +4,9 @@
  */
 package com.invbf.sistemagestionmercadeo.dao;
 
+import com.invbf.sistemagestionmercadeo.entity.Accion;
+import com.invbf.sistemagestionmercadeo.entity.Listasclientestareas;
+import com.invbf.sistemagestionmercadeo.entity.ListasclientestareasPK;
 import com.invbf.sistemagestionmercadeo.entity.Tarea;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +29,24 @@ public class TareasDao {
         tarea.setNombre(tarea.getNombre().toUpperCase());
         tarea.setDescripcion(tarea.getDescripcion().toUpperCase());
         tarea.setSpeech(tarea.getSpeech().toUpperCase());
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
         tx.begin();
         try {
+            List<Listasclientestareas> lcts = tarea.getListasclientestareasList();
+            tarea.setListasclientestareasList(null);
             em.persist(tarea);
+            for (Listasclientestareas lct : lcts) {
+                lct.setTarea(tarea);
+                lct.setListasclientestareasPK(new ListasclientestareasPK(tarea.getIdTarea(), lct.getCliente().getIdCliente()));
+                System.out.println("Accion" + lct.getIdAccion().getNombre());
+                em.merge(lct);
+            }
+            tarea.setListasclientestareasList(lcts);
+            em.merge(tarea);
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -47,13 +60,23 @@ public class TareasDao {
         tarea.setNombre(tarea.getNombre().toUpperCase());
         tarea.setDescripcion(tarea.getDescripcion().toUpperCase());
         tarea.setSpeech(tarea.getSpeech().toUpperCase());
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
         tx.begin();
         try {
+            
+            List<Listasclientestareas> lcts = tarea.getListasclientestareasList();
+            tarea.setListasclientestareasList(null);
+            System.out.println("Canti clientes" + lcts.size());
+            for (Listasclientestareas lct : lcts) {
+                lct.setTarea(tarea);
+                lct.setListasclientestareasPK(new ListasclientestareasPK(tarea.getIdTarea(), lct.getCliente().getIdCliente()));
+                em.merge(lct);
+            }
+            tarea.setListasclientestareasList(lcts);
             em.merge(tarea);
             tx.commit();
         } catch (Exception e) {
@@ -66,8 +89,8 @@ public class TareasDao {
     }
 
     public static void remove(Tarea tarea) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -84,8 +107,8 @@ public class TareasDao {
     }
 
     public static Tarea find(Integer id) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         Tarea tarea = null;
@@ -104,8 +127,8 @@ public class TareasDao {
     }
 
     public static List<Tarea> findAll() {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Tarea> lista = new ArrayList<Tarea>();
@@ -128,8 +151,8 @@ public class TareasDao {
     }
 
     public static List<Tarea> findRange(int[] range) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Tarea> lista = new ArrayList<Tarea>();
@@ -153,8 +176,8 @@ public class TareasDao {
     }
 
     public static int count() {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         int count = 0;
@@ -174,7 +197,6 @@ public class TareasDao {
         em.close();
         emf.close();
         return count;
-
 
     }
 }

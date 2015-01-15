@@ -160,63 +160,75 @@
                         </p:tab>
 
                         <p:tab id="clientes" title="Selecci&oacute;n de Clientes">
+                            <p:outputPanel id="tablaclientes" style="display:block">
 
-                            <div id="clientes" class="row clearfix">
-                                <div class="form-group col-md-12">
-                                    <label class="col-md-2 control-label" >#{label['clientes']}: cant #{tareaAccionBean.conteo}</label>
-                                    <div class="col-md-4">
-                                        <div class="panel panel-primary">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">#{label['clientes']}</div>
+                                    <div class="panel-body">
 
-                                            <div class="panel-heading">
-                                                #{label['categorias']}
-                                            </div>
-                                            <div class="panel-body">
-                                                <ul id="categoriasList">
-                                                    <li>
-                                                        <h:selectBooleanCheckbox value="#{tareaAccionBean.todoscat}" onclick="toggle('categoriasList')">
-                                                        </h:selectBooleanCheckbox>
-                                                        <label>Todos</label>
-                                                    </li>
+                                        <div id="clientes" class="row clearfix">
+                                            <div class="form-group col-md-12">
+                                                <label class="col-md-2 control-label" >#{label['clientes']}: cant #{tareaAccionBean.conteo}</label>
+                                                <div class="col-md-4">
+                                                    <div class="panel panel-primary">
 
-                                                    <c:forEach var="itemcat" items="#{tareaAccionBean.categoriasBoolean}">
-                                                        <li>
-                                                            <h:selectBooleanCheckbox value="#{itemcat.selected}" onclick="deselecttodo('categoriasList')"/>&nbsp;
-                                                            <label>#{itemcat.categoria.nombre}</label>
-                                                        </li>
-                                                    </c:forEach>
-                                                </ul>
+                                                        <div class="panel-heading">
+                                                            #{label['categorias']}
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <ul id="categoriasList">
+                                                                <li>
+                                                                    <h:selectBooleanCheckbox value="#{tareaAccionBean.todoscat}" onclick="toggle('categoriasList')">
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <label>Todos</label>
+                                                                </li>
+
+                                                                <c:forEach var="itemcat" items="#{tareaAccionBean.categoriasBoolean}">
+                                                                    <li>
+                                                                        <h:selectBooleanCheckbox value="#{itemcat.selected}" onclick="deselecttodo('categoriasList')"/>&nbsp;
+                                                                        <label>#{itemcat.categoria.nombre}</label>
+                                                                    </li>
+                                                                </c:forEach>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="panel panel-primary">
+
+                                                        <div class="panel-heading">#{label['tipojuegos']}</div>
+                                                        <div class="panel-body">
+
+                                                            <ul id="tipojuegoList">
+
+
+                                                                <li>
+                                                                    <h:selectBooleanCheckbox value="#{tareaAccionBean.todostip}" onclick="toggle('tipojuegoList')">
+                                                                    </h:selectBooleanCheckbox>
+                                                                    <label>Todos</label>
+                                                                </li>
+                                                                <c:forEach var="itemtip" items="#{tareaAccionBean.tipoJuegosBoolean}">
+                                                                    <li>
+                                                                        <h:selectBooleanCheckbox value="#{itemtip.selected}" onclick="deselecttodo('tipojuegoList')"/>&nbsp;
+                                                                        <label >#{itemtip.tipoJuego.nombre}</label>
+                                                                    </li>
+                                                                </c:forEach>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="panel panel-primary">
+                                    <div class="panel-footer">
 
-                                            <div class="panel-heading">#{label['tipojuegos']}</div>
-                                            <div class="panel-body">
+                                        <p:commandButton value="Confirmar" actionListener="#{tareaAccionBean.createClientes()}" 
+                                                         update=":#{p:component('tablaclientes')}" icon="ui-icon-check" style="margin:0" />
 
-                                                <ul id="tipojuegoList">
-
-
-                                                    <li>
-                                                        <h:selectBooleanCheckbox value="#{tareaAccionBean.todostip}" onclick="toggle('tipojuegoList')">
-                                                        </h:selectBooleanCheckbox>
-                                                        <label>Todos</label>
-                                                    </li>
-                                                    <c:forEach var="itemtip" items="#{tareaAccionBean.tipoJuegosBoolean}">
-                                                        <li>
-                                                            <h:selectBooleanCheckbox value="#{itemtip.selected}" onclick="deselecttodo('tipojuegoList')"/>&nbsp;
-                                                            <label >#{itemtip.tipoJuego.nombre}</label>
-                                                        </li>
-                                                    </c:forEach>
-                                                </ul>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-
-
+                            </p:outputPanel>
                         </p:tab>
 
                         <p:tab id="usuarios" title="Selecci&oacute;n de usuarios">
@@ -236,7 +248,7 @@
                                 </div>
                             </div>
                         </p:tab>
-                        
+
                         <p:tab id="confirmar" title="Confirmar">
                             <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{tareaAccionBean.guardar()}" style="margin:0" />
                             <p:commandButton id="btnclose" value="#{label['Volver']}" actionListener="#{tareaAccionBean.goBack()}" style="margin:0" />

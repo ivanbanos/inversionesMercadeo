@@ -162,6 +162,106 @@ public class TareaAccionBean {
         this.skip = skip;
     }
 
+    public void createClientes() {
+        Accion estadoscliente = sessionBean.marketingUserFacade.findByNombreAccion("INICIAL");
+        ArrayList<Listasclientestareas> al = new ArrayList<Listasclientestareas>(elemento.getListasclientestareasList());
+        elemento.getListasclientestareasList().clear();
+        List<Cliente> todosclienteses = sessionBean.marketingUserFacade.findAllClientes();
+        boolean noCatselected = true;
+        boolean noTipselected = true;
+        for (CategoriaBoolean cb : categoriasBoolean) {
+            if (todoscat) {
+                cb.setSelected(true);
+                continue;
+            }
+            if (cb.isSelected()) {
+                noCatselected = false;
+                break;
+            }
+        }
+        for (TipoJuegoBoolean tjb : tipoJuegosBoolean) {
+            if (todostip) {
+                tjb.setSelected(true);
+                continue;
+            }
+            if (tjb.isSelected()) {
+                noTipselected = false;
+                break;
+            }
+        }
+        for (Cliente c : todosclienteses) {
+
+            boolean siCategoria = false;
+            boolean siTipoJuego = false;
+            if (elemento.getIdEvento() != null) {
+                if (!c.getIdCasinoPreferencial().equals(elemento.getIdEvento().getIdCasino())) {
+                    continue;
+                }
+            }
+            if (noCatselected) {
+                siCategoria = true;
+            } else {
+                for (CategoriaBoolean cb : categoriasBoolean) {
+                    if (cb.isSelected()) {
+                        if (c.getIdCategorias().equals(cb.getCategoria())) {
+                            siCategoria = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (noTipselected) {
+                siTipoJuego = true;
+            } else {
+                for (TipoJuegoBoolean tjb : tipoJuegosBoolean) {
+                    if (tjb.isSelected()) {
+                        for (Tipojuego tj : c.getTipojuegoList()) {
+                            if (tj.equals(tjb.getTipoJuego())) {
+                                siTipoJuego = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            if (siCategoria && siTipoJuego) {
+                System.out.println("Entra Cliente");
+                Listasclientestareas listasclientesevento = new Listasclientestareas();
+
+                if (al.contains(listasclientesevento)) {
+                    elemento.getListasclientestareasList().add(al.get(al.indexOf(listasclientesevento)));
+                } else {
+                    listasclientesevento.setIdAccion(estadoscliente);
+                    listasclientesevento.setTarea(elemento);
+                    listasclientesevento.setCliente(c);
+                    listasclientesevento.setCount(0);
+                    elemento.getListasclientestareasList().add(listasclientesevento);
+                }
+            } else {
+                if (elemento.getIdTarea() != null) {
+                    Listasclientestareas listasclientesevento = new Listasclientestareas(elemento.getIdTarea(), c.getIdCliente());
+                    if (al.contains(listasclientesevento)) {
+                        elemento.getListasclientestareasList().remove(al.get(al.indexOf(listasclientesevento)));
+                    }
+                }
+            }
+        }
+        elemento.setCategorias("");
+        for (CategoriaBoolean cb : categoriasBoolean) {
+            if (cb.isSelected()) {
+                elemento.setCategorias(elemento.getCategorias() + cb.getCategoria().getIdCategorias() + " ");
+            }
+        }
+
+        elemento.setTiposdejuegos("");
+        for (TipoJuegoBoolean tjb : tipoJuegosBoolean) {
+            if (tjb.isSelected()) {
+                elemento.setTiposdejuegos(elemento.getTiposdejuegos() + tjb.getTipoJuego().getIdTipoJuego() + " ");
+            }
+        }
+        conteo = elemento.getListasclientestareasList().size();
+    }
+
     public void guardar() {
         guardar:
         {
@@ -192,7 +292,6 @@ public class TareaAccionBean {
                         break guardar;
                     }
                 }
-                elemento = sessionBean.marketingUserFacade.guardarTarea(elemento);
                 elemento.setEstado("POR INICIAR");
                 if (fechainicio.before(nowDate)) {
                     elemento.setEstado("ACTIVO");
@@ -203,103 +302,11 @@ public class TareaAccionBean {
                 sessionBean.registrarlog("actualizar", "Eventos", "Tarea guardada " + elemento.getNombre());
                 sessionBean.marketingUserFacade.guardarTarea(elemento);
 
-                Accion estadoscliente = sessionBean.marketingUserFacade.findByNombreAccion("INICIAL");
                 elemento.setUsuarioList(todosusuarioses.getTarget());
                 for (Usuario s : todosusuarioses.getTarget()) {
                     sessionBean.adminFacade.agregarTareaUsuarios(s, elemento);
                 }
-                ArrayList<Listasclientestareas> al = new ArrayList<Listasclientestareas>(elemento.getListasclientestareasList());
-                elemento.getListasclientestareasList().clear();
-                List<Cliente> todosclienteses = sessionBean.marketingUserFacade.findAllClientes();
-                boolean noCatselected = true;
-                boolean noTipselected = true;
-                for (CategoriaBoolean cb : categoriasBoolean) {
-                    if (todoscat) {
-                        cb.setSelected(true);
-                        continue;
-                    }
-                    if (cb.isSelected()) {
-                        noCatselected = false;
-                        break;
-                    }
-                }
-                for (TipoJuegoBoolean tjb : tipoJuegosBoolean) {
-                    if (todostip) {
-                        tjb.setSelected(true);
-                        continue;
-                    }
-                    if (tjb.isSelected()) {
-                        noTipselected = false;
-                        break;
-                    }
-                }
-                for (Cliente c : todosclienteses) {
 
-                    boolean siCategoria = false;
-                    boolean siTipoJuego = false;
-                    if (elemento.getIdEvento() != null) {
-                        if (!c.getIdCasinoPreferencial().equals(elemento.getIdEvento().getIdCasino())) {
-                            continue;
-                        }
-                    }
-                    if (noCatselected) {
-                        siCategoria = true;
-                    } else {
-                        for (CategoriaBoolean cb : categoriasBoolean) {
-                            if (cb.isSelected()) {
-                                if (c.getIdCategorias().equals(cb.getCategoria())) {
-                                    siCategoria = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if (noTipselected) {
-                        siTipoJuego = true;
-                    } else {
-                        for (TipoJuegoBoolean tjb : tipoJuegosBoolean) {
-                            if (tjb.isSelected()) {
-                                for (Tipojuego tj : c.getTipojuegoList()) {
-                                    if (tj.equals(tjb.getTipoJuego())) {
-                                        siTipoJuego = true;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (siCategoria && siTipoJuego) {
-                        Listasclientestareas listasclientesevento = new Listasclientestareas(elemento.getIdTarea(), c.getIdCliente());
-
-                        if (al.contains(listasclientesevento)) {
-                            elemento.getListasclientestareasList().add(al.get(al.indexOf(listasclientesevento)));
-                        } else {
-                            listasclientesevento.setIdAccion(estadoscliente);
-                            listasclientesevento.setTarea(elemento);
-                            listasclientesevento.setCliente(c);
-                            listasclientesevento.setCount(0);
-                            elemento.getListasclientestareasList().add(listasclientesevento);
-                        }
-                    } else {
-                        Listasclientestareas listasclientesevento = new Listasclientestareas(elemento.getIdTarea(), c.getIdCliente());
-                        if (al.contains(listasclientesevento)) {
-                            elemento.getListasclientestareasList().remove(al.get(al.indexOf(listasclientesevento)));
-                        }
-                    }
-                }
-                elemento.setCategorias("");
-                for (CategoriaBoolean cb : categoriasBoolean) {
-                    if (cb.isSelected()) {
-                        elemento.setCategorias(elemento.getCategorias() + cb.getCategoria().getIdCategorias() + " ");
-                    }
-                }
-
-                elemento.setTiposdejuegos("");
-                for (TipoJuegoBoolean tjb : tipoJuegosBoolean) {
-                    if (tjb.isSelected()) {
-                        elemento.setTiposdejuegos(elemento.getTiposdejuegos() + tjb.getTipoJuego().getIdTipoJuego() + " ");
-                    }
-                }
                 sessionBean.actualizarUsuario();
 
                 usuarioses = sessionBean.adminFacade.findAllUsuariosHostess();
@@ -439,8 +446,8 @@ public class TareaAccionBean {
         if (skip) {
             return "confirmar";
         }
-        if(elemento.getTipo().getNombre()==null){
-           elemento.setTipo( sessionBean.marketingUserFacade.findTipoTarea(elemento.getTipo().getIdTipotarea()));
+        if (elemento.getTipo().getNombre() == null) {
+            elemento.setTipo(sessionBean.marketingUserFacade.findTipoTarea(elemento.getTipo().getIdTipotarea()));
         }
         if (elemento.getTipo().getNombre().equals("EMAIL")) {
             return "confirmar";

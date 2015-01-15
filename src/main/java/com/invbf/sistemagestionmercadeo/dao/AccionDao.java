@@ -180,7 +180,7 @@ public class AccionDao {
         List<Accion> acciones = null;
         tx.begin();
         try {
-            acciones = (List<Accion>) em.createNamedQuery("Acciones.findByNombre")
+            acciones = (List<Accion>) em.createNamedQuery("Accion.findByNombre")
                     .setParameter("nombre", nombre)
                     .getResultList();
             tx.commit();
