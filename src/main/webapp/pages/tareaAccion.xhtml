@@ -219,6 +219,37 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row clearfix">
+                                            <div class="form-group col-md-12">
+
+                                                <p:dataTable id="detailsTableClientes" var="element" value="#{tareaAccionBean.elemento.listasclientestareasList}"  
+                                                             emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTableClientes"
+                                                             rows="#{sessionBean.paginacion}"
+                                                             paginator="true"
+                                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                             >
+
+                                                    <p:column headerText="#{label['identificacion']}" sortBy="#{element.cliente.identificacion}" filterBy="#{element.cliente.identificacion}" filterMatchMode="contains" >
+                                                        <h:outputText value="#{element.cliente.identificacion}" />
+                                                    </p:column>
+
+                                                    <p:column headerText="#{label['nombres']}" sortBy="#{element.cliente.nombres}" filterBy="#{element.cliente.nombres}" filterMatchMode="contains" >
+                                                        <h:outputText value="#{element.cliente.nombres}" />
+                                                    </p:column>
+
+                                                    <p:column headerText="#{label['apellidos']}" sortBy="#{element.cliente.apellidos}" filterBy="#{element.cliente.apellidos}" filterMatchMode="contains" >
+                                                        <h:outputText value="#{element.cliente.apellidos}" />
+                                                    </p:column>
+
+                                                    <p:column headerText="#{label['acciones']}">
+                                                        <p:commandButton id="deleteButton" actionListener="#{tareaAccionBean.quitarCliente(element.cliente.idCliente)}"
+                                                                         icon="ui-icon-trash" title="#{label['lb_btn.borrar']}"  update=":#{p:component('tablaclientes')}"/>
+                                                    </p:column>
+
+                                                </p:dataTable>
+
+                                            </div>
+                                        </div>
 
                                     </div>
                                     <div class="panel-footer">

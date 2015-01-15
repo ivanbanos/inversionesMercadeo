@@ -22,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.logging.Level;
@@ -454,5 +455,16 @@ public class TareaAccionBean {
         } else {
             return event.getNewStep();
         }
+    }
+    public void quitarCliente(Integer cliente){
+        List<Listasclientestareas> lcts = elemento.getListasclientestareasList();
+        for (Iterator<Listasclientestareas> iterator = lcts.iterator(); iterator.hasNext();) {
+            Listasclientestareas lct = iterator.next();
+             if(lct.getCliente().getIdCliente() == cliente.intValue()){
+                iterator.remove();
+            }
+        }
+        
+        conteo = elemento.getListasclientestareasList().size();
     }
 }
