@@ -48,19 +48,39 @@
                                             </h:outputText>
                                         </p:column>
                                         
-                                        <p:column headerText="#{label['proposito']}" sortBy="#{element.propositoEntrega.nombre}" filterBy="#{element.propositoEntrega.nombre}" filterMatchMode="contains" >
+                                        <p:column headerText="#{label['proposito']}" sortBy="#{element.propositoEntrega.nombre}" filterBy="#{element.propositoEntrega.nombre}" filterMatchMode="in" >
+                                            <f:facet name="filter">
+                                                <p:selectCheckboxMenu label="#{label['propositos']}" onchange="PF('detailsTable').filter()" >
+                                                    <f:selectItems value="#{filtrosListas.propositos}" />
+                                                </p:selectCheckboxMenu>
+                                            </f:facet>
                                             <h:outputText value="#{element.propositoEntrega.nombre}" />
                                         </p:column>
                                         
-                                        <p:column headerText="#{label['tipobono']}" sortBy="#{element.tipoBono.nombre}" filterBy="#{element.tipoBono.nombre}" filterMatchMode="contains" >
+                                        <p:column headerText="#{label['tipobono']}" sortBy="#{element.tipoBono.nombre}" filterBy="#{element.tipoBono.nombre}" filterMatchMode="in" >
+                                            <f:facet name="filter">
+                                                <p:selectCheckboxMenu label="#{label['tipobono']}" onchange="PF('detailsTable').filter()" >
+                                                    <f:selectItems value="#{filtrosListas.tipobono}" />
+                                                </p:selectCheckboxMenu>
+                                            </f:facet>
                                             <h:outputText value="#{element.tipoBono.nombre}" />
                                         </p:column>
                                         
-                                        <p:column headerText="#{label['casino']}" sortBy="#{element.idCasino.nombre}" filterBy="#{listaSolicitudBonosBean.getCasinoById(element.idCasino).nombre}" filterMatchMode="contains" >
+                                        <p:column headerText="#{label['casino']}" sortBy="#{element.idCasino.nombre}" filterBy="#{element.idCasino.nombre}" filterMatchMode="in" >
+                                            <f:facet name="filter">
+                                                <p:selectCheckboxMenu label="#{label['casino']}" onchange="PF('detailsTable').filter()" >
+                                                    <f:selectItems value="#{filtrosListas.casinos}" />
+                                                </p:selectCheckboxMenu>
+                                            </f:facet>
                                             <h:outputText value="#{element.idCasino.nombre}" />
                                         </p:column>
 
-                                        <p:column headerText="#{label['estado']}" sortBy="#{element.estado}" filterBy="#{element.estado}" filterMatchMode="contains" >
+                                        <p:column headerText="#{label['estado']}" sortBy="#{element.estado}" filterBy="#{element.estado}" filterMatchMode="in" >
+                                            <f:facet name="filter">
+                                                <p:selectCheckboxMenu label="#{label['estado']}" onchange="PF('detailsTable').filter()" >
+                                                    <f:selectItems value="#{filtrosListas.estadoSolicitudBonos}" />
+                                                </p:selectCheckboxMenu>
+                                            </f:facet>
                                             <h:outputText value="#{element.estado}" />
                                         </p:column>
 

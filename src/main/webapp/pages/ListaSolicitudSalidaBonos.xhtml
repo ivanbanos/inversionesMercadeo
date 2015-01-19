@@ -48,7 +48,12 @@
                                             </h:outputText>
                                         </p:column>
 
-                                        <p:column headerText="#{label['estado']}" sortBy="#{element.estado}" filterBy="#{element.estado}" filterMatchMode="contains" >
+                                        <p:column headerText="#{label['estado']}" sortBy="#{element.estado}" filterBy="#{element.estado}" filterMatchMode="in" >
+                                            <f:facet name="filter">
+                                                <p:selectCheckboxMenu label="#{label['estado']}" onchange="PF('detailsTable').filter()" >
+                                                    <f:selectItems value="#{filtrosListas.estadoOrdenSalida}" />
+                                                </p:selectCheckboxMenu>
+                                            </f:facet>
                                             <h:outputText value="#{element.estado}" />
                                         </p:column>
 
