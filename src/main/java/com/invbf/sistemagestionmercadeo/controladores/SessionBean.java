@@ -351,7 +351,7 @@ public class SessionBean implements Serializable, Subject {
             return "/pages/AdminLotesBonos.xhtml";
         } else if (page.equals("solicitudesbonos")) {
             active = "requisiciones";
-            ruta = "/Requisiciones/Solicitud de bonos";;
+            ruta = "/Requisiciones/Solicitud de bonos";
             return "/pages/ListaSolicitudBono.xhtml";
         } else if (page.equals("ControlSalidaBono")) {
             active = "requisiciones";

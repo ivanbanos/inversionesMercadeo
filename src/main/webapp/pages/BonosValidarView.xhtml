@@ -40,7 +40,7 @@
                                 </p:column>
                                 <p:column headerText="acciones" >
                                     <p:commandButton id="setbonocliente" oncomplete="PF('setbonocliente').show();" 
-                                                     icon="ui-icon-trash" title="#{label['lb_btn.borrar']}"  update=":#{p:component('setbonoclienteDialog')}"
+                                                     icon="ui-icon-check" title="#{label['lb_btn.asignar']}"  update=":#{p:component('setbonoclienteDialog')}"
                                                      action="#{bonoValidarBean.buscarClientesQueNecesiteBonoDeDenominacion(bono.id)}"/>
                                 </p:column>
                             </p:dataTable>
