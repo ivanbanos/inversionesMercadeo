@@ -156,12 +156,12 @@
                                                         </h:column>
                                                         <h:column >
                                                             <f:facet name="header">
-                                                                <h:outputText value="#{'valor'}" >
-                                                                    <f:converter  converterId="numberSeparationConverter"  />
-                                                                </h:outputText>
+                                                                <h:outputText value="#{'valor'}" />
                                                             </f:facet>
 
-                                                            <label>#{cli.valorTotal}</label>
+                                                            <h:outputLabel value="#{cli.valorTotal}">
+                                                                <f:converter  converterId="numberSeparationConverter"  />
+                                                            </h:outputLabel>
                                                         </h:column>
                                                         <h:column >
                                                             <f:facet name="header">

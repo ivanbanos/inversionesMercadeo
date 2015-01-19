@@ -6,8 +6,11 @@
 package com.invbf.sistemagestionmercadeo.util;
 
 
+import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Categoria;
 import com.invbf.sistemagestionmercadeo.entity.Perfil;
+import com.invbf.sistemagestionmercadeo.entity.Propositoentrega;
+import com.invbf.sistemagestionmercadeo.entity.Tipobono;
 import com.invbf.sistemagestionmercadeo.entity.Tipodocumento;
 import com.invbf.sistemagestionmercadeo.entity.Tipotarea;
 import com.invbf.sistemagestionmercadeo.facade.AdminFacade;
@@ -30,6 +33,7 @@ public class FiltrosListas {
 
     AdminFacade adminFacade;
     MarketingUserFacade marketingUserFacade;
+    
 
     public FiltrosListas() {
     }
@@ -83,5 +87,55 @@ public class FiltrosListas {
         }
         return lista;
 
+    }
+    
+    public List<String> getPropositos() {
+        List<String> lista = new ArrayList<String>();
+        List<Propositoentrega> propositoentregas = adminFacade.findAllPropositosentrega();
+        for (Propositoentrega p : propositoentregas) {
+            lista.add(p.getNombre());
+        }
+        return lista;
+    }
+    
+    public List<String> getTipobono() {
+        List<String> lista = new ArrayList<String>();
+        List<Tipobono> tipobonos = adminFacade.findAllTiposbonos();
+        for (Tipobono tb : tipobonos) {
+            lista.add(tb.getNombre());
+        }
+        return lista;
+    }
+    
+    public List<String> getCasinos(){
+        List<String> lista = new ArrayList<String>();
+        List<Casino> casinos = adminFacade.findAllCasinos();
+        for (Casino casino : casinos) {
+            lista.add(casino.getNombre());
+        }
+        return lista;
+    }
+    
+    public List<String> getEstadoSolicitudBonos(){
+        List<String> lista = new ArrayList<String>();
+        lista.add("APROBADA");
+        lista.add("CREADA");
+        lista.add("PREAPROBADA");
+        return lista;
+    }
+    
+    public List<String> getEstadoOrdenEntrada(){
+        List<String> lista = new ArrayList<String>();
+        lista.add("CREADA");
+        lista.add("SOLICITADA");
+        lista.add("ACEPTADA");
+        return lista;
+    }
+    
+    public List<String> getEstadoOrdenSalida(){
+        List<String> lista = new ArrayList<String>();
+        lista.add("CREADA");
+        lista.add("ACEPTADA");
+        return lista;
     }
 }
