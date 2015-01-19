@@ -28,6 +28,7 @@ import javax.faces.context.FacesContext;
 public class ListaSolicitudBonosBean {
 
     private List<Solicitudentrega> lista;
+    private List<Solicitudentrega> listaFiltrada;
     private Solicitudentrega elemento;
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -133,4 +134,13 @@ public class ListaSolicitudBonosBean {
         }
         return new Usuario();
     }
+
+    public List<Solicitudentrega> getListaFiltrada() {
+        return listaFiltrada;
+    }
+
+    public void setListaFiltrada(List<Solicitudentrega> listaFiltrada) {
+        this.listaFiltrada = listaFiltrada;
+    }
+    
 }

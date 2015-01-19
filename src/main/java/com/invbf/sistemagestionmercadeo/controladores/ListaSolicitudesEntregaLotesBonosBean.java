@@ -26,6 +26,7 @@ import javax.faces.context.FacesContext;
 public class ListaSolicitudesEntregaLotesBonosBean {
 
     private List<Solicitudentregalotesmaestro> lista;
+    private List<Solicitudentregalotesmaestro> listaFiltrada;
     private Solicitudentregalotesmaestro elemento;
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -104,4 +105,13 @@ public class ListaSolicitudesEntregaLotesBonosBean {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public List<Solicitudentregalotesmaestro> getListaFiltrada() {
+        return listaFiltrada;
+    }
+
+    public void setListaFiltrada(List<Solicitudentregalotesmaestro> listaFiltrada) {
+        this.listaFiltrada = listaFiltrada;
+    }
+    
 }

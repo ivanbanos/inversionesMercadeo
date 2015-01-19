@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Categoria;
+import com.invbf.sistemagestionmercadeo.entity.Denominacion;
 import com.invbf.sistemagestionmercadeo.entity.Perfil;
 import com.invbf.sistemagestionmercadeo.entity.Propositoentrega;
 import com.invbf.sistemagestionmercadeo.entity.Tipobono;
@@ -21,18 +22,19 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 
 /**
  *
  * @author Celula4
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class FiltrosListas {
 
     AdminFacade adminFacade;
     MarketingUserFacade marketingUserFacade;
+    List<String> listValues;
     
 
     public FiltrosListas() {
@@ -42,6 +44,7 @@ public class FiltrosListas {
     public void init() {
         adminFacade = new AdminFacadeImpl();
         marketingUserFacade = new MarketingUserFacadeImpl();
+        listValues = new ArrayList<String>();
     }
 
     public List<String> getPerfiles() {
@@ -116,6 +119,15 @@ public class FiltrosListas {
         return lista;
     }
     
+    public List<String> getDenominaciones(){
+        List<String> lista = new ArrayList<String>();
+        List<Denominacion> denominaciones = adminFacade.findAllDenominaciones();
+        for (Denominacion denominacion : denominaciones) {
+            lista.add(denominacion.getValor()+"");
+        }
+        return lista;
+    }
+    
     public List<String> getEstadoSolicitudBonos(){
         List<String> lista = new ArrayList<String>();
         lista.add("APROBADA");
@@ -138,4 +150,13 @@ public class FiltrosListas {
         lista.add("ACEPTADA");
         return lista;
     }
+
+    public List<String> getListValues() {
+        return listValues;
+    }
+
+    public void setListValues(List<String> listValues) {
+        this.listValues = listValues;
+    }
+    
 }

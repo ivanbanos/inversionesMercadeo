@@ -33,6 +33,7 @@ import javax.faces.context.FacesContext;
 public class CrudLoteBonoBean {
 
     private List<LoteBonoDTO> lista;
+    private List<LoteBonoDTO> listaFiltrada;
     private Lotebono elemento;
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -157,6 +158,14 @@ public class CrudLoteBonoBean {
 
     public void setTiposbonos(List<Tipobono> tiposbonos) {
         this.tiposbonos = tiposbonos;
+    }
+
+    public List<LoteBonoDTO> getListaFiltrada() {
+        return listaFiltrada;
+    }
+
+    public void setListaFiltrada(List<LoteBonoDTO> listaFiltrada) {
+        this.listaFiltrada = listaFiltrada;
     }
 
 }

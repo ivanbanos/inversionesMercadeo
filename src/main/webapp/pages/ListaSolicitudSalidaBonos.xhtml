@@ -31,7 +31,7 @@
 
 
                                 <h:form class="form-horizontal">
-                                    <p:dataTable id="detailsTable" var="element" value="#{listaSolicitudesdeSalidadeBonos.lista}"  
+                                    <p:dataTable id="detailsTable" var="element" value="#{listaSolicitudesdeSalidadeBonos.lista}" filteredValue="#{listaSolicitudesdeSalidadeBonos.listaFiltrada}"  
                                                  emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable"
                                                  rows="#{sessionBean.paginacion}"
                                                  paginator="true"

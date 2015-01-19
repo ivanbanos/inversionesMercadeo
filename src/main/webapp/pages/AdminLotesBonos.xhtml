@@ -39,7 +39,7 @@
                                                  rows="#{sessionBean.paginacion}"
                                                  paginator="true"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                 >
+                                                 filteredValue="#{crudLoteBonoBean.listaFiltrada}">
 
                                         <p:column style="width:7%">
                                             <p:rowToggler />
@@ -47,13 +47,23 @@
                                         <p:column headerText="#{label['cantidad']}" sortBy="#{element.cantidad}" style="width:13%">
                                             <h:outputText value="#{element.cantidad}" />
                                         </p:column>
-                                        <p:column headerText="#{label['denominacion']}" sortBy="#{element.denominacion.valor}" style="width:17%">
+                                        <p:column headerText="#{label['denominacion']}" sortBy="#{element.denominacion.valor}" style="width:17%" filterBy="#{element.denominacion.valor}" filterMatchMode="contains" >
                                             <h:outputText value="#{element.denominacion.valor}" />
                                         </p:column>
-                                        <p:column headerText="#{label['tipobono']}" sortBy="#{element.tipoBono.nombre}" style="width:17%" >
+                                        <p:column headerText="#{label['tipobono']}" sortBy="#{element.tipoBono.nombre}" style="width:17%" filterBy="#{element.tipoBono.nombre}" filterMatchMode="in" >
+                                            <f:facet name="filter">
+                                                <p:selectCheckboxMenu label="#{label['tiposbonos']}" onchange="PF('detailsTable').filter()" >
+                                                    <f:selectItems value="#{filtrosListas.tipobono}" />
+                                                </p:selectCheckboxMenu>
+                                            </f:facet>
                                             <h:outputText value="#{element.tipoBono.nombre}" />
                                         </p:column>
-                                        <p:column headerText="#{label['casino']}" sortBy="#{element.idCasino}" style="width:35%" >
+                                        <p:column headerText="#{label['casino']}" sortBy="#{element.idCasino}" style="width:35%" filterBy="#{element.idCasino.nombre}" filterMatchMode="in" >
+                                            <f:facet name="filter">
+                                                <p:selectCheckboxMenu label="#{label['casinos']}" onchange="PF('detailsTable').filter()" >
+                                                    <f:selectItems value="#{filtrosListas.casinos}" />
+                                                </p:selectCheckboxMenu>
+                                            </f:facet>
                                             <h:outputText value="#{element.idCasino.nombre}" />
                                         </p:column>
 
