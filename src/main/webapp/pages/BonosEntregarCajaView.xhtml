@@ -39,20 +39,35 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p:commandButton value="Buscar" actionListener="#{bonoEntregarCajaBean.buscarBonosValidadosPorCasino()}" 
-                                                 icon="ui-icon-check" 
-                                                 update=":#{p:component('bonos')} :#{p:component('messages')}" style="margin:0" /> 
+                                <div class="control-group text-right">
+                                    <p:commandButton value="Buscar" actionListener="#{bonoEntregarCajaBean.buscarBonosValidadosPorCasino()}" 
+                                                     icon="ui-icon-check" 
+                                                     update=":#{p:component('bonos')} :#{p:component('messages')}" style="margin:0" /> 
+                                </div>
                             </div>
 
-                            <p:dataTable id="bonos" var="bono" value="#{bonoEntregarCajaBean.bonosCasinoPorEntregar}" style="margin-bottom:0"
-                                         selection="#{bonoEntregarCajaBean.bonosCasinoPorEntregarSelected}" rowKey="#{bono.id}">
-                                
-                                <p:column selectionMode="multiple" style="width:5%;text-align:center"/>
-                                <p:column headerText="consecutivo" sortBy="#{bono.consecutivo}" filterBy="#{bono.consecutivo}" filterMatchMode="contains">
-                                    <h:outputText value="#{bono.consecutivo}" />
-                                </p:column>
 
-                            </p:dataTable>
+                            <div class="row">
+                                <p:dataTable id="bonos" var="bono" value="#{bonoEntregarCajaBean.bonosCasinoPorEntregar}" style="margin-bottom:0"
+                                             selection="#{bonoEntregarCajaBean.bonosCasinoPorEntregarSelected}" rowKey="#{bono.id}">
+
+                                    <p:column selectionMode="multiple" style="width:5%;text-align:center"/>
+                                    <p:column headerText="consecutivo" sortBy="#{bono.consecutivo}" filterBy="#{bono.consecutivo}" filterMatchMode="contains">
+                                        <h:outputText value="#{bono.consecutivo}" />
+                                    </p:column>
+                                    <p:column headerText="Denominacion" sortBy="#{bono.denominacion.valor}" filterBy="#{bono.denominacion.valor}" filterMatchMode="contains">
+                                        <h:outputText value="#{bono.denominacion.valor}" />
+                                    </p:column>
+                                    <p:column headerText="Tipo de bono" sortBy="#{bono.tipo.nombre}" filterBy="#{bono.tipo.nombre}" filterMatchMode="contains">
+                                        <h:outputText value="#{bono.tipo.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Cliente" sortBy="#{bono.cliente.nombres} #{bono.cliente.apellidos}" filterBy="#{bono.cliente.nombres} #{bono.cliente.apellidos}" filterMatchMode="contains">
+                                        <h:outputText value="#{bono.cliente.nombres} #{bono.cliente.apellidos}" />
+                                    </p:column>
+
+                                </p:dataTable>
+                            </div>
+
                         </div>
                         <div class="panel-footer text-right"> 
                             <p:commandButton value="guardar" actionListener="#{bonoEntregarCajaBean.entregar()}" icon="ui-icon-check" 
