@@ -152,6 +152,7 @@ public class PerfilActBean {
     private VistaBoolean bonoCanjearVer;
     private VistaBoolean bonoCanjearEjecutar;
 
+    private VistaBoolean solicitudCambioCupo;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -797,6 +798,12 @@ public class PerfilActBean {
                 } else {
                     bonoCanjearEjecutar = new VistaBoolean(v, false);
                 }
+            }if (v.getNombreVista().equals("SolicitudCambioCupo")) {
+                if (elemento.getVistaList().contains(v)) {
+                    solicitudCambioCupo = new VistaBoolean(v, true);
+                } else {
+                    solicitudCambioCupo = new VistaBoolean(v, false);
+                }
             }
             
             if (v.getNombreVista().equals("ActSolicitudSalida")) {
@@ -1180,6 +1187,9 @@ public class PerfilActBean {
         }
         if (bonoCanjearEjecutar.isSelected()) {
             elemento.getVistaList().add(bonoCanjearEjecutar.getVista());
+        }
+        if (solicitudCambioCupo.isSelected()) {
+            elemento.getVistaList().add(solicitudCambioCupo.getVista());
         }
         
         count = 0;
@@ -2444,6 +2454,14 @@ public class PerfilActBean {
 
     public void setBonoCanjearEjecutar(VistaBoolean bonoCanjearEjecutar) {
         this.bonoCanjearEjecutar = bonoCanjearEjecutar;
+    }
+
+    public VistaBoolean getSolicitudCambioCupo() {
+        return solicitudCambioCupo;
+    }
+
+    public void setSolicitudCambioCupo(VistaBoolean solicitudCambioCupo) {
+        this.solicitudCambioCupo = solicitudCambioCupo;
     }
 
 }

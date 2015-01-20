@@ -193,4 +193,6 @@ public interface MarketingUserFacade {
 
     public Tipotarea findTipoTarea(Integer idTipotarea);
 
+    public List<Cliente> buscarClientes(Cliente clienteAttr);
+
 }

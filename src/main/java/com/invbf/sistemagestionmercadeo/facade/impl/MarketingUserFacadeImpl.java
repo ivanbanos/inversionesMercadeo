@@ -4,7 +4,6 @@
  */
 package com.invbf.sistemagestionmercadeo.facade.impl;
 
-import com.invbf.sistemagestionmercadeo.controladores.SessionBean;
 import com.invbf.sistemagestionmercadeo.dao.AccionDao;
 import com.invbf.sistemagestionmercadeo.dao.AreaDao;
 import com.invbf.sistemagestionmercadeo.dao.AtributoDao;
@@ -898,5 +897,10 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
     @Override
     public Tipotarea findTipoTarea(Integer idTipotarea) {
         return TipostareasDao.find(idTipotarea);
+    }
+
+    @Override
+    public List<Cliente> buscarClientes(Cliente clienteAttr) {
+        return ClienteDao.findClientes(clienteAttr);
     }
 }

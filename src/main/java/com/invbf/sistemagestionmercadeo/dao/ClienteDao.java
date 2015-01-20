@@ -18,6 +18,50 @@ import javax.persistence.Persistence;
  */
 public class ClienteDao {
 
+    public static List<Cliente> findClientes(Cliente cliente) {
+        if (cliente.getNombres() != null) {
+            System.out.println(cliente.getNombres());
+            cliente.setNombres(cliente.getNombres().toUpperCase());
+        }
+        if (cliente.getApellidos() != null) {
+            System.out.println(cliente.getApellidos());
+            cliente.setApellidos(cliente.getApellidos().toUpperCase());
+        }
+        if (cliente.getIdentificacion() != null) {
+            System.out.println(cliente.getIdentificacion());
+            cliente.setIdentificacion(cliente.getIdentificacion().toUpperCase());
+        }
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Cliente> clientes = new ArrayList<Cliente>();
+        StringBuilder query = new StringBuilder("SELECT c FROM Cliente c");
+        if (cliente.getNombres() != null && !cliente.getNombres().equals("")) {
+            query.append(" WHERE c.nombres LIKE '%").append(cliente.getNombres()).append("%'");
+        }
+        if (cliente.getApellidos() != null && !cliente.getApellidos().equals("")) {
+            query.append(" WHERE c.apellidos LIKE '%").append(cliente.getApellidos()).append("%'");
+        }
+        if (cliente.getIdentificacion() != null && !cliente.getIdentificacion().equals("")) {
+            query.append(" WHERE c.identificacion LIKE '%").append(cliente.getIdentificacion()).append("%'");
+        }
+        System.out.println("Query" + query.toString());
+        tx.begin();
+        try {
+
+            clientes = (List<Cliente>) em.createQuery(query.toString())
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.close();
+        emf.close();
+        return clientes;
+    }
+
     public ClienteDao() {
     }
 
