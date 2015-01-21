@@ -64,6 +64,7 @@ public class AdminFacadeImpl implements AdminFacade {
                 TareasDao.edit(t);
             }
         }
+        UsuarioDetalleDao.remove(elemento.getUsuariodetalle());
         UsuarioDao.remove(elemento);
     }
 
@@ -77,7 +78,13 @@ public class AdminFacadeImpl implements AdminFacade {
             if (UsuarioDao.findByNombreUsuario(elemento.getNombreUsuario()) != null) {
                 throw new NombreUsuarioExistenteException();
             }
+            Usuariodetalle detalle = elemento.getUsuariodetalle();
+            elemento.setUsuariodetalle(null);
             UsuarioDao.create(elemento);
+            detalle.setIdUsuario(elemento.getIdUsuario());
+            UsuarioDetalleDao.create(detalle);
+            elemento.setUsuariodetalle(detalle);
+            UsuarioDao.edit(elemento);
             return elemento;
         } else {
             if (elemento.getContrasena() == null||elemento.getContrasena().equals("")) {
@@ -89,6 +96,7 @@ public class AdminFacadeImpl implements AdminFacade {
                 } catch (NoSuchAlgorithmException ex) {
                 }
             }
+            UsuarioDetalleDao.edit(elemento.getUsuariodetalle());
             UsuarioDao.edit(elemento);
             return elemento;
         }

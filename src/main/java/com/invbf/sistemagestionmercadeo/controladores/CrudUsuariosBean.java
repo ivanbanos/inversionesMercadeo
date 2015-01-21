@@ -33,7 +33,6 @@ public class CrudUsuariosBean implements Observer {
 
     private List<Usuario> lista;
     private Usuario elemento;
-    private Usuariodetalle detalleElemento;
     private List<Perfil> listaperfiles;
     private List<Cargo> cargos;
     private List<Casino> casinos;
@@ -99,32 +98,7 @@ public class CrudUsuariosBean implements Observer {
     }
 
     public void setElemento(Usuario elemento) {
-
         this.elemento = elemento;
-        if(this.elemento.getIdCasino()==null){
-            this.elemento.setIdCasino(new Casino());
-        }
-        if (elemento.getIdUsuario() != null) {
-            System.out.println("si entra");
-            detalleElemento = sessionBean.adminFacade.getDetalleUsuariosById(elemento.getIdUsuario());
-            if (detalleElemento == null) {
-                detalleElemento = new Usuariodetalle(elemento.getIdUsuario());
-                detalleElemento = sessionBean.adminFacade.guardarDetalleUsuarios(detalleElemento);
-            }
-            if (detalleElemento.getIdcargo() == null) {
-                detalleElemento.setIdcargo(new Cargo());
-            }
-            if (detalleElemento.getAccesoList() == null) {
-                detalleElemento.setAccesoList(new ArrayList<Acceso>());
-            }
-            for (AccesoBoolean a : accesos) {
-                if (detalleElemento.getAccesoList().contains(a.getAcceso())) {
-                    a.setSelected(true);
-                }
-            }
-
-            System.out.println("y no pasa nada");
-        }
     }
 
     public List<Perfil> getListaperfiles() {
@@ -136,7 +110,6 @@ public class CrudUsuariosBean implements Observer {
     }
 
     public void delete() {
-        sessionBean.adminFacade.deleteDetalleUsuarios(detalleElemento);
         sessionBean.adminFacade.deleteUsuarios(elemento);
         lista = sessionBean.adminFacade.findAllUsuarios();
         FacesUtil.addInfoMessage("Usuario eliminado", elemento.getNombreUsuario());
@@ -151,24 +124,16 @@ public class CrudUsuariosBean implements Observer {
         if (elemento.getContrasena() == null || contrasena.equals(elemento.getContrasena())) {
             try {
                 System.out.println("empezando");
-                elemento = sessionBean.adminFacade.guardarUsuarios(elemento);
-
-                System.out.println("ahora el detalle");
-                detalleElemento.setIdUsuario(elemento.getIdUsuario());
-
-                System.out.println("limmpio la lsiat de accesos");
-                detalleElemento.getAccesoList().clear();
-
-                System.out.println("empiezo a llenarla");
+                elemento.getUsuariodetalle().getAccesoList().clear();
                 for (AccesoBoolean a : accesos) {
                     if (a.getSelected()) {
-                        detalleElemento.getAccesoList().add(a.getAcceso());
+                        elemento.getUsuariodetalle().getAccesoList().add(a.getAcceso());
                     }
                 }
+                elemento = sessionBean.adminFacade.guardarUsuarios(elemento);
 
-                System.out.println("guardo el detallo");
-                detalleElemento = sessionBean.adminFacade.guardarDetalleUsuarios(detalleElemento);
-
+                System.out.println("empiezo a llenarla");
+                
                 System.out.println("llamo a los usuarios");
                 lista = sessionBean.adminFacade.findAllUsuarios();
                 FacesUtil.addInfoMessage("Usuario guardado", elemento.getNombreUsuario());
@@ -193,9 +158,9 @@ public class CrudUsuariosBean implements Observer {
         elemento = new Usuario();
         elemento.setIdPerfil(new Perfil());
         elemento.setIdCasino(new Casino());
-        detalleElemento = new Usuariodetalle();
-        detalleElemento.setIdcargo(new Cargo());
-        detalleElemento.setAccesoList(new ArrayList<Acceso>());
+        elemento.setUsuariodetalle(new Usuariodetalle());
+        elemento.getUsuariodetalle().setIdcargo(new Cargo());
+        elemento.getUsuariodetalle().setAccesoList(new ArrayList<Acceso>());
     }
 
     public String getContrasena() {
@@ -204,14 +169,6 @@ public class CrudUsuariosBean implements Observer {
 
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
-    }
-
-    public Usuariodetalle getDetalleElemento() {
-        return detalleElemento;
-    }
-
-    public void setDetalleElemento(Usuariodetalle detalleElemento) {
-        this.detalleElemento = detalleElemento;
     }
 
     public List<Cargo> getCargos() {
