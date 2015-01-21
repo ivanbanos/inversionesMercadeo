@@ -182,15 +182,23 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
 
     @Override
     public void deleteCasinos(Casino elemento) {
+        DetalleCasinoDao.remove(elemento.getCasinodetalle());
         CasinoDao.remove(elemento);
     }
 
     @Override
     public Casino guardarCasinos(Casino elemento) {
         if (elemento.getIdCasino() == null) {
+            Casinodetalle detalle = elemento.getCasinodetalle();
+            elemento.setCasinodetalle(null);
             CasinoDao.create(elemento);
+            detalle.setIdCasino(elemento.getIdCasino());
+            DetalleCasinoDao.create(detalle);
+            elemento.setCasinodetalle(detalle);
+            CasinoDao.edit(elemento);
             return elemento;
         } else {
+            DetalleCasinoDao.edit(elemento.getCasinodetalle());
             CasinoDao.edit(elemento);
             return elemento;
         }

@@ -24,7 +24,6 @@ public class CrudCasinosBean {
 
     private List<Casino> lista;
     private Casino elemento;
-    private Casinodetalle detalleElemento;
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
 
@@ -54,7 +53,7 @@ public class CrudCasinosBean {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("configuracion");
         elemento = new Casino();
-        detalleElemento = new Casinodetalle();
+        elemento.setCasinodetalle(new Casinodetalle());
         lista = sessionBean.marketingUserFacade.findAllCasinos();
     }
 
@@ -71,41 +70,23 @@ public class CrudCasinosBean {
     }
 
     public void setElemento(Casino elemento) {
-        if (elemento.getIdCasino() != null) {
-            detalleElemento = sessionBean.marketingUserFacade.getDetalleCasinoById(elemento.getIdCasino());
-            if (detalleElemento == null) {
-                detalleElemento = new Casinodetalle(elemento.getIdCasino());
-                detalleElemento = sessionBean.marketingUserFacade.guardarDetalleCasino(detalleElemento);
-            }
-        }
         this.elemento = elemento;
     }
 
     public void delete() {
-        sessionBean.marketingUserFacade.deleteDetalleCasino(detalleElemento);
         sessionBean.marketingUserFacade.deleteCasinos(elemento);
         lista = sessionBean.marketingUserFacade.findAllCasinos();
         FacesUtil.addInfoMessage("Casino eliminado", elemento.getNombre());
         elemento = new Casino();
-        detalleElemento = new Casinodetalle();
+        elemento.setCasinodetalle(new Casinodetalle());
     }
 
     public void guardar() {
         elemento = sessionBean.marketingUserFacade.guardarCasinos(elemento);
-        detalleElemento.setIdCasino(elemento.getIdCasino());
-        detalleElemento = sessionBean.marketingUserFacade.guardarDetalleCasino(detalleElemento);
         lista = sessionBean.marketingUserFacade.findAllCasinos();
         FacesUtil.addInfoMessage("Casino guardado", elemento.getNombre());
         elemento = new Casino();
-        detalleElemento = new Casinodetalle();
-    }
-
-    public Casinodetalle getDetalleElemento() {
-        return detalleElemento;
-    }
-
-    public void setDetalleElemento(Casinodetalle detalleElemento) {
-        this.detalleElemento = detalleElemento;
+        elemento.setCasinodetalle(new Casinodetalle());
     }
 
 }
