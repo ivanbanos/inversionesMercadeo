@@ -382,6 +382,16 @@ public class AdminFacadeImpl implements AdminFacade {
     public Casinodetalle findDetalleCasino(Integer idCasino) {
         return DetalleCasinoDao.find(idCasino);
     }
+
+    @Override
+    public Tipobono findTipobono(Integer id) {
+        return TipoBonoDao.find(id);
+    }
+
+    @Override
+    public Propositoentrega findPropositoByNombre(String nombre) {
+        return PropositosentregaDao.findByNombre(nombre);
+    }
     
 }
 

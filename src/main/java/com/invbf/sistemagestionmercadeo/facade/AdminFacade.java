@@ -114,5 +114,9 @@ public interface AdminFacade {
     public Casino findCasino(Integer idCasino);
 
     public Casinodetalle findDetalleCasino(Integer idCasino);
+
+    public Tipobono findTipobono(Integer id);
+
+    public Propositoentrega findPropositoByNombre(String nombre);
     
 }

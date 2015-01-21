@@ -38,6 +38,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.event.FlowEvent;
 
 /**
  *
@@ -46,7 +47,7 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @ViewScoped
 public class GeneradorSolicitudBonos {
-
+    
     private Solicitudentrega elemento;
     private List<Casino> casinos;
     private List<Tipobono> tiposbonos;
@@ -59,7 +60,7 @@ public class GeneradorSolicitudBonos {
     private List<Cliente> selectedClientessgbs;
     private List<ClienteSGBDTO> clientes;
     private List<Integer> clientesABorrar;
-
+    
     private String pais;
     private String ciudad;
     private List<CasinoBoolean> casinoBooleans;
@@ -68,17 +69,17 @@ public class GeneradorSolicitudBonos {
     private boolean todoscasinos;
     private boolean todosCat;
     private boolean todostip;
-
+    
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
-
+    
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
     }
-
+    
     public GeneradorSolicitudBonos() {
     }
-
+    
     @PostConstruct
     public void init() {
         sessionBean.checkUsuarioConectado();
@@ -89,7 +90,7 @@ public class GeneradorSolicitudBonos {
             } catch (IOException ex) {
             }
         }
-
+        
         System.out.println("Buscando info de la solictud si existe");
         clientes = new ArrayList<ClienteSGBDTO>();
         clientesABorrar = new ArrayList<Integer>();
@@ -119,15 +120,22 @@ public class GeneradorSolicitudBonos {
                 Logger.getLogger(GeneradorSolicitudBonos.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
+        
         casinos = sessionBean.adminFacade.findAllCasinos();
         tiposbonos = sessionBean.adminFacade.findAllTiposbonos();
         usuarios = sessionBean.adminFacade.findAllUsuarios();
         propositosentrega = sessionBean.adminFacade.findAllPropositosentrega();
+        for (Iterator<Propositoentrega> iterator = propositosentrega.iterator(); iterator.hasNext();) {
+            Propositoentrega next = iterator.next();
+            if(next.getNombre().equals("PROMOCIÓN")){
+                iterator.remove();
+                break;
+            }
+        }
         areas = sessionBean.adminFacade.findAllAreas();
         clientessgbs = new ArrayList<Cliente>();
         selectedClientessgbs = new ArrayList<Cliente>();
-
+        
         List<Tipojuego> tipoJuegos = sessionBean.marketingUserFacade.findAllTiposjuegos();
         List<Categoria> categorias = sessionBean.marketingUserFacade.findAllCategorias();
         juegoBooleans = new ArrayList<TipoJuegoBoolean>();
@@ -142,24 +150,24 @@ public class GeneradorSolicitudBonos {
         for (Categoria categoria : categorias) {
             categoriaBooleans.add(new CategoriaBoolean(categoria, false));
         }
-
+        
     }
-
+    
     public Solicitudentrega getElemento() {
         return elemento;
     }
-
+    
     public void setElemento(Solicitudentrega elemento) {
-
+        
         boolean cambiocasino = this.elemento.getIdCasino().equals(elemento.getIdCasino());
-
+        
         this.elemento = elemento;
         if (cambiocasino) {
             this.elemento.getSolicitudentregaclienteList().clear();
             busquedaClientes();
         }
     }
-
+    
     public void guardar() {
         guardar:
         {
@@ -170,7 +178,7 @@ public class GeneradorSolicitudBonos {
                 denominaciones[i] = lote.getDenominacion().getValor();
                 i++;
             }
-
+            
             if (elemento.getId() == null || elemento.getId().equals(0)) {
                 elemento.setEstado("CREADA");
                 List<Solicitudentregacliente> solicitudentregaclienteses = new ArrayList<Solicitudentregacliente>();
@@ -187,9 +195,9 @@ public class GeneradorSolicitudBonos {
                 FacesUtil.addInfoMessage("Solicitud guardada con exito!", "Notificación enviada");
             } else {
                 elemento.setEstado("CREADA");
-
+                
                 System.out.println("por que intenta guardar un area");
-
+                
                 List<Solicitudentregacliente> solicitudentregaclienteses = new ArrayList<Solicitudentregacliente>();
                 for (ClienteSGBDTO clientesGBT : clientes) {
                     if (clientesGBT.getValorTotal() != 0) {
@@ -206,7 +214,7 @@ public class GeneradorSolicitudBonos {
                     }
                 }
                 elemento.setSolicitudentregaclienteList(solicitudentregaclienteses);
-
+                
                 System.out.println("entremos a ver");
                 sessionBean.marketingUserFacade.guardarSolicitudentrega(elemento, clientesABorrar);
                 sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
@@ -215,7 +223,7 @@ public class GeneradorSolicitudBonos {
             sessionBean.getAttributes().put("idSolicitudentrega", elemento.getId());
         }
     }
-
+    
     public Casino getCasinoById(Integer idCasino) {
         int casinoIndex = casinos.indexOf(new Casino(idCasino));
         if (casinoIndex != -1) {
@@ -223,43 +231,43 @@ public class GeneradorSolicitudBonos {
         }
         return new Casino();
     }
-
+    
     public String getNombreDeUsuario(Integer id) {
         return sessionBean.sessionFacade.getNombreDeUsuario(id);
     }
-
+    
     public List<Casino> getCasinos() {
         return casinos;
     }
-
+    
     public void setCasinos(List<Casino> casinos) {
         this.casinos = casinos;
     }
-
+    
     public List<Tipobono> getTiposbonos() {
         return tiposbonos;
     }
-
+    
     public void setTiposbonos(List<Tipobono> tiposbonos) {
         this.tiposbonos = tiposbonos;
     }
-
+    
     public List<Propositoentrega> getPropositosentrega() {
         return propositosentrega;
     }
-
+    
     public void setPropositosentrega(List<Propositoentrega> propositosentrega) {
         this.propositosentrega = propositosentrega;
     }
-
+    
     public List<Usuario> getUsuarios() {
         return usuarios;
     }
-
+    
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
-
+    
     public Usuario getUsuarioById(Integer idUsuario) {
         int casinoIndex = usuarios.indexOf(new Usuario(idUsuario));
         if (casinoIndex != -1) {
@@ -267,44 +275,44 @@ public class GeneradorSolicitudBonos {
         }
         return new Usuario();
     }
-
+    
     public List<Area> getAreas() {
         return areas;
     }
-
+    
     public void setAreas(List<Area> areas) {
         this.areas = areas;
     }
-
+    
     public String getNombres() {
         return nombres;
     }
-
+    
     public void setNombres(String nombres) {
         this.nombres = nombres;
     }
-
+    
     public String getApellidos() {
         return apellidos;
     }
-
+    
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
     }
-
+    
     public List<Cliente> getClientessgbs() {
         return clientessgbs;
     }
-
+    
     public void setClientessgbs(List<Cliente> clientessgbs) {
         this.clientessgbs = clientessgbs;
     }
-
+    
     public void busquedaClientes() {
-
+        
         System.out.println("entra");
         clientessgbs = sessionBean.marketingUserFacade.findAllClientes();
-
+        
         boolean noCatselected = true;
         boolean noTipselected = true;
         boolean noCasselected = true;
@@ -338,10 +346,10 @@ public class GeneradorSolicitudBonos {
                 break;
             }
         }
-
+        
         for (Iterator<Cliente> it = clientessgbs.iterator(); it.hasNext();) {
             Cliente cliente = it.next();
-
+            
             boolean siCategoria = false;
             boolean siTipoJuego = false;
             boolean siCasino = false;
@@ -375,7 +383,7 @@ public class GeneradorSolicitudBonos {
                     }
                 }
             }
-
+            
             if (!siCategoria) {
                 it.remove();
             }
@@ -395,21 +403,21 @@ public class GeneradorSolicitudBonos {
                     it.remove();
                 }
             }
-
+            
         }
         System.out.println(clientessgbs.size());
-
+        
         creadorClientesSolicitud();
     }
-
+    
     public List<Cliente> getSelectedClientessgbs() {
         return selectedClientessgbs;
     }
-
+    
     public void setSelectedClientessgbs(List<Cliente> selectedClientessgbs) {
         this.selectedClientessgbs = selectedClientessgbs;
     }
-
+    
     public void creadorClientesSolicitud() {
         for (Cliente selected : clientessgbs) {
             boolean existe = false;
@@ -421,7 +429,7 @@ public class GeneradorSolicitudBonos {
             }
             System.out.println("Este cliente, " + selected.getNombres() + " " + selected.getApellidos() + ", existes? " + existe);
             if (!existe) {
-
+                
                 ClienteSGBDTO sec = new ClienteSGBDTO();
                 sec.setClientessgb(selected);
                 sec.setAreaid(new Area());
@@ -431,7 +439,7 @@ public class GeneradorSolicitudBonos {
         }
         System.out.println(clientes.size());
     }
-
+    
     public void quitarCliente(Integer i) {
         System.out.println("id " + i);
         for (Iterator<ClienteSGBDTO> iterator = clientes.iterator(); iterator.hasNext();) {
@@ -444,85 +452,111 @@ public class GeneradorSolicitudBonos {
             }
         }
     }
-
+    
     public List<ClienteSGBDTO> getClientes() {
         return clientes;
     }
-
+    
     public void setClientes(List<ClienteSGBDTO> clientes) {
         this.clientes = clientes;
     }
-
+    
     public List<Integer> getClientesABorrar() {
         return clientesABorrar;
     }
-
+    
     public void setClientesABorrar(List<Integer> clientesABorrar) {
         this.clientesABorrar = clientesABorrar;
     }
-
+    
     public String getPais() {
         return pais;
     }
-
+    
     public void setPais(String pais) {
         this.pais = pais;
     }
-
+    
     public String getCiudad() {
         return ciudad;
     }
-
+    
     public void setCiudad(String ciudad) {
         this.ciudad = ciudad;
     }
-
+    
     public List<CasinoBoolean> getCasinoBooleans() {
         return casinoBooleans;
     }
-
+    
     public void setCasinoBooleans(List<CasinoBoolean> casinoBooleans) {
         this.casinoBooleans = casinoBooleans;
     }
-
+    
     public List<TipoJuegoBoolean> getJuegoBooleans() {
         return juegoBooleans;
     }
-
+    
     public void setJuegoBooleans(List<TipoJuegoBoolean> juegoBooleans) {
         this.juegoBooleans = juegoBooleans;
     }
-
+    
     public List<CategoriaBoolean> getCategoriaBooleans() {
         return categoriaBooleans;
     }
-
+    
     public void setCategoriaBooleans(List<CategoriaBoolean> categoriaBooleans) {
         this.categoriaBooleans = categoriaBooleans;
     }
-
+    
     public boolean isTodoscasinos() {
         return todoscasinos;
     }
-
+    
     public void setTodoscasinos(boolean todoscasinos) {
         this.todoscasinos = todoscasinos;
     }
-
+    
     public boolean isTodosCat() {
         return todosCat;
     }
-
+    
     public void setTodosCat(boolean todosCat) {
         this.todosCat = todosCat;
     }
-
+    
     public boolean isTodostip() {
         return todostip;
     }
-
+    
     public void setTodostip(boolean todostip) {
         this.todostip = todostip;
     }
-
+    
+    public String onFlowProcess(FlowEvent event) {
+        if (elemento.getTipoBono().getNombre() == null) {
+            elemento.setTipoBono(sessionBean.adminFacade.findTipobono(elemento.getTipoBono().getId()));
+            if (elemento.getTipoBono().getNombre().equals("PROMOCIONAL")) {
+                elemento.setPropositoEntrega(sessionBean.adminFacade.findPropositoByNombre("PROMOCIÓN"));
+            }
+        }
+        if (elemento.getTipoBono().getNombre().equals("PROMOCIONAL")) {
+            if (event.getNewStep().equals("nopromo")) {
+                if (event.getOldStep().equals("general")) {
+                    return "promo";
+                } else {
+                    return "general";
+                }
+            }
+        } else {
+            if (event.getNewStep().equals("promo")) {
+                if (event.getOldStep().equals("nopromo")) {
+                    return "confirmar";
+                } else {
+                    return "nopromo";
+                }
+            }
+        }
+        return event.getNewStep();
+    }
 }

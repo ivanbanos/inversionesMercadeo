@@ -174,7 +174,7 @@ public class PropositosentregaDao {
 
     }
 
-    public static Propositoentrega findByNombreAcceso(String nombre) {
+    public static Propositoentrega findByNombre(String nombre) {
         EntityManagerFactory emf =
                 Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
