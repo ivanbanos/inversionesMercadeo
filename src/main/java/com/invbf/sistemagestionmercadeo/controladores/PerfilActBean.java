@@ -153,6 +153,8 @@ public class PerfilActBean {
     private VistaBoolean bonoCanjearEjecutar;
 
     private VistaBoolean solicitudCambioCupo;
+    
+    private VistaBoolean verTodosCasinos;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -804,6 +806,12 @@ public class PerfilActBean {
                 } else {
                     solicitudCambioCupo = new VistaBoolean(v, false);
                 }
+            }if (v.getNombreVista().equals("VerTodosCasinos")) {
+                if (elemento.getVistaList().contains(v)) {
+                    verTodosCasinos = new VistaBoolean(v, true);
+                } else {
+                    verTodosCasinos = new VistaBoolean(v, false);
+                }
             }
             
             if (v.getNombreVista().equals("ActSolicitudSalida")) {
@@ -1190,6 +1198,9 @@ public class PerfilActBean {
         }
         if (solicitudCambioCupo.isSelected()) {
             elemento.getVistaList().add(solicitudCambioCupo.getVista());
+        }
+        if (verTodosCasinos.isSelected()) {
+            elemento.getVistaList().add(verTodosCasinos.getVista());
         }
         
         count = 0;
@@ -2462,6 +2473,14 @@ public class PerfilActBean {
 
     public void setSolicitudCambioCupo(VistaBoolean solicitudCambioCupo) {
         this.solicitudCambioCupo = solicitudCambioCupo;
+    }
+
+    public VistaBoolean getVerTodosCasinos() {
+        return verTodosCasinos;
+    }
+
+    public void setVerTodosCasinos(VistaBoolean verTodosCasinos) {
+        this.verTodosCasinos = verTodosCasinos;
     }
 
 }

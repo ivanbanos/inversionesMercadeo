@@ -22,35 +22,32 @@ public class ClienteDao {
         if (cliente.getNombres() != null) {
             System.out.println(cliente.getNombres());
             cliente.setNombres(cliente.getNombres().toUpperCase());
+        } else {
+            cliente.setNombres("");
         }
         if (cliente.getApellidos() != null) {
             System.out.println(cliente.getApellidos());
             cliente.setApellidos(cliente.getApellidos().toUpperCase());
+        } else {
+            cliente.setApellidos("");
         }
         if (cliente.getIdentificacion() != null) {
             System.out.println(cliente.getIdentificacion());
             cliente.setIdentificacion(cliente.getIdentificacion().toUpperCase());
+        } else {
+            cliente.setIdentificacion("");
         }
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-        List<Cliente> clientes = new ArrayList<Cliente>();
-        StringBuilder query = new StringBuilder("SELECT c FROM Cliente c");
-        if (cliente.getNombres() != null && !cliente.getNombres().equals("")) {
-            query.append(" WHERE c.nombres LIKE '%").append(cliente.getNombres()).append("%'");
-        }
-        if (cliente.getApellidos() != null && !cliente.getApellidos().equals("")) {
-            query.append(" WHERE c.apellidos LIKE '%").append(cliente.getApellidos()).append("%'");
-        }
-        if (cliente.getIdentificacion() != null && !cliente.getIdentificacion().equals("")) {
-            query.append(" WHERE c.identificacion LIKE '%").append(cliente.getIdentificacion()).append("%'");
-        }
-        System.out.println("Query" + query.toString());
+        List<Cliente> cargos = null;
         tx.begin();
         try {
-
-            clientes = (List<Cliente>) em.createQuery(query.toString())
+            cargos = (List<Cliente>) em.createNamedQuery("Cliente.findByAttr")
+                    .setParameter("nombres", '%' + cliente.getNombres() + '%')
+                    .setParameter("apellidos", '%' + cliente.getApellidos()+ '%')
+                    .setParameter("identificacion", '%' + cliente.getIdentificacion()+ '%')
                     .getResultList();
             tx.commit();
         } catch (Exception e) {
@@ -59,7 +56,8 @@ public class ClienteDao {
 
         em.close();
         emf.close();
-        return clientes;
+
+        return cargos;
     }
 
     public ClienteDao() {

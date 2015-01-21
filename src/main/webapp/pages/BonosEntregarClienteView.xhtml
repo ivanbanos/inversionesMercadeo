@@ -26,17 +26,79 @@
                             <h4>#{label['bonosporentregarcliente']}</h4>
                         </div>
                         <div class="panel-body">
+                            <div class="row">
+                                <c:if test="#{sessionBean.perfilViewMatch(&quot;VerTodosCasinos&quot;)}">
+                                    <div class="row">
 
+                                        <div class="form-group col-md-6">
+                                            <label class="col-md-3 control-label" >#{label['tipoDocumento']}</label>
+                                            <div class="col-md-9">
+                                                <p:selectOneMenu id="casino" value="#{bonoEntregaCliente.casinoSelected.idCasino}">
+                                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                                    <f:selectItems value="#{bonoEntregaCliente.casinos}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.idCasino}"/>  
+                                                </p:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:if>
 
-                            <p:dataTable id="bonos" var="bono" value="#{bonoEntregaCliente.bonosCasinoEntregados}" style="margin-bottom:0"
-                                         selection="#{bonoEntregaCliente.bonosCasinoEntregadosSelected}" rowKey="#{bono.id}">
-                                
-                                <p:column selectionMode="multiple" style="width:5%;text-align:center"/>
-                                <p:column headerText="consecutivo" sortBy="#{bono.consecutivo}" filterBy="#{bono.consecutivo}" filterMatchMode="contains">
-                                    <h:outputText value="#{bono.consecutivo}" />
-                                </p:column>
+                                <div class="row">
 
-                            </p:dataTable>
+                                    <div class="form-group col-md-6">
+                                        <label class="col-md-3 control-label" >#{label['nombres']}</label>
+                                        <div class="col-md-9">
+                                            <h:inputText value="#{bonoEntregaCliente.nombres}"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="col-md-3 control-label" >#{label['apellidos']}</label>
+                                        <div class="col-md-9">
+                                            <h:inputText value="#{bonoEntregaCliente.apellidos}"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="form-group col-md-6">
+                                        <label class="col-md-3 control-label" >#{label['identificacion']}</label>
+                                        <div class="col-md-9">
+                                            <h:inputText value="#{bonoEntregaCliente.identificacion}"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="control-group text-right">
+                                    <p:commandButton value="Buscar" actionListener="#{bonoEntregaCliente.buscarBonosPorCliente()}" 
+                                                     icon="ui-icon-check" 
+                                                     update=":#{p:component('bonos')} :#{p:component('messages')}" style="margin:0" /> 
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <p:dataTable id="bonos" var="bono" value="#{bonoEntregaCliente.bonosCasinoEntregados}" style="margin-bottom:0"
+                                             selection="#{bonoEntregaCliente.bonosCasinoEntregadosSelected}" rowKey="#{bono.id}">
+
+                                    <p:column selectionMode="multiple" style="width:5%;text-align:center"/>
+                                    <p:column headerText="consecutivo" sortBy="#{bono.consecutivo}" filterBy="#{bono.consecutivo}" filterMatchMode="contains">
+                                        <h:outputText value="#{bono.consecutivo}" />
+                                    </p:column>
+                                    <p:column headerText="Denominacion" sortBy="#{bono.denominacion.valor}" filterBy="#{bono.denominacion.valor}" filterMatchMode="contains">
+                                        <h:outputText value="#{bono.denominacion.valor}" />
+                                    </p:column>
+                                    <p:column headerText="Tipo de bono" sortBy="#{bono.tipo.nombre}" filterBy="#{bono.tipo.nombre}" filterMatchMode="contains">
+                                        <h:outputText value="#{bono.tipo.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Cliente" sortBy="#{bono.cliente.nombres} #{bono.cliente.apellidos}" filterBy="#{bono.cliente.nombres} #{bono.cliente.apellidos}" filterMatchMode="contains">
+                                        <h:outputText value="#{bono.cliente.nombres} #{bono.cliente.apellidos}" />
+                                    </p:column>
+
+                                </p:dataTable>
+
+                            </div>
                         </div>
                         <div class="panel-footer text-right"> 
                             <p:commandButton value="guardar" actionListener="#{bonoEntregaCliente.entregar()}" icon="ui-icon-check" 

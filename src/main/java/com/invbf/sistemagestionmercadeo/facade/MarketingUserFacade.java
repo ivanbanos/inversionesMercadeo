@@ -195,4 +195,6 @@ public interface MarketingUserFacade {
 
     public List<Cliente> buscarClientes(Cliente clienteAttr);
 
+    public List<Bono> getBonosPorAtributos(String en_sala, Casino casinoSelected, String nombres, String apellidos, String identificacion);
+
 }

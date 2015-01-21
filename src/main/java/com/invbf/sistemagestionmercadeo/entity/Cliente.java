@@ -52,7 +52,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Cliente.findByCiudad", query = "SELECT c FROM Cliente c WHERE c.ciudad = :ciudad"),
     @NamedQuery(name = "Cliente.findByBonoFidelizacion", query = "SELECT c FROM Cliente c WHERE c.bonoFidelizacion = :bonoFidelizacion"),
     @NamedQuery(name = "Cliente.findByGenero", query = "SELECT c FROM Cliente c WHERE c.genero = :genero"),
-    @NamedQuery(name = "Cliente.findByCasino", query = "SELECT c FROM Cliente c WHERE c.idCasinoPreferencial.idCasino = :casino")})
+    @NamedQuery(name = "Cliente.findByCasino", query = "SELECT c FROM Cliente c WHERE c.idCasinoPreferencial.idCasino = :casino"),
+    @NamedQuery(name = "Cliente.findByAttr", query = "SELECT c FROM Cliente c WHERE c.nombres LIKE :nombres AND c.apellidos LIKE :apellidos AND c.identificacion LIKE :identificacion")})
 public class Cliente implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
     private List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClientesList;

@@ -903,4 +903,9 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
     public List<Cliente> buscarClientes(Cliente clienteAttr) {
         return ClienteDao.findClientes(clienteAttr);
     }
+
+    @Override
+    public List<Bono> getBonosPorAtributos(String estado, Casino casinoSelected, String nombres, String apellidos, String identificacion) {
+        return BonoDao.getBonosPorAtributos(estado, casinoSelected, nombres, apellidos, identificacion);
+    }
 }

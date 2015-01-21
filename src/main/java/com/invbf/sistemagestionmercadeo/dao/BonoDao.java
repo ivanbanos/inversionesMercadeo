@@ -67,6 +67,47 @@ public class BonoDao {
         return cargos;
     }
 
+    public static List<Bono> getBonosPorAtributos(String estado, Casino casinoSelected, String nombres, String apellidos, String identificacion) {
+        if (nombres != null) {
+            nombres = nombres.toUpperCase();
+        } else {
+            nombres = "";
+        }
+        if (apellidos != null) {
+            apellidos = apellidos.toUpperCase();
+        } else{
+            apellidos = "";
+        }
+        if (identificacion != null) {
+            identificacion = identificacion.toUpperCase();
+        } else {
+            identificacion = "";
+        }
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Bono> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Bono>) em.createNamedQuery("Bono.findByAtributos")
+                    .setParameter("estado", estado)
+                    .setParameter("casino", casinoSelected)
+                    .setParameter("nombres", '%' + nombres + '%' )
+                    .setParameter("apellidos", '%' + apellidos + '%' )
+                    .setParameter("identificacion", '%' + identificacion + '%' )
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.close();
+        emf.close();
+        return cargos;
+    }
+
     public BonoDao() {
     }
 

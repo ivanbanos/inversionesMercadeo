@@ -29,6 +29,9 @@ public class BonoEntregaCliente {
     private Casino casinoSelected;
     private List<Bono> bonosCasinoEntregados;
     private List<Bono> bonosCasinoEntregadosSelected;
+    private String nombres;
+    private String apellidos;
+    private String identificacion;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -104,6 +107,38 @@ public class BonoEntregaCliente {
 
     public void setBonosCasinoEntregadosSelected(List<Bono> bonosCasinoEntregadosSelected) {
         this.bonosCasinoEntregadosSelected = bonosCasinoEntregadosSelected;
+    }
+    
+    public void buscarBonosPorCliente(){
+        System.out.println("Buscar bonos");
+        System.out.println("casino "+casinoSelected.getIdCasino());
+        casinoSelected = casinos.get(casinos.indexOf(new Casino(casinoSelected.getIdCasino())));
+        bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorAtributos("EN SALA", casinoSelected, nombres, apellidos, identificacion);
+        System.out.println(bonosCasinoEntregados.size());
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
     }
     
 }
