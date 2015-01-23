@@ -41,7 +41,7 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @ViewScoped
 public class AceptarSolicitudSalidaBonosBean {
-    
+
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
     private Controlsalidabono elemento;
@@ -50,14 +50,14 @@ public class AceptarSolicitudSalidaBonosBean {
     private Usuario usuario;
     private Usuariodetalle usuariosdetalles;
     private List<Casino> casinos;
-    
+
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
     }
-    
+
     public AceptarSolicitudSalidaBonosBean() {
     }
-    
+
     @PostConstruct
     public void init() {
         sessionBean.checkUsuarioConectado();
@@ -68,7 +68,7 @@ public class AceptarSolicitudSalidaBonosBean {
             } catch (IOException ex) {
             }
         }
-        
+
         Integer id = (Integer) sessionBean.getAttributes().get("idsolicitudsalida");
         if (sessionBean.getAttributes().containsKey("idsolicitudsalida") && (Integer) sessionBean.getAttributes().get("idsolicitudsalida") != 0) {
             elemento = sessionBean.marketingUserFacade.getSolicitudSalida(id);
@@ -99,44 +99,44 @@ public class AceptarSolicitudSalidaBonosBean {
         List<ControlsalidabonosHasLotesbonos> controlsalidabonosHasLotesbonoses = elemento.getControlsalidabonosHasLotesbonosList();
         for (ControlsalidabonosHasLotesbonos controlsalidabonosHasLotesbonos : controlsalidabonosHasLotesbonoses) {
             loteBonoCants.add(new LoteBonoCant(controlsalidabonosHasLotesbonos.getLotebono(), controlsalidabonosHasLotesbonos.getCantidad()));
-            total += controlsalidabonosHasLotesbonos.getCantidad()*controlsalidabonosHasLotesbonos.getLotebono().getDenominacion().getValor();
+            total += controlsalidabonosHasLotesbonos.getCantidad() * controlsalidabonosHasLotesbonos.getLotebono().getDenominacion().getValor();
         }
-        
+
         casinos = sessionBean.adminFacade.findAllCasinos();
     }
-    
+
     public Controlsalidabono getElemento() {
         return elemento;
     }
-    
+
     public void setElemento(Controlsalidabono elemento) {
         this.elemento = elemento;
     }
-    
+
     public void guardar() {
         elemento.setEstado("ACEPTADA");
         crearBonos();
         sessionBean.marketingUserFacade.guardarControlSalidaBonos(elemento);
         FacesUtil.addInfoMessage("Se aceptó la solicitud!", "Notificación enviada");
-        
+
     }
-    
+
     public Usuario getUsuario() {
         return usuario;
     }
-    
+
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-    
+
     public Usuariodetalle getUsuariosdetalles() {
         return usuariosdetalles;
     }
-    
+
     public void setUsuariosdetalles(Usuariodetalle usuariosdetalles) {
         this.usuariosdetalles = usuariosdetalles;
     }
-    
+
     public Casino getCasinoById(Integer idCasino) {
         int casinoIndex = casinos.indexOf(new Casino(idCasino));
         if (casinoIndex != -1) {
@@ -144,23 +144,23 @@ public class AceptarSolicitudSalidaBonosBean {
         }
         return new Casino();
     }
-    
+
     public List<LoteBonoCant> getLoteBonoCants() {
         return loteBonoCants;
     }
-    
+
     public void setLoteBonoCants(List<LoteBonoCant> loteBonoCants) {
         this.loteBonoCants = loteBonoCants;
     }
-    
+
     public float getTotal() {
         return total;
     }
-    
+
     public void setTotal(float total) {
         this.total = total;
     }
-    
+
     private void crearBonos() {
         List<ControlsalidabonosHasLotesbonos> bonosControlSalida = elemento.getControlsalidabonosHasLotesbonosList();
         List<Bono> bonosAGuardar = new ArrayList<Bono>();
@@ -171,19 +171,19 @@ public class AceptarSolicitudSalidaBonosBean {
             try {
                 System.out.println(lote.getDenominacion().getValor());
                 String desde = lote.getDesde();
-                System.out.println("Desde "+desde);
+                System.out.println("Desde " + desde);
                 for (ControlsalidabonosHasLotesbonos control : bonosControlSalida) {
-                    
+
                     if (control.getLotebono().equals(lote)) {
-                        
-                        System.out.println("Cantidad de Bonos "+control.getCantidad());
-                        System.out.println("Cantidad de Bonos "+control.getCantidad());
+
+                        System.out.println("Cantidad de Bonos " + control.getCantidad());
+                        System.out.println("Cantidad de Bonos " + control.getCantidad());
                         for (int i = control.getCantidad(); i > 0; i--) {
                             System.out.println(i);
                             while (true) {
                                 boolean seencontro = false;
                                 for (Bononofisico bnf : lote.getBononofisicoList()) {
-                                    System.out.println("Comprobando "+bnf.getConsecutivo()+" "+desde);
+                                    System.out.println("Comprobando " + bnf.getConsecutivo() + " " + desde);
                                     if (bnf.getConsecutivo().equals(desde)) {
                                         desde = sumeUno(desde);
                                         seencontro = true;
@@ -198,17 +198,18 @@ public class AceptarSolicitudSalidaBonosBean {
                             b.setCasino(casino);
                             b.setDenominacion(lote.getDenominacion());
                             b.setTipo(lote.getTipoBono());
-                            b.setEstado("POR VALIDAR");
                             b.setFechaExpiracion(elemento.getFechavencimientobonos());
                             b.setControlSalidaBonosid(elemento);
-                            if (lote.getTipoBono().getNombre().equals("NO PROMOCIONAL")) {
+                            if (lote.getTipoBono().getNombre().equals("PROMOCIONAL")) {
                                 System.out.println(casino.getCasinodetalle().getAbreCiudad());
-                                b.setConsecutivo("PRO-"+casino.getCasinodetalle().getAbreCiudad()+desde);
+                                b.setConsecutivo("PRO-" + casino.getCasinodetalle().getAbreCiudad() + desde);
+                                b.setEstado("VALIDADO");
                             } else {
-                                b.setConsecutivo(casino.getCasinodetalle().getAbreviacion()+"-"+casino.getCasinodetalle().getAbreCiudad()+desde);
+                                b.setConsecutivo(casino.getCasinodetalle().getAbreviacion() + "-" + casino.getCasinodetalle().getAbreCiudad() + desde);
+                                b.setEstado("POR VALIDAR");
                             }
                             bonosAGuardar.add(b);
-                            System.out.println("Comprobar que pasa con "+desde);
+                            System.out.println("Comprobar que pasa con " + desde);
                             desde = sumeUno(desde);
                         }
                     }
@@ -221,9 +222,9 @@ public class AceptarSolicitudSalidaBonosBean {
         }
         sessionBean.marketingUserFacade.guardarBonos(bonosAGuardar);
     }
-    
+
     private String sumeUno(String desde) {
         return ConvertidorConsecutivo.sumarUno(desde);
     }
-    
+
 }
