@@ -144,6 +144,10 @@
                             <div class="panel-footer text-right"> 
                                 <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{generadorSolicitudLotesBonos.guardar()}" 
                                                  update="@form :#{p:component('messages')}" style="margin:0" />
+
+
+                                <p:commandButton value="PDF" actionListener="#{generadorSolicitudLotesBonos.PDF}" ajax="false"/>
+
                             </div>
                         </div>
                     </h:form>

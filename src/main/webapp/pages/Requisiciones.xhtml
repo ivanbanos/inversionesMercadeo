@@ -56,11 +56,11 @@
                     </c:if>
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;Entregarbonocaja&quot;)}">
                         <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporentregarcaja&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-envelope fa-5x"></i> 
-                            <br/>#{label['entregabonocaja']}</h:commandLink>
+                            <br/>#{label['bonosporentregarcaja']}</h:commandLink>
                     </c:if>
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;Recibirbono&quot;)}">
                         <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporrecibir&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-envelope-square fa-5x"></i> 
-                            <br/>#{label['recibobonoscaja']}</h:commandLink>
+                            <br/>#{label['bonosporrecibir']}</h:commandLink>
                     </c:if>
 
                 </h:form>

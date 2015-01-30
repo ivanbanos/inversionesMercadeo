@@ -173,7 +173,7 @@ public class ConfiguracionDao {
         List<Configuracion> configuraciones = null;
         tx.begin();
         try {
-            configuraciones = em.createNamedQuery("Configuraciones.findByNombre")
+            configuraciones = em.createNamedQuery("Configuracion.findByNombre")
                     .setParameter("nombre", nombre)
                     .getResultList();
             tx.commit();

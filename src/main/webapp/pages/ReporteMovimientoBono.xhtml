@@ -23,30 +23,27 @@
                 <table class="table table-striped">
                     <tr>
                         <th>Tipo de bono</th>
-                        <th>Aprobados</th>
-                        <th>Entregados</th>
-                        <th>Canjeados</th>
-                        <th>Vencidos</th>
-                        <th>Totales</th>
-                        <th>Efectividad</th>
+                        <th>Solicitados</th>
+                        <th>Entregados a los clientes</th>
+                        <th>% bonos entregados a los clientes</th>
+                        <th>retornados(Jugados)</th>
+                        <th>% De bonos retornados</th>
                     </tr>
                     <tr>
                         <td>#{reporteMovimientoBonosBean.promocional.tipoBono}</td>
                         <td>#{reporteMovimientoBonosBean.promocional.aprobados}</td>
                         <td>#{reporteMovimientoBonosBean.promocional.entregados}</td>
-                        <td>#{reporteMovimientoBonosBean.promocional.canjeados}</td>
-                        <td>#{reporteMovimientoBonosBean.promocional.vencidos}</td>
-                        <td>#{reporteMovimientoBonosBean.promocional.totales}</td>
                         <td>#{reporteMovimientoBonosBean.promocional.efectividad}</td>
+                        <td>#{reporteMovimientoBonosBean.promocional.canjeados}</td>
+                        <td>#{reporteMovimientoBonosBean.promocional.efectividadCAnjeados}</td>
                     </tr>
                     <tr>
                         <td>#{reporteMovimientoBonosBean.noPromocional.tipoBono}</td>
                         <td>#{reporteMovimientoBonosBean.noPromocional.aprobados}</td>
                         <td>#{reporteMovimientoBonosBean.noPromocional.entregados}</td>
-                        <td>#{reporteMovimientoBonosBean.noPromocional.canjeados}</td>
-                        <td>#{reporteMovimientoBonosBean.noPromocional.vencidos}</td>
-                        <td>#{reporteMovimientoBonosBean.noPromocional.totales}</td>
                         <td>#{reporteMovimientoBonosBean.noPromocional.efectividad}</td>
+                        <td>#{reporteMovimientoBonosBean.noPromocional.canjeados}</td>
+                        <td>#{reporteMovimientoBonosBean.noPromocional.efectividadCAnjeados}</td>
                     </tr>
                 </table>
             </div>

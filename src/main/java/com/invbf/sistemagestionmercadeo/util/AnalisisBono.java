@@ -73,7 +73,7 @@ public class AnalisisBono {
     }
     
     public float getEfectividad(){
-        return (((float)canjeados)/aprobados)*100f;
+        return (((float)entregados)/aprobados)*100f;
     }
 
     public long getTotales() {
@@ -110,4 +110,9 @@ public class AnalisisBono {
             vencidos++;
         }
     }
+
+    public float getEfectividadCAnjeados() {
+        return (((float)canjeados)/aprobados)*100f;
+    }
+    
 }

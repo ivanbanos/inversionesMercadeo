@@ -116,6 +116,10 @@ public class ConvertidorConsecutivo {
         return getConsecutivoFromNumero(getNumeroFromConsecutivo(desde) + 1);
     }
     
+    public static String sumarCantidad(String desde, int cantidad) {
+        return getConsecutivoFromNumero(getNumeroFromConsecutivo(desde) + cantidad);
+    }
+    
     public static String getCantidad(String desde, String hasta){
         System.out.println("desde"+desde);
         System.out.println("hasta"+hasta);

@@ -10,18 +10,23 @@ import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
+import com.invbf.sistemagestionmercadeo.reportes.ActaREciboCustodiaBonosCajaBean;
+import com.invbf.sistemagestionmercadeo.reportes.ListaBonosPorDenominacionEntregar;
+import com.invbf.sistemagestionmercadeo.reportes.ReportCreator;
 import com.invbf.sistemagestionmercadeo.util.BonosnoincluidosDTO;
+import com.invbf.sistemagestionmercadeo.util.ConvertidorConsecutivo;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.loteBonoSolicitud;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +34,21 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.swing.ImageIcon;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import org.apache.commons.io.IOUtils;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -45,6 +64,7 @@ public class GeneradorSolicitudLotesBonos {
 
     private final HashMap<String, Long> mapLetrasValores;
     private final HashMap<Long, String> mapValoresLetras;
+    private StreamedContent file;
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -152,7 +172,6 @@ public class GeneradorSolicitudLotesBonos {
             System.out.println("Buscando Casinos");
             System.out.println("Encontrados Casinos");
         }
-
         casinos = sessionBean.adminFacade.findAllCasinos();
     }
 
@@ -249,6 +268,26 @@ public class GeneradorSolicitudLotesBonos {
 
     public void setLoteBonoSolicitudes(List<loteBonoSolicitud> loteBonoSolicitudes) {
         this.loteBonoSolicitudes = loteBonoSolicitudes;
+    }
+
+    public void PDF(ActionEvent actionEvent) {
+        ReportCreator.generadorEntregaBonosCaja(elemento);
+    }
+
+    public List<Casino> getCasinos() {
+        return casinos;
+    }
+
+    public void setCasinos(List<Casino> casinos) {
+        this.casinos = casinos;
+    }
+
+    public StreamedContent getFile() {
+        return file;
+    }
+
+    public void setFile(StreamedContent file) {
+        this.file = file;
     }
 
 }

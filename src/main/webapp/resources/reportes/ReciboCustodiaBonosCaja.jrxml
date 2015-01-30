@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="600" pageHeight="1300" orientation="Landscape" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<subDataset name="dataset1"/>
+	<subDataset name="dataset2"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\ivan\\Documents\\NetBeansProjects\\inversionesMercadeo\\src\\main\\webapp\\resources\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<field name="actnumber" class="java.lang.String"/>
+	<field name="tlc" class="java.awt.Image"/>
+	<field name="ibf" class="java.awt.Image"/>
+	<field name="mrc" class="java.awt.Image"/>
+	<field name="subreportParameter" class="net.sf.jasperreports.engine.JasperReport"/>
+	<field name="bonosPorDenominacionEntregars" class="java.util.List"/>
+	<field name="bonosno" class="net.sf.jasperreports.engine.JasperReport"/>
+	<field name="bonosnoincluidos" class="java.util.List"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="52" splitType="Stretch">
+			<image>
+				<reportElement x="5" y="0" width="137" height="47"/>
+				<imageExpression class="java.awt.Image"><![CDATA[$F{tlc}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="199" y="0" width="161" height="47"/>
+				<imageExpression class="java.awt.Image"><![CDATA[$F{ibf}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="417" y="0" width="137" height="47"/>
+				<imageExpression class="java.awt.Image"><![CDATA[$F{mrc}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="581" splitType="Stretch">
+			<rectangle>
+				<reportElement x="317" y="138" width="100" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="17" y="85" width="523" height="33"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[De acuerdo con el Procedimiento IBF-PRMR-005 "Manejo y Control de Bonos de Juego", se hace entrega de los bonos que se relacionan a continuación para su custodia en el área de caja:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="17" width="39" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Acta # ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="56" y="17" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{actnumber}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="17" y="118" width="100" height="40"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="17" y="118" width="100" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="117" y="118" width="100" height="40"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="117" y="118" width="100" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Denominación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="317" y="138" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Al]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="217" y="118" width="200" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="37" width="551" height="35"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACTA DE RECIBO Y CUSTODIA DE BONOS EN CAJA]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="217" y="138" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="417" y="118" width="123" height="40"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="217" y="118" width="200" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Consecutivo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="217" y="138" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Del]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="417" y="118" width="123" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sala de Juego]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="247" width="523" height="53"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[En constancia de ello se entregan los bonos el día __________________________. a las ________ horas.]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="17" y="158" width="523" height="89"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource
+                    ($F{bonosPorDenominacionEntregars})]]></dataSourceExpression>
+				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$F{subreportParameter}]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="17" y="300" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Entrega:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="300" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Recibe:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="18" y="384" width="199" height="1"/>
+			</line>
+			<line>
+				<reportElement x="260" y="385" width="220" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="17" y="398" width="200" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gerente de Mercadeo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="398" width="220" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jefe de Caja]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="436" width="313" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Nota: Quedan pendientes por entregar los bonos]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="17" y="456" width="523" height="100"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource
+                    ($F{bonosnoincluidos})]]></dataSourceExpression>
+				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$F{bonosno}]]></subreportExpression>
+			</subreport>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

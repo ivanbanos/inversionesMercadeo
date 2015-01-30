@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\ivan\\Documents\\NetBeansProjects\\inversionesMercadeo\\src\\main\\webapp\\resources\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="56" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="56"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="139" y="17" width="280" height="25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SOLICITUD DE BONOS DE JUEGO]]></text>
+			</staticText>
+			<image>
+				<reportElement x="431" y="7" width="118" height="42"/>
+			</image>
+			<image>
+				<reportElement x="9" y="7" width="121" height="42"/>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="390" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="17" width="555" height="69"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="105" width="555" height="126"/>
+			</rectangle>
+			<line>
+				<reportElement x="0" y="40" width="555" height="1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="63" width="555" height="1"/>
+			</line>
+			<line>
+				<reportElement x="352" y="17" width="1" height="69"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="17" width="47" height="23"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ CASINO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="151" height="23"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ NOMBRE DEL SOLICITANTE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="63" width="47" height="23"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ CARGO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="17" width="78" height="23"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ FECHA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="40" width="88" height="23"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ TIPO DE BONO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="63" width="78" height="23"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ PROPÓSITO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="57" y="17" width="295" height="23"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="163" y="41" width="189" height="22"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="63" width="295" height="23"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="431" y="17" width="124" height="23"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="441" y="40" width="114" height="23"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="431" y="63" width="124" height="23"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="105" width="50" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Item]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="105" width="217" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE DEL CLIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="267" y="105" width="125" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="392" y="105" width="163" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AREA]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="131" width="555" height="100"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "solicitudbonosjuego_cliente.jasper"]]></subreportExpression>
+			</subreport>
+			<rectangle>
+				<reportElement x="0" y="244" width="555" height="48"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="244" width="175" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[JUSTIFICACIÓN DE LA SOLICITUD:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="175" y="244" width="380" height="48"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="315" width="240" height="60"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="240" y="315" width="315" height="60"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="315" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Firma del solicitante:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="240" y="335" width="315" height="1"/>
+			</line>
+			<line>
+				<reportElement x="240" y="354" width="315" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="240" y="316" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[ Apobado por:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="336" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[ Cargo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="355" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[ Firma:]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
