@@ -52,15 +52,16 @@ public class EmailSender {
 
         Properties props = new Properties();
         props.put("mail.smtp.host", host);
-        props.put("mail.smtp.port", port);
+        props.put("mail.smtp.port", port+"");
         switch (protocol) {
             case SMTPS:
-                props.put("mail.smtp.ssl.enable", "true");
+                props.put("mail.smtp.ssl.enable", true);
                 break;
-                
+            case POP3:
+            case IMAP:
             case SMTP:
             case TLS:
-                props.put("mail.smtp.starttls.enable", "true");
+                props.put("mail.smtp.starttls.enable", true);
                 break;
         }
 
@@ -76,10 +77,9 @@ public class EmailSender {
                 }
             };
         }
-
         Session session = Session.getInstance(props, authenticator);
         session.setDebug(debug);
-        
+
         // Create a default MimeMessage object.
         MimeMessage message = new MimeMessage(session);
 
@@ -99,65 +99,59 @@ public class EmailSender {
         // add it
         multipart.addBodyPart(messageBodyPart);
         if (!nombre.equals("noimage")) {
-            
-            
+
             FTPClient client = new FTPClient();
-        byte[] bytesArray = null;
+            byte[] bytesArray = null;
 
-        String remoteFile2 = nombre;
-        try {
-            String sFTP = ConfiguracionDao.findByNombre("FTP").getValor();
-            String sUser = ConfiguracionDao.findByNombre("FTPuser").getValor();
-            String sPassword = ConfiguracionDao.findByNombre("FTPpassword").getValor();
-
-            client.connect(sFTP);
-            boolean login = client.login(sUser, sPassword);
-
-            int reply = client.getReplyCode();
-
-            System.out.println("Respuesta recibida de conexión FTP:" + reply);
-
-            if (FTPReply.isPositiveCompletion(reply)) {
-                System.out.println("Conectado Satisfactoriamente");
-            } else {
-                System.out.println("Imposible conectarse al servidor");
-            }
-            client.changeWorkingDirectory("/home/easl4284/public_html/imagenes");
-            client.setFileType(FTP.BINARY_FILE_TYPE);
-
-            InputStream inputStream = client.retrieveFileStream(remoteFile2);
-            bytesArray = IOUtils.toByteArray(inputStream);
-
-            boolean success = client.completePendingCommand();
-            if (success) {
-                System.out.println("File has been downloaded successfully.");
-            }
-            inputStream.close();
-
-
-        } catch (FileNotFoundException ex) {
-            System.out.println(ex);
-        } catch (IOException ex) {
-
-            System.out.println(ex);
-        } finally {
+            String remoteFile2 = nombre;
             try {
-                client.logout();
-                client.disconnect();
+                String sFTP = ConfiguracionDao.findByNombre("FTP").getValor();
+                String sUser = ConfiguracionDao.findByNombre("FTPuser").getValor();
+                String sPassword = ConfiguracionDao.findByNombre("FTPpassword").getValor();
+
+                client.connect(sFTP);
+                boolean login = client.login(sUser, sPassword);
+
+                int reply = client.getReplyCode();
+
+                System.out.println("Respuesta recibida de conexión FTP:" + reply);
+
+                if (FTPReply.isPositiveCompletion(reply)) {
+                    System.out.println("Conectado Satisfactoriamente");
+                } else {
+                    System.out.println("Imposible conectarse al servidor");
+                }
+                client.changeWorkingDirectory("/home/easl4284/public_html/imagenes");
+                client.setFileType(FTP.BINARY_FILE_TYPE);
+
+                InputStream inputStream = client.retrieveFileStream(remoteFile2);
+                bytesArray = IOUtils.toByteArray(inputStream);
+
+                boolean success = client.completePendingCommand();
+                if (success) {
+                    System.out.println("File has been downloaded successfully.");
+                }
+                inputStream.close();
+
+            } catch (FileNotFoundException ex) {
+                System.out.println(ex);
             } catch (IOException ex) {
 
                 System.out.println(ex);
+            } finally {
+                try {
+                    client.logout();
+                    client.disconnect();
+                } catch (IOException ex) {
+
+                    System.out.println(ex);
+                }
             }
-        }
-        
-            
-            
-            
-            
+
             // second part (the image)
             messageBodyPart = new MimeBodyPart();
-            
-            DataSource fds = new ByteArrayDataSource(bytesArray,new MimetypesFileTypeMap().getContentType(nombre));
+
+            DataSource fds = new ByteArrayDataSource(bytesArray, new MimetypesFileTypeMap().getContentType(nombre));
 
             messageBodyPart.setDataHandler(new DataHandler(fds));
             messageBodyPart.setHeader("Content-ID", "<image>");

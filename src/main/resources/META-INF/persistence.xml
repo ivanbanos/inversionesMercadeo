@@ -42,6 +42,7 @@
     <class>com.invbf.sistemagestionmercadeo.entity.Categoria</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Lotebono</class>
     <class>com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosHasClientes</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.CommputadorRegistrado</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>

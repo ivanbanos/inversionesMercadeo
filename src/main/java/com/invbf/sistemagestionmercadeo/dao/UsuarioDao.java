@@ -4,6 +4,7 @@
  */
 package com.invbf.sistemagestionmercadeo.dao;
 
+import com.invbf.sistemagestionmercadeo.entity.Perfil;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import java.util.ArrayList;
 import java.util.List;
@@ -190,7 +191,8 @@ public class UsuarioDao {
         }
     }
    
-    public static List<Usuario> findAllHostess() {EntityManagerFactory emf =
+    public static List<Usuario> findAllHostess() {
+        EntityManagerFactory emf =
                 Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -199,6 +201,27 @@ public class UsuarioDao {
         try {
             usuarios = em.createNamedQuery("Usuarios.findByTipoPerfil")
                 .setParameter("nombrePerfil", "Hostess")
+                .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.close();
+        emf.close();
+        return usuarios;
+    }
+
+    public static List<Usuario> findByPerfil(Perfil perfil) {
+        EntityManagerFactory emf =
+                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Usuario> usuarios = null;
+        tx.begin();
+        try {
+            usuarios = em.createNamedQuery("Usuarios.findByTipoPerfil")
+                .setParameter("nombrePerfil", perfil.getNombre())
                 .getResultList();
             tx.commit();
         } catch (Exception e) {

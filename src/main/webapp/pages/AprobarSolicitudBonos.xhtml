@@ -147,11 +147,20 @@
                                                                 <h:outputText value="#{'valor'}" />
                                                             </f:facet>
 
+                                                            <f:facet name="footer">
+
+                                                                <h:outputText value="#{aprobarSolicitudBonos.total}" />
+                                                            </f:facet>
                                                             <label>#{cli.valorTotal}</label>
                                                         </h:column>
                                                         <h:column >
                                                             <f:facet name="header">
                                                                 <h:outputText value="#{'valorpreaprobado'}" />
+                                                            </f:facet>
+
+                                                            <f:facet name="footer">
+
+                                                                    <h:outputText value="#{aprobarSolicitudBonos.preTotal}" />
                                                             </f:facet>
 
                                                             <label>#{cli.valorPreAprobado}</label>
@@ -161,7 +170,15 @@
                                                                 <h:outputText value="#{'valoraprobar'}" />
                                                             </f:facet>
 
-                                                            <p:spinner min="0" stepFactor="5000" id="valor#{cli.cliente.idCliente}" value="#{cli.valorAprobado}" />
+                                                            <f:facet name="footer">
+
+                                                                <p:outputPanel id="total" style="display:block">
+                                                                    <h:outputText value="#{aprobarSolicitudBonos.aprTotal}" />
+                                                                </p:outputPanel>
+                                                            </f:facet>
+                                                            <p:spinner min="0" stepFactor="5000" id="valor#{cli.cliente.idCliente}" value="#{cli.valorAprobado}" >
+                                                                <p:ajax event="change" update="@form"  />
+                                                            </p:spinner>
                                                         </h:column>
                                                         <h:column >
                                                             <f:facet name="header">

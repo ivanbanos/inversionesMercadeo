@@ -758,7 +758,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
     }
 
     @Override
-    public boolean guardarSolicitudentregabonos(Solicitudentregalotesmaestro elemento, List<Integer> bonosreincluidos) {
+    public boolean guardarSolicitudentregabonos(Solicitudentregalotesmaestro elemento, List<Integer> bonosreincluidos, int porque) {
         for (Integer bonoreincluido : bonosreincluidos) {
             BonosnoincluidosDao.remove(new Bononoincluido(bonoreincluido));
         }
@@ -797,7 +797,11 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
         }
         elemento.setSolicitudentregaloteList(solicitudentregaloteses);
         SolicitudentregalotesmaestroDao.edit(elemento);
-        Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_GENERADA);
+        if (porque == 1) {
+            String body = "Se a creado una solicitud de entrada de lotes de bono con el ID "+elemento.getId()
+                    + ".\nPor favor revisar la pagina de Lista de solicitudes de lotes de bonos.";
+            Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_GENERADA, body, "Solicitud de entrada de lotes de bono generada");
+        }
         return false;
     }
 
@@ -819,6 +823,9 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
         }
         ControlsalidabonosDao.create(csb);
 
+                String body = "Se a creado una solicitud de salida de bonos con el ID " + csb.getId()
+                        + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
+                Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha generado una solicitud de salida de bonos de caja");
     }
 
     @Override

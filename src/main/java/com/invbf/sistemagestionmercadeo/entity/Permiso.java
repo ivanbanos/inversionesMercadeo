@@ -196,5 +196,5 @@ public class Permiso implements Serializable {
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Permiso[ idAcciones=" + idAcciones + " ]";
     }
-
+    
 }

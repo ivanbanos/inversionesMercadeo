@@ -143,6 +143,6 @@ public class Formulario implements Serializable {
     
     public boolean es(String tablaaccion) {
         return (tabla+accion).equals(tablaaccion);
-    }
+}
     
 }

@@ -48,6 +48,8 @@ public class Propositoentrega implements Serializable {
     private String nombre;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "propositoEntrega")
     private List<Solicitudentrega> solicitudentregaList;
+    @OneToMany(mappedBy = "propositosEntregaid")
+    private List<Bono> bonoList;
 
     public Propositoentrega() {
     }
@@ -84,6 +86,15 @@ public class Propositoentrega implements Serializable {
 
     public void setSolicitudentregaList(List<Solicitudentrega> solicitudentregaList) {
         this.solicitudentregaList = solicitudentregaList;
+    }
+
+    @XmlTransient
+    public List<Bono> getBonoList() {
+        return bonoList;
+    }
+
+    public void setBonoList(List<Bono> bonoList) {
+        this.bonoList = bonoList;
     }
 
     @Override

@@ -13,7 +13,9 @@ import com.invbf.sistemagestionmercadeo.entity.Solicitudentrega;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregacliente;
 import com.invbf.sistemagestionmercadeo.entity.Tipobono;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
+import com.invbf.sistemagestionmercadeo.util.ClienteSGBDTO;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,8 +110,14 @@ public class PreaprobarSolicitudBonos {
 
     public void guardar() {
         elemento.setEstado("PREAPROBADA");
+        for(Solicitudentregacliente sec:solicitudentregaclienteses){
+            sec.setValorAprobado(sec.getValorPreAprobado());
+        }
         elemento.setSolicitudentregaclienteList(solicitudentregaclienteses);
         sessionBean.marketingUserFacade.guardarSolicitudentrega(elemento, new ArrayList<Integer>());
+                String body = "Se a preaprobado la solicitud de bonos con el ID " + elemento.getId()
+                        + ".\nPor favor revisar la pagina de Lista de solicitudes de bonos.";
+                Notificador.notificar(Notificador.SOLICITUD_BONOS_PREAPROBADA, body, "Solicitud de bonos preaprobada");
         sessionBean.registrarlog(null, null, "Preaprobada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
         FacesUtil.addInfoMessage("Solicitud preaprobada con exito!", "");
     }
@@ -220,5 +228,22 @@ public class PreaprobarSolicitudBonos {
 
     public void setSalatoCliente(Integer idSala, Integer indexCliente) {
         this.solicitudentregaclienteses.get(indexCliente).setAreaid(new Area(idSala));
+    }
+    
+     public Float getTotal(){
+        Float total = 0f;
+        for(Solicitudentregacliente sec : solicitudentregaclienteses){
+            System.out.println(sec.getValorTotal());
+            total  += sec.getValorTotal();
+        }
+        return total;
+    }
+     public Float getPreTotal(){
+        Float total = 0f;
+        for(Solicitudentregacliente sec : solicitudentregaclienteses){
+            System.out.println(sec.getValorTotal());
+            total  += sec.getValorPreAprobado();
+        }
+        return total;
     }
 }

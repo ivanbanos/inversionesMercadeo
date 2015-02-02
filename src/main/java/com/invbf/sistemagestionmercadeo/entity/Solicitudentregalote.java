@@ -20,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -51,6 +52,12 @@ public class Solicitudentregalote implements Serializable {
     private Solicitudentregalotesmaestro solicitudEntregaLotesMaestro;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudEntregaLotesid")
     private List<Bononoincluido> bononoincluidoList;
+    @Size(max = 45)
+    @Column(name = "desde")
+    private String desde;
+    @Size(max = 45)
+    @Column(name = "hasta")
+    private String hasta;
 
     public Solicitudentregalote() {
     }
@@ -124,5 +131,20 @@ public class Solicitudentregalote implements Serializable {
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote[ id=" + id + " ]";
     }
-    
+
+    public String getDesde() {
+        return desde;
+    }
+
+    public void setDesde(String desde) {
+        this.desde = desde;
+    }
+
+    public String getHasta() {
+        return hasta;
+    }
+
+    public void setHasta(String hasta) {
+        this.hasta = hasta;
+    }
 }

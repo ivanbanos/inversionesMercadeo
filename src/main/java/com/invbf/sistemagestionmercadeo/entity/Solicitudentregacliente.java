@@ -137,10 +137,10 @@ public class Solicitudentregacliente implements Serializable {
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Solicitudentregacliente[ solicitudentregaclientePK=" + solicitudentregaclientePK + " ]";
     }
-
+    
     public Float getValorPreAprobado() {
         return valorPreAprobado;
-    }
+}
 
     public void setValorPreAprobado(Float valorPreAprobado) {
         this.valorPreAprobado = valorPreAprobado;

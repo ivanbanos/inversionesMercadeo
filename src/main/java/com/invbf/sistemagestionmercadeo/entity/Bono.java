@@ -88,6 +88,9 @@ public class Bono implements Serializable {
     @JoinColumn(name = "casino", referencedColumnName = "idCasino")
     @ManyToOne(optional = false)
     private Casino casino;
+    @JoinColumn(name = "PropositosEntrega_id", referencedColumnName = "id")
+    @ManyToOne
+    private Propositoentrega propositosEntregaid;
 
     public Bono() {
     }
@@ -203,6 +206,14 @@ public class Bono implements Serializable {
 
     public void setCasino(Casino casino) {
         this.casino = casino;
+    }
+
+    public Propositoentrega getPropositosEntregaid() {
+        return propositosEntregaid;
+    }
+
+    public void setPropositosEntregaid(Propositoentrega propositosEntregaid) {
+        this.propositosEntregaid = propositosEntregaid;
     }
 
     @Override

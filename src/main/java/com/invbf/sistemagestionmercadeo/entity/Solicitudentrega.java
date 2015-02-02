@@ -217,10 +217,10 @@ public class Solicitudentrega implements Serializable {
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Solicitudentrega[ id=" + id + " ]";
     }
-
+    
     public Integer getFormareparticrbonos() {
         return formareparticrbonos;
-    }
+}
 
     public void setFormareparticrbonos(Integer formareparticrbonos) {
         this.formareparticrbonos = formareparticrbonos;

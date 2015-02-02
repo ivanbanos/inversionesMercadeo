@@ -176,7 +176,7 @@ public class VistaDao {
         List<Vista> vistas = null;
         tx.begin();
         try {
-            vistas = (List<Vista>) em.createNamedQuery("Vistas.findByNombreVista")
+            vistas = (List<Vista>) em.createNamedQuery("Vista.findByNombreVista")
                 .setParameter("nombreVista", nombre)
                 .getResultList();
             tx.commit();

@@ -158,6 +158,9 @@
                                                             <f:facet name="header">
                                                                 <h:outputText value="#{'valor'}" />
                                                             </f:facet>
+                                                            <f:facet name="footer">
+                                                                <h:outputText value="#{preaprobarSolicitudBonos.total}" />
+                                                            </f:facet>
 
                                                             <h:outputLabel value="#{cli.valorTotal}">
                                                                 <f:converter  converterId="numberSeparationConverter"  />
@@ -167,8 +170,17 @@
                                                             <f:facet name="header">
                                                                 <h:outputText value="#{'valorpreaprobado'}" />
                                                             </f:facet>
+                                                            <f:facet name="footer">
 
-                                                            <p:spinner min="0" stepFactor="5000" id="valor#{cli.cliente.idCliente}" value="#{cli.valorPreAprobado}" />
+                                                                <p:outputPanel id="total" style="display:block">
+                                                                    <h:outputText value="#{preaprobarSolicitudBonos.preTotal}" />
+                                                                </p:outputPanel>
+                                                            </f:facet>
+
+                                                            <p:spinner min="0" stepFactor="5000" id="valor#{cli.cliente.idCliente}" value="#{cli.valorPreAprobado}" >
+                                                                <p:ajax event="change" update="@form"  />
+                                                            </p:spinner>
+
                                                         </h:column>
                                                         <h:column >
                                                             <f:facet name="header">

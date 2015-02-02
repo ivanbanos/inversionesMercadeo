@@ -16,11 +16,13 @@ import com.invbf.sistemagestionmercadeo.entity.Solicitudentregacliente;
 import com.invbf.sistemagestionmercadeo.entity.Tipobono;
 import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
+import com.invbf.sistemagestionmercadeo.reportes.ReportCreator;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
 import com.invbf.sistemagestionmercadeo.util.ClienteSGBDTO;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.MatematicaAplicada;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import com.invbf.sistemagestionmercadeo.util.TipoJuegoBoolean;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -38,6 +40,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import org.primefaces.event.FlowEvent;
 
 /**
@@ -185,6 +188,9 @@ public class GeneradorSolicitudBonos {
                 }
                 elemento.setSolicitudentregaclienteList(solicitudentregaclienteses);
                 elemento = sessionBean.marketingUserFacade.guardarSolicitudentrega(elemento, clientesABorrar);
+                String body = "Se a creado una solicitud de bonos con el ID " + elemento.getId()
+                        + ".\nPor favor revisar la pagina de Lista de solicitudes de bonos.";
+                Notificador.notificar(Notificador.SOLICITUD_BONOS_GENERADA, body, "Solicitud de bonos generada");
                 sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
                 FacesUtil.addInfoMessage("Solicitud guardada con exito!", "Notificación enviada");
             } else {
@@ -200,7 +206,10 @@ public class GeneradorSolicitudBonos {
                             sec.setAreaid(clientesGBT.getAreaid());
                             sec.setCliente(clientesGBT.getClientessgb());
                             sec.setValorTotal(clientesGBT.getValorTotal());
+                            sec.setValorPreAprobado(clientesGBT.getValorTotal());
+                            sec.setValorAprobado(clientesGBT.getValorTotal());
                             solicitudentregaclienteses.add(sec);
+
                         } else {
                             FacesUtil.addErrorMessage("No se puede guardar la solicitud", "monto de clientes no es congruente con las denominaciones");
                             break guardar;
@@ -208,7 +217,7 @@ public class GeneradorSolicitudBonos {
                     }
                 }
                 elemento.setSolicitudentregaclienteList(solicitudentregaclienteses);
-
+                elemento.setFormareparticrbonos(1);
                 System.out.println("entremos a ver");
                 sessionBean.marketingUserFacade.guardarSolicitudentrega(elemento, clientesABorrar);
                 sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
@@ -527,6 +536,15 @@ public class GeneradorSolicitudBonos {
         this.todostip = todostip;
     }
 
+    public Float getTotal() {
+        Float total = 0f;
+        for (ClienteSGBDTO sec : clientes) {
+            System.out.println(sec.getValorTotal());
+            total += sec.getValorTotal();
+        }
+        return total;
+    }
+
     public String onFlowProcess(FlowEvent event) {
         System.out.println(elemento.getTipoBono().getId());
         System.out.println(elemento.getTipoBono().getNombre());
@@ -572,5 +590,9 @@ public class GeneradorSolicitudBonos {
             }
         }
         return event.getNewStep();
+    }
+
+    public void PDF(ActionEvent actionEvent) {
+        ReportCreator.generadorSolicitudBono(elemento);
     }
 }

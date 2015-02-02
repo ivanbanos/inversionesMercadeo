@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -140,6 +141,8 @@ public class AceptarSolicitudEntregaBonosBean {
             elemento.setEstado("ACEPTADA");
             sessionBean.marketingUserFacade.cambiarEstadoSolicitudentregabonos(elemento);
             sessionBean.getAttributes().remove("idsolicitudentregalotes");
+            String body = "Se a aceptado la solicitud de entrada de lotes de bono con el ID "+elemento.getId();
+            Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_ACEPTADA, body, "Solicitud de entrada de lotes de bono aceptada");
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudLotesBonosView.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(AceptarSolicitudEntregaBonosBean.class.getName()).log(Level.SEVERE, null, ex);

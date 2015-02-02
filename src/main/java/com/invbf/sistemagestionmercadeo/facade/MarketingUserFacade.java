@@ -131,7 +131,7 @@ public interface MarketingUserFacade {
 
     public List<Lotebono> getAllLotesBonos();
 
-    public boolean guardarSolicitudentregabonos(Solicitudentregalotesmaestro elemento, List<Integer> bonosreincluidos);
+    public boolean guardarSolicitudentregabonos(Solicitudentregalotesmaestro elemento, List<Integer> bonosreincluidos, int porque);
 
     public List<Solicitudentregalotesmaestro> getAllSolicitudentregalotesmaestro();
 

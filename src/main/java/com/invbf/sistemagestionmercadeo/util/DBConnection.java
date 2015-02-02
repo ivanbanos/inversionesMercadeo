@@ -33,17 +33,13 @@ public class DBConnection {
     public Connection getConnection() {
         try {
             if (connection == null || connection.isClosed()) {
-                EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
-                
-                Class.forName((String)emf.getProperties().get("javax.persistence.jdbc.driver"));
-                connection = DriverManager.getConnection((String)emf.getProperties().get("javax.persistence.jdbc.url"), 
-                        (String)emf.getProperties().get("javax.persistence.jdbc.user"), 
-                        (String)emf.getProperties().get("javax.persistence.jdbc.password"));
+                Context ctx = new InitialContext();
+                DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/sgcDS");
+                connection = ds.getConnection();
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+        } catch (NamingException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return connection;

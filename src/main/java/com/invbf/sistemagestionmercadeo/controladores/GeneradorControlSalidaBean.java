@@ -21,6 +21,7 @@ import com.invbf.sistemagestionmercadeo.util.ClienteMonto;
 import com.invbf.sistemagestionmercadeo.util.DenoinacionCant;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.MatematicaAplicada;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -122,10 +123,10 @@ public class GeneradorControlSalidaBean {
             }
             for (Solicitudentregacliente solec1 : solec) {
                 Float monto = solec1.getValorTotal();
-                if (solec1.getValorPreAprobado()!=null && solec1.getValorPreAprobado() != 0) {
+                if (solec1.getValorPreAprobado() != null && solec1.getValorPreAprobado() != 0) {
                     monto = solec1.getValorPreAprobado();
                 }
-                if (solec1.getValorAprobado()!=null && solec1.getValorAprobado() != 0) {
+                if (solec1.getValorAprobado() != null && solec1.getValorAprobado() != 0) {
                     monto = solec1.getValorAprobado();
                 }
                 totalEntregar += monto;
@@ -173,10 +174,11 @@ public class GeneradorControlSalidaBean {
                 cslb.setControlsalidabonosHasLotesbonosHasClientesList(new ArrayList<ControlsalidabonosHasLotesbonosHasClientes>());
                 controlsalidabonosHasLotesbonoses.add(cslb);
             }
-            
+
             elemento.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
             elemento.setEstado("SOLICITADA");
             sessionBean.marketingUserFacade.guardarControlSalidaBonos(elemento);
+
             FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
         } else {
             for (Lotebono lb : lotesSol) {
@@ -220,6 +222,9 @@ public class GeneradorControlSalidaBean {
             }
         }
 
+        String body = "Se a enviado la solicitud de salida de bonos con el ID " + elemento.getId()
+                + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
+        Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha enviado una solicitud de salida de bonos de caja");
     }
 
     public Usuario getUsuario() {

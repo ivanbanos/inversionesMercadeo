@@ -70,7 +70,7 @@ public class Usuario implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "remitente")
     private List<Solicitudentregalotesmaestro> solicitudentregalotesmaestroList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuariosidUsuario")
-    private List<ComputadorRegistrado> computadorRegistradoList;
+    private List<CommputadorRegistrado> commputadorRegistradoList;
     @OneToMany(mappedBy = "autorizador")
     private List<Bono> bonoList;
     @OneToMany(mappedBy = "validador")
@@ -174,12 +174,12 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
-    public List<ComputadorRegistrado> getComputadorRegistradoList() {
-        return computadorRegistradoList;
+    public List<CommputadorRegistrado> getCommputadorRegistradoList() {
+        return commputadorRegistradoList;
     }
 
-    public void setComputadorRegistradoList(List<ComputadorRegistrado> computadorRegistradoList) {
-        this.computadorRegistradoList = computadorRegistradoList;
+    public void setCommputadorRegistradoList(List<CommputadorRegistrado> commputadorRegistradoList) {
+        this.commputadorRegistradoList = commputadorRegistradoList;
     }
 
     @XmlTransient

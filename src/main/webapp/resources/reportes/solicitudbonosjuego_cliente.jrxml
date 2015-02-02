@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="solicitudbonosjuego_cliente" pageWidth="555" pageHeight="802" columnWidth="535" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<field name="item" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="total" class="java.lang.String"/>
+	<field name="area" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -20,33 +24,45 @@
 	</columnFooter>
 	<pageFooter>
 		<band height="26" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="50" height="26"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="50" y="0" width="217" height="26"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="267" y="0" width="125" height="26"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="392" y="0" width="163" height="26"/>
+			</rectangle>
 			<textField>
 				<reportElement x="0" y="0" width="50" height="26"/>
-				<textElement verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{item}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="50" y="0" width="217" height="26"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[ $F{nombre}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="267" y="0" width="125" height="26"/>
-				<textElement verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{total} ]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="392" y="0" width="163" height="26"/>
-				<textElement verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{area}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

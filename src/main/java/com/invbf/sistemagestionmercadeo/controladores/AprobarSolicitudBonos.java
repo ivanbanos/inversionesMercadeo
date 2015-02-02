@@ -13,8 +13,8 @@ import com.invbf.sistemagestionmercadeo.entity.Solicitudentrega;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregacliente;
 import com.invbf.sistemagestionmercadeo.entity.Tipobono;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
-import com.invbf.sistemagestionmercadeo.entity.Usuariodetalle;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -240,5 +240,28 @@ public class AprobarSolicitudBonos {
 
     public void setSalatoCliente(Integer idSala, Integer indexCliente) {
         this.solicitudentregaclienteses.get(indexCliente).setAreaid(new Area(idSala));
+    }
+    public Float getTotal(){
+        Float total = 0f;
+        for(Solicitudentregacliente sec : solicitudentregaclienteses){
+            System.out.println(sec.getValorTotal());
+            total  += sec.getValorTotal();
+        }
+        return total;
+    }
+     public Float getPreTotal(){
+        Float total = 0f;
+        for(Solicitudentregacliente sec : solicitudentregaclienteses){
+            System.out.println(sec.getValorTotal());
+            total  += sec.getValorPreAprobado();
+        }
+        return total;
+    }public Float getAprTotal(){
+        Float total = 0f;
+        for(Solicitudentregacliente sec : solicitudentregaclienteses){
+            System.out.println(sec.getValorTotal());
+            total  += sec.getValorAprobado();
+        }
+        return total;
     }
 }

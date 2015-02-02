@@ -92,21 +92,6 @@
                                             </div>
 
                                             <div class="row">
-
-                                                <div class="control-group">
-                                                    <div class="form-group">
-                                                        <label class="col-md-2 control-label" >#{label['Comoquiererepartirlosbonos']}</label>
-                                                        <div class="col-md-4">
-                                                            <p:selectOneMenu id="forma" value="#{generadorSolicitudBonos.elemento.formareparticrbonos}">
-                                                                <f:selectItem itemLabel="Grandes denominaciones" itemValue="1" /> 
-                                                                <f:selectItem itemLabel="Peque&ntilde;as denominaciones" itemValue="2" />  
-                                                            </p:selectOneMenu>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
                                                 <c:choose>
                                                     <c:when test="#{sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;)
                                                                     or sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;)}">
@@ -183,7 +168,7 @@
                                                         <div class="form-group">
                                                             <div class="col-md-12">
 
-                                                                <h:dataTable class="table table-striped" value="#{generadorSolicitudBonos.clientes}" var="cli">
+                                                                <h:dataTable class="table table-striped" binding="#{table}" value="#{generadorSolicitudBonos.clientes}" var="cli">
                                                                     <f:facet name="header">
                                                                         <h:outputText value="Clientes" />
                                                                     </f:facet>
@@ -191,7 +176,7 @@
                                                                         <f:facet name="header">
                                                                             <h:outputText value="#{'item'}" />
                                                                         </f:facet>
-                                                                        <label>#{cli.clientessgb.idCliente}</label>
+                                                                        <label>#{table.rowIndex + 1}</label>
                                                                     </h:column>
                                                                     <h:column >
                                                                         <f:facet name="header">
@@ -209,7 +194,9 @@
                                                                         <f:facet name="header">
                                                                             <h:outputText value="#{'valor'}" />
                                                                         </f:facet>
-                                                                        <p:spinner min="0" prefix="$" stepFactor="5000" id="valor#{cli.clientessgb.idCliente}" value="#{cli.valorTotal}" />
+                                                                        <p:spinner min="0" prefix="$" stepFactor="5000" id="valor#{cli.clientessgb.idCliente}" value="#{cli.valorTotal}" >
+                                                                            <p:ajax event="change" update=":#{p:component('total')}"  />
+                                                                        </p:spinner>
                                                                     </h:column>
                                                                     <h:column >
                                                                         <f:facet name="header">
@@ -224,6 +211,11 @@
                                                                         <p:commandButton id="addCliente" oncomplete="PF('addClienteDialog').show();" 
                                                                                          update=":#{p:component('addClienteDialog')}"
                                                                                          icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" />
+
+                                                                        <p:outputPanel id="total" style="display:block">
+                                                                            <h:outputLabel value="Total:"></h:outputLabel>
+                                                                            <h:outputText value="#{generadorSolicitudBonos.total}"></h:outputText>
+                                                                        </p:outputPanel>
                                                                     </f:facet>
                                                                 </h:dataTable>
 
@@ -271,6 +263,8 @@
                                             <div class="text-right"> 
                                                 <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{generadorSolicitudBonos.guardar()}"
                                                                  ajax="false" style="margin:0" />
+                                                <p:commandButton value="PDF" actionListener="#{generadorSolicitudBonos.PDF}" ajax="false"/>
+
                                             </div>
 
                                         </div>
@@ -366,6 +360,7 @@
                                                      title="#{label['lb_btn.Go']}" action="#{generadorSolicitudBonos.busquedaClientes()}"
                                                      update="@all" oncomplete="PF('addClienteDialog').hide()" process="@all">
                                     </p:commandButton> 
+
                                 </div>
 
                             </div>

@@ -10,15 +10,12 @@ import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
-import com.invbf.sistemagestionmercadeo.reportes.ActaREciboCustodiaBonosCajaBean;
-import com.invbf.sistemagestionmercadeo.reportes.ListaBonosPorDenominacionEntregar;
 import com.invbf.sistemagestionmercadeo.reportes.ReportCreator;
 import com.invbf.sistemagestionmercadeo.util.BonosnoincluidosDTO;
 import com.invbf.sistemagestionmercadeo.util.ConvertidorConsecutivo;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.loteBonoSolicitud;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,20 +30,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import javax.swing.ImageIcon;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.util.JRLoader;
-import org.apache.commons.io.IOUtils;
 import org.primefaces.model.StreamedContent;
 
 /**
@@ -199,11 +183,13 @@ public class GeneradorSolicitudLotesBonos {
             for (loteBonoSolicitud lotes : loteBonoSolicitudes) {
                 if (lotes.getCantidad() != 0) {
                     Solicitudentregalote sel = lotes.getSolicitudEntregaLote();
+                    sel.setDesde(ConvertidorConsecutivo.sumarUno(sel.getLotesBonosid().getHasta()));
+                    sel.setHasta(ConvertidorConsecutivo.sumarCantidad(ConvertidorConsecutivo.sumarUno(sel.getLotesBonosid().getHasta()), sel.getCantidad() - 1));
                     elemento.getSolicitudentregaloteList().add(sel);
                     listaBonosReincluidos.addAll(lotes.getBonosReincluidos());
                 }
             }
-            sessionBean.marketingUserFacade.guardarSolicitudentregabonos(elemento, listaBonosReincluidos);
+            sessionBean.marketingUserFacade.guardarSolicitudentregabonos(elemento, listaBonosReincluidos, 1);
             sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
             sessionBean.getAttributes().put("idsolicitudentregalotes", elemento.getId());
             FacesContext.getCurrentInstance().getExternalContext().redirect("GeneradorSolicitudLoteBono.xhtml");

@@ -24,13 +24,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ivan
  */
 @Entity
-@Table(name = "commputadoresRegistrados")
+@Table(name = "CommputadoresRegistrados")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ComputadorRegistrado.findAll", query = "SELECT c FROM ComputadorRegistrado c"),
-    @NamedQuery(name = "ComputadorRegistrado.findById", query = "SELECT c FROM ComputadorRegistrado c WHERE c.id = :id"),
-    @NamedQuery(name = "ComputadorRegistrado.findByMac", query = "SELECT c FROM ComputadorRegistrado c WHERE c.mac = :mac")})
-public class ComputadorRegistrado implements Serializable {
+    @NamedQuery(name = "CommputadorRegistrado.findAll", query = "SELECT c FROM CommputadorRegistrado c"),
+    @NamedQuery(name = "CommputadorRegistrado.findById", query = "SELECT c FROM CommputadorRegistrado c WHERE c.id = :id"),
+    @NamedQuery(name = "CommputadorRegistrado.findByMac", query = "SELECT c FROM CommputadorRegistrado c WHERE c.mac = :mac")})
+public class CommputadorRegistrado implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -44,10 +44,10 @@ public class ComputadorRegistrado implements Serializable {
     @ManyToOne(optional = false)
     private Usuario usuariosidUsuario;
 
-    public ComputadorRegistrado() {
+    public CommputadorRegistrado() {
     }
 
-    public ComputadorRegistrado(Integer id) {
+    public CommputadorRegistrado(Integer id) {
         this.id = id;
     }
 
@@ -85,10 +85,10 @@ public class ComputadorRegistrado implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ComputadorRegistrado)) {
+        if (!(object instanceof CommputadorRegistrado)) {
             return false;
         }
-        ComputadorRegistrado other = (ComputadorRegistrado) object;
+        CommputadorRegistrado other = (CommputadorRegistrado) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -97,7 +97,7 @@ public class ComputadorRegistrado implements Serializable {
 
     @Override
     public String toString() {
-        return "com.invbf.sistemagestionmercadeo.entity.ComputadorRegistrado[ id=" + id + " ]";
+        return "com.invbf.sistemagestionmercadeo.entity.CommputadorRegistrado[ id=" + id + " ]";
     }
     
 }

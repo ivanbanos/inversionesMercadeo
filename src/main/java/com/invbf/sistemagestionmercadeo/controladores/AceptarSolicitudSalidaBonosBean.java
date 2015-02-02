@@ -18,6 +18,7 @@ import com.invbf.sistemagestionmercadeo.exceptions.LoteBonosExistenteException;
 import com.invbf.sistemagestionmercadeo.util.ConvertidorConsecutivo;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.LoteBonoCant;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -208,6 +209,7 @@ public class AceptarSolicitudSalidaBonosBean {
                                 b.setConsecutivo(casino.getCasinodetalle().getAbreviacion() + "-" + casino.getCasinodetalle().getAbreCiudad() + desde);
                                 b.setEstado("POR VALIDAR");
                             }
+                            b.setPropositosEntregaid(elemento.getSolicitudEntregaid().getPropositoEntrega());
                             bonosAGuardar.add(b);
                             System.out.println("Comprobar que pasa con " + desde);
                             desde = sumeUno(desde);
@@ -221,6 +223,10 @@ public class AceptarSolicitudSalidaBonosBean {
             }
         }
         sessionBean.marketingUserFacade.guardarBonos(bonosAGuardar);
+        
+                String body = "Se a aceptado la solicitud de salida de bonos con el ID " + elemento.getId()
+                        + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
+                Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_ACEPTADA, body, "Se ha aceptado una solicitud de salida de bonos de caja");
     }
 
     private String sumeUno(String desde) {
