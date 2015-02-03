@@ -115,4 +115,34 @@ public class AnalisisBono {
         return (((float)canjeados)/aprobados)*100f;
     }
     
+    public long getNocanjeados(){
+        return entregados-canjeados;
+    }
+    
+    public long getEfectividadNoCAnjeados(){
+        return (entregados-canjeados)/entregados;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + (this.tipoBono != null ? this.tipoBono.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AnalisisBono other = (AnalisisBono) obj;
+        if ((this.tipoBono == null) ? (other.tipoBono != null) : !this.tipoBono.equals(other.tipoBono)) {
+            return false;
+        }
+        return true;
+    }
+    
 }

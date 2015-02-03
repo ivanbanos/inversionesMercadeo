@@ -20,31 +20,32 @@
         </div>
         <div class="container">
             <div class="row clearfix">
+
                 <table class="table table-striped">
                     <tr>
-                        <th>Tipo de bono</th>
-                        <th>Solicitados</th>
-                        <th>Entregados a los clientes</th>
-                        <th>% bonos entregados a los clientes</th>
-                        <th>retornados(Jugados)</th>
-                        <th>% De bonos retornados</th>
+                        <th>PROPOSITOS</th>
+                        <th>BONOS SOLICITADOS POR RESPONSABLE DE SALA</th>
+                        <th style="color:#FF0404; background-color: #FFC904;">BONOS ENTREGADOS A LOS CLIENTES</th>
+                        <th style="color:#FF0404; background-color: #FFC904;">% BONOS ENTREGADOS A LOS CLIENTES</th>
+                        <th style="color:#056425; background-color: #04FF57;">BONOS CANJEADOS</th>
+                        <th style="color:#056425; background-color: #04FF57;">% DE BONOS RETORNADOS</th>
+                        <th>BONOS NO CANJEADOS</th>
+                        <th>% DE BONOS NO CANJEADOS</th>
                     </tr>
-                    <tr>
-                        <td>#{reporteMovimientoBonosBean.promocional.tipoBono}</td>
-                        <td>#{reporteMovimientoBonosBean.promocional.aprobados}</td>
-                        <td>#{reporteMovimientoBonosBean.promocional.entregados}</td>
-                        <td>#{reporteMovimientoBonosBean.promocional.efectividad}</td>
-                        <td>#{reporteMovimientoBonosBean.promocional.canjeados}</td>
-                        <td>#{reporteMovimientoBonosBean.promocional.efectividadCAnjeados}</td>
-                    </tr>
-                    <tr>
-                        <td>#{reporteMovimientoBonosBean.noPromocional.tipoBono}</td>
-                        <td>#{reporteMovimientoBonosBean.noPromocional.aprobados}</td>
-                        <td>#{reporteMovimientoBonosBean.noPromocional.entregados}</td>
-                        <td>#{reporteMovimientoBonosBean.noPromocional.efectividad}</td>
-                        <td>#{reporteMovimientoBonosBean.noPromocional.canjeados}</td>
-                        <td>#{reporteMovimientoBonosBean.noPromocional.efectividadCAnjeados}</td>
-                    </tr>
+                    <c:forEach items="#{reporteMovimientoBonosBean.promocional}" var="bonos">
+                        <tr>
+                            <td>#{var.tipoBono}</td>
+                            <td>#{var.aprobados}</td>
+                            <td style=" background-color: #FFC904;">#{var.entregados}</td>
+                            <td style=" background-color: #FFC904;">#{var.efectividad}</td>
+                            <td style="background-color: #04FF57;">#{var.canjeados}</td>
+                            <td style="background-color: #04FF57;">#{var.efectividadCAnjeados}</td>
+                            <td>#{var.nocanjeados}</td>
+                            <td>#{var.efectividadNoCAnjeados}</td>
+                        </tr>
+                    </c:forEach>
+
+
                 </table>
             </div>
         </div>

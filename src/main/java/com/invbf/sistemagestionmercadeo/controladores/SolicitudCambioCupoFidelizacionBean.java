@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Permiso;
 import com.invbf.sistemagestionmercadeo.entity.Tipodocumento;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -86,6 +87,7 @@ public class SolicitudCambioCupoFidelizacionBean {
                 elemento.getIdCliente().toString(), "CLIENTE",
                 "bonoFidelizacion", elemento.getBonoFidelizacion(),
                 elemento.getBonoFidelizacion(), viejo, viejo, observaciones));
+        Notificador.notificar(Notificador.SOLICITUD_CAMBIO_CLIENTE, "Se pidió un cambio en el cupo de fidelización del cliente "+elemento.getNombres()+" "+elemento.getApellidos()+". Favor revisar la pagina de cambios en usuario.", "Cambio en cliente");
     }
 
     public Cliente getElemento() {

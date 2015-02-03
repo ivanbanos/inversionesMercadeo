@@ -14,6 +14,7 @@ import com.invbf.sistemagestionmercadeo.entity.Permiso;
 import com.invbf.sistemagestionmercadeo.entity.Tipodocumento;
 import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -155,7 +156,7 @@ public class ClientesActBean {
                 elemento.setIdCliente(null);
                 sessionBean.marketingUserFacade.guardarClientes(elemento);
                 FacesUtil.addInfoMessage("Cliente creado con exito!", "");
-                sessionBean.registrarlog("actualizar", "Clientes", "Cliente creado: "+elemento.toString());
+                sessionBean.registrarlog("actualizar", "Clientes", "Cliente creado: " + elemento.toString());
                 FacesContext.getCurrentInstance().getExternalContext().redirect("clientes.xhtml");
             } else {
 
@@ -208,9 +209,11 @@ public class ClientesActBean {
                     elemento.setIdTipoDocumento(sessionBean.marketingUserFacade.findTipoDocumento(elemento.getIdTipoDocumento().getIdTipoDocumento()));
                     sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "idTipoDocumento", elemento.getIdTipoDocumento().getIdTipoDocumento().toString(), elemento.getIdTipoDocumento().getNombre(), viejo.getIdTipoDocumento().getIdTipoDocumento().toString(), viejo.getIdTipoDocumento().getNombre(), observaciones));
                 }
+
+                Notificador.notificar(Notificador.SOLICITUD_CAMBIO_CLIENTE, "Se pidió un cambio en el cliente " + elemento.getNombres() + " " + elemento.getApellidos() + ". Favor revisar la pagina de cambios en usuario.", "Cambio en cliente");
                 FacesContext.getCurrentInstance().getExternalContext().redirect("clientes.xhtml");
                 FacesUtil.addInfoMessage("Actualización enviada", "Pendiente de autorización");
-                sessionBean.registrarlog("actualizar", "Clientes", "Cliente enviado a actualización:"+elemento.toString());
+                sessionBean.registrarlog("actualizar", "Clientes", "Cliente enviado a actualización:" + elemento.toString());
 
             }
 

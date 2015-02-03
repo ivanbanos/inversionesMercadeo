@@ -11,6 +11,7 @@ import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Permiso;
 import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -128,6 +129,8 @@ public class CrudClientesBean {
         sessionBean.managerUserFacade.addPermiso(new Permiso("ELIMINAR", elemento.getIdCliente().toString(), "CLIENTE", "", "", "", "", "", ""));
         lista = sessionBean.marketingUserFacade.findAllClientes();
         sessionBean.registrarlog("eliminar", "Clientes", "Cleinte enviado a eliminar:"+elemento.toString());
+        
+        Notificador.notificar(Notificador.SOLICITUD_CAMBIO_CLIENTE, "Se pidió eliminar el cliente "+elemento.getNombres()+" "+elemento.getApellidos()+". Favor revisar la pagina de cambios en usuario.", "Cambio en cliente");
         FacesUtil.addInfoMessage("Eliminación enviada", "Pendiente de autorización");
         elemento = new Cliente();
     }

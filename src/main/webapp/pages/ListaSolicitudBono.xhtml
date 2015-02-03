@@ -42,6 +42,10 @@
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  >
 
+                                        <p:column headerText="#{label['id']}" sortBy="#{element.id}" filterBy="#{element.id}" filterMatchMode="exact" >
+                                            <h:outputText value="#{element.id}" />
+                                        </p:column>
+
                                         <p:column headerText="#{label['fechacreacion']}" sortBy="#{element.fecha}" filterBy="#{element.fecha}" filterMatchMode="contains" >
                                             <h:outputText value="#{element.fecha}" >
                                                 <f:convertDateTime pattern="dd/MMMMM/yyyy " locale="es" />
@@ -94,10 +98,10 @@
                                                 <f:setPropertyActionListener value="#{element}" target="#{listaSolicitudBonosBean.elemento}" /> 
                                             </p:commandButton> 
                                             
-                                            <p:commandButton id="aprobar" action="#{listaSolicitudBonosBean.goSolicitudAceptar(element.id)}" icon="ui-icon-gear" 
+                                            <p:commandButton id="aprobar" action="#{listaSolicitudBonosBean.goSolicitudAceptar(element.id)}" icon="ui-icon-check" 
                                                              title="#{label['lb_btn.aprobar']}"
                                                              rendered="#{sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;) and !element.estado.equals(&quot;APROBADA&quot;)}"/> 
-                                            <p:commandButton id="preaprobar" action="#{listaSolicitudBonosBean.goSolicitudpreAceptar(element.id)}" icon="ui-icon-gear" 
+                                            <p:commandButton id="preaprobar" action="#{listaSolicitudBonosBean.goSolicitudpreAceptar(element.id)}" icon="ui-icon-comment" 
                                                              title="#{label['lb_btn.preaprobar']}"
                                                              rendered="#{sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;) and !element.estado.equals(&quot;APROBADA&quot;)}"/> 
                                         </p:column>

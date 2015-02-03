@@ -34,8 +34,7 @@ public class ReporteMovimientoBonosBean {
     private List<CasinoBoolean> casinos;
     private Date hasta;
     private Date desde;
-    private AnalisisBono promocional;
-    private AnalisisBono noPromocional;
+    private List<AnalisisBono> promocional;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -108,31 +107,22 @@ public class ReporteMovimientoBonosBean {
         this.desde = desde;
     }
 
-    public AnalisisBono getPromocional() {
+    public List<AnalisisBono> getPromocional() {
         return promocional;
     }
 
-    public void setPromocional(AnalisisBono promocional) {
+    public void setPromocional(List<AnalisisBono> promocional) {
         this.promocional = promocional;
     }
 
-    public AnalisisBono getNoPromocional() {
-        return noPromocional;
-    }
-
-    public void setNoPromocional(AnalisisBono noPromocional) {
-        this.noPromocional = noPromocional;
-    }
-
     private void analizarBonos() {
-        promocional = new AnalisisBono("PROMCIONAL");
-        noPromocional = new AnalisisBono("NO PROMOCIONAL");
+        promocional = new ArrayList<AnalisisBono>();
         for (Bono bono : bonosAnalizar) {
-            if (bono.getTipo().getNombre().equals("PROMOCIONAL")) {
-                promocional.addBono(bono);
-            } else {
-                noPromocional.addBono(bono);
+            if(!promocional.contains(new AnalisisBono(bono.getPropositosEntregaid().getNombre()))){
+                promocional.add(new AnalisisBono(bono.getPropositosEntregaid().getNombre()));
             }
+            AnalisisBono ab = promocional.get(promocional.indexOf(new AnalisisBono(bono.getPropositosEntregaid().getNombre())));
+            ab.addBono(bono);
         }
     }
 
