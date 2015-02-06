@@ -118,6 +118,8 @@
                                                     <tr>
                                                         <th>#{'cantidad'}</th>
                                                         <th>#{'denominacion'}</th>
+                                                        <th>#{'desde'}</th>
+                                                        <th>#{'hasta'}</th>
                                                         <th>#{'total'}</th>
                                                     </tr>
                                                     <c:forEach items="#{aceptarSolicitudSalidaBonosBean.loteBonoCants}" var="lote" varStatus="status">
@@ -126,6 +128,14 @@
                                                             <td>
                                                                 <h:outputLabel value="#{lote.lote.denominacion.valor}">
                                                                     <f:converter  converterId="numberSeparationConverter"  />
+                                                                </h:outputLabel>
+                                                            </td>
+                                                            <td>
+                                                                <h:outputLabel value="#{lote.desde}">
+                                                                </h:outputLabel>
+                                                            </td>
+                                                            <td>
+                                                                <h:outputLabel value="#{lote.hasta}">
                                                                 </h:outputLabel>
                                                             </td>
                                                             <td>

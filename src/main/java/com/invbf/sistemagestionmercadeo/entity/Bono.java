@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Bono")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Bono.revisarestados", query = "UPDATE Bono b SET b.estado = :estado WHERE b.fechaExpiracion < CURRENT_TIMESTAMP"),
     @NamedQuery(name = "Bono.findAll", query = "SELECT b FROM Bono b"),
     @NamedQuery(name = "Bono.findById", query = "SELECT b FROM Bono b WHERE b.id = :id"),
     @NamedQuery(name = "Bono.findByConsecutivo", query = "SELECT b FROM Bono b WHERE b.consecutivo = :consecutivo"),
@@ -39,7 +40,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Bono.findByFechaValidacion", query = "SELECT b FROM Bono b WHERE b.fechaValidacion = :fechaValidacion"),
     @NamedQuery(name = "Bono.findByFechaExpiracion", query = "SELECT b FROM Bono b WHERE b.fechaExpiracion = :fechaExpiracion"),
     @NamedQuery(name = "Bono.findByEstadoYCasino", query = "SELECT b FROM Bono b WHERE b.estado = :estado AND b.casino = :casino"),
-    @NamedQuery(name = "Bono.findByAtributos", query = "SELECT b FROM Bono b WHERE b.estado = :estado AND b.casino = :casino AND b.cliente.nombres LIKE :nombres AND b.cliente.apellidos LIKE :apellidos AND b.cliente.identificacion LIKE :identificacion"),
+    @NamedQuery(name = "Bono.findByAtributos", query = "SELECT b FROM Bono b WHERE b.estado = :estado AND b.casino = :casino AND b.cliente.nombres LIKE :nombres AND b.cliente.apellidos LIKE :apellidos AND b.cliente.identificacion LIKE :identificacion AND b.consecutivo LIKE :consecutivo"),
     @NamedQuery(name = "Bono.findByFechaEntrega", query = "SELECT b FROM Bono b WHERE b.fechaEntrega = :fechaEntrega"),
     @NamedQuery(name = "Bono.findByRangoFechas", query = "SELECT b FROM Bono b WHERE b.fechaExpiracion >= :desde AND b.fechaExpiracion <= :hasta"),
     @NamedQuery(name = "Bono.findByRangoFechasCasino", query = "SELECT b FROM Bono b WHERE b.fechaExpiracion >= :desde AND b.fechaExpiracion <= :hasta AND b.casino = :casino")})

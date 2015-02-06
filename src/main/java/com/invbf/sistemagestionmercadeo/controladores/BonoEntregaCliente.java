@@ -51,6 +51,7 @@ public class BonoEntregaCliente {
             } catch (IOException ex) {
             }
         }
+        sessionBean.revisarEstadoBonos();
         casinos = sessionBean.marketingUserFacade.findAllCasinos();
         bonosCasinoEntregados = new ArrayList<Bono>();
         bonosCasinoEntregadosSelected = new ArrayList<Bono>();
@@ -113,7 +114,7 @@ public class BonoEntregaCliente {
         System.out.println("Buscar bonos");
         System.out.println("casino "+casinoSelected.getIdCasino());
         casinoSelected = casinos.get(casinos.indexOf(new Casino(casinoSelected.getIdCasino())));
-        bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorAtributos("EN SALA", casinoSelected, nombres, apellidos, identificacion);
+        bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorAtributos("EN SALA", casinoSelected, nombres, apellidos, identificacion, "");
         System.out.println(bonosCasinoEntregados.size());
     }
 

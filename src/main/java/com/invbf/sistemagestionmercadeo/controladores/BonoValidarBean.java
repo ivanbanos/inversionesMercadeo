@@ -14,6 +14,7 @@ import com.invbf.sistemagestionmercadeo.entity.Denominacion;
 import com.invbf.sistemagestionmercadeo.util.ClienteMonto;
 import com.invbf.sistemagestionmercadeo.util.ConsecutivoBono;
 import com.invbf.sistemagestionmercadeo.util.DenoinacionCant;
+import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,7 @@ public class BonoValidarBean {
             } catch (IOException ex) {
             }
         }
+        sessionBean.revisarEstadoBonos();
         clientes = new ArrayList<ClienteMonto>();
         for (ControlsalidabonosHasLotesbonos lotebono : elemento.getControlsalidabonosHasLotesbonosList()) {
             for (ControlsalidabonosHasLotesbonosHasClientes CoentrolSalidaLotecliente : lotebono.getControlsalidabonosHasLotesbonosHasClientesList()) {
@@ -151,7 +153,7 @@ public class BonoValidarBean {
             System.out.println("entra bono");
             elemento.getBonoList().get(elemento.getBonoList().indexOf(new Bono(bono.getId()))).setCliente(new Cliente(bono.getIdCliente()));
         }
-
+        FacesUtil.addInfoMessage("Bonos asignados con exito", "Se asignaron "+bonosPorAsignar.size()+" bonos");
         sessionBean.marketingUserFacade.saveBonos(elemento, sessionBean.getUsuario().getIdUsuario());
     }
 

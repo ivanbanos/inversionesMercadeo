@@ -130,7 +130,8 @@ public class CrudClientesBean {
         lista = sessionBean.marketingUserFacade.findAllClientes();
         sessionBean.registrarlog("eliminar", "Clientes", "Cleinte enviado a eliminar:"+elemento.toString());
         
-        Notificador.notificar(Notificador.SOLICITUD_CAMBIO_CLIENTE, "Se pidió eliminar el cliente "+elemento.getNombres()+" "+elemento.getApellidos()+". Favor revisar la pagina de cambios en usuario.", "Cambio en cliente");
+        Notificador.notificar(Notificador.SOLICITUD_CAMBIO_CLIENTE, "Se pidió eliminar el cliente "+elemento.getNombres()+" "+elemento.getApellidos()+". Favor revisar la pagina de cambios en usuario.", 
+                "Cambio en cliente", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         FacesUtil.addInfoMessage("Eliminación enviada", "Pendiente de autorización");
         elemento = new Cliente();
     }

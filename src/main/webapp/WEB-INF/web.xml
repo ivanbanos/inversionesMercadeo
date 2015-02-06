@@ -19,7 +19,7 @@
     </servlet-mapping>
     <session-config>
         <!-- Session idle timeout in min. -->
-        <session-timeout>7</session-timeout>
+        <session-timeout>20</session-timeout>
     </session-config>
     
     <welcome-file-list>
@@ -27,7 +27,7 @@
     </welcome-file-list>
     <error-page>  
         <exception-type>java.lang.Throwable</exception-type>  
-        <location>/faces/pages/error.xhtml</location>  
+        <location>/faces/pages/InicioSession.xhtml</location>  
     </error-page> 
     
     <filter>

@@ -99,8 +99,31 @@ public class AceptarSolicitudSalidaBonosBean {
         loteBonoCants = new ArrayList<LoteBonoCant>();
         List<ControlsalidabonosHasLotesbonos> controlsalidabonosHasLotesbonoses = elemento.getControlsalidabonosHasLotesbonosList();
         for (ControlsalidabonosHasLotesbonos controlsalidabonosHasLotesbonos : controlsalidabonosHasLotesbonoses) {
-            loteBonoCants.add(new LoteBonoCant(controlsalidabonosHasLotesbonos.getLotebono(), controlsalidabonosHasLotesbonos.getCantidad()));
+            LoteBonoCant ltc = new LoteBonoCant(controlsalidabonosHasLotesbonos.getLotebono(), controlsalidabonosHasLotesbonos.getCantidad());
+            ltc.setDesde(controlsalidabonosHasLotesbonos.getLotebono().getDesde());
+            String hasta = ltc.getDesde();
+            for (int i = controlsalidabonosHasLotesbonos.getCantidad(); i > 0; i--) {
+                System.out.println(i);
+                while (true) {
+                    boolean seencontro = false;
+                    for (Bononofisico bnf : controlsalidabonosHasLotesbonos.getLotebono().getBononofisicoList()) {
+                        System.out.println("Comprobando " + bnf.getConsecutivo() + " " + hasta);
+                        if (bnf.getConsecutivo().equals(hasta)) {
+                            hasta = sumeUno(hasta);
+                            seencontro = true;
+                            break;
+                        }
+                    }
+                    if (!seencontro) {
+                        break;
+                    }
+                }
+                hasta = sumeUno(hasta);
+            }
+            ltc.setHasta(hasta);
             total += controlsalidabonosHasLotesbonos.getCantidad() * controlsalidabonosHasLotesbonos.getLotebono().getDenominacion().getValor();
+            
+            loteBonoCants.add(ltc);
         }
 
         casinos = sessionBean.adminFacade.findAllCasinos();
@@ -223,10 +246,10 @@ public class AceptarSolicitudSalidaBonosBean {
             }
         }
         sessionBean.marketingUserFacade.guardarBonos(bonosAGuardar);
-        
-                String body = "Se a aceptado la solicitud de salida de bonos con el ID " + elemento.getId()
-                        + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
-                Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_ACEPTADA, body, "Se ha aceptado una solicitud de salida de bonos de caja");
+
+        String body = "Se a aceptado la solicitud de salida de bonos con el ID " + elemento.getId()
+                + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
+        Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_ACEPTADA, body, "Se ha aceptado una solicitud de salida de bonos de caja", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
     }
 
     private String sumeUno(String desde) {

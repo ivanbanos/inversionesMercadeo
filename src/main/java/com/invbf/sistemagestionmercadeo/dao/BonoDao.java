@@ -7,14 +7,18 @@ package com.invbf.sistemagestionmercadeo.dao;
 
 import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
+import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
+import com.invbf.sistemagestionmercadeo.util.PropositosBoolean;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -67,7 +71,7 @@ public class BonoDao {
         return cargos;
     }
 
-    public static List<Bono> getBonosPorAtributos(String estado, Casino casinoSelected, String nombres, String apellidos, String identificacion) {
+    public static List<Bono> getBonosPorAtributos(String estado, Casino casinoSelected, String nombres, String apellidos, String identificacion, String consecutivo) {
         if (nombres != null) {
             nombres = nombres.toUpperCase();
         } else {
@@ -75,13 +79,18 @@ public class BonoDao {
         }
         if (apellidos != null) {
             apellidos = apellidos.toUpperCase();
-        } else{
+        } else {
             apellidos = "";
         }
         if (identificacion != null) {
             identificacion = identificacion.toUpperCase();
         } else {
             identificacion = "";
+        }
+        if (consecutivo != null) {
+            consecutivo = consecutivo.toUpperCase();
+        } else {
+            consecutivo = "";
         }
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
@@ -93,9 +102,10 @@ public class BonoDao {
             cargos = (List<Bono>) em.createNamedQuery("Bono.findByAtributos")
                     .setParameter("estado", estado)
                     .setParameter("casino", casinoSelected)
-                    .setParameter("nombres", '%' + nombres + '%' )
-                    .setParameter("apellidos", '%' + apellidos + '%' )
-                    .setParameter("identificacion", '%' + identificacion + '%' )
+                    .setParameter("nombres", '%' + nombres + '%')
+                    .setParameter("apellidos", '%' + apellidos + '%')
+                    .setParameter("identificacion", '%' + identificacion + '%')
+                    .setParameter("consecutivo", '%' + consecutivo + '%')
                     .getResultList();
             tx.commit();
         } catch (Exception e) {
@@ -106,6 +116,89 @@ public class BonoDao {
         em.close();
         emf.close();
         return cargos;
+    }
+
+    public static List<Bono> getBonosRangoFechaYCasino(Date desde, Date hasta, List<CasinoBoolean> casinos, List<PropositosBoolean> propositos, String nombre, String apellidos) {
+        if (nombre == null) {
+            nombre = "";
+        }
+        nombre = nombre.toUpperCase();
+        if (apellidos == null) {
+            apellidos = "";
+        }
+        apellidos = apellidos.toUpperCase();
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        System.out.println("Emf");
+        EntityManager em = emf.createEntityManager();
+        System.out.println("Em");
+        EntityTransaction tx = em.getTransaction();
+        System.out.println("tx");
+        List<Bono> lista = new ArrayList<Bono>();
+
+        System.out.println("yx begin");
+        tx.begin();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            javax.persistence.criteria.CriteriaQuery<Bono> cq = cb.createQuery(Bono.class);
+            Root<Bono> c = cq.from(Bono.class);
+            cq.select(c);
+
+            ParameterExpression<Integer> nom = cb.parameter(Integer.class);
+            ParameterExpression<Integer> ape = cb.parameter(Integer.class);
+            cq.where(cb.equal(c.get("apellidos"), ape)
+                    ,cb.equal(c.get("nombres"), nom));
+            lista = em.createQuery(cq).getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.close();
+        emf.close();
+        return lista;
+    }
+
+    public static List<Bono> findFechas(Date desde, Date hasta) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Bono> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Bono>) em.createNamedQuery("Bono.findByRangoFechas")
+                    .setParameter("desde", desde)
+                    .setParameter("hasta", hasta)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.close();
+        emf.close();
+        return cargos;
+    }
+
+    public static void revisarEstadoBonos() {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        try {
+            em.createNamedQuery("Bono.revisarestados")
+                    .setParameter("estado", "VENCIDO")
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.close();
+        emf.close();
     }
 
     public BonoDao() {

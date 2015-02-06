@@ -7,6 +7,7 @@ package com.invbf.sistemagestionmercadeo.facade.impl;
 
 import com.invbf.sistemagestionmercadeo.dao.AccesoDao;
 import com.invbf.sistemagestionmercadeo.dao.AreaDao;
+import com.invbf.sistemagestionmercadeo.dao.BonoDao;
 import com.invbf.sistemagestionmercadeo.dao.CargoDao;
 import com.invbf.sistemagestionmercadeo.dao.CasinoDao;
 import com.invbf.sistemagestionmercadeo.dao.ClienteDao;
@@ -391,6 +392,11 @@ public class AdminFacadeImpl implements AdminFacade {
     @Override
     public Propositoentrega findPropositoByNombre(String nombre) {
         return PropositosentregaDao.findByNombre(nombre);
+    }
+
+    @Override
+    public void revisarBonos() {
+        BonoDao.revisarEstadoBonos();
     }
     
 }

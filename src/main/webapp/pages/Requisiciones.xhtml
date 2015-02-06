@@ -50,7 +50,7 @@
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;Controlsalidabonos&quot;)
                                   or sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;)
                                   or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)
-                                  or sessionBean.perfilViewMatch(&quot;Validarbono&quot;)}">
+                                  or sessionBean.perfilViewMatch(&quot;Verificarbono&quot;)}">
                         <h:commandLink  action="#{sessionBean.go(&quot;ControlSalidaBono&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-sign-out fa-5x"></i> 
                             <br/>#{label['salidabonoscaja']}</h:commandLink>
                     </c:if>

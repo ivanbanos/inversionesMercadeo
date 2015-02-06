@@ -87,7 +87,8 @@ public class SolicitudCambioCupoFidelizacionBean {
                 elemento.getIdCliente().toString(), "CLIENTE",
                 "bonoFidelizacion", elemento.getBonoFidelizacion(),
                 elemento.getBonoFidelizacion(), viejo, viejo, observaciones));
-        Notificador.notificar(Notificador.SOLICITUD_CAMBIO_CLIENTE, "Se pidió un cambio en el cupo de fidelización del cliente "+elemento.getNombres()+" "+elemento.getApellidos()+". Favor revisar la pagina de cambios en usuario.", "Cambio en cliente");
+        Notificador.notificar(Notificador.SOLICITUD_CAMBIO_CLIENTE, "Se pidió un cambio en el cupo de fidelización del cliente "+elemento.getNombres()+" "+elemento.getApellidos()+". Favor revisar la pagina de cambios en usuario.",
+                "Cambio en cliente", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
     }
 
     public Cliente getElemento() {

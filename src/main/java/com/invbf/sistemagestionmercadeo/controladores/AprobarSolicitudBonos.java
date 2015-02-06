@@ -8,13 +8,21 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.entity.Area;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
+import com.invbf.sistemagestionmercadeo.entity.Controlsalidabono;
+import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos;
+import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosHasClientes;
+import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosPK;
+import com.invbf.sistemagestionmercadeo.entity.Lotebono;
 import com.invbf.sistemagestionmercadeo.entity.Propositoentrega;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentrega;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregacliente;
 import com.invbf.sistemagestionmercadeo.entity.Tipobono;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
+import com.invbf.sistemagestionmercadeo.entity.Usuariodetalle;
+import com.invbf.sistemagestionmercadeo.util.ClienteMonto;
+import com.invbf.sistemagestionmercadeo.util.DenoinacionCant;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
-import com.invbf.sistemagestionmercadeo.util.Notificador;
+import com.invbf.sistemagestionmercadeo.util.MatematicaAplicada;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -51,6 +59,14 @@ public class AprobarSolicitudBonos {
     private List<Cliente> selectedClientessgbs;
     private List<Solicitudentregacliente> solicitudentregaclienteses;
 
+    private Controlsalidabono control;
+    private List<ClienteMonto> clientesMontos;
+    private List<Lotebono> lotesSol;
+    private Usuario usuario;
+    private Usuariodetalle usuariosdetalles;
+    private Float totalEntregar;
+    private List<DenoinacionCant> denominacionCant;
+
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
 
@@ -63,51 +79,101 @@ public class AprobarSolicitudBonos {
 
     @PostConstruct
     public void init() {
-        sessionBean.checkUsuarioConectado();
-        sessionBean.setActive("solicitudbonos");
-        if (!sessionBean.perfilViewMatch("GenerarSolicitudBono")) {
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
-            } catch (IOException ex) {
+        try {
+            sessionBean.checkUsuarioConectado();
+            sessionBean.setActive("solicitudbonos");
+            if (!sessionBean.perfilViewMatch("GenerarSolicitudBono")) {
+                try {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
+                } catch (IOException ex) {
+                }
             }
-        }
-
-        System.out.println("Buscando info de la solictud si existe");
-        if (sessionBean.getAttributes().containsKey("idSolicitudentrega") && (Integer) sessionBean.getAttributes().get("idSolicitudentrega") != 0) {
-            Integer id = (Integer) sessionBean.getAttributes().get("idSolicitudentrega");
-            elemento = sessionBean.marketingUserFacade.getSolicitudbono(id);
-            solicitudentregaclienteses = elemento.getSolicitudentregaclienteList();
-        } else {
-            try {
-                elemento = new Solicitudentrega();
-                elemento.setEstado("EN CREACION");
-                DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
-                DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
-                TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
-                df.setTimeZone(timeZone);
-                Calendar nowDate = Calendar.getInstance();
-                nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
-                elemento.setFecha(nowDate.getTime());
-                elemento.setIdCasino(sessionBean.getUsuario().getIdCasino());
-                elemento.setPropositoEntrega(new Propositoentrega());
-                elemento.setSolicitante(sessionBean.getUsuario());
-                elemento.setTipoBono(new Tipobono());
-                elemento.setSolicitudentregaclienteList(new ArrayList<Solicitudentregacliente>());
-                solicitudentregaclienteses = new ArrayList<Solicitudentregacliente>();
-            } catch (ParseException ex) {
-                Logger.getLogger(GeneradorSolicitudBonos.class.getName()).log(Level.SEVERE, null, ex);
+            
+            System.out.println("Buscando info de la solictud si existe");
+            if (sessionBean.getAttributes().containsKey("idSolicitudentrega") && (Integer) sessionBean.getAttributes().get("idSolicitudentrega") != 0) {
+                Integer id = (Integer) sessionBean.getAttributes().get("idSolicitudentrega");
+                elemento = sessionBean.marketingUserFacade.getSolicitudbono(id);
+                solicitudentregaclienteses = elemento.getSolicitudentregaclienteList();
+            } else {
+                try {
+                    elemento = new Solicitudentrega();
+                    elemento.setEstado("EN CREACION");
+                    DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
+                    DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
+                    TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
+                    df.setTimeZone(timeZone);
+                    Calendar nowDate = Calendar.getInstance();
+                    nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
+                    elemento.setFecha(nowDate.getTime());
+                    elemento.setIdCasino(sessionBean.getUsuario().getIdCasino());
+                    elemento.setPropositoEntrega(new Propositoentrega());
+                    elemento.setSolicitante(sessionBean.getUsuario());
+                    elemento.setTipoBono(new Tipobono());
+                    elemento.setSolicitudentregaclienteList(new ArrayList<Solicitudentregacliente>());
+                    solicitudentregaclienteses = new ArrayList<Solicitudentregacliente>();
+                } catch (ParseException ex) {
+                    Logger.getLogger(GeneradorSolicitudBonos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+            
+            casinos = sessionBean.adminFacade.findAllCasinos();
+            tiposbonos = sessionBean.adminFacade.findAllTiposbonos();
+            usuarios = sessionBean.adminFacade.findAllUsuarios();
+            propositosentrega = sessionBean.adminFacade.findAllPropositosentrega();
+            areas = sessionBean.adminFacade.findAllAreas();
+            clientessgbs = new ArrayList<Cliente>();
+            selectedClientessgbs = new ArrayList<Cliente>();
+            busquedaClientes();
+            if (!elemento.getControlsalidabonoList().isEmpty()) {
+                control = elemento.getControlsalidabonoList().get(0);
+            }
+            DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
+            DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
+            TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
+            df.setTimeZone(timeZone);
+            Calendar nowDate = Calendar.getInstance();
+            nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
+            control.setFecha(nowDate.getTime());
+
+            List<Solicitudentregacliente> solec = elemento.getSolicitudentregaclienteList();
+            lotesSol = sessionBean.marketingUserFacade.getLotesBonosCasinoTipoBono(elemento.getIdCasino().getIdCasino(), elemento.getTipoBono());
+            System.out.println("Tamano de la lista de lotes " + lotesSol.size());
+            clientesMontos = new ArrayList<ClienteMonto>(0);
+            if (control.getSolicitudEntregaid().getTipoBono().getNombre().equals("PROMOCIONAL")) {
+                totalEntregar = control.getSolicitudEntregaid().getTotal();
+                if (control.getSolicitudEntregaid().getTotalpreaprobado() != 0) {
+                    totalEntregar = control.getSolicitudEntregaid().getTotalpreaprobado();
+                }
+                if (control.getSolicitudEntregaid().getTotalaprobado() != 0) {
+                    totalEntregar = control.getSolicitudEntregaid().getTotalaprobado();
+                }
+                denominacionCant = MatematicaAplicada.getBonosAsignadosDEnominacinesGrandes(lotesSol, totalEntregar);
+            } else {
+                totalEntregar = 0f;
+                denominacionCant = new ArrayList<DenoinacionCant>();
+                for (Lotebono lb : lotesSol) {
+                    denominacionCant.add(new DenoinacionCant(lb));
+                }
+                for (Solicitudentregacliente solec1 : solec) {
+                    Float monto = solec1.getValorTotal();
+                    if (solec1.getValorPreAprobado() != null && solec1.getValorPreAprobado() != 0) {
+                        monto = solec1.getValorPreAprobado();
+                    }
+                    if (solec1.getValorAprobado() != null && solec1.getValorAprobado() != 0) {
+                        monto = solec1.getValorAprobado();
+                    }
+                    totalEntregar += monto;
+                    ClienteMonto cliente = new ClienteMonto(solec1.getCliente().getIdCliente(), solec1.getCliente().getNombres() + " " + solec1.getCliente().getApellidos(), monto, lotesSol, elemento.getFormareparticrbonos(), solec1.getValorTotal(), solec1.getValorPreAprobado(), solec1.getValorAprobado());
+                    clientesMontos.add(cliente);
+                    List<DenoinacionCant> listClientes = cliente.getDenominacionCant();
+                    for (DenoinacionCant listCliente : listClientes) {
+                        denominacionCant.get(denominacionCant.indexOf(listCliente)).sumCantidad(listCliente.getCantidad());
+                    }
+                }
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(AprobarSolicitudBonos.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        casinos = sessionBean.adminFacade.findAllCasinos();
-        tiposbonos = sessionBean.adminFacade.findAllTiposbonos();
-        usuarios = sessionBean.adminFacade.findAllUsuarios();
-        propositosentrega = sessionBean.adminFacade.findAllPropositosentrega();
-        areas = sessionBean.adminFacade.findAllAreas();
-        clientessgbs = new ArrayList<Cliente>();
-        selectedClientessgbs = new ArrayList<Cliente>();
-        busquedaClientes();
-
     }
 
     public Solicitudentrega getElemento() {
@@ -130,8 +196,72 @@ public class AprobarSolicitudBonos {
         elemento.setSolicitudentregaclienteList(solicitudentregaclienteses);
         sessionBean.marketingUserFacade.cambiarEstadoSolicitudentrega(elemento);
         sessionBean.marketingUserFacade.crearSolicitudSalidaBonos(elemento);
-        sessionBean.registrarlog(null, null, "Preaprobada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
+        sessionBean.registrarlog(null, null, "Aprobada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
         FacesUtil.addInfoMessage("Solicitud aprobada con exito!", "");
+        
+        
+        boolean isNotOk = false;
+        List<ControlsalidabonosHasLotesbonos> controlsalidabonosHasLotesbonoses = new ArrayList<ControlsalidabonosHasLotesbonos>();
+        List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClienteses = new ArrayList<ControlsalidabonosHasLotesbonosHasClientes>();
+
+        if (control.getSolicitudEntregaid().getTipoBono().getNombre().equals("PROMOCIONAL")) {
+            for (DenoinacionCant den : denominacionCant) {
+                ControlsalidabonosHasLotesbonos cslb = new ControlsalidabonosHasLotesbonos();
+                cslb.setCantidad(0);
+                cslb.setControlsalidabono(control);
+                cslb.setLotebono(den.getDenomiancion());
+                cslb.setCantidad(den.getCantidad());
+                cslb.setControlsalidabonosHasLotesbonosPK(new ControlsalidabonosHasLotesbonosPK(elemento.getId(), den.getDenomiancion().getId()));
+                cslb.setControlsalidabonosHasLotesbonosHasClientesList(new ArrayList<ControlsalidabonosHasLotesbonosHasClientes>());
+                controlsalidabonosHasLotesbonoses.add(cslb);
+            }
+
+            control.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
+            control.setEstado("SOLICITADA");
+            sessionBean.marketingUserFacade.guardarControlSalidaBonos(control);
+
+            FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
+        } else {
+            for (Lotebono lb : lotesSol) {
+                ControlsalidabonosHasLotesbonos cslb = new ControlsalidabonosHasLotesbonos();
+                cslb.setCantidad(0);
+                cslb.setControlsalidabono(control);
+                cslb.setLotebono(lb);
+                cslb.setControlsalidabonosHasLotesbonosPK(new ControlsalidabonosHasLotesbonosPK(elemento.getId(), lb.getId()));
+                controlsalidabonosHasLotesbonoses.add(cslb);
+                cslb.setControlsalidabonosHasLotesbonosHasClientesList(new ArrayList<ControlsalidabonosHasLotesbonosHasClientes>());
+            }
+            for (ClienteMonto cm : clientesMontos) {
+                if (!cm.getIsOk()) {
+                    isNotOk = true;
+                    break;
+                }
+                for (DenoinacionCant cant : cm.getDenominacionCant()) {
+                    ControlsalidabonosHasLotesbonosHasClientes hasClientes = new ControlsalidabonosHasLotesbonosHasClientes(elemento.getId(), cant.getDenomiancion().getId(), cm.getId());
+                    hasClientes.setCantidad(cant.getCantidad());
+                    controlsalidabonosHasLotesbonosHasClienteses.add(hasClientes);
+                }
+
+            }
+            if (!isNotOk) {
+                for (ControlsalidabonosHasLotesbonosHasClientes chlhc : controlsalidabonosHasLotesbonosHasClienteses) {
+                    ControlsalidabonosHasLotesbonos chl = new ControlsalidabonosHasLotesbonos(elemento.getId(), chlhc.getControlsalidabonosHasLotesbonosHasClientesPK().getControlSalidaBonoshasLotesBonosLotesBonosid());
+                    chl = controlsalidabonosHasLotesbonoses.get(controlsalidabonosHasLotesbonoses.indexOf(chl));
+                    if (chl.getCantidad() == null) {
+                        chl.setCantidad(chlhc.getCantidad());
+                    } else {
+                        chl.setCantidad(chlhc.getCantidad() + chl.getCantidad());
+                    }
+                    chl.getControlsalidabonosHasLotesbonosHasClientesList().add(chlhc);
+                }
+                control.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
+                control.setEstado("SOLICITADA");
+                sessionBean.marketingUserFacade.guardarControlSalidaBonos(control);
+                FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
+            } else {
+                FacesUtil.addErrorMessage("No se puede guardar la solicitud!", "Revise que los bonos asignados a los clientes concuerden con el monto");
+            }
+        }
     }
 
     public Casino getCasinoById(Integer idCasino) {
@@ -264,4 +394,61 @@ public class AprobarSolicitudBonos {
         }
         return total;
     }
+
+    public Controlsalidabono getControl() {
+        return control;
+    }
+
+    public void setControl(Controlsalidabono control) {
+        this.control = control;
+    }
+
+    public List<ClienteMonto> getClientesMontos() {
+        return clientesMontos;
+    }
+
+    public void setClientesMontos(List<ClienteMonto> clientesMontos) {
+        this.clientesMontos = clientesMontos;
+    }
+
+    public List<Lotebono> getLotesSol() {
+        return lotesSol;
+    }
+
+    public void setLotesSol(List<Lotebono> lotesSol) {
+        this.lotesSol = lotesSol;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Usuariodetalle getUsuariosdetalles() {
+        return usuariosdetalles;
+    }
+
+    public void setUsuariosdetalles(Usuariodetalle usuariosdetalles) {
+        this.usuariosdetalles = usuariosdetalles;
+    }
+
+    public Float getTotalEntregar() {
+        return totalEntregar;
+    }
+
+    public void setTotalEntregar(Float totalEntregar) {
+        this.totalEntregar = totalEntregar;
+    }
+
+    public List<DenoinacionCant> getDenominacionCant() {
+        return denominacionCant;
+    }
+
+    public void setDenominacionCant(List<DenoinacionCant> denominacionCant) {
+        this.denominacionCant = denominacionCant;
+    }
+    
 }

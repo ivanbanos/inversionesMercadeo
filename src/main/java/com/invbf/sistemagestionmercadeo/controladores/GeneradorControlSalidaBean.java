@@ -6,12 +6,10 @@
 package com.invbf.sistemagestionmercadeo.controladores;
 
 import com.invbf.sistemagestionmercadeo.entity.Casino;
-import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Controlsalidabono;
 import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos;
 import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosHasClientes;
 import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosPK;
-import com.invbf.sistemagestionmercadeo.entity.Denominacion;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentrega;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregacliente;
@@ -224,7 +222,7 @@ public class GeneradorControlSalidaBean {
 
         String body = "Se a enviado la solicitud de salida de bonos con el ID " + elemento.getId()
                 + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
-        Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha enviado una solicitud de salida de bonos de caja");
+        Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha enviado una solicitud de salida de bonos de caja",sessionBean.getUsuario().getUsuariodetalle().getCorreo());
     }
 
     public Usuario getUsuario() {

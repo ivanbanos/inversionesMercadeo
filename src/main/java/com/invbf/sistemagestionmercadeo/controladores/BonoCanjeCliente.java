@@ -32,6 +32,7 @@ public class BonoCanjeCliente {
     private String nombres;
     private String apellidos;
     private String identificacion;
+    private String consecutivo;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -51,6 +52,7 @@ public class BonoCanjeCliente {
             } catch (IOException ex) {
             }
         }
+        sessionBean.revisarEstadoBonos();
         casinos = sessionBean.marketingUserFacade.findAllCasinos();
         bonosCasinoEntregados = new ArrayList<Bono>();
         bonosCasinoEntregadosSelected = new ArrayList<Bono>();
@@ -113,7 +115,7 @@ public class BonoCanjeCliente {
         System.out.println("Buscar bonos");
         System.out.println("casino "+casinoSelected.getIdCasino());
         casinoSelected = casinos.get(casinos.indexOf(new Casino(casinoSelected.getIdCasino())));
-        bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorAtributos("ENTREGADO CLIENTE", casinoSelected, nombres, apellidos, identificacion);
+        bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorAtributos("ENTREGADO CLIENTE", casinoSelected, nombres, apellidos, identificacion, consecutivo);
         System.out.println(bonosCasinoEntregados.size());
     }
 
@@ -139,5 +141,13 @@ public class BonoCanjeCliente {
 
     public void setIdentificacion(String identificacion) {
         this.identificacion = identificacion;
+    }
+
+    public String getConsecutivo() {
+        return consecutivo;
+    }
+
+    public void setConsecutivo(String consecutivo) {
+        this.consecutivo = consecutivo;
     }
 }

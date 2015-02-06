@@ -118,5 +118,7 @@ public interface AdminFacade {
     public Tipobono findTipobono(Integer id);
 
     public Propositoentrega findPropositoByNombre(String nombre);
+
+    public void revisarBonos();
     
 }

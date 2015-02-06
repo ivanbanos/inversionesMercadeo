@@ -50,6 +50,7 @@ public class BonosRecibirBean {
             } catch (IOException ex) {
             }
         }
+        sessionBean.revisarEstadoBonos();
         casinos = sessionBean.marketingUserFacade.findAllCasinos();
         bonosCasinoEntregados = new ArrayList<Bono>();
         bonosCasinoEntregadosSelected = new ArrayList<Bono>();
@@ -89,8 +90,8 @@ public class BonosRecibirBean {
         sessionBean.marketingUserFacade.guardarBonos(bonosCasinoEntregadosSelected);
         bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("ENTREGADO", casinoSelected);
         bonosCasinoEntregadosSelected = new ArrayList<Bono>();
-        String body = "Se han cambiado el estado de algunos bonos a recibido";
-                Notificador.notificar(Notificador.SOLICITUD_RECIBO_BONOS, body, "Estado de bonos cambiado a recibidos");
+        String body = "Se han cambiado el estado de algunos bonos. Nuevo estado = RECIBIDO";
+                Notificador.notificar(Notificador.SOLICITUD_RECIBO_BONOS, body, "Estado de bonos cambiado a recibidos", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
     }
 
     public List<Bono> getBonosCasinoEntregados() {

@@ -526,4 +526,8 @@ public class SessionBean implements Serializable, Subject {
         this.ruta = ruta;
     }
     
+    public void revisarEstadoBonos(){
+        adminFacade.revisarBonos();
+    }
+    
 }

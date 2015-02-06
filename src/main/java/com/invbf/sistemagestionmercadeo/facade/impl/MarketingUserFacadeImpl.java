@@ -800,7 +800,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
         if (porque == 1) {
             String body = "Se a creado una solicitud de entrada de lotes de bono con el ID "+elemento.getId()
                     + ".\nPor favor revisar la pagina de Lista de solicitudes de lotes de bonos.";
-            Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_GENERADA, body, "Solicitud de entrada de lotes de bono generada");
+            Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_GENERADA, body, "Solicitud de entrada de lotes de bono generada","");
         }
         return false;
     }
@@ -825,7 +825,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
 
                 String body = "Se a creado una solicitud de salida de bonos con el ID " + csb.getId()
                         + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
-                Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha generado una solicitud de salida de bonos de caja");
+                Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha generado una solicitud de salida de bonos de caja",csb.getSolicitante().getUsuariodetalle().getCorreo());
     }
 
     @Override
@@ -920,7 +920,12 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
     }
 
     @Override
-    public List<Bono> getBonosPorAtributos(String estado, Casino casinoSelected, String nombres, String apellidos, String identificacion) {
-        return BonoDao.getBonosPorAtributos(estado, casinoSelected, nombres, apellidos, identificacion);
+    public List<Bono> getBonosPorAtributos(String estado, Casino casinoSelected, String nombres, String apellidos, String identificacion, String consecutivo) {
+        return BonoDao.getBonosPorAtributos(estado, casinoSelected, nombres, apellidos, identificacion, consecutivo);
+    }
+
+    @Override
+    public List<Bono> getAllBonosFecha(Date desde, Date hasta) {
+        return BonoDao.findFechas(desde, hasta);
     }
 }

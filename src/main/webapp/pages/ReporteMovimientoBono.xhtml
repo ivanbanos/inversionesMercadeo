@@ -20,34 +20,109 @@
         </div>
         <div class="container">
             <div class="row clearfix">
-
-                <table class="table table-striped">
-                    <tr>
-                        <th>PROPOSITOS</th>
-                        <th>BONOS SOLICITADOS POR RESPONSABLE DE SALA</th>
-                        <th style="color:#FF0404; background-color: #FFC904;">BONOS ENTREGADOS A LOS CLIENTES</th>
-                        <th style="color:#FF0404; background-color: #FFC904;">% BONOS ENTREGADOS A LOS CLIENTES</th>
-                        <th style="color:#056425; background-color: #04FF57;">BONOS CANJEADOS</th>
-                        <th style="color:#056425; background-color: #04FF57;">% DE BONOS RETORNADOS</th>
-                        <th>BONOS NO CANJEADOS</th>
-                        <th>% DE BONOS NO CANJEADOS</th>
-                    </tr>
-                    <c:forEach items="#{reporteMovimientoBonosBean.promocional}" var="bonos">
-                        <tr>
-                            <td>#{var.tipoBono}</td>
-                            <td>#{var.aprobados}</td>
-                            <td style=" background-color: #FFC904;">#{var.entregados}</td>
-                            <td style=" background-color: #FFC904;">#{var.efectividad}</td>
-                            <td style="background-color: #04FF57;">#{var.canjeados}</td>
-                            <td style="background-color: #04FF57;">#{var.efectividadCAnjeados}</td>
-                            <td>#{var.nocanjeados}</td>
-                            <td>#{var.efectividadNoCAnjeados}</td>
-                        </tr>
-                    </c:forEach>
+                <div class="panel-heading">
+                    <h4>#{label['bonosporcanjear']}</h4>
+                </div>
+                <div class="panel-body">
 
 
-                </table>
+
+
+                    <div class="row">
+
+                        <div class="row">
+
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label" >#{label['nombres']}</label>
+                                <div class="col-md-9">
+                                    <h:inputText value="#{reporteMovimientoBonosBean.nombre}"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label" >#{label['apellidos']}</label>
+                                <div class="col-md-9">
+                                    <h:inputText value="#{reporteMovimientoBonosBean.apellidos}"/>
+                                </div>
+                            </div>
+
+                        </div><div class="row">
+
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label" >#{label['desde']}</label>
+                                <div class="col-md-9">
+                                    <p:calendar id="inline" value="#{reporteMovimientoBonosBean.desde}" mode="inline"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label" >#{label['hasta']}</label>
+                                <div class="col-md-9">
+                                    <p:calendar id="inline" value="#{reporteMovimientoBonosBean.hasta}" mode="inline"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label" >#{label['casino']}</label>
+                                <div class="col-md-9">
+                                    <ul id="casinos">
+                                        <li>
+                                            <h:selectBooleanCheckbox value="#{reporteMovimientoBonosBean.todoscas}" onclick="toggle('casinos')">
+                                            </h:selectBooleanCheckbox>
+                                            <label>Todos</label>
+                                        </li>
+
+                                        <c:forEach var="itemcat" items="#{reporteMovimientoBonosBean.casinos}">
+                                            <li>
+                                                <h:selectBooleanCheckbox value="#{itemcat.selected}" onclick="deselecttodo('casinos')"/>&nbsp;
+                                                <label>#{itemcat.casino.nombre}</label>
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-footer text-right"> 
+                    <p:commandButton value="guardar" actionListener="#{reporteMovimientoBonosBean.buscarBonosPorCasinosYFecha()}" icon="ui-icon-check" 
+                                     ajax="false" style="margin:0" />   
+                </div>
             </div>
+
+            <table class="table table-striped">
+                <tr>
+                    <th>PROPOSITOS</th>
+                    <th>BONOS SOLICITADOS POR RESPONSABLE DE SALA</th>
+                    <th style="color:#FF0404; background-color: #FFC904;">BONOS ENTREGADOS A LOS CLIENTES</th>
+                    <th style="color:#FF0404; background-color: #FFC904;">% BONOS ENTREGADOS A LOS CLIENTES</th>
+                    <th style="color:#056425; background-color: #04FF57;">BONOS CANJEADOS</th>
+                    <th style="color:#056425; background-color: #04FF57;">% DE BONOS RETORNADOS</th>
+                    <th>BONOS NO CANJEADOS</th>
+                    <th>% DE BONOS NO CANJEADOS</th>
+                </tr>
+                <c:forEach items="#{reporteMovimientoBonosBean.promocional}" var="bonos">
+                    <tr>
+                        <td>#{var.tipoBono}</td>
+                        <td>#{var.aprobados}</td>
+                        <td style=" background-color: #FFC904;">#{var.entregados}</td>
+                        <td style=" background-color: #FFC904;">#{var.efectividad}</td>
+                        <td style="background-color: #04FF57;">#{var.canjeados}</td>
+                        <td style="background-color: #04FF57;">#{var.efectividadCAnjeados}</td>
+                        <td>#{var.nocanjeados}</td>
+                        <td>#{var.efectividadNoCAnjeados}</td>
+                    </tr>
+                </c:forEach>
+
+
+            </table>
+        </div>
         </div>
     </ui:define>            
 </ui:composition>

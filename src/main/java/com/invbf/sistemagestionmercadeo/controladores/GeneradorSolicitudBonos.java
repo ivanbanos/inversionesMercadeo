@@ -30,6 +30,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
@@ -72,6 +73,8 @@ public class GeneradorSolicitudBonos {
     private boolean todoscasinos;
     private boolean todosCat;
     private boolean todostip;
+
+    private Date fechaVencimiento;
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -190,7 +193,7 @@ public class GeneradorSolicitudBonos {
                 elemento = sessionBean.marketingUserFacade.guardarSolicitudentrega(elemento, clientesABorrar);
                 String body = "Se a creado una solicitud de bonos con el ID " + elemento.getId()
                         + ".\nPor favor revisar la pagina de Lista de solicitudes de bonos.";
-                Notificador.notificar(Notificador.SOLICITUD_BONOS_GENERADA, body, "Solicitud de bonos generada");
+                Notificador.notificar(Notificador.SOLICITUD_BONOS_GENERADA, body, "Solicitud de bonos generada", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
                 sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
                 FacesUtil.addInfoMessage("Solicitud guardada con exito!", "Notificación enviada");
             } else {
@@ -218,9 +221,12 @@ public class GeneradorSolicitudBonos {
                 }
                 elemento.setSolicitudentregaclienteList(solicitudentregaclienteses);
                 elemento.setFormareparticrbonos(1);
+
                 System.out.println("entremos a ver");
                 sessionBean.marketingUserFacade.guardarSolicitudentrega(elemento, clientesABorrar);
                 sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
+
+                sessionBean.marketingUserFacade.crearSolicitudSalidaBonos(elemento);
                 FacesUtil.addInfoMessage("Solicitud guardada con exito!", "Notificación enviada");
             }
             sessionBean.getAttributes().put("idSolicitudentrega", elemento.getId());
@@ -595,4 +601,13 @@ public class GeneradorSolicitudBonos {
     public void PDF(ActionEvent actionEvent) {
         ReportCreator.generadorSolicitudBono(elemento);
     }
+
+    public Date getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    public void setFechaVencimiento(Date fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
+    }
+
 }

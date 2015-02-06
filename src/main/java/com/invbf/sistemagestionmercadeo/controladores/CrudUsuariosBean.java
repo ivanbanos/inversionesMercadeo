@@ -99,6 +99,20 @@ public class CrudUsuariosBean implements Observer {
 
     public void setElemento(Usuario elemento) {
         this.elemento = elemento;
+        if(elemento.getIdCasino()==null){
+            this.elemento.setIdCasino(new Casino());
+        }
+        if(elemento.getUsuariodetalle()==null){
+            this.elemento.setUsuariodetalle(new Usuariodetalle(this.elemento.getIdUsuario()));
+            this.elemento.getUsuariodetalle().setAccesoList(new ArrayList<Acceso>());
+            this.elemento.getUsuariodetalle().setIdcargo(new Cargo());
+        }
+        if(elemento.getUsuariodetalle().getIdcargo()==null){
+            this.elemento.getUsuariodetalle().setIdcargo(new Cargo());
+        }
+        if(elemento.getUsuariodetalle().getAccesoList()==null){
+            this.elemento.getUsuariodetalle().setAccesoList(new ArrayList<Acceso>());
+        }
     }
 
     public List<Perfil> getListaperfiles() {
@@ -129,6 +143,9 @@ public class CrudUsuariosBean implements Observer {
                     if (a.getSelected()) {
                         elemento.getUsuariodetalle().getAccesoList().add(a.getAcceso());
                     }
+                }
+                if(elemento.getUsuariodetalle().getIdcargo().getIdcargo()== null ){
+                    elemento.getUsuariodetalle().setIdcargo(null);
                 }
                 elemento = sessionBean.adminFacade.guardarUsuarios(elemento);
 

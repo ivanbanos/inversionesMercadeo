@@ -142,7 +142,7 @@ public class AceptarSolicitudEntregaBonosBean {
             sessionBean.marketingUserFacade.cambiarEstadoSolicitudentregabonos(elemento);
             sessionBean.getAttributes().remove("idsolicitudentregalotes");
             String body = "Se a aceptado la solicitud de entrada de lotes de bono con el ID "+elemento.getId();
-            Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_ACEPTADA, body, "Solicitud de entrada de lotes de bono aceptada");
+            Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_ACEPTADA, body, "Solicitud de entrada de lotes de bono aceptada",sessionBean.getUsuario().getUsuariodetalle().getCorreo());
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudLotesBonosView.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(AceptarSolicitudEntregaBonosBean.class.getName()).log(Level.SEVERE, null, ex);

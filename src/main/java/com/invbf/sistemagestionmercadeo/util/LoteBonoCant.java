@@ -6,6 +6,7 @@
 package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
+import java.util.List;
 
 
 /**
@@ -15,6 +16,9 @@ import com.invbf.sistemagestionmercadeo.entity.Lotebono;
 public class LoteBonoCant {
     private Lotebono lote;
     private long cantidad;
+    private String desde;
+    private String hasta;
+    private List<String>nofisicos;
 
     public LoteBonoCant() {
     }
@@ -73,6 +77,30 @@ public class LoteBonoCant {
     
     public float getTotal(){
         return cantidad * lote.getDenominacion().getValor();
+    }
+
+    public String getDesde() {
+        return desde;
+    }
+
+    public void setDesde(String desde) {
+        this.desde = desde;
+    }
+
+    public String getHasta() {
+        return hasta;
+    }
+
+    public void setHasta(String hasta) {
+        this.hasta = hasta;
+    }
+
+    public List<String> getNofisicos() {
+        return nofisicos;
+    }
+
+    public void setNofisicos(List<String> nofisicos) {
+        this.nofisicos = nofisicos;
     }
     
 }

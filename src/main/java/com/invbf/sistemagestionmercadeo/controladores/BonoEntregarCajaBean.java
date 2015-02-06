@@ -38,7 +38,7 @@ public class BonoEntregarCajaBean {
 
     public BonoEntregarCajaBean() {
 
-    }                                                                        
+    }
 
     @PostConstruct
     public void init() {
@@ -50,6 +50,7 @@ public class BonoEntregarCajaBean {
             } catch (IOException ex) {
             }
         }
+        sessionBean.revisarEstadoBonos();
         casinos = sessionBean.marketingUserFacade.findAllCasinos();
         bonosCasinoPorEntregar = new ArrayList<Bono>();
         bonosCasinoPorEntregarSelected = new ArrayList<Bono>();
@@ -58,7 +59,7 @@ public class BonoEntregarCajaBean {
 
     public void buscarBonosValidadosPorCasino() {
         System.out.println("Buscar bonos");
-        System.out.println("casino "+casinoSelected.getIdCasino());
+        System.out.println("casino " + casinoSelected.getIdCasino());
         casinoSelected = casinos.get(casinos.indexOf(new Casino(casinoSelected.getIdCasino())));
         bonosCasinoPorEntregar = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("VALIDADO", casinoSelected);
         System.out.println(bonosCasinoPorEntregar.size());
@@ -103,8 +104,8 @@ public class BonoEntregarCajaBean {
         sessionBean.marketingUserFacade.guardarBonos(bonosCasinoPorEntregarSelected);
         bonosCasinoPorEntregar = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("VALIDADO", casinoSelected);
         bonosCasinoPorEntregarSelected = new ArrayList<Bono>();
-        
-                String body = "Se han cambiado el estado de algunos bonos a entregados";
-                Notificador.notificar(Notificador.SOLICITUD_ENTREGA_BONOS, body, "Estado de bonos cambiado a entregados");
+
+        String body = "Se han cambiado el estado de algunos bonos. Nuevo estado = ENTREGADO.";
+        Notificador.notificar(Notificador.SOLICITUD_ENTREGA_BONOS, body, "Estado de bonos cambiado a entregados", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
     }
 }

@@ -141,8 +141,12 @@ public class PerfilActBean {
     private VistaBoolean aceprtarSolicitudSalida;
     private VistaBoolean controlSalidaBonos;
     
+    private VistaBoolean bonosVerificarVer;
+    private VistaBoolean bonosVerificarEjecutar;
     private VistaBoolean bonosValidarVer;
     private VistaBoolean bonosValidarEjecutar;
+    private VistaBoolean bonosAutorizarVer;
+    private VistaBoolean bonosAutorizarEjecutar;
     private VistaBoolean bonosEntregarCajaVer;
     private VistaBoolean bonosEntregarCajaEjecutar;
     private VistaBoolean bonosRecibirVer;
@@ -155,6 +159,16 @@ public class PerfilActBean {
     private VistaBoolean solicitudCambioCupo;
     
     private VistaBoolean verTodosCasinos;
+    
+    private VistaBoolean entregalotesgeneradacorreo;
+    private VistaBoolean entregalotesaceptadacorreo;
+    private VistaBoolean solicitudbonosgeneradacorreo;
+    private VistaBoolean solicitudbonospreaprobadacorreo;
+    private VistaBoolean solicitudaprobadacorreo;
+    private VistaBoolean senalbusquedacorreo;
+    private VistaBoolean entregarbonocajacorreo;
+    private VistaBoolean recibirbonocorreo;
+    private VistaBoolean notificacionescorreo;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -736,6 +750,19 @@ public class PerfilActBean {
 
         }
         for (Vista v : vistas) {
+            if (v.getNombreVista().equals("Verbonosporverificar")) {
+                if (elemento.getVistaList().contains(v)) {
+                    bonosValidarVer = new VistaBoolean(v, true);
+                } else {
+                    bonosValidarVer = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("Verificarbono")) {
+                if (elemento.getVistaList().contains(v)) {
+                    bonosValidarEjecutar = new VistaBoolean(v, true);
+                } else {
+                    bonosValidarEjecutar = new VistaBoolean(v, false);
+                }
+            }
             if (v.getNombreVista().equals("Verbonosporvalidar")) {
                 if (elemento.getVistaList().contains(v)) {
                     bonosValidarVer = new VistaBoolean(v, true);
@@ -747,6 +774,19 @@ public class PerfilActBean {
                     bonosValidarEjecutar = new VistaBoolean(v, true);
                 } else {
                     bonosValidarEjecutar = new VistaBoolean(v, false);
+                }
+            }
+            if (v.getNombreVista().equals("Verbonosporautorizar")) {
+                if (elemento.getVistaList().contains(v)) {
+                    bonosAutorizarVer = new VistaBoolean(v, true);
+                } else {
+                    bonosAutorizarVer = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("Autorizarbono")) {
+                if (elemento.getVistaList().contains(v)) {
+                    bonosAutorizarEjecutar = new VistaBoolean(v, true);
+                } else {
+                    bonosAutorizarEjecutar = new VistaBoolean(v, false);
                 }
             }
             if (v.getNombreVista().equals("Verbonosporentregarcaja")) {
@@ -813,6 +853,68 @@ public class PerfilActBean {
                     verTodosCasinos = new VistaBoolean(v, false);
                 }
             }
+            
+            
+            
+            if (v.getNombreVista().equals("entregalotesgeneradacorreo")) {
+                if (elemento.getVistaList().contains(v)) {
+                    entregalotesgeneradacorreo = new VistaBoolean(v, true);
+                } else {
+                    entregalotesgeneradacorreo = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("entregalotesaceptadacorreo")) {
+                if (elemento.getVistaList().contains(v)) {
+                    entregalotesaceptadacorreo = new VistaBoolean(v, true);
+                } else {
+                    entregalotesaceptadacorreo = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("solicitudbonosgeneradacorreo")) {
+                if (elemento.getVistaList().contains(v)) {
+                    solicitudbonosgeneradacorreo = new VistaBoolean(v, true);
+                } else {
+                    solicitudbonosgeneradacorreo = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("solicitudbonospreaprobadacorreo")) {
+                if (elemento.getVistaList().contains(v)) {
+                    solicitudbonospreaprobadacorreo = new VistaBoolean(v, true);
+                } else {
+                    solicitudbonospreaprobadacorreo = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("solicitudaprobadacorreo")) {
+                if (elemento.getVistaList().contains(v)) {
+                    solicitudaprobadacorreo = new VistaBoolean(v, true);
+                } else {
+                    solicitudaprobadacorreo = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("senalbusquedacorreo")) {
+                if (elemento.getVistaList().contains(v)) {
+                    senalbusquedacorreo = new VistaBoolean(v, true);
+                } else {
+                    senalbusquedacorreo = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("entregarbonocajacorreo")) {
+                if (elemento.getVistaList().contains(v)) {
+                    entregarbonocajacorreo = new VistaBoolean(v, true);
+                } else {
+                    entregarbonocajacorreo = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("recibirbonocorreo")) {
+                if (elemento.getVistaList().contains(v)) {
+                    recibirbonocorreo = new VistaBoolean(v, true);
+                } else {
+                    recibirbonocorreo = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("notificacionescorreo")) {
+                if (elemento.getVistaList().contains(v)) {
+                    notificacionescorreo = new VistaBoolean(v, true);
+                } else {
+                    notificacionescorreo = new VistaBoolean(v, false);
+                }
+            }
+            
+            
+            
+            
             
             if (v.getNombreVista().equals("ActSolicitudSalida")) {
                 if (elemento.getVistaList().contains(v)) {
@@ -1171,6 +1273,62 @@ public class PerfilActBean {
         }
         if (bonosValidarEjecutar.isSelected()) {
             elemento.getVistaList().add(bonosValidarEjecutar.getVista());
+        }
+        
+        
+        
+        if (notificacionescorreo.isSelected()) {
+            elemento.getVistaList().add(notificacionescorreo.getVista());
+        }
+        
+        if (recibirbonocorreo.isSelected()) {
+            elemento.getVistaList().add(recibirbonocorreo.getVista());
+        }
+        
+        if (entregarbonocajacorreo.isSelected()) {
+            elemento.getVistaList().add(entregarbonocajacorreo.getVista());
+        }
+        
+        if (senalbusquedacorreo.isSelected()) {
+            elemento.getVistaList().add(senalbusquedacorreo.getVista());
+        }
+        
+        if (solicitudaprobadacorreo.isSelected()) {
+            elemento.getVistaList().add(solicitudaprobadacorreo.getVista());
+        }
+        
+        if (solicitudbonospreaprobadacorreo.isSelected()) {
+            elemento.getVistaList().add(solicitudbonospreaprobadacorreo.getVista());
+        }
+        
+        if (solicitudbonosgeneradacorreo.isSelected()) {
+            elemento.getVistaList().add(solicitudbonosgeneradacorreo.getVista());
+        }
+        
+        if (entregalotesaceptadacorreo.isSelected()) {
+            elemento.getVistaList().add(entregalotesaceptadacorreo.getVista());
+        }
+        
+        if (entregalotesgeneradacorreo.isSelected()) {
+            elemento.getVistaList().add(entregalotesgeneradacorreo.getVista());
+        }
+        
+        
+        
+        
+        
+        if (bonosAutorizarVer.isSelected()) {
+            elemento.getVistaList().add(bonosAutorizarVer.getVista());
+        }
+        if (bonosAutorizarEjecutar.isSelected()) {
+            elemento.getVistaList().add(bonosAutorizarEjecutar.getVista());
+        }
+        
+        if (bonosVerificarVer.isSelected()) {
+            elemento.getVistaList().add(bonosVerificarVer.getVista());
+        }
+        if (bonosVerificarEjecutar.isSelected()) {
+            elemento.getVistaList().add(bonosVerificarEjecutar.getVista());
         }
         if (bonosEntregarCajaVer.isSelected()) {
             elemento.getVistaList().add(bonosEntregarCajaVer.getVista());
@@ -2481,6 +2639,110 @@ public class PerfilActBean {
 
     public void setVerTodosCasinos(VistaBoolean verTodosCasinos) {
         this.verTodosCasinos = verTodosCasinos;
+    }
+
+    public VistaBoolean getBonosVerificarVer() {
+        return bonosVerificarVer;
+    }
+
+    public void setBonosVerificarVer(VistaBoolean bonosVerificarVer) {
+        this.bonosVerificarVer = bonosVerificarVer;
+    }
+
+    public VistaBoolean getBonosVerificarEjecutar() {
+        return bonosVerificarEjecutar;
+    }
+
+    public void setBonosVerificarEjecutar(VistaBoolean bonosVerificarEjecutar) {
+        this.bonosVerificarEjecutar = bonosVerificarEjecutar;
+    }
+
+    public VistaBoolean getBonosAutorizarVer() {
+        return bonosAutorizarVer;
+    }
+
+    public void setBonosAutorizarVer(VistaBoolean bonosAutorizarVer) {
+        this.bonosAutorizarVer = bonosAutorizarVer;
+    }
+
+    public VistaBoolean getBonosAutorizarEjecutar() {
+        return bonosAutorizarEjecutar;
+    }
+
+    public void setBonosAutorizarEjecutar(VistaBoolean bonosAutorizarEjecutar) {
+        this.bonosAutorizarEjecutar = bonosAutorizarEjecutar;
+    }
+
+    public VistaBoolean getEntregalotesgeneradacorreo() {
+        return entregalotesgeneradacorreo;
+    }
+
+    public void setEntregalotesgeneradacorreo(VistaBoolean entregalotesgeneradacorreo) {
+        this.entregalotesgeneradacorreo = entregalotesgeneradacorreo;
+    }
+
+    public VistaBoolean getEntregalotesaceptadacorreo() {
+        return entregalotesaceptadacorreo;
+    }
+
+    public void setEntregalotesaceptadacorreo(VistaBoolean entregalotesaceptadacorreo) {
+        this.entregalotesaceptadacorreo = entregalotesaceptadacorreo;
+    }
+
+    public VistaBoolean getSolicitudbonosgeneradacorreo() {
+        return solicitudbonosgeneradacorreo;
+    }
+
+    public void setSolicitudbonosgeneradacorreo(VistaBoolean solicitudbonosgeneradacorreo) {
+        this.solicitudbonosgeneradacorreo = solicitudbonosgeneradacorreo;
+    }
+
+    public VistaBoolean getSolicitudbonospreaprobadacorreo() {
+        return solicitudbonospreaprobadacorreo;
+    }
+
+    public void setSolicitudbonospreaprobadacorreo(VistaBoolean solicitudbonospreaprobadacorreo) {
+        this.solicitudbonospreaprobadacorreo = solicitudbonospreaprobadacorreo;
+    }
+
+    public VistaBoolean getSolicitudaprobadacorreo() {
+        return solicitudaprobadacorreo;
+    }
+
+    public void setSolicitudaprobadacorreo(VistaBoolean solicitudaprobadacorreo) {
+        this.solicitudaprobadacorreo = solicitudaprobadacorreo;
+    }
+
+    public VistaBoolean getSenalbusquedacorreo() {
+        return senalbusquedacorreo;
+    }
+
+    public void setSenalbusquedacorreo(VistaBoolean senalbusquedacorreo) {
+        this.senalbusquedacorreo = senalbusquedacorreo;
+    }
+
+    public VistaBoolean getEntregarbonocajacorreo() {
+        return entregarbonocajacorreo;
+    }
+
+    public void setEntregarbonocajacorreo(VistaBoolean entregarbonocajacorreo) {
+        this.entregarbonocajacorreo = entregarbonocajacorreo;
+    }
+
+    public VistaBoolean getRecibirbonocorreo() {
+        return recibirbonocorreo;
+    }
+
+    public void setRecibirbonocorreo(VistaBoolean recibirbonocorreo) {
+        this.recibirbonocorreo = recibirbonocorreo;
+    }
+
+    public VistaBoolean getNotificacionescorreo() {
+        return notificacionescorreo;
+    }
+
+    public void setNotificacionescorreo(VistaBoolean notificacionescorreo) {
+        this.notificacionescorreo = notificacionescorreo;
     }
 
 }

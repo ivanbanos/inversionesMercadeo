@@ -47,6 +47,10 @@
                                         <p:column headerText="Nombre" sortBy="#{element.nombreUsuario}" filterBy="#{element.nombreUsuario}" filterMatchMode="contains" >
                                             <h:outputText value="#{element.nombreUsuario}" />
                                         </p:column>
+                                        
+                                        <p:column headerText="Nombre" sortBy="#{element.estado}" filterBy="#{element.estado}" filterMatchMode="contains" >
+                                            <h:outputText value="#{element.estado}" />
+                                        </p:column>
 
                                         <p:column headerText="Perfil" sortBy="#{element.idPerfil.nombre}" filterBy="#{element.idPerfil.nombre}" filterMatchMode="in" >
                                             <f:facet name="filter">

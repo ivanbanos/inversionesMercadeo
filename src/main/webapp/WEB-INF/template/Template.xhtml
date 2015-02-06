@@ -20,6 +20,7 @@
         <h:outputScript library="js" name="tableFilter.js"/>
         <h:outputScript library="js" name="localees.js"/>
         <h:outputScript library="js" name="selectAllcheckboxes.js"/>
+        <h:outputScript library="js" name="changeValuehasta.js"/>
 
         <f:loadBundle var="label" basename="labels" />
         <title>#{label['title.app']}</title>
@@ -211,7 +212,7 @@
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Controlsalidabonos&quot;)
                                                       or sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;)
                                                       or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)
-                                                      or sessionBean.perfilViewMatch(&quot;Validarbono&quot;)}">
+                                                      or sessionBean.perfilViewMatch(&quot;Verificarbono&quot;)}">
                                             <li>
                                                 <h:commandLink  action="#{sessionBean.go(&quot;ControlSalidaBono&quot;)}" value="#{label['salidabonoscaja']}"/>
                                             </li>
@@ -268,7 +269,9 @@
                                                 <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporentregarcliente&quot;)}" value="#{label['bonosporentregarcliente']}"/>
                                             </li>
                                         </c:if>
-                                        <c:if test="#{sessionBean.perfilViewMatch(&quot;Verbonosporcanjear&quot;)}">
+                                        <c:if test="#{sessionBean.perfilViewMatch(&quot;Verbonosporcanjear&quot;)
+                                  or sessionBean.perfilViewMatch(&quot;VerbonosporValidar&quot;)
+                                  or sessionBean.perfilViewMatch(&quot;VerbonosporAutorizar&quot;)}">
                                             <li >
                                                 <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporcanjear&quot;)}" value="#{label['bonosporcanjear']}"/>
                                             </li>
@@ -299,7 +302,7 @@
                     </h:form>
 
                     <div class="row clearfix">
-                        
+
                         <div id="parent_content">
                             <ui:insert name="content">Content</ui:insert>
                         </div>
@@ -335,12 +338,25 @@
             </div>
         </div>
         <p:idleMonitor onactive="sessionTimeOutDialog.show()" 
-                       timeout="#{session.maxInactiveInterval * 10000 }" />
+                       timeout="#{420000}" />
 
         <p:dialog header="#{label['tiempo.inactividad']}" 
                   widgetVar="sessionTimeOutDialog"
                   modal="true" closable="false" width="400">
-            <h:outputText value="#{label['leyenda.inactividad']}" />
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">#{label['bono']}</h3>
+                </div>
+                <div class="panel-body">
+                    <h:outputText value="#{label['leyenda.inactividad']}" />
+                </div>
+                <div class="panel-footer text-right">
+                    <p:button value="Reanudar" onclick="sessionTimeOutDialog.hide()"/>
+                </div>
+                
+            </div>
+
+
         </p:dialog>
     </h:body>
 

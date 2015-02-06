@@ -210,7 +210,9 @@ public class ClientesActBean {
                     sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "idTipoDocumento", elemento.getIdTipoDocumento().getIdTipoDocumento().toString(), elemento.getIdTipoDocumento().getNombre(), viejo.getIdTipoDocumento().getIdTipoDocumento().toString(), viejo.getIdTipoDocumento().getNombre(), observaciones));
                 }
 
-                Notificador.notificar(Notificador.SOLICITUD_CAMBIO_CLIENTE, "Se pidió un cambio en el cliente " + elemento.getNombres() + " " + elemento.getApellidos() + ". Favor revisar la pagina de cambios en usuario.", "Cambio en cliente");
+                Notificador.notificar(Notificador.SOLICITUD_CAMBIO_CLIENTE, 
+                        "Se pidió un cambio en el cliente " + elemento.getNombres() + " " + elemento.getApellidos() + ". Favor revisar la pagina de cambios en usuario.", 
+                        "Cambio en cliente", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
                 FacesContext.getCurrentInstance().getExternalContext().redirect("clientes.xhtml");
                 FacesUtil.addInfoMessage("Actualización enviada", "Pendiente de autorización");
                 sessionBean.registrarlog("actualizar", "Clientes", "Cliente enviado a actualización:" + elemento.toString());
