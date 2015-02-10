@@ -53,6 +53,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Cliente.findByBonoFidelizacion", query = "SELECT c FROM Cliente c WHERE c.bonoFidelizacion = :bonoFidelizacion"),
     @NamedQuery(name = "Cliente.findByGenero", query = "SELECT c FROM Cliente c WHERE c.genero = :genero"),
     @NamedQuery(name = "Cliente.findByCasino", query = "SELECT c FROM Cliente c WHERE c.idCasinoPreferencial.idCasino = :casino"),
+    @NamedQuery(name = "Cliente.findByIdent", query = "SELECT c FROM Cliente c WHERE c.identificacion = :identificacion"),
     @NamedQuery(name = "Cliente.findByAttr", query = "SELECT c FROM Cliente c WHERE c.nombres LIKE :nombres AND c.apellidos LIKE :apellidos AND c.identificacion LIKE :identificacion")})
 public class Cliente implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
@@ -103,7 +104,10 @@ public class Cliente implements Serializable {
     @Size(max = 45)
     @Column(name = "genero")
     private String genero;
-    @JoinTable(name = "clientestiposjuegos", joinColumns = {
+    @Size(max = 1000)
+    @Column(name = "perfilCliente")
+    private String perfilCliente;
+    @JoinTable(name = "ClientesTiposJuegos", joinColumns = {
         @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")}, inverseJoinColumns = {
         @JoinColumn(name = "idTipoJuego", referencedColumnName = "idTipoJuego")})
     @ManyToMany
@@ -355,6 +359,14 @@ public class Cliente implements Serializable {
 
     public void setControlsalidabonosHasLotesbonosHasClientesList(List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClientesList) {
         this.controlsalidabonosHasLotesbonosHasClientesList = controlsalidabonosHasLotesbonosHasClientesList;
+    }
+
+    public String getPerfilCliente() {
+        return perfilCliente;
+    }
+
+    public void setPerfilCliente(String perfilCliente) {
+        this.perfilCliente = perfilCliente;
     }
 
 }

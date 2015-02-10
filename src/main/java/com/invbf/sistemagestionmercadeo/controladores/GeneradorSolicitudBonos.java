@@ -117,7 +117,11 @@ public class GeneradorSolicitudBonos {
                 Calendar nowDate = Calendar.getInstance();
                 nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
                 elemento.setFecha(nowDate.getTime());
-                elemento.setIdCasino(sessionBean.getUsuario().getIdCasino());
+                if (elemento.getIdCasino() != null) {
+                    elemento.setIdCasino(sessionBean.getUsuario().getIdCasino());
+                } else {
+                    elemento.setIdCasino(new Casino());
+                }
                 elemento.setPropositoEntrega(new Propositoentrega());
                 elemento.setSolicitante(sessionBean.getUsuario());
                 elemento.setTipoBono(new Tipobono());
@@ -183,11 +187,17 @@ public class GeneradorSolicitudBonos {
                 elemento.setEstado("CREADA");
                 List<Solicitudentregacliente> solicitudentregaclienteses = new ArrayList<Solicitudentregacliente>();
                 for (ClienteSGBDTO clientesGBT : clientes) {
-                    Solicitudentregacliente sec = new Solicitudentregacliente();
-                    sec.setAreaid(clientesGBT.getAreaid());
-                    sec.setCliente(clientesGBT.getClientessgb());
-                    sec.setValorTotal(clientesGBT.getValorTotal());
-                    solicitudentregaclienteses.add(sec);
+                    if (clientesGBT.getValorTotal() != 0) {
+                        if(clientesGBT.getAreaid()==null){
+                            FacesUtil.addErrorMessage("Existen clientes con monto, sin el area ingresada","Asegurece de que todos los clientes tengan el area selecionada");
+                            break guardar;
+                        }
+                        Solicitudentregacliente sec = new Solicitudentregacliente();
+                        sec.setAreaid(clientesGBT.getAreaid());
+                        sec.setCliente(clientesGBT.getClientessgb());
+                        sec.setValorTotal(clientesGBT.getValorTotal());
+                        solicitudentregaclienteses.add(sec);
+                    }
                 }
                 elemento.setSolicitudentregaclienteList(solicitudentregaclienteses);
                 elemento = sessionBean.marketingUserFacade.guardarSolicitudentrega(elemento, clientesABorrar);

@@ -30,24 +30,22 @@ public class NumberSeparationConverter implements Converter {
     public String getAsString(FacesContext fc, UIComponent uic, Object o) {
         String numberseparated = "";
         String iPartS = "";
-        String fPart = "";
         if (o instanceof Double) {
             double number = (Double) o;
             Long iPart = (long) number;
             iPartS = iPart.toString();
-            fPart = (number - iPart) + "";
-            fPart = fPart.substring(fPart.lastIndexOf("."));
-        }else if (o instanceof Float) {
+        } else if (o instanceof Float) {
             float number = (Float) o;
             Long iPart = (long) number;
             iPartS = iPart.toString();
-            fPart = (number - iPart) + "";
-            fPart = fPart.substring(fPart.lastIndexOf("."));
         } else {
-            String number = (String)o;
-            System.out.println("numero "+number);
-            iPartS = number.substring(0, number.lastIndexOf("."));
-            fPart = number.substring(number.lastIndexOf("."));
+            String number = (String) o;
+            System.out.println("numero " + number);
+            if (number.lastIndexOf(".") != -1) {
+                iPartS = number.substring(0, number.lastIndexOf("."));
+            } else {
+                iPartS = number;
+            }
         }
         boolean milesima = true;
 
@@ -72,7 +70,6 @@ public class NumberSeparationConverter implements Converter {
             }
         }
         System.out.println("asi quedo sin parte real " + numberseparated);
-        numberseparated += fPart;
         System.out.println("asi quedo con parte real " + numberseparated);
         System.out.println();
         System.out.println();

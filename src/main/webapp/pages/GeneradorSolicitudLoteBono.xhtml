@@ -99,7 +99,9 @@
                                                                 <label>#{solicitudes.lotesBonosid.hasta}</label>
                                                             </td>
                                                             <td>#{solicitudes.lotesBonosid.idCasino.nombre}</td>
-                                                            <td>#{solicitudes.lotesBonosid.denominacion.valor}</td>
+                                                            <td><h:outputText value="#{solicitudes.lotesBonosid.denominacion.valor}">
+                                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                                </h:outputText></td>
                                                             <td>#{solicitudes.lotesBonosid.tipoBono.nombre}</td>
                                                         </tr>
                                                         <tr>

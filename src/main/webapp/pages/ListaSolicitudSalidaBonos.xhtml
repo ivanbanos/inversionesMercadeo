@@ -36,7 +36,10 @@
                                                  rows="#{sessionBean.paginacion}"
                                                  paginator="true"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                 >
+                                                 rowIndexVar="index" rowsPerPageTemplate="5,10,15, 20, 25, 30">
+                                <p:column headerText="Fila #">
+                                    #{index + 1}
+                                </p:column>>
 
                                         <p:column headerText="#{label['id']}" sortBy="#{element.id}" filterBy="#{element.id}" filterMatchMode="exact" >
                                             <h:outputText value="#{element.id}" />
@@ -66,7 +69,7 @@
                                                              rendered="#{sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;) and !element.estado.equals(&quot;ACEPTADA&quot;)}"/> 
                                             <p:commandButton id="validar" action="#{listaSolicitudesdeSalidadeBonos.goSolicitudValidarBonos(element.id)}" icon="ui-icon-gear" 
                                                              title="#{label['lb_btn.aceptar']}"
-                                                             rendered="#{sessionBean.perfilViewMatch(&quot;Validarbono&quot;) and element.estado.equals(&quot;ACEPTADA&quot;)}"/> 
+                                                             rendered="#{sessionBean.perfilViewMatch(&quot;Verificarbono&quot;) and element.estado.equals(&quot;ACEPTADA&quot;)}"/> 
                                         </p:column>
 
 

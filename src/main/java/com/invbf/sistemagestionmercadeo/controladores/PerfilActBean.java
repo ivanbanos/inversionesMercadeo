@@ -752,15 +752,15 @@ public class PerfilActBean {
         for (Vista v : vistas) {
             if (v.getNombreVista().equals("Verbonosporverificar")) {
                 if (elemento.getVistaList().contains(v)) {
-                    bonosValidarVer = new VistaBoolean(v, true);
+                    bonosVerificarVer = new VistaBoolean(v, true);
                 } else {
-                    bonosValidarVer = new VistaBoolean(v, false);
+                    bonosVerificarVer = new VistaBoolean(v, false);
                 }
             }if (v.getNombreVista().equals("Verificarbono")) {
                 if (elemento.getVistaList().contains(v)) {
-                    bonosValidarEjecutar = new VistaBoolean(v, true);
+                    bonosVerificarEjecutar = new VistaBoolean(v, true);
                 } else {
-                    bonosValidarEjecutar = new VistaBoolean(v, false);
+                    bonosVerificarEjecutar = new VistaBoolean(v, false);
                 }
             }
             if (v.getNombreVista().equals("Verbonosporvalidar")) {

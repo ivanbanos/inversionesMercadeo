@@ -199,4 +199,6 @@ public interface MarketingUserFacade {
 
     public List<Bono> getAllBonosFecha(Date desde, Date hasta);
 
+    public boolean existeid(Tipodocumento idTipoDocumento, String identificacion);
+
 }

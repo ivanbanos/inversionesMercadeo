@@ -5,6 +5,7 @@
 package com.invbf.sistemagestionmercadeo.dao;
 
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
+import com.invbf.sistemagestionmercadeo.entity.Tipodocumento;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -46,8 +47,8 @@ public class ClienteDao {
         try {
             cargos = (List<Cliente>) em.createNamedQuery("Cliente.findByAttr")
                     .setParameter("nombres", '%' + cliente.getNombres() + '%')
-                    .setParameter("apellidos", '%' + cliente.getApellidos()+ '%')
-                    .setParameter("identificacion", '%' + cliente.getIdentificacion()+ '%')
+                    .setParameter("apellidos", '%' + cliente.getApellidos() + '%')
+                    .setParameter("identificacion", '%' + cliente.getIdentificacion() + '%')
                     .getResultList();
             tx.commit();
         } catch (Exception e) {
@@ -58,6 +59,32 @@ public class ClienteDao {
         emf.close();
 
         return cargos;
+    }
+
+    public static boolean isIdentificacioniAsociatedCliente(Tipodocumento idTipoDocumento, String identificacion) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Cliente> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Cliente>) em.createNamedQuery("Cliente.findByIdent")
+                    .setParameter("identificacion", identificacion)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.close();
+        emf.close();
+
+        if (cargos == null) {
+            return false;
+        }else if(!cargos.isEmpty()){
+            return true;
+        }return false;
     }
 
     public ClienteDao() {

@@ -6,6 +6,9 @@
 package com.invbf.sistemagestionmercadeo.dao;
 
 import com.invbf.sistemagestionmercadeo.entity.Controlsalidabono;
+import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos;
+import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosHasClientes;
+import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosHasClientesPK;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;

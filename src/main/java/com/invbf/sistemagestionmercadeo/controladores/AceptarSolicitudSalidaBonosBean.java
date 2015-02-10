@@ -102,7 +102,7 @@ public class AceptarSolicitudSalidaBonosBean {
             LoteBonoCant ltc = new LoteBonoCant(controlsalidabonosHasLotesbonos.getLotebono(), controlsalidabonosHasLotesbonos.getCantidad());
             ltc.setDesde(controlsalidabonosHasLotesbonos.getLotebono().getDesde());
             String hasta = ltc.getDesde();
-            for (int i = controlsalidabonosHasLotesbonos.getCantidad(); i > 0; i--) {
+            for (int i = controlsalidabonosHasLotesbonos.getCantidad()-1; i > 0; i--) {
                 System.out.println(i);
                 while (true) {
                     boolean seencontro = false;
@@ -227,10 +227,10 @@ public class AceptarSolicitudSalidaBonosBean {
                             if (lote.getTipoBono().getNombre().equals("PROMOCIONAL")) {
                                 System.out.println(casino.getCasinodetalle().getAbreCiudad());
                                 b.setConsecutivo("PRO-" + casino.getCasinodetalle().getAbreCiudad() + desde);
-                                b.setEstado("VALIDADO");
+                                b.setEstado("VERIFICADO");
                             } else {
                                 b.setConsecutivo(casino.getCasinodetalle().getAbreviacion() + "-" + casino.getCasinodetalle().getAbreCiudad() + desde);
-                                b.setEstado("POR VALIDAR");
+                                b.setEstado("POR VERIFICAR");
                             }
                             b.setPropositosEntregaid(elemento.getSolicitudEntregaid().getPropositoEntrega());
                             bonosAGuardar.add(b);

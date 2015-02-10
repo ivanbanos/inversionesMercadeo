@@ -8,6 +8,7 @@ import com.invbf.sistemagestionmercadeo.entity.Atributo;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Categoria;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
+import com.invbf.sistemagestionmercadeo.entity.Tipodocumento;
 import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
@@ -15,6 +16,7 @@ import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.TipoJuegoBoolean;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -30,6 +32,7 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @ViewScoped
 public class ReportesClientesBean {
+
     private List<Cliente> lista;
     private Cliente elemento;
     private List<Casino> listacasinos;
@@ -47,6 +50,9 @@ public class ReportesClientesBean {
     private boolean todoscasinos;
     private boolean todosCat;
     private boolean todostip;
+    private Integer totales;
+    private Integer mes;
+    private Integer dia;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -81,7 +87,11 @@ public class ReportesClientesBean {
             }
         }
         elemento = new Cliente();
+        elemento.setIdCasinoPreferencial(new Casino());
+        elemento.setIdCategorias(new Categoria());
+        elemento.setIdTipoDocumento(new Tipodocumento());
         lista = sessionBean.marketingUserFacade.findAllClientes();
+        totales = lista.size();
         listacasinos = sessionBean.marketingUserFacade.findAllCasinos();
         listaatributos = sessionBean.marketingUserFacade.findAllAtributos();
         listacategorias = sessionBean.marketingUserFacade.findAllCategorias();
@@ -103,6 +113,7 @@ public class ReportesClientesBean {
         for (Categoria categoria : categorias) {
             categoriaBooleans.add(new CategoriaBoolean(categoria, false));
         }
+        mes= 12;
     }
 
     public List<Cliente> getLista() {
@@ -194,6 +205,7 @@ public class ReportesClientesBean {
     }
 
     public void busquedaAvanzada() {
+
         lista = sessionBean.marketingUserFacade.findAllClientes();
 
         boolean noCatselected = true;
@@ -277,26 +289,50 @@ public class ReportesClientesBean {
 
             if (!siCategoria) {
                 it.remove();
+                continue;
             }
             if (!siTipoJuego) {
                 it.remove();
+                continue;
             }
             if (!siCasino) {
                 it.remove();
+                continue;
             }
             if (ciudad != null && !ciudad.equals("")) {
                 if (!cliente.getCiudad().contains(ciudad)) {
                     it.remove();
+                    continue;
                 }
             }
             if (pais != null && !pais.equals("")) {
                 if (!cliente.getPais().contains(pais)) {
                     it.remove();
+                    continue;
                 }
             }
-
+            if ((mes!=12)|| (dia != null && !dia.equals(0))) {
+                Calendar fecha = Calendar.getInstance();
+                if (cliente.getCumpleanos() == null) {
+                    it.remove();
+                    continue;
+                }
+                fecha.setTime(cliente.getCumpleanos());
+                if (mes!=12) {
+                    if (fecha.get(Calendar.MONTH)!=mes) {
+                        it.remove();
+                        continue;
+                    }
+                }
+                if (dia != null && !dia.equals(0)) {
+                    if (fecha.get(Calendar.DAY_OF_MONTH)!=dia) {
+                        it.remove();
+                        continue;
+                    }
+                }
+            }
         }
-        FacesUtil.addInfoMessage("Clientes filtrados!");
+        FacesUtil.addInfoMessage("Clientes filtrados!","Cantidad "+lista.size());
     }
 
     public List<CasinoBoolean> getCasinoBooleans() {
@@ -346,4 +382,29 @@ public class ReportesClientesBean {
     public void setTodosCat(boolean todosCat) {
         this.todosCat = todosCat;
     }
+
+    public Integer getTotales() {
+        return totales;
+    }
+
+    public void setTotales(Integer totales) {
+        this.totales = totales;
+    }
+
+    public Integer getMes() {
+        return mes;
+    }
+
+    public void setMes(Integer mes) {
+        this.mes = mes;
+    }
+
+    public Integer getDia() {
+        return dia;
+    }
+
+    public void setDia(Integer dia) {
+        this.dia = dia;
+    }
+
 }

@@ -107,7 +107,7 @@ public class Tipojuego implements Serializable {
 
     @Override
     public String toString() {
-        return "com.invbf.sistemagestionmercadeo.entity.Tipojuego[ idTipoJuego=" + idTipoJuego + " ]";
+        return idTipoJuego+" "+nombre;
     }
     
 }

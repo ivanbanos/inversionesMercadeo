@@ -81,7 +81,7 @@
                                                     <div class="form-group">
                                                         <label class="col-md-2 control-label" >#{label['tipobono']}</label>
                                                         <div class="col-md-4">
-                                                            <p:selectOneMenu id="tipobono" value="#{generadorSolicitudBonos.elemento.tipoBono}" converter="tipobonoConverter">
+                                                            <p:selectOneMenu id="tipobono" value="#{generadorSolicitudBonos.elemento.tipoBono}" required="true" converter="tipobonoConverter">
                                                                 <f:selectItem itemLabel="Seleciona Uno" itemValue="" />
                                                                 <f:selectItems value="#{generadorSolicitudBonos.tiposbonos}" var="var" itemLabel="#{var.nombre}" itemValue="#{var}"/>  
                                                             </p:selectOneMenu>
@@ -188,7 +188,9 @@
                                                                         <f:facet name="header">
                                                                             <h:outputText value="#{'cupofidelizacion'}" />
                                                                         </f:facet>
-                                                                        <label>#{cli.clientessgb.bonoFidelizacion}</label>
+                                                                        <h:outputLabel value="#{cli.clientessgb.bonoFidelizacion}">
+                                                                            <f:converter  converterId="numberSeparationConverter"  />
+                                                                        </h:outputLabel>
                                                                     </h:column>
                                                                     <h:column >
                                                                         <f:facet name="header">
@@ -214,7 +216,9 @@
 
                                                                         <p:outputPanel id="total" style="display:block">
                                                                             <h:outputLabel value="Total:"></h:outputLabel>
-                                                                            <h:outputText value="#{generadorSolicitudBonos.total}"></h:outputText>
+                                                                            <h:outputLabel value="#{generadorSolicitudBonos.total}">
+                                                                                <f:converter  converterId="numberSeparationConverter"  />
+                                                                                </h:outputLabel>
                                                                         </p:outputPanel>
                                                                     </f:facet>
                                                                 </h:dataTable>
@@ -309,7 +313,7 @@
                                                         <div class="form-group">
                                                             <label class="col-md-2 control-label" >#{label['tipobono']}</label>
                                                             <div class="col-md-4">
-                                                                <h:outputText id="tipobono" value="#{generadorSolicitudBonos.elemento.tipoBono.nombre}"/>
+                                                                <h:outputText id="tipobono2" value="#{generadorSolicitudBonos.elemento.tipoBono.nombre}"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -324,7 +328,7 @@
                                                                 <div class="form-group">
                                                                     <label class="col-md-2 control-label" >#{label['casinos']}</label>
                                                                     <div class="col-md-4">
-                                                                        <h:outputText id="casinos" value="#{generadorSolicitudBonos.elemento.idCasino.nombre}"/>
+                                                                        <h:outputText id="cas" value="#{generadorSolicitudBonos.elemento.idCasino.nombre}"/>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -356,7 +360,7 @@
                                                         <div class="form-group">
                                                             <label class="col-md-3 control-label" >#{label['justificacion']}</label>
                                                             <div class="col-md-9">
-                                                                <h:outputText id="codigo" value="#{generadorSolicitudBonos.elemento.justificacion}" class="form-control"/>
+                                                                <h:outputText id="justificacion" value="#{generadorSolicitudBonos.elemento.justificacion}" class="form-control"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -368,7 +372,7 @@
                                                     <div class="form-group">
                                                         <label class="col-md-2 control-label" >#{label['proposito']}</label>
                                                         <div class="col-md-4">
-                                                            <h:outputLabel id="propositopromo" value="#{generadorSolicitudBonos.elemento.propositoEntrega.nombre}" />
+                                                            <h:outputLabel id="propo" value="#{generadorSolicitudBonos.elemento.propositoEntrega.nombre}" />
                                                         </div>
                                                     </div>
                                                 </div>

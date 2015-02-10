@@ -892,10 +892,10 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
         List<Bono> bonos = elemento.getBonoList();
         for (Bono bono : bonos) {
             if (bono.getCliente() != null && bono.getCliente().getIdCliente() != null) {
-                if (bono.getEstado().equals("VALIDADO")) {
+                if (bono.getEstado().equals("VERIFICADO")) {
                     continue;
                 }
-                bono.setEstado("VALIDADO");
+                bono.setEstado("VERIFICADO");
                 if (bono.getValidador() == null) {
                     bono.setValidador(new Usuario(idUsuario));
                 }
@@ -927,5 +927,10 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
     @Override
     public List<Bono> getAllBonosFecha(Date desde, Date hasta) {
         return BonoDao.findFechas(desde, hasta);
+    }
+
+    @Override
+    public boolean existeid(Tipodocumento idTipoDocumento, String identificacion) {
+         return ClienteDao.isIdentificacioniAsociatedCliente(idTipoDocumento, identificacion);
     }
 }

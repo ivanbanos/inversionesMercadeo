@@ -64,7 +64,9 @@ public class BonoCanjeCliente {
         System.out.println("Buscar bonos");
         System.out.println("casino "+casinoSelected.getIdCasino());
         casinoSelected = casinos.get(casinos.indexOf(new Casino(casinoSelected.getIdCasino())));
-        bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("ENTREGADO CLIENTE", casinoSelected);
+        bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorAtributos("ENTREGADO CLIENTE", casinoSelected, nombres, apellidos, identificacion, consecutivo);
+        bonosCasinoEntregados.addAll(sessionBean.marketingUserFacade.getBonosPorAtributos("VALIDADO", casinoSelected, nombres, apellidos, identificacion, consecutivo));
+        bonosCasinoEntregados.addAll(sessionBean.marketingUserFacade.getBonosPorAtributos("AUTORIZADO", casinoSelected, nombres, apellidos, identificacion, consecutivo));
         System.out.println(bonosCasinoEntregados.size());
     }
 
@@ -94,6 +96,24 @@ public class BonoCanjeCliente {
         bonosCasinoEntregadosSelected = new ArrayList<Bono>();
         
     }
+    public void validar() {
+        for (Bono bono : bonosCasinoEntregadosSelected) {
+            bono.setEstado("VALIDADO");
+        }
+        sessionBean.marketingUserFacade.guardarBonos(bonosCasinoEntregadosSelected);
+        bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("ENTREGADO CLIENTE", casinoSelected);
+        bonosCasinoEntregadosSelected = new ArrayList<Bono>();
+        
+    }
+    public void autorizar() {
+        for (Bono bono : bonosCasinoEntregadosSelected) {
+            bono.setEstado("AUTORIZADO");
+        }
+        sessionBean.marketingUserFacade.guardarBonos(bonosCasinoEntregadosSelected);
+        bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("ENTREGADO CLIENTE", casinoSelected);
+        bonosCasinoEntregadosSelected = new ArrayList<Bono>();
+        
+    }
 
     public List<Bono> getBonosCasinoEntregados() {
         return bonosCasinoEntregados;
@@ -116,6 +136,8 @@ public class BonoCanjeCliente {
         System.out.println("casino "+casinoSelected.getIdCasino());
         casinoSelected = casinos.get(casinos.indexOf(new Casino(casinoSelected.getIdCasino())));
         bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorAtributos("ENTREGADO CLIENTE", casinoSelected, nombres, apellidos, identificacion, consecutivo);
+        bonosCasinoEntregados.addAll(sessionBean.marketingUserFacade.getBonosPorAtributos("VALIDADO", casinoSelected, nombres, apellidos, identificacion, consecutivo));
+        bonosCasinoEntregados.addAll(sessionBean.marketingUserFacade.getBonosPorAtributos("AUTORIZADO", casinoSelected, nombres, apellidos, identificacion, consecutivo));
         System.out.println(bonosCasinoEntregados.size());
     }
 

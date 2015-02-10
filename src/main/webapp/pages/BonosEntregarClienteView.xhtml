@@ -80,7 +80,11 @@
                             
                             <div class="row">
                                 <p:dataTable id="bonos" var="bono" value="#{bonoEntregaCliente.bonosCasinoEntregados}" style="margin-bottom:0"
-                                             selection="#{bonoEntregaCliente.bonosCasinoEntregadosSelected}" rowKey="#{bono.id}">
+                                             selection="#{bonoEntregaCliente.bonosCasinoEntregadosSelected}" rowKey="#{bono.id}"
+                                             rowIndexVar="index" >
+                                <p:column headerText="Fila #">
+                                    #{index + 1}
+                                </p:column>
 
                                     <p:column selectionMode="multiple" style="width:5%;text-align:center"/>
                                     <p:column headerText="consecutivo" sortBy="#{bono.consecutivo}" filterBy="#{bono.consecutivo}" filterMatchMode="contains">

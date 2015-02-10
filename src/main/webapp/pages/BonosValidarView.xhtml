@@ -14,7 +14,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: #{label['ruta.BonosValidarView']}</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: #{label['ruta.BonosVerificarView']}</label>
                 </div>
             </div>
         </div>
@@ -23,9 +23,14 @@
                 <h:form>
                     <div class="panel panel-primary">
 
-                        <div class="panel-heading"><h4>#{label['validacionbonos']}</h4></div>
+                        <div class="panel-heading"><h4>#{label['verificacionbonos']}</h4></div>
                         <div class="panel-body">
-                            <p:dataTable id="bonos" var="bono" value="#{bonoValidarBean.bonosPorAsignar}" style="margin-bottom:0">
+                            <p:dataTable id="bonos" var="bono" value="#{bonoValidarBean.bonosPorAsignar}" style="margin-bottom:0"
+
+                                         rowIndexVar="index" >
+                                <p:column headerText="Fila #">
+                                    #{index + 1}
+                                </p:column>
                                 <f:facet name="header">
                                     Bonos por Validar
                                 </f:facet>
@@ -33,7 +38,9 @@
                                     <h:outputText value="#{bono.consecutivo}" />
                                 </p:column>
                                 <p:column headerText="denominación" sortBy="#{bono.denominacion}" filterBy="#{bono.denominacion}" filterMatchMode="contains">
-                                    <h:outputText value="#{bono.denominacion}" />
+                                    <h:outputText value="#{bono.denominacion}" >
+                                        <f:converter  converterId="numberSeparationConverter"  />
+                                    </h:outputText>
                                 </p:column>
                                 <p:column headerText="cliente" sortBy="#{bono.nombreClietne}" filterBy="#{bono.nombreClietne}" filterMatchMode="contains">
                                     <h:outputText value="#{bono.nombreClietne}" />

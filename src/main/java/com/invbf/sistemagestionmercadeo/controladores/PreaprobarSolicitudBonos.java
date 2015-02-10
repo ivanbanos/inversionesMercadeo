@@ -31,6 +31,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.logging.Level;
@@ -48,6 +49,8 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @ViewScoped
 public class PreaprobarSolicitudBonos {
+
+    private Date fecven;
 
     private Solicitudentrega elemento;
     private List<Casino> casinos;
@@ -116,14 +119,16 @@ public class PreaprobarSolicitudBonos {
             if (!elemento.getControlsalidabonoList().isEmpty()) {
                 control = elemento.getControlsalidabonoList().get(0);
             }
-            DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
-            DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
-            TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
-            df.setTimeZone(timeZone);
-            Calendar nowDate = Calendar.getInstance();
-            nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
-            control.setFecha(nowDate.getTime());
-
+            if (control.getFecha() != null) {
+                DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
+                DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
+                TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
+                df.setTimeZone(timeZone);
+                Calendar nowDate = Calendar.getInstance();
+                nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
+                control.setFecha(nowDate.getTime());
+            }
+            fecven = control.getFechavencimientobonos();
             List<Solicitudentregacliente> solec = elemento.getSolicitudentregaclienteList();
             lotesSol = sessionBean.marketingUserFacade.getLotesBonosCasinoTipoBono(elemento.getIdCasino().getIdCasino(), elemento.getTipoBono());
             System.out.println("Tamano de la lista de lotes " + lotesSol.size());
@@ -211,6 +216,8 @@ public class PreaprobarSolicitudBonos {
 
             control.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
             control.setEstado("SOLICITADA");
+            control.setFechavencimientobonos(fecven);
+            control.setSolicitudEntregaid(elemento);
             sessionBean.marketingUserFacade.guardarControlSalidaBonos(control);
 
             FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
@@ -220,7 +227,7 @@ public class PreaprobarSolicitudBonos {
                 cslb.setCantidad(0);
                 cslb.setControlsalidabono(control);
                 cslb.setLotebono(lb);
-                cslb.setControlsalidabonosHasLotesbonosPK(new ControlsalidabonosHasLotesbonosPK(elemento.getId(), lb.getId()));
+                cslb.setControlsalidabonosHasLotesbonosPK(new ControlsalidabonosHasLotesbonosPK(control.getId(), lb.getId()));
                 controlsalidabonosHasLotesbonoses.add(cslb);
                 cslb.setControlsalidabonosHasLotesbonosHasClientesList(new ArrayList<ControlsalidabonosHasLotesbonosHasClientes>());
             }
@@ -230,7 +237,7 @@ public class PreaprobarSolicitudBonos {
                     break;
                 }
                 for (DenoinacionCant cant : cm.getDenominacionCant()) {
-                    ControlsalidabonosHasLotesbonosHasClientes hasClientes = new ControlsalidabonosHasLotesbonosHasClientes(elemento.getId(), cant.getDenomiancion().getId(), cm.getId());
+                    ControlsalidabonosHasLotesbonosHasClientes hasClientes = new ControlsalidabonosHasLotesbonosHasClientes(control.getId(), cant.getDenomiancion().getId(), cm.getId());
                     hasClientes.setCantidad(cant.getCantidad());
                     controlsalidabonosHasLotesbonosHasClienteses.add(hasClientes);
                 }
@@ -238,7 +245,10 @@ public class PreaprobarSolicitudBonos {
             }
             if (!isNotOk) {
                 for (ControlsalidabonosHasLotesbonosHasClientes chlhc : controlsalidabonosHasLotesbonosHasClienteses) {
-                    ControlsalidabonosHasLotesbonos chl = new ControlsalidabonosHasLotesbonos(elemento.getId(), chlhc.getControlsalidabonosHasLotesbonosHasClientesPK().getControlSalidaBonoshasLotesBonosLotesBonosid());
+                    System.out.println("id chclh " + chlhc.getControlsalidabonosHasLotesbonosHasClientesPK().getControlSalidaBonoshasLotesBonosLotesBonosid());
+                    ControlsalidabonosHasLotesbonos chl = new ControlsalidabonosHasLotesbonos(control.getId(), chlhc.getControlsalidabonosHasLotesbonosHasClientesPK().getControlSalidaBonoshasLotesBonosLotesBonosid());
+
+                    System.out.println("id chclh " + controlsalidabonosHasLotesbonoses.indexOf(chl));
                     chl = controlsalidabonosHasLotesbonoses.get(controlsalidabonosHasLotesbonoses.indexOf(chl));
                     if (chl.getCantidad() == null) {
                         chl.setCantidad(chlhc.getCantidad());
@@ -249,6 +259,8 @@ public class PreaprobarSolicitudBonos {
                 }
                 control.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
                 control.setEstado("SOLICITADA");
+                control.setFechavencimientobonos(fecven);
+                control.setSolicitudEntregaid(elemento);
                 sessionBean.marketingUserFacade.guardarControlSalidaBonos(control);
                 FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
             } else {
@@ -437,6 +449,14 @@ public class PreaprobarSolicitudBonos {
 
     public void setDenominacionCant(List<DenoinacionCant> denominacionCant) {
         this.denominacionCant = denominacionCant;
+    }
+
+    public Date getFecven() {
+        return fecven;
+    }
+
+    public void setFecven(Date fecven) {
+        this.fecven = fecven;
     }
 
 }

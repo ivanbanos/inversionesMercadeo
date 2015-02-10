@@ -17,6 +17,7 @@ import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -44,6 +45,12 @@ public class ClientesActBean {
     private List<Categoria> listacategorias;
     private List<Tipodocumento> tipoDocumentos;
     private String observaciones;
+    private int anio = 1900;
+
+    private List<Integer> annos;
+
+    private Integer dia;
+    private Integer mes;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -111,6 +118,21 @@ public class ClientesActBean {
         listacasinos = sessionBean.marketingUserFacade.findAllCasinos();
         listacategorias = sessionBean.marketingUserFacade.findAllCategorias();
         tipoDocumentos = sessionBean.marketingUserFacade.findAllTipoDocumentos();
+        Calendar calendar = Calendar.getInstance();
+        int actual = calendar.get(Calendar.YEAR);
+        annos = new ArrayList<Integer>();
+        for (int i = 1900; i <= actual; i++) {
+            annos.add(i);
+        }
+        if (elemento.getCumpleanos() != null) {
+            Calendar c = Calendar.getInstance();
+            c.setTime(elemento.getCumpleanos());
+            dia = c.get(Calendar.DAY_OF_MONTH);
+            mes = c.get(Calendar.MONTH);
+            anio = c.get(Calendar.YEAR);
+        } else {
+            mes = 12;
+        }
     }
 
     public Cliente getElemento() {
@@ -138,88 +160,108 @@ public class ClientesActBean {
     }
 
     public void guardar() {
-        try {
+        guardar:
+        {
+            try {
 
-            if (elemento.getIdentificacion() == null || elemento.getIdentificacion().equals("")) {
-                elemento.setIdTipoDocumento(null);
+                if (elemento.getIdentificacion() == null || elemento.getIdentificacion().equals("")) {
+                    elemento.setIdTipoDocumento(null);
+                }
+                if ((elemento.getIdTipoDocumento() == null)
+                        && (elemento.getIdentificacion() != null && !elemento.getIdentificacion().equals(""))) {
+                    FacesUtil.addErrorMessage("No se puede guardar cliente", "Si tiene identificación debe seleccionar un tipo");
+                    break guardar;
+                }
+                if (!elemento.getIdentificacion().equals("")) {
+                    if ((sessionBean.marketingUserFacade.existeid(elemento.getIdTipoDocumento(), elemento.getIdentificacion()))) {
+                        FacesUtil.addErrorMessage("No se puede guardar cliente", "Existe cliente con la misma identificación");
+                        break guardar;
+                    }
+                }
+                if (mes != 12 && dia != 0) {
+                    Calendar cumple = Calendar.getInstance();
+                    cumple.set(Calendar.MONTH, mes);
+                    cumple.set(Calendar.DAY_OF_MONTH, dia);
+                    cumple.set(Calendar.YEAR, anio);
+                    elemento.setCumpleanos(cumple.getTime());
+                }
+
+                elemento.setTipojuegoList(tiposJuegosTodos.getTarget());
+                List<Clienteatributo> clienteatributos = elemento.getClienteatributoList();
+                elemento.setClienteatributoList(new ArrayList<Clienteatributo>());
+
+                if (elemento.getIdCliente() == 0) {
+                    elemento.setIdCliente(null);
+                    sessionBean.marketingUserFacade.guardarClientes(elemento);
+                    FacesUtil.addInfoMessage("Cliente creado con exito!", "");
+                    sessionBean.registrarlog("actualizar", "Clientes", "Cliente creado: " + elemento.toString());
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("clientes.xhtml");
+                } else {
+
+                    if (!elemento.getNombres().equals(viejo.getNombres())) {
+                        sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "nombres", elemento.getNombres(), elemento.getNombres(), viejo.getNombres(), viejo.getNombres(), observaciones));
+                    }
+                    if (!elemento.getApellidos().equals(viejo.getApellidos())) {
+                        sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "apellidos", elemento.getApellidos(), elemento.getApellidos(), viejo.getApellidos(), viejo.getApellidos(), observaciones));
+                    }
+                    if (elemento.getIdCasinoPreferencial() != null && !elemento.getIdCasinoPreferencial().equals(viejo.getIdCasinoPreferencial())) {
+                        elemento.setIdCasinoPreferencial(sessionBean.marketingUserFacade.findCasino(elemento.getIdCasinoPreferencial().getIdCasino()));
+                        sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "idCasinoPreferencial", elemento.getIdCasinoPreferencial().getIdCasino().toString(), elemento.getIdCasinoPreferencial().getNombre(), viejo.getIdCasinoPreferencial().getIdCasino().toString(), viejo.getIdCasinoPreferencial().getNombre(), observaciones));
+                    }
+                    if (elemento.getIdCategorias() != null && !elemento.getIdCategorias().equals(viejo.getIdCategorias())) {
+
+                        elemento.setIdCategorias(sessionBean.marketingUserFacade.findCategoria(elemento.getIdCategorias().getIdCategorias()));
+                        sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "idCategorias", elemento.getIdCategorias().getIdCategorias().toString(), elemento.getIdCategorias().getNombre(), viejo.getIdCategorias().getIdCategorias().toString(), viejo.getIdCategorias().getNombre(), observaciones));
+                    }
+                    if (!elemento.getTelefono1().equals(viejo.getTelefono1())) {
+                        sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "telefono1", elemento.getTelefono1(), elemento.getTelefono1(), viejo.getTelefono1(), viejo.getTelefono1(), observaciones));
+                    }
+                    if (!elemento.getTelefono2().equals(viejo.getTelefono2())) {
+                        sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "telefono2", elemento.getTelefono2(), elemento.getTelefono2(), viejo.getTelefono2(), viejo.getTelefono2(), observaciones));
+                    }
+                    if (!elemento.getIdentificacion().equals(viejo.getIdentificacion())) {
+                        sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "identificacion", elemento.getIdentificacion(), elemento.getIdentificacion(), viejo.getIdentificacion(), viejo.getIdentificacion(), observaciones));
+                    }
+                    if (!elemento.getCorreo().equals(viejo.getCorreo())) {
+                        sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "correo", elemento.getCorreo(), elemento.getCorreo(), viejo.getCorreo(), viejo.getCorreo(), observaciones));
+                    }
+                    if (elemento.getCumpleanos() != null && !elemento.getCumpleanos().equals(viejo.getCumpleanos())) {
+                        sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "cumpleanos", elemento.getCumpleanos().getTime() + "", elemento.getCumpleanos().getTime() + "", viejo.getCumpleanos().getTime() + "", viejo.getCumpleanos().getTime() + "", observaciones));
+                    }
+                    if (!elemento.getPais().equals(viejo.getPais())) {
+                        sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "pais", elemento.getPais(), elemento.getPais(), viejo.getPais(), viejo.getPais(), observaciones));
+                    }
+                    if (!elemento.getDireccion().equals(viejo.getDireccion())) {
+                        sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "direccion", elemento.getDireccion(), elemento.getDireccion(), viejo.getDireccion(), viejo.getDireccion(), observaciones));
+                    }
+                    if (!elemento.getCiudad().equals(viejo.getCiudad())) {
+                        sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "ciudad", elemento.getCiudad(), elemento.getCiudad(), viejo.getCiudad(), viejo.getCiudad(), observaciones));
+                    }
+                    if (!elemento.getBonoFidelizacion().equals(viejo.getBonoFidelizacion())) {
+                        sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "bonoFidelizacion", elemento.getBonoFidelizacion(), elemento.getBonoFidelizacion(), viejo.getBonoFidelizacion(), viejo.getBonoFidelizacion(), observaciones));
+                    }
+                    if (!elemento.getGenero().equals(viejo.getGenero())) {
+                        sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "genero", elemento.getGenero(), elemento.getGenero(), viejo.getGenero(), viejo.getGenero(), observaciones));
+                    }
+                    if (!elemento.getPerfilCliente().equals(viejo.getPerfilCliente())) {
+                        sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "perfilCliente", elemento.getPerfilCliente(), elemento.getPerfilCliente(), viejo.getPerfilCliente(), viejo.getPerfilCliente(), observaciones));
+                    }
+                    if (elemento.getIdTipoDocumento() != null && !elemento.getIdTipoDocumento().equals(viejo.getIdTipoDocumento())) {
+                        elemento.setIdTipoDocumento(sessionBean.marketingUserFacade.findTipoDocumento(elemento.getIdTipoDocumento().getIdTipoDocumento()));
+                        sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "idTipoDocumento", elemento.getIdTipoDocumento().getIdTipoDocumento().toString(), elemento.getIdTipoDocumento().getNombre(), viejo.getIdTipoDocumento().getIdTipoDocumento().toString(), viejo.getIdTipoDocumento().getNombre(), observaciones));
+                    }
+
+                    Notificador.notificar(Notificador.SOLICITUD_CAMBIO_CLIENTE,
+                            "Se pidió un cambio en el cliente " + elemento.getNombres() + " " + elemento.getApellidos() + ". Favor revisar la pagina de cambios en usuario.",
+                            "Cambio en cliente", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("clientes.xhtml");
+                    FacesUtil.addInfoMessage("Actualización enviada", "Pendiente de autorización");
+                    sessionBean.registrarlog("actualizar", "Clientes", "Cliente enviado a actualización:" + elemento.toString());
+
+                }
+
+            } catch (IOException ex) {
             }
-            if ((elemento.getIdTipoDocumento() == null)
-                    && (elemento.getIdentificacion() != null && !elemento.getIdentificacion().equals(""))) {
-                FacesUtil.addErrorMessage("No se puede guardar cliente", "Si tiene identificación debe seleccionar un tipo");
-            }
-
-            elemento.setTipojuegoList(tiposJuegosTodos.getTarget());
-            List<Clienteatributo> clienteatributos = elemento.getClienteatributoList();
-            elemento.setClienteatributoList(new ArrayList<Clienteatributo>());
-
-            if (elemento.getIdCliente() == 0) {
-                elemento.setIdCliente(null);
-                sessionBean.marketingUserFacade.guardarClientes(elemento);
-                FacesUtil.addInfoMessage("Cliente creado con exito!", "");
-                sessionBean.registrarlog("actualizar", "Clientes", "Cliente creado: " + elemento.toString());
-                FacesContext.getCurrentInstance().getExternalContext().redirect("clientes.xhtml");
-            } else {
-
-                if (!elemento.getNombres().equals(viejo.getNombres())) {
-                    sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "nombres", elemento.getNombres(), elemento.getNombres(), viejo.getNombres(), viejo.getNombres(), observaciones));
-                }
-                if (!elemento.getApellidos().equals(viejo.getApellidos())) {
-                    sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "apellidos", elemento.getApellidos(), elemento.getApellidos(), viejo.getApellidos(), viejo.getApellidos(), observaciones));
-                }
-                if (elemento.getIdCasinoPreferencial() != null && !elemento.getIdCasinoPreferencial().equals(viejo.getIdCasinoPreferencial())) {
-                    elemento.setIdCasinoPreferencial(sessionBean.marketingUserFacade.findCasino(elemento.getIdCasinoPreferencial().getIdCasino()));
-                    sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "idCasinoPreferencial", elemento.getIdCasinoPreferencial().getIdCasino().toString(), elemento.getIdCasinoPreferencial().getNombre(), viejo.getIdCasinoPreferencial().getIdCasino().toString(), viejo.getIdCasinoPreferencial().getNombre(), observaciones));
-                }
-                if (elemento.getIdCategorias() != null && !elemento.getIdCategorias().equals(viejo.getIdCategorias())) {
-
-                    elemento.setIdCategorias(sessionBean.marketingUserFacade.findCategoria(elemento.getIdCategorias().getIdCategorias()));
-                    sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "idCategorias", elemento.getIdCategorias().getIdCategorias().toString(), elemento.getIdCategorias().getNombre(), viejo.getIdCategorias().getIdCategorias().toString(), viejo.getIdCategorias().getNombre(), observaciones));
-                }
-                if (!elemento.getTelefono1().equals(viejo.getTelefono1())) {
-                    sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "telefono1", elemento.getTelefono1(), elemento.getTelefono1(), viejo.getTelefono1(), viejo.getTelefono1(), observaciones));
-                }
-                if (!elemento.getTelefono2().equals(viejo.getTelefono2())) {
-                    sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "telefono2", elemento.getTelefono2(), elemento.getTelefono2(), viejo.getTelefono2(), viejo.getTelefono2(), observaciones));
-                }
-                if (!elemento.getIdentificacion().equals(viejo.getIdentificacion())) {
-                    sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "identificacion", elemento.getIdentificacion(), elemento.getIdentificacion(), viejo.getIdentificacion(), viejo.getIdentificacion(), observaciones));
-                }
-                if (!elemento.getCorreo().equals(viejo.getCorreo())) {
-                    sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "correo", elemento.getCorreo(), elemento.getCorreo(), viejo.getCorreo(), viejo.getCorreo(), observaciones));
-                }
-                if (elemento.getCumpleanos() != null && !elemento.getCumpleanos().equals(viejo.getCumpleanos())) {
-                    sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "cumpleanos", elemento.getCumpleanos().getTime() + "", elemento.getCumpleanos().getTime() + "", viejo.getCumpleanos().getTime() + "", viejo.getCumpleanos().getTime() + "", observaciones));
-                }
-                if (!elemento.getPais().equals(viejo.getPais())) {
-                    sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "pais", elemento.getPais(), elemento.getPais(), viejo.getPais(), viejo.getPais(), observaciones));
-                }
-                if (!elemento.getDireccion().equals(viejo.getDireccion())) {
-                    sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "direccion", elemento.getDireccion(), elemento.getDireccion(), viejo.getDireccion(), viejo.getDireccion(), observaciones));
-                }
-                if (!elemento.getCiudad().equals(viejo.getCiudad())) {
-                    sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "ciudad", elemento.getCiudad(), elemento.getCiudad(), viejo.getCiudad(), viejo.getCiudad(), observaciones));
-                }
-                if (!elemento.getBonoFidelizacion().equals(viejo.getBonoFidelizacion())) {
-                    sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "bonoFidelizacion", elemento.getBonoFidelizacion(), elemento.getBonoFidelizacion(), viejo.getBonoFidelizacion(), viejo.getBonoFidelizacion(), observaciones));
-                }
-                if (!elemento.getGenero().equals(viejo.getGenero())) {
-                    sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "genero", elemento.getGenero(), elemento.getGenero(), viejo.getGenero(), viejo.getGenero(), observaciones));
-                }
-                if (elemento.getIdTipoDocumento() != null && !elemento.getIdTipoDocumento().equals(viejo.getIdTipoDocumento())) {
-                    elemento.setIdTipoDocumento(sessionBean.marketingUserFacade.findTipoDocumento(elemento.getIdTipoDocumento().getIdTipoDocumento()));
-                    sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "idTipoDocumento", elemento.getIdTipoDocumento().getIdTipoDocumento().toString(), elemento.getIdTipoDocumento().getNombre(), viejo.getIdTipoDocumento().getIdTipoDocumento().toString(), viejo.getIdTipoDocumento().getNombre(), observaciones));
-                }
-
-                Notificador.notificar(Notificador.SOLICITUD_CAMBIO_CLIENTE, 
-                        "Se pidió un cambio en el cliente " + elemento.getNombres() + " " + elemento.getApellidos() + ". Favor revisar la pagina de cambios en usuario.", 
-                        "Cambio en cliente", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
-                FacesContext.getCurrentInstance().getExternalContext().redirect("clientes.xhtml");
-                FacesUtil.addInfoMessage("Actualización enviada", "Pendiente de autorización");
-                sessionBean.registrarlog("actualizar", "Clientes", "Cliente enviado a actualización:" + elemento.toString());
-
-            }
-
-        } catch (IOException ex) {
         }
     }
 
@@ -253,6 +295,54 @@ public class ClientesActBean {
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    public List<Tipojuego> getTiposjuegos() {
+        return tiposjuegos;
+    }
+
+    public void setTiposjuegos(List<Tipojuego> tiposjuegos) {
+        this.tiposjuegos = tiposjuegos;
+    }
+
+    public Cliente getViejo() {
+        return viejo;
+    }
+
+    public void setViejo(Cliente viejo) {
+        this.viejo = viejo;
+    }
+
+    public Integer getDia() {
+        return dia;
+    }
+
+    public void setDia(Integer dia) {
+        this.dia = dia;
+    }
+
+    public Integer getMes() {
+        return mes;
+    }
+
+    public void setMes(Integer mes) {
+        this.mes = mes;
+    }
+
+    public List<Integer> getAnnos() {
+        return annos;
+    }
+
+    public void setAnnos(List<Integer> annos) {
+        this.annos = annos;
+    }
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
     }
 
 }

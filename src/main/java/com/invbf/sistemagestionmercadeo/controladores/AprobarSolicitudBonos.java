@@ -195,7 +195,6 @@ public class AprobarSolicitudBonos {
         elemento.setEstado("APROBADA");
         elemento.setSolicitudentregaclienteList(solicitudentregaclienteses);
         sessionBean.marketingUserFacade.cambiarEstadoSolicitudentrega(elemento);
-        sessionBean.marketingUserFacade.crearSolicitudSalidaBonos(elemento);
         sessionBean.registrarlog(null, null, "Aprobada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
         FacesUtil.addInfoMessage("Solicitud aprobada con exito!", "");
         
@@ -218,6 +217,7 @@ public class AprobarSolicitudBonos {
 
             control.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
             control.setEstado("SOLICITADA");
+            control.setSolicitudEntregaid(elemento);
             sessionBean.marketingUserFacade.guardarControlSalidaBonos(control);
 
             FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
@@ -227,7 +227,7 @@ public class AprobarSolicitudBonos {
                 cslb.setCantidad(0);
                 cslb.setControlsalidabono(control);
                 cslb.setLotebono(lb);
-                cslb.setControlsalidabonosHasLotesbonosPK(new ControlsalidabonosHasLotesbonosPK(elemento.getId(), lb.getId()));
+                cslb.setControlsalidabonosHasLotesbonosPK(new ControlsalidabonosHasLotesbonosPK(control.getId(), lb.getId()));
                 controlsalidabonosHasLotesbonoses.add(cslb);
                 cslb.setControlsalidabonosHasLotesbonosHasClientesList(new ArrayList<ControlsalidabonosHasLotesbonosHasClientes>());
             }
@@ -237,7 +237,7 @@ public class AprobarSolicitudBonos {
                     break;
                 }
                 for (DenoinacionCant cant : cm.getDenominacionCant()) {
-                    ControlsalidabonosHasLotesbonosHasClientes hasClientes = new ControlsalidabonosHasLotesbonosHasClientes(elemento.getId(), cant.getDenomiancion().getId(), cm.getId());
+                    ControlsalidabonosHasLotesbonosHasClientes hasClientes = new ControlsalidabonosHasLotesbonosHasClientes(control.getId(), cant.getDenomiancion().getId(), cm.getId());
                     hasClientes.setCantidad(cant.getCantidad());
                     controlsalidabonosHasLotesbonosHasClienteses.add(hasClientes);
                 }
@@ -245,7 +245,10 @@ public class AprobarSolicitudBonos {
             }
             if (!isNotOk) {
                 for (ControlsalidabonosHasLotesbonosHasClientes chlhc : controlsalidabonosHasLotesbonosHasClienteses) {
-                    ControlsalidabonosHasLotesbonos chl = new ControlsalidabonosHasLotesbonos(elemento.getId(), chlhc.getControlsalidabonosHasLotesbonosHasClientesPK().getControlSalidaBonoshasLotesBonosLotesBonosid());
+                    System.out.println("id chclh " + chlhc.getControlsalidabonosHasLotesbonosHasClientesPK().getControlSalidaBonoshasLotesBonosLotesBonosid());
+                    ControlsalidabonosHasLotesbonos chl = new ControlsalidabonosHasLotesbonos(control.getId(), chlhc.getControlsalidabonosHasLotesbonosHasClientesPK().getControlSalidaBonoshasLotesBonosLotesBonosid());
+
+                    System.out.println("id chclh " + controlsalidabonosHasLotesbonoses.indexOf(chl));
                     chl = controlsalidabonosHasLotesbonoses.get(controlsalidabonosHasLotesbonoses.indexOf(chl));
                     if (chl.getCantidad() == null) {
                         chl.setCantidad(chlhc.getCantidad());
@@ -256,6 +259,7 @@ public class AprobarSolicitudBonos {
                 }
                 control.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
                 control.setEstado("SOLICITADA");
+                control.setSolicitudEntregaid(elemento);
                 sessionBean.marketingUserFacade.guardarControlSalidaBonos(control);
                 FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
             } else {
@@ -263,6 +267,7 @@ public class AprobarSolicitudBonos {
             }
         }
     }
+
 
     public Casino getCasinoById(Integer idCasino) {
         int casinoIndex = casinos.indexOf(new Casino(idCasino));

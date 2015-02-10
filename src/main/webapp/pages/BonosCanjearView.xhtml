@@ -109,7 +109,14 @@
                             </div>
                         </div>
                         <div class="panel-footer text-right"> 
-                            <p:commandButton value="guardar" actionListener="#{bonoCanjeCliente.canjear()}" icon="ui-icon-check" 
+                            <p:commandButton value="Validar" actionListener="#{bonoCanjeCliente.validar()}" icon="ui-icon-check" rendered="#{bono.estado eq &quot;ENTREGADO CLIENTE&quot;
+                                                                                                                                                and sessionBean.perfilViewMatch(&quot;Validarbono&quot;)} "
+                                             update=":#{p:component('bonos')} :#{p:component('messages')}" style="margin:0" />  
+                            <p:commandButton value="Autorizar" actionListener="#{bonoCanjeCliente.autorizar()}" icon="ui-icon-check" rendered="#{bono.estado eq &quot;VALIDADO&quot;
+                                                                                                                                                and sessionBean.perfilViewMatch(&quot;Autorizarbono&quot;)}"
+                                             update=":#{p:component('bonos')} :#{p:component('messages')}" style="margin:0" />  
+                            <p:commandButton value="Canjear" actionListener="#{bonoCanjeCliente.canjear()}" icon="ui-icon-check" rendered="#{bono.estado eq &quot;AUTORIZADO&quot;
+                                                                                                                                                and sessionBean.perfilViewMatch(&quot;Canjearbono&quot;)}"
                                              update=":#{p:component('bonos')} :#{p:component('messages')}" style="margin:0" />   
                         </div>
                     </div>

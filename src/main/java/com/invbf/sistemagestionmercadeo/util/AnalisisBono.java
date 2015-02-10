@@ -94,7 +94,7 @@ public class AnalisisBono {
 
     public void addBono(Bono bono) {
         totales +=1;
-        if(bono.getEstado().equals("EN SALA")||bono.getEstado().equals("POR VALIDAR")||bono.getEstado().equals("VALIDADO")||bono.getEstado().equals("ENTREGADO")){
+        if(bono.getEstado().equals("EN SALA")||bono.getEstado().equals("POR VERIFICAR")||bono.getEstado().equals("VERIFICADO")||bono.getEstado().equals("ENTREGADO")){
             aprobados++;
         }
         if(bono.getEstado().equals("ENTREGADO CLIENTE")){

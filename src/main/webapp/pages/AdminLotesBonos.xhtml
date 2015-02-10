@@ -39,12 +39,15 @@
                                                  rows="#{sessionBean.paginacion}"
                                                  paginator="true"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                 filteredValue="#{crudLoteBonoBean.listaFiltrada}">
+                                                 filteredValue="#{crudLoteBonoBean.listaFiltrada}" rowIndexVar="index" rowsPerPageTemplate="5,10,15, 20, 25, 30">
+                                        <p:column headerText="Fila #">
+                                            #{index + 1}
+                                        </p:column>>
 
                                         <p:column style="width:7%">
                                             <p:rowToggler />
                                         </p:column>
-                                        
+
                                         <p:column headerText="#{label['casino']}" sortBy="#{element.idCasino}" style="width:35%" filterBy="#{element.idCasino.nombre}" filterMatchMode="in" >
                                             <f:facet name="filter">
                                                 <p:selectCheckboxMenu label="#{label['casinos']}" onchange="PF('detailsTable').filter()" >
@@ -53,12 +56,16 @@
                                             </f:facet>
                                             <h:outputText value="#{element.idCasino.nombre}" />
                                         </p:column>
-                                        
+
                                         <p:column headerText="#{label['cantidad']}" sortBy="#{element.cantidad}" style="width:13%">
-                                            <h:outputText value="#{element.cantidad}" />
+                                            <h:outputText value="#{element.cantidad}" >
+                                                <f:converter  converterId="numberSeparationConverter"  />
+                                            </h:outputText>/>
                                         </p:column>
                                         <p:column headerText="#{label['denominacion']}" sortBy="#{element.denominacion.valor}" style="width:17%" filterBy="#{element.denominacion.valor}" filterMatchMode="contains" >
-                                            <h:outputText value="#{element.denominacion.valor}" />
+                                            <h:outputText value="#{element.denominacion.valor}" >
+                                                <f:converter  converterId="numberSeparationConverter"  />
+                                            </h:outputText>
                                         </p:column>
                                         <p:column headerText="#{label['tipobono']}" sortBy="#{element.tipoBono.nombre}" style="width:17%" filterBy="#{element.tipoBono.nombre}" filterMatchMode="in" >
                                             <f:facet name="filter">
@@ -141,7 +148,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="row">
                                 <div class="control-group">
                                     <!-- Username -->
@@ -156,7 +163,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="row">
                                 <div class="control-group">
                                     <!-- Username -->
@@ -171,7 +178,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </fieldset>
                     </div>
                     <div class="panel-footer text-right"> 

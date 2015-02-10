@@ -52,7 +52,7 @@ public class BonoValidarBean {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("requisiciones");
-        if (!sessionBean.perfilViewMatch("Validarbono")) {
+        if (!sessionBean.perfilViewMatch("Verificarbono")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
@@ -88,7 +88,16 @@ public class BonoValidarBean {
         for (Bono bono : elemento.getBonoList()) {
             if (bono.getCliente() == null) {
                 System.out.println(bono.getDenominacion().getValor());
-                bonosPorAsignar.add(new ConsecutivoBono(bono.getId(), bono.getConsecutivo(), bono.getDenominacion().getValor(), bono.getDenominacion().getId()));
+                ConsecutivoBono cb = new ConsecutivoBono(bono.getId(), bono.getConsecutivo(), bono.getDenominacion().getValor(), bono.getDenominacion().getId());
+                bonosPorAsignar.add(cb);
+                for (ClienteMonto cm : clientes) {
+                    if (cm.haveLeftDenomination(cb.getIdDenominacion())) {
+                        cm.restarBono(new Denominacion(cb.getIdDenominacion()));
+                        cb.setIdCliente(cm.getId());
+                        cb.setNombreClietne(cm.getNombre());
+                        break;
+                    }
+                }
             } else {
                 bonosPorAsignar.add(new ConsecutivoBono(bono.getId(), bono.getConsecutivo(), bono.getDenominacion().getValor(), bono.getDenominacion().getId(), bono.getCliente().getIdCliente(), bono.getCliente().getNombres() + " " + bono.getCliente().getApellidos()));
                 ClienteMonto cliente = clientes.get(clientes.indexOf(new ClienteMonto(bono.getCliente().getIdCliente())));
@@ -153,7 +162,7 @@ public class BonoValidarBean {
             System.out.println("entra bono");
             elemento.getBonoList().get(elemento.getBonoList().indexOf(new Bono(bono.getId()))).setCliente(new Cliente(bono.getIdCliente()));
         }
-        FacesUtil.addInfoMessage("Bonos asignados con exito", "Se asignaron "+bonosPorAsignar.size()+" bonos");
+        FacesUtil.addInfoMessage("Bonos asignados con exito", "Se asignaron " + bonosPorAsignar.size() + " bonos");
         sessionBean.marketingUserFacade.saveBonos(elemento, sessionBean.getUsuario().getIdUsuario());
     }
 

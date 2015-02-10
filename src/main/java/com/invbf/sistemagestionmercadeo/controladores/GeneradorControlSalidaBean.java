@@ -46,7 +46,7 @@ public class GeneradorControlSalidaBean {
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
-    private Controlsalidabono elemento;
+    private Controlsalidabono control;
     private List<ClienteMonto> clientesMontos;
     private List<Lotebono> lotesSol;
     private Usuario usuario;
@@ -76,41 +76,41 @@ public class GeneradorControlSalidaBean {
 
         Integer id = (Integer) sessionBean.getAttributes().get("idsolicitudsalida");
         if (sessionBean.getAttributes().containsKey("idsolicitudsalida") && (Integer) sessionBean.getAttributes().get("idsolicitudsalida") != 0) {
-            elemento = sessionBean.marketingUserFacade.getSolicitudSalida(id);
+            control = sessionBean.marketingUserFacade.getSolicitudSalida(id);
         } else {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
             }
         }
-        if (elemento.getSolicitante() == null || elemento.getSolicitante().getIdUsuario() == 0) {
+        if (control.getSolicitante() == null || control.getSolicitante().getIdUsuario() == 0) {
             try {
-                elemento.setSolicitante(sessionBean.getUsuario());
+                control.setSolicitante(sessionBean.getUsuario());
                 DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
                 DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
                 TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
                 df.setTimeZone(timeZone);
                 Calendar nowDate = Calendar.getInstance();
                 nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
-                elemento.setFecha(nowDate.getTime());
+                control.setFecha(nowDate.getTime());
             } catch (ParseException ex) {
                 Logger.getLogger(GeneradorControlSalidaBean.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        usuario = elemento.getSolicitante();
-        usuariosdetalles = elemento.getSolicitante().getUsuariodetalle();
-        Solicitudentrega sol = elemento.getSolicitudEntregaid();
+        usuario = control.getSolicitante();
+        usuariosdetalles = control.getSolicitante().getUsuariodetalle();
+        Solicitudentrega sol = control.getSolicitudEntregaid();
         List<Solicitudentregacliente> solec = sol.getSolicitudentregaclienteList();
         lotesSol = sessionBean.marketingUserFacade.getLotesBonosCasinoTipoBono(sol.getIdCasino().getIdCasino(), sol.getTipoBono());
         System.out.println("Tamano de la lista de lotes " + lotesSol.size());
         clientesMontos = new ArrayList<ClienteMonto>(0);
-        if (elemento.getSolicitudEntregaid().getTipoBono().getNombre().equals("PROMOCIONAL")) {
-            totalEntregar = elemento.getSolicitudEntregaid().getTotal();
-            if (elemento.getSolicitudEntregaid().getTotalpreaprobado() != 0) {
-                totalEntregar = elemento.getSolicitudEntregaid().getTotalpreaprobado();
+        if (control.getSolicitudEntregaid().getTipoBono().getNombre().equals("PROMOCIONAL")) {
+            totalEntregar = control.getSolicitudEntregaid().getTotal();
+            if (control.getSolicitudEntregaid().getTotalpreaprobado() != 0) {
+                totalEntregar = control.getSolicitudEntregaid().getTotalpreaprobado();
             }
-            if (elemento.getSolicitudEntregaid().getTotalaprobado() != 0) {
-                totalEntregar = elemento.getSolicitudEntregaid().getTotalaprobado();
+            if (control.getSolicitudEntregaid().getTotalaprobado() != 0) {
+                totalEntregar = control.getSolicitudEntregaid().getTotalaprobado();
             }
             denominacionCant = MatematicaAplicada.getBonosAsignadosDEnominacinesGrandes(lotesSol, totalEntregar);
         } else {
@@ -141,11 +141,11 @@ public class GeneradorControlSalidaBean {
     }
 
     public Controlsalidabono getElemento() {
-        return elemento;
+        return control;
     }
 
     public void setElemento(Controlsalidabono elemento) {
-        this.elemento = elemento;
+        this.control = elemento;
     }
 
     public List<ClienteMonto> getClientesMontos() {
@@ -161,30 +161,30 @@ public class GeneradorControlSalidaBean {
         List<ControlsalidabonosHasLotesbonos> controlsalidabonosHasLotesbonoses = new ArrayList<ControlsalidabonosHasLotesbonos>();
         List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClienteses = new ArrayList<ControlsalidabonosHasLotesbonosHasClientes>();
 
-        if (elemento.getSolicitudEntregaid().getTipoBono().getNombre().equals("PROMOCIONAL")) {
+        if (control.getSolicitudEntregaid().getTipoBono().getNombre().equals("PROMOCIONAL")) {
             for (DenoinacionCant den : denominacionCant) {
                 ControlsalidabonosHasLotesbonos cslb = new ControlsalidabonosHasLotesbonos();
                 cslb.setCantidad(0);
-                cslb.setControlsalidabono(elemento);
+                cslb.setControlsalidabono(control);
                 cslb.setLotebono(den.getDenomiancion());
                 cslb.setCantidad(den.getCantidad());
-                cslb.setControlsalidabonosHasLotesbonosPK(new ControlsalidabonosHasLotesbonosPK(elemento.getId(), den.getDenomiancion().getId()));
+                cslb.setControlsalidabonosHasLotesbonosPK(new ControlsalidabonosHasLotesbonosPK(control.getId(), den.getDenomiancion().getId()));
                 cslb.setControlsalidabonosHasLotesbonosHasClientesList(new ArrayList<ControlsalidabonosHasLotesbonosHasClientes>());
                 controlsalidabonosHasLotesbonoses.add(cslb);
             }
 
-            elemento.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
-            elemento.setEstado("SOLICITADA");
-            sessionBean.marketingUserFacade.guardarControlSalidaBonos(elemento);
+            control.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
+            control.setEstado("SOLICITADA");
+            sessionBean.marketingUserFacade.guardarControlSalidaBonos(control);
 
             FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
         } else {
             for (Lotebono lb : lotesSol) {
                 ControlsalidabonosHasLotesbonos cslb = new ControlsalidabonosHasLotesbonos();
                 cslb.setCantidad(0);
-                cslb.setControlsalidabono(elemento);
+                cslb.setControlsalidabono(control);
                 cslb.setLotebono(lb);
-                cslb.setControlsalidabonosHasLotesbonosPK(new ControlsalidabonosHasLotesbonosPK(elemento.getId(), lb.getId()));
+                cslb.setControlsalidabonosHasLotesbonosPK(new ControlsalidabonosHasLotesbonosPK(control.getId(), lb.getId()));
                 controlsalidabonosHasLotesbonoses.add(cslb);
                 cslb.setControlsalidabonosHasLotesbonosHasClientesList(new ArrayList<ControlsalidabonosHasLotesbonosHasClientes>());
             }
@@ -194,7 +194,7 @@ public class GeneradorControlSalidaBean {
                     break;
                 }
                 for (DenoinacionCant cant : cm.getDenominacionCant()) {
-                    ControlsalidabonosHasLotesbonosHasClientes hasClientes = new ControlsalidabonosHasLotesbonosHasClientes(elemento.getId(), cant.getDenomiancion().getId(), cm.getId());
+                    ControlsalidabonosHasLotesbonosHasClientes hasClientes = new ControlsalidabonosHasLotesbonosHasClientes(control.getId(), cant.getDenomiancion().getId(), cm.getId());
                     hasClientes.setCantidad(cant.getCantidad());
                     controlsalidabonosHasLotesbonosHasClienteses.add(hasClientes);
                 }
@@ -202,7 +202,7 @@ public class GeneradorControlSalidaBean {
             }
             if (!isNotOk) {
                 for (ControlsalidabonosHasLotesbonosHasClientes chlhc : controlsalidabonosHasLotesbonosHasClienteses) {
-                    ControlsalidabonosHasLotesbonos chl = new ControlsalidabonosHasLotesbonos(elemento.getId(), chlhc.getControlsalidabonosHasLotesbonosHasClientesPK().getControlSalidaBonoshasLotesBonosLotesBonosid());
+                    ControlsalidabonosHasLotesbonos chl = new ControlsalidabonosHasLotesbonos(control.getId(), chlhc.getControlsalidabonosHasLotesbonosHasClientesPK().getControlSalidaBonoshasLotesBonosLotesBonosid());
                     chl = controlsalidabonosHasLotesbonoses.get(controlsalidabonosHasLotesbonoses.indexOf(chl));
                     if (chl.getCantidad() == null) {
                         chl.setCantidad(chlhc.getCantidad());
@@ -211,16 +211,16 @@ public class GeneradorControlSalidaBean {
                     }
                     chl.getControlsalidabonosHasLotesbonosHasClientesList().add(chlhc);
                 }
-                elemento.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
-                elemento.setEstado("SOLICITADA");
-                sessionBean.marketingUserFacade.guardarControlSalidaBonos(elemento);
+                control.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
+                control.setEstado("SOLICITADA");
+                sessionBean.marketingUserFacade.guardarControlSalidaBonos(control);
                 FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
             } else {
                 FacesUtil.addErrorMessage("No se puede guardar la solicitud!", "Revise que los bonos asignados a los clientes concuerden con el monto");
             }
         }
 
-        String body = "Se a enviado la solicitud de salida de bonos con el ID " + elemento.getId()
+        String body = "Se a enviado la solicitud de salida de bonos con el ID " + control.getId()
                 + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
         Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha enviado una solicitud de salida de bonos de caja",sessionBean.getUsuario().getUsuariodetalle().getCorreo());
     }

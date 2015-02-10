@@ -61,7 +61,7 @@ public class BonoEntregarCajaBean {
         System.out.println("Buscar bonos");
         System.out.println("casino " + casinoSelected.getIdCasino());
         casinoSelected = casinos.get(casinos.indexOf(new Casino(casinoSelected.getIdCasino())));
-        bonosCasinoPorEntregar = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("VALIDADO", casinoSelected);
+        bonosCasinoPorEntregar = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("VERIFICADO", casinoSelected);
         System.out.println(bonosCasinoPorEntregar.size());
     }
 
@@ -102,7 +102,7 @@ public class BonoEntregarCajaBean {
             bono.setEstado("ENTREGADO");
         }
         sessionBean.marketingUserFacade.guardarBonos(bonosCasinoPorEntregarSelected);
-        bonosCasinoPorEntregar = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("VALIDADO", casinoSelected);
+        bonosCasinoPorEntregar = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("VERIFICADO", casinoSelected);
         bonosCasinoPorEntregarSelected = new ArrayList<Bono>();
 
         String body = "Se han cambiado el estado de algunos bonos. Nuevo estado = ENTREGADO.";
