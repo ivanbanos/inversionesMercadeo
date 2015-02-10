@@ -52,7 +52,7 @@ public class ReporteMovimientoBonosBean {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("reportes");
-        
+
         if (!sessionBean.perfilViewMatch("Reportes")) {
             try {
                 sessionBean.Desconectar();
@@ -67,6 +67,7 @@ public class ReporteMovimientoBonosBean {
         hasta = now.getTime();
         desde = monthago.getTime();
         bonosAnalizar = sessionBean.marketingUserFacade.getAllBonosFecha(desde, hasta);
+        System.out.println(bonosAnalizar.size());
         List<Casino> casinosNormales = sessionBean.adminFacade.findAllCasinos();
         casinos = new ArrayList<CasinoBoolean>();
         for (Casino casinosNormale : casinosNormales) {
@@ -98,12 +99,13 @@ public class ReporteMovimientoBonosBean {
             for (CasinoBoolean casino : casinos) {
                 if (casino.isSelected()) {
                     oneselected = true;
-                    if (casino.getCasino().getIdCasino().equals(next.getCasino().getIdCasino()) ){
+                    if (casino.getCasino().getIdCasino().equals(next.getCasino().getIdCasino())) {
                         ok = true;
                     }
                 }
             }
-            if(!ok&&oneselected){
+            System.out.println(ok);
+            if ((!ok) && oneselected) {
                 iterator.remove();
             }
         }
@@ -152,12 +154,24 @@ public class ReporteMovimientoBonosBean {
 
     private void analizarBonos() {
         promocional = new ArrayList<AnalisisBono>();
-        for (Bono bono : bonosAnalizar) {
-            if (!promocional.contains(new AnalisisBono(bono.getPropositosEntregaid().getNombre()))) {
-                promocional.add(new AnalisisBono(bono.getPropositosEntregaid().getNombre()));
+        if ((nombre == null || nombre.equals("")) && (apellidos == null || apellidos.equals(""))) {
+            for (Bono bono : bonosAnalizar) {
+                if (!promocional.contains(new AnalisisBono(bono.getPropositosEntregaid().getNombre()))) {
+                    promocional.add(new AnalisisBono(bono.getPropositosEntregaid().getNombre()));
+                    System.out.println(bono.getPropositosEntregaid().getNombre());
+                }
+                AnalisisBono ab = promocional.get(promocional.indexOf(new AnalisisBono(bono.getPropositosEntregaid().getNombre())));
+                ab.addBono(bono);
             }
-            AnalisisBono ab = promocional.get(promocional.indexOf(new AnalisisBono(bono.getPropositosEntregaid().getNombre())));
-            ab.addBono(bono);
+        } else {
+            for (Bono bono : bonosAnalizar) {
+                if (!promocional.contains(new AnalisisBono(bono.getCliente().getNombres()+" "+bono.getCliente().getApellidos()))) {
+                    promocional.add(new AnalisisBono(bono.getCliente().getNombres()+" "+bono.getCliente().getApellidos()));
+                    System.out.println(bono.getCliente().getNombres()+" "+bono.getCliente().getApellidos());
+                }
+                AnalisisBono ab = promocional.get(promocional.indexOf(new AnalisisBono(bono.getCliente().getNombres()+" "+bono.getCliente().getApellidos())));
+                ab.addBono(bono);
+            }
         }
     }
 

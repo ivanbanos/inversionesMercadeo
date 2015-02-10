@@ -798,9 +798,9 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
         elemento.setSolicitudentregaloteList(solicitudentregaloteses);
         SolicitudentregalotesmaestroDao.edit(elemento);
         if (porque == 1) {
-            String body = "Se a creado una solicitud de entrada de lotes de bono con el ID "+elemento.getId()
+            String body = "Se a creado una solicitud de entrada de lotes de bono con el ID " + elemento.getId()
                     + ".\nPor favor revisar la pagina de Lista de solicitudes de lotes de bonos.";
-            Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_GENERADA, body, "Solicitud de entrada de lotes de bono generada","");
+            Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_GENERADA, body, "Solicitud de entrada de lotes de bono generada", "");
         }
         return false;
     }
@@ -823,9 +823,9 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
         }
         ControlsalidabonosDao.create(csb);
 
-                String body = "Se a creado una solicitud de salida de bonos con el ID " + csb.getId()
-                        + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
-                Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha generado una solicitud de salida de bonos de caja",csb.getSolicitante().getUsuariodetalle().getCorreo());
+        String body = "Se a creado una solicitud de salida de bonos con el ID " + csb.getId()
+                + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
+        Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha generado una solicitud de salida de bonos de caja", csb.getSolicitante().getUsuariodetalle().getCorreo());
     }
 
     @Override
@@ -931,6 +931,16 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
 
     @Override
     public boolean existeid(Tipodocumento idTipoDocumento, String identificacion) {
-         return ClienteDao.isIdentificacioniAsociatedCliente(idTipoDocumento, identificacion);
+        return ClienteDao.isIdentificacioniAsociatedCliente(idTipoDocumento, identificacion);
+    }
+
+    @Override
+    public void guardaBono(Bono bono) {
+        System.out.println("Consecutivo " + bono.getConsecutivo());
+        if (bono.getId() == null) {
+            BonoDao.create(bono);
+        } else {
+            BonoDao.edit(bono);
+        }
     }
 }

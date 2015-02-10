@@ -37,6 +37,7 @@ public class BonoValidarBean {
     private Controlsalidabono elemento;
     private List<ClienteMonto> clientes;
     private List<ConsecutivoBono> bonosPorAsignar;
+    private List<ConsecutivoBono> bonosSelected;
     private List<ClienteMonto> clientesNecesitanDenominacion;
     private Integer idBono;
     private Integer idCliente;
@@ -146,23 +147,44 @@ public class BonoValidarBean {
     }
 
     public void asignarBonoCliente() {
+        if (idCliente != null || idCliente != 0) {
+            clientesNecesitanDenominacion = new ArrayList<ClienteMonto>();
+
+            ConsecutivoBono cb = bonosPorAsignar.get(bonosPorAsignar.indexOf(new ConsecutivoBono(idBono)));
+            ClienteMonto cm = clientes.get(clientes.indexOf(new ClienteMonto(idCliente)));
+            cm.restarBono(new Denominacion(cb.getIdDenominacion()));
+            cb.setIdCliente(cm.getId());
+            cb.setNombreClietne(cm.getNombre());
+            idCliente = null;
+        }
+    }
+
+    public void sacarBonoCliente() {
         clientesNecesitanDenominacion = new ArrayList<ClienteMonto>();
         ConsecutivoBono cb = bonosPorAsignar.get(bonosPorAsignar.indexOf(new ConsecutivoBono(idBono)));
-        ClienteMonto cm = clientes.get(clientes.indexOf(new ClienteMonto(idCliente)));
-        cm.restarBono(new Denominacion(cb.getIdDenominacion()));
-        cb.setIdCliente(cm.getId());
-        cb.setNombreClietne(cm.getNombre());
-        idCliente = null;
-
+        System.out.println(cb.getIdCliente());
+        ClienteMonto cm = null;
+        for (ClienteMonto cliente : clientes) {
+            if (cliente.getId().equals(cb.getIdCliente())) {
+                cm = cliente;
+                break;
+            }
+        }
+        if (cm != null) {
+            cm.sumarBono(new Denominacion(cb.getIdDenominacion()));
+            cb.setIdCliente(null);
+            cb.setNombreClietne(null);
+            idCliente = null;
+        }
     }
 
     public void guardarCambiosBonos() {
         System.out.println("Entra a validar");
-        for (ConsecutivoBono bono : bonosPorAsignar) {
+        for (ConsecutivoBono bono : bonosSelected) {
             System.out.println("entra bono");
             elemento.getBonoList().get(elemento.getBonoList().indexOf(new Bono(bono.getId()))).setCliente(new Cliente(bono.getIdCliente()));
         }
-        FacesUtil.addInfoMessage("Bonos asignados con exito", "Se asignaron " + bonosPorAsignar.size() + " bonos");
+        FacesUtil.addInfoMessage("Bonos asignados con exito", "Se asignaron " + bonosSelected.size() + " bonos");
         sessionBean.marketingUserFacade.saveBonos(elemento, sessionBean.getUsuario().getIdUsuario());
     }
 
@@ -188,6 +210,14 @@ public class BonoValidarBean {
 
     public void setIdCliente(Integer idCliente) {
         this.idCliente = idCliente;
+    }
+
+    public List<ConsecutivoBono> getBonosSelected() {
+        return bonosSelected;
+    }
+
+    public void setBonosSelected(List<ConsecutivoBono> bonosSelected) {
+        this.bonosSelected = bonosSelected;
     }
 
 }

@@ -201,4 +201,6 @@ public interface MarketingUserFacade {
 
     public boolean existeid(Tipodocumento idTipoDocumento, String identificacion);
 
+    public void guardaBono(Bono elemento);
+
 }

@@ -145,6 +145,13 @@ public class ClienteMonto {
             }
         }
     }
+    public void sumarBono(Denominacion denominacion) {
+        for (DenoinacionCant denomcant : denominacionCant) {
+            if (denomcant.getDenomiancion().getDenominacion().equals(denominacion)) {
+                denomcant.sumUnoCantidad();
+            }
+        }
+    }
 
     public void setNuevoMonto() {
         monto = 0f;

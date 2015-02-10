@@ -34,14 +34,16 @@
                                          rowIndexVar="index">
                                 <p:column headerText="Fila #">
                                     #{index + 1}
-                                </p:column>>
+                                </p:column>
 
                                 <p:column selectionMode="multiple" style="width:5%;text-align:center"/>
                                 <p:column headerText="consecutivo" sortBy="#{bono.consecutivo}" filterBy="#{bono.consecutivo}" filterMatchMode="contains">
                                     <h:outputText value="#{bono.consecutivo}" />
                                 </p:column>
                                 <p:column headerText="Denominacion" sortBy="#{bono.denominacion.valor}" filterBy="#{bono.denominacion.valor}" filterMatchMode="contains">
-                                    <h:outputText value="#{bono.denominacion.valor}" />
+                                    <h:outputText value="#{bono.denominacion.valor}" >
+                                        <f:converter  converterId="numberSeparationConverter"  />
+                                    </h:outputText>
                                 </p:column>
                                 <p:column headerText="Tipo de bono" sortBy="#{bono.tipo.nombre}" filterBy="#{bono.tipo.nombre}" filterMatchMode="contains">
                                     <h:outputText value="#{bono.tipo.nombre}" />

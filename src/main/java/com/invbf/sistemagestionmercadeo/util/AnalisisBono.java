@@ -12,6 +12,7 @@ import com.invbf.sistemagestionmercadeo.entity.Bono;
  * @author ivan
  */
 public class AnalisisBono {
+
     private String tipoBono;
     private long aprobados;
     private long entregados;
@@ -71,9 +72,9 @@ public class AnalisisBono {
     public void setCanjeados(long canjeados) {
         this.canjeados = canjeados;
     }
-    
-    public float getEfectividad(){
-        return (((float)entregados)/aprobados)*100f;
+
+    public float getEfectividad() {
+        return (((float) entregados) / aprobados) * 100f;
     }
 
     public long getTotales() {
@@ -93,34 +94,42 @@ public class AnalisisBono {
     }
 
     public void addBono(Bono bono) {
-        totales +=1;
-        if(bono.getEstado().equals("EN SALA")||bono.getEstado().equals("POR VERIFICAR")||bono.getEstado().equals("VERIFICADO")||bono.getEstado().equals("ENTREGADO")){
+        totales += 1;
+        if (bono.getEstado().equals("EN SALA") || bono.getEstado().equals("POR VERIFICAR") || bono.getEstado().equals("VERIFICADO") || bono.getEstado().equals("ENTREGADO")) {
             aprobados++;
         }
-        if(bono.getEstado().equals("ENTREGADO CLIENTE")){
+        if (bono.getEstado().equals("ENTREGADO CLIENTE") || bono.getEstado().equals("VALIDADO") || bono.getEstado().equals("AUTORIZADO")) {
             aprobados++;
             entregados++;
         }
-        if(bono.getEstado().equals("CANJEADO")){
+        if (bono.getEstado().equals("CANJEADO")) {
             aprobados++;
             entregados++;
             canjeados++;
         }
-        if(bono.getEstado().equals("VENCIDO")){
+        if (bono.getEstado().equals("VENCIDO")) {
             vencidos++;
         }
     }
 
     public float getEfectividadCAnjeados() {
-        return (((float)canjeados)/aprobados)*100f;
+        if (aprobados != 0) {
+            return (((float) canjeados) / aprobados) * 100f;
+        } else {
+            return 0;
+        }
     }
-    
-    public long getNocanjeados(){
-        return entregados-canjeados;
+
+    public long getNocanjeados() {
+        return entregados - canjeados;
     }
-    
-    public long getEfectividadNoCAnjeados(){
-        return (entregados-canjeados)/entregados;
+
+    public float getEfectividadNoCAnjeados() {
+        if (entregados != 0) {
+            return (entregados - canjeados) / entregados;
+        } else {
+            return 0;
+        }
     }
 
     @Override
@@ -144,5 +153,5 @@ public class AnalisisBono {
         }
         return true;
     }
-    
+
 }

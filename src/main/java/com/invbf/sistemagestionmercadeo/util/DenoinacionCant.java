@@ -75,5 +75,8 @@ public class DenoinacionCant {
     void resUnoCantidad() {
         cantidad -=1;
     }
+    void sumUnoCantidad() {
+        cantidad +=1;
+    }
 
 }

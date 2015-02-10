@@ -172,6 +172,7 @@ public class BonoDao {
                     .setParameter("desde", desde)
                     .setParameter("hasta", hasta)
                     .getResultList();
+            System.out.println(cargos.size());
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
