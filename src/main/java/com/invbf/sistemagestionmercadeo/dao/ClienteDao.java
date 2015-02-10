@@ -54,7 +54,7 @@ public class ClienteDao {
         } catch (Exception e) {
             tx.rollback();
         }
-
+        em.clear();
         em.close();
         emf.close();
 
@@ -77,6 +77,7 @@ public class ClienteDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
 
@@ -108,6 +109,7 @@ public class ClienteDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -130,6 +132,7 @@ public class ClienteDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -148,6 +151,7 @@ public class ClienteDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -167,6 +171,7 @@ public class ClienteDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cliente;
@@ -189,6 +194,7 @@ public class ClienteDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -214,6 +220,7 @@ public class ClienteDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -238,6 +245,7 @@ public class ClienteDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;
@@ -261,6 +269,7 @@ public class ClienteDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
 
