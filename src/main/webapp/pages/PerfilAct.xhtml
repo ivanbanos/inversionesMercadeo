@@ -181,7 +181,7 @@
 
                                         <div class="panel panel-primary">
                                             <div class="panel-heading">
-                                                <h3 class="panel-title">#{label['cliente']}</h3>
+                                                <h3 class="panel-title">Gesti&oacute;n de clientes</h3>
                                             </div>
                                             <div class="panel-body">
                                                 <table class="table table-bordered table-striped">
@@ -213,9 +213,19 @@
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.actualizarClientes.selected}"/></td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.eliminarClientes.selected}"/></td>
                                                     </tr>
+
                                                     <tr>
-                                                        <td>#{label['eventos-marketing']}</td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.vistaEvMarketing.selected}"/></td>
+                                                        <td>#{label['peticionescupo']}</td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.solicitudCambioCupo.selected}"/></td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.agregarPeticionesCupo.selected}"/></td>
+                                                        <td></td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.eliminarPeticionesCupo.selected}"/></td>
+                                                    </tr>
+                                                </table>
+                                                <table class="table table-bordered table-striped">
+                                                    <tr>
+                                                        <th>Acci&oacute;n</th>
+                                                        <th>Ejecutar</th>
                                                     </tr>
                                                     <tr>
                                                         <td>#{label['eventos-operador']}</td>
@@ -230,7 +240,7 @@
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.cupofidelizacion.selected}"/></td>
                                                     </tr>
                                                     <tr>
-                                                        <td>#{label['notificaciones']}</td>
+                                                        <td>#{label['aprobarcambiocliente']}</td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.vistaNotificacion.selected}"/></td>
                                                     </tr>
                                                 </table>
@@ -239,7 +249,7 @@
 
                                         <div class="panel panel-primary">
                                             <div class="panel-heading">
-                                                <h3 class="panel-title">#{label['bono']}</h3>
+                                                <h3 class="panel-title">Gesti&oacute;n de bonos</h3>
                                             </div>
                                             <div class="panel-body">
                                                 <table class="table table-bordered table-striped">
@@ -265,12 +275,11 @@
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.eliminarLoteBono.selected}"/></td>
                                                     </tr>
 
+                                                </table>
+                                                <table class="table table-bordered table-striped">
                                                     <tr>
-                                                        <td>#{label['peticionescupo']}</td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.solicitudCambioCupo.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.agregarPeticionesCupo.selected}"/></td>
-                                                        <td></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.eliminarPeticionesCupo.selected}"/></td>
+                                                        <th>Acci&oacute;n</th>
+                                                        <th>Ejecutar</th>
                                                     </tr>
                                                     <tr>
                                                         <td>#{label['AceptarSolicitudLotesBonos']}</td>
@@ -384,7 +393,7 @@
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.solicitudaprobadacorreo.selected}"/></td>
                                         </tr>
                                         <tr>
-                                            <td>Busqueda de bonos</td>
+                                            <td>Retiro de bonos en caja</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.senalbusquedacorreo.selected}"/></td>
                                         </tr>
                                         <tr>
@@ -396,7 +405,7 @@
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.recibirbonocorreo.selected}"/></td>
                                         </tr>
                                         <tr>
-                                            <td>Notiicaci&oacute;n de cambio de usuario</td>
+                                            <td>Notiicaci&oacute;n de cambio en cliente</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.notificacionescorreo.selected}"/></td>
                                         </tr>
 

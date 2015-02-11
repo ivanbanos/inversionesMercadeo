@@ -341,7 +341,7 @@
         <h:form>
 
             <p:idleMonitor onactive="sessionTimeOutDialog.show()" 
-                           timeout="#{420000}" >
+                           timeout="#{240000}" >
                 <p:ajax event="idle" onstart="PF('sessionTimeOutDialog').show();"  />
             </p:idleMonitor>
 
@@ -362,7 +362,7 @@
                       modal="true" closable="false" width="400">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Sesion inactiva</h3>
+                        <h3 class="panel-title">Sesi&oacute;n inactiva</h3>
                     </div>
                     <div class="panel-body">
                         <h:outputText value="#{label['leyenda.inactividad']}" />

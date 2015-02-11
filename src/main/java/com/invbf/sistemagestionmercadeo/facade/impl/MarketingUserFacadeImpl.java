@@ -825,7 +825,9 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
 
         String body = "Se a creado una solicitud de salida de bonos con el ID " + csb.getId()
                 + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
-        Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha generado una solicitud de salida de bonos de caja", csb.getSolicitante().getUsuariodetalle().getCorreo());
+        if (csb.getSolicitante().getUsuariodetalle() != null) {
+            Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha generado una solicitud de salida de bonos de caja", csb.getSolicitante().getUsuariodetalle().getCorreo());
+        }
     }
 
     @Override

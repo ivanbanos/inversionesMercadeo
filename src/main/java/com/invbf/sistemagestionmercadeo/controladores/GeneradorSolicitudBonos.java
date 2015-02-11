@@ -196,6 +196,8 @@ public class GeneradorSolicitudBonos {
                         sec.setAreaid(clientesGBT.getAreaid());
                         sec.setCliente(clientesGBT.getClientessgb());
                         sec.setValorTotal(clientesGBT.getValorTotal());
+                        sec.setValorPreAprobado(clientesGBT.getValorTotal());
+                        sec.setValorAprobado(clientesGBT.getValorTotal());
                         solicitudentregaclienteses.add(sec);
                     }
                 }

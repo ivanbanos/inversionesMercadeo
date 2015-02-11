@@ -7,6 +7,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 
 import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
+import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class BonosRecibirBean {
 
     public BonosRecibirBean() {
 
-    }                                                                        
+    }
 
     @PostConstruct
     public void init() {
@@ -60,7 +61,7 @@ public class BonosRecibirBean {
 
     public void buscarBonosValidadosPorCasino() {
         System.out.println("Buscar bonos");
-        System.out.println("casino "+casinoSelected.getIdCasino());
+        System.out.println("casino " + casinoSelected.getIdCasino());
         casinoSelected = casinos.get(casinos.indexOf(new Casino(casinoSelected.getIdCasino())));
         bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("ENTREGADO", casinoSelected);
         System.out.println(bonosCasinoEntregados.size());
@@ -82,7 +83,6 @@ public class BonosRecibirBean {
         this.casinoSelected = casinoSelected;
     }
 
-
     public void recibir() {
         for (Bono bono : bonosCasinoEntregadosSelected) {
             bono.setEstado("EN SALA");
@@ -91,7 +91,8 @@ public class BonosRecibirBean {
         bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("ENTREGADO", casinoSelected);
         bonosCasinoEntregadosSelected = new ArrayList<Bono>();
         String body = "Se han cambiado el estado de algunos bonos. Nuevo estado = RECIBIDO";
-                Notificador.notificar(Notificador.SOLICITUD_RECIBO_BONOS, body, "Estado de bonos cambiado a recibidos", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+        Notificador.notificar(Notificador.SOLICITUD_RECIBO_BONOS, body, "Estado de bonos cambiado a recibidos", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+        FacesUtil.addInfoMessage("Estado de bonos cambiado", "Nuevo estado: RECIBIDO");
     }
 
     public List<Bono> getBonosCasinoEntregados() {
@@ -109,5 +110,5 @@ public class BonosRecibirBean {
     public void setBonosCasinoEntregadosSelected(List<Bono> bonosCasinoEntregadosSelected) {
         this.bonosCasinoEntregadosSelected = bonosCasinoEntregadosSelected;
     }
-    
+
 }

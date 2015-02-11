@@ -9,8 +9,12 @@ import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -90,6 +94,12 @@ public class BonoCanjeCliente {
 
     public void canjear() {
         elemento.setEstado("CANJEADO");
+                DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
+                DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
+                TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
+                df.setTimeZone(timeZone);
+                Calendar nowDate = Calendar.getInstance();
+                elemento.setFechaEntrega(nowDate.getTime());
         sessionBean.marketingUserFacade.guardaBono(elemento);
         bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("ENTREGADO CLIENTE", casinoSelected);
         FacesUtil.addInfoMessage("Bono canjeado con exito", "Consecutivo "+elemento.getConsecutivo());
@@ -99,6 +109,14 @@ public class BonoCanjeCliente {
 
     public void validar() {
         elemento.setEstado("VALIDADO");
+        elemento.setValidador(sessionBean.getUsuario());
+        
+                DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
+                DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
+                TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
+                df.setTimeZone(timeZone);
+                Calendar nowDate = Calendar.getInstance();
+                elemento.setFechaValidacion(nowDate.getTime());
         sessionBean.marketingUserFacade.guardaBono(elemento);
         bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("ENTREGADO CLIENTE", casinoSelected);
         FacesUtil.addInfoMessage("Bono validado con exito", "Consecutivo "+elemento.getConsecutivo());
@@ -108,6 +126,13 @@ public class BonoCanjeCliente {
 
     public void autorizar() {
         elemento.setEstado("AUTORIZADO");
+        elemento.setAutorizador(sessionBean.getUsuario());
+                DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
+                DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
+                TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
+                df.setTimeZone(timeZone);
+                Calendar nowDate = Calendar.getInstance();
+                elemento.setFechaEntrega(nowDate.getTime());
         sessionBean.marketingUserFacade.guardaBono(elemento);
         bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("ENTREGADO CLIENTE", casinoSelected);
         FacesUtil.addInfoMessage("Bono autorizado con exito", "Consecutivo "+elemento.getConsecutivo());

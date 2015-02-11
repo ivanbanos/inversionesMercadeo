@@ -31,7 +31,7 @@
 
                             <p:dataTable id="bonos" var="bono" value="#{bonosRecibirBean.bonosCasinoEntregados}" style="margin-bottom:0"
                                          selection="#{bonosRecibirBean.bonosCasinoEntregadosSelected}" rowKey="#{bono.id}"
-                                         rowIndexVar="index">
+                                         rowIndexVar="index" emptyMessage="No existen bonos pendientes por recibir">
                                 <p:column headerText="Fila #">
                                     #{index + 1}
                                 </p:column>

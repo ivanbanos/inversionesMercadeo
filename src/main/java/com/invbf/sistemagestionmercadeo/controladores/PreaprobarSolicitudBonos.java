@@ -119,6 +119,10 @@ public class PreaprobarSolicitudBonos {
             if (!elemento.getControlsalidabonoList().isEmpty()) {
                 control = elemento.getControlsalidabonoList().get(0);
             }
+            if(control==null){
+                control = new Controlsalidabono();
+                control.setSolicitudEntregaid(elemento);
+            }
             if (control.getFecha() != null) {
                 DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
                 DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
@@ -157,7 +161,7 @@ public class PreaprobarSolicitudBonos {
                         monto = solec1.getValorAprobado();
                     }
                     totalEntregar += monto;
-                    ClienteMonto cliente = new ClienteMonto(solec1.getCliente().getIdCliente(), solec1.getCliente().getNombres() + " " + solec1.getCliente().getApellidos(), monto, lotesSol, elemento.getFormareparticrbonos(), solec1.getValorTotal(), solec1.getValorPreAprobado(), solec1.getValorAprobado());
+                    ClienteMonto cliente = new ClienteMonto(solec1.getCliente().getIdCliente(), solec1.getCliente().getNombres() + " " + solec1.getCliente().getApellidos(), monto, lotesSol, 1, solec1.getValorTotal(), solec1.getValorPreAprobado(), solec1.getValorAprobado());
                     clientesMontos.add(cliente);
                     List<DenoinacionCant> listClientes = cliente.getDenominacionCant();
                     for (DenoinacionCant listCliente : listClientes) {
@@ -191,6 +195,9 @@ public class PreaprobarSolicitudBonos {
             sec.setValorAprobado(sec.getValorPreAprobado());
         }
         elemento.setSolicitudentregaclienteList(solicitudentregaclienteses);
+        for (Solicitudentregacliente sec : solicitudentregaclienteses) {
+            sec.setValorAprobado(sec.getValorPreAprobado());
+        }
         sessionBean.marketingUserFacade.guardarSolicitudentrega(elemento, new ArrayList<Integer>());
         String body = "Se a preaprobado la solicitud de bonos con el ID " + elemento.getId()
                 + ".\nPor favor revisar la pagina de Lista de solicitudes de bonos.";

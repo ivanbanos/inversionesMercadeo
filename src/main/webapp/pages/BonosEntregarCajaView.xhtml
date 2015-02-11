@@ -50,7 +50,7 @@
                             <div class="row">
                                 <p:dataTable id="bonos" var="bono" value="#{bonoEntregarCajaBean.bonosCasinoPorEntregar}" style="margin-bottom:0"
                                              selection="#{bonoEntregarCajaBean.bonosCasinoPorEntregarSelected}" rowKey="#{bono.id}"
-                                             rowIndexVar="index">
+                                             rowIndexVar="index" emptyMessage="No existen bonos pendientes por entregar">
                                 <p:column headerText="Fila #">
                                     #{index + 1}
                                 </p:column>

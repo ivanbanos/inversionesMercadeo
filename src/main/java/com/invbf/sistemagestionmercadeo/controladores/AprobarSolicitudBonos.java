@@ -23,6 +23,7 @@ import com.invbf.sistemagestionmercadeo.util.ClienteMonto;
 import com.invbf.sistemagestionmercadeo.util.DenoinacionCant;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.MatematicaAplicada;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -46,7 +47,7 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @ViewScoped
 public class AprobarSolicitudBonos {
-    
+
     private Solicitudentrega elemento;
     private List<Casino> casinos;
     private List<Tipobono> tiposbonos;
@@ -88,7 +89,7 @@ public class AprobarSolicitudBonos {
                 } catch (IOException ex) {
                 }
             }
-            
+
             System.out.println("Buscando info de la solictud si existe");
             if (sessionBean.getAttributes().containsKey("idSolicitudentrega") && (Integer) sessionBean.getAttributes().get("idSolicitudentrega") != 0) {
                 Integer id = (Integer) sessionBean.getAttributes().get("idSolicitudentrega");
@@ -115,7 +116,7 @@ public class AprobarSolicitudBonos {
                     Logger.getLogger(GeneradorSolicitudBonos.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
+
             casinos = sessionBean.adminFacade.findAllCasinos();
             tiposbonos = sessionBean.adminFacade.findAllTiposbonos();
             usuarios = sessionBean.adminFacade.findAllUsuarios();
@@ -197,8 +198,7 @@ public class AprobarSolicitudBonos {
         sessionBean.marketingUserFacade.cambiarEstadoSolicitudentrega(elemento);
         sessionBean.registrarlog(null, null, "Aprobada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
         FacesUtil.addInfoMessage("Solicitud aprobada con exito!", "");
-        
-        
+
         boolean isNotOk = false;
         List<ControlsalidabonosHasLotesbonos> controlsalidabonosHasLotesbonoses = new ArrayList<ControlsalidabonosHasLotesbonos>();
         List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClienteses = new ArrayList<ControlsalidabonosHasLotesbonosHasClientes>();
@@ -261,13 +261,16 @@ public class AprobarSolicitudBonos {
                 control.setEstado("SOLICITADA");
                 control.setSolicitudEntregaid(elemento);
                 sessionBean.marketingUserFacade.guardarControlSalidaBonos(control);
+                String body = "Se ha aceptado la solicitud de salida de bonos con el ID " + elemento.getId()
+                        + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
+                Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha aprobado la solicitud de bonos.", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+
                 FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
             } else {
                 FacesUtil.addErrorMessage("No se puede guardar la solicitud!", "Revise que los bonos asignados a los clientes concuerden con el monto");
             }
         }
     }
-
 
     public Casino getCasinoById(Integer idCasino) {
         int casinoIndex = casinos.indexOf(new Casino(idCasino));
@@ -376,26 +379,30 @@ public class AprobarSolicitudBonos {
     public void setSalatoCliente(Integer idSala, Integer indexCliente) {
         this.solicitudentregaclienteses.get(indexCliente).setAreaid(new Area(idSala));
     }
-    public Float getTotal(){
+
+    public Float getTotal() {
         Float total = 0f;
-        for(Solicitudentregacliente sec : solicitudentregaclienteses){
+        for (Solicitudentregacliente sec : solicitudentregaclienteses) {
             System.out.println(sec.getValorTotal());
-            total  += sec.getValorTotal();
+            total += sec.getValorTotal();
         }
         return total;
     }
-     public Float getPreTotal(){
+
+    public Float getPreTotal() {
         Float total = 0f;
-        for(Solicitudentregacliente sec : solicitudentregaclienteses){
+        for (Solicitudentregacliente sec : solicitudentregaclienteses) {
             System.out.println(sec.getValorTotal());
-            total  += sec.getValorPreAprobado();
+            total += sec.getValorPreAprobado();
         }
         return total;
-    }public Float getAprTotal(){
+    }
+
+    public Float getAprTotal() {
         Float total = 0f;
-        for(Solicitudentregacliente sec : solicitudentregaclienteses){
+        for (Solicitudentregacliente sec : solicitudentregaclienteses) {
             System.out.println(sec.getValorTotal());
-            total  += sec.getValorAprobado();
+            total += sec.getValorAprobado();
         }
         return total;
     }
@@ -455,5 +462,5 @@ public class AprobarSolicitudBonos {
     public void setDenominacionCant(List<DenoinacionCant> denominacionCant) {
         this.denominacionCant = denominacionCant;
     }
-    
+
 }

@@ -7,6 +7,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 
 import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
+import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -107,5 +108,6 @@ public class BonoEntregarCajaBean {
 
         String body = "Se han cambiado el estado de algunos bonos. Nuevo estado = ENTREGADO.";
         Notificador.notificar(Notificador.SOLICITUD_ENTREGA_BONOS, body, "Estado de bonos cambiado a entregados", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+        FacesUtil.addInfoMessage("Estado de bonos cambiado", "Nuevo estado: ENTREGADO");
     }
 }
