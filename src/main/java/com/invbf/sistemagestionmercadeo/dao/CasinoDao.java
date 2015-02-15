@@ -40,12 +40,13 @@ public class CasinoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
 
     public static void edit(Casino casino) {
-        
+
         if (casino.getDireccion() != null) {
             casino.setDireccion(casino.getDireccion().toUpperCase());
         }
@@ -63,6 +64,7 @@ public class CasinoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -81,6 +83,7 @@ public class CasinoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -100,6 +103,7 @@ public class CasinoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return casino;
@@ -122,6 +126,7 @@ public class CasinoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -147,6 +152,7 @@ public class CasinoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -171,6 +177,7 @@ public class CasinoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;

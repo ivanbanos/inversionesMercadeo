@@ -117,7 +117,7 @@ public class GeneradorSolicitudBonos {
                 Calendar nowDate = Calendar.getInstance();
                 nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
                 elemento.setFecha(nowDate.getTime());
-                if (elemento.getIdCasino() != null) {
+                if (sessionBean.getUsuario().getIdCasino() != null) {
                     elemento.setIdCasino(sessionBean.getUsuario().getIdCasino());
                 } else {
                     elemento.setIdCasino(new Casino());
@@ -238,6 +238,7 @@ public class GeneradorSolicitudBonos {
                 sessionBean.marketingUserFacade.guardarSolicitudentrega(elemento, clientesABorrar);
                 sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
 
+                elemento.setSolicitante(sessionBean.getUsuario());
                 sessionBean.marketingUserFacade.crearSolicitudSalidaBonos(elemento);
                 FacesUtil.addInfoMessage("Solicitud guardada con exito!", "Notificación enviada");
             }
@@ -332,7 +333,7 @@ public class GeneradorSolicitudBonos {
     public void busquedaClientes() {
 
         System.out.println("entra");
-        clientessgbs = sessionBean.marketingUserFacade.findAllClientes();
+        clientessgbs = sessionBean.marketingUserFacade.findAllClientesCasinos(elemento.getIdCasino());
 
         boolean noCatselected = true;
         boolean noTipselected = true;

@@ -21,6 +21,7 @@
         <h:outputScript library="js" name="localees.js"/>
         <h:outputScript library="js" name="selectAllcheckboxes.js"/>
         <h:outputScript library="js" name="changeValuehasta.js"/>
+        <h:outputScript library="js" name="timerCounter.js"/>
 
         <f:loadBundle var="label" basename="labels" />
         <title>#{label['title.app']}</title>
@@ -342,7 +343,7 @@
 
             <p:idleMonitor onactive="sessionTimeOutDialog.show()" 
                            timeout="#{240000}" >
-                <p:ajax event="idle" onstart="PF('sessionTimeOutDialog').show();"  />
+                <p:ajax event="idle" onstart="PF('sessionTimeOutDialog').show();var counter=setInterval(timer, 1000);"  />
             </p:idleMonitor>
 
             <p:dialog id="ajaxWaitingDialog" header="Esperando" 
@@ -362,7 +363,7 @@
                       modal="true" closable="false" width="400">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Sesi&oacute;n inactiva</h3>
+                        <h3 class="panel-title">Sesi&oacute;n inactiva </h3><span id="timer"></span>
                     </div>
                     <div class="panel-body">
                         <h:outputText value="#{label['leyenda.inactividad']}" />

@@ -226,10 +226,10 @@ public class AceptarSolicitudSalidaBonosBean {
                             b.setControlSalidaBonosid(elemento);
                             if (lote.getTipoBono().getNombre().equals("PROMOCIONAL")) {
                                 System.out.println(casino.getCasinodetalle().getAbreCiudad());
-                                b.setConsecutivo("PRO-" + casino.getCasinodetalle().getAbreCiudad() + desde);
+                                b.setConsecutivo(casino.getCasinodetalle().getCiudad()+ desde);
                                 b.setEstado("VERIFICADO");
                             } else {
-                                b.setConsecutivo(casino.getCasinodetalle().getAbreviacion() + "-" + casino.getCasinodetalle().getAbreCiudad() + desde);
+                                b.setConsecutivo(casino.getCasinodetalle().getAbrenopromo()+ "-" + casino.getCasinodetalle().getAbreCiudad() + desde);
                                 b.setEstado("POR VERIFICAR");
                             }
                             b.setPropositosEntregaid(elemento.getSolicitudEntregaid().getPropositoEntrega());

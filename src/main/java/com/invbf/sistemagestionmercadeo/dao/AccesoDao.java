@@ -18,14 +18,15 @@ import javax.persistence.Persistence;
  * @author ivan
  */
 public class AccesoDao {
+
     public AccesoDao() {
     }
-    
+
     public static void create(Acceso cargo) {
-    
+
         cargo.setNombre(cargo.getNombre().toUpperCase());
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -35,17 +36,17 @@ public class AccesoDao {
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
-}
-
+        }
+        em.clear();
         em.close();
         emf.close();
     }
-    
+
     public static void edit(Acceso cargo) {
-        
+
         cargo.setNombre(cargo.getNombre().toUpperCase());
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -57,13 +58,14 @@ public class AccesoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
 
     public static void remove(Acceso cargo) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -75,13 +77,14 @@ public class AccesoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
 
     public static Acceso find(Integer id) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         Acceso cargo = null;
@@ -94,14 +97,15 @@ public class AccesoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargo;
     }
 
     public static List<Acceso> findAll() {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Acceso> lista = new ArrayList<Acceso>();
@@ -117,14 +121,15 @@ public class AccesoDao {
             System.out.println(e);
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
     }
 
     public static List<Acceso> findRange(int[] range) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Acceso> lista = new ArrayList<Acceso>();
@@ -142,14 +147,15 @@ public class AccesoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
     }
 
     public static int count() {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         int count = 0;
@@ -166,16 +172,16 @@ public class AccesoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;
 
-
     }
 
     public static Acceso findByNombreAcceso(String nombre) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Acceso> cargos = null;
@@ -189,6 +195,7 @@ public class AccesoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
 

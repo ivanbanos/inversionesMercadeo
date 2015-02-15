@@ -38,6 +38,7 @@ public class ControlsalidaBonosHasLoteDao {
             }
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -57,6 +58,7 @@ public class ControlsalidaBonosHasLoteDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -75,6 +77,7 @@ public class ControlsalidaBonosHasLoteDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -94,6 +97,7 @@ public class ControlsalidaBonosHasLoteDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargo;
@@ -117,6 +121,7 @@ public class ControlsalidaBonosHasLoteDao {
             System.out.println(e);
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -142,6 +147,7 @@ public class ControlsalidaBonosHasLoteDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -166,6 +172,7 @@ public class ControlsalidaBonosHasLoteDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;

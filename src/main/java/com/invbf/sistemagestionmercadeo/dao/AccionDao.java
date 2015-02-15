@@ -22,10 +22,10 @@ public class AccionDao {
     }
 
     public static void create(Accion accion) {
-        
+
         accion.setNombre(accion.getNombre().toUpperCase());
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -37,15 +37,16 @@ public class AccionDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
 
     public static void edit(Accion accion) {
-        
+
         accion.setNombre(accion.getNombre().toUpperCase());
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -57,13 +58,14 @@ public class AccionDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
 
     public static void remove(Accion accion) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -75,13 +77,14 @@ public class AccionDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
 
     public static Accion find(Integer id) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         Accion accion = null;
@@ -94,14 +97,15 @@ public class AccionDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return accion;
     }
 
     public static List<Accion> findAll() {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Accion> lista = new ArrayList<Accion>();
@@ -116,14 +120,15 @@ public class AccionDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
     }
 
     public static List<Accion> findRange(int[] range) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Accion> lista = new ArrayList<Accion>();
@@ -141,14 +146,15 @@ public class AccionDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
     }
 
     public static int count() {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         int count = 0;
@@ -165,16 +171,16 @@ public class AccionDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;
 
-
     }
 
     public static Accion findByNombreAccion(String nombre) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Accion> acciones = null;
@@ -188,6 +194,7 @@ public class AccionDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
 

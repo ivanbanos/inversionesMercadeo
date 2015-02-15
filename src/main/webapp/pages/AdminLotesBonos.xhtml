@@ -60,7 +60,7 @@
                                         <p:column headerText="#{label['cantidad']}" sortBy="#{element.cantidad}" style="width:13%">
                                             <h:outputText value="#{element.cantidad}" >
                                                 <f:converter  converterId="numberSeparationConverter"  />
-                                            </h:outputText>/>
+                                            </h:outputText>
                                         </p:column>
                                         <p:column headerText="#{label['denominacion']}" sortBy="#{element.denominacion.valor}" style="width:17%" filterBy="#{element.denominacion.valor}" filterMatchMode="contains" >
                                             <h:outputText value="#{element.denominacion.valor}" >

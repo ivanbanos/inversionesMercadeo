@@ -82,7 +82,7 @@
                                                         <label class="col-md-2 control-label" >#{label['tipobono']}</label>
                                                         <div class="col-md-4">
                                                             <p:selectOneMenu id="tipobono" value="#{generadorSolicitudBonos.elemento.tipoBono}" required="true" converter="tipobonoConverter">
-                                                                <f:selectItem itemLabel="Seleciona Uno" itemValue="" />
+                                                                <f:selectItem itemLabel="Selecciona Uno" itemValue="" />
                                                                 <f:selectItems value="#{generadorSolicitudBonos.tiposbonos}" var="var" itemLabel="#{var.nombre}" itemValue="#{var}"/>  
                                                             </p:selectOneMenu>
                                                         </div>
@@ -100,8 +100,7 @@
                                                                 <label class="col-md-2 control-label" >#{label['casinos']}</label>
                                                                 <div class="col-md-4">
                                                                     <p:selectOneMenu id="casinos" value="#{generadorSolicitudBonos.elemento.idCasino.idCasino}"  required="true">
-                                                                        <p:ajax event="change" update="@all"/>
-                                                                        <f:selectItem itemLabel="Seleciona Uno" itemValue="" />
+                                                                        <f:selectItem itemLabel="Selecciona Uno" itemValue="" />
                                                                         <f:selectItems value="#{generadorSolicitudBonos.casinos}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.idCasino}"/>  
 
                                                                     </p:selectOneMenu>
@@ -153,7 +152,7 @@
                                                         <label class="col-md-2 control-label" >#{label['proposito']}</label>
                                                         <div class="col-md-4">
                                                             <p:selectOneMenu id="propositonopromo" value="#{generadorSolicitudBonos.elemento.propositoEntrega.id}" >
-                                                                <f:selectItem itemLabel="Seleciona Uno" itemValue="" />
+                                                                <f:selectItem itemLabel="Selecciona Uno" itemValue="" />
                                                                 <f:selectItems value="#{generadorSolicitudBonos.propositosentrega}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.id}"/>  
                                                             </p:selectOneMenu>
                                                         </div>
@@ -174,19 +173,19 @@
                                                                     </f:facet>
                                                                     <h:column >
                                                                         <f:facet name="header">
-                                                                            <h:outputText value="#{'item'}" />
+                                                                            <h:outputText value="#{'Item'}" />
                                                                         </f:facet>
                                                                         <label>#{table.rowIndex + 1}</label>
                                                                     </h:column>
                                                                     <h:column >
                                                                         <f:facet name="header">
-                                                                            <h:outputText value="#{'nombre'}" />
+                                                                            <h:outputText value="#{'Nombre'}" />
                                                                         </f:facet>
                                                                         <label>#{cli.clientessgb.nombres} #{cli.clientessgb.apellidos}</label>
                                                                     </h:column>
                                                                     <h:column >
                                                                         <f:facet name="header">
-                                                                            <h:outputText value="#{'cupofidelizacion'}" />
+                                                                            <h:outputText value="Cupo fidelizaci&oacute;n" />
                                                                         </f:facet>
                                                                         <h:outputLabel value="#{cli.clientessgb.bonoFidelizacion}">
                                                                             <f:converter  converterId="numberSeparationConverter"  />
@@ -194,7 +193,7 @@
                                                                     </h:column>
                                                                     <h:column >
                                                                         <f:facet name="header">
-                                                                            <h:outputText value="#{'valor'}" />
+                                                                            <h:outputText value="#{'Valor'}" />
                                                                         </f:facet>
                                                                         <p:spinner min="0" prefix="$" stepFactor="5000" id="valor#{cli.clientessgb.idCliente}" value="#{cli.valorTotal}" >
                                                                             <p:ajax event="change" update=":#{p:component('total')}"  />
@@ -202,7 +201,7 @@
                                                                     </h:column>
                                                                     <h:column >
                                                                         <f:facet name="header">
-                                                                            <h:outputText value="#{'area'}" />
+                                                                            <h:outputText value="#{'Área'}" />
                                                                         </f:facet>
                                                                         <h:selectOneMenu id="area#{cli.clientessgb.idCliente}" value="#{cli.areaid.id}" >
                                                                             <f:selectItem itemLabel="Seleciona Uno" itemValue="" />

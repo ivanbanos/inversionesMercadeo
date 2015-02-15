@@ -32,6 +32,7 @@ public class ConfiguracionDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -50,6 +51,7 @@ public class ConfiguracionDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -68,6 +70,7 @@ public class ConfiguracionDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -87,6 +90,7 @@ public class ConfiguracionDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return configuracion;
@@ -109,6 +113,7 @@ public class ConfiguracionDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -134,6 +139,7 @@ public class ConfiguracionDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -158,6 +164,7 @@ public class ConfiguracionDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;
@@ -181,6 +188,7 @@ public class ConfiguracionDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         if (configuraciones == null || configuraciones.isEmpty()) {

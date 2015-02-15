@@ -21,12 +21,12 @@ public class CargoDao {
 
     public CargoDao() {
     }
-    
+
     public static void create(Cargo cargo) {
-    
+
         cargo.setNombre(cargo.getNombre().toUpperCase());
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -36,17 +36,18 @@ public class CargoDao {
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
-}
+        }
 
+        em.clear();
         em.close();
         emf.close();
     }
-    
+
     public static void edit(Cargo cargo) {
-        
+
         cargo.setNombre(cargo.getNombre().toUpperCase());
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -58,13 +59,14 @@ public class CargoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
 
     public static void remove(Cargo cargo) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -76,13 +78,14 @@ public class CargoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
 
     public static Cargo find(Integer id) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         Cargo cargo = null;
@@ -95,14 +98,15 @@ public class CargoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargo;
     }
 
     public static List<Cargo> findAll() {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Cargo> lista = new ArrayList<Cargo>();
@@ -118,14 +122,15 @@ public class CargoDao {
             System.out.println(e);
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
     }
 
     public static List<Cargo> findRange(int[] range) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Cargo> lista = new ArrayList<Cargo>();
@@ -143,14 +148,15 @@ public class CargoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
     }
 
     public static int count() {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         int count = 0;
@@ -167,16 +173,16 @@ public class CargoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;
 
-
     }
 
     public static Cargo findByNombreAccion(String nombre) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Cargo> cargos = null;
@@ -190,6 +196,7 @@ public class CargoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
 

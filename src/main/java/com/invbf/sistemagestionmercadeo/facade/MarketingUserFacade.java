@@ -203,4 +203,6 @@ public interface MarketingUserFacade {
 
     public void guardaBono(Bono elemento);
 
+    public List<Cliente> findAllClientesCasinos(Casino idCasino);
+
 }

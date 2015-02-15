@@ -43,6 +43,7 @@ public class BonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargos;
@@ -66,6 +67,7 @@ public class BonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargos;
@@ -113,6 +115,7 @@ public class BonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargos;
@@ -155,6 +158,7 @@ public class BonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -178,6 +182,7 @@ public class BonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargos;
@@ -198,6 +203,7 @@ public class BonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -220,6 +226,7 @@ public class BonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -239,6 +246,7 @@ public class BonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -257,6 +265,7 @@ public class BonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -276,6 +285,7 @@ public class BonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return casino;
@@ -308,6 +318,7 @@ public class BonoDao {
         }
 
         System.out.println("terminada la busqueda de casinos");
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -333,6 +344,7 @@ public class BonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -357,6 +369,7 @@ public class BonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;
@@ -379,6 +392,7 @@ public class BonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargos;
@@ -401,6 +415,7 @@ public class BonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargos;

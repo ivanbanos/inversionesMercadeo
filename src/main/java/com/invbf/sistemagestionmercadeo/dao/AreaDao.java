@@ -18,15 +18,15 @@ import javax.persistence.Persistence;
  * @author ivan
  */
 public class AreaDao {
-    
+
     public AreaDao() {
     }
-    
+
     public static void create(Area cargo) {
-    
+
         cargo.setNombre(cargo.getNombre().toUpperCase());
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -36,17 +36,18 @@ public class AreaDao {
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
-}
+        }
 
+        em.clear();
         em.close();
         emf.close();
     }
-    
+
     public static void edit(Area cargo) {
-        
+
         cargo.setNombre(cargo.getNombre().toUpperCase());
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -58,13 +59,14 @@ public class AreaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
 
     public static void remove(Area cargo) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -76,13 +78,14 @@ public class AreaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
 
     public static Area find(Integer id) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         Area cargo = null;
@@ -95,14 +98,15 @@ public class AreaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargo;
     }
 
     public static List<Area> findAll() {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Area> lista = new ArrayList<Area>();
@@ -118,14 +122,15 @@ public class AreaDao {
             System.out.println(e);
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
     }
 
     public static List<Area> findRange(int[] range) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Area> lista = new ArrayList<Area>();
@@ -143,14 +148,15 @@ public class AreaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
     }
 
     public static int count() {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         int count = 0;
@@ -167,16 +173,16 @@ public class AreaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;
 
-
     }
 
     public static Area findByNombreAcceso(String nombre) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Area> cargos = null;
@@ -190,6 +196,7 @@ public class AreaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
 

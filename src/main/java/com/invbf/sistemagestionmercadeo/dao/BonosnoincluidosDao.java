@@ -18,12 +18,13 @@ import javax.persistence.Persistence;
  * @author ivan
  */
 public class BonosnoincluidosDao {
-     public BonosnoincluidosDao() {
+
+    public BonosnoincluidosDao() {
     }
-    
+
     public static void create(Bononoincluido cargo) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -33,16 +34,17 @@ public class BonosnoincluidosDao {
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
-}
+        }
 
+        em.clear();
         em.close();
         emf.close();
     }
-    
+
     public static void edit(Bononoincluido cargo) {
-        
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -54,19 +56,20 @@ public class BonosnoincluidosDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
 
     public static void remove(Bononoincluido cargo) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
         tx.begin();
         try {
-            
+
             cargo = em.find(Bononoincluido.class, cargo.getId());
             em.remove(em.merge(cargo));
             tx.commit();
@@ -74,13 +77,14 @@ public class BonosnoincluidosDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
 
     public static Bononoincluido find(Integer id) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         Bononoincluido cargo = null;
@@ -93,14 +97,15 @@ public class BonosnoincluidosDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargo;
     }
 
     public static List<Bononoincluido> findAll() {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Bononoincluido> lista = new ArrayList<Bononoincluido>();
@@ -116,14 +121,15 @@ public class BonosnoincluidosDao {
             System.out.println(e);
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
     }
 
     public static List<Bononoincluido> findRange(int[] range) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Bononoincluido> lista = new ArrayList<Bononoincluido>();
@@ -141,14 +147,15 @@ public class BonosnoincluidosDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
     }
 
     public static int count() {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         int count = 0;
@@ -165,10 +172,10 @@ public class BonosnoincluidosDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;
-
 
     }
 }

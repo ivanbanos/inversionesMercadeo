@@ -6,9 +6,6 @@
 package com.invbf.sistemagestionmercadeo.dao;
 
 import com.invbf.sistemagestionmercadeo.entity.Controlsalidabono;
-import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos;
-import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosHasClientes;
-import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosHasClientesPK;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -41,6 +38,7 @@ public class ControlsalidabonosDao {
             }
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -60,6 +58,7 @@ public class ControlsalidabonosDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -78,6 +77,7 @@ public class ControlsalidabonosDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -97,6 +97,7 @@ public class ControlsalidabonosDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargo;
@@ -120,6 +121,7 @@ public class ControlsalidabonosDao {
             System.out.println(e);
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -145,6 +147,7 @@ public class ControlsalidabonosDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -169,6 +172,7 @@ public class ControlsalidabonosDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;

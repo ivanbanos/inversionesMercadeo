@@ -798,9 +798,9 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
         elemento.setSolicitudentregaloteList(solicitudentregaloteses);
         SolicitudentregalotesmaestroDao.edit(elemento);
         if (porque == 1) {
-            String body = "Se a creado una solicitud de entrada de lotes de bono con el ID " + elemento.getId()
-                    + ".\nPor favor revisar la pagina de Lista de solicitudes de lotes de bonos.";
-            Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_GENERADA, body, "Solicitud de entrada de lotes de bono generada", "");
+            String body = "Se ha generado una orden de entrada de lotes de bono con el numero de acta " + elemento.getId()
+                    + ".\nPor favor revisar la página de Lista de solicitudes de lotes de bonos.";
+            Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_GENERADA, body, "Orden de entrada de lotes de bonos generada", "");
         }
         return false;
     }
@@ -944,5 +944,10 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
         } else {
             BonoDao.edit(bono);
         }
+    }
+
+    @Override
+    public List<Cliente> findAllClientesCasinos(Casino idCasino) {
+        return ClienteDao.findByIdCasino(idCasino.getIdCasino());
     }
 }

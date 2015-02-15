@@ -56,6 +56,9 @@ public class Casinodetalle implements Serializable {
     @OneToOne(optional = false)
     private Casino casino;
 
+    @Size(max = 45)
+    @Column(name = "abrenopromo")
+    private String abrenopromo;
     public Casinodetalle() {
     }
 
@@ -134,6 +137,14 @@ public class Casinodetalle implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Casinodetalle[ idCasino=" + idCasino + " ]";
+    }
+
+    public String getAbrenopromo() {
+        return abrenopromo;
+    }
+
+    public void setAbrenopromo(String abrenopromo) {
+        this.abrenopromo = abrenopromo;
     }
     
 }

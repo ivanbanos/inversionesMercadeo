@@ -38,6 +38,7 @@ public class ClienteatributoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -57,6 +58,7 @@ public class ClienteatributoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -75,6 +77,7 @@ public class ClienteatributoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -94,6 +97,7 @@ public class ClienteatributoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return clienteatributo;
@@ -116,6 +120,7 @@ public class ClienteatributoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -141,6 +146,7 @@ public class ClienteatributoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -165,6 +171,7 @@ public class ClienteatributoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;
@@ -189,6 +196,7 @@ public class ClienteatributoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         if (clientesatributos == null || clientesatributos.isEmpty()) {
@@ -215,6 +223,7 @@ public class ClienteatributoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         if (clientesatributos == null || clientesatributos.isEmpty()) {

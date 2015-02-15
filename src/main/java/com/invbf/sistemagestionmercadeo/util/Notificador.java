@@ -93,6 +93,7 @@ public class Notificador {
                     System.out.println(usuarios.size());
                     for (Usuario usuario : usuarios) {
                         System.out.println(usuario.getUsuariodetalle().getCorreo());
+                        
                         es.sendEmail(usuario.getUsuariodetalle().getCorreo(), subject, mesaje, "noimage");
                     }
                 }

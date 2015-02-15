@@ -58,7 +58,7 @@ public class ReportCreator {
                 ListaBonosPorDenominacionEntregar lbde = new ListaBonosPorDenominacionEntregar();
                 lbde.setCantidad(sel.getCantidad().toString());
                 lbde.setDenominacion(sel.getLotesBonosid().getDenominacion().getValor() + " ");
-                lbde.setSaladejuego(sel.getLotesBonosid().getIdCasino().getCasinodetalle().getAbreCiudad() + " " + sel.getLotesBonosid().getTipoBono().getNombre());
+                lbde.setSaladejuego(sel.getLotesBonosid().getIdCasino().getCasinodetalle().getAbreviacion()+ " " + sel.getLotesBonosid().getTipoBono().getNombre());
                 lbde.setDel(sel.getDesde());
                 lbde.setAl(sel.getHasta());
                 elementoReporte.getBonosPorDenominacionEntregars().add(lbde);
