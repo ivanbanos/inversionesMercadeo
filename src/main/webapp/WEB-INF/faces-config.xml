@@ -10,4 +10,7 @@
             <renderer-class>com.invbf.sistemagestionmercadeo.util.MyFileUploadRenderer</renderer-class>
         </renderer>
     </render-kit>
+    <application>
+        <message-bundle>messages</message-bundle>
+    </application>
 </faces-config>

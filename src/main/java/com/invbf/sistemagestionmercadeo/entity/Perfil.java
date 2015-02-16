@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,17 +50,17 @@ public class Perfil implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "nombre")
     private String nombre;
-    @JoinTable(name = "PerfilesVistas", joinColumns = {
+    @JoinTable(name = "perfilesvistas", joinColumns = {
         @JoinColumn(name = "idPerfil", referencedColumnName = "idPerfil")}, inverseJoinColumns = {
         @JoinColumn(name = "idVista", referencedColumnName = "idVista")})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Vista> vistaList;
     @JoinTable(name = "PerfilesFormularios", joinColumns = {
         @JoinColumn(name = "idPerfil", referencedColumnName = "idPerfil")}, inverseJoinColumns = {
         @JoinColumn(name = "idFormulario", referencedColumnName = "idFormulario")})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Formulario> formularioList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerfil")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerfil", fetch = FetchType.LAZY)
     private List<Usuario> usuarioList;
 
     public Perfil() {

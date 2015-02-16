@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
@@ -32,7 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Casinodetalle.findByAbreviacion", query = "SELECT c FROM Casinodetalle c WHERE c.abreviacion = :abreviacion"),
     @NamedQuery(name = "Casinodetalle.findByCiudad", query = "SELECT c FROM Casinodetalle c WHERE c.ciudad = :ciudad"),
     @NamedQuery(name = "Casinodetalle.findByImagen", query = "SELECT c FROM Casinodetalle c WHERE c.imagen = :imagen"),
-    @NamedQuery(name = "Casinodetalle.findByAbreCiudad", query = "SELECT c FROM Casinodetalle c WHERE c.abreCiudad = :abreCiudad")})
+    @NamedQuery(name = "Casinodetalle.findByAbreCiudad", query = "SELECT c FROM Casinodetalle c WHERE c.abreCiudad = :abreCiudad"),
+    @NamedQuery(name = "Casinodetalle.findByAbrenopromo", query = "SELECT c FROM Casinodetalle c WHERE c.abrenopromo = :abrenopromo")})
 public class Casinodetalle implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,13 +54,13 @@ public class Casinodetalle implements Serializable {
     @Size(max = 45)
     @Column(name = "abreCiudad")
     private String abreCiudad;
+    @Size(max = 45)
+    @Column(name = "abrenopromo")
+    private String abrenopromo;
     @JoinColumn(name = "idCasino", referencedColumnName = "idCasino", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Casino casino;
 
-    @Size(max = 45)
-    @Column(name = "abrenopromo")
-    private String abrenopromo;
     public Casinodetalle() {
     }
 
@@ -106,6 +108,14 @@ public class Casinodetalle implements Serializable {
         this.abreCiudad = abreCiudad;
     }
 
+    public String getAbrenopromo() {
+        return abrenopromo;
+    }
+
+    public void setAbrenopromo(String abrenopromo) {
+        this.abrenopromo = abrenopromo;
+    }
+
     public Casino getCasino() {
         return casino;
     }
@@ -137,14 +147,6 @@ public class Casinodetalle implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Casinodetalle[ idCasino=" + idCasino + " ]";
-    }
-
-    public String getAbrenopromo() {
-        return abrenopromo;
-    }
-
-    public void setAbrenopromo(String abrenopromo) {
-        this.abrenopromo = abrenopromo;
     }
     
 }

@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,9 +47,9 @@ public class Propositoentrega implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "nombre")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "propositoEntrega")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "propositoEntrega", fetch = FetchType.LAZY)
     private List<Solicitudentrega> solicitudentregaList;
-    @OneToMany(mappedBy = "propositosEntregaid")
+    @OneToMany(mappedBy = "propositosEntregaid", fetch = FetchType.LAZY)
     private List<Bono> bonoList;
 
     public Propositoentrega() {
@@ -119,7 +120,7 @@ public class Propositoentrega implements Serializable {
 
     @Override
     public String toString() {
-        return "com.invbf.sistemagestionmercadeo.entity.Propositoentrega[ id=" + id + " ]";
+        return "com.invbf.sistemagestionmercadeo.entity.Propositosentrega[ id=" + id + " ]";
     }
     
 }

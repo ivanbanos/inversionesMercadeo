@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -57,20 +58,20 @@ public class Lotebono implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "hasta")
     private String hasta;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lotesBonosid")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lotesBonosid", fetch = FetchType.LAZY)
     private List<Solicitudentregalote> solicitudentregaloteList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lotesBonosid")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lotesBonosid", fetch = FetchType.LAZY)
     private List<Bononofisico> bononofisicoList;
-    @JoinColumn(name = "Denominacion", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Denominacion denominacion;
     @JoinColumn(name = "TipoBono", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Tipobono tipoBono;
+    @JoinColumn(name = "Denominacion", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Denominacion denominacion;
     @JoinColumn(name = "idCasino", referencedColumnName = "idCasino")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Casino idCasino;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lotebono")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lotebono", fetch = FetchType.LAZY)
     private List<ControlsalidabonosHasLotesbonos> controlsalidabonosHasLotesbonosList;
 
     public Lotebono() {
@@ -128,20 +129,20 @@ public class Lotebono implements Serializable {
         this.bononofisicoList = bononofisicoList;
     }
 
-    public Denominacion getDenominacion() {
-        return denominacion;
-    }
-
-    public void setDenominacion(Denominacion denominacion) {
-        this.denominacion = denominacion;
-    }
-
     public Tipobono getTipoBono() {
         return tipoBono;
     }
 
     public void setTipoBono(Tipobono tipoBono) {
         this.tipoBono = tipoBono;
+    }
+
+    public Denominacion getDenominacion() {
+        return denominacion;
+    }
+
+    public void setDenominacion(Denominacion denominacion) {
+        this.denominacion = denominacion;
     }
 
     public Casino getIdCasino() {

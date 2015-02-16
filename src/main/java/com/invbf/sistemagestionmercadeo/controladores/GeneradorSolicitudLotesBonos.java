@@ -183,8 +183,6 @@ public class GeneradorSolicitudLotesBonos {
             for (loteBonoSolicitud lotes : loteBonoSolicitudes) {
                 if (lotes.getCantidad() != 0) {
                     Solicitudentregalote sel = lotes.getSolicitudEntregaLote();
-                    sel.setDesde(ConvertidorConsecutivo.sumarUno(sel.getLotesBonosid().getHasta()));
-                    sel.setHasta(ConvertidorConsecutivo.sumarCantidad(ConvertidorConsecutivo.sumarUno(sel.getLotesBonosid().getHasta()), sel.getCantidad() - 1));
                     elemento.getSolicitudentregaloteList().add(sel);
                     listaBonosReincluidos.addAll(lotes.getBonosReincluidos());
                 }

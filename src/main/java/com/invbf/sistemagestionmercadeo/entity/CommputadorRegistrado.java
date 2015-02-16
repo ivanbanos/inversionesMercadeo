@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -41,7 +42,7 @@ public class CommputadorRegistrado implements Serializable {
     @Column(name = "mac")
     private String mac;
     @JoinColumn(name = "Usuarios_idUsuario", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario usuariosidUsuario;
 
     public CommputadorRegistrado() {
@@ -97,7 +98,7 @@ public class CommputadorRegistrado implements Serializable {
 
     @Override
     public String toString() {
-        return "com.invbf.sistemagestionmercadeo.entity.CommputadorRegistrado[ id=" + id + " ]";
+        return "com.invbf.sistemagestionmercadeo.entity.Computadorregistrado[ id=" + id + " ]";
     }
     
 }

@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -44,10 +45,10 @@ public class Clienteatributo implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date valorfecha;
     @JoinColumn(name = "idCliente", referencedColumnName = "idCliente", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Cliente cliente;
     @JoinColumn(name = "idAtributo", referencedColumnName = "idAtributo", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Atributo atributo;
 
     public Clienteatributo() {

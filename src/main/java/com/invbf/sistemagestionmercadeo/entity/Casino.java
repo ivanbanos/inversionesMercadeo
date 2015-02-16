@@ -11,9 +11,13 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -51,20 +55,21 @@ public class Casino implements Serializable {
     @Size(max = 45)
     @Column(name = "direccion")
     private String direccion;
-    @OneToMany(mappedBy = "idCasino")
+    
+    @ManyToMany(mappedBy = "casinoList", fetch = FetchType.LAZY)
+    private List<Usuario> usuarioList;
+    @OneToMany(mappedBy = "idCasino", fetch = FetchType.LAZY)
     private List<Solicitudentrega> solicitudentregaList;
-    @OneToMany(mappedBy = "idCasino")
+    @OneToMany(mappedBy = "idCasino", fetch = FetchType.LAZY)
     private List<Evento> eventoList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "casino")
     private Casinodetalle casinodetalle;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "casino")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "casino", fetch = FetchType.LAZY)
     private List<Bono> bonoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCasino")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCasino", fetch = FetchType.LAZY)
     private List<Lotebono> lotebonoList;
-    @OneToMany(mappedBy = "idCasinoPreferencial")
+    @OneToMany(mappedBy = "idCasinoPreferencial", fetch = FetchType.LAZY)
     private List<Cliente> clienteList;
-    @OneToMany(mappedBy = "idCasino")
-    private List<Usuario> usuarioList;
 
     public Casino() {
     }
@@ -100,6 +105,15 @@ public class Casino implements Serializable {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    @XmlTransient
+    public List<Usuario> getUsuarioList() {
+        return usuarioList;
+    }
+
+    public void setUsuarioList(List<Usuario> usuarioList) {
+        this.usuarioList = usuarioList;
     }
 
     @XmlTransient
@@ -153,15 +167,6 @@ public class Casino implements Serializable {
 
     public void setClienteList(List<Cliente> clienteList) {
         this.clienteList = clienteList;
-    }
-
-    @XmlTransient
-    public List<Usuario> getUsuarioList() {
-        return usuarioList;
-    }
-
-    public void setUsuarioList(List<Usuario> usuarioList) {
-        this.usuarioList = usuarioList;
     }
 
     @Override

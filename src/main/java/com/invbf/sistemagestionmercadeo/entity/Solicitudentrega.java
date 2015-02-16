@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +24,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -43,17 +43,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Solicitudentrega.findBySolicitante", query = "SELECT s FROM Solicitudentrega s WHERE s.solicitante = :solicitante"),
     @NamedQuery(name = "Solicitudentrega.findByAprobador", query = "SELECT s FROM Solicitudentrega s WHERE s.aprobador = :aprobador"),
     @NamedQuery(name = "Solicitudentrega.findByJustificacion", query = "SELECT s FROM Solicitudentrega s WHERE s.justificacion = :justificacion"),
-    @NamedQuery(name = "Solicitudentrega.findByEstado", query = "SELECT s FROM Solicitudentrega s WHERE s.estado = :estado")})
+    @NamedQuery(name = "Solicitudentrega.findByEstado", query = "SELECT s FROM Solicitudentrega s WHERE s.estado = :estado"),
+    @NamedQuery(name = "Solicitudentrega.findByFormareparticrbonos", query = "SELECT s FROM Solicitudentrega s WHERE s.formareparticrbonos = :formareparticrbonos"),
+    @NamedQuery(name = "Solicitudentrega.findByTotal", query = "SELECT s FROM Solicitudentrega s WHERE s.total = :total"),
+    @NamedQuery(name = "Solicitudentrega.findByTotalpreaprobado", query = "SELECT s FROM Solicitudentrega s WHERE s.totalpreaprobado = :totalpreaprobado"),
+    @NamedQuery(name = "Solicitudentrega.findByTotalaprobado", query = "SELECT s FROM Solicitudentrega s WHERE s.totalaprobado = :totalaprobado")})
 public class Solicitudentrega implements Serializable {
-    @Column(name = "totalpreaprobado")
-    private Float totalpreaprobado;
-    @Column(name = "totalaprobado")
-    private Float totalaprobado;
-    @Column(name = "formareparticrbonos")
-    private Integer formareparticrbonos;
-    @Min(value=0)// @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "total")
-    private Float total;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,24 +66,33 @@ public class Solicitudentrega implements Serializable {
     @Size(max = 45)
     @Column(name = "estado")
     private String estado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudentrega")
+    @Column(name = "formareparticrbonos")
+    private Integer formareparticrbonos;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "total")
+    private Float total;
+    @Column(name = "totalpreaprobado")
+    private Float totalpreaprobado;
+    @Column(name = "totalaprobado")
+    private Float totalaprobado;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudentrega", fetch = FetchType.LAZY)
     private List<Solicitudentregacliente> solicitudentregaclienteList;
-    @JoinColumn(name = "PropositoEntrega", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Propositoentrega propositoEntrega;
-    @JoinColumn(name = "TipoBono", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Tipobono tipoBono;
-    @JoinColumn(name = "idCasino", referencedColumnName = "idCasino")
-    @ManyToOne
-    private Casino idCasino;
     @JoinColumn(name = "aprobador", referencedColumnName = "idUsuario")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Usuario aprobador;
     @JoinColumn(name = "solicitante", referencedColumnName = "idUsuario")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Usuario solicitante;
-    @OneToMany(mappedBy = "solicitudEntregaid")
+    @JoinColumn(name = "TipoBono", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Tipobono tipoBono;
+    @JoinColumn(name = "PropositoEntrega", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Propositoentrega propositoEntrega;
+    @JoinColumn(name = "idCasino", referencedColumnName = "idCasino")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Casino idCasino;
+    @OneToMany(mappedBy = "solicitudEntregaid", fetch = FetchType.LAZY)
     private List<Controlsalidabono> controlsalidabonoList;
 
     public Solicitudentrega() {
@@ -135,6 +139,38 @@ public class Solicitudentrega implements Serializable {
         this.estado = estado;
     }
 
+    public Integer getFormareparticrbonos() {
+        return formareparticrbonos;
+    }
+
+    public void setFormareparticrbonos(Integer formareparticrbonos) {
+        this.formareparticrbonos = formareparticrbonos;
+    }
+
+    public Float getTotal() {
+        return total;
+    }
+
+    public void setTotal(Float total) {
+        this.total = total;
+    }
+
+    public Float getTotalpreaprobado() {
+        return totalpreaprobado;
+    }
+
+    public void setTotalpreaprobado(Float totalpreaprobado) {
+        this.totalpreaprobado = totalpreaprobado;
+    }
+
+    public Float getTotalaprobado() {
+        return totalaprobado;
+    }
+
+    public void setTotalaprobado(Float totalaprobado) {
+        this.totalaprobado = totalaprobado;
+    }
+
     @XmlTransient
     public List<Solicitudentregacliente> getSolicitudentregaclienteList() {
         return solicitudentregaclienteList;
@@ -142,30 +178,6 @@ public class Solicitudentrega implements Serializable {
 
     public void setSolicitudentregaclienteList(List<Solicitudentregacliente> solicitudentregaclienteList) {
         this.solicitudentregaclienteList = solicitudentregaclienteList;
-    }
-
-    public Propositoentrega getPropositoEntrega() {
-        return propositoEntrega;
-    }
-
-    public void setPropositoEntrega(Propositoentrega propositoEntrega) {
-        this.propositoEntrega = propositoEntrega;
-    }
-
-    public Tipobono getTipoBono() {
-        return tipoBono;
-    }
-
-    public void setTipoBono(Tipobono tipoBono) {
-        this.tipoBono = tipoBono;
-    }
-
-    public Casino getIdCasino() {
-        return idCasino;
-    }
-
-    public void setIdCasino(Casino idCasino) {
-        this.idCasino = idCasino;
     }
 
     public Usuario getAprobador() {
@@ -182,6 +194,30 @@ public class Solicitudentrega implements Serializable {
 
     public void setSolicitante(Usuario solicitante) {
         this.solicitante = solicitante;
+    }
+
+    public Tipobono getTipoBono() {
+        return tipoBono;
+    }
+
+    public void setTipoBono(Tipobono tipoBono) {
+        this.tipoBono = tipoBono;
+    }
+
+    public Propositoentrega getPropositoEntrega() {
+        return propositoEntrega;
+    }
+
+    public void setPropositoEntrega(Propositoentrega propositoEntrega) {
+        this.propositoEntrega = propositoEntrega;
+    }
+
+    public Casino getIdCasino() {
+        return idCasino;
+    }
+
+    public void setIdCasino(Casino idCasino) {
+        this.idCasino = idCasino;
     }
 
     @XmlTransient
@@ -216,38 +252,6 @@ public class Solicitudentrega implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Solicitudentrega[ id=" + id + " ]";
-    }
-    
-    public Integer getFormareparticrbonos() {
-        return formareparticrbonos;
-}
-
-    public void setFormareparticrbonos(Integer formareparticrbonos) {
-        this.formareparticrbonos = formareparticrbonos;
-    }
-
-    public Float getTotal() {
-        return total;
-    }
-
-    public void setTotal(Float total) {
-        this.total = total;
-    }
-
-    public Float getTotalpreaprobado() {
-        return totalpreaprobado;
-    }
-
-    public void setTotalpreaprobado(Float totalpreaprobado) {
-        this.totalpreaprobado = totalpreaprobado;
-    }
-
-    public Float getTotalaprobado() {
-        return totalaprobado;
-    }
-
-    public void setTotalaprobado(Float totalaprobado) {
-        this.totalaprobado = totalaprobado;
     }
     
 }

@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -52,7 +53,7 @@ public class Atributo implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "tipoDato")
     private String tipoDato;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "atributo")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "atributo", fetch = FetchType.LAZY)
     private List<Clienteatributo> clienteatributoList;
 
     public Atributo() {

@@ -11,14 +11,8 @@ import com.invbf.sistemagestionmercadeo.entity.Solicitudentrega;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregacliente;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
-import com.invbf.sistemagestionmercadeo.util.ConvertidorConsecutivo;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +27,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.ImageIcon;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -57,7 +50,8 @@ public class ReportCreator {
             for (Solicitudentregalote sel : elemento.getSolicitudentregaloteList()) {
                 ListaBonosPorDenominacionEntregar lbde = new ListaBonosPorDenominacionEntregar();
                 lbde.setCantidad(sel.getCantidad().toString());
-                lbde.setDenominacion(sel.getLotesBonosid().getDenominacion().getValor() + " ");
+                lbde.setDenominacion(getAsString(sel.getLotesBonosid().getDenominacion().getValor() + " "));
+                
                 lbde.setSaladejuego(sel.getLotesBonosid().getIdCasino().getCasinodetalle().getAbreviacion()+ " " + sel.getLotesBonosid().getTipoBono().getNombre());
                 lbde.setDel(sel.getDesde());
                 lbde.setAl(sel.getHasta());
@@ -106,7 +100,7 @@ public class ReportCreator {
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperMasterReport, parameters, beanColDataSource);
             HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-            httpServletResponse.addHeader("Content-disposition", "attachment; filename=reporteReciboCustodiaBonosCaja" + elemento.getId() + ".pdf");
+            httpServletResponse.addHeader("Content-disposition", "attachment; filename=ActaReciboCustodiaBonosCaja" + elemento.getId() + ".pdf");
             ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
             JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
         } catch (JRException ex) {
@@ -164,7 +158,7 @@ public class ReportCreator {
             parameters.put("subreportclientes", jasperSubReport);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperMasterReport, parameters, beanColDataSource);
             HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-            httpServletResponse.addHeader("Content-disposition", "attachment; filename=reporteSolicitudBonosJuego" + elemento.getId() + ".pdf");
+            httpServletResponse.addHeader("Content-disposition", "attachment; filename=ActaSolicitudBonosJuego" + elemento.getId() + ".pdf");
             servletOutputStream = httpServletResponse.getOutputStream();
             JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
         } catch (IOException ex) {
@@ -178,5 +172,54 @@ public class ReportCreator {
                 Logger.getLogger(ReportCreator.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    private static String getAsString(Object o) {
+        String numberseparated = "";
+        String iPartS = "";
+        if (o instanceof Double) {
+            double number = (Double) o;
+            Long iPart = (long) number;
+            iPartS = iPart.toString();
+        } else if (o instanceof Float) {
+            float number = (Float) o;
+            Long iPart = (long) number;
+            iPartS = iPart.toString();
+        } else {
+            String number = (String) o;
+            System.out.println("numero " + number);
+            if (number.lastIndexOf(".") != -1) {
+                iPartS = number.substring(0, number.lastIndexOf("."));
+            } else {
+                iPartS = number;
+            }
+        }
+        boolean milesima = true;
+
+        while (true) {
+            System.out.println("asi va el numero " + numberseparated);
+            System.out.println("y queda esto " + iPartS);
+            if (iPartS.length() == 0) {
+                break;
+            } else if (iPartS.length() <= 3) {
+                numberseparated = iPartS + numberseparated;
+                iPartS = "";
+            } else {
+                if (milesima) {
+                    numberseparated = "." + iPartS.substring(iPartS.length() - 3) + numberseparated;
+                    iPartS = iPartS.substring(0, iPartS.length() - 3);
+                    milesima = false;
+                } else {
+                    numberseparated = "'" + iPartS.substring(iPartS.length() - 3) + numberseparated;
+                    iPartS = iPartS.substring(0, iPartS.length() - 3);
+                    milesima = true;
+                }
+            }
+        }
+        System.out.println("asi quedo sin parte real " + numberseparated);
+        System.out.println("asi quedo con parte real " + numberseparated);
+        System.out.println();
+        System.out.println();
+        return numberseparated;
     }
 }

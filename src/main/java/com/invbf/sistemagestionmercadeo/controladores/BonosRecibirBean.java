@@ -52,10 +52,9 @@ public class BonosRecibirBean {
             }
         }
         sessionBean.revisarEstadoBonos();
-        casinos = sessionBean.marketingUserFacade.findAllCasinos();
+        casinos = sessionBean.getUsuario().getCasinoList();
         bonosCasinoEntregados = new ArrayList<Bono>();
         bonosCasinoEntregadosSelected = new ArrayList<Bono>();
-        casinoSelected = sessionBean.getUsuario().getIdCasino();
         buscarBonosValidadosPorCasino();
     }
 

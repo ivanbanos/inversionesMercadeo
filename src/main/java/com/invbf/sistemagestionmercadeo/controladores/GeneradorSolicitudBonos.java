@@ -56,7 +56,6 @@ public class GeneradorSolicitudBonos {
     private List<Casino> casinos;
     private List<Tipobono> tiposbonos;
     private List<Propositoentrega> propositosentrega;
-    private List<Usuario> usuarios;
     private List<Area> areas;
     private List<Cliente> clientessgbs;
     private String nombres;
@@ -117,23 +116,18 @@ public class GeneradorSolicitudBonos {
                 Calendar nowDate = Calendar.getInstance();
                 nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
                 elemento.setFecha(nowDate.getTime());
-                if (sessionBean.getUsuario().getIdCasino() != null) {
-                    elemento.setIdCasino(sessionBean.getUsuario().getIdCasino());
-                } else {
-                    elemento.setIdCasino(new Casino());
-                }
                 elemento.setPropositoEntrega(new Propositoentrega());
                 elemento.setSolicitante(sessionBean.getUsuario());
                 elemento.setTipoBono(new Tipobono());
                 elemento.setSolicitudentregaclienteList(new ArrayList<Solicitudentregacliente>());
+                elemento.setIdCasino(new Casino());
             } catch (ParseException ex) {
                 Logger.getLogger(GeneradorSolicitudBonos.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
-        casinos = sessionBean.adminFacade.findAllCasinos();
+        casinos = sessionBean.getUsuario().getCasinoList();
         tiposbonos = sessionBean.adminFacade.findAllTiposbonos();
-        usuarios = sessionBean.adminFacade.findAllUsuarios();
         propositosentrega = sessionBean.adminFacade.findAllPropositosentrega();
 
         areas = sessionBean.adminFacade.findAllAreas();
@@ -280,22 +274,6 @@ public class GeneradorSolicitudBonos {
 
     public void setPropositosentrega(List<Propositoentrega> propositosentrega) {
         this.propositosentrega = propositosentrega;
-    }
-
-    public List<Usuario> getUsuarios() {
-        return usuarios;
-    }
-
-    public void setUsuarios(List<Usuario> usuarios) {
-        this.usuarios = usuarios;
-    }
-
-    public Usuario getUsuarioById(Integer idUsuario) {
-        int casinoIndex = usuarios.indexOf(new Usuario(idUsuario));
-        if (casinoIndex != -1) {
-            return usuarios.get(casinoIndex);
-        }
-        return new Usuario();
     }
 
     public List<Area> getAreas() {
@@ -555,15 +533,6 @@ public class GeneradorSolicitudBonos {
         this.todostip = todostip;
     }
 
-    public Float getTotal() {
-        Float total = 0f;
-        for (ClienteSGBDTO sec : clientes) {
-            System.out.println(sec.getValorTotal());
-            total += sec.getValorTotal();
-        }
-        return total;
-    }
-
     public String onFlowProcess(FlowEvent event) {
         System.out.println(elemento.getTipoBono().getId());
         System.out.println(elemento.getTipoBono().getNombre());
@@ -611,9 +580,6 @@ public class GeneradorSolicitudBonos {
         return event.getNewStep();
     }
 
-    public void PDF(ActionEvent actionEvent) {
-        ReportCreator.generadorSolicitudBono(elemento);
-    }
 
     public Date getFechaVencimiento() {
         return fechaVencimiento;

@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -47,16 +48,16 @@ public class Listasclientestareas implements Serializable {
     @Column(name = "count")
     private Integer count;
     @JoinColumn(name = "Usuario", referencedColumnName = "idUsuario")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Usuario usuario;
     @JoinColumn(name = "idAccion", referencedColumnName = "idAccion")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Accion idAccion;
     @JoinColumn(name = "idTarea", referencedColumnName = "idTarea", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Tarea tarea;
     @JoinColumn(name = "idCliente", referencedColumnName = "idCliente", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Cliente cliente;
 
     public Listasclientestareas() {

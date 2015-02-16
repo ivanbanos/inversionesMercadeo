@@ -26,7 +26,6 @@
     <class>com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Solicitudentregacliente</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Tipotarea</class>
-    <class>com.invbf.sistemagestionmercadeo.entity.Acceso</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Bononofisico</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Propositoentrega</class>

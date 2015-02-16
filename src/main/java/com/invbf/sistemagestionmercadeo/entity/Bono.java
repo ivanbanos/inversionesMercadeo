@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -69,29 +70,29 @@ public class Bono implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaEntrega;
     @JoinColumn(name = "autorizador", referencedColumnName = "idUsuario")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Usuario autorizador;
     @JoinColumn(name = "validador", referencedColumnName = "idUsuario")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Usuario validador;
     @JoinColumn(name = "tipo", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Tipobono tipo;
+    @JoinColumn(name = "PropositosEntrega_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Propositoentrega propositosEntregaid;
     @JoinColumn(name = "Denominacion", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Denominacion denominacion;
     @JoinColumn(name = "ControlSalidaBonos_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Controlsalidabono controlSalidaBonosid;
     @JoinColumn(name = "Cliente", referencedColumnName = "idCliente")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Cliente cliente;
     @JoinColumn(name = "casino", referencedColumnName = "idCasino")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Casino casino;
-    @JoinColumn(name = "PropositosEntrega_id", referencedColumnName = "id")
-    @ManyToOne
-    private Propositoentrega propositosEntregaid;
 
     public Bono() {
     }
@@ -177,6 +178,14 @@ public class Bono implements Serializable {
         this.tipo = tipo;
     }
 
+    public Propositoentrega getPropositosEntregaid() {
+        return propositosEntregaid;
+    }
+
+    public void setPropositosEntregaid(Propositoentrega propositosEntregaid) {
+        this.propositosEntregaid = propositosEntregaid;
+    }
+
     public Denominacion getDenominacion() {
         return denominacion;
     }
@@ -207,14 +216,6 @@ public class Bono implements Serializable {
 
     public void setCasino(Casino casino) {
         this.casino = casino;
-    }
-
-    public Propositoentrega getPropositosEntregaid() {
-        return propositosEntregaid;
-    }
-
-    public void setPropositosEntregaid(Propositoentrega propositosEntregaid) {
-        this.propositosEntregaid = propositosEntregaid;
     }
 
     @Override

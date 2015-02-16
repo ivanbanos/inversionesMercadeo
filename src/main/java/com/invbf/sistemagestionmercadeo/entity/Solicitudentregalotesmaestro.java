@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -58,10 +59,10 @@ public class Solicitudentregalotesmaestro implements Serializable {
     @Size(max = 45)
     @Column(name = "estado")
     private String estado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudEntregaLotesMaestro")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudEntregaLotesMaestro", fetch = FetchType.LAZY)
     private List<Solicitudentregalote> solicitudentregaloteList;
     @JoinColumn(name = "remitente", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario remitente;
 
     public Solicitudentregalotesmaestro() {

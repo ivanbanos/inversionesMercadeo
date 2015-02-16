@@ -11,10 +11,12 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -61,36 +63,38 @@ public class Usuario implements Serializable {
     @Size(max = 45)
     @Column(name = "estado")
     private String estado;
-    @ManyToMany(mappedBy = "usuarioList")
+    @ManyToMany(mappedBy = "usuarioList", fetch = FetchType.LAZY)
     private List<Tarea> tareaList;
+    @JoinTable(name = "Usuarios_has_Casinos", joinColumns = {
+        @JoinColumn(name = "Usuarios_idUsuario", referencedColumnName = "idUsuario")}, inverseJoinColumns = {
+        @JoinColumn(name = "Casinos_idCasino", referencedColumnName = "idCasino")})
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Casino> casinoList;
     @OneToMany(mappedBy = "aprobador")
     private List<Solicitudentrega> solicitudentregaList;
-    @OneToMany(mappedBy = "solicitante")
+    @OneToMany(mappedBy = "solicitante", fetch = FetchType.LAZY)
     private List<Solicitudentrega> solicitudentregaList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "remitente")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "remitente", fetch = FetchType.LAZY)
     private List<Solicitudentregalotesmaestro> solicitudentregalotesmaestroList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuariosidUsuario")
-    private List<CommputadorRegistrado> commputadorRegistradoList;
-    @OneToMany(mappedBy = "autorizador")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuariosidUsuario", fetch = FetchType.LAZY)
+    private List<CommputadorRegistrado> computadorregistradoList;
+    @OneToMany(mappedBy = "autorizador", fetch = FetchType.LAZY)
     private List<Bono> bonoList;
-    @OneToMany(mappedBy = "validador")
+    @OneToMany(mappedBy = "validador", fetch = FetchType.LAZY)
     private List<Bono> bonoList1;
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<Listasclientestareas> listasclientestareasList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario", fetch = FetchType.LAZY)
     private List<Log> logList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitante")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitante", fetch = FetchType.LAZY)
     private List<Solicitudcambiocupofidelizacion> solicitudcambiocupofidelizacionList;
-    @OneToMany(mappedBy = "solicitante")
+    @OneToMany(mappedBy = "solicitante", fetch = FetchType.LAZY)
     private List<Controlsalidabono> controlsalidabonoList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
     private Usuariodetalle usuariodetalle;
     @JoinColumn(name = "idPerfil", referencedColumnName = "idPerfil")
     @ManyToOne(optional = false)
     private Perfil idPerfil;
-    @JoinColumn(name = "idCasino", referencedColumnName = "idCasino")
-    @ManyToOne
-    private Casino idCasino;
 
     public Usuario() {
     }
@@ -147,6 +151,15 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
+    public List<Casino> getCasinoList() {
+        return casinoList;
+    }
+
+    public void setCasinoList(List<Casino> casinoList) {
+        this.casinoList = casinoList;
+    }
+
+    @XmlTransient
     public List<Solicitudentrega> getSolicitudentregaList() {
         return solicitudentregaList;
     }
@@ -174,12 +187,12 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
-    public List<CommputadorRegistrado> getCommputadorRegistradoList() {
-        return commputadorRegistradoList;
+    public List<CommputadorRegistrado> getComputadorregistradoList() {
+        return computadorregistradoList;
     }
 
-    public void setCommputadorRegistradoList(List<CommputadorRegistrado> commputadorRegistradoList) {
-        this.commputadorRegistradoList = commputadorRegistradoList;
+    public void setComputadorregistradoList(List<CommputadorRegistrado> computadorregistradoList) {
+        this.computadorregistradoList = computadorregistradoList;
     }
 
     @XmlTransient
@@ -250,14 +263,6 @@ public class Usuario implements Serializable {
 
     public void setIdPerfil(Perfil idPerfil) {
         this.idPerfil = idPerfil;
-    }
-
-    public Casino getIdCasino() {
-        return idCasino;
-    }
-
-    public void setIdCasino(Casino idCasino) {
-        this.idCasino = idCasino;
     }
 
     @Override

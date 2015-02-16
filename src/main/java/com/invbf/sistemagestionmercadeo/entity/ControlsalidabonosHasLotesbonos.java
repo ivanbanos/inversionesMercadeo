@@ -11,6 +11,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -30,22 +31,22 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "ControlsalidabonosHasLotesbonos.findAll", query = "SELECT c FROM ControlsalidabonosHasLotesbonos c"),
     @NamedQuery(name = "ControlsalidabonosHasLotesbonos.findByControlSalidaBonosid", query = "SELECT c FROM ControlsalidabonosHasLotesbonos c WHERE c.controlsalidabonosHasLotesbonosPK.controlSalidaBonosid = :controlSalidaBonosid"),
-    @NamedQuery(name = "ControlsalidabonosHasLotesbonos.findByLotesBonosid", query = "SELECT c FROM ControlsalidabonosHasLotesbonos c WHERE c.controlsalidabonosHasLotesbonosPK.lotesBonosid = :lotesBonosid")})
+    @NamedQuery(name = "ControlsalidabonosHasLotesbonos.findByLotesBonosid", query = "SELECT c FROM ControlsalidabonosHasLotesbonos c WHERE c.controlsalidabonosHasLotesbonosPK.lotesBonosid = :lotesBonosid"),
+    @NamedQuery(name = "ControlsalidabonosHasLotesbonos.findByCantidad", query = "SELECT c FROM ControlsalidabonosHasLotesbonos c WHERE c.cantidad = :cantidad")})
 public class ControlsalidabonosHasLotesbonos implements Serializable {
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "controlsalidabonosHasLotesbonos")
-    private List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClientesList;
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ControlsalidabonosHasLotesbonosPK controlsalidabonosHasLotesbonosPK;
     @Column(name = "cantidad")
     private Integer cantidad;
     @JoinColumn(name = "LotesBonos_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Lotebono lotebono;
     @JoinColumn(name = "ControlSalidaBonos_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Controlsalidabono controlsalidabono;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "controlsalidabonosHasLotesbonos")
+    private List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClientesList;
 
     public ControlsalidabonosHasLotesbonos() {
     }
@@ -90,6 +91,15 @@ public class ControlsalidabonosHasLotesbonos implements Serializable {
         this.controlsalidabono = controlsalidabono;
     }
 
+    @XmlTransient
+    public List<ControlsalidabonosHasLotesbonosHasClientes> getControlsalidabonosHasLotesbonosHasClientesList() {
+        return controlsalidabonosHasLotesbonosHasClientesList;
+    }
+
+    public void setControlsalidabonosHasLotesbonosHasClientesList(List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClientesList) {
+        this.controlsalidabonosHasLotesbonosHasClientesList = controlsalidabonosHasLotesbonosHasClientesList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -104,21 +114,15 @@ public class ControlsalidabonosHasLotesbonos implements Serializable {
             return false;
         }
         ControlsalidabonosHasLotesbonos other = (ControlsalidabonosHasLotesbonos) object;
-        return !((this.controlsalidabonosHasLotesbonosPK == null && other.controlsalidabonosHasLotesbonosPK != null) || (this.controlsalidabonosHasLotesbonosPK != null && !this.controlsalidabonosHasLotesbonosPK.equals(other.controlsalidabonosHasLotesbonosPK)));
+        if ((this.controlsalidabonosHasLotesbonosPK == null && other.controlsalidabonosHasLotesbonosPK != null) || (this.controlsalidabonosHasLotesbonosPK != null && !this.controlsalidabonosHasLotesbonosPK.equals(other.controlsalidabonosHasLotesbonosPK))) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos[ controlsalidabonosHasLotesbonosPK=" + controlsalidabonosHasLotesbonosPK + " ]";
     }
-
-    @XmlTransient
-    public List<ControlsalidabonosHasLotesbonosHasClientes> getControlsalidabonosHasLotesbonosHasClientesList() {
-        return controlsalidabonosHasLotesbonosHasClientesList;
-    }
-
-    public void setControlsalidabonosHasLotesbonosHasClientesList(List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClientesList) {
-        this.controlsalidabonosHasLotesbonosHasClientesList = controlsalidabonosHasLotesbonosHasClientesList;
-    }
-
+    
 }

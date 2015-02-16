@@ -6,14 +6,13 @@
 package com.invbf.sistemagestionmercadeo.entity;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -22,14 +21,13 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author ivan
  */
 @Entity
-@Table(name = "UsuariosDetalles")
+@Table(name = "usuariosdetalles", catalog = "easl4284_inversiones", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuariodetalle.findAll", query = "SELECT u FROM Usuariodetalle u"),
@@ -45,17 +43,12 @@ public class Usuariodetalle implements Serializable {
     @Size(max = 45)
     @Column(name = "correo")
     private String correo;
-    @JoinTable(name = "UsuariosDetalles_has_Accesos", joinColumns = {
-        @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")}, inverseJoinColumns = {
-        @JoinColumn(name = "Accesos_id", referencedColumnName = "id")})
-    @ManyToMany
-    private List<Acceso> accesoList;
-    @JoinColumn(name = "idcargo", referencedColumnName = "idcargo")
-    @ManyToOne
-    private Cargo idcargo;
     @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario", insertable = false, updatable = false)
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario usuario;
+    @JoinColumn(name = "idcargo", referencedColumnName = "idcargo")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private Cargo idcargo;
 
     public Usuariodetalle() {
     }
@@ -80,13 +73,12 @@ public class Usuariodetalle implements Serializable {
         this.correo = correo;
     }
 
-    @XmlTransient
-    public List<Acceso> getAccesoList() {
-        return accesoList;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setAccesoList(List<Acceso> accesoList) {
-        this.accesoList = accesoList;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Cargo getIdcargo() {
@@ -95,14 +87,6 @@ public class Usuariodetalle implements Serializable {
 
     public void setIdcargo(Cargo idcargo) {
         this.idcargo = idcargo;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 
     @Override

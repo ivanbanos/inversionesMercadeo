@@ -5,7 +5,6 @@
 package com.invbf.sistemagestionmercadeo.facade.impl;
 
 
-import com.invbf.sistemagestionmercadeo.dao.AccesoDao;
 import com.invbf.sistemagestionmercadeo.dao.AreaDao;
 import com.invbf.sistemagestionmercadeo.dao.BonoDao;
 import com.invbf.sistemagestionmercadeo.dao.CargoDao;
@@ -21,7 +20,6 @@ import com.invbf.sistemagestionmercadeo.dao.TipoBonoDao;
 import com.invbf.sistemagestionmercadeo.dao.UsuarioDao;
 import com.invbf.sistemagestionmercadeo.dao.UsuarioDetalleDao;
 import com.invbf.sistemagestionmercadeo.dao.VistaDao;
-import com.invbf.sistemagestionmercadeo.entity.Acceso;
 import com.invbf.sistemagestionmercadeo.entity.Area;
 import com.invbf.sistemagestionmercadeo.entity.Cargo;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
@@ -253,27 +251,6 @@ public class AdminFacadeImpl implements AdminFacade {
             UsuarioDetalleDao.edit(detalleElemento);
             return detalleElemento;
         }
-    }
-
-    @Override
-    public List<Acceso> findAllAccesos() {
-        return AccesoDao.findAll();
-    }
-
-    @Override
-    public boolean guardarAccesos(Acceso elemento) {
-        if (elemento.getId() == null) {
-            AccesoDao.create(elemento);
-            return false;
-        } else {
-            AccesoDao.edit(elemento);
-            return true;
-        }
-    }
-
-    @Override
-    public void deleteAccesos(Acceso elemento) {
-        AccesoDao.remove(elemento);
     }
 
     @Override

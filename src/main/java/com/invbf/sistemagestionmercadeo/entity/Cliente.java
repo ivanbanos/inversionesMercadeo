@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -56,8 +57,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Cliente.findByIdent", query = "SELECT c FROM Cliente c WHERE c.identificacion = :identificacion"),
     @NamedQuery(name = "Cliente.findByAttr", query = "SELECT c FROM Cliente c WHERE c.nombres LIKE :nombres AND c.apellidos LIKE :apellidos AND c.identificacion LIKE :identificacion")})
 public class Cliente implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
-    private List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClientesList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -107,30 +106,32 @@ public class Cliente implements Serializable {
     @Size(max = 1000)
     @Column(name = "perfilCliente")
     private String perfilCliente;
-    @JoinTable(name = "ClientesTiposJuegos", joinColumns = {
+    @JoinTable(name = "clientestiposjuegos", joinColumns = {
         @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")}, inverseJoinColumns = {
         @JoinColumn(name = "idTipoJuego", referencedColumnName = "idTipoJuego")})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Tipojuego> tipojuegoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente", fetch = FetchType.LAZY)
     private List<Solicitudentregacliente> solicitudentregaclienteList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private List<Bono> bonoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente", fetch = FetchType.LAZY)
     private List<Listasclientestareas> listasclientestareasList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente", fetch = FetchType.LAZY)
     private List<Clienteatributo> clienteatributoList;
     @JoinColumn(name = "idTipoDocumento", referencedColumnName = "idTipoDocumento")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Tipodocumento idTipoDocumento;
     @JoinColumn(name = "idCategorias", referencedColumnName = "idCategorias")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Categoria idCategorias;
     @JoinColumn(name = "idCasinoPreferencial", referencedColumnName = "idCasino")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Casino idCasinoPreferencial;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente", fetch = FetchType.LAZY)
     private List<Solicitudcambiocupofidelizacion> solicitudcambiocupofidelizacionList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente", fetch = FetchType.LAZY)
+    private List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClientesList;
 
     public Cliente() {
     }
@@ -249,6 +250,14 @@ public class Cliente implements Serializable {
         this.genero = genero;
     }
 
+    public String getPerfilCliente() {
+        return perfilCliente;
+    }
+
+    public void setPerfilCliente(String perfilCliente) {
+        this.perfilCliente = perfilCliente;
+    }
+
     @XmlTransient
     public List<Tipojuego> getTipojuegoList() {
         return tipojuegoList;
@@ -327,6 +336,15 @@ public class Cliente implements Serializable {
         this.solicitudcambiocupofidelizacionList = solicitudcambiocupofidelizacionList;
     }
 
+    @XmlTransient
+    public List<ControlsalidabonosHasLotesbonosHasClientes> getControlsalidabonosHasLotesbonosHasClientesList() {
+        return controlsalidabonosHasLotesbonosHasClientesList;
+    }
+
+    public void setControlsalidabonosHasLotesbonosHasClientesList(List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClientesList) {
+        this.controlsalidabonosHasLotesbonosHasClientesList = controlsalidabonosHasLotesbonosHasClientesList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -351,22 +369,5 @@ public class Cliente implements Serializable {
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Cliente[ idCliente=" + idCliente + " ]";
     }
-
-    @XmlTransient
-    public List<ControlsalidabonosHasLotesbonosHasClientes> getControlsalidabonosHasLotesbonosHasClientesList() {
-        return controlsalidabonosHasLotesbonosHasClientesList;
-    }
-
-    public void setControlsalidabonosHasLotesbonosHasClientesList(List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClientesList) {
-        this.controlsalidabonosHasLotesbonosHasClientesList = controlsalidabonosHasLotesbonosHasClientesList;
-    }
-
-    public String getPerfilCliente() {
-        return perfilCliente;
-    }
-
-    public void setPerfilCliente(String perfilCliente) {
-        this.perfilCliente = perfilCliente;
-    }
-
+    
 }

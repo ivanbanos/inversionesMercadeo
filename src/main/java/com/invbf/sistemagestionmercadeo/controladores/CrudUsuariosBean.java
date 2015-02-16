@@ -4,7 +4,6 @@
  */
 package com.invbf.sistemagestionmercadeo.controladores;
 
-import com.invbf.sistemagestionmercadeo.entity.Acceso;
 import com.invbf.sistemagestionmercadeo.entity.Cargo;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Perfil;
@@ -13,7 +12,7 @@ import com.invbf.sistemagestionmercadeo.entity.Usuariodetalle;
 import com.invbf.sistemagestionmercadeo.exceptions.NombreUsuarioExistenteException;
 import com.invbf.sistemagestionmercadeo.facade.impl.AdminFacadeImpl;
 import com.invbf.sistemagestionmercadeo.observer.Observer;
-import com.invbf.sistemagestionmercadeo.util.AccesoBoolean;
+import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +34,7 @@ public class CrudUsuariosBean implements Observer {
     private Usuario elemento;
     private List<Perfil> listaperfiles;
     private List<Cargo> cargos;
-    private List<Casino> casinos;
-    private List<AccesoBoolean> accesos;
+    private List<CasinoBoolean> casinos;
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
     private String contrasena;
@@ -70,13 +68,20 @@ public class CrudUsuariosBean implements Observer {
         lista = sessionBean.adminFacade.findAllUsuarios();
         listaperfiles = sessionBean.adminFacade.findAllPerfiles();
         cargos = sessionBean.adminFacade.findAllCargos();
-        casinos = sessionBean.marketingUserFacade.findAllCasinos();
-        List<Acceso> listaAccesos = sessionBean.adminFacade.findAllAccesos();
-        accesos = new ArrayList<AccesoBoolean>(2);
-        for (Acceso a : listaAccesos) {
-
-            accesos.add(new AccesoBoolean(a, false));
+        List<Casino> casinosn = sessionBean.marketingUserFacade.findAllCasinos();
+        casinos = new ArrayList<CasinoBoolean>();
+        if(elemento.getCasinoList()==null){
+            elemento.setCasinoList(new ArrayList<Casino>());
         }
+        for (Casino casino : casinosn) {
+            if (elemento.getCasinoList().contains(casino)) {
+                casinos.add(new CasinoBoolean(casino, true));
+            } else {
+                casinos.add(new CasinoBoolean(casino, false));
+            }
+        }
+        elemento.setUsuariodetalle(new Usuariodetalle());
+        elemento.getUsuariodetalle().setIdcargo(new Cargo());
         sessionBean.registerObserver(this);
     }
 
@@ -99,19 +104,21 @@ public class CrudUsuariosBean implements Observer {
 
     public void setElemento(Usuario elemento) {
         this.elemento = elemento;
-        if(elemento.getIdCasino()==null){
-            this.elemento.setIdCasino(new Casino());
+        casinos = new ArrayList<CasinoBoolean>();
+        List<Casino> casinosn = sessionBean.marketingUserFacade.findAllCasinos();
+        for (Casino casino : casinosn) {
+            if (elemento.getCasinoList().contains(casino)) {
+                casinos.add(new CasinoBoolean(casino, true));
+            } else {
+                casinos.add(new CasinoBoolean(casino, false));
+            }
         }
-        if(elemento.getUsuariodetalle()==null){
+        if (elemento.getUsuariodetalle() == null) {
             this.elemento.setUsuariodetalle(new Usuariodetalle(this.elemento.getIdUsuario()));
-            this.elemento.getUsuariodetalle().setAccesoList(new ArrayList<Acceso>());
             this.elemento.getUsuariodetalle().setIdcargo(new Cargo());
         }
-        if(elemento.getUsuariodetalle().getIdcargo()==null){
+        if (elemento.getUsuariodetalle().getIdcargo() == null) {
             this.elemento.getUsuariodetalle().setIdcargo(new Cargo());
-        }
-        if(elemento.getUsuariodetalle().getAccesoList()==null){
-            this.elemento.getUsuariodetalle().setAccesoList(new ArrayList<Acceso>());
         }
     }
 
@@ -138,19 +145,16 @@ public class CrudUsuariosBean implements Observer {
         if (elemento.getContrasena() == null || contrasena.equals(elemento.getContrasena())) {
             try {
                 System.out.println("empezando");
-                elemento.getUsuariodetalle().getAccesoList().clear();
-                for (AccesoBoolean a : accesos) {
-                    if (a.getSelected()) {
-                        elemento.getUsuariodetalle().getAccesoList().add(a.getAcceso());
+                elemento.setCasinoList(new ArrayList<Casino>());
+                for (CasinoBoolean casino : casinos) {
+                    if (casino.isSelected()) {
+                        elemento.getCasinoList().add(casino.getCasino());
                     }
-                }
-                if(elemento.getUsuariodetalle().getIdcargo().getIdcargo()== null ){
-                    elemento.getUsuariodetalle().setIdcargo(null);
                 }
                 elemento = sessionBean.adminFacade.guardarUsuarios(elemento);
 
                 System.out.println("empiezo a llenarla");
-                
+
                 System.out.println("llamo a los usuarios");
                 lista = sessionBean.adminFacade.findAllUsuarios();
                 FacesUtil.addInfoMessage("Usuario guardado", elemento.getNombreUsuario());
@@ -174,10 +178,8 @@ public class CrudUsuariosBean implements Observer {
     private void setNuevoUsuario() {
         elemento = new Usuario();
         elemento.setIdPerfil(new Perfil());
-        elemento.setIdCasino(new Casino());
         elemento.setUsuariodetalle(new Usuariodetalle());
         elemento.getUsuariodetalle().setIdcargo(new Cargo());
-        elemento.getUsuariodetalle().setAccesoList(new ArrayList<Acceso>());
     }
 
     public String getContrasena() {
@@ -196,19 +198,11 @@ public class CrudUsuariosBean implements Observer {
         this.cargos = cargos;
     }
 
-    public List<AccesoBoolean> getAccesos() {
-        return accesos;
-    }
-
-    public void setAccesos(List<AccesoBoolean> accesos) {
-        this.accesos = accesos;
-    }
-
-    public List<Casino> getCasinos() {
+    public List<CasinoBoolean> getCasinos() {
         return casinos;
     }
 
-    public void setCasinos(List<Casino> casinos) {
+    public void setCasinos(List<CasinoBoolean> casinos) {
         this.casinos = casinos;
     }
 

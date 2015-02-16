@@ -5,14 +5,12 @@
 package com.invbf.sistemagestionmercadeo.facade.impl;
 
 
-import com.invbf.sistemagestionmercadeo.dao.AccesoDao;
 import com.invbf.sistemagestionmercadeo.dao.AccionDao;
 import com.invbf.sistemagestionmercadeo.dao.ConfiguracionDao;
 import com.invbf.sistemagestionmercadeo.dao.FormularioDao;
 import com.invbf.sistemagestionmercadeo.dao.LogDao;
 import com.invbf.sistemagestionmercadeo.dao.UsuarioDao;
 import com.invbf.sistemagestionmercadeo.dao.UsuarioDetalleDao;
-import com.invbf.sistemagestionmercadeo.entity.Acceso;
 import com.invbf.sistemagestionmercadeo.entity.Accion;
 import com.invbf.sistemagestionmercadeo.entity.Configuracion;
 import com.invbf.sistemagestionmercadeo.entity.Formulario;

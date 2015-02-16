@@ -30,6 +30,7 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading"><h4>#{label['generarsolicitudentregalotesbonos']}</h4></div>
                             <div class="panel-body">
+                                
                                 <c:if id="generado" test="#{generadorSolicitudLotesBonos.elemento.id != null}">
                                     <div class="row">
                                         <div class="control-group">
@@ -93,10 +94,10 @@
                                                                            onblur="changeHasta(#{status.count})"/>
                                                             </td>
                                                             <td id="desde#{status.count}">
-                                                                <label>#{solicitudes.lotesBonosid.hasta}</label>
+                                                                <label>#{solicitudes.desde}</label>
                                                             </td>
                                                             <td id="hasta#{status.count}">
-                                                                <label>#{solicitudes.lotesBonosid.hasta}</label>
+                                                                <label>#{solicitudes.hasta}</label>
                                                             </td>
                                                             <td>#{solicitudes.lotesBonosid.idCasino.nombre}</td>
                                                             <td><h:outputText value="#{solicitudes.lotesBonosid.denominacion.valor}">
@@ -145,10 +146,10 @@
                             </div>
                             <div class="panel-footer text-right"> 
                                 <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{generadorSolicitudLotesBonos.guardar()}" 
-                                                 update="@form :#{p:component('messages')}" style="margin:0" />
+                                                 update="@form :#{p:component('messages')}" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
 
 
-                                <p:commandButton value="PDF" actionListener="#{generadorSolicitudLotesBonos.PDF}" ajax="false"/>
+                                <p:commandButton value="PDF" actionListener="#{generadorSolicitudLotesBonos.PDF}" ajax="false" rendered="#{generadorSolicitudLotesBonos.elemento.id != null}"/>
 
                             </div>
                         </div>

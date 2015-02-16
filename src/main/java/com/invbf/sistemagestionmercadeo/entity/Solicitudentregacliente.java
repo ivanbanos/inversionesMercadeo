@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -29,12 +30,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Solicitudentregacliente.findBySolicitudEntregaid", query = "SELECT s FROM Solicitudentregacliente s WHERE s.solicitudentregaclientePK.solicitudEntregaid = :solicitudEntregaid"),
     @NamedQuery(name = "Solicitudentregacliente.findByClientesid", query = "SELECT s FROM Solicitudentregacliente s WHERE s.solicitudentregaclientePK.clientesid = :clientesid"),
     @NamedQuery(name = "Solicitudentregacliente.findByValorTotal", query = "SELECT s FROM Solicitudentregacliente s WHERE s.valorTotal = :valorTotal"),
-    @NamedQuery(name = "Solicitudentregacliente.findByObservaciones", query = "SELECT s FROM Solicitudentregacliente s WHERE s.observaciones = :observaciones")})
+    @NamedQuery(name = "Solicitudentregacliente.findByObservaciones", query = "SELECT s FROM Solicitudentregacliente s WHERE s.observaciones = :observaciones"),
+    @NamedQuery(name = "Solicitudentregacliente.findByValorPreAprobado", query = "SELECT s FROM Solicitudentregacliente s WHERE s.valorPreAprobado = :valorPreAprobado"),
+    @NamedQuery(name = "Solicitudentregacliente.findByValorAprobado", query = "SELECT s FROM Solicitudentregacliente s WHERE s.valorAprobado = :valorAprobado")})
 public class Solicitudentregacliente implements Serializable {
-    @Column(name = "valorPreAprobado")
-    private Float valorPreAprobado;
-    @Column(name = "valorAprobado")
-    private Float valorAprobado;
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected SolicitudentregaclientePK solicitudentregaclientePK;
@@ -44,15 +43,19 @@ public class Solicitudentregacliente implements Serializable {
     @Size(max = 45)
     @Column(name = "observaciones")
     private String observaciones;
-    @JoinColumn(name = "SolicitudEntregaid", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Solicitudentrega solicitudentrega;
+    @Column(name = "valorPreAprobado")
+    private Float valorPreAprobado;
+    @Column(name = "valorAprobado")
+    private Float valorAprobado;
     @JoinColumn(name = "Areaid", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Area areaid;
     @JoinColumn(name = "Clientesid", referencedColumnName = "idCliente", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Cliente cliente;
+    @JoinColumn(name = "SolicitudEntregaid", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Solicitudentrega solicitudentrega;
 
     public Solicitudentregacliente() {
     }
@@ -89,12 +92,20 @@ public class Solicitudentregacliente implements Serializable {
         this.observaciones = observaciones;
     }
 
-    public Solicitudentrega getSolicitudentrega() {
-        return solicitudentrega;
+    public Float getValorPreAprobado() {
+        return valorPreAprobado;
     }
 
-    public void setSolicitudentrega(Solicitudentrega solicitudentrega) {
-        this.solicitudentrega = solicitudentrega;
+    public void setValorPreAprobado(Float valorPreAprobado) {
+        this.valorPreAprobado = valorPreAprobado;
+    }
+
+    public Float getValorAprobado() {
+        return valorAprobado;
+    }
+
+    public void setValorAprobado(Float valorAprobado) {
+        this.valorAprobado = valorAprobado;
     }
 
     public Area getAreaid() {
@@ -111,6 +122,14 @@ public class Solicitudentregacliente implements Serializable {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public Solicitudentrega getSolicitudentrega() {
+        return solicitudentrega;
+    }
+
+    public void setSolicitudentrega(Solicitudentrega solicitudentrega) {
+        this.solicitudentrega = solicitudentrega;
     }
 
     @Override
@@ -136,22 +155,6 @@ public class Solicitudentregacliente implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Solicitudentregacliente[ solicitudentregaclientePK=" + solicitudentregaclientePK + " ]";
-    }
-    
-    public Float getValorPreAprobado() {
-        return valorPreAprobado;
-}
-
-    public void setValorPreAprobado(Float valorPreAprobado) {
-        this.valorPreAprobado = valorPreAprobado;
-    }
-
-    public Float getValorAprobado() {
-        return valorAprobado;
-    }
-
-    public void setValorAprobado(Float valorAprobado) {
-        this.valorAprobado = valorAprobado;
     }
     
 }

@@ -15,6 +15,7 @@
     </properties>
     
     <repositories>
+        
         <repository>	
             <id>prime-repo</id>	
             <name>Prime Repo</name>	
@@ -33,6 +34,13 @@
             <name>JBoss repository</name>
             <url>https://repository.jboss.org/nexus/content/groups/public</url>
         </repository>
+        
+        <repository>
+                <id>jaspersoft</id>
+                <name>Jasper Soft</name>
+                <url>http://jasperforge.org/maven2/</url>
+        </repository>
+        
     </repositories>
 
     <dependencies>

@@ -38,7 +38,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Permiso.findByDetalleValorActual", query = "SELECT p FROM Permiso p WHERE p.detalleValorActual = :detalleValorActual"),
     @NamedQuery(name = "Permiso.findByObservaciones", query = "SELECT p FROM Permiso p WHERE p.observaciones = :observaciones")})
 public class Permiso implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

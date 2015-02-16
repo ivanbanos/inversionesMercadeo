@@ -4,7 +4,6 @@
  */
 package com.invbf.sistemagestionmercadeo.facade;
 
-import com.invbf.sistemagestionmercadeo.entity.Acceso;
 import com.invbf.sistemagestionmercadeo.entity.Area;
 import com.invbf.sistemagestionmercadeo.entity.Cargo;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
@@ -76,12 +75,6 @@ public interface AdminFacade {
     public void deleteDetalleUsuarios(Usuariodetalle detalleElemento);
 
     public Usuariodetalle guardarDetalleUsuarios(Usuariodetalle detalleElemento);
-
-    public List<Acceso> findAllAccesos();
-
-    public boolean guardarAccesos(Acceso elemento);
-
-    public void deleteAccesos(Acceso elemento);
     
     public List<Denominacion> findAllDenominaciones();
 

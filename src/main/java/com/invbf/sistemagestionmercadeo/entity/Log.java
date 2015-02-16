@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -52,10 +53,10 @@ public class Log implements Serializable {
     @Column(name = "mensaje")
     private String mensaje;
     @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario idUsuario;
     @JoinColumn(name = "idFormulario", referencedColumnName = "idFormulario")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Formulario idFormulario;
 
     public Log() {
@@ -132,7 +133,7 @@ public class Log implements Serializable {
 
     @Override
     public String toString() {
-        return fecha+" "+idUsuario.getNombreUsuario()+": "+mensaje;
+        return "com.invbf.sistemagestionmercadeo.entity.Log[ idLog=" + idLog + " ]";
     }
     
 }

@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,7 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Solicitudentregalote.findAll", query = "SELECT s FROM Solicitudentregalote s"),
     @NamedQuery(name = "Solicitudentregalote.findById", query = "SELECT s FROM Solicitudentregalote s WHERE s.id = :id"),
-    @NamedQuery(name = "Solicitudentregalote.findByCantidad", query = "SELECT s FROM Solicitudentregalote s WHERE s.cantidad = :cantidad")})
+    @NamedQuery(name = "Solicitudentregalote.findByCantidad", query = "SELECT s FROM Solicitudentregalote s WHERE s.cantidad = :cantidad"),
+    @NamedQuery(name = "Solicitudentregalote.findByDesde", query = "SELECT s FROM Solicitudentregalote s WHERE s.desde = :desde"),
+    @NamedQuery(name = "Solicitudentregalote.findByHasta", query = "SELECT s FROM Solicitudentregalote s WHERE s.hasta = :hasta")})
 public class Solicitudentregalote implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,20 +47,20 @@ public class Solicitudentregalote implements Serializable {
     private Integer id;
     @Column(name = "cantidad")
     private Integer cantidad;
-    @JoinColumn(name = "LotesBonos_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Lotebono lotesBonosid;
-    @JoinColumn(name = "SolicitudEntregaLotesMaestro", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Solicitudentregalotesmaestro solicitudEntregaLotesMaestro;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudEntregaLotesid")
-    private List<Bononoincluido> bononoincluidoList;
     @Size(max = 45)
     @Column(name = "desde")
     private String desde;
     @Size(max = 45)
     @Column(name = "hasta")
     private String hasta;
+    @JoinColumn(name = "SolicitudEntregaLotesMaestro", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Solicitudentregalotesmaestro solicitudEntregaLotesMaestro;
+    @JoinColumn(name = "LotesBonos_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Lotebono lotesBonosid;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudEntregaLotesid", fetch = FetchType.LAZY)
+    private List<Bononoincluido> bononoincluidoList;
 
     public Solicitudentregalote() {
     }
@@ -82,12 +85,20 @@ public class Solicitudentregalote implements Serializable {
         this.cantidad = cantidad;
     }
 
-    public Lotebono getLotesBonosid() {
-        return lotesBonosid;
+    public String getDesde() {
+        return desde;
     }
 
-    public void setLotesBonosid(Lotebono lotesBonosid) {
-        this.lotesBonosid = lotesBonosid;
+    public void setDesde(String desde) {
+        this.desde = desde;
+    }
+
+    public String getHasta() {
+        return hasta;
+    }
+
+    public void setHasta(String hasta) {
+        this.hasta = hasta;
     }
 
     public Solicitudentregalotesmaestro getSolicitudEntregaLotesMaestro() {
@@ -96,6 +107,14 @@ public class Solicitudentregalote implements Serializable {
 
     public void setSolicitudEntregaLotesMaestro(Solicitudentregalotesmaestro solicitudEntregaLotesMaestro) {
         this.solicitudEntregaLotesMaestro = solicitudEntregaLotesMaestro;
+    }
+
+    public Lotebono getLotesBonosid() {
+        return lotesBonosid;
+    }
+
+    public void setLotesBonosid(Lotebono lotesBonosid) {
+        this.lotesBonosid = lotesBonosid;
     }
 
     @XmlTransient
@@ -131,20 +150,5 @@ public class Solicitudentregalote implements Serializable {
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote[ id=" + id + " ]";
     }
-
-    public String getDesde() {
-        return desde;
-    }
-
-    public void setDesde(String desde) {
-        this.desde = desde;
-    }
-
-    public String getHasta() {
-        return hasta;
-    }
-
-    public void setHasta(String hasta) {
-        this.hasta = hasta;
-    }
+    
 }

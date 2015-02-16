@@ -15,14 +15,17 @@ function changeHasta(index) {
 
     var cantNumber = cantinput.val();
     var cantdesde = $(desde.children()[0]).text();
+    
 
     if (cantNumber === '') {
         numbertoSum = 0;
     } else {
         var numbertoSum = parseInt(cantNumber);
     }
-
     var numberfrom = parseInt(cantdesde.substring(0, 4));
+    if(numbertoSum !==0){
+        numbertoSum = numbertoSum-1;
+    }
     var total = numberfrom + numbertoSum;
     var letra = cantdesde.substring(5, cantdesde.length).trim();
     

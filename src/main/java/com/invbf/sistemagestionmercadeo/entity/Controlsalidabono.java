@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -56,16 +57,16 @@ public class Controlsalidabono implements Serializable {
     @Column(name = "fechavencimientobonos")
     @Temporal(TemporalType.DATE)
     private Date fechavencimientobonos;
-    @OneToMany(mappedBy = "controlSalidaBonosid")
+    @OneToMany(mappedBy = "controlSalidaBonosid", fetch = FetchType.LAZY)
     private List<Bono> bonoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "controlsalidabono")
     private List<ControlsalidabonosHasLotesbonos> controlsalidabonosHasLotesbonosList;
-    @JoinColumn(name = "SolicitudEntrega_id", referencedColumnName = "id")
-    @ManyToOne
-    private Solicitudentrega solicitudEntregaid;
     @JoinColumn(name = "solicitante", referencedColumnName = "idUsuario")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Usuario solicitante;
+    @JoinColumn(name = "SolicitudEntrega_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Solicitudentrega solicitudEntregaid;
 
     public Controlsalidabono() {
     }
@@ -124,20 +125,20 @@ public class Controlsalidabono implements Serializable {
         this.controlsalidabonosHasLotesbonosList = controlsalidabonosHasLotesbonosList;
     }
 
-    public Solicitudentrega getSolicitudEntregaid() {
-        return solicitudEntregaid;
-    }
-
-    public void setSolicitudEntregaid(Solicitudentrega solicitudEntregaid) {
-        this.solicitudEntregaid = solicitudEntregaid;
-    }
-
     public Usuario getSolicitante() {
         return solicitante;
     }
 
     public void setSolicitante(Usuario solicitante) {
         this.solicitante = solicitante;
+    }
+
+    public Solicitudentrega getSolicitudEntregaid() {
+        return solicitudEntregaid;
+    }
+
+    public void setSolicitudEntregaid(Solicitudentrega solicitudEntregaid) {
+        this.solicitudEntregaid = solicitudEntregaid;
     }
 
     @Override

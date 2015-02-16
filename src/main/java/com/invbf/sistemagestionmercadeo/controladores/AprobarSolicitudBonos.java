@@ -106,7 +106,6 @@ public class AprobarSolicitudBonos {
                     Calendar nowDate = Calendar.getInstance();
                     nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
                     elemento.setFecha(nowDate.getTime());
-                    elemento.setIdCasino(sessionBean.getUsuario().getIdCasino());
                     elemento.setPropositoEntrega(new Propositoentrega());
                     elemento.setSolicitante(sessionBean.getUsuario());
                     elemento.setTipoBono(new Tipobono());
@@ -117,7 +116,7 @@ public class AprobarSolicitudBonos {
                 }
             }
 
-            casinos = sessionBean.adminFacade.findAllCasinos();
+            casinos = sessionBean.getUsuario().getCasinoList();
             tiposbonos = sessionBean.adminFacade.findAllTiposbonos();
             usuarios = sessionBean.adminFacade.findAllUsuarios();
             propositosentrega = sessionBean.adminFacade.findAllPropositosentrega();
