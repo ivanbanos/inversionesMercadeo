@@ -55,7 +55,7 @@ public class BonosRecibirBean {
         casinos = sessionBean.getUsuario().getCasinoList();
         bonosCasinoEntregados = new ArrayList<Bono>();
         bonosCasinoEntregadosSelected = new ArrayList<Bono>();
-        buscarBonosValidadosPorCasino();
+        casinoSelected = new Casino();
     }
 
     public void buscarBonosValidadosPorCasino() {
@@ -64,6 +64,9 @@ public class BonosRecibirBean {
         casinoSelected = casinos.get(casinos.indexOf(new Casino(casinoSelected.getIdCasino())));
         bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("ENTREGADO", casinoSelected);
         System.out.println(bonosCasinoEntregados.size());
+        if (bonosCasinoEntregados.isEmpty()) {
+            FacesUtil.addWarnMessage("No existen bono por recibir", "");
+        }
     }
 
     public List<Casino> getCasinos() {
@@ -83,15 +86,17 @@ public class BonosRecibirBean {
     }
 
     public void recibir() {
-        for (Bono bono : bonosCasinoEntregadosSelected) {
-            bono.setEstado("EN SALA");
+        if (!bonosCasinoEntregadosSelected.isEmpty()) {
+            for (Bono bono : bonosCasinoEntregadosSelected) {
+                bono.setEstado("EN SALA");
+            }
+            sessionBean.marketingUserFacade.guardarBonos(bonosCasinoEntregadosSelected);
+            bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("ENTREGADO", casinoSelected);
+            bonosCasinoEntregadosSelected = new ArrayList<Bono>();
+            String body = "Se han cambiado el estado de algunos bonos. Nuevo estado = RECIBIDO";
+            Notificador.notificar(Notificador.SOLICITUD_RECIBO_BONOS, body, "Estado de bonos cambiado a recibidos", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+            FacesUtil.addInfoMessage("Estado de bonos cambiado", "Nuevo estado: RECIBIDO");
         }
-        sessionBean.marketingUserFacade.guardarBonos(bonosCasinoEntregadosSelected);
-        bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("ENTREGADO", casinoSelected);
-        bonosCasinoEntregadosSelected = new ArrayList<Bono>();
-        String body = "Se han cambiado el estado de algunos bonos. Nuevo estado = RECIBIDO";
-        Notificador.notificar(Notificador.SOLICITUD_RECIBO_BONOS, body, "Estado de bonos cambiado a recibidos", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
-        FacesUtil.addInfoMessage("Estado de bonos cambiado", "Nuevo estado: RECIBIDO");
     }
 
     public List<Bono> getBonosCasinoEntregados() {

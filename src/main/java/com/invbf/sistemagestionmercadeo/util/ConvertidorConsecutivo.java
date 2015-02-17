@@ -125,4 +125,9 @@ public class ConvertidorConsecutivo {
         System.out.println("hasta"+hasta);
         return (getNumeroFromConsecutivo(hasta) - getNumeroFromConsecutivo(desde))+"";
     }
+    public static Long getCantidadInt(String desde, String hasta){
+        System.out.println("desde"+desde);
+        System.out.println("hasta"+hasta);
+        return (getNumeroFromConsecutivo(hasta) - getNumeroFromConsecutivo(desde));
+    }
 }

@@ -35,6 +35,7 @@ public class Notificador {
     public static final int SOLICITUD_RECIBO_BONOS = 9;
     public static final int SOLICITUD_CONTROL_SALIDA_APROBADA = 10;
     public static final int SOLICITUD_CAMBIO_CLIENTE = 11;
+    public static final int INVENTARIO_EN_PROBLEMA =12;
 
     public static void notificar(int tipo, String body, String subject, String correosolicitantes) {
         switch (tipo) {
@@ -67,6 +68,9 @@ public class Notificador {
                 break;
             case SOLICITUD_CAMBIO_CLIENTE:
                 sendEmail("notificacionescorreo", subject, body, false, correosolicitantes);
+                break;
+            case INVENTARIO_EN_PROBLEMA:
+                sendEmail("listasolicitudlotes", subject, body, false, correosolicitantes);
                 break;
         }
     }

@@ -101,6 +101,8 @@ public class BonoDao {
         List<Bono> cargos = null;
         tx.begin();
         try {
+            if (apellidos != null&&!apellidos.equals("")&&nombres != null&&!nombres.equals("")) {
+            String query ="SELECT b FROM Bono b WHERE b.estado = :estado AND b.casino = :casino AND b.cliente.nombres LIKE :nombres AND b.cliente.apellidos LIKE :apellidos AND b.cliente.identificacion LIKE :identificacion AND b.consecutivo LIKE :consecutivo";
             cargos = (List<Bono>) em.createNamedQuery("Bono.findByAtributos")
                     .setParameter("estado", estado)
                     .setParameter("casino", casinoSelected)
@@ -109,6 +111,13 @@ public class BonoDao {
                     .setParameter("identificacion", '%' + identificacion + '%')
                     .setParameter("consecutivo", '%' + consecutivo + '%')
                     .getResultList();
+            }else {
+            String query ="SELECT b FROM Bono b WHERE b.estado = :estado AND b.casino = :casino";
+            cargos = (List<Bono>) em.createNamedQuery("Bono.findByAtributos")
+                    .setParameter("estado", estado)
+                    .setParameter("casino", casinoSelected)
+                    .getResultList();
+            }
             tx.commit();
         } catch (Exception e) {
             System.out.println(e);

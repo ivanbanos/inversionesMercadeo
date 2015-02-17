@@ -961,4 +961,11 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
     public List<Lotebono> getLotesBonosByCasino(Casino casinoSelected) {
         return LotebonoDao.getByCasino(casinoSelected.getIdCasino());
     }
+
+    @Override
+    public void guardarClientesSinCategoria(Cliente cliente) {
+        Categoria cat = CategoriaDao.findByName("SIN CATEGORIA");
+        cliente.setIdCategorias(cat);
+        ClienteDao.create(cliente);
+    }
 }

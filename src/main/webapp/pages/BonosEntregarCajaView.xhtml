@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="control-group text-right">
                                     <p:commandButton value="Buscar" actionListener="#{bonoEntregarCajaBean.buscarBonosValidadosPorCasino()}" 
-                                                     icon="ui-icon-check" 
+                                                     icon="ui-icon-check" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
                                                      update=":#{p:component('bonos')} :#{p:component('messages')}" style="margin:0" /> 
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                         </div>
                         <div class="panel-footer text-right"> 
                             <p:commandButton value="guardar" actionListener="#{bonoEntregarCajaBean.entregar()}" icon="ui-icon-check" 
-                                             update=":#{p:component('bonos')} :#{p:component('messages')}" style="margin:0" />   
+                                             update=":#{p:component('bonos')} :#{p:component('messages')}" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>   
                         </div>
                     </div>
                 </h:form>

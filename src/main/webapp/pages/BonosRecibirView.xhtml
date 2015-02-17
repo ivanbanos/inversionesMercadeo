@@ -27,34 +27,55 @@
                             <h4>#{label['bonosporrecibir']}</h4>
                         </div>
                         <div class="panel-body">
+                            <div class="row">
+                                <div class="control-group">
+                                    <!-- Username -->
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" >#{label['casinos']}</label>
+                                        <div class="col-md-9">
+                                            <p:selectOneMenu id="clientes" value="#{bonosRecibirBean.casinoSelected.idCasino}"  required="true">
+                                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                                <f:selectItems value="#{bonosRecibirBean.casinos}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.idCasino}"/>  
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="control-group text-right">
+                                    <p:commandButton value="Buscar" actionListener="#{bonosRecibirBean.buscarBonosValidadosPorCasino()}" 
+                                                     icon="ui-icon-check" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                                     update=":#{p:component('bonos')} :#{p:component('messages')}" style="margin:0" /> 
+                                </div>
+                            </div>
 
 
-                            <p:dataTable id="bonos" var="bono" value="#{bonosRecibirBean.bonosCasinoEntregados}" style="margin-bottom:0"
-                                         selection="#{bonosRecibirBean.bonosCasinoEntregadosSelected}" rowKey="#{bono.id}"
-                                         rowIndexVar="index" emptyMessage="No existen bonos pendientes por recibir">
-                                <p:column headerText="Fila #">
-                                    #{index + 1}
-                                </p:column>
+                            <div class="row">
+                                <p:dataTable id="bonos" var="bono" value="#{bonosRecibirBean.bonosCasinoEntregados}" style="margin-bottom:0"
+                                             selection="#{bonosRecibirBean.bonosCasinoEntregadosSelected}" rowKey="#{bono.id}"
+                                             rowIndexVar="index" emptyMessage="No existen bonos pendientes por recibir">
+                                    <p:column headerText="Fila #">
+                                        #{index + 1}
+                                    </p:column>
 
-                                <p:column selectionMode="multiple" style="width:5%;text-align:center"/>
-                                <p:column headerText="consecutivo" sortBy="#{bono.consecutivo}" filterBy="#{bono.consecutivo}" filterMatchMode="contains">
-                                    <h:outputText value="#{bono.consecutivo}" />
-                                </p:column>
-                                <p:column headerText="Denominacion" sortBy="#{bono.denominacion.valor}" filterBy="#{bono.denominacion.valor}" filterMatchMode="contains">
-                                    <h:outputText value="#{bono.denominacion.valor}" >
-                                        <f:converter  converterId="numberSeparationConverter"  />
-                                    </h:outputText>
-                                </p:column>
-                                <p:column headerText="Tipo de bono" sortBy="#{bono.tipo.nombre}" filterBy="#{bono.tipo.nombre}" filterMatchMode="contains">
-                                    <h:outputText value="#{bono.tipo.nombre}" />
-                                </p:column>
-                                <p:column headerText="Cliente" sortBy="#{bono.cliente.nombres} #{bono.cliente.apellidos}" filterBy="#{bono.cliente.nombres} #{bono.cliente.apellidos}" filterMatchMode="contains">
-                                    <h:outputText value="#{bono.cliente.nombres} #{bono.cliente.apellidos}" />
-                                </p:column>
-                            </p:dataTable>
+                                    <p:column selectionMode="multiple" style="width:5%;text-align:center"/>
+                                    <p:column headerText="consecutivo" sortBy="#{bono.consecutivo}" filterBy="#{bono.consecutivo}" filterMatchMode="contains">
+                                        <h:outputText value="#{bono.consecutivo}" />
+                                    </p:column>
+                                    <p:column headerText="Denominacion" sortBy="#{bono.denominacion.valor}" filterBy="#{bono.denominacion.valor}" filterMatchMode="contains">
+                                        <h:outputText value="#{bono.denominacion.valor}" >
+                                            <f:converter  converterId="numberSeparationConverter"  />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Tipo de bono" sortBy="#{bono.tipo.nombre}" filterBy="#{bono.tipo.nombre}" filterMatchMode="contains">
+                                        <h:outputText value="#{bono.tipo.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Cliente" sortBy="#{bono.cliente.nombres} #{bono.cliente.apellidos}" filterBy="#{bono.cliente.nombres} #{bono.cliente.apellidos}" filterMatchMode="contains">
+                                        <h:outputText value="#{bono.cliente.nombres} #{bono.cliente.apellidos}" />
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
                         </div>
                         <div class="panel-footer text-right"> 
-                            <p:commandButton value="guardar" actionListener="#{bonosRecibirBean.recibir()}" icon="ui-icon-check" 
+                            <p:commandButton value="guardar" actionListener="#{bonosRecibirBean.recibir()}" icon="ui-icon-check" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
                                              update=":#{p:component('bonos')} :#{p:component('messages')}" style="margin:0" />   
                         </div>
                     </div>

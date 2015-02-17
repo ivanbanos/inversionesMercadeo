@@ -63,9 +63,9 @@ public class ReporteMovimientoBonosBean {
         sessionBean.revisarEstadoBonos();
         Calendar now = Calendar.getInstance();
         Calendar monthago = Calendar.getInstance();
-        monthago.add(Calendar.MONTH, -1);
-        hasta = now.getTime();
-        desde = monthago.getTime();
+        monthago.add(Calendar.MONTH, 1);
+        hasta = monthago.getTime();
+        desde = now.getTime();
         bonosAnalizar = sessionBean.marketingUserFacade.getAllBonosFecha(desde, hasta);
         System.out.println(bonosAnalizar.size());
         List<Casino> casinosNormales = sessionBean.adminFacade.findAllCasinos();

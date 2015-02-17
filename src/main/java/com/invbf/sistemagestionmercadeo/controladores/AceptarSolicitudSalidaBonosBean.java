@@ -142,7 +142,11 @@ public class AceptarSolicitudSalidaBonosBean {
         crearBonos();
         sessionBean.marketingUserFacade.guardarControlSalidaBonos(elemento);
         FacesUtil.addInfoMessage("Se aceptó la solicitud!", "Notificación enviada");
-
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudSalidaBonos.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(AceptarSolicitudSalidaBonosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public Usuario getUsuario() {
@@ -229,7 +233,7 @@ public class AceptarSolicitudSalidaBonosBean {
                                 b.setConsecutivo(casino.getCasinodetalle().getCiudad()+ desde);
                                 b.setEstado("VERIFICADO");
                             } else {
-                                b.setConsecutivo(casino.getCasinodetalle().getAbrenopromo()+ "-" + casino.getCasinodetalle().getAbreCiudad() + desde);
+                                b.setConsecutivo(casino.getCasinodetalle().getAbrenopromo() + desde);
                                 b.setEstado("POR VERIFICAR");
                             }
                             b.setPropositosEntregaid(elemento.getSolicitudEntregaid().getPropositoEntrega());
@@ -244,6 +248,15 @@ public class AceptarSolicitudSalidaBonosBean {
             } catch (LoteBonosExistenteException ex) {
                 Logger.getLogger(AceptarSolicitudSalidaBonosBean.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        boolean enviarmail = false;
+        for (Lotebono lote : lotes) {
+            if(ConvertidorConsecutivo.getCantidadInt(lote.getDesde(), lote.getHasta())<200){
+                enviarmail = true;
+            }
+        }
+        if(enviarmail){
+            Notificador.notificar(Notificador.INVENTARIO_EN_PROBLEMA, "Alerta de stock de bonos", "Existen Stocks de bonos que la cantidad es muy baja. Revisar el Inventario.", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         }
         sessionBean.marketingUserFacade.guardarBonos(bonosAGuardar);
 

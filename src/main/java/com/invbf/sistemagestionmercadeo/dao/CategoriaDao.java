@@ -4,6 +4,7 @@
  */
 package com.invbf.sistemagestionmercadeo.dao;
 
+import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Categoria;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +19,39 @@ import javax.persistence.Persistence;
  */
 public class CategoriaDao {
 
+    public static Categoria findByName(String nombre) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Categoria> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Categoria>) em.createNamedQuery("Categoria.findByNombre")
+                    .setParameter("nombre", nombre)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        if (cargos == null || cargos.isEmpty()) {
+            return null;
+        } else {
+            return cargos.get(0);
+        }
+    }
+
     public CategoriaDao() {
     }
 
     public static void create(Categoria categoria) {
         categoria.setNombre(categoria.getNombre().toUpperCase());
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -43,8 +70,8 @@ public class CategoriaDao {
 
     public static void edit(Categoria categoria) {
         categoria.setNombre(categoria.getNombre().toUpperCase());
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -62,8 +89,8 @@ public class CategoriaDao {
     }
 
     public static void remove(Categoria categoria) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -81,8 +108,8 @@ public class CategoriaDao {
     }
 
     public static Categoria find(Integer id) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         Categoria categoria = null;
@@ -102,8 +129,8 @@ public class CategoriaDao {
     }
 
     public static List<Categoria> findAll() {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Categoria> lista = new ArrayList<Categoria>();
@@ -125,8 +152,8 @@ public class CategoriaDao {
     }
 
     public static List<Categoria> findRange(int[] range) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Categoria> lista = new ArrayList<Categoria>();
@@ -151,8 +178,8 @@ public class CategoriaDao {
     }
 
     public static int count() {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         int count = 0;
@@ -173,7 +200,6 @@ public class CategoriaDao {
         em.close();
         emf.close();
         return count;
-        
-        
+
     }
 }

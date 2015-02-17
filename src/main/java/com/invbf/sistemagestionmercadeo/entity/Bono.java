@@ -88,7 +88,7 @@ public class Bono implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private Controlsalidabono controlSalidaBonosid;
     @JoinColumn(name = "Cliente", referencedColumnName = "idCliente")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Cliente cliente;
     @JoinColumn(name = "casino", referencedColumnName = "idCasino")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

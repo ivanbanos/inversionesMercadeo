@@ -34,12 +34,12 @@
                         <h:commandLink  action="#{sessionBean.go(&quot;solicitudesbonos&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-edit fa-5x"></i> 
                             <br/>#{label['solicitudesbonos']}</h:commandLink>
                     </c:if>
-                    
+
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;SolicitudCambioCupo&quot;)}">
                         <h:commandLink  action="#{sessionBean.go(&quot;SolicitudCambioCupo&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-edit fa-5x"></i> 
                             <br/>#{label['cambiocupofidelizacion']}</h:commandLink>
                     </c:if>
-                    
+
                     <legend >Ordenes</legend>
 
 

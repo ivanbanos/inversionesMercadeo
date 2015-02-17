@@ -126,7 +126,7 @@ public class AnalisisBono {
 
     public float getEfectividadNoCAnjeados() {
         if (entregados != 0) {
-            return (entregados - canjeados) / entregados;
+            return ((entregados - canjeados) * 100f) / entregados;
         } else {
             return 0;
         }

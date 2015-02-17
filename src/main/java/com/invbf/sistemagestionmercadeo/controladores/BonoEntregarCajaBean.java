@@ -64,6 +64,9 @@ public class BonoEntregarCajaBean {
         casinoSelected = casinos.get(casinos.indexOf(new Casino(casinoSelected.getIdCasino())));
         bonosCasinoPorEntregar = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("VERIFICADO", casinoSelected);
         System.out.println(bonosCasinoPorEntregar.size());
+        if (bonosCasinoPorEntregar.isEmpty()) {
+            FacesUtil.addWarnMessage("No existen bono por entregar", "");
+        }
     }
 
     public List<Casino> getCasinos() {
@@ -99,15 +102,17 @@ public class BonoEntregarCajaBean {
     }
 
     public void entregar() {
-        for (Bono bono : bonosCasinoPorEntregarSelected) {
-            bono.setEstado("ENTREGADO");
-        }
-        sessionBean.marketingUserFacade.guardarBonos(bonosCasinoPorEntregarSelected);
-        bonosCasinoPorEntregar = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("VERIFICADO", casinoSelected);
-        bonosCasinoPorEntregarSelected = new ArrayList<Bono>();
+        if (!bonosCasinoPorEntregarSelected.isEmpty()) {
+            for (Bono bono : bonosCasinoPorEntregarSelected) {
+                bono.setEstado("ENTREGADO");
+            }
+            sessionBean.marketingUserFacade.guardarBonos(bonosCasinoPorEntregarSelected);
+            bonosCasinoPorEntregar = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("VERIFICADO", casinoSelected);
+            bonosCasinoPorEntregarSelected = new ArrayList<Bono>();
 
-        String body = "Se han cambiado el estado de algunos bonos. Nuevo estado = ENTREGADO.";
-        Notificador.notificar(Notificador.SOLICITUD_ENTREGA_BONOS, body, "Estado de bonos cambiado a entregados", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
-        FacesUtil.addInfoMessage("Estado de bonos cambiado", "Nuevo estado: ENTREGADO");
+            String body = "Se han cambiado el estado de algunos bonos. Nuevo estado = ENTREGADO.";
+            Notificador.notificar(Notificador.SOLICITUD_ENTREGA_BONOS, body, "Estado de bonos cambiado a entregados", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+            FacesUtil.addInfoMessage("Estado de bonos cambiado", "Nuevo estado: ENTREGADO");
+        }
     }
 }

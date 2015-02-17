@@ -166,7 +166,7 @@
                             </div>
                             <div class="panel-footer text-right"> 
                                 <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{aceptarSolicitudSalidaBonosBean.guardar()}" 
-                                                 ajax="false" style="margin:0" />
+                                                 ajax="false" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
                             </div>
                         </div>
                     </h:form>

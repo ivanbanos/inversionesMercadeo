@@ -207,4 +207,6 @@ public interface MarketingUserFacade {
 
     public List<Lotebono> getLotesBonosByCasino(Casino casinoSelected);
 
+    public void guardarClientesSinCategoria(Cliente cliente);
+
 }

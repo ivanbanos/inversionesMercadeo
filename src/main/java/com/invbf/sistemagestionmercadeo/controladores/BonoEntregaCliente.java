@@ -7,6 +7,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 
 import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
+import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @ViewScoped
 public class BonoEntregaCliente {
+
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
     private List<Casino> casinos;
@@ -39,7 +41,7 @@ public class BonoEntregaCliente {
 
     public BonoEntregaCliente() {
 
-    }                                                                        
+    }
 
     @PostConstruct
     public void init() {
@@ -55,15 +57,18 @@ public class BonoEntregaCliente {
         casinos = sessionBean.getUsuario().getCasinoList();
         bonosCasinoEntregados = new ArrayList<Bono>();
         bonosCasinoEntregadosSelected = new ArrayList<Bono>();
-        buscarBonosValidadosPorCasino();
+        casinoSelected = new Casino();
     }
 
     public void buscarBonosValidadosPorCasino() {
         System.out.println("Buscar bonos");
-        System.out.println("casino "+casinoSelected.getIdCasino());
+        System.out.println("casino " + casinoSelected.getIdCasino());
         casinoSelected = casinos.get(casinos.indexOf(new Casino(casinoSelected.getIdCasino())));
         bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("EN SALA", casinoSelected);
         System.out.println(bonosCasinoEntregados.size());
+        if (bonosCasinoEntregados.isEmpty()) {
+            FacesUtil.addWarnMessage("No existen bono por recibir", "");
+        }
     }
 
     public List<Casino> getCasinos() {
@@ -82,15 +87,17 @@ public class BonoEntregaCliente {
         this.casinoSelected = casinoSelected;
     }
 
-
     public void entregar() {
-        for (Bono bono : bonosCasinoEntregadosSelected) {
-            bono.setEstado("ENTREGADO CLIENTE");
+
+        if (!bonosCasinoEntregadosSelected.isEmpty()) {
+            for (Bono bono : bonosCasinoEntregadosSelected) {
+                bono.setEstado("ENTREGADO CLIENTE");
+            }
+            sessionBean.marketingUserFacade.guardarBonos(bonosCasinoEntregadosSelected);
+            bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("EN SALA", casinoSelected);
+            bonosCasinoEntregadosSelected = new ArrayList<Bono>();
+            FacesUtil.addInfoMessage("Entregados "+bonosCasinoEntregadosSelected.size()+" bonos", "");
         }
-        sessionBean.marketingUserFacade.guardarBonos(bonosCasinoEntregadosSelected);
-        bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("EN SALA", casinoSelected);
-        bonosCasinoEntregadosSelected = new ArrayList<Bono>();
-        
     }
 
     public List<Bono> getBonosCasinoEntregados() {
@@ -108,10 +115,10 @@ public class BonoEntregaCliente {
     public void setBonosCasinoEntregadosSelected(List<Bono> bonosCasinoEntregadosSelected) {
         this.bonosCasinoEntregadosSelected = bonosCasinoEntregadosSelected;
     }
-    
-    public void buscarBonosPorCliente(){
+
+    public void buscarBonosPorCliente() {
         System.out.println("Buscar bonos");
-        System.out.println("casino "+casinoSelected.getIdCasino());
+        System.out.println("casino " + casinoSelected.getIdCasino());
         casinoSelected = casinos.get(casinos.indexOf(new Casino(casinoSelected.getIdCasino())));
         bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorAtributos("EN SALA", casinoSelected, nombres, apellidos, identificacion, "");
         System.out.println(bonosCasinoEntregados.size());
@@ -140,5 +147,5 @@ public class BonoEntregaCliente {
     public void setIdentificacion(String identificacion) {
         this.identificacion = identificacion;
     }
-    
+
 }
