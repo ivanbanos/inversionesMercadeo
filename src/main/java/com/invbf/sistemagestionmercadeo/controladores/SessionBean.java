@@ -45,7 +45,9 @@ import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.apache.commons.io.IOUtils;
@@ -72,6 +74,12 @@ public class SessionBean implements Serializable, Subject {
     private int paginacion;
     private String active;
     private String ruta;
+    @ManagedProperty("#{applicationContainer}")
+    private ApplicationContainer container;
+
+    public void setContainer(ApplicationContainer container) {
+        this.container = container;
+    }
 
     /**
      * Creates a new instance of SessionFlowumiUtil
@@ -107,12 +115,17 @@ public class SessionBean implements Serializable, Subject {
 
     public String Conectar() {
         try {
-            usuario = sessionFacade.iniciarSession(usuario);
+            if (container.isUsuarioConectado(usuario.getNombreUsuario())) {
+                FacesUtil.addErrorMessage("No se puede conectar", "Usuario ya inició sesión");
+            } else { 
+                usuario = sessionFacade.iniciarSession(usuario);
 
-            sessionFacade.registrarlog(null, null, "Inicio de sesion del usuario " + usuario.getNombreUsuario(), usuario);
-            active = "inicio";
-            ruta = "/Inicio";
-            return "/pages/index.xhtml";
+                sessionFacade.registrarlog(null, null, "Inicio de sesion del usuario " + usuario.getNombreUsuario(), usuario);
+                active = "inicio";
+                ruta = "/Inicio";
+                container.conectarUsuario(usuario.getNombreUsuario());
+                return "/pages/index.xhtml";
+            }
         } catch (ClavesNoConcuerdanException ex) {
             FacesUtil.addErrorMessage("Usuario no conectado", ex.getMessage());
             usuario = new Usuario();
@@ -132,7 +145,14 @@ public class SessionBean implements Serializable, Subject {
         return "";
     }
 
+    @PreDestroy
+    public void destruir() {
+        System.out.println("Destruyendo el bean");
+        container.desconectarUsuario(usuario.getNombreUsuario());
+    }
+
     public String Desconectar() {
+        container.desconectarUsuario(usuario.getNombreUsuario());
         usuario = new Usuario();
         return "/pages/InicioSession.xhtml";
     }
@@ -329,10 +349,10 @@ public class SessionBean implements Serializable, Subject {
             active = "requisiciones";
             ruta = "/Requisiciones/Cambios en usuarios";
             return "/pages/notificaciones.xhtml";
-        }else if (page.equals("SolicitudCambioCupo")) {
+        } else if (page.equals("SolicitudCambioCupo")) {
             active = "requisiciones";
             return "/pages/SolicitudCambioCupoFidelizacion.xhtml";
-        }else if (page.equals("logs")) {
+        } else if (page.equals("logs")) {
             active = "configuracion";
             ruta = "/Configuración/Logs";
             return "/pages/logs.xhtml";
@@ -525,9 +545,9 @@ public class SessionBean implements Serializable, Subject {
     public void setRuta(String ruta) {
         this.ruta = ruta;
     }
-    
-    public void revisarEstadoBonos(){
+
+    public void revisarEstadoBonos() {
         adminFacade.revisarBonos();
     }
-    
+
 }

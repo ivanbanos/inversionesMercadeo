@@ -201,7 +201,11 @@ public class AprobarSolicitudBonos {
         boolean isNotOk = false;
         List<ControlsalidabonosHasLotesbonos> controlsalidabonosHasLotesbonoses = new ArrayList<ControlsalidabonosHasLotesbonos>();
         List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClienteses = new ArrayList<ControlsalidabonosHasLotesbonosHasClientes>();
-
+        if (!elemento.getControlsalidabonoList().isEmpty()) {
+            control = elemento.getControlsalidabonoList().get(0);
+        } else {
+            control = new Controlsalidabono();
+        }
         if (control.getSolicitudEntregaid().getTipoBono().getNombre().equals("PROMOCIONAL")) {
             for (DenoinacionCant den : denominacionCant) {
                 ControlsalidabonosHasLotesbonos cslb = new ControlsalidabonosHasLotesbonos();
@@ -243,28 +247,33 @@ public class AprobarSolicitudBonos {
 
             }
             if (!isNotOk) {
-                for (ControlsalidabonosHasLotesbonosHasClientes chlhc : controlsalidabonosHasLotesbonosHasClienteses) {
-                    System.out.println("id chclh " + chlhc.getControlsalidabonosHasLotesbonosHasClientesPK().getControlSalidaBonoshasLotesBonosLotesBonosid());
-                    ControlsalidabonosHasLotesbonos chl = new ControlsalidabonosHasLotesbonos(control.getId(), chlhc.getControlsalidabonosHasLotesbonosHasClientesPK().getControlSalidaBonoshasLotesBonosLotesBonosid());
-
-                    System.out.println("id chclh " + controlsalidabonosHasLotesbonoses.indexOf(chl));
-                    chl = controlsalidabonosHasLotesbonoses.get(controlsalidabonosHasLotesbonoses.indexOf(chl));
-                    if (chl.getCantidad() == null) {
-                        chl.setCantidad(chlhc.getCantidad());
-                    } else {
-                        chl.setCantidad(chlhc.getCantidad() + chl.getCantidad());
+                try {
+                    for (ControlsalidabonosHasLotesbonosHasClientes chlhc : controlsalidabonosHasLotesbonosHasClienteses) {
+                        System.out.println("id chclh " + chlhc.getControlsalidabonosHasLotesbonosHasClientesPK().getControlSalidaBonoshasLotesBonosLotesBonosid());
+                        ControlsalidabonosHasLotesbonos chl = new ControlsalidabonosHasLotesbonos(control.getId(), chlhc.getControlsalidabonosHasLotesbonosHasClientesPK().getControlSalidaBonoshasLotesBonosLotesBonosid());
+                        
+                        System.out.println("id chclh " + controlsalidabonosHasLotesbonoses.indexOf(chl));
+                        chl = controlsalidabonosHasLotesbonoses.get(controlsalidabonosHasLotesbonoses.indexOf(chl));
+                        if (chl.getCantidad() == null) {
+                            chl.setCantidad(chlhc.getCantidad());
+                        } else {
+                            chl.setCantidad(chlhc.getCantidad() + chl.getCantidad());
+                        }
+                        chl.getControlsalidabonosHasLotesbonosHasClientesList().add(chlhc);
                     }
-                    chl.getControlsalidabonosHasLotesbonosHasClientesList().add(chlhc);
+                    control.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
+                    control.setEstado("SOLICITADA");
+                    control.setSolicitudEntregaid(elemento);
+                    sessionBean.marketingUserFacade.guardarControlSalidaBonos(control);
+                    String body = "Se ha aceptado la solicitud de salida de bonos con el número de acta " + elemento.getId()
+                            + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
+                    Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha aprobado la solicitud de bonos.", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                    
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBono.xhtml");
+                    FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
+                } catch (IOException ex) {
+                    Logger.getLogger(AprobarSolicitudBonos.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                control.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
-                control.setEstado("SOLICITADA");
-                control.setSolicitudEntregaid(elemento);
-                sessionBean.marketingUserFacade.guardarControlSalidaBonos(control);
-                String body = "Se ha aceptado la solicitud de salida de bonos con el ID " + elemento.getId()
-                        + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
-                Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha aprobado la solicitud de bonos.", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
-
-                FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
             } else {
                 FacesUtil.addErrorMessage("No se puede guardar la solicitud!", "Revise que los bonos asignados a los clientes concuerden con el monto");
             }

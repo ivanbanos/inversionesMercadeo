@@ -600,7 +600,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
 
     @Override
     public List<Solicitudentregalotesmaestro> getAllSolicitudentregalotesmaestro() {
-        return SolicitudentregalotesmaestroDao.findAll();
+        return SolicitudentregalotesmaestroDao.findAllButPrecreada();
     }
 
     @Override
@@ -798,7 +798,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
         elemento.setSolicitudentregaloteList(solicitudentregaloteses);
         SolicitudentregalotesmaestroDao.edit(elemento);
         if (porque == 1) {
-            String body = "Se ha generado una orden de entrada de lotes de bono con el numero de acta " + elemento.getId()
+            String body = "Se ha generado una orden de entrada de lotes de bono con el número de acta " + elemento.getId()
                     + ".\nPor favor revisar la página de Lista de solicitudes de lotes de bonos.";
             Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_GENERADA, body, "Orden de entrada de lotes de bonos generada", "");
         }
@@ -809,7 +809,8 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
     public void crearSolicitudSalidaBonos(Solicitudentrega s) {
         Controlsalidabono csb = new Controlsalidabono();
         csb.setSolicitudEntregaid(s);
-        csb.setEstado("CREADA");
+        csb.setSolicitante(s.getSolicitante());
+        csb.setEstado("PRECREADA");
         try {
             DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
             DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
@@ -823,11 +824,16 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
         }
         ControlsalidabonosDao.create(csb);
 
-        String body = "Se a creado una solicitud de salida de bonos con el ID " + csb.getId()
+        String body = "Se ha creado una solicitud de salida de bonos con el número de acta " + csb.getId()
                 + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
         if (csb.getSolicitante().getUsuariodetalle() != null) {
             Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha generado una solicitud de salida de bonos de caja", csb.getSolicitante().getUsuariodetalle().getCorreo());
         }
+        if(s.getControlsalidabonoList()==null){
+            s.setControlsalidabonoList(new ArrayList<Controlsalidabono>());
+        }
+        s.getControlsalidabonoList().add(csb);
+        SolicitudEntregaDao.edit(s);
     }
 
     @Override
@@ -949,5 +955,10 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
     @Override
     public List<Cliente> findAllClientesCasinos(Casino idCasino) {
         return ClienteDao.findByIdCasino(idCasino.getIdCasino());
+    }
+
+    @Override
+    public List<Lotebono> getLotesBonosByCasino(Casino casinoSelected) {
+        return LotebonoDao.getByCasino(casinoSelected.getIdCasino());
     }
 }

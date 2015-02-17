@@ -30,6 +30,7 @@ public class NumberSeparationConverter implements Converter {
     public String getAsString(FacesContext fc, UIComponent uic, Object o) {
         String numberseparated = "";
         String iPartS = "";
+        boolean tieneelsimbolo = false;
         if (o instanceof Double) {
             double number = (Double) o;
             Long iPart = (long) number;
@@ -39,7 +40,12 @@ public class NumberSeparationConverter implements Converter {
             Long iPart = (long) number;
             iPartS = iPart.toString();
         } else {
-            String number = (String) o;
+            String number;
+            if (o instanceof Integer) {
+                number = ((Integer) o).toString();
+            } else {
+                number = (String) o;
+            }
             System.out.println("numero " + number);
             if (number.lastIndexOf(".") != -1) {
                 iPartS = number.substring(0, number.lastIndexOf("."));

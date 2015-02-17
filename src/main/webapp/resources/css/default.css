@@ -12,6 +12,15 @@ body{
     font-family: "News Cycle","Arial Narrow Bold",sans-serif!important;
 }
 
+.ui-inputfield{
+    width:100%!important;
+}
+
+.ui-widget-overlay{
+    background: #a6a6a6 url(images/ui-bg_dots-small_65_a6a6a6_2x2.png) 50% 50% repeat!important;
+    opacity: 1!important;
+}
+
 #menuslide { 
     border: 1px solid #e3a1a1;
     background: #BE2C2C!important;

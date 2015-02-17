@@ -247,7 +247,7 @@ public class AceptarSolicitudSalidaBonosBean {
         }
         sessionBean.marketingUserFacade.guardarBonos(bonosAGuardar);
 
-        String body = "Se ha aceptado la solicitud de salida de bonos con el ID " + elemento.getId()
+        String body = "Se ha aceptado la solicitud de salida de bonos con el número de acta " + elemento.getId()
                 + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
         Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_ACEPTADA, body, "Se ha aceptado una solicitud de salida de bonos de caja", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
     }

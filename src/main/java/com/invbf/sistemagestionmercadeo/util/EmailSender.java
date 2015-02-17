@@ -13,6 +13,7 @@ import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.MimetypesFileTypeMap;
+import javax.faces.context.FacesContext;
 import javax.mail.Authenticator;
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -52,7 +53,7 @@ public class EmailSender {
 
         Properties props = new Properties();
         props.put("mail.smtp.host", host);
-        props.put("mail.smtp.port", port+"");
+        props.put("mail.smtp.port", port + "");
         switch (protocol) {
             case SMTPS:
                 props.put("mail.smtp.ssl.enable", true);
@@ -223,5 +224,79 @@ public class EmailSender {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    void sendEmailNotificador(String to, String subject, String mesaje) throws MessagingException, IOException {
+
+        Properties props = new Properties();
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", port + "");
+        switch (protocol) {
+            case SMTPS:
+                props.put("mail.smtp.ssl.enable", true);
+                break;
+            case POP3:
+            case IMAP:
+            case SMTP:
+            case TLS:
+                props.put("mail.smtp.starttls.enable", true);
+                break;
+        }
+
+        Authenticator authenticator = null;
+        if (auth) {
+            props.put("mail.smtp.auth", "true");
+            authenticator = new Authenticator() {
+                private PasswordAuthentication pa = new PasswordAuthentication(username, password);
+
+                @Override
+                public PasswordAuthentication getPasswordAuthentication() {
+                    return pa;
+                }
+            };
+        }
+        Session session = Session.getInstance(props, authenticator);
+        session.setDebug(debug);
+
+        // Create a default MimeMessage object.
+        MimeMessage message = new MimeMessage(session);
+
+        message.setFrom(new InternetAddress(from));
+        InternetAddress[] address = {new InternetAddress(to)};
+        message.setRecipients(Message.RecipientType.TO, address);
+        message.setSubject(subject);
+        message.setSentDate(new Date());
+
+        MimeMultipart multipart = new MimeMultipart("related");
+        BodyPart messageBodyPart = new MimeBodyPart();
+        String htmlText = "<div><span style=\"color:#1f497d\">Este correo ha sido generado automáticamente por el Sistema de Gestión de Mercadeo - SGM<u></u><u></u></span>"
+                + "<p>" + mesaje + "</p>";
+        htmlText += "<div><p class=\"MsoNormal\"><span style=\"font-size:14.0pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black\">Sistema de Gestión de Mercadeo SGM<u></u><u></u></span></p>";
+        
+        htmlText += "<p class=\"MsoNormal\"><span style=\"color:black\"><img src=\"cid:image\"></span></p>";
+        
+        htmlText += "<p class=\"MsoNormal\"><span lang=\"ES\" style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:#7f7f7f\">Nota: El contenido de este mensaje de datos es confidencial y se entiende dirigido y para uso exclusivo del destinatario, por lo que no podrá distribuirse y/o difundirse por ningún medio sin la previa autorización del emisor original. Si usted no es el destinatario, se le prohíbe su utilización total o parcial para cualquier fin.<u></u><u></u></span></p>"
+                + "</div></div>";
+                messageBodyPart.setContent(htmlText, "text/html");
+        // add it
+        multipart.addBodyPart(messageBodyPart);
+
+        InputStream iStream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/images/mastersemail.png");
+        byte[] bytesArray = IOUtils.toByteArray(iStream);
+        // second part (the image)
+        messageBodyPart = new MimeBodyPart();
+
+        DataSource fds = new ByteArrayDataSource(bytesArray, new MimetypesFileTypeMap().getContentType("IBFImage.png"));
+
+        messageBodyPart.setDataHandler(new DataHandler(fds));
+        messageBodyPart.setHeader("Content-ID", "<image>");
+
+        // add image to the multipart
+        multipart.addBodyPart(messageBodyPart);
+
+        // put everything together
+        message.setContent(multipart);
+
+        Transport.send(message);
     }
 }

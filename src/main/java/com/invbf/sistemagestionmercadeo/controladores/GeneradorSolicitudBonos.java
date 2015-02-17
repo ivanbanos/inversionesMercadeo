@@ -62,6 +62,7 @@ public class GeneradorSolicitudBonos {
     private String apellidos;
     private List<Cliente> selectedClientessgbs;
     private List<ClienteSGBDTO> clientes;
+    private List<ClienteSGBDTO> clientesFiltered;
     private List<Integer> clientesABorrar;
 
     private String pais;
@@ -182,8 +183,8 @@ public class GeneradorSolicitudBonos {
                 List<Solicitudentregacliente> solicitudentregaclienteses = new ArrayList<Solicitudentregacliente>();
                 for (ClienteSGBDTO clientesGBT : clientes) {
                     if (clientesGBT.getValorTotal() != 0) {
-                        if(clientesGBT.getAreaid()==null){
-                            FacesUtil.addErrorMessage("Existen clientes con monto, sin el area ingresada","Asegurece de que todos los clientes tengan el area selecionada");
+                        if (clientesGBT.getAreaid() == null) {
+                            FacesUtil.addErrorMessage("Existen clientes con monto, sin el area ingresada", "Asegurece de que todos los clientes tengan el area selecionada");
                             break guardar;
                         }
                         Solicitudentregacliente sec = new Solicitudentregacliente();
@@ -197,44 +198,50 @@ public class GeneradorSolicitudBonos {
                 }
                 elemento.setSolicitudentregaclienteList(solicitudentregaclienteses);
                 elemento = sessionBean.marketingUserFacade.guardarSolicitudentrega(elemento, clientesABorrar);
-                String body = "Se a creado una solicitud de bonos con el ID " + elemento.getId()
+                String body = "Se ha creado una solicitud de bonos con el número de acta " + elemento.getId()
                         + ".\nPor favor revisar la pagina de Lista de solicitudes de bonos.";
                 Notificador.notificar(Notificador.SOLICITUD_BONOS_GENERADA, body, "Solicitud de bonos generada", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
                 sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
                 FacesUtil.addInfoMessage("Solicitud guardada con exito!", "Notificación enviada");
             } else {
-                elemento.setEstado("CREADA");
+                try {
 
-                System.out.println("por que intenta guardar un area");
+                    System.out.println("por que intenta guardar un area");
 
-                List<Solicitudentregacliente> solicitudentregaclienteses = new ArrayList<Solicitudentregacliente>();
-                for (ClienteSGBDTO clientesGBT : clientes) {
-                    if (clientesGBT.getValorTotal() != 0) {
-                        if (MatematicaAplicada.sePuedeLleagar(clientesGBT.getValorTotal(), denominaciones)) {
-                            Solicitudentregacliente sec = new Solicitudentregacliente();
-                            sec.setAreaid(clientesGBT.getAreaid());
-                            sec.setCliente(clientesGBT.getClientessgb());
-                            sec.setValorTotal(clientesGBT.getValorTotal());
-                            sec.setValorPreAprobado(clientesGBT.getValorTotal());
-                            sec.setValorAprobado(clientesGBT.getValorTotal());
-                            solicitudentregaclienteses.add(sec);
+                    List<Solicitudentregacliente> solicitudentregaclienteses = new ArrayList<Solicitudentregacliente>();
+                    for (ClienteSGBDTO clientesGBT : clientes) {
+                        if (clientesGBT.getValorTotal() != 0) {
+                            if (MatematicaAplicada.sePuedeLleagar(clientesGBT.getValorTotal(), denominaciones)) {
+                                Solicitudentregacliente sec = new Solicitudentregacliente();
+                                sec.setAreaid(clientesGBT.getAreaid());
+                                sec.setCliente(clientesGBT.getClientessgb());
+                                sec.setValorTotal(clientesGBT.getValorTotal());
+                                sec.setValorPreAprobado(clientesGBT.getValorTotal());
+                                sec.setValorAprobado(clientesGBT.getValorTotal());
+                                solicitudentregaclienteses.add(sec);
 
-                        } else {
-                            FacesUtil.addErrorMessage("No se puede guardar la solicitud", "monto de clientes no es congruente con las denominaciones");
-                            break guardar;
+                            } else {
+                                FacesUtil.addErrorMessage("No se puede guardar la solicitud", "monto de clientes no es congruente con las denominaciones");
+                                break guardar;
+                            }
                         }
                     }
+                    elemento.setSolicitudentregaclienteList(solicitudentregaclienteses);
+                    elemento.setFormareparticrbonos(1);
+
+                    System.out.println("entremos a ver");
+                    sessionBean.marketingUserFacade.guardarSolicitudentrega(elemento, clientesABorrar);
+                    sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
+
+                    elemento.setSolicitante(sessionBean.getUsuario());
+                    if (elemento.getControlsalidabonoList().isEmpty()) {
+                        sessionBean.marketingUserFacade.crearSolicitudSalidaBonos(elemento);
+                    }
+                    FacesUtil.addInfoMessage("Solicitud guardada con exito!", "Notificación enviada");
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBono.xhtml");
+                } catch (IOException ex) {
+                    Logger.getLogger(GeneradorSolicitudBonos.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                elemento.setSolicitudentregaclienteList(solicitudentregaclienteses);
-                elemento.setFormareparticrbonos(1);
-
-                System.out.println("entremos a ver");
-                sessionBean.marketingUserFacade.guardarSolicitudentrega(elemento, clientesABorrar);
-                sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
-
-                elemento.setSolicitante(sessionBean.getUsuario());
-                sessionBean.marketingUserFacade.crearSolicitudSalidaBonos(elemento);
-                FacesUtil.addInfoMessage("Solicitud guardada con exito!", "Notificación enviada");
             }
             sessionBean.getAttributes().put("idSolicitudentrega", elemento.getId());
         }
@@ -580,13 +587,29 @@ public class GeneradorSolicitudBonos {
         return event.getNewStep();
     }
 
-
     public Date getFechaVencimiento() {
         return fechaVencimiento;
     }
 
     public void setFechaVencimiento(Date fechaVencimiento) {
         this.fechaVencimiento = fechaVencimiento;
+    }
+
+    public Float getTotal() {
+        Float total = 0f;
+        for (ClienteSGBDTO sec : clientes) {
+            System.out.println(sec.getValorTotal());
+            total += sec.getValorTotal();
+        }
+        return total;
+    }
+
+    public List<ClienteSGBDTO> getClientesFiltered() {
+        return clientesFiltered;
+    }
+
+    public void setClientesFiltered(List<ClienteSGBDTO> clientesFiltered) {
+        this.clientesFiltered = clientesFiltered;
     }
 
 }

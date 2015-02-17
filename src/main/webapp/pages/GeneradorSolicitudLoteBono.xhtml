@@ -27,10 +27,28 @@
                 <div class="col-md-12 ">
 
                     <h:form id="form">
+
                         <div class="panel panel-primary">
                             <div class="panel-heading"><h4>#{label['generarsolicitudentregalotesbonos']}</h4></div>
                             <div class="panel-body">
-                                
+                                <c:if test="#{generadorSolicitudLotesBonos.elemento.id == null}">
+                                    <div class="row">
+                                        <label class="col-md-2 control-label" >#{label['casinos']}</label>
+                                        <div class="col-md-4">
+                                            <p:selectOneMenu id="casinos" value="#{generadorSolicitudLotesBonos.casinoSelected.idCasino}">
+                                                <f:selectItem itemLabel="Selecciona Uno" itemValue="" />
+                                                <f:selectItems value="#{generadorSolicitudLotesBonos.casinos}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.idCasino}"/>  
+
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                    <div class="row text-right">
+                                        <p:commandButton id="btnfind" value="Buscar Lotes" actionListener="#{generadorSolicitudLotesBonos.obtenerLotesByCasino()}" 
+                                                 update="@form :#{p:component('messages')}" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
+
+
+                                    </div>
+                                </c:if>
                                 <c:if id="generado" test="#{generadorSolicitudLotesBonos.elemento.id != null}">
                                     <div class="row">
                                         <div class="control-group">
@@ -91,7 +109,8 @@
                                                             <td id="cantidad#{status.count}">
                                                                 <p:spinner min="0" stepFactor="1000" 
                                                                            value="#{solicitudes.cantidad}" 
-                                                                           onblur="changeHasta(#{status.count})"/>
+                                                                           onblur="changeHasta(#{status.count})">
+                                                                </p:spinner>
                                                             </td>
                                                             <td id="desde#{status.count}">
                                                                 <label>#{solicitudes.desde}</label>

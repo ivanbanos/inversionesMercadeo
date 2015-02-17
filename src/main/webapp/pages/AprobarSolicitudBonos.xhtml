@@ -124,83 +124,88 @@
                                         <div class="control-group">
                                             <div class="form-group">
                                                 <div class="col-md-12">
-
-                                                    <h:dataTable class="table table-striped" value="#{aprobarSolicitudBonos.solicitudentregaclienteses}" var="cli"
-                                                                 >
-                                                        <f:facet name="header">
-                                                            <h:outputText value="Clientes" />
-                                                        </f:facet>
-                                                        <h:column >
+                                                    <p:outputPanel id="datatable" style="display:block">
+                                                        <h:dataTable class="table table-striped" value="#{aprobarSolicitudBonos.solicitudentregaclienteses}" var="cli"
+                                                                     >
                                                             <f:facet name="header">
-                                                                <h:outputText value="#{'item'}" />
+                                                                <h:outputText value="Clientes" />
                                                             </f:facet>
-                                                            <label>#{cli.cliente.idCliente}</label>
-                                                        </h:column>
-                                                        <h:column >
-                                                            <f:facet name="header">
-                                                                <h:outputText value="#{'nombre'}" />
-                                                            </f:facet>
-                                                            <label>#{cli.cliente.nombres} #{cli.cliente.apellidos}</label>
-                                                        </h:column>
-                                                        <h:column >
-                                                            <f:facet name="header">
-                                                                <h:outputText value="#{'valor'}" />
-                                                            </f:facet>
+                                                            <h:column >
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="#{'item'}" />
+                                                                </f:facet>
+                                                                <label>#{cli.cliente.idCliente}</label>
+                                                            </h:column>
+                                                            <h:column >
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="#{'nombre'}" />
+                                                                </f:facet>
+                                                                <label>#{cli.cliente.nombres} #{cli.cliente.apellidos}</label>
+                                                            </h:column>
+                                                            <h:column >
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="#{'valor'}" />
+                                                                </f:facet>
 
-                                                            <f:facet name="footer">
+                                                                <f:facet name="footer">
 
-                                                                <h:outputText value="#{aprobarSolicitudBonos.total}" >
+                                                                    <h:outputText value="#{aprobarSolicitudBonos.total}" >
+                                                                        <f:converter  converterId="numberSeparationConverter"  />
+                                                                    </h:outputText>
+                                                                </f:facet>
+                                                                <h:outputLabel value="#{cli.valorTotal}">
                                                                     <f:converter  converterId="numberSeparationConverter"  />
-                                                                </h:outputText>
-                                                            </f:facet>
-                                                            <h:outputLabel value="#{cli.valorTotal}">
-                                                                <f:converter  converterId="numberSeparationConverter"  />
-                                                            </h:outputLabel>
-                                                        </h:column>
-                                                        <h:column >
-                                                            <f:facet name="header">
-                                                                <h:outputText value="#{'valorpreaprobado'}" />
-                                                            </f:facet>
+                                                                </h:outputLabel>
+                                                            </h:column>
+                                                            <h:column >
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="#{'valorpreaprobado'}" />
+                                                                </f:facet>
 
-                                                            <f:facet name="footer">
+                                                                <f:facet name="footer">
 
-                                                                <h:outputText value="#{aprobarSolicitudBonos.preTotal}" >
+                                                                    <h:outputText value="#{aprobarSolicitudBonos.preTotal}" >
+                                                                        <f:converter  converterId="numberSeparationConverter"  />
+                                                                    </h:outputText>
+                                                                </f:facet>
+                                                                <h:outputLabel value="#{cli.valorPreAprobado}">
                                                                     <f:converter  converterId="numberSeparationConverter"  />
-                                                                </h:outputText>
-                                                            </f:facet>
-                                                            <h:outputLabel value="#{cli.valorPreAprobado}">
-                                                                <f:converter  converterId="numberSeparationConverter"  />
-                                                            </h:outputLabel>
-                                                        </h:column>
-                                                        <h:column >
-                                                            <f:facet name="header">
-                                                                <h:outputText value="#{'valoraprobar'}" />
-                                                            </f:facet>
+                                                                </h:outputLabel>
+                                                            </h:column>
+                                                            <h:column >
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="#{'valoraprobar'}" >
+                                                                        <f:converter  converterId="numberSeparationConverter"  />
+                                                                    </h:outputText>
+                                                                </f:facet>
 
-                                                            <f:facet name="footer">
+                                                                <f:facet name="footer">
 
-                                                                <p:outputPanel id="total" style="display:block">
-                                                                    <h:outputText value="#{aprobarSolicitudBonos.aprTotal}" />
-                                                                </p:outputPanel>
-                                                            </f:facet>
-                                                            <p:spinner min="0" stepFactor="5000" id="valor#{cli.cliente.idCliente}" value="#{cli.valorAprobado}" >
-                                                                <p:ajax event="change" update="@form"  />
-                                                            </p:spinner>
-                                                        </h:column>
-                                                        <h:column >
-                                                            <f:facet name="header">
-                                                                <h:outputText value="#{'area'}" />
-                                                            </f:facet>
+                                                                    <p:outputPanel id="total" style="display:block">
+                                                                        <h:outputText value="#{aprobarSolicitudBonos.aprTotal}" />
+                                                                        <p:commandButton id="settotal" update=":#{p:component('total')}" process=":#{p:component('datatable')}"
+                                                                                         icon="ui-icon-refresh" title="#{label['lb_btn.agregar']}" 
+                                                                                         onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
+                                                                    </p:outputPanel>
+                                                                </f:facet>
+                                                                <p:spinner min="0" stepFactor="5000" id="valor#{cli.cliente.idCliente}" value="#{cli.valorAprobado}" >
+                                                                </p:spinner>
+                                                            </h:column>
+                                                            <h:column >
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="#{'area'}" />
+                                                                </f:facet>
 
-                                                            <label>#{cli.areaid.nombre}</label>
-                                                        </h:column>
-                                                        <h:column >
-                                                            <f:facet name="header">
-                                                                <h:outputText value="#{'observaciones'}" />
-                                                            </f:facet>
-                                                            <label>#{cli.observaciones}</label>
-                                                        </h:column>
-                                                    </h:dataTable>
+                                                                <label>#{cli.areaid.nombre}</label>
+                                                            </h:column>
+                                                            <h:column >
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="#{'observaciones'}" />
+                                                                </f:facet>
+                                                                <label>#{cli.observaciones}</label>
+                                                            </h:column>
+                                                        </h:dataTable>
+                                                    </p:outputPanel>
 
 
 
@@ -250,7 +255,7 @@
                             </div>
                             <div class="panel-footer text-right"> 
                                 <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{aprobarSolicitudBonos.guardar()}"
-                                                 ajax="false" style="margin:0" />
+                                                 ajax="false" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
                             </div>
                         </div>
                     </h:form>

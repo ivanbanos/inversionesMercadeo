@@ -50,7 +50,7 @@ public class Perfil implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "nombre")
     private String nombre;
-    @JoinTable(name = "perfilesvistas", joinColumns = {
+    @JoinTable(name = "PerfilesVistas", joinColumns = {
         @JoinColumn(name = "idPerfil", referencedColumnName = "idPerfil")}, inverseJoinColumns = {
         @JoinColumn(name = "idVista", referencedColumnName = "idVista")})
     @ManyToMany(fetch = FetchType.LAZY)

@@ -92,9 +92,11 @@ public class Notificador {
                     List<Usuario> usuarios = UsuarioDao.findByPerfil(perfil);
                     System.out.println(usuarios.size());
                     for (Usuario usuario : usuarios) {
-                        System.out.println(usuario.getUsuariodetalle().getCorreo());
-                        
-                        es.sendEmail(usuario.getUsuariodetalle().getCorreo(), subject, mesaje, "noimage");
+                        if (usuario.getUsuariodetalle() != null && usuario.getUsuariodetalle().getCorreo()!=null) {
+                            System.out.println(usuario.getUsuariodetalle().getCorreo());
+
+                            es.sendEmailNotificador(usuario.getUsuariodetalle().getCorreo(), subject, mesaje);
+                        }
                     }
                 }
             }

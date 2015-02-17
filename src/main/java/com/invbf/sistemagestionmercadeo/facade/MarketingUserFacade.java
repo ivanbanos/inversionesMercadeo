@@ -205,4 +205,6 @@ public interface MarketingUserFacade {
 
     public List<Cliente> findAllClientesCasinos(Casino idCasino);
 
+    public List<Lotebono> getLotesBonosByCasino(Casino casinoSelected);
+
 }

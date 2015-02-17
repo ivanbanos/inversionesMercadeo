@@ -220,7 +220,7 @@ public class GeneradorControlSalidaBean {
             }
         }
 
-        String body = "Se a enviado la solicitud de salida de bonos con el ID " + control.getId()
+        String body = "Se ha enviado la solicitud de salida de bonos con el número de acta " + control.getId()
                 + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
         Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha enviado una solicitud de salida de bonos de caja",sessionBean.getUsuario().getUsuariodetalle().getCorreo());
     }

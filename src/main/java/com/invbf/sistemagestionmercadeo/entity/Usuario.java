@@ -287,7 +287,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.invbf.sistemagestionmercadeo.entity.Usuario[ idUsuario=" + idUsuario + " ]";
+        return "com.invbf.sistemagestionmercadeo.entity.Usuario[ idUsuario=" + idUsuario + nombreUsuario+" ]";
     }
     
 }

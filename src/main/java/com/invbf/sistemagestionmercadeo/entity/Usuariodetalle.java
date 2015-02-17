@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ivan
  */
 @Entity
-@Table(name = "usuariosdetalles", catalog = "easl4284_inversiones", schema = "")
+@Table(name = "UsuariosDetalles")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuariodetalle.findAll", query = "SELECT u FROM Usuariodetalle u"),
@@ -44,7 +44,7 @@ public class Usuariodetalle implements Serializable {
     @Column(name = "correo")
     private String correo;
     @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario", insertable = false, updatable = false)
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @OneToOne(optional = false)
     private Usuario usuario;
     @JoinColumn(name = "idcargo", referencedColumnName = "idcargo")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)

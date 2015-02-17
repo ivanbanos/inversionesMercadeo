@@ -12,7 +12,6 @@ import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
 import com.invbf.sistemagestionmercadeo.reportes.ReportCreator;
 import com.invbf.sistemagestionmercadeo.util.BonosnoincluidosDTO;
-import com.invbf.sistemagestionmercadeo.util.ConvertidorConsecutivo;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.loteBonoSolicitud;
 import java.io.IOException;
@@ -45,6 +44,7 @@ public class GeneradorSolicitudLotesBonos {
     private Solicitudentregalotesmaestro elemento;
     private List<Casino> casinos;
     private List<loteBonoSolicitud> loteBonoSolicitudes;
+    private Casino casinoSelected;
 
     private final HashMap<String, Long> mapLetrasValores;
     private final HashMap<Long, String> mapValoresLetras;
@@ -147,16 +147,12 @@ public class GeneradorSolicitudLotesBonos {
         } else {
             elemento = new Solicitudentregalotesmaestro();
             elemento.setSolicitudentregaloteList(new ArrayList<Solicitudentregalote>(0));
-            List<Lotebono> lotesbonoses = sessionBean.marketingUserFacade.getAllLotesBonos();
-            List<Solicitudentregalote> solicitudesentregalotes = new ArrayList<Solicitudentregalote>();
-            for (Lotebono lotesbonose : lotesbonoses) {
-                loteBonoSolicitudes.add(new loteBonoSolicitud(lotesbonose));
-            }
-            elemento.setSolicitudentregaloteList(solicitudesentregalotes);
+
             System.out.println("Buscando Casinos");
             System.out.println("Encontrados Casinos");
         }
         casinos = sessionBean.adminFacade.findAllCasinos();
+        casinoSelected = new Casino();
     }
 
     public Solicitudentregalotesmaestro getElemento() {
@@ -181,11 +177,9 @@ public class GeneradorSolicitudLotesBonos {
             elemento.getSolicitudentregaloteList().clear();
             List<Integer> listaBonosReincluidos = new ArrayList<Integer>();
             for (loteBonoSolicitud lotes : loteBonoSolicitudes) {
-                if (lotes.getCantidad() != 0) {
-                    Solicitudentregalote sel = lotes.getSolicitudEntregaLote();
-                    elemento.getSolicitudentregaloteList().add(sel);
-                    listaBonosReincluidos.addAll(lotes.getBonosReincluidos());
-                }
+                Solicitudentregalote sel = lotes.getSolicitudEntregaLote();
+                elemento.getSolicitudentregaloteList().add(sel);
+                listaBonosReincluidos.addAll(lotes.getBonosReincluidos());
             }
             sessionBean.marketingUserFacade.guardarSolicitudentregabonos(elemento, listaBonosReincluidos, 1);
             sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
@@ -197,14 +191,6 @@ public class GeneradorSolicitudLotesBonos {
         } catch (IOException ex) {
             Logger.getLogger(GeneradorSolicitudLotesBonos.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public Casino getCasinoById(Integer idCasino) {
-        int casinoIndex = casinos.indexOf(new Casino(idCasino));
-        if (casinoIndex != -1) {
-            return casinos.get(casinoIndex);
-        }
-        return new Casino();
     }
 
     public String getNombreDeUsuario(Integer id) {
@@ -274,4 +260,23 @@ public class GeneradorSolicitudLotesBonos {
         this.file = file;
     }
 
+    public Casino getCasinoSelected() {
+        return casinoSelected;
+    }
+
+    public void setCasinoSelected(Casino casinoSelected) {
+        this.casinoSelected = casinoSelected;
+    }
+
+    public void obtenerLotesByCasino() {
+
+        List<Lotebono> lotesbonoses = sessionBean.marketingUserFacade.getLotesBonosByCasino(casinoSelected);
+        List<Solicitudentregalote> solicitudesentregalotes = new ArrayList<Solicitudentregalote>();
+        loteBonoSolicitudes = new ArrayList<loteBonoSolicitud>();
+        for (Lotebono lotesbonose : lotesbonoses) {
+            loteBonoSolicitudes.add(new loteBonoSolicitud(lotesbonose));
+        }
+        elemento.setSolicitudentregaloteList(solicitudesentregalotes);
+        FacesUtil.addInfoMessage("Lotes encontrados", "");
+    }
 }
