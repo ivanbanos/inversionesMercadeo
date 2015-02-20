@@ -16,6 +16,7 @@ import com.invbf.sistemagestionmercadeo.util.ConvertidorConsecutivo;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.LoteBonoDTO;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -30,7 +31,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class CrudLoteBonoBean {
+public class CrudLoteBonoBean  implements Serializable{
 
     private List<LoteBonoDTO> lista;
     private List<LoteBonoDTO> listaFiltrada;

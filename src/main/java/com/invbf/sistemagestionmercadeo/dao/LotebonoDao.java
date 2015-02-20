@@ -35,6 +35,7 @@ public class LotebonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -53,6 +54,7 @@ public class LotebonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -75,6 +77,7 @@ public class LotebonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         if (cargos == null || cargos.isEmpty()) {
@@ -100,6 +103,7 @@ public class LotebonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargos;
@@ -121,6 +125,7 @@ public class LotebonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargos;
@@ -143,6 +148,7 @@ public class LotebonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -162,6 +168,7 @@ public class LotebonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return elemento;
@@ -184,6 +191,7 @@ public class LotebonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -209,6 +217,7 @@ public class LotebonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -233,6 +242,7 @@ public class LotebonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;

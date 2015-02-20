@@ -5,13 +5,14 @@
 package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.entity.Categoria;
+import java.io.Serializable;
 
 
 /**
  *
  * @author ideacentre
  */
-public class CategoriaBoolean {
+public class CategoriaBoolean  implements Serializable{
     private Categoria categoria;
     private boolean selected;
 

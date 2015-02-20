@@ -52,6 +52,7 @@ public class TareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -84,6 +85,7 @@ public class TareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -102,6 +104,7 @@ public class TareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -121,6 +124,7 @@ public class TareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return tarea;
@@ -145,6 +149,7 @@ public class TareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -170,6 +175,7 @@ public class TareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -194,6 +200,7 @@ public class TareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;

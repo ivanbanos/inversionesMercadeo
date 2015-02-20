@@ -10,6 +10,7 @@ import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -24,7 +25,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class BonosRecibirBean {
+public class BonosRecibirBean  implements Serializable{
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;

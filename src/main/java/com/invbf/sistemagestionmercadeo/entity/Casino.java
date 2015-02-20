@@ -56,7 +56,7 @@ public class Casino implements Serializable {
     @Column(name = "direccion")
     private String direccion;
     
-    @ManyToMany(mappedBy = "casinoList", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "casinoList")
     private List<Usuario> usuarioList;
     @OneToMany(mappedBy = "idCasino", fetch = FetchType.LAZY)
     private List<Solicitudentrega> solicitudentregaList;

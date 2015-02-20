@@ -10,6 +10,7 @@ import com.invbf.sistemagestionmercadeo.entity.Vista;
 import com.invbf.sistemagestionmercadeo.exceptions.PerfilExistenteException;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,7 +26,7 @@ import org.primefaces.model.DualListModel;
  */
 @ManagedBean
 @ViewScoped
-public class CrudPerfilesBean {
+public class CrudPerfilesBean implements Serializable{
     private List<Perfil> lista;
     private List<Formulario> listaformularios;
     private List<Vista> listavistas;
@@ -125,7 +126,7 @@ public class CrudPerfilesBean {
 
     public void goPerfil(int id) {
         try {
-            sessionBean.getAttributes().put("idPerfil", new Integer(id));
+            sessionBean.setAttribute("idPerfil", new Integer(id));
             FacesContext.getCurrentInstance().getExternalContext().redirect("PerfilAct.xhtml");
         } catch (IOException ex) {
         }

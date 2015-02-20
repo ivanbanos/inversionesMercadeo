@@ -17,6 +17,7 @@ import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.TipoJuegoBoolean;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,7 +42,7 @@ import org.primefaces.model.DualListModel;
  */
 @ManagedBean
 @ViewScoped
-public class TareaAccionBean {
+public class TareaAccionBean implements Serializable{
 
     private Tarea elemento;
     @ManagedProperty("#{sessionBean}")
@@ -80,7 +81,7 @@ public class TareaAccionBean {
             }
         }
 
-        if (sessionBean.getAttributes() == null || !sessionBean.getAttributes().containsKey("idTarea")) {
+        if (sessionBean.getAttributes("idTarea")==null) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("tareas.xhtml");
             } catch (IOException ex) {
@@ -96,10 +97,10 @@ public class TareaAccionBean {
         for (Categoria categoria : categorias) {
             categoriasBoolean.add(new CategoriaBoolean(categoria, false));
         }
-        if (((Integer) sessionBean.getAttributes().get("idTarea")) == 0) {
+        if (((Integer) sessionBean.getAttributes("idTarea")) == 0) {
             elemento = new Tarea();
-            if (sessionBean.getAttributes().containsKey("idEvento")) {
-                evento = sessionBean.marketingUserFacade.findEvento((Integer) sessionBean.getAttributes().get("idEvento"));
+            if (sessionBean.getAttributes("idEvento")!=null) {
+                evento = sessionBean.marketingUserFacade.findEvento((Integer) sessionBean.getAttributes("idEvento"));
                 elemento.setIdEvento(evento);
             }
             elemento.setEstado("Ninguno");
@@ -109,7 +110,7 @@ public class TareaAccionBean {
             elemento.setUsuarioList(new ArrayList<Usuario>());
             todosusuarioses = new DualListModel<Usuario>(usuarioses, elemento.getUsuarioList());
         } else {
-            elemento = sessionBean.marketingUserFacade.findTarea((Integer) sessionBean.getAttributes().get("idTarea"));
+            elemento = sessionBean.marketingUserFacade.findTarea((Integer) sessionBean.getAttributes("idTarea"));
             conteo = elemento.getListasclientestareasList().size();
             evento = elemento.getIdEvento();
             if (elemento.getCategorias() == null || elemento.getCategorias().equals("")) {
@@ -394,8 +395,8 @@ public class TareaAccionBean {
 
     public void goBack() {
         try {
-            if (sessionBean.getAttributes().get("from").equals("evento")) {
-                sessionBean.getAttributes().put("idEvento", elemento.getIdEvento().getIdEvento());
+            if (sessionBean.getAttributes("from").equals("evento")) {
+                sessionBean.setAttribute("idEvento", elemento.getIdEvento().getIdEvento());
                 FacesContext.getCurrentInstance().getExternalContext().redirect("MarketingEventoManejadorView.xhtml");
             } else {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("tareas.xhtml");

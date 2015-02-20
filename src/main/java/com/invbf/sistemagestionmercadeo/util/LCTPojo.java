@@ -10,13 +10,14 @@ import com.invbf.sistemagestionmercadeo.entity.Listasclientestareas;
 import com.invbf.sistemagestionmercadeo.entity.ListasclientestareasPK;
 import com.invbf.sistemagestionmercadeo.entity.Tarea;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
+import java.io.Serializable;
 
 
 /**
  *
  * @author ideacentre
  */
-public class LCTPojo {
+public class LCTPojo  implements Serializable{
 
     private ListasclientestareasPK listasclientestareasPK;
     private String observaciones;

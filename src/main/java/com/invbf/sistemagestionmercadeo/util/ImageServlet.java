@@ -47,8 +47,8 @@ public class ImageServlet extends HttpServlet {
         byte[] bytesArray = null;
         SessionBean sessionBean = (SessionBean) request.getSession().getAttribute("sessionBean");
         String remoteFile2 = URLDecoder.decode(requestedImage, "UTF-8");
-        if (sessionBean.getAttributes().get("imagen") != null) {
-            bytesArray = (byte[]) sessionBean.getAttributes().get("imagen");
+        if (sessionBean.getAttributes("imagen") != null) {
+            bytesArray = (byte[]) sessionBean.getAttributes("imagen");
         } else {
             // Do your thing if the file appears to be non-existing.
             // Throw an exception, or send 404, or show default/warning image, or just ignore it.

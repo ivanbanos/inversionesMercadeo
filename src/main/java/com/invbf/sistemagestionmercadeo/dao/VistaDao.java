@@ -35,6 +35,7 @@ public class VistaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -53,6 +54,7 @@ public class VistaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -71,6 +73,7 @@ public class VistaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -90,6 +93,7 @@ public class VistaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return vista;
@@ -112,6 +116,7 @@ public class VistaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -137,6 +142,7 @@ public class VistaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -161,6 +167,7 @@ public class VistaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;
@@ -184,6 +191,7 @@ public class VistaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         if (vistas == null || vistas.isEmpty()) {

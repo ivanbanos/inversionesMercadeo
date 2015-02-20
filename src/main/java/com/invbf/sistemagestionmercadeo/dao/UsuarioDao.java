@@ -32,6 +32,7 @@ public class UsuarioDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -51,6 +52,7 @@ public class UsuarioDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -69,6 +71,7 @@ public class UsuarioDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -88,6 +91,7 @@ public class UsuarioDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return usuario;
@@ -110,6 +114,7 @@ public class UsuarioDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -135,6 +140,7 @@ public class UsuarioDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -159,6 +165,7 @@ public class UsuarioDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;
@@ -182,6 +189,7 @@ public class UsuarioDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         if (usuarios==null||usuarios.isEmpty()) {
@@ -207,6 +215,7 @@ public class UsuarioDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return usuarios;
@@ -228,6 +237,7 @@ public class UsuarioDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return usuarios;

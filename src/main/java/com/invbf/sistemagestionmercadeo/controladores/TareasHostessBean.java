@@ -6,6 +6,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 
 import com.invbf.sistemagestionmercadeo.entity.Tarea;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -20,7 +21,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class TareasHostessBean {
+public class TareasHostessBean implements Serializable{
 
     private List<Tarea> lista;
     @ManagedProperty("#{sessionBean}")
@@ -56,8 +57,8 @@ public class TareasHostessBean {
             } catch (IOException ex) {
             }
         }
-        sessionBean.getAttributes().remove("idTarea");
-        sessionBean.getAttributes().remove("isLeavingTarea");
+        sessionBean.removeAttribute("idTarea");
+        sessionBean.removeAttribute("isLeavingTarea");
         lista = sessionBean.getUsuario().getTareaList();
         for (Tarea t : lista) {
             if (!t.getEstado().equals("VENCIDO")) {
@@ -84,13 +85,13 @@ public class TareasHostessBean {
 
     public void goEvento(int id) {
         try {
-            sessionBean.getAttributes().put("idTarea", id);
+            sessionBean.setAttribute("idTarea", id);
             Tarea t = sessionBean.marketingUserFacade.findTarea(id);
             if (t.getIdEvento() != null) {
-                sessionBean.getAttributes().put("imagen", sessionBean.getImage(new Integer(id)));
+                sessionBean.setAttribute("imagen", sessionBean.getImage(new Integer(id)));
             }
             
-        sessionBean.getAttributes().put("isComingTarea",false);
+        sessionBean.setAttribute("isComingTarea",false);
             FacesContext.getCurrentInstance().getExternalContext().redirect("HostessEventoManejadorView.xhtml");
         } catch (IOException ex) {
         }

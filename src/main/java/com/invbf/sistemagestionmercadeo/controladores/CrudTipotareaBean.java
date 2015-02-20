@@ -8,6 +8,7 @@ import com.invbf.sistemagestionmercadeo.entity.Accion;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Tipotarea;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -22,7 +23,7 @@ import org.primefaces.model.DualListModel;
  */
 @ManagedBean
 @ViewScoped
-public class CrudTipotareaBean {
+public class CrudTipotareaBean implements Serializable{
 
     private List<Tipotarea> lista;
     private Tipotarea elemento;

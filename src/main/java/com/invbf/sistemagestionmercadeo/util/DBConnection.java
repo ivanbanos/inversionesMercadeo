@@ -4,6 +4,7 @@
  */
 package com.invbf.sistemagestionmercadeo.util;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -22,7 +23,7 @@ import javax.sql.DataSource;
  *
  * SessionBean para administrar la coneccion con la base de datos
  */
-public class DBConnection {
+public class DBConnection  implements Serializable{
 
     private DataSource monitorCertDigDS; //Datasourse del pool de conecciones a AS400
     private Connection connection;// Objeto que referencia la coneccion

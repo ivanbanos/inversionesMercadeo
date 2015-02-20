@@ -1,5 +1,6 @@
 package com.invbf.sistemagestionmercadeo.controladores;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ApplicationScoped;
@@ -7,7 +8,7 @@ import javax.faces.bean.ManagedBean;
 
 @ManagedBean(name = "applicationContainer", eager = true)
 @ApplicationScoped
-public class ApplicationContainer {
+public class ApplicationContainer  implements Serializable{
 
     private List<String> usuariosConectados;
 
@@ -25,6 +26,7 @@ public class ApplicationContainer {
         if (usuariosConectados.contains(usuario)) {
             usuariosConectados.remove(usuario);
         }
+        System.gc();
     }
 
     public boolean isUsuarioConectado(String usuario) {

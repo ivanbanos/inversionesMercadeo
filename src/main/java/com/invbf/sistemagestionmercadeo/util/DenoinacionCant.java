@@ -6,13 +6,14 @@
 package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
+import java.io.Serializable;
 
 
 /**
  *
  * @author ivan
  */
-public class DenoinacionCant {
+public class DenoinacionCant  implements Serializable{
 
     private Lotebono denomiancion;
     private int cantidad;

@@ -192,7 +192,7 @@
                                                             <div class="form-group col-md-12">
                                                                 <ul id="casinos">
 
-                                                                    <c:forEach var="itemcat" items="#{crudUsuariosBean.casinos}">
+                                                                    <c:forEach var="itemcat" items="#{crudUsuariosBean.elemento.casinos}">
                                                                         <li>
                                                                             <h:selectBooleanCheckbox value="#{itemcat.selected}" />&nbsp;
                                                                             <label>#{itemcat.casino.nombre}</label>
@@ -285,7 +285,7 @@
                                                             <div class="form-group col-md-12">
                                                                 <ul id="casinos">
 
-                                                                    <c:forEach var="itemcat" items="#{crudUsuariosBean.casinos}">
+                                                                    <c:forEach var="itemcat" items="#{crudUsuariosBean.elemento.casinos}">
                                                                         <li>
                                                                             <h:selectBooleanCheckbox value="#{itemcat.selected}" />&nbsp;
                                                                             <label>#{itemcat.casino.nombre}</label>

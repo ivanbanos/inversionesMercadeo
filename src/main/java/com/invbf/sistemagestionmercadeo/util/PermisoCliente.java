@@ -6,13 +6,14 @@ package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Permiso;
+import java.io.Serializable;
 
 
 /**
  *
  * @author ideacentre
  */
-public class PermisoCliente {
+public class PermisoCliente  implements Serializable{
     private Permiso permiso;
     private Cliente cliente;
 

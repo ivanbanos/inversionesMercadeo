@@ -6,6 +6,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 
 import com.invbf.sistemagestionmercadeo.entity.Accion;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -18,7 +19,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class CrudAccionesBean {
+public class CrudAccionesBean  implements Serializable{
 
     private List<Accion> lista;
     private Accion elemento;

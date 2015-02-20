@@ -5,11 +5,13 @@
  */
 package com.invbf.sistemagestionmercadeo.util;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ivan
  */
-public class BonosnoincluidosDTO {
+public class BonosnoincluidosDTO  implements Serializable{
     private Integer id;
     private String consecutivo;
 

@@ -7,6 +7,7 @@ package com.invbf.sistemagestionmercadeo.dao;
 
 import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
+import com.invbf.sistemagestionmercadeo.entity.Denominacion;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.PropositosBoolean;
 import java.util.ArrayList;
@@ -79,21 +80,25 @@ public class BonoDao {
         } else {
             nombres = "";
         }
+        System.out.println(nombres);
         if (apellidos != null) {
             apellidos = apellidos.toUpperCase();
         } else {
             apellidos = "";
         }
+        System.out.println(apellidos);
         if (identificacion != null) {
             identificacion = identificacion.toUpperCase();
         } else {
             identificacion = "";
         }
+        System.out.println(identificacion);
         if (consecutivo != null) {
             consecutivo = consecutivo.toUpperCase();
         } else {
             consecutivo = "";
         }
+        System.out.println(consecutivo);
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
@@ -101,9 +106,8 @@ public class BonoDao {
         List<Bono> cargos = null;
         tx.begin();
         try {
-            if (apellidos != null&&!apellidos.equals("")&&nombres != null&&!nombres.equals("")) {
             String query ="SELECT b FROM Bono b WHERE b.estado = :estado AND b.casino = :casino AND b.cliente.nombres LIKE :nombres AND b.cliente.apellidos LIKE :apellidos AND b.cliente.identificacion LIKE :identificacion AND b.consecutivo LIKE :consecutivo";
-            cargos = (List<Bono>) em.createNamedQuery("Bono.findByAtributos")
+            cargos = (List<Bono>) em.createQuery(query)
                     .setParameter("estado", estado)
                     .setParameter("casino", casinoSelected)
                     .setParameter("nombres", '%' + nombres + '%')
@@ -111,13 +115,7 @@ public class BonoDao {
                     .setParameter("identificacion", '%' + identificacion + '%')
                     .setParameter("consecutivo", '%' + consecutivo + '%')
                     .getResultList();
-            }else {
-            String query ="SELECT b FROM Bono b WHERE b.estado = :estado AND b.casino = :casino";
-            cargos = (List<Bono>) em.createNamedQuery("Bono.findByAtributos")
-                    .setParameter("estado", estado)
-                    .setParameter("casino", casinoSelected)
-                    .getResultList();
-            }
+            
             tx.commit();
         } catch (Exception e) {
             System.out.println(e);
@@ -215,6 +213,34 @@ public class BonoDao {
         em.clear();
         em.close();
         emf.close();
+    }
+
+    public static Bono buscarBono(Casino casinoSelected, Denominacion denoinacionSelected, String consecutivo) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Bono> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Bono>) em.createNamedQuery("Bono.findBonoEsp")
+                    .setParameter("casino", casinoSelected)
+                    .setParameter("denominacion", denoinacionSelected)
+                    .setParameter("consecutivo", consecutivo)
+                    .getResultList();
+            System.out.println(cargos.size());
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        if(cargos == null || cargos.isEmpty()){
+            return null;
+        }
+        return cargos.get(0);
     }
 
     public BonoDao() {

@@ -35,6 +35,7 @@ public class TipoDocumentoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -54,6 +55,7 @@ public class TipoDocumentoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -72,6 +74,7 @@ public class TipoDocumentoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -91,6 +94,7 @@ public class TipoDocumentoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return tipoDocumento;
@@ -113,6 +117,7 @@ public class TipoDocumentoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -138,6 +143,7 @@ public class TipoDocumentoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -162,6 +168,7 @@ public class TipoDocumentoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;

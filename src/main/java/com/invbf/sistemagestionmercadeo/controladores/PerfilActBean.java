@@ -12,6 +12,7 @@ import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.FormularioBoolean;
 import com.invbf.sistemagestionmercadeo.util.VistaBoolean;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -25,7 +26,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class PerfilActBean {
+public class PerfilActBean implements Serializable{
 
     private Perfil elemento;
     @ManagedProperty("#{sessionBean}")
@@ -159,6 +160,7 @@ public class PerfilActBean {
     private VistaBoolean solicitudCambioCupo;
     
     private VistaBoolean verTodosCasinos;
+    private VistaBoolean cambioEstadoBono;
     
     private VistaBoolean entregalotesgeneradacorreo;
     private VistaBoolean entregalotesaceptadacorreo;
@@ -192,13 +194,13 @@ public class PerfilActBean {
             }
         }
 
-        if (sessionBean.getAttributes() == null || !sessionBean.getAttributes().containsKey("idPerfil")) {
+        if (sessionBean.getAttributes("idPerfil")==null) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("AdministradorAtributosSistema.xhtml");
             } catch (IOException ex) {
             }
         }
-        elemento = sessionBean.adminFacade.findPerfil((Integer) sessionBean.getAttributes().get("idPerfil"));
+        elemento = sessionBean.adminFacade.findPerfil((Integer) sessionBean.getAttributes("idPerfil"));
         acomodaropciones();
 
     }
@@ -221,7 +223,7 @@ public class PerfilActBean {
 
             System.out.println("guardo");
             sessionBean.actualizarUsuario();
-            sessionBean.getAttributes().remove("idPerfil");
+            sessionBean.removeAttribute("idPerfil");
             FacesUtil.addInfoMessage("Perfil actualizado", elemento.getNombre());
             FacesContext.getCurrentInstance().getExternalContext().redirect("AdministradorAtributosSistema.xhtml");
         } catch (PerfilExistenteException ex) {
@@ -852,6 +854,12 @@ public class PerfilActBean {
                 } else {
                     verTodosCasinos = new VistaBoolean(v, false);
                 }
+            }if (v.getNombreVista().equals("cambioEstadoBono")) {
+                if (elemento.getVistaList().contains(v)) {
+                    cambioEstadoBono = new VistaBoolean(v, true);
+                } else {
+                    cambioEstadoBono = new VistaBoolean(v, false);
+                }
             }
             
             
@@ -1359,6 +1367,9 @@ public class PerfilActBean {
         }
         if (verTodosCasinos.isSelected()) {
             elemento.getVistaList().add(verTodosCasinos.getVista());
+        }
+        if (cambioEstadoBono.isSelected()) {
+            elemento.getVistaList().add(cambioEstadoBono.getVista());
         }
         
         count = 0;
@@ -2639,6 +2650,14 @@ public class PerfilActBean {
 
     public void setVerTodosCasinos(VistaBoolean verTodosCasinos) {
         this.verTodosCasinos = verTodosCasinos;
+    }
+
+    public VistaBoolean getCambioEstadoBono() {
+        return cambioEstadoBono;
+    }
+
+    public void setCambioEstadoBono(VistaBoolean cambioEstadoBono) {
+        this.cambioEstadoBono = cambioEstadoBono;
     }
 
     public VistaBoolean getBonosVerificarVer() {

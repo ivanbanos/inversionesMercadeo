@@ -17,6 +17,7 @@ import com.invbf.sistemagestionmercadeo.entity.Tipotarea;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.exceptions.EventoSinClientesPorRevisarException;
 import com.invbf.sistemagestionmercadeo.facade.HostessFacade;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,7 +33,7 @@ import java.util.logging.Logger;
  *
  * @author ideacentre
  */
-public class HostessFacadeImpl implements HostessFacade {
+public class HostessFacadeImpl implements HostessFacade, Serializable {
 
     @Override
     public int findCantidadClientes() {

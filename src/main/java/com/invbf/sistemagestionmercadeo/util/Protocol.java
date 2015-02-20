@@ -1,6 +1,8 @@
 package com.invbf.sistemagestionmercadeo.util;
 
-public enum Protocol {
+import java.io.Serializable;
+
+public enum Protocol  implements Serializable{
     SMTP,
     SMTPS,
     TLS,

@@ -6,6 +6,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 
 import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -18,7 +19,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class CrudTipoJuegoBean {
+public class CrudTipoJuegoBean  implements Serializable{
 
     private List<Tipojuego> lista;
     private Tipojuego elemento;

@@ -5,6 +5,7 @@
 package com.invbf.sistemagestionmercadeo.facade;
 
 import com.invbf.sistemagestionmercadeo.entity.Area;
+import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Cargo;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Casinodetalle;
@@ -20,6 +21,7 @@ import com.invbf.sistemagestionmercadeo.entity.Usuariodetalle;
 import com.invbf.sistemagestionmercadeo.entity.Vista;
 import com.invbf.sistemagestionmercadeo.exceptions.NombreUsuarioExistenteException;
 import com.invbf.sistemagestionmercadeo.exceptions.PerfilExistenteException;
+import com.invbf.sistemagestionmercadeo.util.UsuarioDTO;
 import java.util.List;
 
 /**
@@ -32,7 +34,7 @@ public interface AdminFacade {
    
     public void deleteUsuarios(Usuario elemento);
     
-    public Usuario guardarUsuarios(Usuario elemento) throws NombreUsuarioExistenteException;
+    public UsuarioDTO guardarUsuarios(UsuarioDTO elemento) throws NombreUsuarioExistenteException;
     
     public void deletePerfiles(Perfil elemento);
     
@@ -113,5 +115,9 @@ public interface AdminFacade {
     public Propositoentrega findPropositoByNombre(String nombre);
 
     public void revisarBonos();
+
+    public Bono buscarBono(Casino casinoSelected, Denominacion denoinacionSelected, String consecutivo);
+
+    public void guardarBono(Bono bono);
     
 }

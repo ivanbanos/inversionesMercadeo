@@ -6,6 +6,7 @@
 package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  *
  * @author ivan
  */
-public class MatematicaAplicada {
+public class MatematicaAplicada  implements Serializable{
 
     public static boolean sePuedeLleagar(Float num, Float... multiplos) {
         while (num > 0) {

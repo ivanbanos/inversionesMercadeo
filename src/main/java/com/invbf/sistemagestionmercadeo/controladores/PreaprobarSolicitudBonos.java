@@ -20,12 +20,12 @@ import com.invbf.sistemagestionmercadeo.entity.Tipobono;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.entity.Usuariodetalle;
 import com.invbf.sistemagestionmercadeo.util.ClienteMonto;
-import com.invbf.sistemagestionmercadeo.util.ClienteSGBDTO;
 import com.invbf.sistemagestionmercadeo.util.DenoinacionCant;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.MatematicaAplicada;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,7 +48,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class PreaprobarSolicitudBonos {
+public class PreaprobarSolicitudBonos implements Serializable{
 
     private Date fecven;
 
@@ -95,8 +95,8 @@ public class PreaprobarSolicitudBonos {
             }
 
             System.out.println("Buscando info de la solictud si existe");
-            if (sessionBean.getAttributes().containsKey("idSolicitudentrega") && (Integer) sessionBean.getAttributes().get("idSolicitudentrega") != 0) {
-                Integer id = (Integer) sessionBean.getAttributes().get("idSolicitudentrega");
+            if (sessionBean.getAttributes("idSolicitudentrega")!=null && (Integer) sessionBean.getAttributes("idSolicitudentrega") != 0) {
+                Integer id = (Integer) sessionBean.getAttributes("idSolicitudentrega");
                 elemento = sessionBean.marketingUserFacade.getSolicitudbono(id);
                 System.out.println("PROPOSITO " + elemento.getPropositoEntrega().getNombre());
                 solicitudentregaclienteses = elemento.getSolicitudentregaclienteList();
@@ -229,7 +229,7 @@ public class PreaprobarSolicitudBonos {
             control.setEstado("SOLICITADA");
             control.setFechavencimientobonos(fecven);
             control.setSolicitudEntregaid(elemento);
-            sessionBean.marketingUserFacade.guardarControlSalidaBonos(control);
+            sessionBean.marketingUserFacade.guardarControlSalidaBonos(control, false);
 
             FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
         } else {
@@ -273,7 +273,7 @@ public class PreaprobarSolicitudBonos {
                     control.setEstado("SOLICITADA");
                     control.setFechavencimientobonos(fecven);
                     control.setSolicitudEntregaid(elemento);
-                    sessionBean.marketingUserFacade.guardarControlSalidaBonos(control);
+                    sessionBean.marketingUserFacade.guardarControlSalidaBonos(control, false);
                     FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
                     FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBono.xhtml");
                 } catch (IOException ex) {

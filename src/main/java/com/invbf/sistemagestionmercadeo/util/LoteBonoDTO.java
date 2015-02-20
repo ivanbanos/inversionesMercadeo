@@ -9,13 +9,14 @@ import com.invbf.sistemagestionmercadeo.entity.Bononofisico;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Denominacion;
 import com.invbf.sistemagestionmercadeo.entity.Tipobono;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author ivan
  */
-public class LoteBonoDTO {
+public class LoteBonoDTO  implements Serializable{
     private Integer id;
     private String desde;
     private String hasta;

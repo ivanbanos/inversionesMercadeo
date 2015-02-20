@@ -25,6 +25,7 @@ import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.MatematicaAplicada;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,7 +47,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class AprobarSolicitudBonos {
+public class AprobarSolicitudBonos  implements Serializable{
 
     private Solicitudentrega elemento;
     private List<Casino> casinos;
@@ -91,8 +92,8 @@ public class AprobarSolicitudBonos {
             }
 
             System.out.println("Buscando info de la solictud si existe");
-            if (sessionBean.getAttributes().containsKey("idSolicitudentrega") && (Integer) sessionBean.getAttributes().get("idSolicitudentrega") != 0) {
-                Integer id = (Integer) sessionBean.getAttributes().get("idSolicitudentrega");
+            if (sessionBean.getAttributes("idSolicitudentrega")!=null && (Integer) sessionBean.getAttributes("idSolicitudentrega") != 0) {
+                Integer id = (Integer) sessionBean.getAttributes("idSolicitudentrega");
                 elemento = sessionBean.marketingUserFacade.getSolicitudbono(id);
                 solicitudentregaclienteses = elemento.getSolicitudentregaclienteList();
             } else {
@@ -221,7 +222,7 @@ public class AprobarSolicitudBonos {
             control.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
             control.setEstado("SOLICITADA");
             control.setSolicitudEntregaid(elemento);
-            sessionBean.marketingUserFacade.guardarControlSalidaBonos(control);
+            sessionBean.marketingUserFacade.guardarControlSalidaBonos(control, false);
 
             FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
         } else {
@@ -264,8 +265,8 @@ public class AprobarSolicitudBonos {
                     control.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
                     control.setEstado("SOLICITADA");
                     control.setSolicitudEntregaid(elemento);
-                    sessionBean.marketingUserFacade.guardarControlSalidaBonos(control);
-                    String body = "Se ha aceptado la solicitud de salida de bonos con el número de acta " + elemento.getId()
+                    sessionBean.marketingUserFacade.guardarControlSalidaBonos(control, false);
+                    String body = "Se ha aprobado la solicitud de bonos con el número de acta " + elemento.getId()
                             + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
                     Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha aprobado la solicitud de bonos.", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
                     

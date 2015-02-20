@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.util;
 import com.invbf.sistemagestionmercadeo.entity.Bononoincluido;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
  *
  * @author ivan
  */
-public class loteBonoSolicitud {
+public class loteBonoSolicitud  implements Serializable{
 
     private Integer id;
     private Integer cantidad;

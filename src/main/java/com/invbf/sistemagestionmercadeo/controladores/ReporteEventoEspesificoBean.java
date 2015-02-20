@@ -9,6 +9,7 @@ import com.invbf.sistemagestionmercadeo.entity.Evento;
 import com.invbf.sistemagestionmercadeo.entity.Tarea;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -24,7 +25,7 @@ import org.primefaces.model.DualListModel;
  */
 @ManagedBean
 @ViewScoped
-public class ReporteEventoEspesificoBean {
+public class ReporteEventoEspesificoBean implements Serializable{
     private Evento elemento;
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -65,13 +66,13 @@ public class ReporteEventoEspesificoBean {
             }
         }
 
-        if (sessionBean.getAttributes() == null || !sessionBean.getAttributes().containsKey("idEvento")) {
+        if (sessionBean.getAttributes("idEvento")==null) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("eventos.xhtml");
             } catch (IOException ex) {
             }
         }
-        elemento = sessionBean.marketingUserFacade.findEvento((Integer) sessionBean.getAttributes().get("idEvento"));
+        elemento = sessionBean.marketingUserFacade.findEvento((Integer) sessionBean.getAttributes("idEvento"));
         for (Tarea t : elemento.getTareaList()) {
             if (!t.getEstado().equals("VENCIDO")) {
                 sessionBean.checkEstadoTarea(t);
@@ -109,7 +110,7 @@ public class ReporteEventoEspesificoBean {
 
     public void goTareaReporte(int id) {
         try {
-            sessionBean.getAttributes().put("idTarea", new Integer(id));
+            sessionBean.setAttribute("idTarea", new Integer(id));
             FacesContext.getCurrentInstance().getExternalContext().redirect("ReporteTareaEspesifica.xhtml");
         } catch (IOException ex) {
         }

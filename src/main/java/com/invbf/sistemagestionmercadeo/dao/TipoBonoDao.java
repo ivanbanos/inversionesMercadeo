@@ -33,6 +33,7 @@ public class TipoBonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -52,6 +53,7 @@ public class TipoBonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -70,6 +72,7 @@ public class TipoBonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -89,6 +92,7 @@ public class TipoBonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return elemento;
@@ -111,6 +115,7 @@ public class TipoBonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -136,6 +141,7 @@ public class TipoBonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -160,6 +166,7 @@ public class TipoBonoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;

@@ -5,11 +5,13 @@
  */
 package com.invbf.sistemagestionmercadeo.util;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ivan
  */
-public class ConsecutivoBono {
+public class ConsecutivoBono  implements Serializable{
     private Integer id;
     private String consecutivo;
     private Float denominacion;

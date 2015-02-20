@@ -14,6 +14,8 @@ import com.invbf.sistemagestionmercadeo.facade.impl.AdminFacadeImpl;
 import com.invbf.sistemagestionmercadeo.observer.Observer;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
+import com.invbf.sistemagestionmercadeo.util.UsuarioDTO;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -28,13 +30,12 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class CrudUsuariosBean implements Observer {
+public class CrudUsuariosBean implements Observer, Serializable {
 
-    private List<Usuario> lista;
-    private Usuario elemento;
+    private List<UsuarioDTO> lista;
+    private UsuarioDTO elemento;
     private List<Perfil> listaperfiles;
     private List<Cargo> cargos;
-    private List<CasinoBoolean> casinos;
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
     private String contrasena;
@@ -65,20 +66,16 @@ public class CrudUsuariosBean implements Observer {
         sessionBean.setActive("configuracion");
 
         setNuevoUsuario();
-        lista = sessionBean.adminFacade.findAllUsuarios();
+        List<Usuario> usuarios = sessionBean.adminFacade.findAllUsuarios();
+        lista = new ArrayList<UsuarioDTO>();
+        List<Casino> casinosn = sessionBean.marketingUserFacade.findAllCasinos();
+        for (Usuario usuario : usuarios) {
+            lista.add(new UsuarioDTO(usuario, casinosn));
+        }
         listaperfiles = sessionBean.adminFacade.findAllPerfiles();
         cargos = sessionBean.adminFacade.findAllCargos();
-        List<Casino> casinosn = sessionBean.marketingUserFacade.findAllCasinos();
-        casinos = new ArrayList<CasinoBoolean>();
-        if(elemento.getCasinoList()==null){
-            elemento.setCasinoList(new ArrayList<Casino>());
-        }
-        for (Casino casino : casinosn) {
-            if (elemento.getCasinoList().contains(casino)) {
-                casinos.add(new CasinoBoolean(casino, true));
-            } else {
-                casinos.add(new CasinoBoolean(casino, false));
-            }
+        if (elemento.getCasinos() == null) {
+            elemento.setCasinos(new ArrayList<CasinoBoolean>());
         }
         elemento.setUsuariodetalle(new Usuariodetalle());
         elemento.getUsuariodetalle().setIdcargo(new Cargo());
@@ -90,36 +87,20 @@ public class CrudUsuariosBean implements Observer {
         sessionBean.removeObserver(this);
     }
 
-    public List<Usuario> getLista() {
+    public List<UsuarioDTO> getLista() {
         return lista;
     }
 
-    public void setLista(List<Usuario> lista) {
+    public void setLista(List<UsuarioDTO> lista) {
         this.lista = lista;
     }
 
-    public Usuario getElemento() {
+    public UsuarioDTO getElemento() {
         return elemento;
     }
 
-    public void setElemento(Usuario elemento) {
+    public void setElemento(UsuarioDTO elemento) {
         this.elemento = elemento;
-        casinos = new ArrayList<CasinoBoolean>();
-        List<Casino> casinosn = sessionBean.marketingUserFacade.findAllCasinos();
-        for (Casino casino : casinosn) {
-            if (elemento.getCasinoList().contains(casino)) {
-                casinos.add(new CasinoBoolean(casino, true));
-            } else {
-                casinos.add(new CasinoBoolean(casino, false));
-            }
-        }
-        if (elemento.getUsuariodetalle() == null) {
-            this.elemento.setUsuariodetalle(new Usuariodetalle(this.elemento.getIdUsuario()));
-            this.elemento.getUsuariodetalle().setIdcargo(new Cargo());
-        }
-        if (elemento.getUsuariodetalle().getIdcargo() == null) {
-            this.elemento.getUsuariodetalle().setIdcargo(new Cargo());
-        }
     }
 
     public List<Perfil> getListaperfiles() {
@@ -131,8 +112,13 @@ public class CrudUsuariosBean implements Observer {
     }
 
     public void delete() {
-        sessionBean.adminFacade.deleteUsuarios(elemento);
-        lista = sessionBean.adminFacade.findAllUsuarios();
+        sessionBean.adminFacade.deleteUsuarios(elemento.getUsuarioWithId());
+        List<Usuario> usuarios = sessionBean.adminFacade.findAllUsuarios();
+        lista = new ArrayList<UsuarioDTO>();
+        List<Casino> casinosn = sessionBean.marketingUserFacade.findAllCasinos();
+        for (Usuario usuario : usuarios) {
+            lista.add(new UsuarioDTO(usuario, casinosn));
+        }
         FacesUtil.addInfoMessage("Usuario eliminado", elemento.getNombreUsuario());
 
         setNuevoUsuario();
@@ -145,18 +131,17 @@ public class CrudUsuariosBean implements Observer {
         if (elemento.getContrasena() == null || contrasena.equals(elemento.getContrasena())) {
             try {
                 System.out.println("empezando");
-                elemento.setCasinoList(new ArrayList<Casino>());
-                for (CasinoBoolean casino : casinos) {
-                    if (casino.isSelected()) {
-                        elemento.getCasinoList().add(casino.getCasino());
-                    }
-                }
                 elemento = sessionBean.adminFacade.guardarUsuarios(elemento);
 
                 System.out.println("empiezo a llenarla");
 
                 System.out.println("llamo a los usuarios");
-                lista = sessionBean.adminFacade.findAllUsuarios();
+                List<Usuario> usuarios = sessionBean.adminFacade.findAllUsuarios();
+                lista = new ArrayList<UsuarioDTO>();
+                List<Casino> casinosn = sessionBean.marketingUserFacade.findAllCasinos();
+                for (Usuario usuario : usuarios) {
+                    lista.add(new UsuarioDTO(usuario, casinosn));
+                }
                 FacesUtil.addInfoMessage("Usuario guardado", elemento.getNombreUsuario());
 
                 setNuevoUsuario();
@@ -176,7 +161,8 @@ public class CrudUsuariosBean implements Observer {
     }
 
     private void setNuevoUsuario() {
-        elemento = new Usuario();
+        List<Casino> casinosn = sessionBean.marketingUserFacade.findAllCasinos();
+        elemento = new UsuarioDTO(casinosn);
         elemento.setIdPerfil(new Perfil());
         elemento.setUsuariodetalle(new Usuariodetalle());
         elemento.getUsuariodetalle().setIdcargo(new Cargo());
@@ -196,14 +182,6 @@ public class CrudUsuariosBean implements Observer {
 
     public void setCargos(List<Cargo> cargos) {
         this.cargos = cargos;
-    }
-
-    public List<CasinoBoolean> getCasinos() {
-        return casinos;
-    }
-
-    public void setCasinos(List<CasinoBoolean> casinos) {
-        this.casinos = casinos;
     }
 
 }

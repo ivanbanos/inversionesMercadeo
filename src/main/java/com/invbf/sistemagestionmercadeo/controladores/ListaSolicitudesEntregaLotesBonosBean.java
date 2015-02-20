@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +24,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class ListaSolicitudesEntregaLotesBonosBean {
+public class ListaSolicitudesEntregaLotesBonosBean implements Serializable{
 
     private List<Solicitudentregalotesmaestro> lista;
     private List<Solicitudentregalotesmaestro> listaFiltrada;
@@ -82,7 +83,7 @@ public class ListaSolicitudesEntregaLotesBonosBean {
 
     public void goSolicitud(Integer i) {
         try {
-            sessionBean.getAttributes().put("idsolicitudentregalotes", i);
+            sessionBean.setAttribute("idsolicitudentregalotes", i);
             FacesContext.getCurrentInstance().getExternalContext().redirect("GeneradorSolicitudLoteBono.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -91,7 +92,7 @@ public class ListaSolicitudesEntregaLotesBonosBean {
     
     public void goSolicitudAceptar(Integer i) {
         try {
-            sessionBean.getAttributes().put("idsolicitudentregalotes", i);
+            sessionBean.setAttribute("idsolicitudentregalotes", i);
             FacesContext.getCurrentInstance().getExternalContext().redirect("AceptarSolicitudEntregaBonos.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -99,7 +100,7 @@ public class ListaSolicitudesEntregaLotesBonosBean {
     }
     public void goSolicitudValidarBonos(Integer i) {
         try {
-            sessionBean.getAttributes().put("idsolicitudentregalotes", i);
+            sessionBean.setAttribute("idsolicitudentregalotes", i);
             FacesContext.getCurrentInstance().getExternalContext().redirect("BonosValidarView.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);

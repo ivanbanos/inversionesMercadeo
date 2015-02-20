@@ -10,6 +10,7 @@ import com.invbf.sistemagestionmercadeo.entity.Solicitudentrega;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +26,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class ListaSolicitudBonosBean {
+public class ListaSolicitudBonosBean implements Serializable{
 
     private List<Solicitudentrega> lista;
     private List<Solicitudentrega> listaFiltrada;
@@ -94,7 +95,7 @@ public class ListaSolicitudBonosBean {
 
     public void goSolicitud(Integer i) {
         try {
-            sessionBean.getAttributes().put("idSolicitudentrega", i);
+            sessionBean.setAttribute("idSolicitudentrega", i);
             FacesContext.getCurrentInstance().getExternalContext().redirect("GeneradorSolicitudBonos.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -103,7 +104,7 @@ public class ListaSolicitudBonosBean {
 
     public void goSolicitudAceptar(Integer i) {
         try {
-            sessionBean.getAttributes().put("idSolicitudentrega", i);
+            sessionBean.setAttribute("idSolicitudentrega", i);
             FacesContext.getCurrentInstance().getExternalContext().redirect("AprobarSolicitudBonos.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,7 +113,7 @@ public class ListaSolicitudBonosBean {
 
     public void goSolicitudpreAceptar(Integer i) {
         try {
-            sessionBean.getAttributes().put("idSolicitudentrega", i);
+            sessionBean.setAttribute("idSolicitudentrega", i);
             FacesContext.getCurrentInstance().getExternalContext().redirect("PreAprobarSolicitudBonos.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);

@@ -6,13 +6,14 @@
 package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.entity.Formulario;
+import java.io.Serializable;
 
 
 /**
  *
  * @author ivan
  */
-public class FormularioBoolean {
+public class FormularioBoolean  implements Serializable{
     private Formulario formulario;
     private boolean selected;
 

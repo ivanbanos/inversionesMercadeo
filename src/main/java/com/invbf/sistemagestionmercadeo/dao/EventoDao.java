@@ -37,6 +37,7 @@ public class EventoDao{
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -57,6 +58,7 @@ public class EventoDao{
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -75,6 +77,7 @@ public class EventoDao{
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -94,6 +97,7 @@ public class EventoDao{
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return evento;
@@ -118,6 +122,7 @@ public class EventoDao{
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -143,6 +148,7 @@ public class EventoDao{
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -167,6 +173,7 @@ public class EventoDao{
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;

@@ -21,6 +21,7 @@ import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.MatematicaAplicada;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,7 +43,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class GeneradorControlSalidaBean {
+public class GeneradorControlSalidaBean implements Serializable{
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -74,8 +75,8 @@ public class GeneradorControlSalidaBean {
             }
         }
 
-        Integer id = (Integer) sessionBean.getAttributes().get("idsolicitudsalida");
-        if (sessionBean.getAttributes().containsKey("idsolicitudsalida") && (Integer) sessionBean.getAttributes().get("idsolicitudsalida") != 0) {
+        Integer id = (Integer) sessionBean.getAttributes("idsolicitudsalida");
+        if (id!=null && id != 0) {
             control = sessionBean.marketingUserFacade.getSolicitudSalida(id);
         } else {
             try {
@@ -175,7 +176,7 @@ public class GeneradorControlSalidaBean {
 
             control.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
             control.setEstado("SOLICITADA");
-            sessionBean.marketingUserFacade.guardarControlSalidaBonos(control);
+            sessionBean.marketingUserFacade.guardarControlSalidaBonos(control, false);
 
             FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
         } else {
@@ -213,7 +214,7 @@ public class GeneradorControlSalidaBean {
                 }
                 control.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
                 control.setEstado("SOLICITADA");
-                sessionBean.marketingUserFacade.guardarControlSalidaBonos(control);
+                sessionBean.marketingUserFacade.guardarControlSalidaBonos(control, false);
                 FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
             } else {
                 FacesUtil.addErrorMessage("No se puede guardar la solicitud!", "Revise que los bonos asignados a los clientes concuerden con el monto");

@@ -20,6 +20,7 @@ import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.LoteBonoCant;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,7 +42,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class AceptarSolicitudSalidaBonosBean {
+public class AceptarSolicitudSalidaBonosBean  implements Serializable{
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -70,8 +71,8 @@ public class AceptarSolicitudSalidaBonosBean {
             }
         }
 
-        Integer id = (Integer) sessionBean.getAttributes().get("idsolicitudsalida");
-        if (sessionBean.getAttributes().containsKey("idsolicitudsalida") && (Integer) sessionBean.getAttributes().get("idsolicitudsalida") != 0) {
+        Integer id = (Integer) sessionBean.getAttributes("idsolicitudsalida");
+        if (id!=null&& id != 0) {
             elemento = sessionBean.marketingUserFacade.getSolicitudSalida(id);
         } else {
             try {
@@ -140,7 +141,7 @@ public class AceptarSolicitudSalidaBonosBean {
     public void guardar() {
         elemento.setEstado("ACEPTADA");
         crearBonos();
-        sessionBean.marketingUserFacade.guardarControlSalidaBonos(elemento);
+        sessionBean.marketingUserFacade.guardarControlSalidaBonos(elemento, true);
         FacesUtil.addInfoMessage("Se aceptó la solicitud!", "Notificación enviada");
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudSalidaBonos.xhtml");

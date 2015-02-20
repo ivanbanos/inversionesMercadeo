@@ -5,13 +5,14 @@
 package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
+import java.io.Serializable;
 
 
 /**
  *
  * @author ideacentre
  */
-public class TipoJuegoBoolean {
+public class TipoJuegoBoolean  implements Serializable{
     private Tipojuego tipoJuego;
     private boolean selected;
 

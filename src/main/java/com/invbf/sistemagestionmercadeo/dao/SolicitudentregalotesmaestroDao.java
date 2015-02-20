@@ -37,6 +37,7 @@ public class SolicitudentregalotesmaestroDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -58,6 +59,7 @@ public class SolicitudentregalotesmaestroDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -76,6 +78,7 @@ public class SolicitudentregalotesmaestroDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -95,6 +98,7 @@ public class SolicitudentregalotesmaestroDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return elemento;
@@ -117,6 +121,7 @@ public class SolicitudentregalotesmaestroDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -142,6 +147,7 @@ public class SolicitudentregalotesmaestroDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -166,6 +172,7 @@ public class SolicitudentregalotesmaestroDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;
@@ -187,6 +194,7 @@ public class SolicitudentregalotesmaestroDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargos;
@@ -207,6 +215,7 @@ public class SolicitudentregalotesmaestroDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargos;

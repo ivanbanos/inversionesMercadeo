@@ -5,13 +5,14 @@
 package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.entity.Casino;
+import java.io.Serializable;
 
 
 /**
  *
  * @author ideacentre
  */
-public class CasinoBoolean {
+public class CasinoBoolean  implements Serializable{
     private Casino casino;
     private boolean selected;
 

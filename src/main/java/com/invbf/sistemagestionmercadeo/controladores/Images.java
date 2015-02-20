@@ -1,6 +1,7 @@
 package com.invbf.sistemagestionmercadeo.controladores;
 
 import java.io.ByteArrayInputStream;
+import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -12,7 +13,7 @@ import org.primefaces.model.StreamedContent;
 
 @ManagedBean
 @RequestScoped
-public class Images {
+public class Images implements Serializable{
 
     private StreamedContent image;
 
@@ -34,7 +35,7 @@ public class Images {
         }
         else {
             // So, browser is requesting the image. Return a real StreamedContent with the image bytes.
-            image = new DefaultStreamedContent(new ByteArrayInputStream((byte[])sessionBean.getAttributes().get("imagen")));
+            image = new DefaultStreamedContent(new ByteArrayInputStream((byte[])sessionBean.getAttributes("imagen")));
         }
     }
 

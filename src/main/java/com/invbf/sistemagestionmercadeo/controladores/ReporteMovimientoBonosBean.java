@@ -11,6 +11,7 @@ import com.invbf.sistemagestionmercadeo.util.AnalisisBono;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.PropositosBoolean;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,11 +29,10 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class ReporteMovimientoBonosBean {
+public class ReporteMovimientoBonosBean implements Serializable{
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
-    private List<Bono> bonosAnalizar;
     private List<CasinoBoolean> casinos;
     private Date hasta;
     private Date desde;
@@ -66,20 +66,19 @@ public class ReporteMovimientoBonosBean {
         monthago.add(Calendar.MONTH, 1);
         hasta = monthago.getTime();
         desde = now.getTime();
-        bonosAnalizar = sessionBean.marketingUserFacade.getAllBonosFecha(desde, hasta);
+        List<Bono> bonosAnalizar = sessionBean.marketingUserFacade.getAllBonosFecha(desde, hasta);
         System.out.println(bonosAnalizar.size());
         List<Casino> casinosNormales = sessionBean.adminFacade.findAllCasinos();
         casinos = new ArrayList<CasinoBoolean>();
         for (Casino casinosNormale : casinosNormales) {
             casinos.add(new CasinoBoolean(casinosNormale, true));
         }
-        analizarBonos();
+        analizarBonos(bonosAnalizar);
     }
 
     public void buscarBonosPorCasinosYFecha() {
-        bonosAnalizar = new ArrayList<Bono>();
 
-        bonosAnalizar = sessionBean.marketingUserFacade.getAllBonosFecha(desde, hasta);
+        List<Bono> bonosAnalizar = sessionBean.marketingUserFacade.getAllBonosFecha(desde, hasta);
         for (Iterator<Bono> iterator = bonosAnalizar.iterator(); iterator.hasNext();) {
             Bono next = iterator.next();
             if (nombre != null && !nombre.equals("")) {
@@ -109,15 +108,9 @@ public class ReporteMovimientoBonosBean {
                 iterator.remove();
             }
         }
-        analizarBonos();
-    }
-
-    public List<Bono> getBonosAnalizar() {
-        return bonosAnalizar;
-    }
-
-    public void setBonosAnalizar(List<Bono> bonosAnalizar) {
-        this.bonosAnalizar = bonosAnalizar;
+        analizarBonos(bonosAnalizar);
+        
+        System.gc();
     }
 
     public List<CasinoBoolean> getCasinos() {
@@ -152,7 +145,7 @@ public class ReporteMovimientoBonosBean {
         this.promocional = promocional;
     }
 
-    private void analizarBonos() {
+    private void analizarBonos(List<Bono> bonosAnalizar) {
         promocional = new ArrayList<AnalisisBono>();
         if ((nombre == null || nombre.equals("")) && (apellidos == null || apellidos.equals(""))) {
             for (Bono bono : bonosAnalizar) {

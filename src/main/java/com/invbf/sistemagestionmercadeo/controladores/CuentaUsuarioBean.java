@@ -7,6 +7,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.exceptions.ClavesNoConcuerdanException;
 import com.invbf.sistemagestionmercadeo.exceptions.NoCambioContrasenaException;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
+import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -18,7 +19,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class CuentaUsuarioBean {
+public class CuentaUsuarioBean implements Serializable{
     
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;

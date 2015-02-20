@@ -86,7 +86,7 @@ public class Cliente implements Serializable {
     @Column(name = "correo")
     private String correo;
     @Column(name = "cumpleanos")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date cumpleanos;
     @Size(max = 45)
     @Column(name = "pais")
@@ -103,34 +103,73 @@ public class Cliente implements Serializable {
     @Size(max = 45)
     @Column(name = "genero")
     private String genero;
+    
+    
+    @Size(max = 45)
+    @Column(name = "ocupacion")
+    private String ocupacion;
+    
+    @Column(name = "montodejuegovisita")
+    private Float montodejuegovisita;
+    
+    @Size(max = 45)
+    @Column(name = "maquinapreferida")
+    private String maquinapreferida;
+    
+    @Size(max = 45)
+    @Column(name = "horaHabitualVisita")
+    private String horaHabitualVisita;
+    
+    @Size(max = 45)
+    @Column(name = "diaSemanaVisita")
+    private String diaSemanaVisita;
+    
+    @Size(max = 45)
+    @Column(name = "acompananteHabitual")
+    private String acompananteHabitual;
+    
+    @Size(max = 45)
+    @Column(name = "descripcionPersonalidad")
+    private String descripcionPersonalidad;
+    
+    @Size(max = 45)
+    @Column(name = "bebida")
+    private String bebida;
+    
+    @Size(max = 45)
+    @Column(name = "comida")
+    private String comida;
+    
     @Size(max = 1000)
-    @Column(name = "perfilCliente")
-    private String perfilCliente;
-    @JoinTable(name = "clientestiposjuegos", joinColumns = {
+    @Column(name = "gustosPreferencias")
+    private String gustosPreferencias;
+    
+    
+    @JoinTable(name = "ClientesTiposJuegos", joinColumns = {
         @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")}, inverseJoinColumns = {
         @JoinColumn(name = "idTipoJuego", referencedColumnName = "idTipoJuego")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     private List<Tipojuego> tipojuegoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
     private List<Solicitudentregacliente> solicitudentregaclienteList;
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private List<Bono> bonoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
     private List<Listasclientestareas> listasclientestareasList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
     private List<Clienteatributo> clienteatributoList;
     @JoinColumn(name = "idTipoDocumento", referencedColumnName = "idTipoDocumento")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Tipodocumento idTipoDocumento;
     @JoinColumn(name = "idCategorias", referencedColumnName = "idCategorias")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Categoria idCategorias;
     @JoinColumn(name = "idCasinoPreferencial", referencedColumnName = "idCasino")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Casino idCasinoPreferencial;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente")
     private List<Solicitudcambiocupofidelizacion> solicitudcambiocupofidelizacionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
     private List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClientesList;
 
     public Cliente() {
@@ -250,14 +289,6 @@ public class Cliente implements Serializable {
         this.genero = genero;
     }
 
-    public String getPerfilCliente() {
-        return perfilCliente;
-    }
-
-    public void setPerfilCliente(String perfilCliente) {
-        this.perfilCliente = perfilCliente;
-    }
-
     @XmlTransient
     public List<Tipojuego> getTipojuegoList() {
         return tipojuegoList;
@@ -368,6 +399,86 @@ public class Cliente implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Cliente[ idCliente=" + idCliente + " ]";
+    }
+
+    public String getOcupacion() {
+        return ocupacion;
+    }
+
+    public void setOcupacion(String ocupacion) {
+        this.ocupacion = ocupacion;
+    }
+
+    public Float getMontodejuegovisita() {
+        return montodejuegovisita;
+    }
+
+    public void setMontodejuegovisita(Float montodejuegovisita) {
+        this.montodejuegovisita = montodejuegovisita;
+    }
+
+    public String getMaquinapreferida() {
+        return maquinapreferida;
+    }
+
+    public void setMaquinapreferida(String maquinapreferida) {
+        this.maquinapreferida = maquinapreferida;
+    }
+
+    public String getHoraHabitualVisita() {
+        return horaHabitualVisita;
+    }
+
+    public void setHoraHabitualVisita(String horaHabitualVisita) {
+        this.horaHabitualVisita = horaHabitualVisita;
+    }
+
+    public String getDiaSemanaVisita() {
+        return diaSemanaVisita;
+    }
+
+    public void setDiaSemanaVisita(String diaSemanaVisita) {
+        this.diaSemanaVisita = diaSemanaVisita;
+    }
+
+    public String getAcompananteHabitual() {
+        return acompananteHabitual;
+    }
+
+    public void setAcompananteHabitual(String acompananteHabitual) {
+        this.acompananteHabitual = acompananteHabitual;
+    }
+
+    public String getDescripcionPersonalidad() {
+        return descripcionPersonalidad;
+    }
+
+    public void setDescripcionPersonalidad(String descripcionPersonalidad) {
+        this.descripcionPersonalidad = descripcionPersonalidad;
+    }
+
+    public String getGustosPreferencias() {
+        return gustosPreferencias;
+    }
+
+    public void setGustosPreferencias(String gustosPreferencias) {
+        this.gustosPreferencias = gustosPreferencias;
+    }
+
+    public String getBebida() {
+        return bebida;
+    }
+
+    public void setBebida(String bebida) {
+        this.bebida = bebida;
+    }
+
+    public String getComida() {
+        return comida;
+    }
+
+    public void setComida(String comida) {
+        this.comida = comida;
     }
     
 }

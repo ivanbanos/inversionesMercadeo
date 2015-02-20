@@ -7,13 +7,13 @@
 */
 
 body{
-    font-size: 17px!important;
+    font-size: 14px!important;
     line-height: 1.42857!important;
     font-family: "News Cycle","Arial Narrow Bold",sans-serif!important;
 }
 
-.ui-inputfield{
-    width:100%!important;
+.ui-icon-closethick{
+    background-color: white;
 }
 
 .ui-widget-overlay{

@@ -1,5 +1,6 @@
 package com.invbf.sistemagestionmercadeo.util;
 
+import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import static javax.faces.application.FacesMessage.*;
 import javax.faces.application.FacesMessage.Severity;
@@ -9,7 +10,7 @@ import javax.faces.context.FacesContext;
  *
  * @author jssepulveda
  */
-public class FacesUtil {
+public class FacesUtil  implements Serializable{
     public static final String SEPARATOR = "-";
     
     /**

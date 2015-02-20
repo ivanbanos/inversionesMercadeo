@@ -4,6 +4,7 @@
  */
 package com.invbf.sistemagestionmercadeo.util;
 
+import java.io.Serializable;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -14,7 +15,7 @@ import javax.faces.convert.FacesConverter;
  * @author ideacentre
  */
 @FacesConverter("stringtoboolean")
-public class BooleantoStringConverter implements Converter {
+public class BooleantoStringConverter implements Converter, Serializable {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {

@@ -203,9 +203,8 @@
 
                                 <p:column style="width:5%">
                                     <p:commandButton id="editButtonCasinos" update=":#{p:component('clientedetalle')}" 
-                                                     oncomplete="PF('clientedetalle').show()" icon="ui-icon-search" 
-                                                     title="#{label['lb_btn.editar']}" 
-                                                     rendered="#{sessionBean.perfilFormMatch(&quot;Casinos&quot;, &quot;actualizar&quot;)}">  
+                                                     oncomplete="PF('clientedetalle').show();PF('ajaxWaitingDialog').hide();" icon="ui-icon-search" onstart="PF('ajaxWaitingDialog').show();"
+                                                     title="#{label['lb_btn.editar']}" >  
                                         <f:setPropertyActionListener value="#{element}" target="#{reportesClientesBean.elemento}" />  
                                     </p:commandButton>
                                 </p:column>
@@ -238,6 +237,22 @@
                                     </f:facet>
                                     <h:outputText value="#{element.idCategorias.nombre}" />
                                 </p:column>
+                                <p:column headerText="#{label['acciones']}" filterBy="#{element.nombres}" filterMatchMode="contains" filterStyle="display:none">
+                                    <p:commandButton id="editButtonClientes" action="#{reportesClientesBean.goCliente(element.idCliente)}" icon="ui-icon-pencil" 
+                                                     title="#{label['lb_btn.editar']}" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                                     rendered="#{sessionBean.perfilFormMatch(&quot;Clientes&quot;, &quot;actualizar&quot;)}"/>    
+                                    <p:commandButton id="deleteButton" oncomplete="PF('deleteDialogClientes').show();PF('ajaxWaitingDialog').hide();" onstart="PF('ajaxWaitingDialog').show();"
+                                                     icon="ui-icon-trash" title="#{label['lb_btn.borrar']}"  update=":#{p:component('deleteDialogClientes')}"
+                                                     rendered="#{sessionBean.perfilFormMatch(&quot;Clientes&quot;, &quot;eliminar&quot;)}">
+                                        <f:setPropertyActionListener value="#{element}" target="#{reportesClientesBean.elemento}" /> 
+                                    </p:commandButton> 
+                                </p:column>
+
+                                <f:facet name="footer"> 
+                                    <p:commandButton id="addButton" action="#{reportesClientesBean.goCliente(0)}" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                                     value="#{label['lb_btn.agregar']}" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
+                                                     rendered="#{sessionBean.perfilFormMatch(&quot;Clientes&quot;, &quot;crear&quot;)}"/>   
+                                </f:facet>
 
 
 
@@ -345,11 +360,6 @@
                                 </div>
                             </div>
 
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-                                <h:outputLabel class="col-md-12 control-label" value="Perfil del cliente:" />
-                                <h:outputText class="col-md-12" value="#{reportesClientesBean.elemento.perfilCliente}" />
-                            </div>
 
 
                         </div>
@@ -359,6 +369,15 @@
                 </div>
             </p:dialog> 
         </h:form>
+        <h:form>
+            <p:confirmDialog id="deleteDialogClientes" message="#{label['quiereborrarel']} #{label['cliente']} #{reportesClientesBean.elemento.nombres} #{reportesClientesBean.elemento.apellidos}#{label['cierrepregunta']}"  
+                             header="Borrar" severity="alert" widgetVar="deleteDialogClientes" closable="false">  
 
+                <p:commandButton id="confirm" value="#{label['aceptar']}" oncomplete="PF('ajaxWaitingDialog').hide();PF('deleteDialogClientes').hide();" onstart="PF('ajaxWaitingDialog').show();"
+                                 action="#{reportesClientesBean.delete()}" update=":#{p:component('detailsTableClientes')} :#{p:component('messages')}"/>  
+                <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('deleteDialogClientes').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
     </ui:define>            
 </ui:composition>

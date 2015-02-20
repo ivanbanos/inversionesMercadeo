@@ -6,6 +6,7 @@ import com.invbf.sistemagestionmercadeo.entity.Tarea;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.util.AccionConteo;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -20,7 +21,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class ReporteTareaEspesificaBean {
+public class ReporteTareaEspesificaBean implements Serializable{
     private Tarea elemento;
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -52,13 +53,13 @@ public class ReporteTareaEspesificaBean {
             }
         }
 
-        if (sessionBean.getAttributes() == null || !sessionBean.getAttributes().containsKey("idTarea")) {
+        if (sessionBean.getAttributes("idTarea")==null) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("ReporteTareas.xhtml");
             } catch (IOException ex) {
             }
         }
-        elemento = sessionBean.marketingUserFacade.findTarea((Integer) sessionBean.getAttributes().get("idTarea"));
+        elemento = sessionBean.marketingUserFacade.findTarea((Integer) sessionBean.getAttributes("idTarea"));
         acciones = new ArrayList<String>();
         for (Accion a : elemento.getTipo().getAccionList()) {
             acciones.add(a.getNombre());

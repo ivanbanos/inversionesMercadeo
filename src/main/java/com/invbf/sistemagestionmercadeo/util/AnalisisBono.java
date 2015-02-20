@@ -6,12 +6,13 @@
 package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.entity.Bono;
+import java.io.Serializable;
 
 /**
  *
  * @author ivan
  */
-public class AnalisisBono {
+public class AnalisisBono  implements Serializable{
 
     private String tipoBono;
     private long aprobados;

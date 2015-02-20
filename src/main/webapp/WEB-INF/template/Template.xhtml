@@ -83,7 +83,8 @@
                                           or sessionBean.perfilViewMatch(&quot;Propositos&quot;)
                                           or sessionBean.perfilViewMatch(&quot;Areas&quot;)
                                           or sessionBean.perfilViewMatch(&quot;denominaciones&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;TipoBono&quot;)}">
+                                          or sessionBean.perfilViewMatch(&quot;TipoBono&quot;)
+                                          or sessionBean.perfilViewMatch(&quot;cambioEstadoBono&quot;)}">
                                 <li class="dropdown ">
                                     <a href="#" class="dropdown-toggle #{sessionBean.isActive(&quot;configuracion&quot;)}" data-toggle="dropdown">Configuraci&oacute;n<span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
@@ -115,6 +116,12 @@
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;logs&quot;)}">
                                             <li>
                                                 <h:commandLink  action="#{sessionBean.go(&quot;logs&quot;)}" value="#{label['logs']}"/>
+                                            </li>
+                                        </c:if>
+
+                                        <c:if test="#{sessionBean.perfilViewMatch(&quot;cambioEstadoBono&quot;)}">
+                                            <li>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;cambioEstadoBono&quot;)}" value="Cambio en bono"/>
                                             </li>
                                         </c:if>
 
@@ -240,9 +247,6 @@
                                     <ul class="dropdown-menu" role="menu">
 
                                         <li>
-                                            <h:commandLink  action="#{sessionBean.go(&quot;reportesclientes&quot;)}" value="#{label['clientes']}"/>
-                                        </li>
-                                        <li>
                                             <h:commandLink  action="#{sessionBean.go(&quot;reportestareas&quot;)}" value="#{label['tareas']}"/>
                                         </li>
                                         <li>
@@ -343,7 +347,7 @@
         <h:form>
 
             <p:idleMonitor onactive="sessionTimeOutDialog.show()" 
-                           timeout="#{240000}" >
+                           timeout="#{120000}" >
                 <p:ajax event="idle" onstart="PF('sessionTimeOutDialog').show();var counter=setInterval(timer, 1000);"  />
             </p:idleMonitor>
 
@@ -353,7 +357,7 @@
                 <div class="panel panel-primary">
 
                     <div class="panel-body">
-                        <i class="fa fa-spinner fa-spin fa-5x"></i>
+                        <i class="fa fa-circle-o-notch fa-spin fa-5x"></i>
                     </div>
                 </div>
 
@@ -370,7 +374,7 @@
                         <h:outputText value="#{label['leyenda.inactividad']}" />
                     </div>
                     <div class="panel-footer text-right">
-                        <p:button value="Reanudar" onclick="PF('sessionTimeOutDialog').hide();"/>
+                        <p:commandButton value="Reanudar" onclick="PF('sessionTimeOutDialog').hide();"/>
                     </div>
 
                 </div>

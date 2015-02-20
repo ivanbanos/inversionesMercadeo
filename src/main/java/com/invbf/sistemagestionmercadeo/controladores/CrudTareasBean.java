@@ -8,6 +8,7 @@ import com.invbf.sistemagestionmercadeo.entity.Evento;
 import com.invbf.sistemagestionmercadeo.entity.Tarea;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -23,7 +24,7 @@ import org.primefaces.model.UploadedFile;
  */
 @ManagedBean
 @ViewScoped
-public class CrudTareasBean {
+public class CrudTareasBean  implements Serializable{
     private List<Tarea> lista;
     private Tarea elemento;
     private UploadedFile file;
@@ -106,9 +107,9 @@ public class CrudTareasBean {
     
     public void goTareaMarketing(int id) {
         try {
-            sessionBean.getAttributes().put("idTarea", id);
-            sessionBean.getAttributes().put("from", "tareasView");
-            sessionBean.getAttributes().remove("idEvento");
+            sessionBean.setAttribute("idTarea", id);
+            sessionBean.setAttribute("from", "tareasView");
+            sessionBean.removeAttribute("idEvento");
             FacesContext.getCurrentInstance().getExternalContext().redirect("tareaAccion.xhtml");
         } catch (IOException ex) {
         }
@@ -116,7 +117,7 @@ public class CrudTareasBean {
     
     public void goTareaReporte(int id) {
         try {
-            sessionBean.getAttributes().put("idTarea", id);
+            sessionBean.setAttribute("idTarea", id);
             FacesContext.getCurrentInstance().getExternalContext().redirect("tareaAccion.xhtml");
         } catch (IOException ex) {
         }

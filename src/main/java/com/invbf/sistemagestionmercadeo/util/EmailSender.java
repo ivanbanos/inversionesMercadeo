@@ -8,6 +8,7 @@ import com.invbf.sistemagestionmercadeo.dao.ConfiguracionDao;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Properties;
 import javax.activation.DataHandler;
@@ -35,7 +36,7 @@ import org.apache.commons.net.ftp.FTPReply;
  *
  * @author ideacentre
  */
-public class EmailSender {
+public class EmailSender  implements Serializable{
 
     private int port;
     private String host;

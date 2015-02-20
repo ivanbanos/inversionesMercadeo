@@ -9,6 +9,7 @@ import com.invbf.sistemagestionmercadeo.entity.Permiso;
 import com.invbf.sistemagestionmercadeo.exceptions.clienteInexistenteException;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.PermisoCliente;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -22,7 +23,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class Notificaciones {
+public class Notificaciones implements Serializable{
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;

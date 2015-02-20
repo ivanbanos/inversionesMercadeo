@@ -7,6 +7,7 @@ package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.dao.TipostareasDao;
 import com.invbf.sistemagestionmercadeo.entity.Tipotarea;
+import java.io.Serializable;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -18,7 +19,7 @@ import javax.faces.convert.FacesConverter;
  */
 
 @FacesConverter("tipoTarea")
-public class tipoTareaConverter implements Converter{
+public class tipoTareaConverter implements Converter, Serializable{
 
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {

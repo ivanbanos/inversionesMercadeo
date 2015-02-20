@@ -5,6 +5,7 @@
 package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.entity.Accion;
+import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -17,7 +18,7 @@ import javax.faces.convert.FacesConverter;
  * @author ideacentre
  */
 @FacesConverter("accionescom")
-public class accionescom implements Converter{
+public class accionescom implements Converter, Serializable{
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {

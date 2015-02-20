@@ -37,6 +37,7 @@ public class SolicitudEntregaClientesDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -56,6 +57,7 @@ public class SolicitudEntregaClientesDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -75,6 +77,7 @@ public class SolicitudEntregaClientesDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -94,6 +97,7 @@ public class SolicitudEntregaClientesDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargo;
@@ -117,6 +121,7 @@ public class SolicitudEntregaClientesDao {
             System.out.println(e);
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -142,6 +147,7 @@ public class SolicitudEntregaClientesDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -166,6 +172,7 @@ public class SolicitudEntregaClientesDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;

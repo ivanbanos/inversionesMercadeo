@@ -8,6 +8,7 @@ import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Casinodetalle;
 import com.invbf.sistemagestionmercadeo.facade.impl.MarketingUserFacadeImpl;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -20,7 +21,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class CrudCasinosBean {
+public class CrudCasinosBean  implements Serializable{
 
     private List<Casino> lista;
     private Casino elemento;

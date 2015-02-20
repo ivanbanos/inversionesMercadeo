@@ -5,13 +5,14 @@
  */
 package com.invbf.sistemagestionmercadeo.controladores;
 
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
 @ManagedBean
 @RequestScoped
-public class ErrorHandler {
+public class ErrorHandler implements Serializable{
 
     public String getStatusCode() {
         String val = String.valueOf((Integer) FacesContext.getCurrentInstance().getExternalContext().

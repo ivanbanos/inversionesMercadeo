@@ -45,6 +45,7 @@ public class DetalleCasinoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -72,6 +73,7 @@ public class DetalleCasinoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -90,6 +92,7 @@ public class DetalleCasinoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -109,6 +112,7 @@ public class DetalleCasinoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return casino;
@@ -131,6 +135,7 @@ public class DetalleCasinoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -156,6 +161,7 @@ public class DetalleCasinoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -180,6 +186,7 @@ public class DetalleCasinoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;

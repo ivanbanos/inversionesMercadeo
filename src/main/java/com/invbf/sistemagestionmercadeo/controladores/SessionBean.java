@@ -38,9 +38,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,7 +51,9 @@ import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
@@ -69,7 +73,6 @@ public class SessionBean implements Serializable, Subject {
     HostessFacade hostessFacade;
     ManagerUserFacade managerUserFacade;
     private Usuario usuario;//Almacena el objeto usuario de la session
-    private HashMap<String, Object> Attributes;
     private List<Observer> observers;
     private int paginacion;
     private String active;
@@ -95,7 +98,6 @@ public class SessionBean implements Serializable, Subject {
         hostessFacade = new HostessFacadeImpl();
         managerUserFacade = new ManagerUserFacadeImpl();
         usuario = new Usuario();
-        Attributes = new HashMap<String, Object>();
         observers = new ArrayList<Observer>();
         Configuracion configuracion = sessionFacade.getConfiguracionByName("paginacion");
         if (configuracion == null) {
@@ -117,7 +119,7 @@ public class SessionBean implements Serializable, Subject {
         try {
             if (container.isUsuarioConectado(usuario.getNombreUsuario())) {
                 FacesUtil.addErrorMessage("No se puede conectar", "Usuario ya inició sesión");
-            } else { 
+            } else {
                 usuario = sessionFacade.iniciarSession(usuario);
 
                 sessionFacade.registrarlog(null, null, "Inicio de sesion del usuario " + usuario.getNombreUsuario(), usuario);
@@ -154,6 +156,9 @@ public class SessionBean implements Serializable, Subject {
     public String Desconectar() {
         container.desconectarUsuario(usuario.getNombreUsuario());
         usuario = new Usuario();
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(true);
+        session.invalidate();
         return "/pages/InicioSession.xhtml";
     }
 
@@ -194,12 +199,24 @@ public class SessionBean implements Serializable, Subject {
         usuario = sessionFacade.actualizarUsuario(usuario);
     }
 
-    public HashMap<String, Object> getAttributes() {
-        return Attributes;
-    }
+    public Object getAttributes(String key) {
+         FacesContext facesContext = FacesContext.getCurrentInstance();
+           ExternalContext externalContext=facesContext.getExternalContext();
+           HttpSession session = (HttpSession) externalContext.getSession(true);
 
-    public void setAttributes(HashMap<String, Object> Attributes) {
-        this.Attributes = Attributes;
+        return session.getAttribute(key);
+    }
+    public void setAttribute( String key,Object o) {
+         FacesContext facesContext = FacesContext.getCurrentInstance();
+           ExternalContext externalContext=facesContext.getExternalContext();
+           HttpSession session = (HttpSession) externalContext.getSession(true);
+        session.setAttribute(key, o);
+    }
+    public void removeAttribute(String key) {
+         FacesContext facesContext = FacesContext.getCurrentInstance();
+           ExternalContext externalContext=facesContext.getExternalContext();
+           HttpSession session = (HttpSession) externalContext.getSession(true);
+        session.removeAttribute(key);
     }
 
     public void goInicio() {
@@ -305,6 +322,10 @@ public class SessionBean implements Serializable, Subject {
             active = "configuracion";
             ruta = "/Configuración/Sistema";
             return "/pages/AdministradorAtributosSistema.xhtml";
+        } else if (page.equals("cambioEstadoBono")) {
+            active = "configuracion";
+            ruta = "/Configuración/Sistema";
+            return "/pages/CambioEstadoCorreo.xhtml";
         } else if (page.equals("AtributosMarketing")) {
             active = "configuracion";
             ruta = "/Configuración/Atributos";
@@ -316,7 +337,7 @@ public class SessionBean implements Serializable, Subject {
         } else if (page.equals("clientes")) {
             active = "clientes";
             ruta = "/Clientes/Cleintes";
-            return "/pages/clientes.xhtml";
+            return "/pages/Reporteclientes.xhtml";
         } else if (page.equals("eventos")) {
             active = "clientes";
             ruta = "/Clientes/Eventos";

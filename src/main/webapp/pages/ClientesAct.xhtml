@@ -205,16 +205,14 @@
                     </div>
 
                     <div class="row clearfix">
-                        <c:if test="#{sessionBean.perfilViewMatch(&quot;cupofidelizacion&quot;)}">
-                            <div class="form-group col-md-12">
-                                <label class="col-md-2 control-label" >#{label['bonofidelizacion']}:</label>
-                                <div class="col-md-6">
-                                    <p:spinner id="cupo" value="#{clientesActBean.elemento.bonoFidelizacion}" prefix="$" min="0" stepFactor="5000">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-2 control-label" >#{label['bonofidelizacion']}:</label>
+                            <div class="col-md-6">
+                                <p:spinner id="cupo" value="#{clientesActBean.elemento.bonoFidelizacion}" prefix="$" min="0" stepFactor="5000">
 
-                                    </p:spinner>
-                                </div>
+                                </p:spinner>
                             </div>
-                        </c:if>
+                        </div>
                     </div>
 
                     <div class="row clearfix">
@@ -263,15 +261,109 @@
                         </div>
                     </div>
 
+
+
+
+
+
+
+
                     <div class="row clearfix">
-                        <div class="form-group col-md-12">
-                            <label class="col-md-2 control-label" >#{label['perfilcliente']}:</label>
-                            <div class="col-md-6">
-                                <p:inputTextarea style="width: 100%" id="perfil" value="#{clientesActBean.elemento.perfilCliente}"  />
+
+                        <div class="form-group col-md-6">
+                            <label class="col-md-4 control-label" >Ocupaci&oacute;n:</label>
+                            <div class="col-md-8">
+                                <p:inputText value="#{clientesActBean.elemento.ocupacion}"  />
                             </div>
                         </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="col-md-4 control-label" >Monto aprox. jugado por visita:</label>
+                            <div class="col-md-8">
+                                <p:inputText value="#{clientesActBean.elemento.montodejuegovisita}"  />
+                            </div>
+                        </div>
+
                     </div>
-                    
+
+                    <div class="row clearfix">
+
+                        <div class="form-group col-md-6">
+                            <label class="col-md-4 control-label" >M&aacute;quina/juego preferida(o):</label>
+                            <div class="col-md-8">
+                                <p:inputText value="#{clientesActBean.elemento.maquinapreferida}"  />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="col-md-4 control-label" >Horario habitual de visita:</label>
+                            <div class="col-md-8">
+                                <p:inputText value="#{clientesActBean.elemento.horaHabitualVisita}"  />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row clearfix">
+
+                        <div class="form-group col-md-6">
+                            <label class="col-md-4 control-label" >D&iacute;a habitual de visita:</label>
+                            <div class="col-md-8">
+                                <p:inputText value="#{clientesActBean.elemento.diaSemanaVisita}"  />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="col-md-4 control-label" >Acompa&ntilde;ante habitual:</label>
+                            <div class="col-md-8">
+                                <p:inputText value="#{clientesActBean.elemento.acompananteHabitual}"  />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row clearfix">
+
+                        <div class="form-group col-md-6">
+                            <label class="col-md-4 control-label" >Descripci&oacute;n de personalidad:</label>
+                            <div class="col-md-8">
+                                <p:inputText value="#{clientesActBean.elemento.descripcionPersonalidad}"  />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="col-md-4 control-label" >Gustos y preferencias:</label>
+                            <div class="col-md-8">
+                                <p:inputText value="#{clientesActBean.elemento.gustosPreferencias}"  />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row clearfix">
+
+                        <div class="form-group col-md-6">
+                            <label class="col-md-4 control-label" >Bebida preferida:</label>
+                            <div class="col-md-8">
+                                <p:inputText value="#{clientesActBean.elemento.bebida}"  />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="col-md-4 control-label" >Comida preferida:</label>
+                            <div class="col-md-8">
+                                <p:inputText value="#{clientesActBean.elemento.comida}"  />
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+
                     <c:forEach var="item" items="#{clientesActBean.elemento.clienteatributoList}">
                         <div class="row clearfix">
                             <div class="form-group col-md-12">
@@ -284,8 +376,10 @@
                     </c:forEach>
                 </div>
                 <div class="panel-footer text-right"> 
-                    <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{clientesActBean.guardar()}" style="margin:0" />
-                    <p:button id="btnclose" value="#{label['Volver']}" outcome="/pages/clientes.xhtml" />
+                    <p:commandButton id="btnconfirm" 
+                                    oncomplete="PF('ajaxWaitingDialog').hide();" onstart="PF('ajaxWaitingDialog').show();" 
+                                    value="#{label['Confirmar']}" actionListener="#{clientesActBean.guardar()}" style="margin:0" />
+                    <p:button id="btnclose" value="#{label['Volver']}" outcome="/pages/Reporteclientes.xhtml" />
 
                 </div>
             </div>

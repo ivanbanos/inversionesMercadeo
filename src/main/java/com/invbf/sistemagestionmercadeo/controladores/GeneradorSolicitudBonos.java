@@ -15,8 +15,6 @@ import com.invbf.sistemagestionmercadeo.entity.Solicitudentrega;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregacliente;
 import com.invbf.sistemagestionmercadeo.entity.Tipobono;
 import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
-import com.invbf.sistemagestionmercadeo.entity.Usuario;
-import com.invbf.sistemagestionmercadeo.reportes.ReportCreator;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
 import com.invbf.sistemagestionmercadeo.util.ClienteSGBDTO;
@@ -25,6 +23,7 @@ import com.invbf.sistemagestionmercadeo.util.MatematicaAplicada;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import com.invbf.sistemagestionmercadeo.util.TipoJuegoBoolean;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,7 +40,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import org.primefaces.event.FlowEvent;
 
 /**
@@ -50,7 +48,7 @@ import org.primefaces.event.FlowEvent;
  */
 @ManagedBean
 @ViewScoped
-public class GeneradorSolicitudBonos {
+public class GeneradorSolicitudBonos implements Serializable{
 
     private Solicitudentrega elemento;
     private List<Casino> casinos;
@@ -100,8 +98,8 @@ public class GeneradorSolicitudBonos {
         System.out.println("Buscando info de la solictud si existe");
         clientes = new ArrayList<ClienteSGBDTO>();
         clientesABorrar = new ArrayList<Integer>();
-        if (sessionBean.getAttributes().containsKey("idSolicitudentrega") && (Integer) sessionBean.getAttributes().get("idSolicitudentrega") != 0) {
-            Integer id = (Integer) sessionBean.getAttributes().get("idSolicitudentrega");
+        if (sessionBean.getAttributes("idSolicitudentrega")!=null && (Integer) sessionBean.getAttributes("idSolicitudentrega") != 0) {
+            Integer id = (Integer) sessionBean.getAttributes("idSolicitudentrega");
             elemento = sessionBean.marketingUserFacade.getSolicitudbono(id);
             for (Solicitudentregacliente sec : elemento.getSolicitudentregaclienteList()) {
                 clientes.add(new ClienteSGBDTO(sec.getValorTotal(), sec.getCliente(), sec.getAreaid()));
@@ -235,7 +233,7 @@ public class GeneradorSolicitudBonos {
 
                     elemento.setSolicitante(sessionBean.getUsuario());
                     if (elemento.getControlsalidabonoList().isEmpty()) {
-                        sessionBean.marketingUserFacade.crearSolicitudSalidaBonos(elemento);
+                        sessionBean.marketingUserFacade.crearSolicitudSalidaBonos(elemento, false);
                     }
                     FacesUtil.addInfoMessage("Solicitud guardada con exito!", "Notificación enviada");
                     FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBono.xhtml");
@@ -243,7 +241,7 @@ public class GeneradorSolicitudBonos {
                     Logger.getLogger(GeneradorSolicitudBonos.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            sessionBean.getAttributes().put("idSolicitudentrega", elemento.getId());
+            sessionBean.setAttribute("idSolicitudentrega", elemento.getId());
         }
     }
 
@@ -565,6 +563,13 @@ public class GeneradorSolicitudBonos {
                     iterator.remove();
                     break;
                 }
+            }
+        }
+        if(elemento.getPropositoEntrega().getId()!=null){
+            for (Propositoentrega p : propositosentrega) {
+                if(elemento.getPropositoEntrega().getId().equals(p.getId())){
+                    elemento.setPropositoEntrega(p);
+                } 
             }
         }
         if (elemento.getTipoBono().getNombre().equals("PROMOCIONAL")) {

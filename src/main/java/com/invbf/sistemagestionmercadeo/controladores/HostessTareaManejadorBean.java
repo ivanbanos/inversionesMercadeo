@@ -62,7 +62,7 @@ public class HostessTareaManejadorBean implements Serializable {
             }
         }
 
-        if (sessionBean.getAttributes() == null || !sessionBean.getAttributes().containsKey("idTarea")) {
+        if (sessionBean.getAttributes("idTarea")==null) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("tareasHostess.xhtml");
             } catch (IOException ex) {
@@ -70,11 +70,11 @@ public class HostessTareaManejadorBean implements Serializable {
                 System.out.println(ex);
             }
         }
-        elemento = sessionBean.marketingUserFacade.findTarea((Integer) sessionBean.getAttributes().get("idTarea"));
-        if ((Boolean)sessionBean.getAttributes().get("isComingTarea")!=null) {
-            sessionBean.getAttributes().remove("isComingTarea");
+        elemento = sessionBean.marketingUserFacade.findTarea((Integer) sessionBean.getAttributes("idTarea"));
+        if ((Boolean)sessionBean.getAttributes("isComingTarea")!=null) {
+            sessionBean.removeAttribute("isComingTarea");
             try {
-                List<Listasclientestareas> clientes = sessionBean.hostessFacade.findClienteTareaHostess((Integer) sessionBean.getAttributes().get("idTarea"));
+                List<Listasclientestareas> clientes = sessionBean.hostessFacade.findClienteTareaHostess((Integer) sessionBean.getAttributes("idTarea"));
                 clientesPojo = new ArrayList<LCTPojo>();
                 for (Iterator<Listasclientestareas> it = clientes.iterator(); it.hasNext();) {
                     Listasclientestareas listasclientestareas = it.next();
@@ -103,11 +103,11 @@ public class HostessTareaManejadorBean implements Serializable {
             int index = 0;
             for (int i = 0; i < clientesPojo.size(); i++) {
                 if (clientesPojo.get(index).getCliente().getIdCliente() == idCliente
-                        && clientesPojo.get(index).getTareas().getIdTarea() == (Integer) sessionBean.getAttributes().get("idTarea")) {
+                        && clientesPojo.get(index).getTareas().getIdTarea() == (Integer) sessionBean.getAttributes("idTarea")) {
                     index = i;
                 }
             }
-            clientesPojo.indexOf(new LCTPojo((Integer) sessionBean.getAttributes().get("idTarea"), idCliente));
+            clientesPojo.indexOf(new LCTPojo((Integer) sessionBean.getAttributes("idTarea"), idCliente));
 
             LCTPojo l = clientesPojo.get(index);
             if (l.getAccion() == null || l.getAccion() == 0) {
@@ -128,7 +128,7 @@ public class HostessTareaManejadorBean implements Serializable {
                 clientes.add(lct.getListaclientetareas(null, a));
             }
             try {
-                Listasclientestareas nuevo = sessionBean.hostessFacade.nuevoLCE((Integer) sessionBean.getAttributes().get("idTarea"), clientes, l.getListaclientetareas(sessionBean.getUsuario(), a));
+                Listasclientestareas nuevo = sessionBean.hostessFacade.nuevoLCE((Integer) sessionBean.getAttributes("idTarea"), clientes, l.getListaclientetareas(sessionBean.getUsuario(), a));
                 clientesPojo.add(new LCTPojo(nuevo));
             } catch (EventoSinClientesPorRevisarException ex) {
                 if (clientesPojo.isEmpty()) {
@@ -144,7 +144,7 @@ public class HostessTareaManejadorBean implements Serializable {
             int index = 0;
             for (int i = 0; i < clientesPojo.size(); i++) {
                 if (clientesPojo.get(index).getCliente().getIdCliente() == idCliente
-                        && clientesPojo.get(index).getTareas().getIdTarea() == (Integer) sessionBean.getAttributes().get("idTarea")) {
+                        && clientesPojo.get(index).getTareas().getIdTarea() == (Integer) sessionBean.getAttributes("idTarea")) {
                     index = i;
                 }
             }
@@ -157,7 +157,7 @@ public class HostessTareaManejadorBean implements Serializable {
                 clientes.add(lct.getListaclientetareas(null, a));
             }
             try {
-                Listasclientestareas nuevo = sessionBean.hostessFacade.nuevoLCE((Integer) sessionBean.getAttributes().get("idTarea"), clientes, l.getListaclientetareas(sessionBean.getUsuario(), a));
+                Listasclientestareas nuevo = sessionBean.hostessFacade.nuevoLCE((Integer) sessionBean.getAttributes("idTarea"), clientes, l.getListaclientetareas(sessionBean.getUsuario(), a));
                 clientesPojo.add(new LCTPojo(nuevo));
             } catch (EventoSinClientesPorRevisarException ex) {
                 if (clientesPojo.isEmpty()) {

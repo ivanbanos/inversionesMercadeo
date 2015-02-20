@@ -7,6 +7,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.entity.Tarea;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -22,7 +23,7 @@ import org.primefaces.model.UploadedFile;
  */
 @ManagedBean
 @ViewScoped
-public class ReporteTareasBean {
+public class ReporteTareasBean implements Serializable{
     private List<Tarea> lista;
     private Tarea elemento;
     private UploadedFile file;
@@ -109,7 +110,7 @@ public class ReporteTareasBean {
 
     public void goTareaReporte(int id) {
         try {
-            sessionBean.getAttributes().put("idTarea", id);
+            sessionBean.setAttribute("idTarea", id);
             FacesContext.getCurrentInstance().getExternalContext().redirect("ReporteTareaEspesifica.xhtml");
         } catch (IOException ex) {
         }

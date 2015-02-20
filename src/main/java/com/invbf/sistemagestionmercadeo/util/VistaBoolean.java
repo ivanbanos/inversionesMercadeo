@@ -6,13 +6,14 @@
 package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.entity.Vista;
+import java.io.Serializable;
 
 
 /**
  *
  * @author ivan
  */
-public class VistaBoolean {
+public class VistaBoolean  implements Serializable{
     private Vista vista;
     private boolean selected;
 

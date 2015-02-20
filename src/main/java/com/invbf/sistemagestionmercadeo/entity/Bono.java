@@ -44,6 +44,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Bono.findByAtributos", query = "SELECT b FROM Bono b WHERE b.estado = :estado AND b.casino = :casino AND b.cliente.nombres LIKE :nombres AND b.cliente.apellidos LIKE :apellidos AND b.cliente.identificacion LIKE :identificacion AND b.consecutivo LIKE :consecutivo"),
     @NamedQuery(name = "Bono.findByFechaEntrega", query = "SELECT b FROM Bono b WHERE b.fechaEntrega = :fechaEntrega"),
     @NamedQuery(name = "Bono.findByRangoFechas", query = "SELECT b FROM Bono b WHERE b.fechaExpiracion >= :desde AND b.fechaExpiracion <= :hasta"),
+    @NamedQuery(name = "Bono.findBonoEsp", query = "SELECT b FROM Bono b WHERE b.casino = :casino AND b.denominacion = :denominacion AND b.consecutivo = :consecutivo"),
     @NamedQuery(name = "Bono.findByRangoFechasCasino", query = "SELECT b FROM Bono b WHERE b.fechaExpiracion >= :desde AND b.fechaExpiracion <= :hasta AND b.casino = :casino")})
 public class Bono implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -70,19 +71,19 @@ public class Bono implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaEntrega;
     @JoinColumn(name = "autorizador", referencedColumnName = "idUsuario")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Usuario autorizador;
     @JoinColumn(name = "validador", referencedColumnName = "idUsuario")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Usuario validador;
     @JoinColumn(name = "tipo", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Tipobono tipo;
     @JoinColumn(name = "PropositosEntrega_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Propositoentrega propositosEntregaid;
     @JoinColumn(name = "Denominacion", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Denominacion denominacion;
     @JoinColumn(name = "ControlSalidaBonos_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -91,7 +92,7 @@ public class Bono implements Serializable {
     @ManyToOne
     private Cliente cliente;
     @JoinColumn(name = "casino", referencedColumnName = "idCasino")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Casino casino;
 
     public Bono() {

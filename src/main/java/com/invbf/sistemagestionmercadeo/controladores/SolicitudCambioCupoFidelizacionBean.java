@@ -9,6 +9,7 @@ import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Permiso;
 import com.invbf.sistemagestionmercadeo.entity.Tipodocumento;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -22,7 +23,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class SolicitudCambioCupoFidelizacionBean {
+public class SolicitudCambioCupoFidelizacionBean implements Serializable{
 
     private List<Cliente> clientes;
     private Cliente clienteAttr;

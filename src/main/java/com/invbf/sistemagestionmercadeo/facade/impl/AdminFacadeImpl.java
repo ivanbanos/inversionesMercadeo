@@ -21,6 +21,7 @@ import com.invbf.sistemagestionmercadeo.dao.UsuarioDao;
 import com.invbf.sistemagestionmercadeo.dao.UsuarioDetalleDao;
 import com.invbf.sistemagestionmercadeo.dao.VistaDao;
 import com.invbf.sistemagestionmercadeo.entity.Area;
+import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Cargo;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Casinodetalle;
@@ -38,6 +39,8 @@ import com.invbf.sistemagestionmercadeo.exceptions.NombreUsuarioExistenteExcepti
 import com.invbf.sistemagestionmercadeo.exceptions.PerfilExistenteException;
 import com.invbf.sistemagestionmercadeo.facade.AdminFacade;
 import com.invbf.sistemagestionmercadeo.util.EncryptUtil;
+import com.invbf.sistemagestionmercadeo.util.UsuarioDTO;
+import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,7 +50,7 @@ import java.util.List;
  *
  * @author ideacentre
  */
-public class AdminFacadeImpl implements AdminFacade {
+public class AdminFacadeImpl implements AdminFacade, Serializable {
 
     @Override
     public List<Usuario> findAllUsuarios() {
@@ -68,7 +71,7 @@ public class AdminFacadeImpl implements AdminFacade {
     }
 
     @Override
-    public Usuario guardarUsuarios(Usuario elemento) throws NombreUsuarioExistenteException {
+    public UsuarioDTO guardarUsuarios(UsuarioDTO elemento) throws NombreUsuarioExistenteException {
         if (elemento.getIdUsuario() == null) {
             try {
                 elemento.setContrasena(EncryptUtil.encryptPassword(elemento.getContrasena()));
@@ -78,25 +81,30 @@ public class AdminFacadeImpl implements AdminFacade {
                 throw new NombreUsuarioExistenteException();
             }
             Usuariodetalle detalle = elemento.getUsuariodetalle();
-            elemento.setUsuariodetalle(null);
-            UsuarioDao.create(elemento);
-            detalle.setIdUsuario(elemento.getIdUsuario());
+            Usuario u = new Usuario(elemento.getIdUsuario(), elemento.getNombreUsuario(), elemento.getContrasena());
+            u.setIdPerfil(elemento.getIdPerfil());
+            u.setEstado(elemento.getEstado());
+            UsuarioDao.create(u);
+            detalle.setIdUsuario(u.getIdUsuario());
             UsuarioDetalleDao.create(detalle);
-            elemento.setUsuariodetalle(detalle);
-            UsuarioDao.edit(elemento);
+            u.setUsuariodetalle(detalle);
+            UsuarioDao.edit(u);
             return elemento;
         } else {
+            Usuario u = UsuarioDao.find(elemento.getIdUsuario());
             if (elemento.getContrasena() == null||elemento.getContrasena().equals("")) {
-                Usuario u = UsuarioDao.find(elemento.getIdUsuario());
-                elemento.setContrasena(u.getContrasena());
             } else {
                 try {
-                    elemento.setContrasena(EncryptUtil.encryptPassword(elemento.getContrasena()));
+                    u.setContrasena(EncryptUtil.encryptPassword(elemento.getContrasena()));
                 } catch (NoSuchAlgorithmException ex) {
                 }
             }
-            UsuarioDetalleDao.edit(elemento.getUsuariodetalle());
-            UsuarioDao.edit(elemento);
+            u.setIdUsuario(elemento.getIdUsuario());
+            u.setNombreUsuario(elemento.getNombreUsuario());
+            u.setIdPerfil(elemento.getIdPerfil());
+            u.setEstado(elemento.getEstado());
+            UsuarioDetalleDao.edit(u.getUsuariodetalle());
+            UsuarioDao.edit(u);
             return elemento;
         }
     }
@@ -374,6 +382,16 @@ public class AdminFacadeImpl implements AdminFacade {
     @Override
     public void revisarBonos() {
         BonoDao.revisarEstadoBonos();
+    }
+
+    @Override
+    public Bono buscarBono(Casino casinoSelected, Denominacion denoinacionSelected, String consecutivo) {
+        return BonoDao.buscarBono(casinoSelected, denoinacionSelected, consecutivo);
+    }
+
+    @Override
+    public void guardarBono(Bono bono) {
+        BonoDao.edit(bono);
     }
     
 }

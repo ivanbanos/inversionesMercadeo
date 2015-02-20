@@ -165,7 +165,7 @@ public interface MarketingUserFacade {
 
     public void convertBonosNoIncluidosToBonosNoFisicos(List<Solicitudentregalote> solicitudentregalotesList);
 
-    public void crearSolicitudSalidaBonos(Solicitudentrega s);
+    public void crearSolicitudSalidaBonos(Solicitudentrega s, boolean enviar);
 
     public List<Controlsalidabono> getAllControlsalidabonos();
 
@@ -173,7 +173,7 @@ public interface MarketingUserFacade {
 
     public List<Lotebono> getLotesBonosCasinoTipoBono(Integer idCasino, Tipobono tipoBono);
 
-    public void guardarControlSalidaBonos(Controlsalidabono elemento);
+    public void guardarControlSalidaBonos(Controlsalidabono elemento, boolean enviar);
 
     public void cambiarEstadoSolicitudentrega(Solicitudentrega elemento);
 
@@ -208,5 +208,7 @@ public interface MarketingUserFacade {
     public List<Lotebono> getLotesBonosByCasino(Casino casinoSelected);
 
     public void guardarClientesSinCategoria(Cliente cliente);
+
+    public Integer getCantClientes();
 
 }

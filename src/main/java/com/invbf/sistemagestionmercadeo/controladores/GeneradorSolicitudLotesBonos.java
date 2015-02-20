@@ -15,6 +15,7 @@ import com.invbf.sistemagestionmercadeo.util.BonosnoincluidosDTO;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.loteBonoSolicitud;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,7 +40,7 @@ import org.primefaces.model.StreamedContent;
  */
 @ManagedBean
 @ViewScoped
-public class GeneradorSolicitudLotesBonos {
+public class GeneradorSolicitudLotesBonos implements Serializable{
 
     private Solicitudentregalotesmaestro elemento;
     private List<Casino> casinos;
@@ -125,15 +126,15 @@ public class GeneradorSolicitudLotesBonos {
             } catch (IOException ex) {
             }
         }
-        if (sessionBean.getAttributes().containsKey("lotesbonosnoincluidos")) {
-            loteBonoSolicitudes = (List<loteBonoSolicitud>) sessionBean.getAttributes().get("lotesbonosnoincluidos");
-            sessionBean.getAttributes().remove("lotesbonosnoincluidos");
+        if (sessionBean.getAttributes("lotesbonosnoincluidos")!=null) {
+            loteBonoSolicitudes = (List<loteBonoSolicitud>) sessionBean.getAttributes("lotesbonosnoincluidos");
+            sessionBean.removeAttribute("lotesbonosnoincluidos");
         } else {
             loteBonoSolicitudes = new ArrayList<loteBonoSolicitud>();
         }
         System.out.println("Buscando info de la solictud si existe");
-        if (sessionBean.getAttributes().containsKey("idsolicitudentregalotes") && (Integer) sessionBean.getAttributes().get("idsolicitudentregalotes") != 0) {
-            Integer id = (Integer) sessionBean.getAttributes().get("idsolicitudentregalotes");
+        if (sessionBean.getAttributes("idsolicitudentregalotes")!=null && (Integer) sessionBean.getAttributes("idsolicitudentregalotes") != 0) {
+            Integer id = (Integer) sessionBean.getAttributes("idsolicitudentregalotes");
             elemento = sessionBean.marketingUserFacade.getSolicitudentregalotesbono(id);
             if (loteBonoSolicitudes.isEmpty()) {
                 for (Solicitudentregalote sel : elemento.getSolicitudentregaloteList()) {
@@ -166,7 +167,7 @@ public class GeneradorSolicitudLotesBonos {
     public void guardar() {
         try {
             elemento.setRemitente(sessionBean.getUsuario());
-            elemento.setEstado("CREADA");
+            elemento.setEstado("PRE ORDENADA");
             DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
             DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
             TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
@@ -183,7 +184,36 @@ public class GeneradorSolicitudLotesBonos {
             }
             sessionBean.marketingUserFacade.guardarSolicitudentregabonos(elemento, listaBonosReincluidos, 1);
             sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
-            sessionBean.getAttributes().put("idsolicitudentregalotes", elemento.getId());
+            sessionBean.setAttribute("idsolicitudentregalotes", elemento.getId());
+            FacesContext.getCurrentInstance().getExternalContext().redirect("GeneradorSolicitudLoteBono.xhtml");
+            FacesUtil.addInfoMessage("Solicitud guardada con exito!", "Notificación enviada");
+        } catch (ParseException ex) {
+            Logger.getLogger(GeneradorSolicitudLotesBonos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(GeneradorSolicitudLotesBonos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void solicitar() {
+        try {
+            elemento.setRemitente(sessionBean.getUsuario());
+            elemento.setEstado("ORDENADA");
+            DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
+            DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
+            TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
+            df.setTimeZone(timeZone);
+            Calendar nowDate = Calendar.getInstance();
+            nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
+            elemento.setFecha(nowDate.getTime());
+            elemento.getSolicitudentregaloteList().clear();
+            List<Integer> listaBonosReincluidos = new ArrayList<Integer>();
+            for (loteBonoSolicitud lotes : loteBonoSolicitudes) {
+                Solicitudentregalote sel = lotes.getSolicitudEntregaLote();
+                elemento.getSolicitudentregaloteList().add(sel);
+                listaBonosReincluidos.addAll(lotes.getBonosReincluidos());
+            }
+            sessionBean.marketingUserFacade.guardarSolicitudentregabonos(elemento, listaBonosReincluidos, 1);
+            sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
+            sessionBean.setAttribute("idsolicitudentregalotes", elemento.getId());
             FacesContext.getCurrentInstance().getExternalContext().redirect("GeneradorSolicitudLoteBono.xhtml");
             FacesUtil.addInfoMessage("Solicitud guardada con exito!", "Notificación enviada");
         } catch (ParseException ex) {
@@ -201,7 +231,7 @@ public class GeneradorSolicitudLotesBonos {
         System.out.println("entra al menos" + loteBonoSolicitudes.get(i).getBonosnoincluidosList().size());
         BonosnoincluidosDTO bni = new BonosnoincluidosDTO();
         loteBonoSolicitudes.get(i).getBonosnoincluidosList().add(bni);
-        sessionBean.getAttributes().put("lotesbonosnoincluidos", loteBonoSolicitudes);
+        sessionBean.setAttribute("lotesbonosnoincluidos", loteBonoSolicitudes);
     }
 
     private boolean isBonoDentro(Bononoincluido next, Solicitudentregalote solicitud) {

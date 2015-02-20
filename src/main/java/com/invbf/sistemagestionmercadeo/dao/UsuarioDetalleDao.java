@@ -32,6 +32,7 @@ public class UsuarioDetalleDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -51,6 +52,7 @@ public class UsuarioDetalleDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -69,6 +71,7 @@ public class UsuarioDetalleDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -88,6 +91,7 @@ public class UsuarioDetalleDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return usuario;
@@ -110,6 +114,7 @@ public class UsuarioDetalleDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -135,6 +140,7 @@ public class UsuarioDetalleDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -159,6 +165,7 @@ public class UsuarioDetalleDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;

@@ -9,6 +9,7 @@ import com.invbf.sistemagestionmercadeo.entity.Evento;
 import com.invbf.sistemagestionmercadeo.entity.Tarea;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,7 +32,7 @@ import org.primefaces.model.UploadedFile;
  */
 @ManagedBean
 @ViewScoped
-public class MarketingEventoManejadorBean {
+public class MarketingEventoManejadorBean implements Serializable{
 
     private Evento elemento;
     @ManagedProperty("#{sessionBean}")
@@ -64,14 +65,14 @@ public class MarketingEventoManejadorBean {
             }
         }
 
-        if (sessionBean.getAttributes() == null || !sessionBean.getAttributes().containsKey("idEvento")) {
+        if (sessionBean.getAttributes("idEvento")==null) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("eventos.xhtml");
             } catch (IOException ex) {
             }
         }
-        if ((Integer) sessionBean.getAttributes().get("idEvento") != 0) {
-            elemento = sessionBean.marketingUserFacade.findEvento((Integer) sessionBean.getAttributes().get("idEvento"));
+        if ((Integer) sessionBean.getAttributes("idEvento") != 0) {
+            elemento = sessionBean.marketingUserFacade.findEvento((Integer) sessionBean.getAttributes("idEvento"));
         } else {
             elemento = new Evento();
             elemento.setIdCasino(new Casino(0));
@@ -160,16 +161,16 @@ public class MarketingEventoManejadorBean {
         if (event != null) {
             file = event.getFile();
             sessionBean.marketingUserFacade.guardarImagen(file.getContents(), file.getFileName());
-            sessionBean.getAttributes().put("imagen", file.getContents());
+            sessionBean.setAttribute("imagen", file.getContents());
             elemento.setImagen(file.getFileName());
         }
     }
 
     public void goTareaMarketing(Integer idTarea) {
         try {
-            sessionBean.getAttributes().put("idTarea", idTarea);
+            sessionBean.setAttribute("idTarea", idTarea);
 
-            sessionBean.getAttributes().put("from", "evento");
+            sessionBean.setAttribute("from", "evento");
             FacesContext.getCurrentInstance().getExternalContext().redirect("tareaAccion.xhtml");
         } catch (IOException ex) {
         }

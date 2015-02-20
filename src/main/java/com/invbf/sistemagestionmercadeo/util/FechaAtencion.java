@@ -4,13 +4,14 @@
  */
 package com.invbf.sistemagestionmercadeo.util;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author ideacentre
  */
-public class FechaAtencion {
+public class FechaAtencion  implements Serializable{
     
     private Date fechaAtencion;
 

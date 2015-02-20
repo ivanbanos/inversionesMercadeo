@@ -9,6 +9,7 @@ import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -23,7 +24,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class BonoEntregaCliente {
+public class BonoEntregaCliente  implements Serializable{
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -94,9 +95,9 @@ public class BonoEntregaCliente {
                 bono.setEstado("ENTREGADO CLIENTE");
             }
             sessionBean.marketingUserFacade.guardarBonos(bonosCasinoEntregadosSelected);
-            bonosCasinoEntregados = sessionBean.marketingUserFacade.getBonosPorEstadoYCasino("EN SALA", casinoSelected);
-            bonosCasinoEntregadosSelected = new ArrayList<Bono>();
+            buscarBonosPorCliente();
             FacesUtil.addInfoMessage("Entregados "+bonosCasinoEntregadosSelected.size()+" bonos", "");
+            bonosCasinoEntregadosSelected = new ArrayList<Bono>();
         }
     }
 

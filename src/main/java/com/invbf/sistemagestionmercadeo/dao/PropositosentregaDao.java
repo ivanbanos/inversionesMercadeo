@@ -38,6 +38,7 @@ public class PropositosentregaDao {
             tx.rollback();
 }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -58,6 +59,7 @@ public class PropositosentregaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -76,6 +78,7 @@ public class PropositosentregaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -95,6 +98,7 @@ public class PropositosentregaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return cargo;
@@ -118,6 +122,7 @@ public class PropositosentregaDao {
             System.out.println(e);
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -143,6 +148,7 @@ public class PropositosentregaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -167,6 +173,7 @@ public class PropositosentregaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;
@@ -190,6 +197,7 @@ public class PropositosentregaDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
 

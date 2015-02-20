@@ -6,12 +6,13 @@
 package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.entity.Propositoentrega;
+import java.io.Serializable;
 
 /**
  *
  * @author ivan
  */
-public class PropositosBoolean {
+public class PropositosBoolean  implements Serializable{
     private Propositoentrega propositoentrega;
     private boolean selected;
 

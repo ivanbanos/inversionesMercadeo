@@ -63,6 +63,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -85,7 +86,7 @@ import org.apache.commons.net.ftp.FTPReply;
  *
  * @author ideacentre
  */
-public class MarketingUserFacadeImpl implements MarketingUserFacade {
+public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializable {
 
     @Override
     public List<Cliente> findAllClientes() {
@@ -806,7 +807,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
     }
 
     @Override
-    public void crearSolicitudSalidaBonos(Solicitudentrega s) {
+    public void crearSolicitudSalidaBonos(Solicitudentrega s, boolean enviar) {
         Controlsalidabono csb = new Controlsalidabono();
         csb.setSolicitudEntregaid(s);
         csb.setSolicitante(s.getSolicitante());
@@ -823,13 +824,14 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
         } catch (ParseException ex) {
         }
         ControlsalidabonosDao.create(csb);
-
-        String body = "Se ha creado una solicitud de salida de bonos con el número de acta " + csb.getId()
-                + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
-        if (csb.getSolicitante().getUsuariodetalle() != null) {
-            Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha generado una solicitud de salida de bonos de caja", csb.getSolicitante().getUsuariodetalle().getCorreo());
+        if (enviar) {
+            String body = "Se ha creado una solicitud de salida de bonos con el número de acta " + csb.getId()
+                    + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
+            if (csb.getSolicitante().getUsuariodetalle() != null) {
+                Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha generado una solicitud de salida de bonos de caja", csb.getSolicitante().getUsuariodetalle().getCorreo());
+            }
         }
-        if(s.getControlsalidabonoList()==null){
+        if (s.getControlsalidabonoList() == null) {
             s.setControlsalidabonoList(new ArrayList<Controlsalidabono>());
         }
         s.getControlsalidabonoList().add(csb);
@@ -852,8 +854,11 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
     }
 
     @Override
-    public void guardarControlSalidaBonos(Controlsalidabono elemento) {
+    public void guardarControlSalidaBonos(Controlsalidabono elemento, boolean enviar) {
         ControlsalidabonosDao.edit(elemento);
+        String cuerpo = "Orden de salida de bonos con número de acta"+elemento.getId()+" aceptada.";
+        String titulo = "Orden de salida de bonos aceptada.";
+        Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_ACEPTADA, cuerpo, titulo, "");
     }
 
     @Override
@@ -967,5 +972,10 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade {
         Categoria cat = CategoriaDao.findByName("SIN CATEGORIA");
         cliente.setIdCategorias(cat);
         ClienteDao.create(cliente);
+    }
+
+    @Override
+    public Integer getCantClientes() {
+        return ClienteDao.count();
     }
 }

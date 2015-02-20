@@ -13,6 +13,7 @@ import com.invbf.sistemagestionmercadeo.entity.Perfil;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.entity.Vista;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +23,7 @@ import javax.mail.MessagingException;
  *
  * @author ivan
  */
-public class Notificador {
+public class Notificador  implements Serializable{
 
     public static final int SOLICITUD_ENTREGA_LOTES_GENERADA = 1;
     public static final int SOLICITUD_ENTREGA_LOTES_ACEPTADA = 2;
@@ -105,7 +106,7 @@ public class Notificador {
                 }
             }
             if (enviarSol) {
-                es.sendEmail(correo, subject, mesaje, "noimage");
+                es.sendEmailNotificador(correo, subject, mesaje);
             }
         } catch (MessagingException ex) {
             Logger.getLogger(Notificador.class.getName()).log(Level.SEVERE, null, ex);

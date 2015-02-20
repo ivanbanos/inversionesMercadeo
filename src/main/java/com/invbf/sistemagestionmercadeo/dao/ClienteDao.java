@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -187,10 +188,13 @@ public class ClienteDao {
         tx.begin();
         try {
             javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Cliente.class));
+            Root<Cliente> c = cq.from(Cliente.class);
+            cq.select(c);
+            cq.orderBy(em.getCriteriaBuilder().asc(c.get("nombres")));
             lista = em.createQuery(cq).getResultList();
             tx.commit();
         } catch (Exception e) {
+            System.out.println(e);
             tx.rollback();
         }
 

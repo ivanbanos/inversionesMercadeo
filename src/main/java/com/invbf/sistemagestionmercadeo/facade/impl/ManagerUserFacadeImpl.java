@@ -19,6 +19,7 @@ import com.invbf.sistemagestionmercadeo.exceptions.clienteInexistenteException;
 import com.invbf.sistemagestionmercadeo.facade.ManagerUserFacade;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.PropositosBoolean;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +28,7 @@ import java.util.List;
  *
  * @author ideacentre
  */
-public class ManagerUserFacadeImpl implements ManagerUserFacade {
+public class ManagerUserFacadeImpl implements ManagerUserFacade, Serializable{
 
     @Override
     public List<Permiso> getAllPermisos() {

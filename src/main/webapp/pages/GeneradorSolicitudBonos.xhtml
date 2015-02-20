@@ -93,9 +93,6 @@
                                                 </div>
 
                                                 <div class="row">
-                                                    <c:choose>
-                                                        <c:when test="#{sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;)
-                                                                        or sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;)}">
                                                             <div class="control-group">
                                                                 <div class="form-group">
                                                                     <label class="col-md-2 control-label" >#{label['casinos']}</label>
@@ -108,18 +105,6 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <div class="control-group">
-                                                                <div class="form-group">
-                                                                    <label class="col-md-2 control-label" >#{label['casino']}</label>
-                                                                    <div class="col-md-4">
-                                                                        #{generadorSolicitudBonos.elemento.idCasino.nombre}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </c:otherwise>
-                                                    </c:choose>
                                                     <div class="control-group">
                                                         <div class="form-group">
                                                             <label class="col-md-2 control-label" >#{label['estado']}</label>
@@ -185,7 +170,7 @@
                                                                             </f:facet>
                                                                             <label>#{table + 1}</label>
                                                                         </p:column>
-                                                                        <p:column filterBy="#{cli.clientessgb.nombres} #{cli.clientessgb.apellidos}" filterMatchMode="contains" >
+                                                                        <p:column filterBy="#{cli.clientessgb.nombres} #{cli.clientessgb.apellidos}" sortBy="#{cli.clientessgb.nombres}" filterMatchMode="contains" >
                                                                             <f:facet name="header">
                                                                                 <h:outputText value="#{'Nombre'}" />
                                                                             </f:facet>

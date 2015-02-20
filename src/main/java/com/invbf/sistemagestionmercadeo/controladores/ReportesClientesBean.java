@@ -8,13 +8,16 @@ import com.invbf.sistemagestionmercadeo.entity.Atributo;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Categoria;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
+import com.invbf.sistemagestionmercadeo.entity.Permiso;
 import com.invbf.sistemagestionmercadeo.entity.Tipodocumento;
 import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import com.invbf.sistemagestionmercadeo.util.TipoJuegoBoolean;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -31,7 +34,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class ReportesClientesBean {
+public class ReportesClientesBean  implements Serializable{
 
     private List<Cliente> lista;
     private Cliente elemento;
@@ -78,8 +81,8 @@ public class ReportesClientesBean {
         pais = "";
         ciudad = "";
         sessionBean.checkUsuarioConectado();
-        sessionBean.setActive("reportes");
-        if (!sessionBean.perfilViewMatch("Reportes")) {
+        sessionBean.setActive("clientes");
+        if (!sessionBean.perfilViewMatch("Clientes")) {
             try {
                 sessionBean.Desconectar();
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
@@ -90,15 +93,15 @@ public class ReportesClientesBean {
         elemento.setIdCasinoPreferencial(new Casino());
         elemento.setIdCategorias(new Categoria());
         elemento.setIdTipoDocumento(new Tipodocumento());
-        lista = sessionBean.marketingUserFacade.findAllClientes();
-        totales = lista.size();
+        buscarCLientesIniciales();
+        totales = sessionBean.marketingUserFacade.getCantClientes();
         listacasinos = sessionBean.marketingUserFacade.findAllCasinos();
         listaatributos = sessionBean.marketingUserFacade.findAllAtributos();
         listacategorias = sessionBean.marketingUserFacade.findAllCategorias();
         listatiposjuegos = sessionBean.marketingUserFacade.findAllTiposjuegos();
         editar = false;
 
-        List<Casino> casinos = sessionBean.marketingUserFacade.findAllCasinos();
+        List<Casino> casinos = sessionBean.getUsuario().getCasinoList();
         List<Tipojuego> tipoJuegos = sessionBean.marketingUserFacade.findAllTiposjuegos();
         List<Categoria> categorias = sessionBean.marketingUserFacade.findAllCategorias();
         juegoBooleans = new ArrayList<TipoJuegoBoolean>();
@@ -114,6 +117,7 @@ public class ReportesClientesBean {
             categoriaBooleans.add(new CategoriaBoolean(categoria, false));
         }
         mes= 12;
+        System.gc();
     }
 
     public List<Cliente> getLista() {
@@ -167,14 +171,14 @@ public class ReportesClientesBean {
     public void delete() {
         sessionBean.marketingUserFacade.deleteClientes(elemento);
         lista = sessionBean.marketingUserFacade.findAllClientes();
-        sessionBean.registrarlog("eliminar", "Clientes", elemento.toString());
-        FacesUtil.addInfoMessage("Cliente eliminado", elemento.toString());
+        sessionBean.registrarlog("eliminar", "Clientes", elemento.getNombres()+" "+elemento.getApellidos());
+        FacesUtil.addInfoMessage("Cliente eliminado", elemento.getNombres()+" "+elemento.getApellidos());
         elemento = new Cliente();
     }
 
     public void goCliente(int id) {
         try {
-            sessionBean.getAttributes().put("idCliente", new Integer(id));
+            sessionBean.setAttribute("idCliente", new Integer(id));
             FacesContext.getCurrentInstance().getExternalContext().redirect("ClientesAct.xhtml");
         } catch (IOException ex) {
         }
@@ -333,6 +337,8 @@ public class ReportesClientesBean {
             }
         }
         FacesUtil.addInfoMessage("Clientes filtrados!","Cantidad "+lista.size());
+        
+        System.gc();
     }
 
     public List<CasinoBoolean> getCasinoBooleans() {
@@ -405,6 +411,13 @@ public class ReportesClientesBean {
 
     public void setDia(Integer dia) {
         this.dia = dia;
+    }
+
+    private void buscarCLientesIniciales() {
+        lista = new ArrayList<Cliente>();
+        for(Casino c: sessionBean.getUsuario().getCasinoList()){
+            lista.addAll(sessionBean.marketingUserFacade.findAllClientesCasinos(c));
+        }
     }
 
 }

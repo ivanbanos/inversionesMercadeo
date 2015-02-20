@@ -37,6 +37,7 @@ public class TipoJuegoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -56,6 +57,7 @@ public class TipoJuegoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -74,6 +76,7 @@ public class TipoJuegoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -93,6 +96,7 @@ public class TipoJuegoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return tipoJuego;
@@ -115,6 +119,7 @@ public class TipoJuegoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -140,6 +145,7 @@ public class TipoJuegoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -164,6 +170,7 @@ public class TipoJuegoDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;

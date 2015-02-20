@@ -16,6 +16,7 @@ import com.invbf.sistemagestionmercadeo.util.ConsecutivoBono;
 import com.invbf.sistemagestionmercadeo.util.DenoinacionCant;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -30,7 +31,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class BonoValidarBean {
+public class BonoValidarBean  implements Serializable{
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -60,8 +61,8 @@ public class BonoValidarBean {
             }
         }
 
-        Integer id = (Integer) sessionBean.getAttributes().get("idsolicitudsalida");
-        if (sessionBean.getAttributes().containsKey("idsolicitudsalida") && (Integer) sessionBean.getAttributes().get("idsolicitudsalida") != 0) {
+        Integer id = (Integer) sessionBean.getAttributes("idsolicitudsalida");
+        if (id!=null && id != 0) {
             elemento = sessionBean.marketingUserFacade.getSolicitudSalida(id);
         } else {
             try {
@@ -184,8 +185,8 @@ public class BonoValidarBean {
             System.out.println("entra bono");
             elemento.getBonoList().get(elemento.getBonoList().indexOf(new Bono(bono.getId()))).setCliente(new Cliente(bono.getIdCliente()));
         }
-        FacesUtil.addInfoMessage("Bonos asignados con exito", "Se asignaron " + bonosSelected.size() + " bonos");
         sessionBean.marketingUserFacade.saveBonos(elemento, sessionBean.getUsuario().getIdUsuario());
+        FacesUtil.addInfoMessage("Bonos asignados con exito", "Se asignaron " + bonosSelected.size() + " bonos");
     }
 
     public List<ClienteMonto> getClientesNecesitanDenominacion() {

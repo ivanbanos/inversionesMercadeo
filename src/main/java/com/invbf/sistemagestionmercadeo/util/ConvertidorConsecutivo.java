@@ -5,13 +5,14 @@
  */
 package com.invbf.sistemagestionmercadeo.util;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  *
  * @author ivan
  */
-public class ConvertidorConsecutivo {
+public class ConvertidorConsecutivo  implements Serializable{
 
     private static final HashMap<String, Long> mapLetrasValores = new HashMap<String, Long>();
 

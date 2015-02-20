@@ -8,6 +8,7 @@ import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Evento;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -23,7 +24,7 @@ import org.primefaces.model.UploadedFile;
  */
 @ManagedBean
 @ViewScoped
-public class CrudEventoBean {
+public class CrudEventoBean implements Serializable {
     private List<Evento> lista;
     private Evento elemento;
     private List<Casino> listacasinos;
@@ -117,9 +118,9 @@ public class CrudEventoBean {
 
     public void goEventoMarketing(int id) {
         try {
-            sessionBean.getAttributes().put("idEvento", id);
+            sessionBean.setAttribute("idEvento", id);
             
-            sessionBean.getAttributes().put("imagen",sessionBean.getImage(id));
+            sessionBean.setAttribute("imagen",sessionBean.getImage(id));
             FacesContext.getCurrentInstance().getExternalContext().redirect("MarketingEventoManejadorView.xhtml");
         } catch (IOException ex) {
         }
@@ -127,7 +128,7 @@ public class CrudEventoBean {
 
     public void goEventoReporte(int id) {
         try {
-            sessionBean.getAttributes().put("idEvento", id);
+            sessionBean.setAttribute("idEvento", id);
             FacesContext.getCurrentInstance().getExternalContext().redirect("ReporteEventoEspesifico.xhtml");
         } catch (IOException ex) {
         }

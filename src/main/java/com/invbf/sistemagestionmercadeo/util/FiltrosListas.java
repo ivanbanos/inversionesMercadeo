@@ -18,6 +18,7 @@ import com.invbf.sistemagestionmercadeo.facade.AdminFacade;
 import com.invbf.sistemagestionmercadeo.facade.MarketingUserFacade;
 import com.invbf.sistemagestionmercadeo.facade.impl.AdminFacadeImpl;
 import com.invbf.sistemagestionmercadeo.facade.impl.MarketingUserFacadeImpl;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -30,7 +31,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class FiltrosListas {
+public class FiltrosListas  implements Serializable{
 
     AdminFacade adminFacade;
     MarketingUserFacade marketingUserFacade;

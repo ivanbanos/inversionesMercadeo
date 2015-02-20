@@ -81,7 +81,7 @@
                                             
                                             <p:commandButton id="validar" action="#{listaSolicitudesEntregaLotesBonosBean.goSolicitudAceptar(element.id)}" icon="ui-icon-check" 
                                                              title="#{label['lb_btn.aceptar']}"
-                                                             rendered="#{sessionBean.perfilViewMatch(&quot;AceptarSolicitudLotesBonos&quot;) and !element.estado.equals(&quot;ACEPTADA&quot;)}"/> 
+                                                             rendered="#{sessionBean.perfilViewMatch(&quot;AceptarSolicitudLotesBonos&quot;) and element.estado.equals(&quot;ORDENADA&quot;)}"/> 
                                             
                                             
                                             

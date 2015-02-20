@@ -5,6 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.util;
 
+import java.io.Serializable;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -15,7 +16,7 @@ import javax.faces.convert.FacesConverter;
  * @author ivan
  */
 @FacesConverter("numberSeparationConverter")
-public class NumberSeparationConverter implements Converter {
+public class NumberSeparationConverter implements Converter, Serializable {
 
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {

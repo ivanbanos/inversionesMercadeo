@@ -34,6 +34,7 @@ public class ListasclientestareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -58,6 +59,7 @@ public class ListasclientestareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -86,6 +88,7 @@ public class ListasclientestareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -104,6 +107,7 @@ public class ListasclientestareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -123,6 +127,7 @@ public class ListasclientestareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return listasclientestareas;
@@ -145,6 +150,7 @@ public class ListasclientestareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -170,6 +176,7 @@ public class ListasclientestareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -194,6 +201,7 @@ public class ListasclientestareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;
@@ -216,6 +224,7 @@ public class ListasclientestareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return listaClienteTarea;
@@ -237,6 +246,7 @@ public class ListasclientestareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return listaClienteTarea;

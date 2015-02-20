@@ -47,6 +47,10 @@
                             <h:commandLink  action="#{sessionBean.go(&quot;logs&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-terminal fa-5x"></i> 
                                 <br/>#{label['logs']}</h:commandLink>
                         </c:if>
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;cambioEstadoBono&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;cambioEstadoBono&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-ticket fa-5x"></i> 
+                                <br/>Cambio en Bono</h:commandLink>
+                        </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Propositos&quot;)
                                       or sessionBean.perfilViewMatch(&quot;Areas&quot;)
                                       or sessionBean.perfilViewMatch(&quot;denominaciones&quot;)

@@ -6,11 +6,13 @@
 
 package com.invbf.sistemagestionmercadeo.util;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Celula4
  */
-public class AccionConteo {
+public class AccionConteo  implements Serializable{
     private String nombre;
     private long cantidad;
 

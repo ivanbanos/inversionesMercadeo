@@ -10,6 +10,7 @@ import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,7 +27,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class AceptarSolicitudEntregaBonosBean {
+public class AceptarSolicitudEntregaBonosBean implements Serializable{
 
     private Solicitudentregalotesmaestro elemento;
     private List<Casino> casinos;
@@ -110,8 +111,8 @@ public class AceptarSolicitudEntregaBonosBean {
         }
 
         System.out.println("Buscando info de la solictud si existe");
-        if (sessionBean.getAttributes().containsKey("idsolicitudentregalotes") && (Integer) sessionBean.getAttributes().get("idsolicitudentregalotes") != 0) {
-            Integer id = (Integer) sessionBean.getAttributes().get("idsolicitudentregalotes");
+        if (sessionBean.getAttributes("idsolicitudentregalotes")==null && (Integer) sessionBean.getAttributes("idsolicitudentregalotes") != 0) {
+            Integer id = (Integer) sessionBean.getAttributes("idsolicitudentregalotes");
             elemento = sessionBean.marketingUserFacade.getSolicitudentregalotesbono(id);
             
         } else {
@@ -140,7 +141,7 @@ public class AceptarSolicitudEntregaBonosBean {
             }
             elemento.setEstado("ACEPTADA");
             sessionBean.marketingUserFacade.cambiarEstadoSolicitudentregabonos(elemento);
-            sessionBean.getAttributes().remove("idsolicitudentregalotes");
+            sessionBean.removeAttribute("idsolicitudentregalotes");
             String body = "Se ha aceptado la solicitud de entrada de lotes de bono con el numero de acta "+elemento.getId();
             Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_ACEPTADA, body, "Solicitud de entrada de lotes de bono aceptada",sessionBean.getUsuario().getUsuariodetalle().getCorreo());
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudLotesBonosView.xhtml");

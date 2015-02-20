@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.util;
 import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Denominacion;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  *
  * @author ivan
  */
-public class ClienteMonto {
+public class ClienteMonto  implements Serializable{
 
     private String nombre;
     private Float monto;

@@ -4,6 +4,7 @@
  */
 package com.invbf.sistemagestionmercadeo.util;
 
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -11,7 +12,7 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author iabaños
  */
-public class EncryptUtil {
+public class EncryptUtil  implements Serializable{
 
     public static String encryptPassword(String data) throws NoSuchAlgorithmException {
         if (data == null) {

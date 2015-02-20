@@ -36,6 +36,7 @@ public class TipostareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -55,6 +56,7 @@ public class TipostareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -73,6 +75,7 @@ public class TipostareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -92,6 +95,7 @@ public class TipostareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return tipotarea;
@@ -114,6 +118,7 @@ public class TipostareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -139,6 +144,7 @@ public class TipostareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -163,6 +169,7 @@ public class TipostareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;
@@ -186,6 +193,7 @@ public class TipostareasDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         if (tipotareas == null || tipotareas.isEmpty()) {

@@ -36,6 +36,7 @@ public class LogDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -54,6 +55,7 @@ public class LogDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -72,6 +74,7 @@ public class LogDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
     }
@@ -91,6 +94,7 @@ public class LogDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return log;
@@ -115,6 +119,7 @@ public class LogDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -140,6 +145,7 @@ public class LogDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return lista;
@@ -164,6 +170,7 @@ public class LogDao {
             tx.rollback();
         }
 
+        em.clear();
         em.close();
         emf.close();
         return count;

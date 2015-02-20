@@ -13,6 +13,7 @@ import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -26,7 +27,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class CrudClientesBean {
+public class CrudClientesBean  implements Serializable{
 
     private List<Cliente> lista;
     private Cliente elemento;
@@ -138,7 +139,7 @@ public class CrudClientesBean {
 
     public void goCliente(int id) {
         try {
-            sessionBean.getAttributes().put("idCliente", new Integer(id));
+            sessionBean.setAttribute("idCliente", id);
             FacesContext.getCurrentInstance().getExternalContext().redirect("ClientesAct.xhtml");
         } catch (IOException ex) {
         }

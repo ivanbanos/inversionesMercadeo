@@ -7,13 +7,14 @@
 package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
+import java.io.Serializable;
 
 
 /**
  *
  * @author Celula4
  */
-public class InfoCorreoCliente {
+public class InfoCorreoCliente  implements Serializable{
     private Cliente cliente;
     private String info;
 

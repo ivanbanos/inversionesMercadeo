@@ -36,6 +36,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -51,7 +52,7 @@ import javax.imageio.ImageIO;
  *
  * @author ideacentre
  */
-public class SystemFacadeImpl implements SystemFacade {
+public class SystemFacadeImpl implements SystemFacade, Serializable {
 
     @Override
     public Usuario iniciarSession(Usuario usuario) throws ClavesNoConcuerdanException, UsuarioNoExisteException, UsuarioNoConectadoException, UsuarioInactivoException, UsuarioSinAccesoalSistemaException {

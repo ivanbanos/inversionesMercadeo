@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="row text-right">
                                         <p:commandButton id="btnfind" value="Buscar Lotes" actionListener="#{generadorSolicitudLotesBonos.obtenerLotesByCasino()}" 
-                                                 update="@form :#{p:component('messages')}" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
+                                                         update="@form :#{p:component('messages')}" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
 
 
                                     </div>
@@ -164,7 +164,9 @@
 
                             </div>
                             <div class="panel-footer text-right"> 
-                                <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{generadorSolicitudLotesBonos.guardar()}" 
+                                <p:commandButton id="btnconfirm" value="Pre-ordenar" actionListener="#{generadorSolicitudLotesBonos.guardar()}" 
+                                                 update="@form :#{p:component('messages')}" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
+                                <p:commandButton id="btnconfirm" value="Ordenar" actionListener="#{generadorSolicitudLotesBonos.solicitar()}" 
                                                  update="@form :#{p:component('messages')}" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
 
 

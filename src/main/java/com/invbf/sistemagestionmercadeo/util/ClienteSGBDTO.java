@@ -7,13 +7,14 @@ package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.entity.Area;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
+import java.io.Serializable;
 
 
 /**
  *
  * @author ivan
  */
-public class ClienteSGBDTO {
+public class ClienteSGBDTO  implements Serializable{
     private Float valorTotal;
     private Cliente clientessgb;
     private Area areaid;
