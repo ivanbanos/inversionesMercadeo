@@ -53,7 +53,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Cliente.findByCiudad", query = "SELECT c FROM Cliente c WHERE c.ciudad = :ciudad"),
     @NamedQuery(name = "Cliente.findByBonoFidelizacion", query = "SELECT c FROM Cliente c WHERE c.bonoFidelizacion = :bonoFidelizacion"),
     @NamedQuery(name = "Cliente.findByGenero", query = "SELECT c FROM Cliente c WHERE c.genero = :genero"),
-    @NamedQuery(name = "Cliente.findByCasino", query = "SELECT c FROM Cliente c WHERE c.idCasinoPreferencial.idCasino = :casino"),
+    @NamedQuery(name = "Cliente.findByCasino", query = "SELECT c FROM Cliente c WHERE c.idCasinoPreferencial.idCasino = :casino ORDER BY c.nombres"),
     @NamedQuery(name = "Cliente.findByIdent", query = "SELECT c FROM Cliente c WHERE c.identificacion = :identificacion"),
     @NamedQuery(name = "Cliente.findByAttr", query = "SELECT c FROM Cliente c WHERE c.nombres LIKE :nombres AND c.apellidos LIKE :apellidos AND c.identificacion LIKE :identificacion")})
 public class Cliente implements Serializable {
@@ -143,6 +143,10 @@ public class Cliente implements Serializable {
     @Size(max = 1000)
     @Column(name = "gustosPreferencias")
     private String gustosPreferencias;
+    
+    @Size(max = 1000)
+    @Column(name = "fuma")
+    private String fuma;
     
     
     @JoinTable(name = "ClientesTiposJuegos", joinColumns = {
@@ -479,6 +483,14 @@ public class Cliente implements Serializable {
 
     public void setComida(String comida) {
         this.comida = comida;
+    }
+
+    public String getFuma() {
+        return fuma;
+    }
+
+    public void setFuma(String fuma) {
+        this.fuma = fuma;
     }
     
 }

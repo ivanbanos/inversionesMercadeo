@@ -44,6 +44,7 @@ public class ClienteDTO implements Serializable {
     private String idTipoDocumento;
     private String idCategorias;
     private String idCasinoPreferencial;
+    private String fuma;
 
     public ClienteDTO() {
     }
@@ -78,6 +79,7 @@ public class ClienteDTO implements Serializable {
         }
         this.idCategorias = c.getIdCategorias().getNombre();
         this.idCasinoPreferencial = c.getIdCasinoPreferencial().getNombre();
+        this.fuma = c.getFuma();
     }
 
     public Integer getIdCliente() {
@@ -296,6 +298,14 @@ public class ClienteDTO implements Serializable {
         this.idCasinoPreferencial = idCasinoPreferencial;
     }
 
+    public String getFuma() {
+        return fuma;
+    }
+
+    public void setFuma(String fuma) {
+        this.fuma = fuma;
+    }
+
     public String getAsEmail() {
         String htmlText = "";
         htmlText += "<div><Label>Nombres: </label> " + nombres.substring(0, 1) + "*****</div>";
@@ -330,6 +340,7 @@ public class ClienteDTO implements Serializable {
         htmlText += "<div><Label>Personalidad: </label> " + descripcionPersonalidad + "</div>";
         htmlText += "<div><Label>Bebida preferida: </label> " + bebida + "</div>";
         htmlText += "<div><Label>Comida preferida: </label> " + comida + "</div>";
+        htmlText += "<div><Label>Fuma?: </label> " + fuma + "</div>";
         htmlText += "<div><Label>Otros gustos: </label> " + gustosPreferencias + "</div>";
         htmlText += "<div><Label>Tipos de juego: </label> <ul>";
         for (Tipojuego tipojuegoList1 : tipojuegoList) {

@@ -234,7 +234,7 @@
                                 </p:column>
                                 <p:column headerText="#{label['acciones']}" filterBy="#{element.nombres}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:commandButton id="editButtonClientes" action="#{reportesClientesBean.goCliente(element.idCliente)}" icon="ui-icon-pencil" 
-                                                     title="#{label['lb_btn.editar']}" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                                     title="#{label['lb_btn.editar']}" onstart="PF('ajaxWaitingDialog').show();" 
                                                      rendered="#{sessionBean.perfilFormMatch(&quot;Clientes&quot;, &quot;actualizar&quot;)}"/>    
                                     <p:commandButton id="deleteButton" oncomplete="PF('deleteDialogClientes').show();PF('ajaxWaitingDialog').hide();" onstart="PF('ajaxWaitingDialog').show();"
                                                      icon="ui-icon-trash" title="#{label['lb_btn.borrar']}"  update=":#{p:component('deleteDialogClientes')}"
@@ -245,7 +245,7 @@
                                 </p:column>
 
                                 <f:facet name="footer"> 
-                                    <p:commandButton id="addButton" action="#{reportesClientesBean.goCliente(0)}" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                    <p:commandButton id="addButton" action="#{reportesClientesBean.goCliente(0)}" onstart="PF('ajaxWaitingDialog').show();" 
                                                      value="#{label['lb_btn.agregar']}" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
                                                      rendered="#{sessionBean.perfilFormMatch(&quot;Clientes&quot;, &quot;crear&quot;)}"/>   
                                 </f:facet>
@@ -348,8 +348,8 @@
 
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
                                 <h:outputLabel class="col-md-6 control-label" value="Cupo de fidelizaci&oacute;n: " />
-                                <h:outputText class="col-md-6" value="#{reportesClientesBean.elemento.bonoFidelizacion}" >\
-                                </h:outputText>
+                                <h:outputText class="col-md-6" value="#{reportesClientesBean.elemento.bonoFidelizacion}" >
+                                    <f:convertNumber maxIntegerDigits="10" maxFractionDigits="1" pattern="#########0.0"/></h:outputText>
                             </div>
 
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
@@ -360,7 +360,8 @@
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
                                 <h:outputLabel class="col-md-6 control-label" value="Monto aprox. jugado por visita:" />
                                 <div class="col-md-8">
-                                    <h:outputText value="#{reportesClientesBean.elemento.montodejuegovisita}"  />
+                                    <h:outputText value="#{reportesClientesBean.elemento.montodejuegovisita}"  >
+                                    <f:convertNumber maxIntegerDigits="10" maxFractionDigits="1" pattern="############0.0"/></h:outputText>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
@@ -401,6 +402,11 @@
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
                                 <h:outputLabel class="col-md-6 control-label" value="Comida preferida: " />
                                 <h:outputText class="col-md-6" value="#{reportesClientesBean.elemento.comida}" >
+                                </h:outputText>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+                                <h:outputLabel class="col-md-6 control-label" value="Fuma?: " />
+                                <h:outputText class="col-md-6" value="#{reportesClientesBean.elemento.fuma}" >
                                 </h:outputText>
                             </div>
 

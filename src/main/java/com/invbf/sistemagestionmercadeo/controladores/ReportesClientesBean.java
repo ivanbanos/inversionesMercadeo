@@ -334,10 +334,11 @@ public class ReportesClientesBean  implements Serializable{
                 }
             }
         }
-        FacesUtil.addInfoMessage("Clientes filtrados!","Cantidad "+lista.size());
         
         lista = new ArrayList<ClienteDTO>();
              fillClientes(clientes);
+             
+        FacesUtil.addInfoMessage("Clientes filtrados!","Cantidad "+lista.size());
         System.gc();
     }
 

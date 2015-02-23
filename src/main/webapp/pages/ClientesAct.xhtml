@@ -210,6 +210,7 @@
                             <div class="col-md-6">
                                 <p:spinner id="cupo" value="#{clientesActBean.elemento.bonoFidelizacion}" prefix="$" min="0" stepFactor="5000">
 
+                                    <f:convertNumber maxIntegerDigits="10" maxFractionDigits="1" pattern="#########0.0"/>
                                 </p:spinner>
                             </div>
                         </div>
@@ -280,7 +281,9 @@
                         <div class="form-group col-md-6">
                             <label class="col-md-4 control-label" >Monto aprox. jugado por visita:</label>
                             <div class="col-md-8">
-                                <p:spinner min="0" prefix="$" value="#{clientesActBean.elemento.montodejuegovisita}"  />
+                                <p:spinner min="0" prefix="$" value="#{clientesActBean.elemento.montodejuegovisita}"  >
+                                    <f:convertNumber maxIntegerDigits="10" maxFractionDigits="1" pattern="#########0.0"/>
+                                </p:spinner>
                             </div>
                         </div>
 
@@ -298,7 +301,7 @@
                         <div class="form-group col-md-6">
                             <label class="col-md-4 control-label" >Horario habitual de visita:</label>
                             <div class="col-md-8">
-                                
+
                                 <p:selectOneMenu id="hora" value="#{clientesActBean.elemento.horaHabitualVisita}">
                                     <f:selectItem itemLabel="Select One" itemValue="" />
                                     <f:selectItem itemLabel="CUALQUIER HORA" itemValue="CUALQUIER HORA" />
@@ -371,9 +374,22 @@
 
                     </div>
 
+                    <div class="row clearfix">
 
+                        <div class="form-group col-md-6">
+                            <label class="col-md-4 control-label" >Fuma?:</label>
+                            <div class="col-md-8">
 
+                                <p:selectOneMenu id="fuma" value="#{clientesActBean.elemento.fuma}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItem itemLabel="NO FUMA" itemValue="NO FUMA" />
+                                    <f:selectItem itemLabel="POCO" itemValue="POCO" />
+                                    <f:selectItem itemLabel="MUCHO" itemValue="MUCHO" />
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
 
+                    </div>
 
 
 
@@ -390,9 +406,9 @@
                 </div>
                 <div class="panel-footer text-right"> 
                     <p:commandButton id="btnconfirm" 
-                                     oncomplete="PF('ajaxWaitingDialog').hide();" onstart="PF('ajaxWaitingDialog').show();" 
+                                     onstart="PF('ajaxWaitingDialog').show();" 
                                      value="#{label['Confirmar']}" actionListener="#{clientesActBean.guardar()}" style="margin:0" />
-                    <p:button id="btnclose" value="#{label['Volver']}" outcome="/pages/Reporteclientes.xhtml" />
+                    <p:button id="btnclose" value="#{label['Volver']}" outcome="/pages/Reporteclientes.xhtml" onclick="PF('ajaxWaitingDialog').show();" />
 
                 </div>
             </div>

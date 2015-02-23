@@ -6,6 +6,7 @@ package com.invbf.sistemagestionmercadeo.dao;
 
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Tipodocumento;
+import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -84,19 +85,27 @@ public class ClienteDao {
 
         if (cargos == null) {
             return false;
-        }else if(!cargos.isEmpty()){
+        } else if (!cargos.isEmpty()) {
             return true;
-        }return false;
+        }
+        return false;
     }
 
     public ClienteDao() {
     }
 
     public static void create(Cliente cliente) {
-        cliente.setNombres(cliente.getNombres().toUpperCase());
-        cliente.setApellidos(cliente.getApellidos().toUpperCase());
-        cliente.setCiudad(cliente.getCiudad().toUpperCase());
-        cliente.setPais(cliente.getPais().toUpperCase());
+        cliente.setNombres(cliente.getNombres()!=null?cliente.getNombres().toUpperCase():"");
+        cliente.setApellidos(cliente.getApellidos()!=null?cliente.getApellidos().toUpperCase():"");
+        
+        cliente.setCiudad(cliente.getCiudad()!=null?cliente.getCiudad().toUpperCase():"");
+        cliente.setPais(cliente.getPais()!=null?cliente.getPais().toUpperCase():"");
+        cliente.setBebida(cliente.getBebida()!=null?cliente.getBebida().toUpperCase():"");
+        cliente.setComida(cliente.getComida()!=null?cliente.getComida().toUpperCase():"");
+        cliente.setDescripcionPersonalidad(cliente.getDescripcionPersonalidad()!=null?cliente.getDescripcionPersonalidad().toUpperCase():"");
+        cliente.setGustosPreferencias(cliente.getGustosPreferencias()!=null?cliente.getGustosPreferencias().toUpperCase():"");
+        cliente.setMaquinapreferida(cliente.getMaquinapreferida()!=null?cliente.getMaquinapreferida().toUpperCase():"");
+        cliente.setOcupacion(cliente.getOcupacion()!=null?cliente.getOcupacion().toUpperCase():"");
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
@@ -146,10 +155,14 @@ public class ClienteDao {
 
         tx.begin();
         try {
+            cliente = em.find(Cliente.class, cliente.getIdCliente());
             em.remove(em.merge(cliente));
             tx.commit();
         } catch (Exception e) {
-            tx.rollback();
+            FacesUtil.addErrorMessage("No se pudo eliminar a el clliente", "Tiene Bonos asignados");
+            if (tx.isActive()) {
+                tx.rollback();
+            }
         }
 
         em.clear();
