@@ -5,6 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.dao;
 
+import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -114,7 +116,10 @@ public class SolicitudentregalotesmaestroDao {
         tx.begin();
         try {
             javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Solicitudentregalotesmaestro.class));
+            
+            Root<Solicitudentregalotesmaestro> c = cq.from(Solicitudentregalotesmaestro.class);
+            cq.select(c);
+            cq.orderBy(em.getCriteriaBuilder().desc(c.get("fecha")));
             lista = em.createQuery(cq).getResultList();
             tx.commit();
         } catch (Exception e) {

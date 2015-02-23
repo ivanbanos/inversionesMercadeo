@@ -5,9 +5,11 @@
 package com.invbf.sistemagestionmercadeo.dao;
 
 import com.invbf.sistemagestionmercadeo.entity.Accion;
+import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Listasclientestareas;
 import com.invbf.sistemagestionmercadeo.entity.ListasclientestareasPK;
 import com.invbf.sistemagestionmercadeo.entity.Tarea;
+import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -21,6 +23,29 @@ import javax.persistence.criteria.Root;
  * @author ideacentre
  */
 public class TareasDao {
+
+    public static List<Tarea> GetTareaByUsuario(Usuario usuario) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Tarea> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Tarea>) em.createNamedQuery("Tarea.findByEstado")
+                    .setParameter("estado", "ACTIVA")
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+
+            return cargos;
+    }
 
     public TareasDao() {
     }

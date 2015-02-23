@@ -63,12 +63,13 @@
 
                                         <p:column headerText="Acciones" filterBy="#{element.nombreUsuario}" filterMatchMode="contains" filterStyle="display:none">
                                             <p:commandButton id="editButton" update=":#{p:component('editDialogUsuarios')}" 
-                                                             oncomplete="PF('editDialogUsuarios').show()" icon="ui-icon-pencil" 
+                                                             onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('editDialogUsuarios').show()" 
+                                                             icon="ui-icon-pencil" 
                                                              title="#{label['lb_btn.editar']}" 
                                                              rendered="#{sessionBean.perfilFormMatch(&quot;Usuarios&quot;, &quot;actualizar&quot;)}">  
                                                 <f:setPropertyActionListener value="#{element}" target="#{crudUsuariosBean.elemento}" />  
                                             </p:commandButton>
-                                            <p:commandButton id="deleteButton" oncomplete="PF('deleteDialogUsuarios').show();" 
+                                            <p:commandButton id="deleteButton" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('deleteDialogUsuarios').show();" 
                                                              icon="ui-icon-trash" title="#{label['lb_btn.borrar']}"  update=":#{p:component('deleteDialogUsuarios')}"
                                                              rendered="#{sessionBean.perfilFormMatch(&quot;Usuarios&quot;, &quot;eliminar&quot;)}">
                                                 <f:setPropertyActionListener value="#{element}" target="#{crudUsuariosBean.elemento}" /> 
@@ -76,7 +77,7 @@
                                         </p:column>
 
                                         <f:facet name="footer">  
-                                            <p:commandButton id="addButton" oncomplete="PF('addDialogUsuarios').show();" 
+                                            <p:commandButton id="addButton" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('addDialogUsuarios').show();" 
                                                              value="#{label['lb_btn.agregar']}" icon="ui-icon-plusthick" title="#{label['lb_btn.agregarUsuarios']}" 
                                                              rendered="#{sessionBean.perfilFormMatch(&quot;Usuarios&quot;, &quot;crear&quot;)}"/>  
                                         </f:facet>
@@ -213,7 +214,7 @@
                                     </div>
                                     <div class="panel-footer text-right"> 
                                         <p:commandButton value="Confirmar" actionListener="#{crudUsuariosBean.guardar()}" 
-                                                         oncomplete="PF('addDialogUsuarios').hide()" icon="ui-icon-check" 
+                                                         onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('addDialogUsuarios').hide()" icon="ui-icon-check" 
                                                          update=":#{p:component('detailsTableUsuarios')} :#{p:component('addDialogUsuarios')} :#{p:component('messages')}" style="margin:0" />   
                                     </div>
                                 </div>
@@ -351,7 +352,7 @@
                                     </div>
                                     <div class="panel-footer text-right"> 
                                         <p:commandButton value="Confirmar" action="#{crudUsuariosBean.guardar()}" 
-                                                         oncomplete="PF('editDialogUsuarios').hide()" icon="ui-icon-check"
+                                                         onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('editDialogUsuarios').hide()" icon="ui-icon-check"
                                                          update=":#{p:component('detailsTableUsuarios')} :#{p:component('messages')}" style="margin:0"/>    
                                     </div>
                                 </div>
@@ -361,7 +362,7 @@
                             <p:confirmDialog id="deleteDialogUsuarios" message="Quiere borrar el Usuario #{crudUsuariosBean.elemento.nombreUsuario}?"  
                                              header="Borrar" severity="alert" widgetVar="deleteDialogUsuarios" closable="false">  
 
-                                <p:commandButton id="confirm" value="Aceptar" oncomplete="PF('deleteDialogUsuarios').hide()"  
+                                <p:commandButton id="confirm" value="Aceptar" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('deleteDialogUsuarios').hide()"  
                                                  action="#{crudUsuariosBean.delete()}" update=":#{p:component('detailsTableUsuarios')} :#{p:component('messages')}"/>  
                                 <p:commandButton id="decline" value="Cancelar" onclick="PF('deleteDialogUsuarios').hide()" type="button" />   
 
@@ -405,11 +406,11 @@
                                         </p:column>
 
                                         <p:column headerText="Acciones" filterBy="#{element.nombre}" filterMatchMode="contains" filterStyle="display:none">
-                                            <p:commandButton id="editButtonPerfiles" icon="ui-icon-pencil" 
+                                            <p:commandButton id="editButtonPerfiles" icon="ui-icon-pencil" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
                                                              title="#{label['lb_btn.editarPerfiles']}" action="#{crudPerfilesBean.goPerfil(element.idPerfil)}"
                                                              rendered="#{sessionBean.perfilFormMatch(&quot;Perfiles&quot; , &quot;actualizar&quot;)}">   
                                             </p:commandButton>
-                                            <p:commandButton id="deleteButtonPerfiles" oncomplete="PF('deleteDialogPerfiles').show();" 
+                                            <p:commandButton id="deleteButtonPerfiles" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('deleteDialogPerfiles').show();" 
                                                              icon="ui-icon-trash" title="#{label['lb_btn.borrar']}"  update=":#{p:component('deleteDialogPerfiles')}"
                                                              rendered="#{sessionBean.perfilFormMatch(&quot;Perfiles&quot; , &quot;eliminar&quot;)}">
                                                 <f:setPropertyActionListener value="#{element}" target="#{crudPerfilesBean.elemento}"  /> 
@@ -417,7 +418,7 @@
                                         </p:column>
 
                                         <f:facet name="footer">  
-                                            <p:commandButton id="addButton" oncomplete="PF('addDialogPerfiles').show();" 
+                                            <p:commandButton id="addButton" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('addDialogPerfiles').show();" 
                                                              value="#{label['lb_btn.agregar']}" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
                                                              rendered="#{sessionBean.perfilFormMatch(&quot;Perfiles&quot; , &quot;crear&quot;)}"/>  
                                         </f:facet>
@@ -446,7 +447,7 @@
                                     </div>
                                     <div class="panel-footer text-right"> 
                                         <p:commandButton value="Confirmar" actionListener="#{crudPerfilesBean.guardar()}" 
-                                                         oncomplete="PF('addDialogPerfiles').hide()" icon="ui-icon-check" 
+                                                         onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('addDialogPerfiles').hide()" icon="ui-icon-check" 
                                                          update=":#{p:component('detailsTablePerfiles')} :#{p:component('addDialogPerfiles')} :#{p:component('messages')}" style="margin:0" />   
                                         <p:commandButton value="Cerrar" oncomplete="PF('addDialogPerfiles').hide()" update=":#{p:component('addDialogPerfiles')}" icon="ui-icon-closethick"/>  
                                     </div>
@@ -458,7 +459,7 @@
                             <p:confirmDialog id="deleteDialogPerfiles" message="Quiere borrar el perfil #{crudPerfilesBean.elemento.nombre}?"  
                                              header="Borrar" severity="alert" widgetVar="deleteDialogPerfiles" closable="false">  
 
-                                <p:commandButton id="confirm" value="Aceptar" oncomplete="PF('deleteDialogPerfiles').hide()"  
+                                <p:commandButton id="confirm" value="Aceptar" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('deleteDialogPerfiles').hide()"  
                                                  action="#{crudPerfilesBean.delete()}" update=":#{p:component('detailsTablePerfiles')} :#{p:component('messages')}"/>  
                                 <p:commandButton id="decline" value="Cancelar" onclick="PF('deleteDialogPerfiles').hide()" type="button" />   
 

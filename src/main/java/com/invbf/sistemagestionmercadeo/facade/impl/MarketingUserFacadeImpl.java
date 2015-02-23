@@ -256,14 +256,14 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     }
 
     @Override
-    public void deleteClientes(Cliente elemento) {
-        List<Clienteatributo> listaca = ClienteatributoDao.findByCliente(elemento);
+    public void deleteClientes(Integer elemento) {
+        List<Clienteatributo> listaca = ClienteatributoDao.findByCliente(new Cliente(elemento));
         if (listaca != null) {
             for (Clienteatributo ca : listaca) {
                 ClienteatributoDao.remove(ca);
             }
         }
-        ClienteDao.remove(elemento);
+        ClienteDao.remove(new Cliente(elemento));
     }
 
     @Override
@@ -601,7 +601,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
 
     @Override
     public List<Solicitudentregalotesmaestro> getAllSolicitudentregalotesmaestro() {
-        return SolicitudentregalotesmaestroDao.findAllButPrecreada();
+        return SolicitudentregalotesmaestroDao.findAll();
     }
 
     @Override
@@ -969,7 +969,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
 
     @Override
     public void guardarClientesSinCategoria(Cliente cliente) {
-        Categoria cat = CategoriaDao.findByName("SIN CATEGORIA");
+        Categoria cat = CategoriaDao.findByName("C");
         cliente.setIdCategorias(cat);
         ClienteDao.create(cliente);
     }
@@ -978,4 +978,10 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     public Integer getCantClientes() {
         return ClienteDao.count();
     }
+
+    @Override
+    public List<Tarea> getTareasUsuario(Usuario usuario) {
+        return TareasDao.GetTareaByUsuario(usuario);
+    }
+
 }

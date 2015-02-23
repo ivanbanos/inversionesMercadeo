@@ -63,13 +63,13 @@
                                         <p:column headerText="#{label['acciones']}" >   
                                             <p:commandButton id="editButton" action="#{listaSolicitudesdeSalidadeBonos.goSolicitud(element.id)}" icon="ui-icon-pencil" 
                                                              title="#{label['lb_btn.editar']}"
-                                                             rendered="#{sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;) and !element.estado.equals(&quot;ACEPTADA&quot;)}"/> 
-                                            <p:commandButton id="aceptar" action="#{listaSolicitudesdeSalidadeBonos.goSolicitudAceptar(element.id)}" icon="ui-icon-gear" 
+                                                             rendered="#{sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;) and !element.estado.equals(&quot;POR VERIFICAR&quot;)}"/> 
+                                            <p:commandButton id="aceptar" action="#{listaSolicitudesdeSalidadeBonos.goSolicitudAceptar(element.id)}" icon="ui-icon-check" 
                                                              title="#{label['lb_btn.aceptar']}"
-                                                             rendered="#{sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;) and !element.estado.equals(&quot;ACEPTADA&quot;)}"/> 
+                                                             rendered="#{sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;) and !element.estado.equals(&quot;POR VERIFICAR&quot;)}"/> 
                                             <p:commandButton id="validar" action="#{listaSolicitudesdeSalidadeBonos.goSolicitudValidarBonos(element.id)}" icon="ui-icon-gear" 
-                                                             title="#{label['lb_btn.aceptar']}"
-                                                             rendered="#{sessionBean.perfilViewMatch(&quot;Verificarbono&quot;) and element.estado.equals(&quot;ACEPTADA&quot;)}"/> 
+                                                             title="Verificar"
+                                                             rendered="#{sessionBean.perfilViewMatch(&quot;Verificarbono&quot;) and element.estado.equals(&quot;POR VERIFICAR&quot;)}"/> 
                                         </p:column>
 
 

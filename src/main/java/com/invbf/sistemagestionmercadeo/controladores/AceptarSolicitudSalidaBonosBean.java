@@ -42,7 +42,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class AceptarSolicitudSalidaBonosBean  implements Serializable{
+public class AceptarSolicitudSalidaBonosBean implements Serializable {
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -72,7 +72,7 @@ public class AceptarSolicitudSalidaBonosBean  implements Serializable{
         }
 
         Integer id = (Integer) sessionBean.getAttributes("idsolicitudsalida");
-        if (id!=null&& id != 0) {
+        if (id != null && id != 0) {
             elemento = sessionBean.marketingUserFacade.getSolicitudSalida(id);
         } else {
             try {
@@ -103,7 +103,7 @@ public class AceptarSolicitudSalidaBonosBean  implements Serializable{
             LoteBonoCant ltc = new LoteBonoCant(controlsalidabonosHasLotesbonos.getLotebono(), controlsalidabonosHasLotesbonos.getCantidad());
             ltc.setDesde(controlsalidabonosHasLotesbonos.getLotebono().getDesde());
             String hasta = ltc.getDesde();
-            for (int i = controlsalidabonosHasLotesbonos.getCantidad()-1; i > 0; i--) {
+            for (int i = controlsalidabonosHasLotesbonos.getCantidad() - 1; i > 0; i--) {
                 System.out.println(i);
                 while (true) {
                     boolean seencontro = false;
@@ -121,9 +121,13 @@ public class AceptarSolicitudSalidaBonosBean  implements Serializable{
                 }
                 hasta = sumeUno(hasta);
             }
-            ltc.setHasta(hasta);
+            if (ltc.getCantidad() != 0) {
+                ltc.setHasta(hasta);
+            }else{
+                ltc.setHasta("");
+            }
             total += controlsalidabonosHasLotesbonos.getCantidad() * controlsalidabonosHasLotesbonos.getLotebono().getDenominacion().getValor();
-            
+
             loteBonoCants.add(ltc);
         }
 
@@ -139,7 +143,7 @@ public class AceptarSolicitudSalidaBonosBean  implements Serializable{
     }
 
     public void guardar() {
-        elemento.setEstado("ACEPTADA");
+        elemento.setEstado("POR VERIFICAR");
         crearBonos();
         sessionBean.marketingUserFacade.guardarControlSalidaBonos(elemento, true);
         FacesUtil.addInfoMessage("Se aceptó la solicitud!", "Notificación enviada");
@@ -231,7 +235,7 @@ public class AceptarSolicitudSalidaBonosBean  implements Serializable{
                             b.setControlSalidaBonosid(elemento);
                             if (lote.getTipoBono().getNombre().equals("PROMOCIONAL")) {
                                 System.out.println(casino.getCasinodetalle().getAbreCiudad());
-                                b.setConsecutivo(casino.getCasinodetalle().getCiudad()+ desde);
+                                b.setConsecutivo(casino.getCasinodetalle().getCiudad() + desde);
                                 b.setEstado("VERIFICADO");
                             } else {
                                 b.setConsecutivo(casino.getCasinodetalle().getAbrenopromo() + desde);
@@ -252,11 +256,11 @@ public class AceptarSolicitudSalidaBonosBean  implements Serializable{
         }
         boolean enviarmail = false;
         for (Lotebono lote : lotes) {
-            if(ConvertidorConsecutivo.getCantidadInt(lote.getDesde(), lote.getHasta())<200){
+            if (ConvertidorConsecutivo.getCantidadInt(lote.getDesde(), lote.getHasta()) < 200) {
                 enviarmail = true;
             }
         }
-        if(enviarmail){
+        if (enviarmail) {
             Notificador.notificar(Notificador.INVENTARIO_EN_PROBLEMA, "Alerta de stock de bonos", "Existen Stocks de bonos que la cantidad es muy baja. Revisar el Inventario.", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         }
         sessionBean.marketingUserFacade.guardarBonos(bonosAGuardar);

@@ -280,7 +280,7 @@
                         <div class="form-group col-md-6">
                             <label class="col-md-4 control-label" >Monto aprox. jugado por visita:</label>
                             <div class="col-md-8">
-                                <p:inputText value="#{clientesActBean.elemento.montodejuegovisita}"  />
+                                <p:spinner min="0" prefix="$" value="#{clientesActBean.elemento.montodejuegovisita}"  />
                             </div>
                         </div>
 
@@ -298,7 +298,14 @@
                         <div class="form-group col-md-6">
                             <label class="col-md-4 control-label" >Horario habitual de visita:</label>
                             <div class="col-md-8">
-                                <p:inputText value="#{clientesActBean.elemento.horaHabitualVisita}"  />
+                                
+                                <p:selectOneMenu id="hora" value="#{clientesActBean.elemento.horaHabitualVisita}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItem itemLabel="CUALQUIER HORA" itemValue="CUALQUIER HORA" />
+                                    <f:selectItem itemLabel="MA&Ntilde;ANAS" itemValue="MA&Ntilde;ANAS" />
+                                    <f:selectItem itemLabel="TARDES" itemValue="TARDES" />
+                                    <f:selectItem itemLabel="NOCHES" itemValue="NOCHES" />
+                                </p:selectOneMenu>
                             </div>
                         </div>
 
@@ -309,7 +316,13 @@
                         <div class="form-group col-md-6">
                             <label class="col-md-4 control-label" >D&iacute;a habitual de visita:</label>
                             <div class="col-md-8">
-                                <p:inputText value="#{clientesActBean.elemento.diaSemanaVisita}"  />
+
+                                <p:selectOneMenu id="DIAS" value="#{clientesActBean.elemento.diaSemanaVisita}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItem itemLabel="CUALQUIER D&Iacute;A" itemValue="CUALQUIER D&Iacute;A" />
+                                    <f:selectItem itemLabel="FINES DE SEMANA" itemValue="FINES DE SEMANA" />
+                                    <f:selectItem itemLabel="DE LUNES A VIERNES" itemValue="DE LUNES A VIERNES" />
+                                </p:selectOneMenu>
                             </div>
                         </div>
 
@@ -377,8 +390,8 @@
                 </div>
                 <div class="panel-footer text-right"> 
                     <p:commandButton id="btnconfirm" 
-                                    oncomplete="PF('ajaxWaitingDialog').hide();" onstart="PF('ajaxWaitingDialog').show();" 
-                                    value="#{label['Confirmar']}" actionListener="#{clientesActBean.guardar()}" style="margin:0" />
+                                     oncomplete="PF('ajaxWaitingDialog').hide();" onstart="PF('ajaxWaitingDialog').show();" 
+                                     value="#{label['Confirmar']}" actionListener="#{clientesActBean.guardar()}" style="margin:0" />
                     <p:button id="btnclose" value="#{label['Volver']}" outcome="/pages/Reporteclientes.xhtml" />
 
                 </div>

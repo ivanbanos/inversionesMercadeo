@@ -29,6 +29,7 @@ import com.invbf.sistemagestionmercadeo.facade.impl.SystemFacadeImpl;
 import com.invbf.sistemagestionmercadeo.observer.Observer;
 import com.invbf.sistemagestionmercadeo.observer.Subject;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
+import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -105,6 +106,11 @@ public class SessionBean implements Serializable, Subject {
         } else {
             paginacion = Integer.parseInt(configuracion.getValor());
         }
+
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpSession session = (HttpSession) externalContext.getSession(true);
+        session.setAttribute("Mensajes", new ArrayList<Mensajes>());
     }
 
     public Usuario getUsuario() {
@@ -200,22 +206,24 @@ public class SessionBean implements Serializable, Subject {
     }
 
     public Object getAttributes(String key) {
-         FacesContext facesContext = FacesContext.getCurrentInstance();
-           ExternalContext externalContext=facesContext.getExternalContext();
-           HttpSession session = (HttpSession) externalContext.getSession(true);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpSession session = (HttpSession) externalContext.getSession(true);
 
         return session.getAttribute(key);
     }
-    public void setAttribute( String key,Object o) {
-         FacesContext facesContext = FacesContext.getCurrentInstance();
-           ExternalContext externalContext=facesContext.getExternalContext();
-           HttpSession session = (HttpSession) externalContext.getSession(true);
+
+    public void setAttribute(String key, Object o) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpSession session = (HttpSession) externalContext.getSession(true);
         session.setAttribute(key, o);
     }
+
     public void removeAttribute(String key) {
-         FacesContext facesContext = FacesContext.getCurrentInstance();
-           ExternalContext externalContext=facesContext.getExternalContext();
-           HttpSession session = (HttpSession) externalContext.getSession(true);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpSession session = (HttpSession) externalContext.getSession(true);
         session.removeAttribute(key);
     }
 
@@ -569,6 +577,35 @@ public class SessionBean implements Serializable, Subject {
 
     public void revisarEstadoBonos() {
         adminFacade.revisarBonos();
+    }
+
+    public void putMensaje(Mensajes m) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpSession session = (HttpSession) externalContext.getSession(true);
+        ((List<Mensajes>) session.getAttribute("Mensajes")).add(m);
+    }
+
+    public void printMensajes() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpSession session = (HttpSession) externalContext.getSession(true);
+        List<Mensajes> mensajes = (List<Mensajes>) session.getAttribute("Mensajes");
+        for (Iterator<Mensajes> iterator = mensajes.iterator(); iterator.hasNext();) {
+            Mensajes next = iterator.next();
+            switch (next.getTipo()) {
+                case Mensajes.ERROR:
+                    FacesUtil.addErrorMessage(next.getMensaje(), next.getDetalle());
+                    break;
+                case Mensajes.ADVERTENCIA:
+                    FacesUtil.addWarnMessage(next.getMensaje(), next.getDetalle());
+                    break;
+                case Mensajes.INFORMACION:
+                    FacesUtil.addInfoMessage(next.getMensaje(), next.getDetalle());
+                    break;
+            }
+            iterator.remove();
+        }
     }
 
 }

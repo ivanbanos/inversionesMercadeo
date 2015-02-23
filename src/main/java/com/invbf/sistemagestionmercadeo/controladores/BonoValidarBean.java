@@ -31,7 +31,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class BonoValidarBean  implements Serializable{
+public class BonoValidarBean implements Serializable {
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -62,7 +62,7 @@ public class BonoValidarBean  implements Serializable{
         }
 
         Integer id = (Integer) sessionBean.getAttributes("idsolicitudsalida");
-        if (id!=null && id != 0) {
+        if (id != null && id != 0) {
             elemento = sessionBean.marketingUserFacade.getSolicitudSalida(id);
         } else {
             try {
@@ -101,9 +101,12 @@ public class BonoValidarBean  implements Serializable{
                     }
                 }
             } else {
-                bonosPorAsignar.add(new ConsecutivoBono(bono.getId(), bono.getConsecutivo(), bono.getDenominacion().getValor(), bono.getDenominacion().getId(), bono.getCliente().getIdCliente(), bono.getCliente().getNombres() + " " + bono.getCliente().getApellidos()));
-                ClienteMonto cliente = clientes.get(clientes.indexOf(new ClienteMonto(bono.getCliente().getIdCliente())));
-                cliente.restarBono(bono.getDenominacion());
+                if (bono.getEstado().equals("POR VERIFICAR")) {
+                    bonosPorAsignar.add(new ConsecutivoBono(bono.getId(), bono.getConsecutivo(), bono.getDenominacion().getValor(), bono.getDenominacion().getId(), bono.getCliente().getIdCliente(), bono.getCliente().getNombres() + " " + bono.getCliente().getApellidos()));
+
+                    ClienteMonto cliente = clientes.get(clientes.indexOf(new ClienteMonto(bono.getCliente().getIdCliente())));
+                    cliente.restarBono(bono.getDenominacion());
+                }
             }
         }
         clientesNecesitanDenominacion = new ArrayList<ClienteMonto>();

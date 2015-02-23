@@ -8,11 +8,13 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.entity.Bononoincluido;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
+import com.invbf.sistemagestionmercadeo.entity.Propositoentrega;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
 import com.invbf.sistemagestionmercadeo.reportes.ReportCreator;
 import com.invbf.sistemagestionmercadeo.util.BonosnoincluidosDTO;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
+import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.loteBonoSolicitud;
 import java.io.IOException;
 import java.io.Serializable;
@@ -22,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.logging.Level;
@@ -32,6 +35,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import org.primefaces.event.FlowEvent;
 import org.primefaces.model.StreamedContent;
 
 /**
@@ -40,7 +44,7 @@ import org.primefaces.model.StreamedContent;
  */
 @ManagedBean
 @ViewScoped
-public class GeneradorSolicitudLotesBonos implements Serializable{
+public class GeneradorSolicitudLotesBonos implements Serializable {
 
     private Solicitudentregalotesmaestro elemento;
     private List<Casino> casinos;
@@ -126,14 +130,14 @@ public class GeneradorSolicitudLotesBonos implements Serializable{
             } catch (IOException ex) {
             }
         }
-        if (sessionBean.getAttributes("lotesbonosnoincluidos")!=null) {
+        if (sessionBean.getAttributes("lotesbonosnoincluidos") != null) {
             loteBonoSolicitudes = (List<loteBonoSolicitud>) sessionBean.getAttributes("lotesbonosnoincluidos");
             sessionBean.removeAttribute("lotesbonosnoincluidos");
         } else {
             loteBonoSolicitudes = new ArrayList<loteBonoSolicitud>();
         }
         System.out.println("Buscando info de la solictud si existe");
-        if (sessionBean.getAttributes("idsolicitudentregalotes")!=null && (Integer) sessionBean.getAttributes("idsolicitudentregalotes") != 0) {
+        if (sessionBean.getAttributes("idsolicitudentregalotes") != null && (Integer) sessionBean.getAttributes("idsolicitudentregalotes") != 0) {
             Integer id = (Integer) sessionBean.getAttributes("idsolicitudentregalotes");
             elemento = sessionBean.marketingUserFacade.getSolicitudentregalotesbono(id);
             if (loteBonoSolicitudes.isEmpty()) {
@@ -154,6 +158,8 @@ public class GeneradorSolicitudLotesBonos implements Serializable{
         }
         casinos = sessionBean.adminFacade.findAllCasinos();
         casinoSelected = new Casino();
+
+        sessionBean.printMensajes();
     }
 
     public Solicitudentregalotesmaestro getElemento() {
@@ -182,17 +188,18 @@ public class GeneradorSolicitudLotesBonos implements Serializable{
                 elemento.getSolicitudentregaloteList().add(sel);
                 listaBonosReincluidos.addAll(lotes.getBonosReincluidos());
             }
-            sessionBean.marketingUserFacade.guardarSolicitudentregabonos(elemento, listaBonosReincluidos, 1);
+            sessionBean.marketingUserFacade.guardarSolicitudentregabonos(elemento, listaBonosReincluidos, 0);
             sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
             sessionBean.setAttribute("idsolicitudentregalotes", elemento.getId());
-            FacesContext.getCurrentInstance().getExternalContext().redirect("GeneradorSolicitudLoteBono.xhtml");
-            FacesUtil.addInfoMessage("Solicitud guardada con exito!", "Notificación enviada");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudLotesBonosView.xhtml");
+            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Solicitud pre ordenada con exito!", ""));
         } catch (ParseException ex) {
             Logger.getLogger(GeneradorSolicitudLotesBonos.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(GeneradorSolicitudLotesBonos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public void solicitar() {
         try {
             elemento.setRemitente(sessionBean.getUsuario());
@@ -215,7 +222,7 @@ public class GeneradorSolicitudLotesBonos implements Serializable{
             sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
             sessionBean.setAttribute("idsolicitudentregalotes", elemento.getId());
             FacesContext.getCurrentInstance().getExternalContext().redirect("GeneradorSolicitudLoteBono.xhtml");
-            FacesUtil.addInfoMessage("Solicitud guardada con exito!", "Notificación enviada");
+            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Solicitud ordenanda con exito!", "Notificación enviada"));
         } catch (ParseException ex) {
             Logger.getLogger(GeneradorSolicitudLotesBonos.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -273,6 +280,10 @@ public class GeneradorSolicitudLotesBonos implements Serializable{
     public void PDF(ActionEvent actionEvent) {
         ReportCreator.generadorEntregaBonosCaja(elemento);
     }
+    
+    public void PDFPre(ActionEvent actionEvent) {
+        ReportCreator.generadorPreorden(elemento);
+    }
 
     public List<Casino> getCasinos() {
         return casinos;
@@ -307,6 +318,21 @@ public class GeneradorSolicitudLotesBonos implements Serializable{
             loteBonoSolicitudes.add(new loteBonoSolicitud(lotesbonose));
         }
         elemento.setSolicitudentregaloteList(solicitudesentregalotes);
+        System.out.println(loteBonoSolicitudes.size());
         FacesUtil.addInfoMessage("Lotes encontrados", "");
     }
+
+    public String onFlowProcess(FlowEvent event) {
+        if (event.getOldStep().equals("casino")) {
+            for (Casino casino : casinos) {
+                if(casinoSelected.getIdCasino()==casino.getIdCasino()){
+                    casinoSelected = casino;
+                    break;
+                }
+            }
+            obtenerLotesByCasino();
+        }
+        return event.getNewStep();
+    }
+
 }

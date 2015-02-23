@@ -24,7 +24,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class ListaSolicitudesEntregaLotesBonosBean implements Serializable{
+public class ListaSolicitudesEntregaLotesBonosBean implements Serializable {
 
     private List<Solicitudentregalotesmaestro> lista;
     private List<Solicitudentregalotesmaestro> listaFiltrada;
@@ -49,12 +49,13 @@ public class ListaSolicitudesEntregaLotesBonosBean implements Serializable{
             } catch (IOException ex) {
             }
         }
-        if(sessionBean.perfilFormMatch("SolicitudLotes", "crear")){
+        if (sessionBean.perfilFormMatch("SolicitudLotes", "crear")) {
             lista = sessionBean.marketingUserFacade.getAllSolicitudentregalotesmaestro();
         } else {
             lista = sessionBean.marketingUserFacade.getSolicitudentregalotesmaestroNoAceptadas();
         }
         elemento = new Solicitudentregalotesmaestro();
+        sessionBean.printMensajes();
     }
 
     public List<Solicitudentregalotesmaestro> getLista() {
@@ -83,13 +84,18 @@ public class ListaSolicitudesEntregaLotesBonosBean implements Serializable{
 
     public void goSolicitud(Integer i) {
         try {
-            sessionBean.setAttribute("idsolicitudentregalotes", i);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("GeneradorSolicitudLoteBono.xhtml");
+            if (i == 0) {
+                sessionBean.setAttribute("idsolicitudentregalotes", i);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("GeneradorPreordenLotes.xhtml");
+            } else {
+                sessionBean.setAttribute("idsolicitudentregalotes", i);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("GeneradorSolicitudLoteBono.xhtml");
+            }
         } catch (IOException ex) {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void goSolicitudAceptar(Integer i) {
         try {
             sessionBean.setAttribute("idsolicitudentregalotes", i);
@@ -98,6 +104,7 @@ public class ListaSolicitudesEntregaLotesBonosBean implements Serializable{
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public void goSolicitudValidarBonos(Integer i) {
         try {
             sessionBean.setAttribute("idsolicitudentregalotes", i);
@@ -114,5 +121,5 @@ public class ListaSolicitudesEntregaLotesBonosBean implements Serializable{
     public void setListaFiltrada(List<Solicitudentregalotesmaestro> listaFiltrada) {
         this.listaFiltrada = listaFiltrada;
     }
-    
+
 }

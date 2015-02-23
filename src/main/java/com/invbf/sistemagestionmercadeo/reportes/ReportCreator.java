@@ -51,10 +51,16 @@ public class ReportCreator {
                 ListaBonosPorDenominacionEntregar lbde = new ListaBonosPorDenominacionEntregar();
                 lbde.setCantidad(sel.getCantidad().toString());
                 lbde.setDenominacion(getAsString(sel.getLotesBonosid().getDenominacion().getValor() + " "));
-                
-                lbde.setSaladejuego(sel.getLotesBonosid().getIdCasino().getCasinodetalle().getAbreviacion()+ " " + sel.getLotesBonosid().getTipoBono().getNombre());
-                lbde.setDel(sel.getDesde());
-                lbde.setAl(sel.getHasta());
+
+                if (sel.getLotesBonosid().getTipoBono().getNombre().equals("PROMOCIONAL")) {
+                    lbde.setSaladejuego(sel.getLotesBonosid().getIdCasino().getCasinodetalle().getAbreCiudad()+ " " + sel.getLotesBonosid().getTipoBono().getNombre());
+                    lbde.setDel(sel.getLotesBonosid().getIdCasino().getCasinodetalle().getAbreCiudad()+ "-" +sel.getDesde());
+                    lbde.setAl(sel.getLotesBonosid().getIdCasino().getCasinodetalle().getAbreCiudad()+ "-" +sel.getHasta());
+                } else {
+                    lbde.setSaladejuego(sel.getLotesBonosid().getIdCasino().getCasinodetalle().getAbrenopromo()+ " " + sel.getLotesBonosid().getTipoBono().getNombre());
+                    lbde.setDel(sel.getLotesBonosid().getIdCasino().getCasinodetalle().getAbrenopromo()+ "-" + sel.getDesde());
+                    lbde.setAl(sel.getLotesBonosid().getIdCasino().getCasinodetalle().getAbrenopromo()+ "-" + sel.getHasta());
+                }
                 elementoReporte.getBonosPorDenominacionEntregars().add(lbde);
                 String bonosnoincluidosString = "Bono " + sel.getLotesBonosid().getTipoBono().getNombre() + " "
                         + " / " + sel.getLotesBonosid().getDenominacion().getValor() + " / Faltantes: ";
@@ -118,7 +124,8 @@ public class ReportCreator {
                 elementoReporte.setCargo(elemento.getSolicitante().getUsuariodetalle().getIdcargo().getNombre());
             } else {
                 elementoReporte.setCargo("");
-            }   elementoReporte.setCasino(elemento.getIdCasino().getNombre());
+            }
+            elementoReporte.setCasino(elemento.getIdCasino().getNombre());
             SimpleDateFormat formateador = new SimpleDateFormat("dd-MMMM-yy", new Locale("es_ES"));
             elementoReporte.setFecha(formateador.format(elemento.getFecha()));
             elementoReporte.setJustificacion(elemento.getJustificacion());
@@ -132,7 +139,7 @@ public class ReportCreator {
                 clientes.add(new SolicitudBonoJuegoCliente((item) + "", sec.getCliente().getNombres() + " " + sec.getCliente().getApellidos(), sec.getValorTotal().toString(), sec.getAreaid().getNombre()));
                 total += sec.getValorTotal();
                 item++;
-            }   
+            }
             elementoReporte.setClientes(clientes);
             elementoReporte.setTotal(total.toString());
             ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
@@ -150,7 +157,7 @@ public class ReportCreator {
                     = new JRBeanCollectionDataSource(lista);
             JasperReport jasperMasterReport = (JasperReport) JRLoader.loadObject(input);
             JasperReport jasperSubReport = (JasperReport) JRLoader.loadObject(subreport);
-            elementoReporte.setSubreportclientes(jasperSubReport); 
+            elementoReporte.setSubreportclientes(jasperSubReport);
             Map<String, Object> parameters = new HashMap<String, Object>();
             parameters.put("logo", lista.get(0).getLogo());
             parameters.put("ibf", lista.get(0).getIbf());
@@ -173,7 +180,7 @@ public class ReportCreator {
             }
         }
     }
-    
+
     private static String getAsString(Object o) {
         String numberseparated = "";
         String iPartS = "";
@@ -222,4 +229,77 @@ public class ReportCreator {
         System.out.println();
         return numberseparated;
     }
+    
+    
+    public static void generadorPreorden(Solicitudentregalotesmaestro elemento) {
+        try {
+            ActaREciboCustodiaBonosCajaBean elementoReporte = new ActaREciboCustodiaBonosCajaBean();
+            elementoReporte.setActnumber(elemento.getId().toString());
+            elementoReporte.setBonosPorDenominacionEntregars(new ArrayList<ListaBonosPorDenominacionEntregar>());
+            List<bonosnoincluidos> bonosnoincluidos = new ArrayList<bonosnoincluidos>();
+            for (Solicitudentregalote sel : elemento.getSolicitudentregaloteList()) {
+                ListaBonosPorDenominacionEntregar lbde = new ListaBonosPorDenominacionEntregar();
+                lbde.setCantidad(sel.getCantidad().toString());
+                lbde.setDenominacion(getAsString(sel.getLotesBonosid().getDenominacion().getValor() + " "));
+
+                if (sel.getLotesBonosid().getTipoBono().getNombre().equals("PROMOCIONAL")) {
+                    lbde.setSaladejuego(sel.getLotesBonosid().getIdCasino().getCasinodetalle().getAbreCiudad()+ " " + sel.getLotesBonosid().getTipoBono().getNombre());
+                    lbde.setDel(sel.getLotesBonosid().getIdCasino().getCasinodetalle().getAbreCiudad()+ "-" +sel.getDesde());
+                    lbde.setAl(sel.getLotesBonosid().getIdCasino().getCasinodetalle().getAbreCiudad()+ "-" +sel.getHasta());
+                } else {
+                    lbde.setSaladejuego(sel.getLotesBonosid().getIdCasino().getCasinodetalle().getAbrenopromo()+ " " + sel.getLotesBonosid().getTipoBono().getNombre());
+                    lbde.setDel(sel.getLotesBonosid().getIdCasino().getCasinodetalle().getAbrenopromo()+ "-" + sel.getDesde());
+                    lbde.setAl(sel.getLotesBonosid().getIdCasino().getCasinodetalle().getAbrenopromo()+ "-" + sel.getHasta());
+                }
+                elementoReporte.getBonosPorDenominacionEntregars().add(lbde);
+                String bonosnoincluidosString = "Bono " + sel.getLotesBonosid().getTipoBono().getNombre() + " "
+                        + " / " + sel.getLotesBonosid().getDenominacion().getValor() + " / Faltantes: ";
+                if (sel.getBononoincluidoList().isEmpty()) {
+                    for (Bononoincluido bonosnoincluido : sel.getBononoincluidoList()) {
+                        bonosnoincluidosString += " " + bonosnoincluido.getConsecutivo();
+                    }
+
+                    bonosnoincluidos.add(new bonosnoincluidos(bonosnoincluidosString));
+                }
+            }
+
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            InputStream input = externalContext.getResourceAsStream("/resources/reportes/OrdenProduccionLoteBono.jasper");
+            InputStream subreport = externalContext.getResourceAsStream("/resources/reportes/ReciboCustodiaBonosCaja_detalle.jasper");
+            InputStream logotexas = externalContext.getResourceAsStream("/resources/reportes/LogoTLCNegro-01.jpeg");
+            InputStream logomasters = externalContext.getResourceAsStream("/resources/reportes/IBFLogo01jpeg.jpeg");
+            InputStream logoibf = externalContext.getResourceAsStream("/resources/reportes/LogoMRCNegro.jpeg");
+            ImageIcon tlc = new ImageIcon(IOUtils.toByteArray(logotexas));
+            ImageIcon mrc = new ImageIcon(IOUtils.toByteArray(logomasters));
+            ImageIcon ibf = new ImageIcon(IOUtils.toByteArray(logoibf));
+            elementoReporte.setIbf(ibf.getImage());
+            elementoReporte.setMrc(mrc.getImage());
+            elementoReporte.setTlc(tlc.getImage());
+            elementoReporte.setBonosnoincluidos(bonosnoincluidos);
+            List<ActaREciboCustodiaBonosCajaBean> lista = new ArrayList<ActaREciboCustodiaBonosCajaBean>();
+            lista.add(elementoReporte);
+            JRBeanCollectionDataSource beanColDataSource
+                    = new JRBeanCollectionDataSource(lista);
+            JasperReport jasperMasterReport = (JasperReport) JRLoader.loadObject(input);
+            JasperReport jasperSubReport = (JasperReport) JRLoader.loadObject(subreport);
+            elementoReporte.setSubreportParameter(jasperSubReport);
+            Map<String, Object> parameters = new HashMap<String, Object>();
+            parameters.put("actnumber", lista.get(0).getActnumber());
+            parameters.put("tlc", lista.get(0).getTlc());
+            parameters.put("ibf", lista.get(0).getIbf());
+            parameters.put("mrc", lista.get(0).getMrc());
+            parameters.put("subreportParameter", jasperSubReport);
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperMasterReport, parameters, beanColDataSource);
+            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            httpServletResponse.addHeader("Content-disposition", "attachment; filename=OrdenProduccionLotesBonos" + elemento.getId() + ".pdf");
+            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+        } catch (JRException ex) {
+            Logger.getLogger(GeneradorSolicitudLotesBonos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(GeneradorSolicitudLotesBonos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

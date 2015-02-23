@@ -111,7 +111,7 @@ public class AceptarSolicitudEntregaBonosBean implements Serializable{
         }
 
         System.out.println("Buscando info de la solictud si existe");
-        if (sessionBean.getAttributes("idsolicitudentregalotes")==null && (Integer) sessionBean.getAttributes("idsolicitudentregalotes") != 0) {
+        if (sessionBean.getAttributes("idsolicitudentregalotes")!=null && (Integer) sessionBean.getAttributes("idsolicitudentregalotes") != 0) {
             Integer id = (Integer) sessionBean.getAttributes("idsolicitudentregalotes");
             elemento = sessionBean.marketingUserFacade.getSolicitudentregalotesbono(id);
             

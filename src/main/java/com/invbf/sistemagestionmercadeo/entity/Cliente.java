@@ -148,11 +148,11 @@ public class Cliente implements Serializable {
     @JoinTable(name = "ClientesTiposJuegos", joinColumns = {
         @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")}, inverseJoinColumns = {
         @JoinColumn(name = "idTipoJuego", referencedColumnName = "idTipoJuego")})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Tipojuego> tipojuegoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
     private List<Solicitudentregacliente> solicitudentregaclienteList;
-    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "cliente")
     private List<Bono> bonoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
     private List<Listasclientestareas> listasclientestareasList;

@@ -31,24 +31,6 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading"><h4>#{label['generarsolicitudentregalotesbonos']}</h4></div>
                             <div class="panel-body">
-                                <c:if test="#{generadorSolicitudLotesBonos.elemento.id == null}">
-                                    <div class="row">
-                                        <label class="col-md-2 control-label" >#{label['casinos']}</label>
-                                        <div class="col-md-4">
-                                            <p:selectOneMenu id="casinos" value="#{generadorSolicitudLotesBonos.casinoSelected.idCasino}">
-                                                <f:selectItem itemLabel="Selecciona Uno" itemValue="" />
-                                                <f:selectItems value="#{generadorSolicitudLotesBonos.casinos}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.idCasino}"/>  
-
-                                            </p:selectOneMenu>
-                                        </div>
-                                    </div>
-                                    <div class="row text-right">
-                                        <p:commandButton id="btnfind" value="Buscar Lotes" actionListener="#{generadorSolicitudLotesBonos.obtenerLotesByCasino()}" 
-                                                         update="@form :#{p:component('messages')}" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
-
-
-                                    </div>
-                                </c:if>
                                 <c:if id="generado" test="#{generadorSolicitudLotesBonos.elemento.id != null}">
                                     <div class="row">
                                         <div class="control-group">
@@ -126,7 +108,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td colspan="6">
-                                                                <p:outputPanel id="bonosnoincluidos#{status.count}" style="display:block">
+                                                                <p:outputPanel id="bonosnoincluidos#{status.count}" style="display:block" rendered="#{generadorSolicitudLotesBonos.elemento.id != null}">
                                                                     Bonos no incluidos:
                                                                     <c:forEach items="#{solicitudes.bonosnoincluidosList}" var="bonosno" >
                                                                         <h:inputText value="#{bonosno.consecutivo}"/>&nbsp;
@@ -164,14 +146,14 @@
 
                             </div>
                             <div class="panel-footer text-right"> 
-                                <p:commandButton id="btnconfirm" value="Pre-ordenar" actionListener="#{generadorSolicitudLotesBonos.guardar()}" 
+                                <p:commandButton id="btnconfirm" value="Pre-ordenar" actionListener="#{generadorSolicitudLotesBonos.guardar()}" rendered="#{!generadorSolicitudLotesBonos.elemento.estado.equals(&quot;ORDENADA&quot;)}"
+                                                 update="@form :#{p:component('messages')}" process="@form" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
+                                <p:commandButton id="ordenar" value="Ordenar" actionListener="#{generadorSolicitudLotesBonos.solicitar()}" rendered="#{generadorSolicitudLotesBonos.elemento.id != null}"
                                                  update="@form :#{p:component('messages')}" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
-                                <p:commandButton id="btnconfirm" value="Ordenar" actionListener="#{generadorSolicitudLotesBonos.solicitar()}" 
-                                                 update="@form :#{p:component('messages')}" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
 
 
-                                <p:commandButton value="PDF" actionListener="#{generadorSolicitudLotesBonos.PDF}" ajax="false" rendered="#{generadorSolicitudLotesBonos.elemento.id != null}"/>
-
+                                <p:commandButton value="Orden" icon="ui-icon-document"  actionListener="#{generadorSolicitudLotesBonos.PDF}" ajax="false" rendered="#{generadorSolicitudLotesBonos.elemento.id != null and !generadorSolicitudLotesBonos.elemento.estado.equals(&quot;PRE ORDENADA&quot;)}"/>
+                                <p:commandButton value="Preorden" icon="ui-icon-document"  actionListener="#{generadorSolicitudLotesBonos.PDFPre}" ajax="false" />
                             </div>
                         </div>
                     </h:form>

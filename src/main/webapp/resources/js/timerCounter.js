@@ -5,6 +5,7 @@
  */
 var minutos = 3;
 var segundos = 0;
+var counter;
 function timer()
 {
     if (segundos !== 0 || minutos !== 0) {

@@ -26,6 +26,7 @@ import com.invbf.sistemagestionmercadeo.entity.Tipobono;
 import com.invbf.sistemagestionmercadeo.entity.Tipodocumento;
 import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import com.invbf.sistemagestionmercadeo.entity.Tipotarea;
+import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.exceptions.ExistenBonosFisicosException;
 import com.invbf.sistemagestionmercadeo.exceptions.LoteBonosExistenteException;
 import java.util.Date;
@@ -69,7 +70,7 @@ public interface MarketingUserFacade {
 
     public Evento guardarEventos(Evento elemento);
 
-    public void deleteClientes(Cliente elemento);
+    public void deleteClientes(Integer elemento);
 
     public Cliente guardarClientes(Cliente elemento);
 
@@ -210,5 +211,7 @@ public interface MarketingUserFacade {
     public void guardarClientesSinCategoria(Cliente cliente);
 
     public Integer getCantClientes();
+
+    public List<Tarea> getTareasUsuario(Usuario usuario);
 
 }

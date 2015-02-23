@@ -34,8 +34,8 @@ public class loteBonoSolicitud  implements Serializable{
         lotesBonosid = lote;
         cantidad = 0;
         bonosnoincluidosList = new ArrayList<BonosnoincluidosDTO>();
-        this.desde = ConvertidorConsecutivo.sumarUno(lote.getDesde());
-        this.hasta = ConvertidorConsecutivo.sumarUno(lote.getDesde());
+        this.desde = ConvertidorConsecutivo.sumarUno(lote.getHasta());
+        this.hasta = ConvertidorConsecutivo.sumarUno(lote.getHasta());
 
         System.out.println("get");
         System.out.println(desde);
@@ -57,10 +57,15 @@ public class loteBonoSolicitud  implements Serializable{
 
     public Solicitudentregalote getSolicitudEntregaLote() {
         Solicitudentregalote sol = new Solicitudentregalote(id);
+        System.out.println("Cantidad "+cantidad);
         sol.setCantidad(cantidad);
         sol.setBononoincluidoList(new ArrayList<Bononoincluido>());
-        sol.setDesde(desde);
-        sol.setHasta(hasta);
+        sol.setDesde(ConvertidorConsecutivo.sumarUno(lotesBonosid.getHasta()));
+        if(cantidad==0){
+        sol.setHasta("");
+        }else{
+        sol.setHasta(ConvertidorConsecutivo.sumarCantidad(lotesBonosid.getHasta(),cantidad));
+        }
         bonosReincluidos = new ArrayList<Integer>();
         for (BonosnoincluidosDTO bonosnoincluidos : bonosnoincluidosList) {
             if (bonosnoincluidos.getConsecutivo() != null && !bonosnoincluidos.getConsecutivo().equals("") && isBonoDentro(bonosnoincluidos)) {

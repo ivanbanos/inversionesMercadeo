@@ -158,6 +158,7 @@ public class PerfilActBean implements Serializable{
     private VistaBoolean bonoCanjearEjecutar;
 
     private VistaBoolean solicitudCambioCupo;
+    private VistaBoolean Mailcliente;
     
     private VistaBoolean verTodosCasinos;
     private VistaBoolean cambioEstadoBono;
@@ -848,6 +849,12 @@ public class PerfilActBean implements Serializable{
                 } else {
                     solicitudCambioCupo = new VistaBoolean(v, false);
                 }
+            }if (v.getNombreVista().equals("Mailcliente")) {
+                if (elemento.getVistaList().contains(v)) {
+                    Mailcliente = new VistaBoolean(v, true);
+                } else {
+                    Mailcliente = new VistaBoolean(v, false);
+                }
             }if (v.getNombreVista().equals("VerTodosCasinos")) {
                 if (elemento.getVistaList().contains(v)) {
                     verTodosCasinos = new VistaBoolean(v, true);
@@ -1364,6 +1371,9 @@ public class PerfilActBean implements Serializable{
         }
         if (solicitudCambioCupo.isSelected()) {
             elemento.getVistaList().add(solicitudCambioCupo.getVista());
+        }
+        if (Mailcliente.isSelected()) {
+            elemento.getVistaList().add(Mailcliente.getVista());
         }
         if (verTodosCasinos.isSelected()) {
             elemento.getVistaList().add(verTodosCasinos.getVista());
@@ -2642,6 +2652,14 @@ public class PerfilActBean implements Serializable{
 
     public void setSolicitudCambioCupo(VistaBoolean solicitudCambioCupo) {
         this.solicitudCambioCupo = solicitudCambioCupo;
+    }
+
+    public VistaBoolean getMailcliente() {
+        return Mailcliente;
+    }
+
+    public void setMailcliente(VistaBoolean Mailcliente) {
+        this.Mailcliente = Mailcliente;
     }
 
     public VistaBoolean getVerTodosCasinos() {

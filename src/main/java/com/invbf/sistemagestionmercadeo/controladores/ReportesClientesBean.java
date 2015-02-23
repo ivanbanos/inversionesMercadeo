@@ -13,6 +13,7 @@ import com.invbf.sistemagestionmercadeo.entity.Tipodocumento;
 import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
+import com.invbf.sistemagestionmercadeo.util.ClienteDTO;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import com.invbf.sistemagestionmercadeo.util.TipoJuegoBoolean;
@@ -36,8 +37,9 @@ import javax.faces.context.FacesContext;
 @ViewScoped
 public class ReportesClientesBean  implements Serializable{
 
-    private List<Cliente> lista;
-    private Cliente elemento;
+    private String email;
+    private List<ClienteDTO> lista;
+    private ClienteDTO elemento;
     private List<Casino> listacasinos;
     private List<Atributo> listaatributos;
     private List<Categoria> listacategorias;
@@ -60,13 +62,13 @@ public class ReportesClientesBean  implements Serializable{
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
     }
-    private List<Cliente> flista;
+    private List<ClienteDTO> flista;
 
-    public List<Cliente> getFlista() {
+    public List<ClienteDTO> getFlista() {
         return flista;
     }
 
-    public void setFlista(List<Cliente> flista) {
+    public void setFlista(List<ClienteDTO> flista) {
         this.flista = flista;
     }
 
@@ -89,10 +91,7 @@ public class ReportesClientesBean  implements Serializable{
             } catch (IOException ex) {
             }
         }
-        elemento = new Cliente();
-        elemento.setIdCasinoPreferencial(new Casino());
-        elemento.setIdCategorias(new Categoria());
-        elemento.setIdTipoDocumento(new Tipodocumento());
+        elemento = new ClienteDTO();
         buscarCLientesIniciales();
         totales = sessionBean.marketingUserFacade.getCantClientes();
         listacasinos = sessionBean.marketingUserFacade.findAllCasinos();
@@ -120,19 +119,19 @@ public class ReportesClientesBean  implements Serializable{
         System.gc();
     }
 
-    public List<Cliente> getLista() {
+    public List<ClienteDTO> getLista() {
         return lista;
     }
 
-    public void setLista(List<Cliente> lista) {
+    public void setLista(List<ClienteDTO> lista) {
         this.lista = lista;
     }
 
-    public Cliente getElemento() {
+    public ClienteDTO getElemento() {
         return elemento;
     }
 
-    public void setElemento(Cliente elemento) {
+    public void setElemento(ClienteDTO elemento) {
         this.elemento = elemento;
     }
 
@@ -169,11 +168,10 @@ public class ReportesClientesBean  implements Serializable{
     }
 
     public void delete() {
-        sessionBean.marketingUserFacade.deleteClientes(elemento);
-        lista = sessionBean.marketingUserFacade.findAllClientes();
+        sessionBean.marketingUserFacade.deleteClientes(elemento.getIdCliente());
         sessionBean.registrarlog("eliminar", "Clientes", elemento.getNombres()+" "+elemento.getApellidos());
         FacesUtil.addInfoMessage("Cliente eliminado", elemento.getNombres()+" "+elemento.getApellidos());
-        elemento = new Cliente();
+        elemento = new ClienteDTO();
     }
 
     public void goCliente(int id) {
@@ -210,7 +208,7 @@ public class ReportesClientesBean  implements Serializable{
 
     public void busquedaAvanzada() {
 
-        lista = sessionBean.marketingUserFacade.findAllClientes();
+        List<Cliente> clientes = sessionBean.marketingUserFacade.findAllClientes();
 
         boolean noCatselected = true;
         boolean noTipselected = true;
@@ -246,7 +244,7 @@ public class ReportesClientesBean  implements Serializable{
             }
         }
 
-        for (Iterator<Cliente> it = lista.iterator(); it.hasNext();) {
+        for (Iterator<Cliente> it = clientes.iterator(); it.hasNext();) {
             Cliente cliente = it.next();
 
             boolean siCategoria = false;
@@ -338,6 +336,8 @@ public class ReportesClientesBean  implements Serializable{
         }
         FacesUtil.addInfoMessage("Clientes filtrados!","Cantidad "+lista.size());
         
+        lista = new ArrayList<ClienteDTO>();
+             fillClientes(clientes);
         System.gc();
     }
 
@@ -414,10 +414,29 @@ public class ReportesClientesBean  implements Serializable{
     }
 
     private void buscarCLientesIniciales() {
-        lista = new ArrayList<Cliente>();
+        lista = new ArrayList<ClienteDTO>();
         for(Casino c: sessionBean.getUsuario().getCasinoList()){
-            lista.addAll(sessionBean.marketingUserFacade.findAllClientesCasinos(c));
+             List<Cliente> clientes = sessionBean.marketingUserFacade.findAllClientesCasinos(c);
+             fillClientes(clientes);
+        }
+    }
+    
+    private void fillClientes(List<Cliente> clientes){
+        for (Cliente cliente : clientes) {
+            lista.add(new ClienteDTO(cliente));
         }
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void enviarMail(){
+        Notificador.notificar(Notificador.EMAIL_CLIENTE, elemento.getAsEmail(), "Perfil de Cliente", email);
+        FacesUtil.addInfoMessage("Correo enviado","");
+    }
 }

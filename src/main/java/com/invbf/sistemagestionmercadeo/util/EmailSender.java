@@ -270,10 +270,9 @@ public class EmailSender  implements Serializable{
 
         MimeMultipart multipart = new MimeMultipart("related");
         BodyPart messageBodyPart = new MimeBodyPart();
-        String htmlText = "<div><span style=\"color:#1f497d\">Este correo ha sido generado automáticamente por el Sistema de Gestión de Mercadeo - SGM<u></u><u></u></span>"
+        String htmlText = "<div><span style=\"color:#1f497d\">Este correo ha sido generado automáticamente por el Sistema de Gestión de Mercadeo de Inversiones Buena fortuna S.A.S.<u></u><u></u></span>"
                 + "<p>" + mesaje + "</p>";
-        htmlText += "<div><p class=\"MsoNormal\"><span style=\"font-size:14.0pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black\">Sistema de Gestión de Mercadeo SGM<u></u><u></u></span></p>";
-        
+       
         htmlText += "<p class=\"MsoNormal\"><span style=\"color:black\"><img src=\"cid:image\"></span></p>";
         
         htmlText += "<p class=\"MsoNormal\"><span lang=\"ES\" style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:#7f7f7f\">Nota: El contenido de este mensaje de datos es confidencial y se entiende dirigido y para uso exclusivo del destinatario, por lo que no podrá distribuirse y/o difundirse por ningún medio sin la previa autorización del emisor original. Si usted no es el destinatario, se le prohíbe su utilización total o parcial para cualquier fin.<u></u><u></u></span></p>"

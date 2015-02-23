@@ -11,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -53,9 +52,9 @@ public class Accion implements Serializable {
     @JoinTable(name = "Acciones_has_Tipostareas", joinColumns = {
         @JoinColumn(name = "idAccion", referencedColumnName = "idAccion")}, inverseJoinColumns = {
         @JoinColumn(name = "idTipoTarea", referencedColumnName = "idTipotarea")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     private List<Tipotarea> tipotareaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAccion", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAccion")
     private List<Listasclientestareas> listasclientestareasList;
 
     public Accion() {

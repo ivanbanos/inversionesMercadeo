@@ -10,7 +10,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -80,13 +79,13 @@ public class Bono implements Serializable {
     @ManyToOne(optional = false)
     private Tipobono tipo;
     @JoinColumn(name = "PropositosEntrega_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Propositoentrega propositosEntregaid;
     @JoinColumn(name = "Denominacion", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Denominacion denominacion;
     @JoinColumn(name = "ControlSalidaBonos_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Controlsalidabono controlSalidaBonosid;
     @JoinColumn(name = "Cliente", referencedColumnName = "idCliente")
     @ManyToOne

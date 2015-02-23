@@ -82,7 +82,7 @@ public class Tarea implements Serializable {
     @Size(max = 45)
     @Column(name = "tiposdejuegos")
     private String tiposdejuegos;
-    @JoinTable(name = "tareausuarios", joinColumns = {
+    @JoinTable(name = "TareaUsuarios", joinColumns = {
         @JoinColumn(name = "idTarea", referencedColumnName = "idTarea")}, inverseJoinColumns = {
         @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")})
     @ManyToMany(fetch = FetchType.LAZY)

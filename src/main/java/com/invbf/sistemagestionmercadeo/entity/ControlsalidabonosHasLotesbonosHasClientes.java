@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
@@ -40,10 +39,10 @@ public class ControlsalidabonosHasLotesbonosHasClientes implements Serializable 
     @JoinColumns({
         @JoinColumn(name = "ControlSalidaBonos_has_LotesBonos_ControlSalidaBonos_id", referencedColumnName = "ControlSalidaBonos_id", insertable = false, updatable = false),
         @JoinColumn(name = "ControlSalidaBonos_has_LotesBonos_LotesBonos_id", referencedColumnName = "LotesBonos_id", insertable = false, updatable = false)})
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private ControlsalidabonosHasLotesbonos controlsalidabonosHasLotesbonos;
     @JoinColumn(name = "idCliente", referencedColumnName = "idCliente", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Cliente cliente;
 
     public ControlsalidabonosHasLotesbonosHasClientes() {

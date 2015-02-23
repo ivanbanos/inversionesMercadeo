@@ -47,7 +47,7 @@ public class Area implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "nombre")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaid", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaid")
     private List<Solicitudentregacliente> solicitudentregaclienteList;
 
     public Area() {

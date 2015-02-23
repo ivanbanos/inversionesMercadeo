@@ -11,12 +11,9 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -58,17 +55,17 @@ public class Casino implements Serializable {
     
     @ManyToMany(mappedBy = "casinoList")
     private List<Usuario> usuarioList;
-    @OneToMany(mappedBy = "idCasino", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idCasino")
     private List<Solicitudentrega> solicitudentregaList;
-    @OneToMany(mappedBy = "idCasino", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idCasino")
     private List<Evento> eventoList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "casino")
     private Casinodetalle casinodetalle;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "casino", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "casino")
     private List<Bono> bonoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCasino", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCasino")
     private List<Lotebono> lotebonoList;
-    @OneToMany(mappedBy = "idCasinoPreferencial", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idCasinoPreferencial")
     private List<Cliente> clienteList;
 
     public Casino() {

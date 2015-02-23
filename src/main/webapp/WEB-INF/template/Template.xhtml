@@ -348,10 +348,10 @@
 
             <p:idleMonitor onactive="sessionTimeOutDialog.show()" 
                            timeout="#{120000}" >
-                <p:ajax event="idle" onstart="PF('sessionTimeOutDialog').show();var counter=setInterval(timer, 1000);"  />
+                <p:ajax event="idle" onstart="PF('sessionTimeOutDialog').show();counter=setInterval(timer, 1000);"  />
             </p:idleMonitor>
 
-            <p:dialog id="ajaxWaitingDialog" header="Esperando" 
+            <p:dialog id="ajaxWaitingDialog" header="Procesando..." 
                       widgetVar="ajaxWaitingDialog"
                       modal="true" closable="false" >
                 <div class="panel panel-primary">
@@ -374,7 +374,7 @@
                         <h:outputText value="#{label['leyenda.inactividad']}" />
                     </div>
                     <div class="panel-footer text-right">
-                        <p:commandButton value="Reanudar" onclick="PF('sessionTimeOutDialog').hide();"/>
+                        <p:commandButton value="Reanudar" onclick="PF('sessionTimeOutDialog').hide();" oncomplete="clearInterval(counter);minutos = 3;segundos = 0;"/>
                     </div>
 
                 </div>

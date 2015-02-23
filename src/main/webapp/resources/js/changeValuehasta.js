@@ -31,7 +31,9 @@ function changeHasta(index) {
     
     letra = sumarLetra(letra, total);
     total = total%10000;
-    if (total <10) {
+    if (numbertoSum ===0) {
+        hasta.text("");
+    } else if (total <10) {
         hasta.text('000' + total+"-"+letra);
     } else
     if (total < 100) {

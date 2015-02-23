@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -48,13 +47,13 @@ public class Solicitudentregacliente implements Serializable {
     @Column(name = "valorAprobado")
     private Float valorAprobado;
     @JoinColumn(name = "Areaid", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Area areaid;
     @JoinColumn(name = "Clientesid", referencedColumnName = "idCliente", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Cliente cliente;
     @JoinColumn(name = "SolicitudEntregaid", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Solicitudentrega solicitudentrega;
 
     public Solicitudentregacliente() {
