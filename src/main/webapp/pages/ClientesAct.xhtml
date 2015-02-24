@@ -29,7 +29,7 @@
                         <div class="form-group col-md-6">
                             <label class="col-md-4  control-label" >* #{label['categoria']}:</label>
                             <div class="col-md-8">
-                                <p:selectOneMenu id="categoria" value="#{clientesActBean.elemento.idCategorias.idCategorias}" required="true"
+                                <p:selectOneMenu id="categoria" value="#{clientesActBean.elemento.idCategorias.idCategorias}" required="true" 
                                                  requiredMessage="#{label['msj.req.categoria']}">
                                     <f:selectItem itemLabel="Select One" itemValue="" />
                                     <f:selectItems value="#{clientesActBean.listacategorias}" var="cat" itemLabel="#{cat.nombre}" itemValue="#{cat.idCategorias}"/> 
@@ -406,7 +406,7 @@
                 </div>
                 <div class="panel-footer text-right"> 
                     <p:commandButton id="btnconfirm" 
-                                     onstart="PF('ajaxWaitingDialog').show();" 
+                                     onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
                                      value="#{label['Confirmar']}" actionListener="#{clientesActBean.guardar()}" style="margin:0" />
                     <p:button id="btnclose" value="#{label['Volver']}" outcome="/pages/Reporteclientes.xhtml" onclick="PF('ajaxWaitingDialog').show();" />
 

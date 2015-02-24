@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>#{label['title.app']}</title>
+        <h:outputScript library="js" name="CerrarSessionPage.js"/>
+    </h:head>
+    <h:body>
+        <div class="panel panel-primary">
+            
+            <div class="panel-body">
+                <h:outputText value="#{cerrarSessionBean.mensaje}"/>
+            </div>
+            <div class="panel-footer text-right"> 
+                <h:commandButton styleClass="btn btn-primary" value="Aceptar" onclick="cerrarPantalla()"/>
+            </div>
+        </div>
+    </h:body>
+</html>
+

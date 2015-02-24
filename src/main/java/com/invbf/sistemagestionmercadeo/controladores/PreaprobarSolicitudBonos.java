@@ -370,7 +370,7 @@ public class PreaprobarSolicitudBonos implements Serializable{
     }
 
     public void busquedaClientes() {
-        clientessgbs = sessionBean.adminFacade.findClientessgbByCasino(elemento.getIdCasino());
+        clientessgbs = sessionBean.marketingUserFacade.findAllClientesCasinos(elemento.getIdCasino(),"","","",null);
     }
 
     public List<Cliente> getSelectedClientessgbs() {

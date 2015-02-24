@@ -12,7 +12,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -57,15 +56,15 @@ public class Controlsalidabono implements Serializable {
     @Column(name = "fechavencimientobonos")
     @Temporal(TemporalType.DATE)
     private Date fechavencimientobonos;
-    @OneToMany(mappedBy = "controlSalidaBonosid", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "controlSalidaBonosid")
     private List<Bono> bonoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "controlsalidabono")
     private List<ControlsalidabonosHasLotesbonos> controlsalidabonosHasLotesbonosList;
     @JoinColumn(name = "solicitante", referencedColumnName = "idUsuario")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Usuario solicitante;
     @JoinColumn(name = "SolicitudEntrega_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Solicitudentrega solicitudEntregaid;
 
     public Controlsalidabono() {

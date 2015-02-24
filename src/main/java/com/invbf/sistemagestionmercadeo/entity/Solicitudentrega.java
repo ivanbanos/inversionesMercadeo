@@ -12,7 +12,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -75,24 +74,24 @@ public class Solicitudentrega implements Serializable {
     private Float totalpreaprobado;
     @Column(name = "totalaprobado")
     private Float totalaprobado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudentrega", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudentrega")
     private List<Solicitudentregacliente> solicitudentregaclienteList;
     @JoinColumn(name = "aprobador", referencedColumnName = "idUsuario")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Usuario aprobador;
     @JoinColumn(name = "solicitante", referencedColumnName = "idUsuario")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Usuario solicitante;
     @JoinColumn(name = "TipoBono", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Tipobono tipoBono;
     @JoinColumn(name = "PropositoEntrega", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Propositoentrega propositoEntrega;
     @JoinColumn(name = "idCasino", referencedColumnName = "idCasino")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Casino idCasino;
-    @OneToMany(mappedBy = "solicitudEntregaid", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "solicitudEntregaid")
     private List<Controlsalidabono> controlsalidabonoList;
 
     public Solicitudentrega() {

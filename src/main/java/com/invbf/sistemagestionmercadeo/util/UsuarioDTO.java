@@ -45,6 +45,7 @@ import javax.validation.constraints.Size;
 public class UsuarioDTO implements Serializable {
     private Integer idUsuario;
     private String nombreUsuario;
+    private String nombre;
     private String contrasena;
     private String estado;
     private List<CasinoBoolean> casinos;
@@ -59,6 +60,7 @@ public class UsuarioDTO implements Serializable {
         nombreUsuario  = u.getNombreUsuario();
         contrasena  = u.getContrasena();
         estado  = u.getEstado();
+        nombre = u.getNombre();
         usuariodetalle  = u.getUsuariodetalle();
         if(usuariodetalle.getIdcargo()==null){
             usuariodetalle.setIdcargo(new Cargo());
@@ -141,6 +143,14 @@ public class UsuarioDTO implements Serializable {
 
     public void setIdPerfil(Perfil idPerfil) {
         this.idPerfil = idPerfil;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
     
 }

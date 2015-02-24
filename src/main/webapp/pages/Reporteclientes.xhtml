@@ -26,7 +26,7 @@
             </ul>
             <div class="col-md-12 ">
                 <!--Clientes-->
-                <c:if test="#{sessionBean.perfilViewMatch(&quot;Reportes&quot;)}">
+                <c:if test="#{sessionBean.perfilViewMatch(&quot;Clientes&quot;)}">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="clickable">
@@ -37,72 +37,98 @@
                         </div>
                         <div class="panel-body">
                             <div class="row clearfix">
-                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                    <h:outputLabel class="col-md-6 control-label" value="Pais:" />
-                                    <h:inputText class="col-md-6" value="#{reportesClientesBean.pais}" />
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <h:outputLabel class="col-md-6 control-label" value="Pais:" />
+                                        <h:inputText class="col-md-6" value="#{reportesClientesBean.pais}" />
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <h:outputLabel class="col-md-6 control-label" value="Ciudad:" />
+                                        <h:inputText class="col-md-6" value="#{reportesClientesBean.ciudad}" />
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <h:outputLabel class="col-md-6 control-label" value="Mes de cumplea&ntilde;o:" />
+                                        <p:selectOneMenu id="mes" value="#{reportesClientesBean.mes}" >
+                                            <f:selectItem itemLabel="Mes" itemValue="12" />  
+                                            <f:selectItem itemLabel="Enero" itemValue="0" />    
+                                            <f:selectItem itemLabel="Febrero" itemValue="1" />    
+                                            <f:selectItem itemLabel="Marzo" itemValue="2" />    
+                                            <f:selectItem itemLabel="Abril" itemValue="3" />    
+                                            <f:selectItem itemLabel="Mayo" itemValue="4" />    
+                                            <f:selectItem itemLabel="Junio" itemValue="5" />    
+                                            <f:selectItem itemLabel="Julio" itemValue="6" />    
+                                            <f:selectItem itemLabel="Agosto" itemValue="7" />    
+                                            <f:selectItem itemLabel="Septiembre" itemValue="8" />    
+                                            <f:selectItem itemLabel="Octubre" itemValue="9" />    
+                                            <f:selectItem itemLabel="Noviembre" itemValue="10" />    
+                                            <f:selectItem itemLabel="Diciembre" itemValue="11" />  
+                                        </p:selectOneMenu>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <h:outputLabel class="col-md-6 control-label" value="Dia de cumplea&ntilde;o:" /> 
+                                        <p:selectOneMenu id="dia" value="#{reportesClientesBean.dia}" >
+                                            <f:selectItem itemLabel="D&iacute;a" itemValue="0" />  
+                                            <f:selectItem itemLabel="1" itemValue="1" />  
+                                            <f:selectItem itemLabel="2" itemValue="2" />  
+                                            <f:selectItem itemLabel="3" itemValue="3" />  
+                                            <f:selectItem itemLabel="4" itemValue="4" />  
+                                            <f:selectItem itemLabel="5" itemValue="5" />  
+                                            <f:selectItem itemLabel="6" itemValue="6" />  
+                                            <f:selectItem itemLabel="7" itemValue="7" />  
+                                            <f:selectItem itemLabel="8" itemValue="8" />  
+                                            <f:selectItem itemLabel="9" itemValue="9" />  
+                                            <f:selectItem itemLabel="10" itemValue="10" />  
+                                            <f:selectItem itemLabel="11" itemValue="11" />  
+                                            <f:selectItem itemLabel="12" itemValue="12" />  
+                                            <f:selectItem itemLabel="13" itemValue="13" />  
+                                            <f:selectItem itemLabel="14" itemValue="14" />  
+                                            <f:selectItem itemLabel="15" itemValue="15" />  
+                                            <f:selectItem itemLabel="16" itemValue="16" />  
+                                            <f:selectItem itemLabel="17" itemValue="17" />  
+                                            <f:selectItem itemLabel="18" itemValue="18" />  
+                                            <f:selectItem itemLabel="19" itemValue="19" />  
+                                            <f:selectItem itemLabel="20" itemValue="20" />  
+                                            <f:selectItem itemLabel="21" itemValue="21" />  
+                                            <f:selectItem itemLabel="22" itemValue="22" />  
+                                            <f:selectItem itemLabel="23" itemValue="23" />  
+                                            <f:selectItem itemLabel="24" itemValue="24" />  
+                                            <f:selectItem itemLabel="25" itemValue="25" />  
+                                            <f:selectItem itemLabel="26" itemValue="26" />  
+                                            <f:selectItem itemLabel="27" itemValue="27" />  
+                                            <f:selectItem itemLabel="28" itemValue="28" />  
+                                            <f:selectItem itemLabel="29" itemValue="29" />  
+                                            <f:selectItem itemLabel="30" itemValue="30" />  
+                                            <f:selectItem itemLabel="31" itemValue="31" />  
+                                        </p:selectOneMenu>
+                                    </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                    <h:outputLabel class="col-md-6 control-label" value="Ciudad:" />
-                                    <h:inputText class="col-md-6" value="#{reportesClientesBean.ciudad}" />
-                                </div>
-                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                    <h:outputLabel class="col-md-6 control-label" value="Mes de cumplea&ntilde;o:" />
-                                    <p:selectOneMenu id="mes" value="#{reportesClientesBean.mes}" >
-                                        <f:selectItem itemLabel="Mes" itemValue="12" />  
-                                        <f:selectItem itemLabel="Enero" itemValue="0" />    
-                                        <f:selectItem itemLabel="Febrero" itemValue="1" />    
-                                        <f:selectItem itemLabel="Marzo" itemValue="2" />    
-                                        <f:selectItem itemLabel="Abril" itemValue="3" />    
-                                        <f:selectItem itemLabel="Mayo" itemValue="4" />    
-                                        <f:selectItem itemLabel="Junio" itemValue="5" />    
-                                        <f:selectItem itemLabel="Julio" itemValue="6" />    
-                                        <f:selectItem itemLabel="Agosto" itemValue="7" />    
-                                        <f:selectItem itemLabel="Septiembre" itemValue="8" />    
-                                        <f:selectItem itemLabel="Octubre" itemValue="9" />    
-                                        <f:selectItem itemLabel="Noviembre" itemValue="10" />    
-                                        <f:selectItem itemLabel="Diciembre" itemValue="11" />  
-                                    </p:selectOneMenu>
-                                </div>
-                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                    <h:outputLabel class="col-md-6 control-label" value="Dia de cumplea&ntilde;o:" /> 
-                                    <p:selectOneMenu id="dia" value="#{reportesClientesBean.dia}" >
-                                        <f:selectItem itemLabel="D&iacute;a" itemValue="0" />  
-                                        <f:selectItem itemLabel="1" itemValue="1" />  
-                                        <f:selectItem itemLabel="2" itemValue="2" />  
-                                        <f:selectItem itemLabel="3" itemValue="3" />  
-                                        <f:selectItem itemLabel="4" itemValue="4" />  
-                                        <f:selectItem itemLabel="5" itemValue="5" />  
-                                        <f:selectItem itemLabel="6" itemValue="6" />  
-                                        <f:selectItem itemLabel="7" itemValue="7" />  
-                                        <f:selectItem itemLabel="8" itemValue="8" />  
-                                        <f:selectItem itemLabel="9" itemValue="9" />  
-                                        <f:selectItem itemLabel="10" itemValue="10" />  
-                                        <f:selectItem itemLabel="11" itemValue="11" />  
-                                        <f:selectItem itemLabel="12" itemValue="12" />  
-                                        <f:selectItem itemLabel="13" itemValue="13" />  
-                                        <f:selectItem itemLabel="14" itemValue="14" />  
-                                        <f:selectItem itemLabel="15" itemValue="15" />  
-                                        <f:selectItem itemLabel="16" itemValue="16" />  
-                                        <f:selectItem itemLabel="17" itemValue="17" />  
-                                        <f:selectItem itemLabel="18" itemValue="18" />  
-                                        <f:selectItem itemLabel="19" itemValue="19" />  
-                                        <f:selectItem itemLabel="20" itemValue="20" />  
-                                        <f:selectItem itemLabel="21" itemValue="21" />  
-                                        <f:selectItem itemLabel="22" itemValue="22" />  
-                                        <f:selectItem itemLabel="23" itemValue="23" />  
-                                        <f:selectItem itemLabel="24" itemValue="24" />  
-                                        <f:selectItem itemLabel="25" itemValue="25" />  
-                                        <f:selectItem itemLabel="26" itemValue="26" />  
-                                        <f:selectItem itemLabel="27" itemValue="27" />  
-                                        <f:selectItem itemLabel="28" itemValue="28" />  
-                                        <f:selectItem itemLabel="29" itemValue="29" />  
-                                        <f:selectItem itemLabel="30" itemValue="30" />  
-                                        <f:selectItem itemLabel="31" itemValue="31" />  
-                                    </p:selectOneMenu>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <h:outputLabel class="col-md-6 control-label" value="Nombre:" />
+                                        <h:inputText class="col-md-6" value="#{reportesClientesBean.nombre}" />
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <h:outputLabel class="col-md-6 control-label" value="Apellidos:" />
+                                        <h:inputText class="col-md-6" value="#{reportesClientesBean.apellidos}" />
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <h:outputLabel class="col-md-6 control-label" value="Identificaci&oacute;n" />
+                                        <h:inputText class="col-md-6" value="#{reportesClientesBean.identificacion}" />
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <h:outputLabel class="col-md-6 control-label" value="Tipo de identificaci&oacute;n" />
+                                        <p:selectOneMenu id="perfilUsuarios" value="#{reportesClientesBean.tipodocumento.idTipoDocumento}">
+                                            <f:selectItem itemLabel="Select One" itemValue="" />
+                                            <f:selectItems value="#{reportesClientesBean.listaTipos}" var="perfil" itemLabel="#{perfil.nombre}" itemValue="#{perfil.idTipoDocumento}"/>  
+                                        </p:selectOneMenu>
+                                    </div>
                                 </div>
                                 <div id="clientes" class="row clearfix">
                                     <div class="form-group col-md-12">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="panel panel-primary">
 
                                                 <div class="panel-heading">
@@ -126,7 +152,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="panel panel-primary">
 
                                                 <div class="panel-heading">
@@ -150,33 +176,34 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <div class="panel panel-primary">
 
                                                 <div class="panel-heading">#{label['tipojuegos']}</div>
                                                 <div class="panel-body">
-                                                    <ul id="tipojuegosList">
-                                                        <li>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
                                                             <h:selectBooleanCheckbox value="#{reportesClientesBean.todostip}" onclick="toggle('tipojuegosList')">
+
                                                             </h:selectBooleanCheckbox>
                                                             <label>Todos</label>
-                                                        </li>
+                                                        </div>
                                                         <c:forEach var="itemtip" items="#{reportesClientesBean.juegoBooleans}">
-                                                            <li>
+                                                            <div class="col-md-6">
                                                                 <h:selectBooleanCheckbox value="#{itemtip.selected}" onclick="deselecttodo('tipojuegosList')"/>&nbsp;
                                                                 <label >#{itemtip.tipoJuego.nombre}</label>
-                                                            </li>
+                                                            </div>
                                                         </c:forEach>
-                                                    </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <p:commandButton id="addButton" icon="ui-icon-search" value="#{label['lb_btn.Buscar']}"
+                                    <p:commandButton id="addButton" icon="ui-icon-search" value="#{label['lb_btn.Buscar']}" onclick="cerrar();PF('ajaxWaitingDialog').show();"
                                                      title="#{label['lb_btn.Go']}" action="#{reportesClientesBean.busquedaAvanzada()}"
-                                                     update="@form" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();">
+                                                     update="@form" oncomplete="PF('ajaxWaitingDialog').hide();">
                                     </p:commandButton> 
                                 </div>
 
@@ -194,25 +221,24 @@
 
                             <p:dataTable id="detailsTableClientes" var="element" value="#{reportesClientesBean.lista}"  
                                          emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTableClientes" rows="#{sessionBean.paginacion}"
-                                         paginator="true"
+                                         paginator="true" 
                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          rowIndexVar="index" rowsPerPageTemplate="5,10,15, 20, 25, 30">
-                                <p:column headerText="Fila #">
+                                <p:ajax event="page" oncomplete="PF('ajaxWaitingDialog').hide();" onstart="PF('ajaxWaitingDialog').show();"/>
+                                <p:ajax event="sort" oncomplete="PF('ajaxWaitingDialog').hide();" onstart="PF('ajaxWaitingDialog').show();"/>
+                                <p:column headerText="Fila #" style="width:3%;text-align: center;">
                                     #{index + 1}
                                 </p:column>
 
-                                <p:column style="width:5%">
-                                    <p:commandButton id="editButtonCasinos" update=":#{p:component('clientedetalle')}" 
+                                <p:column style="width:4%" rendered="#{sessionBean.perfilViewMatch(&quot;verTodosClientes&quot;)}" >
+                                    <p:commandButton id="ver" update=":#{p:component('clientedetalle')}" 
                                                      oncomplete="PF('clientedetalle').show();PF('ajaxWaitingDialog').hide();" icon="ui-icon-search" onstart="PF('ajaxWaitingDialog').show();"
                                                      title="#{label['lb_btn.editar']}" >  
                                         <f:setPropertyActionListener value="#{element}" target="#{reportesClientesBean.elemento}" />  
                                     </p:commandButton>
                                 </p:column>
 
-                                <p:column headerText="Identificaci&oacute;n" sortBy="#{element.identificacion}" filterBy="#{element.identificacion}" filterMatchMode="contains" >
-                                    <h:outputText value="#{element.identificacion}" />
-                                </p:column>
-                                <p:column headerText="Tipo de identificaci&oacute;n" sortBy="#{element.idTipoDocumento}" filterBy="#{element.idTipoDocumento}" filterMatchMode="in" >
+                                <p:column headerText="Tipo de ident." style="width:6%;text-align: center;"  sortBy="#{element.idTipoDocumento}"  >
                                     <f:facet name="filter">
                                         <p:selectCheckboxMenu label="Tipo" onchange="PF('detailsTableClientes').filter()" >
                                             <f:selectItems value="#{filtrosListas.tipoident}" />
@@ -220,19 +246,32 @@
                                     </f:facet>
                                     <h:outputText value="#{element.idTipoDocumento}" />
                                 </p:column>
+                                <p:column headerText="Identificaci&oacute;n" style="width:9%" sortBy="#{element.identificacion}" >
+                                    <h:outputText value="#{element.identificacion}" />
+                                </p:column>
 
-                                <p:column headerText="Nombres" sortBy="#{element.nombres}" filterBy="#{element.nombres}" filterMatchMode="contains" >
+                                <p:column headerText="Nombres" sortBy="#{element.nombres}"  >
                                     <h:outputText value="#{element.nombres}" />
                                 </p:column>
 
-                                <p:column headerText="Apellidos" sortBy="#{element.apellidos}" filterBy="#{element.apellidos}" filterMatchMode="contains" >
+                                <p:column headerText="Apellidos" sortBy="#{element.apellidos}"  >
                                     <h:outputText value="#{element.apellidos}" />
                                 </p:column>
+                                <p:column headerText="Cumplea&ntilde;os" sortBy="#{element.cumpleanos}" style="width:8%" >
+                                    <h:outputText value="#{element.cumpleanos}" >
+                                        <f:convertDateTime pattern="dd/MMMMM" locale="es" /></h:outputText>
+                                </p:column>
+                                <p:column headerText="Ciudad" sortBy="#{element.ciudad}" >
+                                    <h:outputText value="#{element.ciudad}" />
+                                </p:column>
 
-                                <p:column headerText="Categoria" sortBy="#{element.idCategorias}" >
+                                <p:column headerText="Categoria" sortBy="#{element.idCategorias}" style="width:6%;text-align: center;" >
                                     <h:outputText value="#{element.idCategorias}" />
                                 </p:column>
-                                <p:column headerText="#{label['acciones']}" filterBy="#{element.nombres}" filterMatchMode="contains" filterStyle="display:none">
+                                <p:column headerText="Sala" sortBy="#{element.idCasinoPreferencial}" style="width:17%" >
+                                    <h:outputText value="#{element.idCasinoPreferencial}" />
+                                </p:column>
+                                <p:column headerText="#{label['acciones']}" style="width:8%" filterBy="#{element.nombres}" filterMatchMode="contains" filterStyle="display:none">
                                     <p:commandButton id="editButtonClientes" action="#{reportesClientesBean.goCliente(element.idCliente)}" icon="ui-icon-pencil" 
                                                      title="#{label['lb_btn.editar']}" onstart="PF('ajaxWaitingDialog').show();" 
                                                      rendered="#{sessionBean.perfilFormMatch(&quot;Clientes&quot;, &quot;actualizar&quot;)}"/>    
@@ -361,7 +400,7 @@
                                 <h:outputLabel class="col-md-6 control-label" value="Monto aprox. jugado por visita:" />
                                 <div class="col-md-8">
                                     <h:outputText value="#{reportesClientesBean.elemento.montodejuegovisita}"  >
-                                    <f:convertNumber maxIntegerDigits="10" maxFractionDigits="1" pattern="############0.0"/></h:outputText>
+                                        <f:convertNumber maxIntegerDigits="10" maxFractionDigits="1" pattern="############0.0"/></h:outputText>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
@@ -450,11 +489,11 @@
                                 <div class="form-group col-md-12">
                                     <label class="col-md-2 control-label" >#{label['correo']}:</label>
                                     <div class="col-md-6">
-                                        <p:inputText style="width: 100%;" id="correo" value="#{reportesClientesBean.email}" 
+                                        <h:inputText style="width: 100%;" id="correo" value="#{reportesClientesBean.email}" 
                                                      validatorMessage="#{label['msj.invalid.correo']}">
                                             <f:validateRegex
                                                 pattern="^([_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$)$" />
-                                        </p:inputText>
+                                        </h:inputText>
                                     </div>
                                 </div>
 

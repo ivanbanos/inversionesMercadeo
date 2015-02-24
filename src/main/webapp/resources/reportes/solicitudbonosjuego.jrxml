@@ -47,12 +47,6 @@
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band splitType="Stretch"/>
-	</detail>
-	<columnFooter>
-		<band splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
 		<band height="412" splitType="Stretch">
 			<rectangle>
 				<reportElement x="0" y="105" width="51" height="26"/>
@@ -70,7 +64,7 @@
 				<reportElement x="0" y="0" width="555" height="69"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="0" y="105" width="555" height="126"/>
+				<reportElement positionType="Float" x="0" y="105" width="555" height="126"/>
 			</rectangle>
 			<line>
 				<reportElement x="0" y="22" width="555" height="1"/>
@@ -171,102 +165,119 @@
 				<text><![CDATA[Item]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="267" y="211" width="125" height="20"/>
+				<reportElement positionType="Float" x="267" y="211" width="125" height="20"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="267" y="105" width="125" height="26"/>
+				<reportElement positionType="Float" x="267" y="105" width="125" height="26"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" isBold="true"/>
 				</textElement>
 				<text><![CDATA[VALOR TOTAL]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="392" y="105" width="163" height="26"/>
+				<reportElement positionType="Float" x="392" y="105" width="163" height="26"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" isBold="true"/>
 				</textElement>
 				<text><![CDATA[AREA]]></text>
 			</staticText>
 			<subreport>
-				<reportElement x="0" y="131" width="555" height="80"/>
+				<reportElement positionType="Float" x="0" y="131" width="555" height="80"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource
                     ($F{clientes})]]></dataSourceExpression>
 				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$F{subreportclientes}]]></subreportExpression>
 			</subreport>
 			<rectangle>
-				<reportElement x="0" y="244" width="555" height="48"/>
+				<reportElement positionType="Float" x="0" y="244" width="555" height="48"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="0" y="244" width="175" height="20"/>
+				<reportElement positionType="Float" x="0" y="244" width="175" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" isBold="true"/>
 				</textElement>
 				<text><![CDATA[JUSTIFICACIÓN DE LA SOLICITUD:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="175" y="244" width="380" height="48"/>
+				<reportElement positionType="Float" x="175" y="244" width="380" height="48"/>
 				<textElement>
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{justificacion}]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement x="0" y="315" width="240" height="60"/>
+				<reportElement positionType="Float" x="0" y="315" width="240" height="60"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="240" y="315" width="315" height="60"/>
+				<reportElement positionType="Float" x="240" y="315" width="315" height="60"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="0" y="315" width="100" height="20"/>
+				<reportElement positionType="Float" x="0" y="315" width="100" height="20"/>
 				<textElement>
 					<font fontName="Arial"/>
 				</textElement>
 				<text><![CDATA[Firma del solicitante:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="240" y="335" width="315" height="1"/>
+				<reportElement positionType="Float" x="240" y="335" width="315" height="1"/>
 			</line>
 			<line>
-				<reportElement x="240" y="354" width="315" height="1"/>
+				<reportElement positionType="Float" x="240" y="354" width="315" height="1"/>
 			</line>
 			<staticText>
-				<reportElement x="240" y="316" width="100" height="20"/>
+				<reportElement positionType="Float" x="240" y="316" width="100" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
 				<text><![CDATA[ Apobado por:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="240" y="336" width="100" height="20"/>
+				<reportElement positionType="Float" x="240" y="336" width="100" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
 				<text><![CDATA[ Cargo:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="240" y="355" width="100" height="20"/>
+				<reportElement positionType="Float" x="240" y="355" width="100" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
 				<text><![CDATA[ Firma:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="211" width="267" height="20"/>
+				<reportElement positionType="Float" x="0" y="211" width="267" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TOTAL:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="50" y="105" width="217" height="26"/>
+				<reportElement positionType="Float" x="50" y="105" width="217" height="26"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" isBold="true"/>
 				</textElement>
 				<text><![CDATA[NOMBRE DEL CLIENTE]]></text>
 			</staticText>
 		</band>
+	</detail>
+	<columnFooter>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="446" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="526" y="0" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
 	</pageFooter>
 	<summary>
 		<band splitType="Stretch"/>

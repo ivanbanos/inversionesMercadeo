@@ -5,6 +5,7 @@
 package com.invbf.sistemagestionmercadeo.dao;
 
 import com.invbf.sistemagestionmercadeo.entity.Perfil;
+import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -20,11 +21,11 @@ public class PerfilDao {
 
     public PerfilDao() {
     }
-    
-     public static void create(Perfil perfil) {
+
+    public static void create(Perfil perfil) {
         perfil.setNombre(perfil.getNombre().toUpperCase());
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -43,8 +44,8 @@ public class PerfilDao {
 
     public static void edit(Perfil perfil) {
         perfil.setNombre(perfil.getNombre().toUpperCase());
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -62,8 +63,8 @@ public class PerfilDao {
     }
 
     public static void remove(Perfil perfil) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -72,7 +73,10 @@ public class PerfilDao {
             em.remove(em.merge(perfil));
             tx.commit();
         } catch (Exception e) {
-            tx.rollback();
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            FacesUtil.addErrorMessage("Perfil no borrado", "Tiene clientes asignados");
         }
 
         em.clear();
@@ -81,8 +85,8 @@ public class PerfilDao {
     }
 
     public static Perfil find(Integer id) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         Perfil perfil = null;
@@ -102,8 +106,8 @@ public class PerfilDao {
     }
 
     public static List<Perfil> findAll() {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Perfil> lista = new ArrayList<Perfil>();
@@ -125,8 +129,8 @@ public class PerfilDao {
     }
 
     public static List<Perfil> findRange(int[] range) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Perfil> lista = new ArrayList<Perfil>();
@@ -151,8 +155,8 @@ public class PerfilDao {
     }
 
     public static int count() {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         int count = 0;
@@ -173,21 +177,20 @@ public class PerfilDao {
         em.close();
         emf.close();
         return count;
-        
-        
+
     }
 
     public static Perfil findByNombre(String nombre) {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Perfil> perfiles = null;
         tx.begin();
         try {
             perfiles = em.createNamedQuery("Perfiles.findByNombre")
-            .setParameter("nombre", nombre)
-            .getResultList();
+                    .setParameter("nombre", nombre)
+                    .getResultList();
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -196,11 +199,11 @@ public class PerfilDao {
         em.clear();
         em.close();
         emf.close();
-        if(perfiles==null||perfiles.isEmpty()){
+        if (perfiles == null || perfiles.isEmpty()) {
             return null;
-        }else{
+        } else {
             return perfiles.get(0);
         }
     }
-    
+
 }

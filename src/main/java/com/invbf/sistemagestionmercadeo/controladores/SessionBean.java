@@ -167,6 +167,14 @@ public class SessionBean implements Serializable, Subject {
         session.invalidate();
         return "/pages/InicioSession.xhtml";
     }
+    
+    public void DesconectarUsuario() {
+        container.desconectarUsuario(usuario.getNombreUsuario());
+        usuario = new Usuario();
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(true);
+        session.invalidate();
+    }
 
     public boolean perfilViewMatch(String vista) {
         if (usuario == null || usuario.getIdPerfil() == null || usuario.getIdPerfil().getVistaList() == null) {

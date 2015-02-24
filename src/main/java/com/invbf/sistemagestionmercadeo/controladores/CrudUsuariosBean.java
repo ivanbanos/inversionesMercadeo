@@ -80,6 +80,7 @@ public class CrudUsuariosBean implements Observer, Serializable {
         elemento.setUsuariodetalle(new Usuariodetalle());
         elemento.getUsuariodetalle().setIdcargo(new Cargo());
         sessionBean.registerObserver(this);
+        System.gc();
     }
 
     @PreDestroy
@@ -144,6 +145,7 @@ public class CrudUsuariosBean implements Observer, Serializable {
                 }
                 FacesUtil.addInfoMessage("Usuario guardado", elemento.getNombreUsuario());
 
+        System.gc();
                 setNuevoUsuario();
             } catch (NombreUsuarioExistenteException ex) {
                 FacesUtil.addErrorMessage("Usuario no creado", "Nombre de usuario existente");
@@ -158,6 +160,7 @@ public class CrudUsuariosBean implements Observer, Serializable {
     @Override
     public void update() {
         listaperfiles = sessionBean.adminFacade.findAllPerfiles();
+        System.gc();
     }
 
     private void setNuevoUsuario() {

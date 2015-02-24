@@ -204,7 +204,7 @@ public interface MarketingUserFacade {
 
     public void guardaBono(Bono elemento);
 
-    public List<Cliente> findAllClientesCasinos(Casino idCasino);
+    public List<Cliente> findAllClientesCasinos(Casino idCasino, String nombre, String apellidos, String ident, Tipodocumento tipodocumento);
 
     public List<Lotebono> getLotesBonosByCasino(Casino casinoSelected);
 

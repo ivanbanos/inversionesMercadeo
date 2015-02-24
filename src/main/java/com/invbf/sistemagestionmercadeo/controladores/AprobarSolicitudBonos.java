@@ -47,7 +47,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class AprobarSolicitudBonos  implements Serializable{
+public class AprobarSolicitudBonos implements Serializable {
 
     private Solicitudentrega elemento;
     private List<Casino> casinos;
@@ -92,7 +92,7 @@ public class AprobarSolicitudBonos  implements Serializable{
             }
 
             System.out.println("Buscando info de la solictud si existe");
-            if (sessionBean.getAttributes("idSolicitudentrega")!=null && (Integer) sessionBean.getAttributes("idSolicitudentrega") != 0) {
+            if (sessionBean.getAttributes("idSolicitudentrega") != null && (Integer) sessionBean.getAttributes("idSolicitudentrega") != 0) {
                 Integer id = (Integer) sessionBean.getAttributes("idSolicitudentrega");
                 elemento = sessionBean.marketingUserFacade.getSolicitudbono(id);
                 solicitudentregaclienteses = elemento.getSolicitudentregaclienteList();
@@ -127,14 +127,14 @@ public class AprobarSolicitudBonos  implements Serializable{
             busquedaClientes();
             if (!elemento.getControlsalidabonoList().isEmpty()) {
                 control = elemento.getControlsalidabonoList().get(0);
+                DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
+                DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
+                TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
+                df.setTimeZone(timeZone);
+                Calendar nowDate = Calendar.getInstance();
+                nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
+                control.setFecha(nowDate.getTime());
             }
-            DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
-            DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
-            TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
-            df.setTimeZone(timeZone);
-            Calendar nowDate = Calendar.getInstance();
-            nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
-            control.setFecha(nowDate.getTime());
 
             List<Solicitudentregacliente> solec = elemento.getSolicitudentregaclienteList();
             lotesSol = sessionBean.marketingUserFacade.getLotesBonosCasinoTipoBono(elemento.getIdCasino().getIdCasino(), elemento.getTipoBono());
@@ -252,7 +252,7 @@ public class AprobarSolicitudBonos  implements Serializable{
                     for (ControlsalidabonosHasLotesbonosHasClientes chlhc : controlsalidabonosHasLotesbonosHasClienteses) {
                         System.out.println("id chclh " + chlhc.getControlsalidabonosHasLotesbonosHasClientesPK().getControlSalidaBonoshasLotesBonosLotesBonosid());
                         ControlsalidabonosHasLotesbonos chl = new ControlsalidabonosHasLotesbonos(control.getId(), chlhc.getControlsalidabonosHasLotesbonosHasClientesPK().getControlSalidaBonoshasLotesBonosLotesBonosid());
-                        
+
                         System.out.println("id chclh " + controlsalidabonosHasLotesbonoses.indexOf(chl));
                         chl = controlsalidabonosHasLotesbonoses.get(controlsalidabonosHasLotesbonoses.indexOf(chl));
                         if (chl.getCantidad() == null) {
@@ -269,7 +269,7 @@ public class AprobarSolicitudBonos  implements Serializable{
                     String body = "Se ha aprobado la solicitud de bonos con el número de acta " + elemento.getId()
                             + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
                     Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA, body, "Se ha aprobado la solicitud de bonos.", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
-                    
+
                     FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBono.xhtml");
                     FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
                 } catch (IOException ex) {
@@ -366,7 +366,7 @@ public class AprobarSolicitudBonos  implements Serializable{
     }
 
     public void busquedaClientes() {
-        clientessgbs = sessionBean.adminFacade.findClientessgbByCasino(elemento.getIdCasino());
+        clientessgbs = sessionBean.marketingUserFacade.findAllClientesCasinos(elemento.getIdCasino(), "", "", "", null);
     }
 
     public List<Cliente> getSelectedClientessgbs() {

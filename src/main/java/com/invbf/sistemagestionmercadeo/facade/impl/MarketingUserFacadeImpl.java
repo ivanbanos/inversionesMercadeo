@@ -958,8 +958,8 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     }
 
     @Override
-    public List<Cliente> findAllClientesCasinos(Casino idCasino) {
-        return ClienteDao.findByIdCasino(idCasino.getIdCasino());
+    public List<Cliente> findAllClientesCasinos(Casino idCasino, String nombre, String apellidos, String ident, Tipodocumento tipodocumento) {
+        return ClienteDao.findByIdCasino(idCasino.getIdCasino(), nombre, apellidos, ident, tipodocumento);
     }
 
     @Override

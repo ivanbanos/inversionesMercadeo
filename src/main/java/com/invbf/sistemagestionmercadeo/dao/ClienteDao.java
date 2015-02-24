@@ -95,17 +95,17 @@ public class ClienteDao {
     }
 
     public static void create(Cliente cliente) {
-        cliente.setNombres(cliente.getNombres()!=null?cliente.getNombres().toUpperCase():"");
-        cliente.setApellidos(cliente.getApellidos()!=null?cliente.getApellidos().toUpperCase():"");
-        
-        cliente.setCiudad(cliente.getCiudad()!=null?cliente.getCiudad().toUpperCase():"");
-        cliente.setPais(cliente.getPais()!=null?cliente.getPais().toUpperCase():"");
-        cliente.setBebida(cliente.getBebida()!=null?cliente.getBebida().toUpperCase():"");
-        cliente.setComida(cliente.getComida()!=null?cliente.getComida().toUpperCase():"");
-        cliente.setDescripcionPersonalidad(cliente.getDescripcionPersonalidad()!=null?cliente.getDescripcionPersonalidad().toUpperCase():"");
-        cliente.setGustosPreferencias(cliente.getGustosPreferencias()!=null?cliente.getGustosPreferencias().toUpperCase():"");
-        cliente.setMaquinapreferida(cliente.getMaquinapreferida()!=null?cliente.getMaquinapreferida().toUpperCase():"");
-        cliente.setOcupacion(cliente.getOcupacion()!=null?cliente.getOcupacion().toUpperCase():"");
+        cliente.setNombres(cliente.getNombres() != null ? cliente.getNombres().toUpperCase() : "");
+        cliente.setApellidos(cliente.getApellidos() != null ? cliente.getApellidos().toUpperCase() : "");
+
+        cliente.setCiudad(cliente.getCiudad() != null ? cliente.getCiudad().toUpperCase() : "");
+        cliente.setPais(cliente.getPais() != null ? cliente.getPais().toUpperCase() : "");
+        cliente.setBebida(cliente.getBebida() != null ? cliente.getBebida().toUpperCase() : "");
+        cliente.setComida(cliente.getComida() != null ? cliente.getComida().toUpperCase() : "");
+        cliente.setDescripcionPersonalidad(cliente.getDescripcionPersonalidad() != null ? cliente.getDescripcionPersonalidad().toUpperCase() : "");
+        cliente.setGustosPreferencias(cliente.getGustosPreferencias() != null ? cliente.getGustosPreferencias().toUpperCase() : "");
+        cliente.setMaquinapreferida(cliente.getMaquinapreferida() != null ? cliente.getMaquinapreferida().toUpperCase() : "");
+        cliente.setOcupacion(cliente.getOcupacion() != null ? cliente.getOcupacion().toUpperCase() : "");
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
@@ -269,18 +269,46 @@ public class ClienteDao {
 
     }
 
-    public static List<Cliente> findByIdCasino(Integer idCasino) {
+    public static List<Cliente> findByIdCasino(Integer idCasino, String nombre, String apellidos, String ident, Tipodocumento tipodocumento) {
 
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Cliente> cargos = null;
+        if (nombre == null) {
+            nombre = "";
+        } else {
+            nombre = nombre.toUpperCase();
+        }
+        if (apellidos == null) {
+            apellidos = "";
+        } else {
+            apellidos = apellidos.toUpperCase();
+        }
+        if (ident == null) {
+            ident = "";
+        } else {
+            ident = ident.toUpperCase();
+        }
         tx.begin();
         try {
-            cargos = (List<Cliente>) em.createNamedQuery("Cliente.findByCasino")
-                    .setParameter("casino", idCasino)
-                    .getResultList();
+            if (tipodocumento == null||tipodocumento.getIdTipoDocumento()==null||tipodocumento.getIdTipoDocumento()==0) {
+                cargos = (List<Cliente>) em.createNamedQuery("Cliente.findByCasinoNombreYApellidos")
+                        .setParameter("casino", idCasino)
+                        .setParameter("nombres", nombre + "%")
+                        .setParameter("apellidos", apellidos + "%")
+                        .setParameter("identificacion", ident + "%")
+                        .getResultList();
+            }else{
+                cargos = (List<Cliente>) em.createNamedQuery("Cliente.findByCasinoNombreYApellidosYtipo")
+                        .setParameter("casino", idCasino)
+                        .setParameter("nombres", nombre + "%")
+                        .setParameter("apellidos", apellidos + "%")
+                        .setParameter("identificacion", ident + "%")
+                        .setParameter("idTipo", tipodocumento)
+                        .getResultList();
+            }
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -289,7 +317,7 @@ public class ClienteDao {
         em.clear();
         em.close();
         emf.close();
-
+        System.out.println(cargos.size());
         return cargos;
     }
 }

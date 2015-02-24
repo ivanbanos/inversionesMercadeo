@@ -16,7 +16,7 @@ $(document).on('click', '.panel-heading span.clickable', function (e) {
         $this.find('i').removeClass('fa-plus').addClass('fa-minus');
     }
 });
-$(document).on('click', '.panel div.clickable', function (e) {
+$(document).on('click', '.panel div.clickable', function cerrar(e) {
     var $this = $(this);
     if (!$this.hasClass('panel-collapsed')) {
         $this.parents('.panel').find('.panel-body').slideUp();

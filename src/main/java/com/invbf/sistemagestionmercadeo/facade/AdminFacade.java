@@ -104,8 +104,6 @@ public interface AdminFacade {
 
     public void deleteAreas(Area elemento);
 
-    public List<Cliente> findClientessgbByCasino(Casino idCasino);
-
     public Casino findCasino(Integer idCasino);
 
     public Casinodetalle findDetalleCasino(Integer idCasino);

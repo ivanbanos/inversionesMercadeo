@@ -14,6 +14,7 @@ import com.invbf.sistemagestionmercadeo.entity.Permiso;
 import com.invbf.sistemagestionmercadeo.entity.Tipodocumento;
 import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
+import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.io.Serializable;
@@ -33,7 +34,7 @@ import org.primefaces.model.DualListModel;
  */
 @ManagedBean
 @ViewScoped
-public class ClientesActBean  implements Serializable{
+public class ClientesActBean implements Serializable {
 
     private List<Tipojuego> tiposjuegos;
     private List<Atributo> atributos;
@@ -46,7 +47,7 @@ public class ClientesActBean  implements Serializable{
     private List<Categoria> listacategorias;
     private List<Tipodocumento> tipoDocumentos;
     private String observaciones;
-    private int anio = 1900;
+    private int anio;
 
     private List<Integer> annos;
 
@@ -76,13 +77,13 @@ public class ClientesActBean  implements Serializable{
             }
         }
 
-        if (sessionBean.getAttributes("idCliente")==null) {
+        if (sessionBean.getAttributes("idCliente") == null) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("AdministradorAtributosMarketing.xhtml");
             } catch (IOException ex) {
             }
         }
-        if ((Integer) sessionBean.getAttributes("idCliente") != null&&(Integer) sessionBean.getAttributes("idCliente") != 0) {
+        if ((Integer) sessionBean.getAttributes("idCliente") != null && (Integer) sessionBean.getAttributes("idCliente") != 0) {
             elemento = sessionBean.marketingUserFacade.findCliente((Integer) sessionBean.getAttributes("idCliente"));
             viejo = sessionBean.marketingUserFacade.findCliente((Integer) sessionBean.getAttributes("idCliente"));
             if (elemento.getIdTipoDocumento() == null) {
@@ -132,7 +133,6 @@ public class ClientesActBean  implements Serializable{
             mes = c.get(Calendar.MONTH);
             anio = c.get(Calendar.YEAR);
         } else {
-            anio = 1900;
             mes = 12;
         }
     }
@@ -176,7 +176,7 @@ public class ClientesActBean  implements Serializable{
                     break guardar;
                 }
                 if (!elemento.getIdentificacion().equals("")) {
-                    if ((sessionBean.marketingUserFacade.existeid(elemento.getIdTipoDocumento(), elemento.getIdentificacion()))&&(elemento.getIdCliente()==0)) {
+                    if ((sessionBean.marketingUserFacade.existeid(elemento.getIdTipoDocumento(), elemento.getIdentificacion())) && (elemento.getIdCliente() == 0)) {
                         FacesUtil.addErrorMessage("No se puede guardar cliente", "Existe cliente con la misma identificación");
                         break guardar;
                     }
@@ -196,8 +196,11 @@ public class ClientesActBean  implements Serializable{
                 sessionBean.marketingUserFacade.guardarClientes(elemento);
                 FacesUtil.addInfoMessage("Cliente creado con exito!", "");
                 sessionBean.registrarlog("actualizar", "Clientes", "Cliente creado: " + elemento.toString());
+                if (elemento.getIdCliente() == null || elemento.getIdCliente() == 0) {
+                    sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Cliente creado con exito", ""));
+                }else{
+                    sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Cliente editado con exito", ""));}
                 FacesContext.getCurrentInstance().getExternalContext().redirect("Reporteclientes.xhtml");
-                
 
             } catch (IOException ex) {
             }

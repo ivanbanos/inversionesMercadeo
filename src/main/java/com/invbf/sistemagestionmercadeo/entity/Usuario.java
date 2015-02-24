@@ -56,6 +56,10 @@ public class Usuario implements Serializable {
     @Column(name = "nombreUsuario")
     private String nombreUsuario;
     @Basic(optional = false)
+    @Size(min = 1, max = 45)
+    @Column(name = "nombre")
+    private String nombre;
+    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "contrasena")
@@ -288,6 +292,14 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Usuario[ idUsuario=" + idUsuario + nombreUsuario+" ]";
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
     
 }

@@ -316,7 +316,7 @@ public class GeneradorSolicitudBonos implements Serializable{
     public void busquedaClientes() {
 
         System.out.println("entra");
-        clientessgbs = sessionBean.marketingUserFacade.findAllClientesCasinos(elemento.getIdCasino());
+        clientessgbs = sessionBean.marketingUserFacade.findAllClientesCasinos(elemento.getIdCasino(),"","","",null);
 
         boolean noCatselected = true;
         boolean noTipselected = true;

@@ -8,7 +8,6 @@ import com.invbf.sistemagestionmercadeo.entity.Atributo;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Categoria;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
-import com.invbf.sistemagestionmercadeo.entity.Permiso;
 import com.invbf.sistemagestionmercadeo.entity.Tipodocumento;
 import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
@@ -35,7 +34,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class ReportesClientesBean  implements Serializable{
+public class ReportesClientesBean implements Serializable {
 
     private String email;
     private List<ClienteDTO> lista;
@@ -58,6 +57,11 @@ public class ReportesClientesBean  implements Serializable{
     private Integer totales;
     private Integer mes;
     private Integer dia;
+    private String nombre;
+    private String apellidos;
+    private String identificacion;
+    private Tipodocumento tipodocumento;
+    private List<Tipodocumento> listaTipos;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -92,7 +96,6 @@ public class ReportesClientesBean  implements Serializable{
             }
         }
         elemento = new ClienteDTO();
-        buscarCLientesIniciales();
         totales = sessionBean.marketingUserFacade.getCantClientes();
         listacasinos = sessionBean.marketingUserFacade.findAllCasinos();
         listaatributos = sessionBean.marketingUserFacade.findAllAtributos();
@@ -110,12 +113,16 @@ public class ReportesClientesBean  implements Serializable{
             juegoBooleans.add(new TipoJuegoBoolean(tipoJuego, false));
         }
         for (Casino casinob : casinos) {
-            casinoBooleans.add(new CasinoBoolean(casinob, false));
+            casinoBooleans.add(new CasinoBoolean(casinob, true));
         }
         for (Categoria categoria : categorias) {
             categoriaBooleans.add(new CategoriaBoolean(categoria, false));
         }
-        mes= 12;
+        listaTipos = sessionBean.marketingUserFacade.findAllTipoDocumentos();
+        tipodocumento = new Tipodocumento();
+        mes = 12;
+        buscarCLientesIniciales();
+        sessionBean.printMensajes();
         System.gc();
     }
 
@@ -169,9 +176,10 @@ public class ReportesClientesBean  implements Serializable{
 
     public void delete() {
         sessionBean.marketingUserFacade.deleteClientes(elemento.getIdCliente());
-        sessionBean.registrarlog("eliminar", "Clientes", elemento.getNombres()+" "+elemento.getApellidos());
-        FacesUtil.addInfoMessage("Cliente eliminado", elemento.getNombres()+" "+elemento.getApellidos());
+        sessionBean.registrarlog("eliminar", "Clientes", elemento.getNombres() + " " + elemento.getApellidos());
+        FacesUtil.addInfoMessage("Cliente eliminado", elemento.getNombres() + " " + elemento.getApellidos());
         elemento = new ClienteDTO();
+        busquedaAvanzada();
     }
 
     public void goCliente(int id) {
@@ -208,21 +216,15 @@ public class ReportesClientesBean  implements Serializable{
 
     public void busquedaAvanzada() {
 
-        List<Cliente> clientes = sessionBean.marketingUserFacade.findAllClientes();
+        List<Cliente> clientes = new ArrayList<Cliente>();
+        for (CasinoBoolean casino : casinoBooleans) {
+            if (casino.isSelected()) {
+                clientes.addAll(sessionBean.marketingUserFacade.findAllClientesCasinos(casino.getCasino(), nombre, apellidos, identificacion, tipodocumento));
+            }
+        }
 
         boolean noCatselected = true;
         boolean noTipselected = true;
-        boolean noCasselected = true;
-        for (CasinoBoolean cb : casinoBooleans) {
-            if (todoscasinos) {
-                cb.setSelected(true);
-                continue;
-            }
-            if (cb.isSelected()) {
-                noCasselected = false;
-                break;
-            }
-        }
         for (CategoriaBoolean cb : categoriaBooleans) {
             if (todosCat) {
                 cb.setSelected(true);
@@ -249,19 +251,6 @@ public class ReportesClientesBean  implements Serializable{
 
             boolean siCategoria = false;
             boolean siTipoJuego = false;
-            boolean siCasino = false;
-            if (noCasselected) {
-                siCasino = true;
-            } else {
-                for (CasinoBoolean cb : casinoBooleans) {
-                    if (cb.isSelected()) {
-                        if (cliente.getIdCasinoPreferencial().equals(cb.getCasino())) {
-                            siCasino = true;
-                            break;
-                        }
-                    }
-                }
-            }
             if (noCatselected) {
                 siCategoria = true;
             } else {
@@ -297,10 +286,6 @@ public class ReportesClientesBean  implements Serializable{
                 it.remove();
                 continue;
             }
-            if (!siCasino) {
-                it.remove();
-                continue;
-            }
             if (ciudad != null && !ciudad.equals("")) {
                 if (!cliente.getCiudad().contains(ciudad)) {
                     it.remove();
@@ -313,32 +298,32 @@ public class ReportesClientesBean  implements Serializable{
                     continue;
                 }
             }
-            if ((mes!=12)|| (dia != null && !dia.equals(0))) {
+            if ((mes != 12) || (dia != null && !dia.equals(0))) {
                 Calendar fecha = Calendar.getInstance();
                 if (cliente.getCumpleanos() == null) {
                     it.remove();
                     continue;
                 }
                 fecha.setTime(cliente.getCumpleanos());
-                if (mes!=12) {
-                    if (fecha.get(Calendar.MONTH)!=mes) {
+                if (mes != 12) {
+                    if (fecha.get(Calendar.MONTH) != mes) {
                         it.remove();
                         continue;
                     }
                 }
                 if (dia != null && !dia.equals(0)) {
-                    if (fecha.get(Calendar.DAY_OF_MONTH)!=dia) {
+                    if (fecha.get(Calendar.DAY_OF_MONTH) != dia) {
                         it.remove();
                         continue;
                     }
                 }
             }
         }
-        
+
         lista = new ArrayList<ClienteDTO>();
-             fillClientes(clientes);
-             
-        FacesUtil.addInfoMessage("Clientes filtrados!","Cantidad "+lista.size());
+        fillClientes(clientes);
+        listaTipos= sessionBean.marketingUserFacade.findAllTipoDocumentos();
+        FacesUtil.addInfoMessage("Clientes filtrados!", "Cantidad " + lista.size());
         System.gc();
     }
 
@@ -416,13 +401,13 @@ public class ReportesClientesBean  implements Serializable{
 
     private void buscarCLientesIniciales() {
         lista = new ArrayList<ClienteDTO>();
-        for(Casino c: sessionBean.getUsuario().getCasinoList()){
-             List<Cliente> clientes = sessionBean.marketingUserFacade.findAllClientesCasinos(c);
-             fillClientes(clientes);
+        for (Casino c : sessionBean.getUsuario().getCasinoList()) {
+            List<Cliente> clientes = sessionBean.marketingUserFacade.findAllClientesCasinos(c, "", "", "", tipodocumento);
+            fillClientes(clientes);
         }
     }
-    
-    private void fillClientes(List<Cliente> clientes){
+
+    private void fillClientes(List<Cliente> clientes) {
         for (Cliente cliente : clientes) {
             lista.add(new ClienteDTO(cliente));
         }
@@ -436,8 +421,49 @@ public class ReportesClientesBean  implements Serializable{
         this.email = email;
     }
 
-    public void enviarMail(){
+    public void enviarMail() {
         Notificador.notificar(Notificador.EMAIL_CLIENTE, elemento.getAsEmail(), "Perfil de Cliente", email);
-        FacesUtil.addInfoMessage("Correo enviado","");
+        FacesUtil.addInfoMessage("Correo enviado", "");
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
+    }
+
+    public Tipodocumento getTipodocumento() {
+        return tipodocumento;
+    }
+
+    public void setTipodocumento(Tipodocumento tipodocumento) {
+        this.tipodocumento = tipodocumento;
+    }
+
+    public List<Tipodocumento> getListaTipos() {
+        return listaTipos;
+    }
+
+    public void setListaTipos(List<Tipodocumento> listaTipos) {
+        this.listaTipos = listaTipos;
+    }
+    
 }

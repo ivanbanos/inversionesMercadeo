@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.util;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -57,7 +58,12 @@ public class ClienteDTO implements Serializable {
         this.telefono2 = c.getTelefono2();
         this.identificacion = c.getIdentificacion();
         this.correo = c.getCorreo();
-        this.cumpleanos = c.getCumpleanos();
+        if (c.getCumpleanos() != null) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(c.getCumpleanos());
+            cal.set(Calendar.YEAR, 1900);
+            this.cumpleanos = cal.getTime();
+        }
         this.pais = c.getPais();
         this.direccion = c.getDireccion();
         this.ciudad = c.getCiudad();
@@ -323,7 +329,9 @@ public class ClienteDTO implements Serializable {
         htmlText += "<div><Label>Categoria: </label> " + idCategorias + "</div>";
         htmlText += "<div><Label>Casino de preferencia: </label> " + idCasinoPreferencial + "</div>";
         htmlText += "<div><Label>Genero: </label>  " + genero + "</div>";
-        htmlText += "<div><Label>Correo: </label> " + correo + "</div>";
+        if (correo != null && !correo.equals("")) {
+            htmlText += "<div><Label>Correo: </label> " + correo.substring(0, 1) + "*****</div>";
+        }
         if (cumpleanos != null) {
             htmlText += "<div><Label>Cumpleaños: " + cumpleanos + "</div>";
         }
@@ -331,18 +339,42 @@ public class ClienteDTO implements Serializable {
         htmlText += "<div><Label>Ciudad: </label> " + ciudad + "</div>";
         htmlText += "<div><Label>Dirección: </label> " + direccion + "</div>";
         htmlText += "<div><Label>Cupo de fidelización: </label> " + bonoFidelizacion + "</div>";
-        htmlText += "<div><Label>Ocupación: </label> " + ocupacion + "</div>";
-        htmlText += "<div><Label>Monto aprox. jugado por visita: </label> " + montodejuegovisita + "</div>";
-        htmlText += "<div><Label>Máquina preferida: </label> " + maquinapreferida + "</div>";
-        htmlText += "<div><Label>Hora habitual de visita: </label> " + horaHabitualVisita + "</div>";
-        htmlText += "<div><Label>Días habituales de visita: </label> " + diaSemanaVisita + "</div>";
-        htmlText += "<div><Label>Acompañante Habitual: </label> " + acompananteHabitual + "</div>";
-        htmlText += "<div><Label>Personalidad: </label> " + descripcionPersonalidad + "</div>";
-        htmlText += "<div><Label>Bebida preferida: </label> " + bebida + "</div>";
-        htmlText += "<div><Label>Comida preferida: </label> " + comida + "</div>";
-        htmlText += "<div><Label>Fuma?: </label> " + fuma + "</div>";
-        htmlText += "<div><Label>Otros gustos: </label> " + gustosPreferencias + "</div>";
-        htmlText += "<div><Label>Tipos de juego: </label> <ul>";
+
+        if (ocupacion != null) {
+            htmlText += "<div><Label>Ocupación: </label> " + ocupacion + "</div>";
+        }
+
+        if (montodejuegovisita != null) {
+            htmlText += "<div><Label>Monto aprox. jugado por visita: </label> " + montodejuegovisita + "</div>";
+        }
+        if (maquinapreferida != null) {
+            htmlText += "<div><Label>Máquina preferida: </label> " + maquinapreferida + "</div>";
+        }
+        if (horaHabitualVisita != null) {
+            htmlText += "<div><Label>Hora habitual de visita: </label> " + horaHabitualVisita + "</div>";
+        }
+        if (diaSemanaVisita != null) {
+            htmlText += "<div><Label>Días habituales de visita: </label> " + diaSemanaVisita + "</div>";
+        }
+        if (acompananteHabitual != null) {
+            htmlText += "<div><Label>Acompañante Habitual: </label> " + acompananteHabitual + "</div>";
+        }
+        if (descripcionPersonalidad != null) {
+            htmlText += "<div><Label>Personalidad: </label> " + descripcionPersonalidad + "</div>";
+        }
+        if (bebida != null) {
+            htmlText += "<div><Label>Bebida preferida: </label> " + bebida + "</div>";
+        }
+        if (comida != null) {
+            htmlText += "<div><Label>Comida preferida: </label> " + comida + "</div>";
+        }
+        if (fuma != null) {
+            htmlText += "<div><Label>Fuma?: </label> " + fuma + "</div>";
+        }
+        if (gustosPreferencias != null) {
+            htmlText += "<div><Label>Otros gustos: </label> " + gustosPreferencias + "</div>";
+        }
+        htmlText += "<div><Label>Juegos favoritos: </label> <ul>";
         for (Tipojuego tipojuegoList1 : tipojuegoList) {
             htmlText += "<li>" + tipojuegoList1.getNombre() + "</li>";
         }

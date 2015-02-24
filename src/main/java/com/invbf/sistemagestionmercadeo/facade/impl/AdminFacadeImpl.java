@@ -84,6 +84,7 @@ public class AdminFacadeImpl implements AdminFacade, Serializable {
             Usuario u = new Usuario(elemento.getIdUsuario(), elemento.getNombreUsuario(), elemento.getContrasena());
             u.setIdPerfil(elemento.getIdPerfil());
             u.setEstado(elemento.getEstado());
+            u.setNombre(elemento.getNombre());
             UsuarioDao.create(u);
             detalle.setIdUsuario(u.getIdUsuario());
             UsuarioDetalleDao.create(detalle);
@@ -102,6 +103,7 @@ public class AdminFacadeImpl implements AdminFacade, Serializable {
             u.setIdUsuario(elemento.getIdUsuario());
             u.setNombreUsuario(elemento.getNombreUsuario());
             u.setIdPerfil(elemento.getIdPerfil());
+            u.setNombre(elemento.getNombre());
             u.setEstado(elemento.getEstado());
             UsuarioDetalleDao.edit(u.getUsuariodetalle());
             UsuarioDao.edit(u);
@@ -354,10 +356,6 @@ public class AdminFacadeImpl implements AdminFacade, Serializable {
         AreaDao.remove(elemento);
     }
 
-    @Override
-    public List<Cliente> findClientessgbByCasino(Casino idCasino) {
-        return ClienteDao.findByIdCasino(idCasino.getIdCasino());
-    }
 
     @Override
     public Casino findCasino(Integer idCasino) {

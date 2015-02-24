@@ -44,12 +44,16 @@
 
                                         </f:facet>
 
-                                        <p:column headerText="Nombre" sortBy="#{element.nombreUsuario}" filterBy="#{element.nombreUsuario}" filterMatchMode="contains" >
+                                        <p:column headerText="Nombre de usuario" sortBy="#{element.nombreUsuario}" filterBy="#{element.nombreUsuario}" filterMatchMode="contains" >
                                             <h:outputText value="#{element.nombreUsuario}" />
                                         </p:column>
 
-                                        <p:column headerText="Nombre" sortBy="#{element.estado}" filterBy="#{element.estado}" filterMatchMode="contains" >
+                                        <p:column headerText="Estado" sortBy="#{element.estado}" filterBy="#{element.estado}" filterMatchMode="contains" >
                                             <h:outputText value="#{element.estado}" />
+                                        </p:column>
+                                        
+                                        <p:column headerText="Nombre" sortBy="#{element.nombre}" filterBy="#{element.nombre}" filterMatchMode="contains" >
+                                            <h:outputText value="#{element.nombre}" />
                                         </p:column>
 
                                         <p:column headerText="Perfil" sortBy="#{element.idPerfil.nombre}" filterBy="#{element.idPerfil.nombre}" filterMatchMode="in" >
@@ -97,9 +101,21 @@
                                                 <div class="control-group">
                                                     <!-- Username -->
                                                     <div class="form-group">
-                                                        <label class="col-md-3 control-label" >#{label['nombre']}</label>
+                                                        <label class="col-md-3 control-label" >Nombre de usuario:</label>
                                                         <div class="col-md-9">
                                                             <h:inputText id="nombreusuario" value="#{crudUsuariosBean.elemento.nombreUsuario}" required="true" class="form-control"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="control-group">
+                                                    <!-- Username -->
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label" >Nombre:</label>
+                                                        <div class="col-md-9">
+                                                            <h:inputText id="nombre" value="#{crudUsuariosBean.elemento.nombre}" required="true" class="form-control"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -226,15 +242,26 @@
                                 <div class="panel panel-primary">
 
                                     <div class="panel-body">
-                                        <fieldset>
+                                        <fieldset><div class="row">
+
+                                                <div class="control-group">
+                                                    <!-- Username -->
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label" >Nombre de usuario:</label>
+                                                        <div class="col-md-9">
+                                                            <h:inputText id="nombreusuario" value="#{crudUsuariosBean.elemento.nombreUsuario}" required="true" class="form-control"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="row">
 
                                                 <div class="control-group">
                                                     <!-- Username -->
                                                     <div class="form-group">
-                                                        <label class="col-md-3 control-label" >#{label['nombre']}</label>
+                                                        <label class="col-md-3 control-label" >Nombre:</label>
                                                         <div class="col-md-9">
-                                                            <h:inputText id="nombreusuario" value="#{crudUsuariosBean.elemento.nombreUsuario}" required="true" class="form-control"/>
+                                                            <h:inputText id="nombre" value="#{crudUsuariosBean.elemento.nombre}" required="true" class="form-control"/>
                                                         </div>
                                                     </div>
                                                 </div>
