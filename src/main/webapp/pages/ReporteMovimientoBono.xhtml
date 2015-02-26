@@ -116,11 +116,23 @@
                                 <td>#{bonos.tipoBono}</td>
                                 <td>#{bonos.aprobados}</td>
                                 <td style=" background-color: #FFC904;">#{bonos.entregados}</td>
-                                <td style=" background-color: #FFC904;">#{bonos.efectividad}</td>
+                                <td style=" background-color: #FFC904;">%
+                                    <h:outputText value="#{bonos.efectividad}">
+                                        <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#0.00"/>
+                                    </h:outputText>
+                                </td>
                                 <td style="background-color: #04FF57;">#{bonos.canjeados}</td>
-                                <td style="background-color: #04FF57;">#{bonos.efectividadCAnjeados}</td>
+                                <td style="background-color: #04FF57;">%
+                                    <h:outputText value="#{bonos.efectividadCAnjeados}">
+                                        <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#0.00"/>
+                                    </h:outputText>
+                                </td>
                                 <td>#{bonos.nocanjeados}</td>
-                                <td>#{bonos.efectividadNoCAnjeados}</td>
+                                <td>%
+                                    <h:outputText value="#{bonos.efectividadNoCAnjeados}">
+                                        <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#0.00"/>
+                                    </h:outputText>
+                                </td>
                             </tr>
                         </c:forEach>
 

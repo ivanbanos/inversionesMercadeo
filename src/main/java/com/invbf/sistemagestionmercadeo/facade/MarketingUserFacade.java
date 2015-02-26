@@ -174,7 +174,7 @@ public interface MarketingUserFacade {
 
     public List<Lotebono> getLotesBonosCasinoTipoBono(Integer idCasino, Tipobono tipoBono);
 
-    public void guardarControlSalidaBonos(Controlsalidabono elemento, boolean enviar);
+    public Controlsalidabono guardarControlSalidaBonos(Controlsalidabono elemento, boolean enviar);
 
     public void cambiarEstadoSolicitudentrega(Solicitudentrega elemento);
 
@@ -213,5 +213,7 @@ public interface MarketingUserFacade {
     public Integer getCantClientes();
 
     public List<Tarea> getTareasUsuario(Usuario usuario);
+
+    public List<Cliente> findAllClientesCasinosConCupo(Casino idCasino);
 
 }

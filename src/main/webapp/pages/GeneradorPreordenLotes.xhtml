@@ -35,6 +35,8 @@
 
 
                                 <p:wizard flowListener="#{generadorSolicitudLotesBonos.onFlowProcess}" backLabel="Atrás" nextLabel="Siguiente" >
+                                    
+                                <p:ajax event="flow" oncomplete="PF('ajaxWaitingDialog').hide();" onstart="PF('ajaxWaitingDialog').show();"/>
                                     <p:tab id="casino" title="Selecci&oacute;n Casino">
 
                                         <div class="row">

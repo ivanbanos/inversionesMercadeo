@@ -11,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,9 +44,9 @@ public class Tipotarea implements Serializable {
     @Size(max = 45)
     @Column(name = "nombre")
     private String nombre;
-    @ManyToMany(mappedBy = "tipotareaList", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "tipotareaList")
     private List<Accion> accionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipo", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipo")
     private List<Tarea> tareaList;
 
     public Tipotarea() {

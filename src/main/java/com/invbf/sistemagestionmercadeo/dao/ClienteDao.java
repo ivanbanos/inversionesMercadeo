@@ -4,10 +4,12 @@
  */
 package com.invbf.sistemagestionmercadeo.dao;
 
+import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Tipodocumento;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -89,6 +91,41 @@ public class ClienteDao {
             return true;
         }
         return false;
+    }
+
+    public static List<Cliente> findAllClientesCasinosConCupo(Casino idCasino) {
+
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Cliente> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Cliente>) em.createNamedQuery("Cliente.findByCasinoYNoCupo")
+                    .setParameter("casino", idCasino.getIdCasino())
+                    .getResultList();
+            
+        System.out.println(cargos.size());
+            for (Iterator<Cliente> iterator = cargos.iterator(); iterator.hasNext();) {
+                Cliente next = iterator.next();
+                try {
+                    if (next.getBonoFidelizacion() == null || next.getBonoFidelizacion().equals("") || Float.parseFloat(next.getBonoFidelizacion()) <= 0) {
+                        iterator.remove();
+                    }
+                } catch (NumberFormatException e) {
+                    iterator.remove();
+                }
+            }
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return cargos;
     }
 
     public ClienteDao() {
@@ -293,14 +330,14 @@ public class ClienteDao {
         }
         tx.begin();
         try {
-            if (tipodocumento == null||tipodocumento.getIdTipoDocumento()==null||tipodocumento.getIdTipoDocumento()==0) {
+            if (tipodocumento == null || tipodocumento.getIdTipoDocumento() == null || tipodocumento.getIdTipoDocumento() == 0) {
                 cargos = (List<Cliente>) em.createNamedQuery("Cliente.findByCasinoNombreYApellidos")
                         .setParameter("casino", idCasino)
                         .setParameter("nombres", nombre + "%")
                         .setParameter("apellidos", apellidos + "%")
                         .setParameter("identificacion", ident + "%")
                         .getResultList();
-            }else{
+            } else {
                 cargos = (List<Cliente>) em.createNamedQuery("Cliente.findByCasinoNombreYApellidosYtipo")
                         .setParameter("casino", idCasino)
                         .setParameter("nombres", nombre + "%")

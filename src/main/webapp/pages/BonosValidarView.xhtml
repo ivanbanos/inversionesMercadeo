@@ -47,9 +47,13 @@
                                     <h:outputText value="#{bono.nombreClietne}" />
                                 </p:column>
                                 <p:column headerText="acciones" >
-                                    <p:commandButton id="setbonocliente" oncomplete="PF('setbonocliente').show();" 
-                                                     icon="ui-icon-check" title="#{label['lb_btn.asignar']}"  update=":#{p:component('setbonoclienteDialog')}"
+                                    <p:commandButton id="setbonocliente" oncomplete="PF('setbonocliente').show();" rendered="#{!bono.nombreClietne.equals(&quot;&quot;)}"
+                                                     icon="ui-icon-person" title="#{label['lb_btn.asignar']}"  update=":#{p:component('setbonoclienteDialog')}"
                                                      action="#{bonoValidarBean.buscarClientesQueNecesiteBonoDeDenominacion(bono.id)}"/>
+
+                                    <p:commandButton value="Sacar" actionListener="#{bonoValidarBean.sacarBonoCliente()}" rendered="#{bono.nombreClietne.equals(&quot;&quot;)}"
+                                                     icon="ui-icon-circle-close" 
+                                                     update=":#{p:component('bonos')} :#{p:component('setbonocliente')} :#{p:component('messages')}" style="margin:0" />   
                                 </p:column>
                             </p:dataTable>
                         </div>
@@ -86,9 +90,6 @@
                         </div>
                         <div class="panel-footer text-right"> 
                             <p:commandButton value="Confirmar" actionListener="#{bonoValidarBean.asignarBonoCliente()}" 
-                                             oncomplete="PF('setbonocliente').hide()" icon="ui-icon-check" 
-                                             update=":#{p:component('bonos')} :#{p:component('setbonocliente')} :#{p:component('messages')}" style="margin:0" />   
-                            <p:commandButton value="Sacar" actionListener="#{bonoValidarBean.sacarBonoCliente()}" 
                                              oncomplete="PF('setbonocliente').hide()" icon="ui-icon-check" 
                                              update=":#{p:component('bonos')} :#{p:component('setbonocliente')} :#{p:component('messages')}" style="margin:0" />   
                         </div>

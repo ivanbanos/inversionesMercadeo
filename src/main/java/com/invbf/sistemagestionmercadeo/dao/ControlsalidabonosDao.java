@@ -43,7 +43,7 @@ public class ControlsalidabonosDao {
         emf.close();
     }
 
-    public static void edit(Controlsalidabono cargo) {
+    public static Controlsalidabono edit(Controlsalidabono cargo) {
 
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
@@ -61,6 +61,7 @@ public class ControlsalidabonosDao {
         em.clear();
         em.close();
         emf.close();
+        return cargo;
     }
 
     public static void remove(Controlsalidabono cargo) {

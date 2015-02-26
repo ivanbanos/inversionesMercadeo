@@ -63,6 +63,7 @@ public class ListaSolicitudBonosBean implements Serializable{
         
         casinos = sessionBean.adminFacade.findAllCasinos();
         usuarios = sessionBean.adminFacade.findAllUsuarios();
+        sessionBean.printMensajes();
     }
 
     public List<Solicitudentrega> getLista() {

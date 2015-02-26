@@ -222,7 +222,7 @@ public class GeneradorSolicitudLotesBonos implements Serializable {
             sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
             sessionBean.setAttribute("idsolicitudentregalotes", elemento.getId());
             FacesContext.getCurrentInstance().getExternalContext().redirect("GeneradorSolicitudLoteBono.xhtml");
-            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Solicitud ordenanda con exito!", "Notificación enviada"));
+            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Orden generada exitosamente!", "Notificación enviada"));
         } catch (ParseException ex) {
             Logger.getLogger(GeneradorSolicitudLotesBonos.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

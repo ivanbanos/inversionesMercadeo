@@ -19,7 +19,6 @@
             </div>
         </div>
         <h:form>
-
             <ul>
                 <li>Para ver un cliente en detalle de click en el bot&oacute;n <span class="ui-icon ui-icon-circle-triangle-e" style="display:inline-block;"></span>.</li>
                 <li>Para crear una b&uacute;squeda avanzada de click en el bot&oacute;n <span class="ui-icon ui-icon-search" style="display:inline-block;"></span>.</li>
@@ -201,7 +200,7 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <p:commandButton id="addButton" icon="ui-icon-search" value="#{label['lb_btn.Buscar']}" onclick="cerrar();PF('ajaxWaitingDialog').show();"
+                                    <p:commandButton id="addButton" icon="ui-icon-search" value="#{label['lb_btn.Buscar']}" onstart="PF('ajaxWaitingDialog').show();"
                                                      title="#{label['lb_btn.Go']}" action="#{reportesClientesBean.busquedaAvanzada()}"
                                                      update="@form" oncomplete="PF('ajaxWaitingDialog').hide();">
                                     </p:commandButton> 

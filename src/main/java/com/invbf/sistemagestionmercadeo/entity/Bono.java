@@ -32,10 +32,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Bono")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Bono.revisarestados", query = "UPDATE Bono b SET b.estado = :estado WHERE b.fechaExpiracion < CURRENT_TIMESTAMP"),
+    @NamedQuery(name = "Bono.revisarestados", query = "UPDATE Bono b SET b.estado = 'VENCIDO' WHERE b.fechaExpiracion < CURRENT_TIMESTAMP"),
     @NamedQuery(name = "Bono.findAll", query = "SELECT b FROM Bono b"),
     @NamedQuery(name = "Bono.findById", query = "SELECT b FROM Bono b WHERE b.id = :id"),
-    @NamedQuery(name = "Bono.findByConsecutivo", query = "SELECT b FROM Bono b WHERE b.consecutivo = :consecutivo"),
+    @NamedQuery(name = "Bono.findByConsecutivo", query = "SELECT b FROM Bono b WHERE b.consecutivo = :consecutivo "),
     @NamedQuery(name = "Bono.findByEstado", query = "SELECT b FROM Bono b WHERE b.estado = :estado"),
     @NamedQuery(name = "Bono.findByFechaValidacion", query = "SELECT b FROM Bono b WHERE b.fechaValidacion = :fechaValidacion"),
     @NamedQuery(name = "Bono.findByFechaExpiracion", query = "SELECT b FROM Bono b WHERE b.fechaExpiracion = :fechaExpiracion"),

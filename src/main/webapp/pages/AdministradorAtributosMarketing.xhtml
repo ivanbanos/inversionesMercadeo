@@ -836,7 +836,7 @@
 
 
                         <h:form>
-                            <p:dialog id="addDialogTipoevento" header="Agregar" widgetVar="addDialogTipoevento" modal="true" closable="false" resizable="false">
+                            <p:dialog id="addDialogTipoevento" header="Agregar" widgetVar="addDialogTipoevento" modal="true" resizable="false">
                                 <div class="panel panel-primary">
 
                                     <div class="panel-body">
@@ -875,10 +875,9 @@
                                     </div>
                                     <div class="panel-footer text-right"> 
                                         <p:commandButton value="Confirmar" actionListener="#{crudTipotareaBean.guardar()}" 
-                                                         oncomplete="PF('addDialogTipoevento').hide()" icon="ui-icon-check" 
+                                                         oncomplete="PF('addDialogTipoevento').hide();PF('ajaxWaitingDialog').hide();"  onstart="PF('ajaxWaitingDialog').show();" icon="ui-icon-check" 
                                                          update=":#{p:component('detailsTableTipoevento')} :#{p:component('addDialogTipoevento')} :#{p:component('messages')}" style="margin:0" />   
-                                        <p:commandButton value="Cerrar" oncomplete="PF('addDialogTipoevento').hide()" update=":#{p:component('addDialogTipoevento')}" icon="ui-icon-closethick"/>  
-                                    </div>
+                                        </div>
                                 </div>
 
 
@@ -886,7 +885,7 @@
                         </h:form>
 
                         <h:form>
-                            <p:dialog id="editDialogTipoevento" header="Editar" widgetVar="editDialogTipoevento" modal="true" closable="false" resizable="false">  
+                            <p:dialog id="editDialogTipoevento" header="Editar" widgetVar="editDialogTipoevento" modal="true" resizable="false">  
                                 <div class="panel panel-primary">
 
                                     <div class="panel-body">
@@ -925,18 +924,18 @@
                                     </div>
                                     <div class="panel-footer text-right"> 
                                         <p:commandButton value="Confirmar" action="#{crudTipotareaBean.guardar()}" 
-                                                         oncomplete="PF('editDialogTipoevento').hide()" icon="ui-icon-check"
-                                                         update=":#{p:component('detailsTableTipoevento')} :#{p:component('messages')}" style="margin:0"/>    
-                                        <p:commandButton value="Cerrar" oncomplete="PF('editDialogTipoevento').hide()" icon="ui-icon-closethick"/> 
+                                                         oncomplete="PF('editDialogTipoevento').hide();PF('ajaxWaitingDialog').hide();"  onstart="PF('ajaxWaitingDialog').show();" 
+                                                         icon="ui-icon-check"
+                                                         update=":#{p:component('detailsTableTipoevento')} :#{p:component('messages')}" style="margin:0"/>   
                                     </div>
                                 </div>
                             </p:dialog>
                         </h:form>
                         <h:form>
                             <p:confirmDialog id="deleteDialogTipoevento" message="Quiere borrar el tipo de evento #{crudTipotareaBean.elemento.nombre}?"  
-                                             header="Borrar" severity="alert" widgetVar="deleteDialogTipoevento" closable="false">  
+                                             header="Borrar" severity="alert" widgetVar="deleteDialogTipoevento" >  
 
-                                <p:commandButton id="confirm" value="Aceptar" oncomplete="PF('deleteDialogTipoevento').hide()"  
+                                <p:commandButton id="confirm" value="Aceptar" oncomplete="PF('deleteDialogTipoevento').hide();PF('ajaxWaitingDialog').hide();"  onstart="PF('ajaxWaitingDialog').show();"  
                                                  action="#{crudTipotareaBean.delete()}" update=":#{p:component('detailsTableTipoevento')} :#{p:component('messages')}"/>  
                                 <p:commandButton id="decline" value="Cancelar" onclick="PF('deleteDialogTipoevento').hide()" type="button" />   
 
@@ -983,12 +982,12 @@
 
                                         <p:column headerText="Acciones" filterBy="#{element.nombre}" filterMatchMode="contains" filterStyle="display:none">
                                             <p:commandButton id="editButtonAtributos" update=":#{p:component('editDialogtipodocumento')}" 
-                                                             oncomplete="PF('editDialogtipodocumento').show()" icon="ui-icon-pencil" 
+                                                             oncomplete="PF('editDialogtipodocumento').show();PF('ajaxWaitingDialog').hide();"  onstart="PF('ajaxWaitingDialog').show();" icon="ui-icon-pencil" 
                                                              title="#{label['lb_btn.editar']}" 
                                                              rendered="#{sessionBean.perfilFormMatch(&quot;tipodocumento&quot;, &quot;actualizar&quot;)}">  
                                                 <f:setPropertyActionListener value="#{element}" target="#{crudTipoDocumentoBean.elemento}" />  
                                             </p:commandButton>
-                                            <p:commandButton id="deleteButton" oncomplete="PF('deleteDialogtipodocumento').show();" 
+                                            <p:commandButton id="deleteButton" oncomplete="PF('deleteDialogtipodocumento').show();;PF('ajaxWaitingDialog').hide();"  onstart="PF('ajaxWaitingDialog').show();"
                                                              icon="ui-icon-trash" title="#{label['lb_btn.borrar']}"  update=":#{p:component('deleteDialogtipodocumento')}"
                                                              rendered="#{sessionBean.perfilFormMatch(&quot;tipodocumento&quot;, &quot;eliminar&quot;)}">
                                                 <f:setPropertyActionListener value="#{element}" target="#{crudTipoDocumentoBean.elemento}" /> 
@@ -996,7 +995,7 @@
                                         </p:column>
 
                                         <f:facet name="footer">  
-                                            <p:commandButton id="addButton" oncomplete="PF('addDialogtipodocumento').show();" 
+                                            <p:commandButton id="addButton" oncomplete="PF('addDialogtipodocumento').show();;PF('ajaxWaitingDialog').hide();"  onstart="PF('ajaxWaitingDialog').show();"
                                                              value="#{label['lb_btn.agregar']}" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
                                                              rendered="#{sessionBean.perfilFormMatch(&quot;tipodocumento&quot;, &quot;crear&quot;)}"/>  
                                         </f:facet>
@@ -1007,7 +1006,7 @@
                         </div>
 
                         <h:form>
-                            <p:dialog id="addDialogtipodocumento" header="Agregar" widgetVar="addDialogtipodocumento" modal="true" closable="false" resizable="false">
+                            <p:dialog id="addDialogtipodocumento" header="Agregar" widgetVar="addDialogtipodocumento" modal="true" resizable="false">
                                 <div class="panel panel-primary">
 
                                     <div class="panel-body">
@@ -1026,9 +1025,8 @@
                                     </div>
                                     <div class="panel-footer text-right"> 
                                         <p:commandButton value="Confirmar" actionListener="#{crudTipoDocumentoBean.guardar()}" 
-                                                         oncomplete="PF('addDialogtipodocumento').hide()" icon="ui-icon-check" 
+                                                         oncomplete="PF('addDialogtipodocumento').hide();PF('ajaxWaitingDialog').hide();"  onstart="PF('ajaxWaitingDialog').show();" icon="ui-icon-check" 
                                                          update=":#{p:component('detailsTabletipodocumento')} :#{p:component('addDialogtipodocumento')} :#{p:component('messages')}" style="margin:0" />   
-                                        <p:commandButton value="Cerrar" oncomplete="PF('addDialogtipodocumento').hide()" update=":#{p:component('addDialogtipodocumento')}" icon="ui-icon-closethick"/>  
                                     </div>
                                 </div>
 
@@ -1055,7 +1053,8 @@
                                     </div>
                                     <div class="panel-footer text-right"> 
                                         <p:commandButton value="Confirmar" action="#{crudTipoDocumentoBean.guardar()}" 
-                                                         oncomplete="PF('editDialogtipodocumento').hide()" icon="ui-icon-check"
+                                                         oncomplete="PF('editDialogtipodocumento').hide();PF('ajaxWaitingDialog').hide();"  onstart="PF('ajaxWaitingDialog').show();" 
+                                                         icon="ui-icon-check"
                                                          update=":#{p:component('detailsTabletipodocumento')} :#{p:component('messages')}" style="margin:0"/>    
                                         <p:commandButton value="Cerrar" oncomplete="PF('editDialogtipodocumento').hide()" icon="ui-icon-closethick"/> 
                                     </div>
@@ -1065,11 +1064,10 @@
                         </h:form>
                         <h:form>
                             <p:confirmDialog id="deleteDialogtipodocumento" message="Quiere borrar el tipo de documento #{crudTipoDocumentoBean.elemento.nombre}?"  
-                                             header="Borrar" severity="alert" widgetVar="deleteDialogtipodocumento" closable="false">  
+                                             header="Borrar" severity="alert" widgetVar="deleteDialogtipodocumento" >  
 
-                                <p:commandButton id="confirm" value="Aceptar" oncomplete="PF('deleteDialogtipodocumento').hide()"  
+                                <p:commandButton id="confirm" value="Aceptar" oncomplete="PF('deleteDialogtipodocumento').hide();PF('ajaxWaitingDialog').hide();"  onstart="PF('ajaxWaitingDialog').show();"
                                                  action="#{crudTipoDocumentoBean.delete()}" update=":#{p:component('detailsTabletipodocumento')} :#{p:component('messages')}"/>  
-                                <p:commandButton id="decline" value="Cancelar" onclick="PF('deleteDialogtipodocumento').hide()" type="button" />   
 
                             </p:confirmDialog> 
                         </h:form>

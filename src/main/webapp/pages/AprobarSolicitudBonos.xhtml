@@ -53,7 +53,7 @@
                                         <div class="form-group">
                                             <label class="col-md-2 control-label" >#{label['solicitante']}</label>
                                             <div class="col-md-4">
-                                                #{preaprobarSolicitudBonos.elemento.solicitante.nombreUsuario}
+                                                #{aprobarSolicitudBonos.elemento.solicitante.nombreUsuario}
                                             </div>
                                         </div>
                                     </div>
@@ -61,7 +61,7 @@
                                         <div class="form-group">
                                             <label class="col-md-2 control-label" >#{label['cargo']}</label>
                                             <div class="col-md-4">
-                                                #{preaprobarSolicitudBonos.elemento.solicitante.usuariodetalle.idcargo.nombre}
+                                                #{aprobarSolicitudBonos.elemento.solicitante.usuariodetalle.idcargo.nombre}
                                             </div>
                                         </div>
                                     </div>
@@ -91,7 +91,7 @@
                                         <div class="form-group">
                                             <label class="col-md-2 control-label" >#{label['casino']}</label>
                                             <div class="col-md-4">
-                                                #{generadorSolicitudBonos.elemento.idCasino.nombre}
+                                                #{aprobarSolicitudBonos.elemento.idCasino.nombre}
                                             </div>
                                         </div>
                                     </div>
@@ -117,6 +117,15 @@
                                     </div>
                                 </div>
 
+                                <div class="control-group">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label" >#{label['fechavencimientobono']}</label>
+                                        <div class="col-md-4">
+                                            <p:calendar value="#{preaprobarSolicitudBonos.fecven}" required="true" pattern="dd/MMMM/yyyy" locale="es_CO" requiredMessage="Debe colocar una fecha de vencimiento"/>
+                                        </div>
+                                    </div>
+                                </div>
+
 
                                 <c:if test="#{aprobarSolicitudBonos.elemento.tipoBono.nombre eq 'NO PROMOCIONAL'}">
 
@@ -132,19 +141,32 @@
                                                             </f:facet>
                                                             <h:column >
                                                                 <f:facet name="header">
-                                                                    <h:outputText value="#{'item'}" />
+                                                                    <h:outputText value="Item" />
                                                                 </f:facet>
                                                                 <label>#{cli.cliente.idCliente}</label>
                                                             </h:column>
                                                             <h:column >
                                                                 <f:facet name="header">
-                                                                    <h:outputText value="#{'nombre'}" />
+                                                                    <h:outputText value="Nombre" />
                                                                 </f:facet>
                                                                 <label>#{cli.cliente.nombres} #{cli.cliente.apellidos}</label>
                                                             </h:column>
+
                                                             <h:column >
                                                                 <f:facet name="header">
-                                                                    <h:outputText value="#{'valor'}" />
+                                                                    <h:outputText value="Cupo de fidelizaci&oacute;n" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{cli.cliente.bonoFidelizacion}" >
+                                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                                </h:outputText>
+                                                                <f:facet name="footer">
+                                                                    <h:outputText value="Total:" >
+                                                                    </h:outputText>
+                                                                </f:facet>
+                                                            </h:column>
+                                                            <h:column >
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Valor" />
                                                                 </f:facet>
 
                                                                 <f:facet name="footer">
@@ -159,7 +181,7 @@
                                                             </h:column>
                                                             <h:column >
                                                                 <f:facet name="header">
-                                                                    <h:outputText value="#{'valorpreaprobado'}" />
+                                                                    <h:outputText value="Valor preaprobado" />
                                                                 </f:facet>
 
                                                                 <f:facet name="footer">
@@ -174,32 +196,34 @@
                                                             </h:column>
                                                             <h:column >
                                                                 <f:facet name="header">
-                                                                    <h:outputText value="#{'valoraprobar'}" >
+                                                                    <h:outputText value="Valor a aprobar" >
                                                                     </h:outputText>
                                                                 </f:facet>
 
                                                                 <f:facet name="footer">
 
                                                                     <p:outputPanel id="total" style="display:block">
-                                                                        <h:outputText value="#{aprobarSolicitudBonos.aprTotal}" />
+                                                                        <h:outputText value="#{aprobarSolicitudBonos.aprTotal}" >
+                                                                            <f:converter  converterId="numberSeparationConverter"  />
+                                                                        </h:outputText>
                                                                         <p:commandButton id="settotal" update=":#{p:component('total')}" process=":#{p:component('datatable')}"
                                                                                          icon="ui-icon-refresh" title="#{label['lb_btn.agregar']}" 
                                                                                          onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
                                                                     </p:outputPanel>
                                                                 </f:facet>
-                                                                <p:spinner min="0" stepFactor="5000" id="valor#{cli.cliente.idCliente}" value="#{cli.valorAprobado}" >
+                                                                <p:spinner min="0" max="#{cli.cliente.bonoFidelizacion}"  stepFactor="5000" id="valor#{cli.cliente.idCliente}" value="#{cli.valorAprobado}" >
                                                                 </p:spinner>
                                                             </h:column>
                                                             <h:column >
                                                                 <f:facet name="header">
-                                                                    <h:outputText value="#{'area'}" />
+                                                                    <h:outputText value="Área" />
                                                                 </f:facet>
 
                                                                 <label>#{cli.areaid.nombre}</label>
                                                             </h:column>
                                                             <h:column >
                                                                 <f:facet name="header">
-                                                                    <h:outputText value="#{'observaciones'}" />
+                                                                    <h:outputText value="Observaciones" />
                                                                 </f:facet>
                                                                 <label>#{cli.observaciones}</label>
                                                             </h:column>

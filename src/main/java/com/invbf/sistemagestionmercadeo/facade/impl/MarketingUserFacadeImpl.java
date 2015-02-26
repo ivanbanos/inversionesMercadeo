@@ -678,17 +678,18 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
         System.out.println("entra aqui");
         Area a = AreaDao.findAll().get(0);
         if (elemento.getId() != null) {
-
-            for (Integer i : clientesABorrar) {
-                SolicitudEntregaClientesDao.remove(new Solicitudentregacliente(new SolicitudentregaclientePK(elemento.getId(), i)));
+            if (elemento.getTipoBono().getNombre().equals("NO PROMOCIONAL")) {
+                for (Integer i : clientesABorrar) {
+                    SolicitudEntregaClientesDao.remove(new Solicitudentregacliente(new SolicitudentregaclientePK(elemento.getId(), i)));
+                }
+                List<Solicitudentregacliente> secList = elemento.getSolicitudentregaclienteList();
+                for (Solicitudentregacliente secList1 : secList) {
+                    secList1.setSolicitudentrega(elemento);
+                    secList1.setSolicitudentregaclientePK(new SolicitudentregaclientePK(elemento.getId(), secList1.getCliente().getIdCliente()));
+                    SolicitudEntregaClientesDao.edit(secList1);
+                }
+                elemento.setSolicitudentregaclienteList(secList);
             }
-            List<Solicitudentregacliente> secList = elemento.getSolicitudentregaclienteList();
-            for (Solicitudentregacliente secList1 : secList) {
-                secList1.setSolicitudentrega(elemento);
-                secList1.setSolicitudentregaclientePK(new SolicitudentregaclientePK(elemento.getId(), secList1.getCliente().getIdCliente()));
-                SolicitudEntregaClientesDao.edit(secList1);
-            }
-            elemento.setSolicitudentregaclienteList(secList);
             SolicitudEntregaDao.edit(elemento);
             return elemento;
         } else {
@@ -854,11 +855,13 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     }
 
     @Override
-    public void guardarControlSalidaBonos(Controlsalidabono elemento, boolean enviar) {
-        ControlsalidabonosDao.edit(elemento);
-        String cuerpo = "Orden de salida de bonos con número de acta"+elemento.getId()+" aceptada.";
+    public Controlsalidabono guardarControlSalidaBonos(Controlsalidabono elemento, boolean enviar) {
+        elemento = ControlsalidabonosDao.edit(elemento);
+        if(enviar){
+        String cuerpo = "Orden de salida de bonos con número de acta" + elemento.getId() + " aceptada.";
         String titulo = "Orden de salida de bonos aceptada.";
-        Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_ACEPTADA, cuerpo, titulo, "");
+        Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_ACEPTADA, cuerpo, titulo, "");}
+        return elemento;
     }
 
     @Override
@@ -984,4 +987,8 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
         return TareasDao.GetTareaByUsuario(usuario);
     }
 
+    @Override
+    public List<Cliente> findAllClientesCasinosConCupo(Casino idCasino) {
+        return ClienteDao.findAllClientesCasinosConCupo(idCasino);
+    }
 }

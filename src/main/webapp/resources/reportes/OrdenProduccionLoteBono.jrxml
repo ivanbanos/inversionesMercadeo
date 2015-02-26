@@ -43,7 +43,7 @@
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<text><![CDATA[De acuerdo con el Procedimiento IBF-PRMR-005 "Manejo y Control de Bonos de Juego", se entrega una orden de producción de lotes de bonos que se relacionan a continuación:]]></text>
+				<text><![CDATA[De acuerdo con el Procedimiento IBF-PRMR-005 "Manejo y Control de Bonos de Juego", se emite orden de producción de lotes de bonos que se relacionan a continuación:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement positionType="Float" x="17" y="17" width="39" height="20"/>

@@ -54,7 +54,7 @@ public class Notificador  implements Serializable{
                 sendEmail("solicitudbonospreaprobadacorreo", subject, body, false, correosolicitantes);
                 break;
             case SOLICITUD_CONTROL_SALIDA_GENERADA:
-                sendEmail("solicitudaprobadacorreo", subject, body, false, correosolicitantes);
+                sendEmail("solicitudaprobadacorreo", subject, body, true, correosolicitantes);
                 break;
             case SOLICITUD_CONTROL_SALIDA_SOLICITADA:
                 sendEmail("senalbusquedacorreo", subject, body, false, correosolicitantes);

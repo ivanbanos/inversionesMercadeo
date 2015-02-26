@@ -11,7 +11,6 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -67,10 +66,10 @@ public class Evento implements Serializable {
     @Size(max = 100)
     @Column(name = "imagen")
     private String imagen;
-    @OneToMany(mappedBy = "idEvento", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idEvento")
     private List<Tarea> tareaList;
     @JoinColumn(name = "idCasino", referencedColumnName = "idCasino")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Casino idCasino;
 
     public Evento() {

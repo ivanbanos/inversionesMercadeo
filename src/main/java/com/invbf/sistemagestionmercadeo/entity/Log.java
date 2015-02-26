@@ -10,7 +10,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -53,10 +52,10 @@ public class Log implements Serializable {
     @Column(name = "mensaje")
     private String mensaje;
     @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Usuario idUsuario;
     @JoinColumn(name = "idFormulario", referencedColumnName = "idFormulario")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Formulario idFormulario;
 
     public Log() {

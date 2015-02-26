@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
-              name="null" pageWidth="612" pageHeight="792" orientation="Landscape" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="50" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="612" pageHeight="792" orientation="Landscape" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="50" bottomMargin="20">
 	<field name="actnumber" class="java.lang.String"/>
 	<field name="tlc" class="java.awt.Image"/>
 	<field name="ibf" class="java.awt.Image"/>
@@ -45,7 +43,7 @@
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<text><![CDATA[De acuerdo con el Procedimiento IBF-PRMR-005 "Manejo y Control de Bonos de Juego", se hace entrega de los bonos que se relacionan a continuación para su custodia en el área de caja:]]></text>
+				<text><![CDATA[De acuerdo con el Procedimiento IBF-PRMR-005 "Manejo y Control de Bonos de Juego", se hace entrega de los bonos que se relacionan a continuación para su custodia en el área de caja.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement positionType="Float" x="17" y="17" width="39" height="20"/>

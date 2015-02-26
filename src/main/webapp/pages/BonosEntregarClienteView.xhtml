@@ -70,7 +70,7 @@
                                 </div>
 
                                 <div class="control-group text-right">
-                                    <p:commandButton value="Buscar" actionListener="#{bonoEntregaCliente.buscarBonosPorCliente()}" 
+                                    <p:commandButton value="Buscar" actionListener="#{bonoEntregaCliente.buscarBonosValidadosPorCasino()}" 
                                                      icon="ui-icon-check" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
                                                      update=":#{p:component('bonos')} :#{p:component('messages')}" style="margin:0" /> 
                                 </div>

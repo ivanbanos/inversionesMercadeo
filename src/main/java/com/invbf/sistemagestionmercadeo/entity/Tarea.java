@@ -12,7 +12,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -85,15 +84,15 @@ public class Tarea implements Serializable {
     @JoinTable(name = "TareaUsuarios", joinColumns = {
         @JoinColumn(name = "idTarea", referencedColumnName = "idTarea")}, inverseJoinColumns = {
         @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     private List<Usuario> usuarioList;
     @JoinColumn(name = "idEvento", referencedColumnName = "idEvento")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Evento idEvento;
     @JoinColumn(name = "tipo", referencedColumnName = "idTipotarea")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Tipotarea tipo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tarea", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tarea")
     private List<Listasclientestareas> listasclientestareasList;
 
     public Tarea() {

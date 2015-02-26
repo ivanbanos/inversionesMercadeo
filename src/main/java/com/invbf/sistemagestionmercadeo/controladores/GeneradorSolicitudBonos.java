@@ -20,6 +20,7 @@ import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
 import com.invbf.sistemagestionmercadeo.util.ClienteSGBDTO;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.MatematicaAplicada;
+import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import com.invbf.sistemagestionmercadeo.util.TipoJuegoBoolean;
 import java.io.IOException;
@@ -48,7 +49,7 @@ import org.primefaces.event.FlowEvent;
  */
 @ManagedBean
 @ViewScoped
-public class GeneradorSolicitudBonos implements Serializable{
+public class GeneradorSolicitudBonos implements Serializable {
 
     private Solicitudentrega elemento;
     private List<Casino> casinos;
@@ -98,7 +99,7 @@ public class GeneradorSolicitudBonos implements Serializable{
         System.out.println("Buscando info de la solictud si existe");
         clientes = new ArrayList<ClienteSGBDTO>();
         clientesABorrar = new ArrayList<Integer>();
-        if (sessionBean.getAttributes("idSolicitudentrega")!=null && (Integer) sessionBean.getAttributes("idSolicitudentrega") != 0) {
+        if (sessionBean.getAttributes("idSolicitudentrega") != null && (Integer) sessionBean.getAttributes("idSolicitudentrega") != 0) {
             Integer id = (Integer) sessionBean.getAttributes("idSolicitudentrega");
             elemento = sessionBean.marketingUserFacade.getSolicitudbono(id);
             for (Solicitudentregacliente sec : elemento.getSolicitudentregaclienteList()) {
@@ -177,30 +178,36 @@ public class GeneradorSolicitudBonos implements Serializable{
             }
 
             if (elemento.getId() == null || elemento.getId().equals(0)) {
-                elemento.setEstado("CREADA");
-                List<Solicitudentregacliente> solicitudentregaclienteses = new ArrayList<Solicitudentregacliente>();
-                for (ClienteSGBDTO clientesGBT : clientes) {
-                    if (clientesGBT.getValorTotal() != 0) {
-                        if (clientesGBT.getAreaid() == null) {
-                            FacesUtil.addErrorMessage("Existen clientes con monto, sin el area ingresada", "Asegurece de que todos los clientes tengan el area selecionada");
-                            break guardar;
+                try {
+                    elemento.setEstado("CREADA");
+                    List<Solicitudentregacliente> solicitudentregaclienteses = new ArrayList<Solicitudentregacliente>();
+                    for (ClienteSGBDTO clientesGBT : clientes) {
+                        if (clientesGBT.getValorTotal() != 0) {
+                            if (clientesGBT.getAreaid() == null) {
+                                FacesUtil.addErrorMessage("Existen clientes con monto, sin el area ingresada", "Asegurece de que todos los clientes tengan el area selecionada");
+                                break guardar;
+                            }
+                            Solicitudentregacliente sec = new Solicitudentregacliente();
+                            sec.setAreaid(clientesGBT.getAreaid());
+                            sec.setCliente(clientesGBT.getClientessgb());
+                            sec.setValorTotal(clientesGBT.getValorTotal());
+                            sec.setValorPreAprobado(clientesGBT.getValorTotal());
+                            sec.setValorAprobado(clientesGBT.getValorTotal());
+                            solicitudentregaclienteses.add(sec);
                         }
-                        Solicitudentregacliente sec = new Solicitudentregacliente();
-                        sec.setAreaid(clientesGBT.getAreaid());
-                        sec.setCliente(clientesGBT.getClientessgb());
-                        sec.setValorTotal(clientesGBT.getValorTotal());
-                        sec.setValorPreAprobado(clientesGBT.getValorTotal());
-                        sec.setValorAprobado(clientesGBT.getValorTotal());
-                        solicitudentregaclienteses.add(sec);
                     }
+                    elemento.setSolicitudentregaclienteList(solicitudentregaclienteses);
+                    elemento = sessionBean.marketingUserFacade.guardarSolicitudentrega(elemento, clientesABorrar);
+                    String body = "Se ha creado una solicitud de bonos con el número de acta " + elemento.getId()
+                            + ".\nPor favor revisar la pagina de Lista de solicitudes de bonos.";
+                    Notificador.notificar(Notificador.SOLICITUD_BONOS_GENERADA, body, "Solicitud de bonos generada", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                    sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
+                    sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Solicitud generada con exito!", "Notificación enviada"));
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBono.xhtml");
+                    FacesUtil.addInfoMessage("Solicitud guardada con exito!", "Notificación enviada");
+                } catch (IOException ex) {
+                    Logger.getLogger(GeneradorSolicitudBonos.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                elemento.setSolicitudentregaclienteList(solicitudentregaclienteses);
-                elemento = sessionBean.marketingUserFacade.guardarSolicitudentrega(elemento, clientesABorrar);
-                String body = "Se ha creado una solicitud de bonos con el número de acta " + elemento.getId()
-                        + ".\nPor favor revisar la pagina de Lista de solicitudes de bonos.";
-                Notificador.notificar(Notificador.SOLICITUD_BONOS_GENERADA, body, "Solicitud de bonos generada", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
-                sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
-                FacesUtil.addInfoMessage("Solicitud guardada con exito!", "Notificación enviada");
             } else {
                 try {
 
@@ -236,6 +243,7 @@ public class GeneradorSolicitudBonos implements Serializable{
                         sessionBean.marketingUserFacade.crearSolicitudSalidaBonos(elemento, false);
                     }
                     FacesUtil.addInfoMessage("Solicitud guardada con exito!", "Notificación enviada");
+                    sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Solicitud generada con exito!", "Notificación enviada"));
                     FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBono.xhtml");
                 } catch (IOException ex) {
                     Logger.getLogger(GeneradorSolicitudBonos.class.getName()).log(Level.SEVERE, null, ex);
@@ -316,7 +324,7 @@ public class GeneradorSolicitudBonos implements Serializable{
     public void busquedaClientes() {
 
         System.out.println("entra");
-        clientessgbs = sessionBean.marketingUserFacade.findAllClientesCasinos(elemento.getIdCasino(),"","","",null);
+        clientessgbs = sessionBean.marketingUserFacade.findAllClientesCasinosConCupo(elemento.getIdCasino());
 
         boolean noCatselected = true;
         boolean noTipselected = true;
@@ -545,6 +553,14 @@ public class GeneradorSolicitudBonos implements Serializable{
         elemento.setTipoBono(sessionBean.adminFacade.findTipobono(elemento.getTipoBono().getId()));
         System.out.println(elemento.getTipoBono().getNombre());
         System.out.println(elemento.getTipoBono().getNombre().equals("PROMOCIONAL"));
+        if (elemento.getIdCasino().getIdCasino() != null) {
+            for (Casino casino : casinos) {
+                if (elemento.getIdCasino().getIdCasino().equals(casino.getIdCasino())) {
+                    elemento.setIdCasino(casino);
+                    break;
+                }
+            }
+        }
         if (elemento.getTipoBono().getNombre().equals("PROMOCIONAL")) {
             propositosentrega = sessionBean.adminFacade.findAllPropositosentrega();
             Propositoentrega p = new Propositoentrega();
@@ -565,11 +581,11 @@ public class GeneradorSolicitudBonos implements Serializable{
                 }
             }
         }
-        if(elemento.getPropositoEntrega().getId()!=null){
+        if (elemento.getPropositoEntrega().getId() != null) {
             for (Propositoentrega p : propositosentrega) {
-                if(elemento.getPropositoEntrega().getId().equals(p.getId())){
+                if (elemento.getPropositoEntrega().getId().equals(p.getId())) {
                     elemento.setPropositoEntrega(p);
-                } 
+                }
             }
         }
         if (elemento.getTipoBono().getNombre().equals("PROMOCIONAL")) {
@@ -581,6 +597,34 @@ public class GeneradorSolicitudBonos implements Serializable{
                 }
             }
         } else {
+
+            boolean nav = true;
+            List<Lotebono> lotes = sessionBean.marketingUserFacade.getLotesBonosCasinoTipoBono(elemento.getIdCasino().getIdCasino(), elemento.getTipoBono());
+            Float[] denominaciones = new Float[lotes.size()];
+            int i = 0;
+            for (Lotebono lote : lotes) {
+                denominaciones[i] = lote.getDenominacion().getValor();
+                i++;
+            }
+            for (ClienteSGBDTO clientesGBT : clientes) {
+                if (clientesGBT.getAreaid() == null||clientesGBT.getAreaid().getId()==null||clientesGBT.getAreaid().getId()==0) {
+                    FacesUtil.addErrorMessage("Existen clientes con monto, sin el area ingresada", "Asegurece de que todos los clientes tengan el area selecionada");
+                    nav = false;
+                    break;
+                }
+                if (clientesGBT.getValorTotal() != 0) {
+                    if (MatematicaAplicada.sePuedeLleagar(clientesGBT.getValorTotal(), denominaciones)) {
+                    } else {
+                        FacesUtil.addErrorMessage("No se puede guardar la solicitud", "monto de clientes no es congruente con las denominaciones");
+                        nav = false;
+                        break;
+                    }
+                }
+            }
+
+            if (!nav) {
+                return "nopromo";
+            }
             if (event.getNewStep().equals("promo")) {
                 if (event.getOldStep().equals("nopromo")) {
                     return "confirmar";

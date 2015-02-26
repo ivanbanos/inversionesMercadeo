@@ -10,7 +10,6 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,7 +45,7 @@ public class Vista implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "nombreVista")
     private String nombreVista;
-    @ManyToMany(mappedBy = "vistaList", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "vistaList")
     private List<Perfil> perfilList;
 
     public Vista() {

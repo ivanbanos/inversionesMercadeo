@@ -11,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -59,20 +58,20 @@ public class Lotebono implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "hasta")
     private String hasta;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lotesBonosid", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lotesBonosid")
     private List<Solicitudentregalote> solicitudentregaloteList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lotesBonosid", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lotesBonosid")
     private List<Bononofisico> bononofisicoList;
     @JoinColumn(name = "TipoBono", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Tipobono tipoBono;
     @JoinColumn(name = "Denominacion", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Denominacion denominacion;
     @JoinColumn(name = "idCasino", referencedColumnName = "idCasino")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Casino idCasino;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lotebono", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lotebono")
     private List<ControlsalidabonosHasLotesbonos> controlsalidabonosHasLotesbonosList;
 
     public Lotebono() {

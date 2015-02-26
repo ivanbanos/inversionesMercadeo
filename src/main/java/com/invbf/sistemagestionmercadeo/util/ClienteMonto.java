@@ -106,6 +106,8 @@ public class ClienteMonto  implements Serializable{
     }
 
     public void setPreaprobado(Float preaprobado) {
+        monto = preaprobado;
+        aprobado = preaprobado;
         this.preaprobado = preaprobado;
     }
 
@@ -114,6 +116,7 @@ public class ClienteMonto  implements Serializable{
     }
 
     public void setAprobado(Float aprobado) {
+        monto = aprobado;
         this.aprobado = aprobado;
     }
 

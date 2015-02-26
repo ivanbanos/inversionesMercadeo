@@ -106,15 +106,21 @@ public class BonoDao {
         List<Bono> cargos = null;
         tx.begin();
         try {
-            String query ="SELECT b FROM Bono b WHERE b.estado = :estado AND b.casino = :casino AND b.cliente.nombres LIKE :nombres AND b.cliente.apellidos LIKE :apellidos AND b.cliente.identificacion LIKE :identificacion AND b.consecutivo LIKE :consecutivo";
+            String query ="SELECT b FROM Bono b WHERE b.estado = :estado AND b.tipo.nombre = 'NO PROMOCIONAL' AND b.casino = :casino AND b.cliente.nombres LIKE :nombres AND b.cliente.apellidos LIKE :apellidos AND b.cliente.identificacion LIKE :identificacion AND b.consecutivo LIKE :consecutivo";
             cargos = (List<Bono>) em.createQuery(query)
                     .setParameter("estado", estado)
                     .setParameter("casino", casinoSelected)
-                    .setParameter("nombres", '%' + nombres + '%')
-                    .setParameter("apellidos", '%' + apellidos + '%')
-                    .setParameter("identificacion", '%' + identificacion + '%')
+                    .setParameter("nombres", nombres + '%')
+                    .setParameter("apellidos", apellidos + '%')
+                    .setParameter("identificacion", identificacion + '%')
                     .setParameter("consecutivo", '%' + consecutivo + '%')
                     .getResultList();
+            String query2 ="SELECT b FROM Bono b WHERE b.estado = :estado AND b.tipo.nombre = 'PROMOCIONAL' AND b.casino = :casino b.consecutivo LIKE :consecutivo";
+            cargos.addAll((List<Bono>) em.createQuery(query2)
+                    .setParameter("estado", estado)
+                    .setParameter("casino", casinoSelected)
+                    .setParameter("consecutivo", '%' + consecutivo + '%')
+                    .getResultList());
             
             tx.commit();
         } catch (Exception e) {
@@ -203,7 +209,6 @@ public class BonoDao {
         tx.begin();
         try {
             em.createNamedQuery("Bono.revisarestados")
-                    .setParameter("estado", "VENCIDO")
                     .getResultList();
             tx.commit();
         } catch (Exception e) {

@@ -41,7 +41,7 @@
                                             <label class="col-md-2 control-label" >#{label['fechacreacion']}</label>
                                             <div class="col-md-4">
                                                 <h:outputText value="#{preaprobarSolicitudBonos.elemento.fecha}" >
-                                                    <f:convertDateTime pattern="dd/MMMMM/yyyy " locale="es" />
+                                                    <f:convertDateTime pattern="dd/MMMMM/yyyy " locale="es_CO" />
                                                 </h:outputText>
                                             </div>
                                         </div>
@@ -123,7 +123,7 @@
                                         <div class="form-group">
                                             <label class="col-md-2 control-label" >#{label['fechavencimientobono']}</label>
                                             <div class="col-md-4">
-                                                <p:calendar value="#{preaprobarSolicitudBonos.fecven}" required="true" pattern="dd/MMMM/yyyy" locale="es"/>
+                                                <p:calendar value="#{preaprobarSolicitudBonos.fecven}" required="true" pattern="dd/MMMM/yyyy" locale="es_CO" requiredMessage="Debe colocar una fecha de vencimiento"/>
                                             </div>
                                         </div>
                                     </div>
@@ -155,13 +155,13 @@
                                                             </f:facet>
                                                             <h:column >
                                                                 <f:facet name="header">
-                                                                    <h:outputText value="#{'item'}" />
+                                                                    <h:outputText value="Item" />
                                                                 </f:facet>
                                                                 <label>#{cli.cliente.idCliente}</label>
                                                             </h:column>
                                                             <h:column >
                                                                 <f:facet name="header">
-                                                                    <h:outputText value="#{'nombre'}" />
+                                                                    <h:outputText value="Nombre" />
                                                                 </f:facet>
                                                                 <label>#{cli.cliente.nombres} #{cli.cliente.apellidos}</label>
                                                             </h:column>
@@ -172,10 +172,14 @@
                                                                 <h:outputText value="#{cli.cliente.bonoFidelizacion}" >
                                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                                 </h:outputText>
+                                                                <f:facet name="footer">
+                                                                    <h:outputText value="Total:" >
+                                                                    </h:outputText>
+                                                                </f:facet>
                                                             </h:column>
                                                             <h:column >
                                                                 <f:facet name="header">
-                                                                    <h:outputText value="#{'valor'}" />
+                                                                    <h:outputText value="Valor" />
                                                                 </f:facet>
                                                                 <f:facet name="footer">
                                                                     <h:outputText value="#{preaprobarSolicitudBonos.total}" >
@@ -189,7 +193,7 @@
                                                             </h:column>
                                                             <h:column >
                                                                 <f:facet name="header">
-                                                                    <h:outputText value="#{'valorpreaprobado'}" />
+                                                                    <h:outputText value="Valor preaprobado" />
                                                                 </f:facet>
                                                                 <f:facet name="footer">
 
@@ -204,20 +208,20 @@
                                                                     </p:outputPanel>
                                                                 </f:facet>
 
-                                                                <p:spinner min="0" stepFactor="5000" id="valor#{cli.cliente.idCliente}" value="#{cli.valorPreAprobado}" >
+                                                                <p:spinner min="0" max="#{cli.cliente.bonoFidelizacion}" stepFactor="5000" id="valor#{cli.cliente.idCliente}" value="#{cli.valorPreAprobado}" >
                                                                 </p:spinner>
 
                                                             </h:column>
-                                                            <h:column >
+                                                            <h:column > 
                                                                 <f:facet name="header">
-                                                                    <h:outputText value="#{'area'}" />
+                                                                    <h:outputText value="Área" />
                                                                 </f:facet>
 
                                                                 <label>#{cli.areaid.nombre}</label>
                                                             </h:column>
                                                             <h:column >
                                                                 <f:facet name="header">
-                                                                    <h:outputText value="#{'observaciones'}" />
+                                                                    <h:outputText value="Observaciones" />
                                                                 </f:facet>
                                                                 <h:inputTextarea value="#{cli.observaciones}" />
                                                             </h:column>

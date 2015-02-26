@@ -54,6 +54,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Cliente.findByBonoFidelizacion", query = "SELECT c FROM Cliente c WHERE c.bonoFidelizacion = :bonoFidelizacion"),
     @NamedQuery(name = "Cliente.findByGenero", query = "SELECT c FROM Cliente c WHERE c.genero = :genero"),
     @NamedQuery(name = "Cliente.findByCasino", query = "SELECT c FROM Cliente c WHERE c.idCasinoPreferencial.idCasino = :casino ORDER BY c.nombres"),
+    @NamedQuery(name = "Cliente.findByCasinoYNoCupo", query = "SELECT c FROM Cliente c WHERE c.idCasinoPreferencial.idCasino = :casino ORDER BY c.nombres"),
     @NamedQuery(name = "Cliente.findByIdent", query = "SELECT c FROM Cliente c WHERE c.identificacion = :identificacion"),
     @NamedQuery(name = "Cliente.findByCasinoNombreYApellidos", query = "SELECT c FROM Cliente c WHERE c.idCasinoPreferencial.idCasino = :casino AND c.nombres LIKE :nombres AND c.apellidos LIKE :apellidos AND c.identificacion LIKE :identificacion ORDER BY c.nombres"),
     @NamedQuery(name = "Cliente.findByCasinoNombreYApellidosYtipo", query = "SELECT c FROM Cliente c WHERE c.idCasinoPreferencial.idCasino = :casino AND c.nombres LIKE :nombres AND c.apellidos LIKE :apellidos AND c.identificacion LIKE :identificacion AND c.idTipoDocumento = :idTipo ORDER BY c.nombres"),

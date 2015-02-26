@@ -11,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,12 +53,12 @@ public class Solicitudentregalote implements Serializable {
     @Column(name = "hasta")
     private String hasta;
     @JoinColumn(name = "SolicitudEntregaLotesMaestro", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Solicitudentregalotesmaestro solicitudEntregaLotesMaestro;
     @JoinColumn(name = "LotesBonos_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Lotebono lotesBonosid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudEntregaLotesid", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudEntregaLotesid")
     private List<Bononoincluido> bononoincluidoList;
 
     public Solicitudentregalote() {

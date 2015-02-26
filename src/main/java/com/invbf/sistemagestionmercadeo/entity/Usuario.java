@@ -11,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -67,32 +66,32 @@ public class Usuario implements Serializable {
     @Size(max = 45)
     @Column(name = "estado")
     private String estado;
-    @ManyToMany(mappedBy = "usuarioList", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "usuarioList")
     private List<Tarea> tareaList;
     @JoinTable(name = "Usuarios_has_Casinos", joinColumns = {
         @JoinColumn(name = "Usuarios_idUsuario", referencedColumnName = "idUsuario")}, inverseJoinColumns = {
         @JoinColumn(name = "Casinos_idCasino", referencedColumnName = "idCasino")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     private List<Casino> casinoList;
     @OneToMany(mappedBy = "aprobador")
     private List<Solicitudentrega> solicitudentregaList;
-    @OneToMany(mappedBy = "solicitante", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "solicitante")
     private List<Solicitudentrega> solicitudentregaList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "remitente", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "remitente")
     private List<Solicitudentregalotesmaestro> solicitudentregalotesmaestroList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuariosidUsuario", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuariosidUsuario")
     private List<CommputadorRegistrado> computadorregistradoList;
-    @OneToMany(mappedBy = "autorizador", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "autorizador")
     private List<Bono> bonoList;
-    @OneToMany(mappedBy = "validador", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "validador")
     private List<Bono> bonoList1;
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario")
     private List<Listasclientestareas> listasclientestareasList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<Log> logList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitante", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitante")
     private List<Solicitudcambiocupofidelizacion> solicitudcambiocupofidelizacionList;
-    @OneToMany(mappedBy = "solicitante", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "solicitante")
     private List<Controlsalidabono> controlsalidabonoList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
     private Usuariodetalle usuariodetalle;

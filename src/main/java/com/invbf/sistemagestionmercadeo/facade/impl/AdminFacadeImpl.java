@@ -4,7 +4,6 @@
  */
 package com.invbf.sistemagestionmercadeo.facade.impl;
 
-
 import com.invbf.sistemagestionmercadeo.dao.AreaDao;
 import com.invbf.sistemagestionmercadeo.dao.BonoDao;
 import com.invbf.sistemagestionmercadeo.dao.CargoDao;
@@ -38,6 +37,7 @@ import com.invbf.sistemagestionmercadeo.entity.Vista;
 import com.invbf.sistemagestionmercadeo.exceptions.NombreUsuarioExistenteException;
 import com.invbf.sistemagestionmercadeo.exceptions.PerfilExistenteException;
 import com.invbf.sistemagestionmercadeo.facade.AdminFacade;
+import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.EncryptUtil;
 import com.invbf.sistemagestionmercadeo.util.UsuarioDTO;
 import java.io.Serializable;
@@ -85,6 +85,12 @@ public class AdminFacadeImpl implements AdminFacade, Serializable {
             u.setIdPerfil(elemento.getIdPerfil());
             u.setEstado(elemento.getEstado());
             u.setNombre(elemento.getNombre());
+            u.setCasinoList(new ArrayList<Casino>());
+            for (CasinoBoolean casino : elemento.getCasinos()) {
+                if (casino.isSelected()) {
+                    u.getCasinoList().add(casino.getCasino());
+                }
+            }
             UsuarioDao.create(u);
             detalle.setIdUsuario(u.getIdUsuario());
             UsuarioDetalleDao.create(detalle);
@@ -93,11 +99,17 @@ public class AdminFacadeImpl implements AdminFacade, Serializable {
             return elemento;
         } else {
             Usuario u = UsuarioDao.find(elemento.getIdUsuario());
-            if (elemento.getContrasena() == null||elemento.getContrasena().equals("")) {
+            if (elemento.getContrasena() == null || elemento.getContrasena().equals("")) {
             } else {
                 try {
                     u.setContrasena(EncryptUtil.encryptPassword(elemento.getContrasena()));
                 } catch (NoSuchAlgorithmException ex) {
+                }
+            }
+            u.setCasinoList(new ArrayList<Casino>());
+            for (CasinoBoolean casino : elemento.getCasinos()) {
+                if (casino.isSelected()) {
+                    u.getCasinoList().add(casino.getCasino());
                 }
             }
             u.setIdUsuario(elemento.getIdUsuario());
@@ -275,7 +287,7 @@ public class AdminFacadeImpl implements AdminFacade, Serializable {
 
     @Override
     public boolean guardarDenominacion(Denominacion elemento) {
-        if (elemento.getId()== null) {
+        if (elemento.getId() == null) {
 
             DenominacionDao.create(elemento);
             return false;
@@ -297,7 +309,7 @@ public class AdminFacadeImpl implements AdminFacade, Serializable {
 
     @Override
     public boolean guardarTiposbonos(Tipobono elemento) {
-        if (elemento.getId()== null) {
+        if (elemento.getId() == null) {
 
             TipoBonoDao.create(elemento);
             return false;
@@ -318,8 +330,8 @@ public class AdminFacadeImpl implements AdminFacade, Serializable {
     }
 
     @Override
-    public boolean guardarPropositosentrega(Propositoentrega elemento) { 
-        if (elemento.getId()== null) {
+    public boolean guardarPropositosentrega(Propositoentrega elemento) {
+        if (elemento.getId() == null) {
 
             PropositosentregaDao.create(elemento);
             return false;
@@ -341,7 +353,7 @@ public class AdminFacadeImpl implements AdminFacade, Serializable {
 
     @Override
     public boolean guardarAreas(Area elemento) {
-        if (elemento.getId()== null) {
+        if (elemento.getId() == null) {
 
             AreaDao.create(elemento);
             return false;
@@ -355,7 +367,6 @@ public class AdminFacadeImpl implements AdminFacade, Serializable {
     public void deleteAreas(Area elemento) {
         AreaDao.remove(elemento);
     }
-
 
     @Override
     public Casino findCasino(Integer idCasino) {
@@ -391,6 +402,5 @@ public class AdminFacadeImpl implements AdminFacade, Serializable {
     public void guardarBono(Bono bono) {
         BonoDao.edit(bono);
     }
-    
-}
 
+}

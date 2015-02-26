@@ -10,7 +10,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -47,7 +46,7 @@ public class Usuariodetalle implements Serializable {
     @OneToOne(optional = false)
     private Usuario usuario;
     @JoinColumn(name = "idcargo", referencedColumnName = "idcargo")
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne( cascade = CascadeType.PERSIST)
     private Cargo idcargo;
 
     public Usuariodetalle() {
