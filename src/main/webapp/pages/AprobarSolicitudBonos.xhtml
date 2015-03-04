@@ -42,7 +42,11 @@
                                         <div class="form-group">
                                             <label class="col-md-2 control-label" >#{label['fechacreacion']}</label>
                                             <div class="col-md-4">
-                                                #{aprobarSolicitudBonos.elemento.fecha}
+
+                                                <h:outputText value="#{aprobarSolicitudBonos.elemento.fecha}" >
+                                                    <f:convertDateTime pattern="dd/MMMMM/yyyy " locale="es_CO" />
+                                                </h:outputText>
+
                                             </div>
                                         </div>
                                     </div>
@@ -121,7 +125,10 @@
                                     <div class="form-group">
                                         <label class="col-md-2 control-label" >#{label['fechavencimientobono']}</label>
                                         <div class="col-md-4">
-                                            <p:calendar value="#{preaprobarSolicitudBonos.fecven}" required="true" pattern="dd/MMMM/yyyy" locale="es_CO" requiredMessage="Debe colocar una fecha de vencimiento"/>
+
+                                            <h:outputText value="#{aprobarSolicitudBonos.elemento.fechavencimientobonos}" >
+                                                <f:convertDateTime pattern="dd/MMMMM/yyyy " locale="es_CO" />
+                                            </h:outputText>
                                         </div>
                                     </div>
                                 </div>
@@ -213,13 +220,6 @@
                                                                 </f:facet>
                                                                 <p:spinner min="0" max="#{cli.cliente.bonoFidelizacion}"  stepFactor="5000" id="valor#{cli.cliente.idCliente}" value="#{cli.valorAprobado}" >
                                                                 </p:spinner>
-                                                            </h:column>
-                                                            <h:column >
-                                                                <f:facet name="header">
-                                                                    <h:outputText value="Área" />
-                                                                </f:facet>
-
-                                                                <label>#{cli.areaid.nombre}</label>
                                                             </h:column>
                                                             <h:column >
                                                                 <f:facet name="header">

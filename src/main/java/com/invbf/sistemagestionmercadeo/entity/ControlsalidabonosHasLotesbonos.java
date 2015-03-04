@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ControlsalidabonosHasLotesbonos.findByLotesBonosid", query = "SELECT c FROM ControlsalidabonosHasLotesbonos c WHERE c.controlsalidabonosHasLotesbonosPK.lotesBonosid = :lotesBonosid"),
     @NamedQuery(name = "ControlsalidabonosHasLotesbonos.findByCantidad", query = "SELECT c FROM ControlsalidabonosHasLotesbonos c WHERE c.cantidad = :cantidad")})
 public class ControlsalidabonosHasLotesbonos implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ControlsalidabonosHasLotesbonosPK controlsalidabonosHasLotesbonosPK;
@@ -46,6 +47,9 @@ public class ControlsalidabonosHasLotesbonos implements Serializable {
     private Controlsalidabono controlsalidabono;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "controlsalidabonosHasLotesbonos")
     private List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClientesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "controlsalidabonosHasLotesbonos")
+    private List<Clienteblanco> clienteblancoList;
+
 
     public ControlsalidabonosHasLotesbonos() {
     }
@@ -98,6 +102,15 @@ public class ControlsalidabonosHasLotesbonos implements Serializable {
     public void setControlsalidabonosHasLotesbonosHasClientesList(List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClientesList) {
         this.controlsalidabonosHasLotesbonosHasClientesList = controlsalidabonosHasLotesbonosHasClientesList;
     }
+    
+    @XmlTransient
+    public List<Clienteblanco> getClienteblancoList() {
+        return clienteblancoList;
+    }
+
+    public void setClienteblancoList(List<Clienteblanco> clienteblancoList) {
+        this.clienteblancoList = clienteblancoList;
+    }
 
     @Override
     public int hashCode() {
@@ -123,5 +136,5 @@ public class ControlsalidabonosHasLotesbonos implements Serializable {
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos[ controlsalidabonosHasLotesbonosPK=" + controlsalidabonosHasLotesbonosPK + " ]";
     }
-    
+
 }

@@ -38,6 +38,13 @@ public class Notificador  implements Serializable{
     public static final int SOLICITUD_CAMBIO_CLIENTE = 11;
     public static final int INVENTARIO_EN_PROBLEMA =12;
     public static final int EMAIL_CLIENTE =13;
+    public static final int REQUERIMIENTO_LOTE_GENERADO = 14;
+    public static final int REQUERIMIENTO_LOTE_ORDENADO = 15;
+    public static final int REQUERIMIENTO_LOTE_RECHAZADO = 16;
+    public static final int REQUERIMIENTO_LOTE_RECIBIDO = 17;
+    public static final int SOLICITUD_ENTREGA_LOTES_ENVIADA = 18;
+    public static final int REQUERIMIENTO_LOTE_DEVUELTA = 19;
+    
 
     public static void notificar(int tipo, String body, String subject, String correosolicitantes) {
         switch (tipo) {
@@ -45,7 +52,7 @@ public class Notificador  implements Serializable{
                 sendEmail("entregalotesgeneradacorreo", subject, body, false, correosolicitantes);
                 break;
             case SOLICITUD_ENTREGA_LOTES_ACEPTADA:
-                sendEmail("entregalotesaceptadacorreo", subject, body, false, correosolicitantes);
+                sendEmail("correoSolicitudEntradaValidada", subject, body, false, correosolicitantes);
                 break;
             case SOLICITUD_BONOS_GENERADA:
                 sendEmail("solicitudbonosgeneradacorreo", subject, body, true, correosolicitantes);
@@ -76,6 +83,25 @@ public class Notificador  implements Serializable{
                 break;
             case EMAIL_CLIENTE:
                 sendEmailCliente(subject, body, correosolicitantes);
+                break;
+                
+            case REQUERIMIENTO_LOTE_GENERADO:
+                sendEmail("correoRequerimientoLoteCreado", subject, body, false, correosolicitantes);
+                break;
+            case REQUERIMIENTO_LOTE_ORDENADO:
+                sendEmail("correoRequerimeintoLoteOrdenado", subject, body, false, correosolicitantes);
+                break;
+            case REQUERIMIENTO_LOTE_RECHAZADO:
+                sendEmail("correoRequerimientoLoteRechazado", subject, body, false, correosolicitantes);
+                break;
+            case REQUERIMIENTO_LOTE_RECIBIDO:
+                sendEmail("correoRequerimentoLoteRecibido", subject, body, false, correosolicitantes);
+                break;
+            case SOLICITUD_ENTREGA_LOTES_ENVIADA:
+                sendEmail("correoSolicitudEntradaEnviada", subject, body, false, correosolicitantes);
+                break;
+            case REQUERIMIENTO_LOTE_DEVUELTA:
+                sendEmail("correoSolicitudEntradaDevuelta", subject, body, false, correosolicitantes);
                 break;
         }
     }

@@ -131,6 +131,49 @@ public class LotebonoDao {
         return cargos;
     }
 
+    public static List<Lotebono> getByCasinoPromo(Integer idCasino) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Lotebono> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Lotebono>) em.createNamedQuery("getbyCasinoPromo")
+                    .setParameter("idCasino", idCasino)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return cargos;
+    }
+
+    public static List<Lotebono> getByCasinoNoPromo(Integer idCasino) {EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Lotebono> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Lotebono>) em.createNamedQuery("getbyCasinoNoPromo")
+                    .setParameter("idCasino", idCasino)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return cargos;
+    }
+
     public LotebonoDao() {
     }
 

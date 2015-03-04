@@ -5,6 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.controladores;
 
+import com.invbf.sistemagestionmercadeo.controladores.SessionBean;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.io.IOException;
@@ -24,7 +25,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class ListaSolicitudesEntregaLotesBonosBean implements Serializable {
+public class ListaRequerimientoLotes implements Serializable {
 
     private List<Solicitudentregalotesmaestro> lista;
     private List<Solicitudentregalotesmaestro> listaFiltrada;
@@ -36,21 +37,20 @@ public class ListaSolicitudesEntregaLotesBonosBean implements Serializable {
         this.sessionBean = sessionBean;
     }
 
-    public ListaSolicitudesEntregaLotesBonosBean() {
+    public ListaRequerimientoLotes() {
     }
 
     @PostConstruct
     public void init() {
         sessionBean.checkUsuarioConectado();
-        sessionBean.setActive("lotesdebonos");
-        if (!sessionBean.perfilViewMatch("SolicitudLotes")) {
+        sessionBean.setActive("requisiciones");
+        if (!sessionBean.perfilViewMatch("verRequerimiento")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
             }
         }
-        lista = sessionBean.marketingUserFacade.getSolicitudentregalotesmaestroNoAceptadas();
-
+        lista = sessionBean.marketingUserFacade.getRequeriemntosLotes();
         elemento = new Solicitudentregalotesmaestro();
         sessionBean.printMensajes();
     }
@@ -73,21 +73,26 @@ public class ListaSolicitudesEntregaLotesBonosBean implements Serializable {
 
     public void delete() {
         sessionBean.marketingUserFacade.deleteSolicitudentregalotesmaestro(elemento);
-        lista = sessionBean.marketingUserFacade.getAllSolicitudentregalotesmaestro();
+        lista = sessionBean.marketingUserFacade.getRequeriemntosLotes();
         FacesUtil.addInfoMessage("Solicitud eliminada", "");
         elemento = new Solicitudentregalotesmaestro();
 
     }
 
-    public void goSolicitud(Integer i) {
+    public void goRequerimiento(Integer id) {
         try {
-            if (i == 0) {
-                sessionBean.setAttribute("idsolicitudentregalotes", i);
-                FacesContext.getCurrentInstance().getExternalContext().redirect("GeneradorPreordenLotes.xhtml");
-            } else {
-                sessionBean.setAttribute("idsolicitudentregalotes", i);
-                FacesContext.getCurrentInstance().getExternalContext().redirect("GeneradorSolicitudLoteBono.xhtml");
-            }
+                sessionBean.setAttribute("idsolicitudentregalotes", id);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("RequerimientoLote.xhtml");
+            
+        } catch (IOException ex) {
+            Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void goRequerimiento() {
+        try {
+                sessionBean.setAttribute("idsolicitudentregalotes", 0);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("GeneradorRequerimientoLote.xhtml");
+            
         } catch (IOException ex) {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -96,7 +101,7 @@ public class ListaSolicitudesEntregaLotesBonosBean implements Serializable {
     public void goSolicitudAceptar(Integer i) {
         try {
             sessionBean.setAttribute("idsolicitudentregalotes", i);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("AceptarSolicitudEntregaBonos.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("RequerimientoLote.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }

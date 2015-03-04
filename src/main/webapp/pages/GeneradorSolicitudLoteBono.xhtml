@@ -79,15 +79,19 @@
                                             <div class="col-md-12">
                                                 <table class="table table-striped">
                                                     <tr>
-                                                        <th>#{'cantidad'}</th>
-                                                        <th>#{'desde'}</th>
-                                                        <th>#{'hasta'}</th>
-                                                        <th>#{'casino'}</th>
-                                                        <th>#{'denominacion'}</th>
-                                                        <th>#{'tipobono'}</th>
+                                                        <th>Strock actual</th>
+                                                        <th>Cantidad a producir</th>
+                                                        <th>Desde</th>
+                                                        <th>Hasta</th>
+                                                        <th>Casino</th>
+                                                        <th>Denominaci&oacute;n</th>
+                                                        <th>Tipo de bono</th>
                                                     </tr>
                                                     <c:forEach items="#{generadorSolicitudLotesBonos.loteBonoSolicitudes}" var="solicitudes" varStatus="status">
                                                         <tr>
+                                                            <td id="stock#{status.lotesBonosid.cantidad}">
+                                                                <label>#{solicitudes.desde}</label>
+                                                            </td>
                                                             <td id="cantidad#{status.count}">
                                                                 <p:spinner min="0" stepFactor="1000" 
                                                                            value="#{solicitudes.cantidad}" 
@@ -146,14 +150,8 @@
 
                             </div>
                             <div class="panel-footer text-right"> 
-                                <p:commandButton id="btnconfirm" value="Pre-ordenar" actionListener="#{generadorSolicitudLotesBonos.guardar()}" rendered="#{!generadorSolicitudLotesBonos.elemento.estado.equals(&quot;ORDENADA&quot;)}"
-                                                 update="@form :#{p:component('messages')}" process="@form" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
-                                <p:commandButton id="ordenar" value="Ordenar" actionListener="#{generadorSolicitudLotesBonos.solicitar()}" rendered="#{generadorSolicitudLotesBonos.elemento.id != null}"
-                                                 update="@form :#{p:component('messages')}" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
-
-
-                                <p:commandButton value="Orden" icon="ui-icon-document"  actionListener="#{generadorSolicitudLotesBonos.PDF}" ajax="false" rendered="#{generadorSolicitudLotesBonos.elemento.id != null and !generadorSolicitudLotesBonos.elemento.estado.equals(&quot;PRE ORDENADA&quot;)}"/>
-                                <p:commandButton value="Preorden" icon="ui-icon-document"  actionListener="#{generadorSolicitudLotesBonos.PDFPre}" ajax="false" />
+                                <p:commandButton id="btnconfirm" value="Enviar" actionListener="#{generadorSolicitudLotesBonos.guardar()}" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                             update=" :#{p:component('messages')}" style="margin:0" rendered="#{aceptarSolicitudEntregaBonosBean.elemento.estado != &quot;ACEPTADA&quot;}"/>
                             </div>
                         </div>
                     </h:form>
@@ -162,7 +160,6 @@
 
             </div>
         </div>
-
 
     </ui:define>            
 </ui:composition>

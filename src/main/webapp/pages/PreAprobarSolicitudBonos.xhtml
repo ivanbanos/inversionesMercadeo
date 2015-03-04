@@ -109,21 +109,11 @@
 
                                     <div class="control-group">
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label" >#{label['Comoquiererepartirlosbonos']}</label>
-                                            <div class="col-md-4">
-                                                <p:selectOneMenu id="forma" value="#{preaprobarSolicitudBonos.elemento.formareparticrbonos}">
-                                                    <f:selectItem itemLabel="Grandes denominaciones" itemValue="1" /> 
-                                                    <f:selectItem itemLabel="Peque&ntilde;as denominaciones" itemValue="2" />  
-                                                </p:selectOneMenu>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <div class="form-group">
                                             <label class="col-md-2 control-label" >#{label['fechavencimientobono']}</label>
                                             <div class="col-md-4">
-                                                <p:calendar value="#{preaprobarSolicitudBonos.fecven}" required="true" pattern="dd/MMMM/yyyy" locale="es_CO" requiredMessage="Debe colocar una fecha de vencimiento"/>
+                                                <h:outputText value="#{preaprobarSolicitudBonos.fecven}" >
+                                                    <f:convertDateTime pattern="dd/MMMMM/yyyy " locale="es_CO" />
+                                                </h:outputText>
                                             </div>
                                         </div>
                                     </div>
@@ -211,13 +201,6 @@
                                                                 <p:spinner min="0" max="#{cli.cliente.bonoFidelizacion}" stepFactor="5000" id="valor#{cli.cliente.idCliente}" value="#{cli.valorPreAprobado}" >
                                                                 </p:spinner>
 
-                                                            </h:column>
-                                                            <h:column > 
-                                                                <f:facet name="header">
-                                                                    <h:outputText value="Área" />
-                                                                </f:facet>
-
-                                                                <label>#{cli.areaid.nombre}</label>
                                                             </h:column>
                                                             <h:column >
                                                                 <f:facet name="header">

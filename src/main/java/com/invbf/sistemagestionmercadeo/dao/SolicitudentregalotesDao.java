@@ -5,8 +5,9 @@
  */
 package com.invbf.sistemagestionmercadeo.dao;
 
-import com.invbf.sistemagestionmercadeo.entity.Cliente;
+import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote;
+import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -174,5 +175,28 @@ public class SolicitudentregalotesDao {
         return count;
 
 
+    }
+
+    public static boolean CasinoHaveSolicitudCreada(Casino c) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Solicitudentregalote> count = null;
+        tx.begin();
+        try {
+            count = (List<Solicitudentregalote>)em.createNamedQuery("Solicitudentregalote.findByCasinoANDestado")
+                    .setParameter("casino", c)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        System.out.println("Existen solicitudes"+count.size());
+        return !(count == null || count.isEmpty());
     }
 }

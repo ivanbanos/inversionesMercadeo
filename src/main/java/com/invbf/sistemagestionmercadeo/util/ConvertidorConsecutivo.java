@@ -90,8 +90,8 @@ public class ConvertidorConsecutivo  implements Serializable{
     }
 
     public static String getConsecutivoFromNumero(long numero) {
-        long parteInicial = numero % 10000;
-        long cantidad = numero / 10000;
+        long parteInicial = (numero % 9999);
+        long cantidad = numero / 9999;
         String letraactual;
         String nuevaletra = "";
         while (cantidad != 0) {
@@ -130,5 +130,9 @@ public class ConvertidorConsecutivo  implements Serializable{
         System.out.println("desde"+desde);
         System.out.println("hasta"+hasta);
         return (getNumeroFromConsecutivo(hasta) - getNumeroFromConsecutivo(desde));
+    }
+
+    static Integer getCantidadLote(String desde) {
+        return Integer.parseInt(desde.substring(0, 4));
     }
 }

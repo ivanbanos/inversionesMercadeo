@@ -30,21 +30,20 @@
 
 
                         <div class="panel panel-primary">
-                            <div class="panel-heading"><h4>#{label['generarsolicitudentregalotesbonos']}</h4></div>
+                            <div class="panel-heading"><h4>Generador de Requerimiento de lote</h4></div>
                             <div class="panel-body">
 
 
-                                <p:wizard flowListener="#{generadorSolicitudLotesBonos.onFlowProcess}" backLabel="Atrás" nextLabel="Siguiente" >
+                                <p:wizard flowListener="#{generadorRequerimientoLote.onFlowProcess}" backLabel="Atrás" nextLabel="Siguiente" >
                                     
-                                <p:ajax event="flow" oncomplete="PF('ajaxWaitingDialog').hide();" onstart="PF('ajaxWaitingDialog').show();"/>
                                     <p:tab id="casino" title="Selecci&oacute;n Casino">
 
                                         <div class="row">
                                             <label class="col-md-2 control-label" >#{label['casinos']}</label>
                                             <div class="col-md-4">
-                                                <p:selectOneMenu id="casinos" value="#{generadorSolicitudLotesBonos.casinoSelected.idCasino}" required="true">
+                                                <p:selectOneMenu id="casinos" value="#{generadorRequerimientoLote.casinoSelected.idCasino}" required="true">
                                                     <f:selectItem itemLabel="Selecciona Uno" itemValue="" />
-                                                    <f:selectItems value="#{generadorSolicitudLotesBonos.casinos}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.idCasino}"/>  
+                                                    <f:selectItems value="#{generadorRequerimientoLote.casinos}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.idCasino}"/>  
 
                                                 </p:selectOneMenu>
                                             </div>
@@ -53,13 +52,13 @@
                                     </p:tab>
                                     <p:tab id="general" title="Cantidades de bonos">
 
-                                        <c:if id="generado" test="#{generadorSolicitudLotesBonos.elemento.id != null}">
+                                        <c:if id="generado" test="#{generadorRequerimientoLote.elemento.id != null}">
                                             <div class="row">
                                                 <div class="control-group">
                                                     <div class="form-group">
                                                         <label class="col-md-2 control-label" >#{label['id']}</label>
                                                         <div class="col-md-4">
-                                                            #{generadorSolicitudLotesBonos.elemento.id}
+                                                            #{generadorRequerimientoLote.elemento.id}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -67,8 +66,8 @@
                                                     <div class="form-group">
                                                         <label class="col-md-2 control-label" >#{label['fechacreacion']}</label>
                                                         <div class="col-md-4">
-                                                            <h:outputText value="#{generadorSolicitudLotesBonos.elemento.fecha}">
-                                                                <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es" timeZone="GTM-5"  />
+                                                            <h:outputText value="#{generadorRequerimientoLote.elemento.fecha}">
+                                                                <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" timeZone="GTM-5"  />
                                                             </h:outputText>
 
                                                         </div>
@@ -81,7 +80,7 @@
                                                     <div class="form-group">
                                                         <label class="col-md-2 control-label" >#{label['usuario']}</label>
                                                         <div class="col-md-4">
-                                                            #{generadorSolicitudLotesBonos.elemento.remitente.nombreUsuario}
+                                                            #{generadorRequerimientoLote.elemento.remitente.nombreUsuario}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -89,7 +88,7 @@
                                                     <div class="form-group">
                                                         <label class="col-md-2 control-label" >#{label['estado']}</label>
                                                         <div class="col-md-4">
-                                                            #{generadorSolicitudLotesBonos.elemento.estado}
+                                                            #{generadorRequerimientoLote.elemento.estado}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -104,17 +103,23 @@
                                                                 <div class="form-group">
                                                                     <label class="col-md-2 control-label" >Casino:</label>
                                                                     <div class="col-md-4">
-                                                                        #{generadorSolicitudLotesBonos.casinoSelected.nombre}
+                                                                        #{generadorRequerimientoLote.casinoSelected.nombre}
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
 
-                                                        <p:dataTable value="#{generadorSolicitudLotesBonos.loteBonoSolicitudes}" var="solicitudes" rowIndexVar="status"
+                                                        <p:dataTable value="#{generadorRequerimientoLote.loteBonoSolicitudes}" var="solicitudes" rowIndexVar="status"
                                                                      emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
-                                                            <p:column headerText="Cantidad" width="30%">
+                                                            
+                                                            <p:column headerText="Stock Actual" style="text-align: center;">
+                                                                <h:outputText value="#{generadorRequerimientoLote.getCantidad(solicitudes.lotesBonosid.desde, solicitudes.lotesBonosid.hasta)}">
+                                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                                </h:outputText>
+                                                            </p:column>
+                                                            <p:column headerText="Cantidad a producir" width="30%">
                                                                 <span id="cantidad#{status}">
-                                                                    <p:spinner min="0" stepFactor="1000" 
+                                                                    <p:spinner min="0" stepFactor="1000" max="#{solicitudes.limite}"
                                                                                value="#{solicitudes.cantidad}" 
                                                                                onblur="changeHasta(#{status})">
                                                                     </p:spinner>
@@ -132,7 +137,7 @@
                                                                     <label>#{solicitudes.hasta}</label>
                                                                 </span>
                                                             </p:column>
-                                                            <p:column headerText="Denominaci&oacute;n" >
+                                                            <p:column headerText="Denominaci&oacute;n" style="text-align: center;">
                                                                 <h:outputText value="#{solicitudes.lotesBonosid.denominacion.valor}">
                                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                                 </h:outputText>
@@ -153,14 +158,14 @@
                                                 <div class="form-group">
                                                     <label class="col-md-3 control-label" >#{label['observaciones']}</label>
                                                     <div class="col-md-9">
-                                                        <h:inputTextarea id="codigo" value="#{generadorSolicitudLotesBonos.elemento.observaciones}" class="form-control"/>
+                                                        <h:inputTextarea id="codigo" value="#{generadorRequerimientoLote.elemento.observaciones}" class="form-control"/>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="panel-footer text-right"> 
-                                            <p:commandButton id="btnconfirm" value="Pre-ordenar" actionListener="#{generadorSolicitudLotesBonos.guardar()}" rendered="#{!generadorSolicitudLotesBonos.elemento.estado.equals(&quot;ORDENADA&quot;)}"
+                                            <p:commandButton id="btnconfirm" value="Confirmar" actionListener="#{generadorRequerimientoLote.guardar()}"
                                                              update="@form :#{p:component('messages')}" process="@form" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
                                             
 

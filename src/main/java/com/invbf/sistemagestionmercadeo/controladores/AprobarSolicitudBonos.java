@@ -173,7 +173,7 @@ public class AprobarSolicitudBonos implements Serializable {
                         solec1.setValorAprobado(monto);
                     }
                     totalEntregar += monto;
-                    ClienteMonto cliente = new ClienteMonto(solec1.getCliente().getIdCliente(), solec1.getCliente().getNombres() + " " + solec1.getCliente().getApellidos(), monto, lotesSol, elemento.getFormareparticrbonos(), solec1.getValorTotal(), solec1.getValorPreAprobado(), solec1.getValorAprobado());
+                    ClienteMonto cliente = new ClienteMonto(solec1.getCliente().getIdCliente(), solec1.getCliente().getNombres() + " " + solec1.getCliente().getApellidos(), monto, lotesSol, solec1.getEntrega(), solec1.getValorTotal(), solec1.getValorPreAprobado(), solec1.getValorAprobado());
                     clientesMontos.add(cliente);
                     List<DenoinacionCant> listClientes = cliente.getDenominacionCant();
                     for (DenoinacionCant listCliente : listClientes) {
@@ -297,6 +297,10 @@ public class AprobarSolicitudBonos implements Serializable {
                 }
                 if (!isNotOk) {
                     try {
+                        
+                        for (ControlsalidabonosHasLotesbonos chl : controlsalidabonosHasLotesbonoses) {
+                            chl.setCantidad(null);
+                        }
                         for (ControlsalidabonosHasLotesbonosHasClientes chlhc : controlsalidabonosHasLotesbonosHasClienteses) {
                             System.out.println("id chclh " + chlhc.getControlsalidabonosHasLotesbonosHasClientesPK().getControlSalidaBonoshasLotesBonosLotesBonosid());
                             ControlsalidabonosHasLotesbonos chl = new ControlsalidabonosHasLotesbonos(control.getId(), chlhc.getControlsalidabonosHasLotesbonosHasClientesPK().getControlSalidaBonoshasLotesBonosLotesBonosid());

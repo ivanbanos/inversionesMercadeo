@@ -54,6 +54,7 @@ import com.invbf.sistemagestionmercadeo.entity.Tipodocumento;
 import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import com.invbf.sistemagestionmercadeo.entity.Tipotarea;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
+import com.invbf.sistemagestionmercadeo.exceptions.CasinoHaveSolicitudCreadaException;
 import com.invbf.sistemagestionmercadeo.exceptions.ExistenBonosFisicosException;
 import com.invbf.sistemagestionmercadeo.exceptions.LoteBonosExistenteException;
 import com.invbf.sistemagestionmercadeo.facade.MarketingUserFacade;
@@ -760,11 +761,13 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     }
 
     @Override
-    public boolean guardarSolicitudentregabonos(Solicitudentregalotesmaestro elemento, List<Integer> bonosreincluidos, int porque) {
-        for (Integer bonoreincluido : bonosreincluidos) {
-            BonosnoincluidosDao.remove(new Bononoincluido(bonoreincluido));
+    public Solicitudentregalotesmaestro guardarSolicitudentregabonos(Solicitudentregalotesmaestro elemento, List<Integer> bonosreincluidos, int porque) {
+        if (bonosreincluidos != null) {
+            for (Integer bonoreincluido : bonosreincluidos) {
+                BonosnoincluidosDao.remove(new Bononoincluido(bonoreincluido));
+            }
         }
-        List<Solicitudentregalote> solicitudentregaloteses = elemento.getSolicitudentregaloteList();
+        List<Solicitudentregalote> solicitudentregaloteses = elemento.getSolicitudentregaloteList() != null ? elemento.getSolicitudentregaloteList() : new ArrayList<Solicitudentregalote>();
         elemento.setSolicitudentregaloteList(null);
 
         if (elemento.getId() == null) {
@@ -804,7 +807,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
                     + ".\nPor favor revisar la página de Lista de solicitudes de lotes de bonos.";
             Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_GENERADA, body, "Orden de entrada de lotes de bonos generada", "");
         }
-        return false;
+        return elemento;
     }
 
     @Override
@@ -857,10 +860,11 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     @Override
     public Controlsalidabono guardarControlSalidaBonos(Controlsalidabono elemento, boolean enviar) {
         elemento = ControlsalidabonosDao.edit(elemento);
-        if(enviar){
-        String cuerpo = "Orden de salida de bonos con número de acta" + elemento.getId() + " aceptada.";
-        String titulo = "Orden de salida de bonos aceptada.";
-        Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_ACEPTADA, cuerpo, titulo, "");}
+        if (enviar) {
+            String cuerpo = "Orden de salida de bonos con número de acta" + elemento.getId() + " aceptada.";
+            String titulo = "Orden de salida de bonos aceptada.";
+            Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_ACEPTADA, cuerpo, titulo, "");
+        }
         return elemento;
     }
 
@@ -966,7 +970,11 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     }
 
     @Override
-    public List<Lotebono> getLotesBonosByCasino(Casino casinoSelected) {
+    public List<Lotebono> getLotesBonosByCasino(Casino casinoSelected)throws CasinoHaveSolicitudCreadaException {
+        System.out.println(SolicitudentregalotesDao.CasinoHaveSolicitudCreada(casinoSelected));
+        if(SolicitudentregalotesDao.CasinoHaveSolicitudCreada(casinoSelected)){
+            throw new CasinoHaveSolicitudCreadaException();
+        }
         return LotebonoDao.getByCasino(casinoSelected.getIdCasino());
     }
 
@@ -990,5 +998,25 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     @Override
     public List<Cliente> findAllClientesCasinosConCupo(Casino idCasino) {
         return ClienteDao.findAllClientesCasinosConCupo(idCasino);
+    }
+
+    @Override
+    public List<Solicitudentregalotesmaestro> getRequeriemntosLotes() {
+        return SolicitudentregalotesmaestroDao.findRequerimientos();
+    }
+
+    @Override
+    public void borrarSolicitudentregabonos(Solicitudentregalotesmaestro elemento, Object object, int i) {
+        SolicitudentregalotesmaestroDao.remove(elemento);
+    }
+
+    @Override
+    public List<Lotebono> getLotesBonosByCasinoPromo(Casino idCasino) {
+        return LotebonoDao.getByCasinoPromo(idCasino.getIdCasino());
+    }
+
+    @Override
+    public List<Lotebono> getLotesBonosByCasinoNoPromo(Casino idCasino) {
+        return LotebonoDao.getByCasinoNoPromo(idCasino.getIdCasino());
     }
 }

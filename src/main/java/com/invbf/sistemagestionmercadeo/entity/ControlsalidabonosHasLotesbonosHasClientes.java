@@ -36,6 +36,8 @@ public class ControlsalidabonosHasLotesbonosHasClientes implements Serializable 
     protected ControlsalidabonosHasLotesbonosHasClientesPK controlsalidabonosHasLotesbonosHasClientesPK;
     @Column(name = "cantidad")
     private Integer cantidad;
+    @Column(name = "justificacion")
+    private String justificacion;
     @JoinColumns({
         @JoinColumn(name = "ControlSalidaBonos_has_LotesBonos_ControlSalidaBonos_id", referencedColumnName = "ControlSalidaBonos_id", insertable = false, updatable = false),
         @JoinColumn(name = "ControlSalidaBonos_has_LotesBonos_LotesBonos_id", referencedColumnName = "LotesBonos_id", insertable = false, updatable = false)})
@@ -86,6 +88,14 @@ public class ControlsalidabonosHasLotesbonosHasClientes implements Serializable 
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public String getJustificacion() {
+        return justificacion;
+    }
+
+    public void setJustificacion(String justificacion) {
+        this.justificacion = justificacion;
     }
 
     @Override

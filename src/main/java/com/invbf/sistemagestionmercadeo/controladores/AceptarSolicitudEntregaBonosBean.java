@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
+import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.io.Serializable;
@@ -27,7 +28,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class AceptarSolicitudEntregaBonosBean implements Serializable{
+public class AceptarSolicitudEntregaBonosBean implements Serializable {
 
     private Solicitudentregalotesmaestro elemento;
     private List<Casino> casinos;
@@ -111,10 +112,10 @@ public class AceptarSolicitudEntregaBonosBean implements Serializable{
         }
 
         System.out.println("Buscando info de la solictud si existe");
-        if (sessionBean.getAttributes("idsolicitudentregalotes")!=null && (Integer) sessionBean.getAttributes("idsolicitudentregalotes") != 0) {
+        if (sessionBean.getAttributes("idsolicitudentregalotes") != null && (Integer) sessionBean.getAttributes("idsolicitudentregalotes") != 0) {
             Integer id = (Integer) sessionBean.getAttributes("idsolicitudentregalotes");
             elemento = sessionBean.marketingUserFacade.getSolicitudentregalotesbono(id);
-            
+
         } else {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudLotesBonosView.xhtml");
@@ -135,18 +136,40 @@ public class AceptarSolicitudEntregaBonosBean implements Serializable{
 
     public void aceptar() {
         try {
-            for (Solicitudentregalote sol : elemento.getSolicitudentregaloteList()) {
-                sol.getLotesBonosid().setHasta(getConsecutivo(sol.getLotesBonosid().getHasta(), sol.getCantidad()));
-                sessionBean.marketingUserFacade.editLoteBono(sol.getLotesBonosid(), sol.getBononoincluidoList());
-            }
-            elemento.setEstado("ACEPTADA");
+            elemento.setEstado("INGRESADO A INVENTARIO");
             sessionBean.marketingUserFacade.cambiarEstadoSolicitudentregabonos(elemento);
             sessionBean.removeAttribute("idsolicitudentregalotes");
-            String body = "Se ha aceptado la solicitud de entrada de lotes de bono con el numero de acta "+elemento.getId();
-            Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_ACEPTADA, body, "Solicitud de entrada de lotes de bono aceptada",sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+            String body = "Se ha aceptado la solicitud de entrada de lotes de bono con el numero de acta " + elemento.getId();
+            Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_ACEPTADA, body, "Solicitud de entrada de lotes de bono aceptada", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudLotesBonosView.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(AceptarSolicitudEntregaBonosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void enviar() {
+        try {
+            elemento.setEstado("ENVIADO A CAJA");
+            elemento = sessionBean.marketingUserFacade.guardarSolicitudentregabonos(elemento, null, 0);
+            sessionBean.setAttribute("idsolicitudentregalotes", elemento.getId());
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudLotesBonosView.xhtml");
+            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Orden de ingreso aceptada con exito!", ""));
+            Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_ENVIADA, "Se recibió un requerimiento de lote de bonos", "Se ha recibido un requerimiento de bonos con el nunmero de acta " + elemento.getId() + ". Favor revisar la lista de Requerimientos de lotes", "");
+        } catch (IOException ex) {
+            Logger.getLogger(GeneradorSolicitudLotesBonos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void devolver() {
+        try {
+            elemento.setEstado("DEVUELTO");
+            elemento = sessionBean.marketingUserFacade.guardarSolicitudentregabonos(elemento, null, 0);
+            sessionBean.setAttribute("idsolicitudentregalotes", elemento.getId());
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudLotesBonosView.xhtml");
+            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Orden de ingreso devuelta!", ""));
+            Notificador.notificar(Notificador.REQUERIMIENTO_LOTE_DEVUELTA, "Se recibió un requerimiento de lote de bonos", "Se ha recibido un requerimiento de bonos con el nunmero de acta " + elemento.getId() + ". Favor revisar la lista de Requerimientos de lotes", "");
+        } catch (IOException ex) {
+            Logger.getLogger(GeneradorSolicitudLotesBonos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -163,47 +186,38 @@ public class AceptarSolicitudEntregaBonosBean implements Serializable{
     }
 
     public String getConsecutivo(String hasta, Integer cantidad) {
-        long numerofrom = Long.parseLong(hasta.substring(0, 4));
-        long total = numerofrom + cantidad;
-        String letra = hasta.substring(5, hasta.length());
-        letra = sumarLetra(letra, total);
-        total = total % 10000;
-        if (total == 0) {
-            System.out.println("consecutivo: "+ total + "-" + letra);
-            return "000" + total + "-" + letra;
-        } else if (total < 100) {
-            System.out.println("consecutivo: "+ total + "-" + letra);
-            return "00" + total + "-" + letra;
-        } else if (total < 1000) {
-            System.out.println("consecutivo: "+ total + "-" + letra);
-            return "0" + total + "-" + letra;
+        int cantActual = Integer.parseInt(hasta.substring(0, 4));
+        String letraActual = hasta.substring(5, hasta.length());
+        if (cantidad == 0) {
+            return "";
         } else {
-            System.out.println("consecutivo: "+ total + "-" + letra);
-            return total + "-" + letra;
-        }
-    }
 
-    private String sumarLetra(String letra, long total) {
-        int factor = 0;
-        long cantidad = 0l;
-        String nuevaletra = "";
-        for (int i = letra.length() - 1; i >= 0; i--) {
-            cantidad += (long)(Math.pow(26, factor)) * mapLetrasValores.get(letra.substring(i, i + 1));
-            factor += 1;
-
-        }
-        cantidad = (long)(cantidad + (total / 10000));
-        String letraactual;
-        while (cantidad != 0) {
-            nuevaletra = mapValoresLetras.get(cantidad % 26) + nuevaletra;
-            letraactual = mapValoresLetras.get(cantidad % 26);
-            cantidad = (Long)cantidad / 26;
-            if (letraactual.equals("Z") && cantidad == 1) {
-                break;
-
+            do {
+                int cantComp = 9999 - cantActual;
+                if (cantidad - cantComp <= 0) {
+                    cantActual += cantidad;
+                    break;
+                } else {
+                    cantidad -= 9999 - cantActual;
+                    cantActual = 0;
+                    letraActual = mapValoresLetras.get(mapLetrasValores.get(letraActual) + 1);
+                }
+            } while (true);
+            cantActual -= 1;
+            if (cantActual < 100) {
+                System.out.println("consecutivo: " + cantActual + "-" + letraActual);
+                return "00" + cantActual + "-" + letraActual;
+            } else if (cantActual < 1000) {
+                System.out.println("consecutivo: " + cantActual + "-" + letraActual);
+                return "0" + cantActual + "-" + letraActual;
+            } else {
+                System.out.println("consecutivo: " + cantActual + "-" + letraActual);
+                return cantActual + "-" + letraActual;
             }
         }
-        return nuevaletra;
     }
+    
+
+    
 
 }

@@ -49,6 +49,8 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(name = "idUsuario")
     private Integer idUsuario;
+    @Column(name = "tipo")
+    private Integer tipo;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -299,6 +301,14 @@ public class Usuario implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Integer getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Integer tipo) {
+        this.tipo = tipo;
     }
     
 }

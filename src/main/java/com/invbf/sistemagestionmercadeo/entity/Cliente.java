@@ -107,6 +107,9 @@ public class Cliente implements Serializable {
     @Column(name = "genero")
     private String genero;
     
+    @OneToMany(mappedBy = "idCliente")
+    private List<Clienteblanco> clienteblancoList;
+    
     
     @Size(max = 45)
     @Column(name = "ocupacion")
@@ -182,6 +185,7 @@ public class Cliente implements Serializable {
     public Cliente() {
     }
 
+    
     public Cliente(Integer idCliente) {
         this.idCliente = idCliente;
     }
@@ -198,6 +202,14 @@ public class Cliente implements Serializable {
 
     public void setIdCliente(Integer idCliente) {
         this.idCliente = idCliente;
+    }
+
+    public List<Clienteblanco> getClienteblancoList() {
+        return clienteblancoList;
+    }
+
+    public void setClienteblancoList(List<Clienteblanco> clienteblancoList) {
+        this.clienteblancoList = clienteblancoList;
     }
 
     public String getNombres() {

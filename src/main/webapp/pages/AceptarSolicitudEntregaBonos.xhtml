@@ -88,23 +88,30 @@
                                                         <td id="cantidad#{status.count}">
                                                             <label>#{solicitudes.cantidad}</label>
                                                         </td>
-                                                        <td id="desde#{status.count}"><label>#{solicitudes.lotesBonosid.hasta}</label></td>
-                                                        <td id="hasta#{status.count}"><label>#{aceptarSolicitudEntregaBonosBean.getConsecutivo(solicitudes.lotesBonosid.hasta,solicitudes.cantidad)}</label></td>
+                                                        <td id="desde#{status.count}"><label>#{solicitudes.desde}</label></td>
+                                                        <td id="hasta#{status.count}"><label>#{solicitudes.hasta}</label></td>
 
                                                         <td>#{solicitudes.lotesBonosid.idCasino.nombre}</td>
                                                         <td>#{solicitudes.lotesBonosid.denominacion.valor}</td>
                                                         <td>#{solicitudes.lotesBonosid.tipoBono.nombre}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="6">
-                                                            Bonos no incluidos
-                                                            <hr/>
-                                                            <c:forEach items="#{solicitudes.bononoincluidoList}" var="bonosno" >
-                                                                <h:outputText value="#{bonosno.consecutivo}"/>&nbsp;
-                                                            </c:forEach>
+                                                        <tr>
+                                                            <td colspan="6">
+                                                                <p:outputPanel id="bonosnoincluidos#{status.count}" style="display:block" rendered="#{aceptarSolicitudEntregaBonosBean.elemento.id != null}">
+                                                                    Bonos no incluidos:
+                                                                    <c:forEach items="#{solicitudes.bonosnoincluidosList}" var="bonosno" >
+                                                                        <h:inputText value="#{bonosno.consecutivo}"/>&nbsp;
+                                                                    </c:forEach>
+                                                                    <p:commandButton id="addCliente#{status.count}" 
+                                                                                     update="form:bonosnoincluidos#{status.count}" 
+                                                                                     action="#{aceptarSolicitudEntregaBonosBean.addBonoNoIncluido(status.index)}"
+                                                                                     icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" />
+                                                                </p:outputPanel>
 
 
-                                                        </td>
+                                                            </td>
+                                                        </tr>
                                                     </tr>
                                                 </c:forEach>
 
@@ -129,12 +136,16 @@
 
                         </div>
                         <div class="panel-footer text-right"> 
-                            <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{aceptarSolicitudEntregaBonosBean.aceptar()}" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
-                                             update=" :#{p:component('messages')}" style="margin:0" rendered="#{aceptarSolicitudEntregaBonosBean.elemento.estado != &quot;ACEPTADA&quot;}"/>
+                            <p:commandButton id="aceptar" value="Aceptar" actionListener="#{aceptarSolicitudEntregaBonosBean.aceptar()}" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                             update=" :#{p:component('messages')}" style="margin:0" rendered="#{sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;) and aceptarSolicitudEntregaBonosBean.elemento.estado == &quot;LOTE RECIBIDO&quot;}"/>
+                            <p:commandButton id="devolver" value="devolver" actionListener="#{aceptarSolicitudEntregaBonosBean.devolver()}" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                             update=" :#{p:component('messages')}" style="margin:0" rendered="#{sessionBean.perfilViewMatch(&quot;devolverSolLote&quot;) and aceptarSolicitudEntregaBonosBean.elemento.estado == &quot;LOTE RECIBIDO&quot;}"/>
+                            <p:commandButton id="enviar" value="Recibir" actionListener="#{aceptarSolicitudEntregaBonosBean.enviar()}" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                             update=" :#{p:component('messages')}" style="margin:0" rendered="#{sessionBean.perfilViewMatch(&quot;enviarSolLote&quot;) and aceptarSolicitudEntregaBonosBean.elemento.estado != &quot;INGRESADO A INVENTARIO&quot;}"/>
                         </div>
                     </div>
                 </h:form>
-
+ 
             </div>
 
         </div>

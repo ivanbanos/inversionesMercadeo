@@ -406,7 +406,7 @@
                 </div>
                 <div class="panel-footer text-right"> 
                     <p:commandButton id="btnconfirm" 
-                                     onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                     onstart="PF('ajaxWaitingDialog').show();" onerror="PF('ajaxWaitingDialog').hide();"
                                      value="#{label['Confirmar']}" actionListener="#{clientesActBean.guardar()}" style="margin:0" />
                     <p:button id="btnclose" value="#{label['Volver']}" outcome="/pages/Reporteclientes.xhtml" onclick="PF('ajaxWaitingDialog').show();" />
 

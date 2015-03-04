@@ -403,4 +403,9 @@ public class AdminFacadeImpl implements AdminFacade, Serializable {
         BonoDao.edit(bono);
     }
 
+    @Override
+    public Propositoentrega findProposito(Integer id) {
+        return PropositosentregaDao.find(id);
+    }
+
 }

@@ -6,6 +6,8 @@
 package com.invbf.sistemagestionmercadeo.dao;
 
 import com.invbf.sistemagestionmercadeo.entity.Controlsalidabono;
+import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos;
+import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosPK;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -52,6 +54,15 @@ public class ControlsalidabonosDao {
 
         tx.begin();
         try {
+            List<ControlsalidabonosHasLotesbonos> csbhlb = cargo.getControlsalidabonosHasLotesbonosList()!=null?cargo.getControlsalidabonosHasLotesbonosList():new ArrayList<ControlsalidabonosHasLotesbonos>();
+            cargo.setControlsalidabonosHasLotesbonosList(null);
+            em.merge(cargo);
+            for (ControlsalidabonosHasLotesbonos csbhlb1 : csbhlb) {
+                csbhlb1.setControlsalidabono(cargo);
+                csbhlb1.setControlsalidabonosHasLotesbonosPK(new ControlsalidabonosHasLotesbonosPK(cargo.getId(), csbhlb1.getLotebono().getId()));
+                em.merge(csbhlb1);
+            }
+            cargo.setControlsalidabonosHasLotesbonosList(csbhlb);
             em.merge(cargo);
             tx.commit();
         } catch (Exception e) {

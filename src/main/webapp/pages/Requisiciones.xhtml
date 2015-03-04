@@ -21,11 +21,14 @@
         <div class="container">
             <div class="row clearfix">
                 <h:form>
-                    <legend >Solicitudes</legend>
-
-                    <c:if test="#{sessionBean.perfilViewMatch(&quot;notificaciones&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;notificaciones&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-exchange fa-5x"></i> 
-                            <br/>#{label['cambiosusuario']}</h:commandLink>
+                    <c:if test="#{sessionBean.perfilViewMatch(&quot;verRequerimiento&quot;)}">
+                        <h:commandLink  action="#{sessionBean.go(&quot;requerimientosLotes&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
+                            <br/>Requerimientos de producci&oacute;n de Lote</h:commandLink>
+                    </c:if>
+                    
+                    <c:if test="#{sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;)}">
+                        <h:commandLink  action="#{sessionBean.go(&quot;listasolicitudlotes&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-truck fa-5x"></i> 
+                            <br/>Entrada de Lote a Inventario</h:commandLink>
                     </c:if>
 
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;)
@@ -34,19 +37,7 @@
                         <h:commandLink  action="#{sessionBean.go(&quot;solicitudesbonos&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-edit fa-5x"></i> 
                             <br/>#{label['solicitudesbonos']}</h:commandLink>
                     </c:if>
-
-                    <c:if test="#{sessionBean.perfilViewMatch(&quot;SolicitudCambioCupo&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;SolicitudCambioCupo&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-edit fa-5x"></i> 
-                            <br/>#{label['cambiocupofidelizacion']}</h:commandLink>
-                    </c:if>
-
-                    <legend >Ordenes</legend>
-
-
-                    <c:if test="#{sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;listasolicitudlotes&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-truck fa-5x"></i> 
-                            <br/>#{label['entradalotebonos']}</h:commandLink>
-                    </c:if>
+                    
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;Controlsalidabonos&quot;)
                                   or sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;)
                                   or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)
@@ -54,10 +45,12 @@
                         <h:commandLink  action="#{sessionBean.go(&quot;ControlSalidaBono&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-sign-out fa-5x"></i> 
                             <br/>#{label['salidabonoscaja']}</h:commandLink>
                     </c:if>
+                    
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;Entregarbonocaja&quot;)}">
                         <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporentregarcaja&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-envelope fa-5x"></i> 
                             <br/>#{label['bonosporentregarcaja']}</h:commandLink>
                     </c:if>
+                    
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;Recibirbono&quot;)}">
                         <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporrecibir&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-envelope-square fa-5x"></i> 
                             <br/>#{label['bonosporrecibir']}</h:commandLink>

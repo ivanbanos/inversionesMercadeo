@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,7 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Solicitudentregalote.findById", query = "SELECT s FROM Solicitudentregalote s WHERE s.id = :id"),
     @NamedQuery(name = "Solicitudentregalote.findByCantidad", query = "SELECT s FROM Solicitudentregalote s WHERE s.cantidad = :cantidad"),
     @NamedQuery(name = "Solicitudentregalote.findByDesde", query = "SELECT s FROM Solicitudentregalote s WHERE s.desde = :desde"),
-    @NamedQuery(name = "Solicitudentregalote.findByHasta", query = "SELECT s FROM Solicitudentregalote s WHERE s.hasta = :hasta")})
+    @NamedQuery(name = "Solicitudentregalote.findByHasta", query = "SELECT s FROM Solicitudentregalote s WHERE s.hasta = :hasta"),
+    @NamedQuery(name = "Solicitudentregalote.findByCasinoANDestado", query = "SELECT s FROM Solicitudentregalote s WHERE s.lotesBonosid.idCasino = :casino AND s.solicitudEntregaLotesMaestro.estado = 'CREADO'")})
 public class Solicitudentregalote implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -58,7 +60,7 @@ public class Solicitudentregalote implements Serializable {
     @JoinColumn(name = "LotesBonos_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Lotebono lotesBonosid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudEntregaLotesid")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudEntregaLotesid", fetch = FetchType.EAGER)
     private List<Bononoincluido> bononoincluidoList;
 
     public Solicitudentregalote() {

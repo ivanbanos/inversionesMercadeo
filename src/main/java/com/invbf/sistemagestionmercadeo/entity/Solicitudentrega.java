@@ -93,6 +93,9 @@ public class Solicitudentrega implements Serializable {
     private Casino idCasino;
     @OneToMany(mappedBy = "solicitudEntregaid")
     private List<Controlsalidabono> controlsalidabonoList;
+    @Column(name = "fechavencimientobonos")
+    @Temporal(TemporalType.DATE)
+    private Date fechavencimientobonos;
 
     public Solicitudentrega() {
     }
@@ -251,6 +254,14 @@ public class Solicitudentrega implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Solicitudentrega[ id=" + id + " ]";
+    }
+
+    public Date getFechavencimientobonos() {
+        return fechavencimientobonos;
+    }
+
+    public void setFechavencimientobonos(Date fechavencimientobonos) {
+        this.fechavencimientobonos = fechavencimientobonos;
     }
     
 }

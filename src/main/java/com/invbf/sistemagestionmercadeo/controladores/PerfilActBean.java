@@ -163,6 +163,20 @@ public class PerfilActBean implements Serializable{
     private VistaBoolean verTodosCasinos;
     private VistaBoolean cambioEstadoBono;
     
+    
+    private VistaBoolean correoRequerimientoLoteCreado;
+    private VistaBoolean correoRequerimeintoLoteOrdenado;
+    private VistaBoolean correoRequerimientoLoteRechazado;
+    private VistaBoolean correoRequerimentoLoteRecibido;
+    private VistaBoolean correoSolicitudEntradaValidada;
+    private VistaBoolean correoSolicitudEntradaDevuelta;
+    private VistaBoolean devolverSolLote;
+    private VistaBoolean enviarSolLote;
+    private VistaBoolean rechazarRequerimiento;
+    private VistaBoolean ordenarRequerimiento;
+    private VistaBoolean crearRequerimiento;
+    private VistaBoolean verRequerimiento;
+    
     private VistaBoolean entregalotesgeneradacorreo;
     private VistaBoolean entregalotesaceptadacorreo;
     private VistaBoolean solicitudbonosgeneradacorreo;
@@ -928,6 +942,80 @@ public class PerfilActBean implements Serializable{
             }
             
             
+            if (v.getNombreVista().equals("correoRequerimientoLoteCreado")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoRequerimientoLoteCreado = new VistaBoolean(v, true);
+                } else {
+                    correoRequerimientoLoteCreado = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoRequerimeintoLoteOrdenado")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoRequerimeintoLoteOrdenado = new VistaBoolean(v, true);
+                } else {
+                    correoRequerimeintoLoteOrdenado = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoRequerimientoLoteRechazado")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoRequerimientoLoteRechazado = new VistaBoolean(v, true);
+                } else {
+                    correoRequerimientoLoteRechazado = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoRequerimentoLoteRecibido")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoRequerimentoLoteRecibido = new VistaBoolean(v, true);
+                } else {
+                    correoRequerimentoLoteRecibido = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoSolicitudEntradaValidada")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoSolicitudEntradaValidada = new VistaBoolean(v, true);
+                } else {
+                    correoSolicitudEntradaValidada = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoSolicitudEntradaDevuelta")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoSolicitudEntradaDevuelta = new VistaBoolean(v, true);
+                } else {
+                    correoSolicitudEntradaDevuelta = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("devolverSolLote")) {
+                if (elemento.getVistaList().contains(v)) {
+                    devolverSolLote = new VistaBoolean(v, true);
+                } else {
+                    devolverSolLote = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("enviarSolLote")) {
+                if (elemento.getVistaList().contains(v)) {
+                    enviarSolLote = new VistaBoolean(v, true);
+                } else {
+                    enviarSolLote = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("rechazarRequerimiento")) {
+                if (elemento.getVistaList().contains(v)) {
+                    rechazarRequerimiento = new VistaBoolean(v, true);
+                } else {
+                    rechazarRequerimiento = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("ordenarRequerimiento")) {
+                if (elemento.getVistaList().contains(v)) {
+                    ordenarRequerimiento = new VistaBoolean(v, true);
+                } else {
+                    ordenarRequerimiento = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("crearRequerimiento")) {
+                if (elemento.getVistaList().contains(v)) {
+                    crearRequerimiento = new VistaBoolean(v, true);
+                } else {
+                    crearRequerimiento = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("verRequerimiento")) {
+                if (elemento.getVistaList().contains(v)) {
+                    verRequerimiento = new VistaBoolean(v, true);
+                } else {
+                    verRequerimiento = new VistaBoolean(v, false);
+                }
+            }
+            
             
             
             
@@ -1329,6 +1417,45 @@ public class PerfilActBean implements Serializable{
         }
         
         
+        
+        
+        
+        if (correoRequerimientoLoteCreado.isSelected()) {
+            elemento.getVistaList().add(correoRequerimientoLoteCreado.getVista());
+        }
+        if (correoRequerimeintoLoteOrdenado.isSelected()) {
+            elemento.getVistaList().add(correoRequerimeintoLoteOrdenado.getVista());
+        }
+        if (correoRequerimientoLoteRechazado.isSelected()) {
+            elemento.getVistaList().add(correoRequerimientoLoteRechazado.getVista());
+        }
+        if (correoRequerimentoLoteRecibido.isSelected()) {
+            elemento.getVistaList().add(correoRequerimentoLoteRecibido.getVista());
+        }
+        if (correoSolicitudEntradaValidada.isSelected()) {
+            elemento.getVistaList().add(correoSolicitudEntradaValidada.getVista());
+        }
+        if (correoSolicitudEntradaDevuelta.isSelected()) {
+            elemento.getVistaList().add(correoSolicitudEntradaDevuelta.getVista());
+        }
+        if (devolverSolLote.isSelected()) {
+            elemento.getVistaList().add(devolverSolLote.getVista());
+        }
+        if (enviarSolLote.isSelected()) {
+            elemento.getVistaList().add(enviarSolLote.getVista());
+        }
+        if (rechazarRequerimiento.isSelected()) {
+            elemento.getVistaList().add(rechazarRequerimiento.getVista());
+        }
+        if (ordenarRequerimiento.isSelected()) {
+            elemento.getVistaList().add(ordenarRequerimiento.getVista());
+        }
+        if (crearRequerimiento.isSelected()) {
+            elemento.getVistaList().add(crearRequerimiento.getVista());
+        }
+        if (verRequerimiento.isSelected()) {
+            elemento.getVistaList().add(verRequerimiento.getVista());
+        }
         
         
         
@@ -2780,6 +2907,102 @@ public class PerfilActBean implements Serializable{
 
     public void setNotificacionescorreo(VistaBoolean notificacionescorreo) {
         this.notificacionescorreo = notificacionescorreo;
+    }
+
+    public VistaBoolean getCorreoRequerimientoLoteCreado() {
+        return correoRequerimientoLoteCreado;
+    }
+
+    public void setCorreoRequerimientoLoteCreado(VistaBoolean correoRequerimientoLoteCreado) {
+        this.correoRequerimientoLoteCreado = correoRequerimientoLoteCreado;
+    }
+
+    public VistaBoolean getCorreoRequerimeintoLoteOrdenado() {
+        return correoRequerimeintoLoteOrdenado;
+    }
+
+    public void setCorreoRequerimeintoLoteOrdenado(VistaBoolean correoRequerimeintoLoteOrdenado) {
+        this.correoRequerimeintoLoteOrdenado = correoRequerimeintoLoteOrdenado;
+    }
+
+    public VistaBoolean getCorreoRequerimientoLoteRechazado() {
+        return correoRequerimientoLoteRechazado;
+    }
+
+    public void setCorreoRequerimientoLoteRechazado(VistaBoolean correoRequerimientoLoteRechazado) {
+        this.correoRequerimientoLoteRechazado = correoRequerimientoLoteRechazado;
+    }
+
+    public VistaBoolean getCorreoRequerimentoLoteRecibido() {
+        return correoRequerimentoLoteRecibido;
+    }
+
+    public void setCorreoRequerimentoLoteRecibido(VistaBoolean correoRequerimentoLoteRecibido) {
+        this.correoRequerimentoLoteRecibido = correoRequerimentoLoteRecibido;
+    }
+
+    public VistaBoolean getCorreoSolicitudEntradaValidada() {
+        return correoSolicitudEntradaValidada;
+    }
+
+    public void setCorreoSolicitudEntradaValidada(VistaBoolean correoSolicitudEntradaValidada) {
+        this.correoSolicitudEntradaValidada = correoSolicitudEntradaValidada;
+    }
+
+    public VistaBoolean getCorreoSolicitudEntradaDevuelta() {
+        return correoSolicitudEntradaDevuelta;
+    }
+
+    public void setCorreoSolicitudEntradaDevuelta(VistaBoolean correoSolicitudEntradaDevuelta) {
+        this.correoSolicitudEntradaDevuelta = correoSolicitudEntradaDevuelta;
+    }
+
+    public VistaBoolean getDevolverSolLote() {
+        return devolverSolLote;
+    }
+
+    public void setDevolverSolLote(VistaBoolean devolverSolLote) {
+        this.devolverSolLote = devolverSolLote;
+    }
+
+    public VistaBoolean getEnviarSolLote() {
+        return enviarSolLote;
+    }
+
+    public void setEnviarSolLote(VistaBoolean enviarSolLote) {
+        this.enviarSolLote = enviarSolLote;
+    }
+
+    public VistaBoolean getRechazarRequerimiento() {
+        return rechazarRequerimiento;
+    }
+
+    public void setRechazarRequerimiento(VistaBoolean rechazarRequerimiento) {
+        this.rechazarRequerimiento = rechazarRequerimiento;
+    }
+
+    public VistaBoolean getOrdenarRequerimiento() {
+        return ordenarRequerimiento;
+    }
+
+    public void setOrdenarRequerimiento(VistaBoolean ordenarRequerimiento) {
+        this.ordenarRequerimiento = ordenarRequerimiento;
+    }
+
+    public VistaBoolean getCrearRequerimiento() {
+        return crearRequerimiento;
+    }
+
+    public void setCrearRequerimiento(VistaBoolean crearRequerimiento) {
+        this.crearRequerimiento = crearRequerimiento;
+    }
+
+    public VistaBoolean getVerRequerimiento() {
+        return verRequerimiento;
+    }
+
+    public void setVerRequerimiento(VistaBoolean verRequerimiento) {
+        this.verRequerimiento = verRequerimiento;
     }
 
 }

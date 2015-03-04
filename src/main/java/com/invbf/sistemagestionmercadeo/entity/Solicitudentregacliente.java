@@ -55,6 +55,8 @@ public class Solicitudentregacliente implements Serializable {
     @JoinColumn(name = "SolicitudEntregaid", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Solicitudentrega solicitudentrega;
+    @Column(name = "entrega")
+    private Integer entrega;
 
     public Solicitudentregacliente() {
     }
@@ -129,6 +131,14 @@ public class Solicitudentregacliente implements Serializable {
 
     public void setSolicitudentrega(Solicitudentrega solicitudentrega) {
         this.solicitudentrega = solicitudentrega;
+    }
+
+    public Integer getEntrega() {
+        return entrega;
+    }
+
+    public void setEntrega(Integer entrega) {
+        this.entrega = entrega;
     }
 
     @Override

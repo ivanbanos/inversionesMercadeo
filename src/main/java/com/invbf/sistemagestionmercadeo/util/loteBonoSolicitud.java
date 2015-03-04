@@ -17,15 +17,18 @@ import java.util.List;
  *
  * @author ivan
  */
-public class loteBonoSolicitud  implements Serializable{
+public class loteBonoSolicitud implements Serializable {
 
     private Integer id;
     private Integer cantidad;
     private Lotebono lotesBonosid;
     private List<BonosnoincluidosDTO> bonosnoincluidosList;
+    private List<String> todosBonos;
+    private List<String> Selected;
     private List<Integer> bonosReincluidos;
     private String desde;
     private String hasta;
+    private Integer limite;
 
     public loteBonoSolicitud() {
     }
@@ -36,7 +39,7 @@ public class loteBonoSolicitud  implements Serializable{
         bonosnoincluidosList = new ArrayList<BonosnoincluidosDTO>();
         this.desde = ConvertidorConsecutivo.sumarUno(lote.getHasta());
         this.hasta = ConvertidorConsecutivo.sumarUno(lote.getHasta());
-
+        limite = 10000 - ConvertidorConsecutivo.getCantidadLote(desde);
         System.out.println("get");
         System.out.println(desde);
         System.out.println(hasta);
@@ -48,8 +51,20 @@ public class loteBonoSolicitud  implements Serializable{
         this.cantidad = cantidad;
         this.lotesBonosid = lotesBonosid;
         this.bonosnoincluidosList = bonosnoincluidosList;
-        this.desde = ConvertidorConsecutivo.sumarUno(lotesBonosid.getDesde());
-        this.hasta = ConvertidorConsecutivo.sumarCantidad(desde, this.cantidad-1 );
+
+        this.desde = ConvertidorConsecutivo.sumarUno(lotesBonosid.getHasta());
+        if (cantidad != 0) {
+            this.hasta = ConvertidorConsecutivo.sumarCantidad(desde, this.cantidad - 1);
+        } else {
+            this.hasta = "";
+        }
+        todosBonos = new ArrayList<String>();
+        Selected = new ArrayList<String>();
+        limite = 10000 - ConvertidorConsecutivo.getCantidadLote(desde);
+        Long from = ConvertidorConsecutivo.getNumeroFromConsecutivo(desde);
+        for (int i = 1; i <= cantidad; i++) {
+            todosBonos.add(ConvertidorConsecutivo.getConsecutivoFromNumero(from + cantidad));
+        }
         System.out.println("get");
         System.out.println(desde);
         System.out.println(hasta);
@@ -57,14 +72,14 @@ public class loteBonoSolicitud  implements Serializable{
 
     public Solicitudentregalote getSolicitudEntregaLote() {
         Solicitudentregalote sol = new Solicitudentregalote(id);
-        System.out.println("Cantidad "+cantidad);
+        System.out.println("Cantidad " + cantidad);
         sol.setCantidad(cantidad);
         sol.setBononoincluidoList(new ArrayList<Bononoincluido>());
         sol.setDesde(ConvertidorConsecutivo.sumarUno(lotesBonosid.getHasta()));
-        if(cantidad==0){
-        sol.setHasta("");
-        }else{
-        sol.setHasta(ConvertidorConsecutivo.sumarCantidad(lotesBonosid.getHasta(),cantidad));
+        if (cantidad == 0) {
+            sol.setHasta("");
+        } else {
+            sol.setHasta(ConvertidorConsecutivo.sumarCantidad(lotesBonosid.getHasta(), cantidad));
         }
         bonosReincluidos = new ArrayList<Integer>();
         for (BonosnoincluidosDTO bonosnoincluidos : bonosnoincluidosList) {
@@ -146,6 +161,30 @@ public class loteBonoSolicitud  implements Serializable{
 
     public void setHasta(String hasta) {
         this.hasta = hasta;
+    }
+
+    public List<String> getTodosBonos() {
+        return todosBonos;
+    }
+
+    public void setTodosBonos(List<String> todosBonos) {
+        this.todosBonos = todosBonos;
+    }
+
+    public List<String> getSelected() {
+        return Selected;
+    }
+
+    public void setSelected(List<String> Selected) {
+        this.Selected = Selected;
+    }
+
+    public Integer getLimite() {
+        return limite;
+    }
+
+    public void setLimite(Integer limite) {
+        this.limite = limite;
     }
 
 }

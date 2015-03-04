@@ -27,6 +27,7 @@ import com.invbf.sistemagestionmercadeo.entity.Tipodocumento;
 import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import com.invbf.sistemagestionmercadeo.entity.Tipotarea;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
+import com.invbf.sistemagestionmercadeo.exceptions.CasinoHaveSolicitudCreadaException;
 import com.invbf.sistemagestionmercadeo.exceptions.ExistenBonosFisicosException;
 import com.invbf.sistemagestionmercadeo.exceptions.LoteBonosExistenteException;
 import java.util.Date;
@@ -132,7 +133,7 @@ public interface MarketingUserFacade {
 
     public List<Lotebono> getAllLotesBonos();
 
-    public boolean guardarSolicitudentregabonos(Solicitudentregalotesmaestro elemento, List<Integer> bonosreincluidos, int porque);
+    public Solicitudentregalotesmaestro guardarSolicitudentregabonos(Solicitudentregalotesmaestro elemento, List<Integer> bonosreincluidos, int porque);
 
     public List<Solicitudentregalotesmaestro> getAllSolicitudentregalotesmaestro();
 
@@ -206,7 +207,7 @@ public interface MarketingUserFacade {
 
     public List<Cliente> findAllClientesCasinos(Casino idCasino, String nombre, String apellidos, String ident, Tipodocumento tipodocumento);
 
-    public List<Lotebono> getLotesBonosByCasino(Casino casinoSelected);
+    public List<Lotebono> getLotesBonosByCasino(Casino casinoSelected)throws CasinoHaveSolicitudCreadaException ;
 
     public void guardarClientesSinCategoria(Cliente cliente);
 
@@ -215,5 +216,13 @@ public interface MarketingUserFacade {
     public List<Tarea> getTareasUsuario(Usuario usuario);
 
     public List<Cliente> findAllClientesCasinosConCupo(Casino idCasino);
+
+    public List<Solicitudentregalotesmaestro> getRequeriemntosLotes();
+
+    public void borrarSolicitudentregabonos(Solicitudentregalotesmaestro elemento, Object object, int i);
+
+    public List<Lotebono> getLotesBonosByCasinoPromo(Casino idCasino);
+
+    public List<Lotebono> getLotesBonosByCasinoNoPromo(Casino idCasino);
 
 }

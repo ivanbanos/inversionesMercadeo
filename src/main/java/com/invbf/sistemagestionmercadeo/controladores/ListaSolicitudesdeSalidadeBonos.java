@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.entity.Controlsalidabono;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,6 +49,7 @@ public class ListaSolicitudesdeSalidadeBonos implements Serializable{
             }
         }
         lista = sessionBean.marketingUserFacade.getAllControlsalidabonos();
+        Collections.reverse(lista);
         System.out.println(lista.size());
     }
 

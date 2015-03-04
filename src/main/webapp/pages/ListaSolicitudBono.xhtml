@@ -41,7 +41,7 @@
                                                  paginator="true"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  rowIndexVar="index" rowsPerPageTemplate="5,10,15, 20, 25, 30">
-                                <p:column headerText="Fila #">
+                                        <p:column headerText="Fila #" width="5%">
                                     #{index + 1}
                                 </p:column>
 
@@ -92,18 +92,9 @@
                                         </p:column>
 
                                         <p:column headerText="#{label['acciones']}" >   
-                                            <p:commandButton id="editButton" action="#{listaSolicitudBonosBean.goSolicitud(element.id)}" icon="ui-icon-pencil" 
-                                                             title="#{label['lb_btn.editar']}"
-                                                             rendered="#{sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;) and !element.estado.equals(&quot;APROBADA&quot;)and !element.estado.equals(&quot;PREAPROBADA&quot;)}"/>  
-                                            <p:commandButton id="deleteButton" oncomplete="PF('deleteDialog').show();" 
-                                                             icon="ui-icon-trash" title="#{label['lb_btn.borrar']}"  update=":#{p:component('deleteDialog')}"
-                                                             rendered="#{sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;) and !element.estado.equals(&quot;APROBADA&quot;)and !element.estado.equals(&quot;PREAPROBADA&quot;)}">
-                                                <f:setPropertyActionListener value="#{element}" target="#{listaSolicitudBonosBean.elemento}" /> 
-                                            </p:commandButton> 
-                                            
                                             <p:commandButton id="aprobar" action="#{listaSolicitudBonosBean.goSolicitudAceptar(element.id)}" icon="ui-icon-check" 
                                                              title="#{label['lb_btn.aprobar']}"
-                                                             rendered="#{sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;) and element.estado.equals(&quot;PREAPROBADA&quot;)}"/> 
+                                                             rendered="#{sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;) and (element.estado.equals(&quot;PREAPROBADA&quot;) or element.estado.equals(&quot;CREADA&quot;))}"/> 
                                             <p:commandButton id="preaprobar" action="#{listaSolicitudBonosBean.goSolicitudpreAceptar(element.id)}" icon="ui-icon-comment" 
                                                              title="#{label['lb_btn.preaprobar']}"
                                                              rendered="#{sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;) and ( element.estado.equals(&quot;CREADA&quot;) or element.estado.equals(&quot;PREAPROBADA&quot;))}"/> 
@@ -111,7 +102,7 @@
 
                                         <f:facet name="footer"> 
                                             <p:commandButton id="addButton" action="#{listaSolicitudBonosBean.goSolicitud(0)}"
-                                                             value="#{label['lb_btn.agregar']}" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
+                                                             value="Agregar Nueva Solicitud de Bonos" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
                                                              rendered="#{sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;) }"/>   
                                         </f:facet>
 

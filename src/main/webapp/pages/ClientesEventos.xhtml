@@ -21,6 +21,7 @@
         <div class="container">
             <div class="row clearfix">
                 <h:form>
+                    
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;Clientes&quot;)}">
                         <h:commandLink  action="#{sessionBean.go(&quot;clientes&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-male fa-5x"></i> 
                             <br/>#{label['clientes']}</h:commandLink>
@@ -36,6 +37,11 @@
                     <c:if test="#{sessionBean.perfilViewMatch(&quot;ManejadorEventosHostess&quot;)}">
                         <h:commandLink  action="#{sessionBean.go(&quot;eventoshostess&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-fax fa-5x"></i> 
                             <br/>#{label['manejadortareas']}</h:commandLink>
+                    </c:if>
+                    
+                    <c:if test="#{sessionBean.perfilViewMatch(&quot;notificaciones&quot;)}">
+                        <h:commandLink  action="#{sessionBean.go(&quot;notificaciones&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-exchange fa-5x"></i> 
+                            <br/>Cambios en datos de clientes</h:commandLink>
                     </c:if>
                 </h:form>
             </div>

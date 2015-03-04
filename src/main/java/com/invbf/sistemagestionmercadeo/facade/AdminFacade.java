@@ -117,5 +117,7 @@ public interface AdminFacade {
     public Bono buscarBono(Casino casinoSelected, Denominacion denoinacionSelected, String consecutivo);
 
     public void guardarBono(Bono bono);
+
+    public Propositoentrega findProposito(Integer id);
     
 }

@@ -22,6 +22,12 @@
             <div class="container">
 
                 <div class="row">
+
+
+
+
+
+
                     <div class="col-xs-12 col-md-12 panel-body panel-bodyindex">
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;acceso&quot;) 
                                       or sessionBean.perfilViewMatch(&quot;Cargo&quot;) 
@@ -44,35 +50,35 @@
                                 <br/>#{label['configuracion']}</h:link>
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Clientes&quot;) 
-                                          or sessionBean.perfilViewMatch(&quot;Eventos&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;Tareas&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;ManejadorEventosHostess&quot;)}">
+                                      or sessionBean.perfilViewMatch(&quot;Eventos&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;Tareas&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;ManejadorEventosHostess&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;notificaciones&quot;)}">
                             <h:link outcome="/pages/ClientesEventos.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-male fa-5x"></i> 
-                                <br/>Gestión de clientes</h:link>
+                                <br/>Gesti&oacute;n de clientes</h:link>
                         </c:if>
-                        <c:if test="#{sessionBean.perfilViewMatch(&quot;notificaciones&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;Controlsalidabonos&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;Recibirbono&quot;)}">
-                            <h:link outcome="/pages/Requisiciones.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-pencil-square-o fa-5x"></i> 
-                                <br/>#{label['requisiciones']}</h:link>
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;)
+                              or sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;)
+                              or sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;)
+                              or sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;)
+                              or sessionBean.perfilViewMatch(&quot;Controlsalidabonos&quot;)
+                              or sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;)
+                              or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)
+                              or sessionBean.perfilViewMatch(&quot;Recibirbono&quot;)}">
+                            <h:link outcome="/pages/Requisiciones.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-ticket fa-5x"></i> 
+                                <br/>Gesti&oacute;n de bonos</h:link>
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Reportes&quot;)}">
                             <h:link outcome="/pages/Reportes.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-bar-chart-o fa-5x"></i> 
                                 <br/>#{label['reportes']}</h:link>
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;LoteBono&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;Verbonosporcanjear&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;Verbonosporentregarcliente&quot;)}">
+                                      or sessionBean.perfilViewMatch(&quot;Verbonosporcanjear&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;Verbonosporentregarcliente&quot;)}">
                             <h:link outcome="/pages/Inventario.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-briefcase fa-5x"></i> 
                                 <br/>#{label['inventario']}</h:link>
                         </c:if>
-                        
+
                         <h:commandLink  action="#{sessionBean.go(&quot;cuenta&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-pencil fa-5x"></i> 
                             <br/>#{label['cuentausuarios']}</h:commandLink>
                     </div>

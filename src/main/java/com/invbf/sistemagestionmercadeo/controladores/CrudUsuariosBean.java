@@ -145,7 +145,7 @@ public class CrudUsuariosBean implements Observer, Serializable {
                 }
                 FacesUtil.addInfoMessage("Usuario guardado", elemento.getNombreUsuario());
 
-        System.gc();
+                System.gc();
                 setNuevoUsuario();
             } catch (NombreUsuarioExistenteException ex) {
                 FacesUtil.addErrorMessage("Usuario no creado", "Nombre de usuario existente");

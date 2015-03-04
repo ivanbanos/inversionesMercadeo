@@ -225,4 +225,25 @@ public class SolicitudentregalotesmaestroDao {
         emf.close();
         return cargos;
     }
+
+    public static List<Solicitudentregalotesmaestro> findRequerimientos() {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Solicitudentregalotesmaestro> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Solicitudentregalotesmaestro>) em.createNamedQuery("Solicitudentregalotesmaestro.findRequerimientos")
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return cargos;
+    }
 }

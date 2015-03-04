@@ -49,6 +49,9 @@ public class Casinos implements Serializable {
     @Size(max = 45)
     @Column(name = "direccion")
     private String direccion;
+    @Size(max = 500)
+    @Column(name = "correo")
+    private String correo;
     @OneToMany(mappedBy = "idCasinoPreferencial")
     private Collection<Clientes> clientesCollection;
 
@@ -95,6 +98,14 @@ public class Casinos implements Serializable {
 
     public void setClientesCollection(Collection<Clientes> clientesCollection) {
         this.clientesCollection = clientesCollection;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     @Override

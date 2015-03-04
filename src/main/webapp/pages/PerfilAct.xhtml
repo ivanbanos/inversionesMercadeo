@@ -269,13 +269,6 @@
                                                         <th>#{label['borrar']}</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>#{label['SolicitudesLotesBonos']}</td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.vistaSolicitudesLotes.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.agregarSolicitudesLotes.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.actualizarSolicitudesLotes.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.eliminarSolicitudesLotes.selected}"/></td>
-                                                    </tr>
-                                                    <tr>
                                                         <td>#{label['stockbonos']}</td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.vistaLoteBono.selected}"/></td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.agregarLoteBono.selected}"/></td>
@@ -284,6 +277,43 @@
                                                     </tr>
 
                                                 </table>
+                                                <table class="table table-bordered table-striped">
+                                                    
+                                                    <tr>
+                                                        <th>Requerimientos de Lote</th>
+                                                        <th>Ver</th>
+                                                        <th>Crear</th>
+                                                        <th>Ordenar</th>
+                                                        <th>Rechazar</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.verRequerimiento.selected}"/></td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.crearRequerimiento.selected}"/></td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.ordenarRequerimiento.selected}"/></td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.rechazarRequerimiento.selected}"/></td>
+                                                    </tr>
+
+                                                </table>
+                                                <table class="table table-bordered table-striped">
+                                                    
+                                                    <tr>
+                                                        <th>Solicitudes de entrada de Lote de Bonos</th>
+                                                        <th>Ver Solicitudes de entrada de Lote</th>
+                                                        <th>Recibir Lote</th>
+                                                        <th>Devolver Lote</th>
+                                                        <th>Aceptar Lote</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.vistaSolicitudesLotes.selected}"/></td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.enviarSolLote.selected}"/></td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.devolverSolLote.selected}"/></td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.actualizarSolicitudesLotes.selected}"/></td>
+                                                    </tr>
+
+                                                </table>
+                                                
                                                 <table class="table table-bordered table-striped">
                                                     <tr>
                                                         <th>Acci&oacute;n</th>
@@ -381,12 +411,28 @@
                                             <th></th>
                                         </tr>
                                         <tr>
-                                            <td>Entrega de lotes generada</td>
-                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.entregalotesgeneradacorreo.selected}"/></td>
+                                            <td>Requerimiento de lote generado</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.correoRequerimientoLoteCreado.selected}"/></td>
                                         </tr>
                                         <tr>
-                                            <td>Entrega de lotes aceptada</td>
-                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.entregalotesaceptadacorreo.selected}"/></td>
+                                            <td>Requerimiento de lote ordenado</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.correoRequerimeintoLoteOrdenado.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Requerimiento de lote rechazado</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.correoRequerimientoLoteRechazado.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Requerimiento de lote Recibido</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.correoRequerimentoLoteRecibido.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Solicitud de entrega de Lote Aceptada</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.correoSolicitudEntradaValidada.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Solicitud de entrega de Lote devuelta</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.correoSolicitudEntradaDevuelta.selected}"/></td>
                                         </tr>
                                         <tr>
                                             <td>Solicitud de bonos generada</td>

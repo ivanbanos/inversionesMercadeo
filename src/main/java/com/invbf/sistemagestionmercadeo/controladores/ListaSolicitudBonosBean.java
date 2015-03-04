@@ -11,6 +11,7 @@ import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,7 +61,7 @@ public class ListaSolicitudBonosBean implements Serializable{
         } else {
             lista = sessionBean.marketingUserFacade.getAllSolicitudentregaSolicitante(sessionBean.getUsuario().getIdUsuario());
         }
-        
+        Collections.reverse(lista);
         casinos = sessionBean.adminFacade.findAllCasinos();
         usuarios = sessionBean.adminFacade.findAllUsuarios();
         sessionBean.printMensajes();

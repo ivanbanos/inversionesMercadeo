@@ -115,7 +115,7 @@
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label" >Nombre:</label>
                                                         <div class="col-md-9">
-                                                            <h:inputText id="nombre" value="#{crudUsuariosBean.elemento.nombre}" required="true" class="form-control"/>
+                                                            <h:inputText id="nombre" value="#{crudUsuariosBean.elemento.nombre}" required="true" class="form-control" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -230,7 +230,7 @@
                                     </div>
                                     <div class="panel-footer text-right"> 
                                         <p:commandButton value="Confirmar" actionListener="#{crudUsuariosBean.guardar()}" 
-                                                         onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('addDialogUsuarios').hide()" icon="ui-icon-check" 
+                                                         onstart="PF('ajaxWaitingDialog').show();" onsuccess="PF('ajaxWaitingDialog').hide();PF('addDialogUsuarios').hide()" icon="ui-icon-check" 
                                                          update=":#{p:component('detailsTableUsuarios')} :#{p:component('addDialogUsuarios')} :#{p:component('messages')}" style="margin:0" />   
                                     </div>
                                 </div>
@@ -242,7 +242,8 @@
                                 <div class="panel panel-primary">
 
                                     <div class="panel-body">
-                                        <fieldset><div class="row">
+                                        <fieldset>
+                                            <div class="row">
 
                                                 <div class="control-group">
                                                     <!-- Username -->

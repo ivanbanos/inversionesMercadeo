@@ -5,6 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.dao;
 
+import com.invbf.sistemagestionmercadeo.entity.Area;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregacliente;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class SolicitudEntregaClientesDao {
 
         tx.begin();
         try {
+            cargo.setAreaid(new Area(1));
             em.persist(cargo);
             tx.commit();
         } catch (Exception e) {
@@ -51,6 +53,7 @@ public class SolicitudEntregaClientesDao {
 
         tx.begin();
         try {
+            cargo.setAreaid(new Area(1));
             em.merge(cargo);
             tx.commit();
         } catch (Exception e) {

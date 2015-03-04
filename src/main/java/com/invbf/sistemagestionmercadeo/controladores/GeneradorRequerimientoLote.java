@@ -8,12 +8,13 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.entity.Bononoincluido;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
-import com.invbf.sistemagestionmercadeo.entity.Propositoentrega;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
 import com.invbf.sistemagestionmercadeo.exceptions.CasinoHaveSolicitudCreadaException;
 import com.invbf.sistemagestionmercadeo.reportes.ReportCreator;
 import com.invbf.sistemagestionmercadeo.util.BonosnoincluidosDTO;
+import com.invbf.sistemagestionmercadeo.util.ConvertidorConsecutivo;
+import static com.invbf.sistemagestionmercadeo.util.ConvertidorConsecutivo.getNumeroFromConsecutivo;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
@@ -46,7 +47,7 @@ import org.primefaces.model.StreamedContent;
  */
 @ManagedBean
 @ViewScoped
-public class GeneradorSolicitudLotesBonos implements Serializable {
+public class GeneradorRequerimientoLote implements Serializable {
 
     private Solicitudentregalotesmaestro elemento;
     private List<Casino> casinos;
@@ -64,7 +65,7 @@ public class GeneradorSolicitudLotesBonos implements Serializable {
         this.sessionBean = sessionBean;
     }
 
-    public GeneradorSolicitudLotesBonos() {
+    public GeneradorRequerimientoLote() {
         mapLetrasValores = new HashMap<String, Long>();
         mapLetrasValores.put("A", 1l);
         mapLetrasValores.put("B", 2l);
@@ -126,7 +127,7 @@ public class GeneradorSolicitudLotesBonos implements Serializable {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("lotesdebonos");
-        if (!sessionBean.perfilFormMatch("SolicitudLotes", "crear")) {
+        if (!sessionBean.perfilViewMatch("SolicitudLotes")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
@@ -175,21 +176,25 @@ public class GeneradorSolicitudLotesBonos implements Serializable {
     public void guardar() {
         try {
             elemento.setRemitente(sessionBean.getUsuario());
-            elemento.setEstado("LOTE RECIBIDO");
+            elemento.setEstado("CREADO");
             elemento.setFecha(new Date());
             elemento.getSolicitudentregaloteList().clear();
             List<Integer> listaBonosReincluidos = new ArrayList<Integer>();
             for (loteBonoSolicitud lotes : loteBonoSolicitudes) {
                 Solicitudentregalote sel = lotes.getSolicitudEntregaLote();
+                System.out.println(sel.getCantidad());
+                System.out.println(sel.getCantidad());
+                System.out.println(sel.getCantidad());
+                System.out.println(sel.getCantidad());
+                System.out.println(sel.getCantidad());
                 elemento.getSolicitudentregaloteList().add(sel);
                 listaBonosReincluidos.addAll(lotes.getBonosReincluidos());
             }
-            elemento = sessionBean.marketingUserFacade.guardarSolicitudentregabonos(elemento, listaBonosReincluidos, 0);
-            sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
+            sessionBean.marketingUserFacade.guardarSolicitudentregabonos(elemento, listaBonosReincluidos, 0);
             sessionBean.setAttribute("idsolicitudentregalotes", elemento.getId());
+            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Requerimiento generado con exito!", ""));
+            Notificador.notificar(Notificador.REQUERIMIENTO_LOTE_GENERADO, "Se ha creado un requerimiento de lote de bonos", "Se ha creado un requerimiento de lote de bonos", "");
             FacesContext.getCurrentInstance().getExternalContext().redirect("RequerimientosProduccionLotes.xhtml");
-            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Solicitud pre ordenada con exito!", ""));
-            Notificador.notificar(Notificador.REQUERIMIENTO_LOTE_GENERADO, "Se generó un requerimiento de lote de bonos", "Se ha generado un requerimiento de bonos con el nunmero de acta "+elemento.getId()+". Favor revisar la lista de Requerimientos de lotes", "");
         } catch (IOException ex) {
             Logger.getLogger(GeneradorSolicitudLotesBonos.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -272,14 +277,6 @@ public class GeneradorSolicitudLotesBonos implements Serializable {
         this.loteBonoSolicitudes = loteBonoSolicitudes;
     }
 
-    public void PDF(ActionEvent actionEvent) {
-        ReportCreator.generadorEntregaBonosCaja(elemento);
-    }
-    
-    public void PDFPre(ActionEvent actionEvent) {
-        ReportCreator.generadorPreorden(elemento);
-    }
-
     public List<Casino> getCasinos() {
         return casinos;
     }
@@ -304,33 +301,42 @@ public class GeneradorSolicitudLotesBonos implements Serializable {
         this.casinoSelected = casinoSelected;
     }
 
-    public void obtenerLotesByCasino() {
-        try {
-            List<Lotebono> lotesbonoses = sessionBean.marketingUserFacade.getLotesBonosByCasino(casinoSelected);
-            List<Solicitudentregalote> solicitudesentregalotes = new ArrayList<Solicitudentregalote>();
-            loteBonoSolicitudes = new ArrayList<loteBonoSolicitud>();
-            for (Lotebono lotesbonose : lotesbonoses) {
-                loteBonoSolicitudes.add(new loteBonoSolicitud(lotesbonose));
-            }
-            elemento.setSolicitudentregaloteList(solicitudesentregalotes);
-            System.out.println(loteBonoSolicitudes.size());
-            FacesUtil.addInfoMessage("Lotes encontrados", "");
-        } catch (CasinoHaveSolicitudCreadaException ex) {
-            Logger.getLogger(GeneradorSolicitudLotesBonos.class.getName()).log(Level.SEVERE, null, ex);
+    public void obtenerLotesByCasino() throws CasinoHaveSolicitudCreadaException {
+
+        List<Lotebono> lotesbonoses = sessionBean.marketingUserFacade.getLotesBonosByCasino(casinoSelected);
+        List<Solicitudentregalote> solicitudesentregalotes = new ArrayList<Solicitudentregalote>();
+        loteBonoSolicitudes = new ArrayList<loteBonoSolicitud>();
+        for (Lotebono lotesbonose : lotesbonoses) {
+            loteBonoSolicitudes.add(new loteBonoSolicitud(lotesbonose));
         }
+        elemento.setSolicitudentregaloteList(solicitudesentregalotes);
+        System.out.println(loteBonoSolicitudes.size());
+
     }
 
     public String onFlowProcess(FlowEvent event) {
         if (event.getOldStep().equals("casino")) {
-            for (Casino casino : casinos) {
-                if(casinoSelected.getIdCasino()==casino.getIdCasino()){
-                    casinoSelected = casino;
-                    break;
+            try {
+                for (Casino casino : casinos) {
+                    if (casinoSelected.getIdCasino() == casino.getIdCasino()) {
+                        casinoSelected = casino;
+                        break;
+                    }
                 }
+                obtenerLotesByCasino();
+
+                return event.getNewStep();
+            } catch (CasinoHaveSolicitudCreadaException ex) {
+                FacesUtil.addErrorMessage("El casino tiene pendiente un requerimiento de produccion de lote");
+                return "casino";
             }
-            obtenerLotesByCasino();
         }
         return event.getNewStep();
     }
 
+    public static String getCantidad(String desde, String hasta){
+        System.out.println("desde"+desde);
+        System.out.println("hasta"+hasta);
+        return (ConvertidorConsecutivo.getNumeroFromConsecutivo(hasta) - ConvertidorConsecutivo.getNumeroFromConsecutivo(desde))+"";
+    }
 }

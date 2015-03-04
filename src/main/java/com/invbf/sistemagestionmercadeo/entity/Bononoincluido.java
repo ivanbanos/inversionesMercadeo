@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,7 +46,7 @@ public class Bononoincluido implements Serializable {
     @Column(name = "LotesBonos")
     private String lotesBonos;
     @JoinColumn(name = "SolicitudEntregaLotes_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Solicitudentregalote solicitudEntregaLotesid;
 
     public Bononoincluido() {

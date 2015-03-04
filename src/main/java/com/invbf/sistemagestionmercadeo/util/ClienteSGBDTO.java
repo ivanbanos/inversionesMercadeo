@@ -17,7 +17,12 @@ import java.io.Serializable;
 public class ClienteSGBDTO  implements Serializable{
     private Float valorTotal;
     private Cliente clientessgb;
-    private Area areaid;
+    private Float bono;
+    private Float ultimaSol;
+    private Float penultimaSol;
+    private Float trasultimaSol;
+    private int forma;
+    
 
     public ClienteSGBDTO() {
     }
@@ -25,7 +30,6 @@ public class ClienteSGBDTO  implements Serializable{
     public ClienteSGBDTO(Float valorTotal, Cliente clientessgb, Area areaid) {
         this.valorTotal = valorTotal;
         this.clientessgb = clientessgb;
-        this.areaid = areaid;
     }
 
     public Float getValorTotal() {
@@ -42,14 +46,6 @@ public class ClienteSGBDTO  implements Serializable{
 
     public void setClientessgb(Cliente clientessgb) {
         this.clientessgb = clientessgb;
-    }
-
-    public Area getAreaid() {
-        return areaid;
-    }
-
-    public void setAreaid(Area areaid) {
-        this.areaid = areaid;
     }
 
     @Override
@@ -73,5 +69,45 @@ public class ClienteSGBDTO  implements Serializable{
         }
         return true;
     }    
+
+    public Float getBono() {
+        return bono;
+    }
+
+    public void setBono(Float bono) {
+        this.bono = bono;
+    }
+
+    public Float getUltimaSol() {
+        return ultimaSol;
+    }
+
+    public void setUltimaSol(Float ultimaSol) {
+        this.ultimaSol = ultimaSol;
+    }
+
+    public Float getPenultimaSol() {
+        return penultimaSol;
+    }
+
+    public void setPenultimaSol(Float penultimaSol) {
+        this.penultimaSol = penultimaSol;
+    }
+
+    public Float getTrasultimaSol() {
+        return trasultimaSol;
+    }
+
+    public void setTrasultimaSol(Float trasultimaSol) {
+        this.trasultimaSol = trasultimaSol;
+    }
+
+    public int getForma() {
+        return forma;
+    }
+
+    public void setForma(int forma) {
+        this.forma = forma;
+    }
     
 }

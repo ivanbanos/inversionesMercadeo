@@ -153,7 +153,6 @@ public class PreaprobarSolicitudBonos implements Serializable {
                     elemento.setTotalaprobado(totalEntregar);
                 }
                 System.out.println(totalEntregar);
-                denominacionCant = MatematicaAplicada.getBonosAsignadosDEnominacinesGrandes(lotesSol, totalEntregar);
             } else {
                 totalEntregar = 0f;
                 denominacionCant = new ArrayList<DenoinacionCant>();
@@ -209,14 +208,12 @@ public class PreaprobarSolicitudBonos implements Serializable {
 
             String body = "Se ha preaprobado la solicitud de bonos con el número de acta " + elemento.getId()
                     + ".\nPor favor revisar la pagina de Lista de solicitudes de bonos.";
-            Notificador.notificar(Notificador.SOLICITUD_BONOS_PREAPROBADA, body, "Solicitud de bonos preaprobada", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
             sessionBean.registrarlog(null, null, "Preaprobada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
 
             boolean isNotOk = false;
-            List<ControlsalidabonosHasLotesbonos> controlsalidabonosHasLotesbonoses = new ArrayList<ControlsalidabonosHasLotesbonos>();
-            List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClienteses = new ArrayList<ControlsalidabonosHasLotesbonosHasClientes>();
             if (elemento.getControlsalidabonoList() != null && !elemento.getControlsalidabonoList().isEmpty()) {
                 control = elemento.getControlsalidabonoList().get(0);
+                control = sessionBean.marketingUserFacade.guardarControlSalidaBonos(control, false);
             } else {
                 control = new Controlsalidabono();
                 control.setSolicitudEntregaid(elemento);
@@ -224,23 +221,13 @@ public class PreaprobarSolicitudBonos implements Serializable {
             }
             if (control.getSolicitudEntregaid().getTipoBono().getNombre().equals("PROMOCIONAL")) {
                 try {
-                    for (DenoinacionCant den : denominacionCant) {
-                        ControlsalidabonosHasLotesbonos cslb = new ControlsalidabonosHasLotesbonos();
-                        cslb.setCantidad(0);
-                        cslb.setControlsalidabono(control);
-                        cslb.setLotebono(den.getDenomiancion());
-                        cslb.setCantidad(den.getCantidad());
-                        cslb.setControlsalidabonosHasLotesbonosPK(new ControlsalidabonosHasLotesbonosPK(control.getId(), den.getDenomiancion().getId()));
-                        cslb.setControlsalidabonosHasLotesbonosHasClientesList(new ArrayList<ControlsalidabonosHasLotesbonosHasClientes>());
-                        controlsalidabonosHasLotesbonoses.add(cslb);
-                    }
 
-                    control.setControlsalidabonosHasLotesbonosList(controlsalidabonosHasLotesbonoses);
-                    control.setEstado("SOLICITADA");
+                    control.setEstado("PRESOLICITADA");
                     control.setFechavencimientobonos(fecven);
                     control.setSolicitudEntregaid(elemento);
                     sessionBean.marketingUserFacade.guardarControlSalidaBonos(control, false);
                     sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Solicitud preaprobada con exito!", "Notificación enviada"));
+                    Notificador.notificar(Notificador.SOLICITUD_BONOS_PREAPROBADA, body, "Solicitud de bonos preaprobada", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
                     FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBono.xhtml");
                     FacesUtil.addInfoMessage("Se generó la solicitud con exito!", "Notificación enviada");
                 } catch (IOException ex) {
@@ -256,22 +243,14 @@ public class PreaprobarSolicitudBonos implements Serializable {
                     sec.setValorAprobado(sec.getValorPreAprobado());
                 }
 
-                for (Lotebono lb : lotesSol) {
-                    ControlsalidabonosHasLotesbonos cslb = new ControlsalidabonosHasLotesbonos();
-                    cslb.setCantidad(0);
-                    cslb.setControlsalidabono(control);
-                    cslb.setLotebono(lb);
-                    cslb.setControlsalidabonosHasLotesbonosPK(new ControlsalidabonosHasLotesbonosPK(control.getId(), lb.getId()));
-                    controlsalidabonosHasLotesbonoses.add(cslb);
-                    cslb.setControlsalidabonosHasLotesbonosHasClientesList(new ArrayList<ControlsalidabonosHasLotesbonosHasClientes>());
-                }
                 List<Lotebono> lotes = sessionBean.marketingUserFacade.getLotesBonosCasinoTipoBono(elemento.getIdCasino().getIdCasino(), elemento.getTipoBono());
                 Float[] denominaciones = new Float[lotes.size()];
                 int i = 0;
                 for (Lotebono lote : lotes) {
                     denominaciones[i] = lote.getDenominacion().getValor();
                     i++;
-                }for (Solicitudentregacliente solec1 : elemento.getSolicitudentregaclienteList()) {
+                }
+                for (Solicitudentregacliente solec1 : elemento.getSolicitudentregaclienteList()) {
                     Float monto = solec1.getValorTotal();
                     if (solec1.getValorPreAprobado() != null && solec1.getValorPreAprobado() != 0) {
                         monto = solec1.getValorPreAprobado();
@@ -301,11 +280,6 @@ public class PreaprobarSolicitudBonos implements Serializable {
                         isNotOk = true;
                         break;
                     }
-                    for (DenoinacionCant cant : cm.getDenominacionCant()) {
-                        ControlsalidabonosHasLotesbonosHasClientes hasClientes = new ControlsalidabonosHasLotesbonosHasClientes(control.getId(), cant.getDenomiancion().getId(), cm.getId());
-                        hasClientes.setCantidad(cant.getCantidad());
-                        controlsalidabonosHasLotesbonosHasClienteses.add(hasClientes);
-                    }
 
                 }
                 if (!isNotOk) {
@@ -315,6 +289,7 @@ public class PreaprobarSolicitudBonos implements Serializable {
                         control.setSolicitudEntregaid(elemento);
                         sessionBean.marketingUserFacade.guardarControlSalidaBonos(control, false);
                         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Solicitud preaprobada con exito!", "Notificación enviada"));
+                        Notificador.notificar(Notificador.SOLICITUD_BONOS_PREAPROBADA, body, "Solicitud de bonos preaprobada", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
                         FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBono.xhtml");
                     } catch (IOException ex) {
                         Logger.getLogger(PreaprobarSolicitudBonos.class.getName()).log(Level.SEVERE, null, ex);

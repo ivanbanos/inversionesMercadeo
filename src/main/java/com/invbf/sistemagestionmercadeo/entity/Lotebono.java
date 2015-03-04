@@ -40,7 +40,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Lotesbonos.findByIdCasino", query = "SELECT l FROM Lotebono l WHERE l.idCasino = :idCasino"),
     @NamedQuery(name = "getexistesnte", query = "SELECT l FROM Lotebono l WHERE l.idCasino = :idCasino AND l.denominacion = :denominacion AND l.tipoBono = :tipoBono"),
     @NamedQuery(name = "getbyCasinoTipobono", query = "SELECT l FROM Lotebono l WHERE l.idCasino.idCasino = :idCasino AND l.tipoBono = :tipoBono"),
-    @NamedQuery(name = "getbyCasino", query = "SELECT l FROM Lotebono l WHERE l.idCasino.idCasino = :idCasino")})
+    @NamedQuery(name = "getbyCasino", query = "SELECT l FROM Lotebono l WHERE l.idCasino.idCasino = :idCasino"),
+    @NamedQuery(name = "getbyCasinoPromo", query = "SELECT l FROM Lotebono l WHERE l.idCasino.idCasino = :idCasino AND l.tipoBono.nombre = 'PROMOCIONAL'"),
+    @NamedQuery(name = "getbyCasinoNoPromo", query = "SELECT l FROM Lotebono l WHERE l.idCasino.idCasino = :idCasino AND l.tipoBono.nombre = 'NO PROMOCIONAL'")})
 public class Lotebono implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
