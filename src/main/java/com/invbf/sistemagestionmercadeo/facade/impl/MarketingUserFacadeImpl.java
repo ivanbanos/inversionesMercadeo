@@ -40,6 +40,7 @@ import com.invbf.sistemagestionmercadeo.entity.Categoria;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Clienteatributo;
 import com.invbf.sistemagestionmercadeo.entity.Controlsalidabono;
+import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos;
 import com.invbf.sistemagestionmercadeo.entity.Evento;
 import com.invbf.sistemagestionmercadeo.entity.Listasclientestareas;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
@@ -859,7 +860,12 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
 
     @Override
     public Controlsalidabono guardarControlSalidaBonos(Controlsalidabono elemento, boolean enviar) {
+        System.out.println("Comienza todo");
+        List<ControlsalidabonosHasLotesbonos> csbhlb = elemento.getControlsalidabonosHasLotesbonosList() != null ? elemento.getControlsalidabonosHasLotesbonosList() : new ArrayList<ControlsalidabonosHasLotesbonos>();
+
         elemento = ControlsalidabonosDao.edit(elemento);
+        elemento.setControlsalidabonosHasLotesbonosList(csbhlb);
+        ControlsalidabonosDao.finish(elemento);
         if (enviar) {
             String cuerpo = "Orden de salida de bonos con número de acta" + elemento.getId() + " aceptada.";
             String titulo = "Orden de salida de bonos aceptada.";

@@ -7,25 +7,24 @@ package com.invbf.sistemagestionmercadeo.util;
 
 import com.invbf.sistemagestionmercadeo.entity.Clienteblanco;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author ivan
  */
-public class ClienteBlancoLotes {
+public class ClienteBlancoLotes implements Serializable{
 
     private Clienteblanco clienteblanco;
-    private Lotebono[] lotesBono;
-    private int[] cantidad;
+    private List<LotebonoCanti> lotesBono;
 
     public ClienteBlancoLotes(Clienteblanco clienteblanco, List<loteBonoSolicitud> lbs) {
         this.clienteblanco = clienteblanco;
-        lotesBono = new Lotebono[lbs.size()];
-        cantidad = new int[lbs.size()];
+        lotesBono = new ArrayList<LotebonoCanti>();
         for (int i = 0; i < lbs.size(); i++) {
-            lotesBono[i]= lbs.get(i).getLotesBonosid();
-            cantidad[i]=0;
+            lotesBono.add(new LotebonoCanti(lbs.get(i).getLotesBonosid(),0));
         }
 
     }
@@ -43,21 +42,14 @@ public class ClienteBlancoLotes {
         this.clienteblanco = clienteblanco;
     }
 
-    public Lotebono[] getLotesBono() {
+    public List<LotebonoCanti> getLotesBono() {
         return lotesBono;
     }
 
-    public void setLotesBono(Lotebono[] lotesBono) {
+    public void setLotesBono(List<LotebonoCanti> lotesBono) {
         this.lotesBono = lotesBono;
     }
 
-    public int[] getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int[] cantidad) {
-        this.cantidad = cantidad;
-    }
 
     @Override
     public int hashCode() {

@@ -5,6 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.dao;
 
+import com.invbf.sistemagestionmercadeo.entity.Clienteblanco;
 import com.invbf.sistemagestionmercadeo.entity.Controlsalidabono;
 import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos;
 import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosPK;
@@ -20,7 +21,42 @@ import javax.persistence.Persistence;
  * @author ivan
  */
 public class ControlsalidabonosDao {
-    
+
+    public static void finish(Controlsalidabono elemento) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        
+        EntityTransaction tx2 = em.getTransaction();
+        tx2.begin();
+        try {
+            System.out.println("1");
+            for (ControlsalidabonosHasLotesbonos csbhlb1 : elemento.getControlsalidabonosHasLotesbonosList()) {
+                System.out.println("2");
+                csbhlb1.setControlsalidabono(elemento);
+                System.out.println("3");
+                csbhlb1.setControlsalidabonosHasLotesbonosPK(new ControlsalidabonosHasLotesbonosPK(elemento.getId(), csbhlb1.getLotebono().getId()));
+                List<Clienteblanco> cbl = csbhlb1.getClienteblancoList() == null ? new ArrayList<Clienteblanco>() : csbhlb1.getClienteblancoList();
+                for (Clienteblanco clientesBlanco1 : cbl) {
+                    clientesBlanco1.setControlsalidabonosHasLotesbonos(csbhlb1);
+                }
+                System.out.println("4");
+                em.merge(csbhlb1);
+                System.out.println("5");
+            }
+            em.merge(elemento);
+            System.out.println("6");
+            tx2.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx2.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+    }
+
     public ControlsalidabonosDao() {
     }
 
@@ -51,21 +87,20 @@ public class ControlsalidabonosDao {
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
+        List<ControlsalidabonosHasLotesbonos> csbhlb = cargo.getControlsalidabonosHasLotesbonosList() != null ? cargo.getControlsalidabonosHasLotesbonosList() : new ArrayList<ControlsalidabonosHasLotesbonos>();
 
         tx.begin();
         try {
-            List<ControlsalidabonosHasLotesbonos> csbhlb = cargo.getControlsalidabonosHasLotesbonosList()!=null?cargo.getControlsalidabonosHasLotesbonosList():new ArrayList<ControlsalidabonosHasLotesbonos>();
+            System.out.println("Sigue todo");
             cargo.setControlsalidabonosHasLotesbonosList(null);
-            em.merge(cargo);
-            for (ControlsalidabonosHasLotesbonos csbhlb1 : csbhlb) {
-                csbhlb1.setControlsalidabono(cargo);
-                csbhlb1.setControlsalidabonosHasLotesbonosPK(new ControlsalidabonosHasLotesbonosPK(cargo.getId(), csbhlb1.getLotebono().getId()));
-                em.merge(csbhlb1);
+            if (cargo.getId() == null) {
+                em.persist(cargo);
             }
-            cargo.setControlsalidabonosHasLotesbonosList(csbhlb);
-            em.merge(cargo);
+            em.flush();
+
             tx.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             tx.rollback();
         }
 

@@ -43,6 +43,11 @@ public class Clienteblanco implements Serializable {
     private Integer id;
     @Column(name = "cantidad")
     private Integer cantidad;
+    @Column(name = "cantPre")
+    private Integer cantPre;
+    @Column(name = "cantA")
+    private Integer cantA;
+
     @Column(name = "justificacion")
     private String justificacion;
     @Column(name = "Nombres")
@@ -145,6 +150,22 @@ public class Clienteblanco implements Serializable {
 
     public void setIdCliente(Cliente idCliente) {
         this.idCliente = idCliente;
+    }
+
+    public Integer getCantPre() {
+        return cantPre;
+    }
+
+    public void setCantPre(Integer cantPre) {
+        this.cantPre = cantPre;
+    }
+
+    public Integer getCantA() {
+        return cantA;
+    }
+
+    public void setCantA(Integer cantA) {
+        this.cantA = cantA;
     }
     
 }

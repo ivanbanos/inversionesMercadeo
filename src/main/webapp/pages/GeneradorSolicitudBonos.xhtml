@@ -237,6 +237,7 @@
                                     <div class="control-group">
                                         <div class="form-group">
                                             <label class="col-md-2 control-label" >#{label['fechavencimientobono']}</label>
+                                            <label class="col-md-2 control-label" >(&Uacute;ltimo dia del mes de)</label>
                                             <div class="col-md-4">
                                                 <p:selectOneMenu id="fecha1" value="#{generadorSolicitudBonos.mes}">
                                                     <f:selectItem itemLabel="Enero" itemValue="0" /> 
@@ -268,35 +269,59 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="row">
-                                    <div class="container">
+                                <div class="container">
+                                    <div class="row">
                                         <div class="row">
-                                            <p:dataTable value="#{generadorSolicitudBonos.loteBonoSolicitudes}" var="solicitudes" rowIndexVar="status"
-                                                         emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
-
-                                                <p:column headerText="Cantidad solicitada" width="30%">
-                                                    <span id="cantidad#{status}">
-                                                        <p:spinner min="0" max="#{generadorSolicitudBonos.getCantidad(solicitudes.lotesBonosid.desde, solicitudes.lotesBonosid.hasta)}"
-                                                                   value="#{solicitudes.cantidad}">
-                                                        </p:spinner>
-                                                    </span>
-                                                </p:column>
-                                                <p:column headerText="Denominaci&oacute;n" style="text-align: center;">
-                                                    <h:outputText value="#{solicitudes.lotesBonosid.denominacion.valor}">
-                                                        <f:converter  converterId="numberSeparationConverter"  />
-                                                    </h:outputText>
-                                                </p:column>
-                                            </p:dataTable>
+                                            <p:commandButton id="addButton" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('addCliente').show();" 
+                                                             value="Agregar Cliente" icon="ui-icon-plusthick" title="#{label['lb_btn.agregarUsuarios']}" /> 
                                         </div>
 
+
+
+
+                                        <div class="row">
+                                            <p:dataList id="clientesBlancos" value="#{generadorSolicitudBonos.clientesBlancosLotes}" var="clientesBlancos" rowIndexVar="status"
+                                                        emptyMessage="#{label['lb_table.noelementos']}" widgetVar="clientesBlancos" >
+                                                <div class="row">
+                                                    <label>Nombres: </label> #{clientesBlancos.clienteblanco.nombres}
+                                                    <label>Apellidos: </label> #{clientesBlancos.clienteblanco.apellidos}
+                                                </div>
+                                                <div class="row">
+                                                    <label class="col-md-3 control-label" >Justificacion</label>
+                                                    <div class="col-md-9">
+                                                        <h:inputTextarea id="just1" value="#{clientesBlancos.clienteblanco.justificacion}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <p:dataTable value="#{clientesBlancos.lotesBono}" var="determinar" rowIndexVar="status"
+                                                             emptyMessage="#{label['lb_table.noelementos']}" widgetVar="den">
+                                                    <p:column headerText="Denominacion">
+                                                        #{determinar.lotesBono.denominacion.valor}
+                                                    </p:column>
+                                                    <p:column headerText="Cantidad">
+                                                        <p:column headerText="Cantidad">
+                                                            <p:spinner  min="0" stepFactor="1" value="#{determinar.cantidad}">
+
+                                                            </p:spinner>
+
+                                                        </p:column>
+                                                    </p:column>
+                                                </p:dataTable>
+                                            </p:dataList>
+
+
+
+
+                                        </div>
+
+                                        <div class="row">
+                                            <p:commandButton id="addButton2" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('addCliente').show();" 
+                                                             value="Agregar Cliente" icon="ui-icon-plusthick" title="#{label['lb_btn.agregarUsuarios']}" /> 
+                                        </div>
                                     </div>
 
-
-
-
-
                                 </div>
+
+
                             </p:tab>
 
                             <p:tab id="promocional" title="Promocionales">
@@ -305,6 +330,7 @@
                                     <div class="control-group">
                                         <div class="form-group">
                                             <label class="col-md-2 control-label" >#{label['fechavencimientobono']}</label>
+                                            <label class="col-md-2 control-label" >(&Uacute;ltimo dia del mes de)</label>
                                             <div class="col-md-4">
                                                 <p:selectOneMenu id="fecha2" value="#{generadorSolicitudBonos.mes}">
                                                     <f:selectItem itemLabel="Enero" itemValue="0" /> 
@@ -562,7 +588,8 @@
                                         </div>
                                         <div class="row">
                                             <p:dataTable value="#{generadorSolicitudBonos.loteBonoSolicitudes}" var="solicitudes" rowIndexVar="status"
-                                                         emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" rendered="#{generadorSolicitudBonos.loteBonoSolicitudes.size()!=0}">
+                                                         emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" 
+                                                         rendered="#{generadorSolicitudBonos.loteBonoSolicitudes.size()!=0 and generadorSolicitudBonos.elemento.propositoEntrega.nombre != 'CASOS ESPECIALES'}">
 
                                                 <p:column headerText="Stock Actual" style="text-align: center;">
                                                     <h:outputText value="#{generadorSolicitudBonos.getCantidad(solicitudes.lotesBonosid.desde, solicitudes.lotesBonosid.hasta)}">
@@ -585,6 +612,29 @@
                                                     </h:outputText>
                                                 </p:column>
                                             </p:dataTable>
+                                        </div>
+                                        <div class="row">
+                                            <p:dataList id="clientesBlancosC" value="#{generadorSolicitudBonos.clientesBlancosLotes}" var="clientesBlancos" rowIndexVar="status"
+                                                        emptyMessage="#{label['lb_table.noelementos']}" widgetVar="clientesBlancos" 
+                                                        rendered="#{generadorSolicitudBonos.clientesBlancosLotes.size()!=0}">
+
+                                                <label>Nombres: </label> #{clientesBlancos.clienteblanco.nombres}
+                                                <label>Apellidos: </label> #{clientesBlancos.clienteblanco.apellidos}
+                                                <p:dataTable value="#{clientesBlancos.lotesBono}" var="determinar" rowIndexVar="status"
+                                                             emptyMessage="#{label['lb_table.noelementos']}" widgetVar="den">
+                                                    <p:column headerText="Denominacion">
+                                                        #{determinar.lotesBono.denominacion.valor}
+                                                    </p:column>
+                                                    <p:column headerText="Cantidad">
+                                                        <p:column headerText="Cantidad">
+                                                            #{determinar.cantidad}
+                                                        </p:column>
+                                                    </p:column>
+                                                </p:dataTable>
+                                            </p:dataList>
+
+
+
                                         </div>
 
                                         <div class="text-right col-md-11"> 
@@ -610,7 +660,7 @@
 
 
         <h:form >
-            <p:dialog id="addCliente" header="Agregar Cliente" widgetVar="Addusuario" modal="true" resizable="false" >
+            <p:dialog id="addCliente" header="Agregar Cliente" widgetVar="addCliente" modal="true" resizable="false" >
                 <div class="panel panel-primary">
 
                     <div class="panel-body">
@@ -619,28 +669,51 @@
 
                                 <div class="control-group">
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label" >Nombre del Cliente:</label>
+                                        <label class="col-md-3 control-label" >Nombres:</label>
                                         <div class="col-md-8">
-                                            <h:inputText id="nombreusuario" value="#{generadorSolicitudBonos.nombreCliente}" required="true" class="form-control"/>
+                                            <h:inputText id="nomblanco" value="#{generadorSolicitudBonos.clienteBlanco.nombres}" class="form-control"/>
                                         </div>
-                                        <div class="col-md-1">
-                                            <p:commandButton actionListener="#{generadorSolicitudBonos.guardar()}"
-                                                             onstart="PF('ajaxWaitingDialog').show();" onsuccess="PF('ajaxWaitingDialog').hide();PF('buscarCliente').hide()" icon="ui-icon-search" 
-                                                             style="margin:0" />   
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="control-group">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" >Apellidos:</label>
+                                        <div class="col-md-8">
+                                            <h:inputText id="apeBlanco" value="#{generadorSolicitudBonos.clienteBlanco.apellidos}" class="form-control"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="control-group">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+
+                                            <p:commandButton value="Buscar en la base de datos" onstart="PF('ajaxWaitingDialog').show();" onsuccess="PF('ajaxWaitingDialog').hide();PF('buscarCliente').show()" icon="ui-icon-search" 
+                                                             style="margin:0"  />   
 
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </fieldset>
                     </div>
                     <div class="panel-footer text-right">
-                        <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{generadorSolicitudBonos.selectCliente()}"
-                                                             ajax="false" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
 
+
+                        <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{generadorSolicitudBonos.selectCliente()}"
+                                         update=":#{p:component('addCliente')} :#{p:component('clientesBlancos')}"
+                                         ajax="false" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
 
                     </div>
+                </div>
             </p:dialog> 
         </h:form>
 
@@ -659,7 +732,7 @@
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" >Nombres:</label>
                                         <div class="col-md-8">
-                                            <h:inputText id="nombreusuario" value="#{generadorSolicitudBonos.elemento.nombreUsuario}" required="true" class="form-control"/>
+                                            <h:inputText id="nombus" value="#{generadorSolicitudBonos.nombreBusqueda}" class="form-control"/>
                                         </div>
                                     </div>
 
@@ -668,7 +741,7 @@
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" >Apellidos:</label>
                                         <div class="col-md-8">
-                                            <h:inputText id="nombreusuario" value="#{generadorSolicitudBonos.elemento.nombreUsuario}" required="true" class="form-control"/>
+                                            <h:inputText id="apebus" value="#{generadorSolicitudBonos.apellidosBusqueda}" class="form-control"/>
                                         </div>
                                     </div>
 
@@ -677,44 +750,49 @@
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" >Identificacion:</label>
                                         <div class="col-md-8">
-                                            <h:inputText id="nombreusuario" value="#{generadorSolicitudBonos.elemento.nombreUsuario}" required="true" class="form-control"/>
+                                            <h:inputText id="idenbus" value="#{generadorSolicitudBonos.identificacionBusqueda}" class="form-control"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <p:commandButton id="addButton" icon="ui-icon-search" value="#{label['lb_btn.Buscar']}" onstart="PF('ajaxWaitingDialog').show();"
-                                                     title="#{label['lb_btn.Go']}" action="#{generadorSolicitudBonos.busquedaAvanzada()}"
-                                                     update="@form" oncomplete="PF('ajaxWaitingDialog').hide();">
+                                                     title="#{label['lb_btn.Go']}" action="#{generadorSolicitudBonos.BuscarClientes()}"
+                                                     update="clientesMatch" oncomplete="PF('ajaxWaitingDialog').hide();">
                                     </p:commandButton> 
                                 </div>
 
-                                <div class="row">
-                                    <p:dataTable value="#{generadorSolicitudBonos.ClientesBuscados}" var="cliente" rowIndexVar="status"
-                                                 emptyMessage="#{label['lb_table.noelementos']}" widgetVar="cli" >
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                                    <div class="container">
+                                        <div class="row" style="text-align: center;">
+                                            <p:dataTable id="clientesMatch" value="#{generadorSolicitudBonos.clientesBuscados}" var="client" rowIndexVar="status"
+                                                         emptyMessage="#{label['lb_table.noelementos']}" widgetVar="client"  >
 
 
-                                        <p:column headerText="Nombres" style="text-align: center;">
-                                            <h:outputText value="#{cli.nombres}">
-                                            </h:outputText>
-                                        </p:column>
-                                        <p:column headerText="Apellidos" style="text-align: center;">
-                                            <h:outputText value="#{cli.apellidos}">
-                                            </h:outputText>
-                                        </p:column>
-                                        <p:column headerText="Identificacion" style="text-align: center;">
-                                            <h:outputText value="#{cli.identificacion}">
-                                            </h:outputText>
-                                        </p:column>
-                                        <p:column headerText="Identificacion" style="text-align: center;">
-                                            <h:outputText value="#{cli.identificacion}">
-                                            </h:outputText>
-                                        </p:column>
-                                        <p:column headerText="Identificacion" style="text-align: center;">
-                                            <p:commandButton actionListener="#{generadorSolicitudBonos.guardar()}"
-                                                             onstart="PF('ajaxWaitingDialog').show();" onsuccess="PF('ajaxWaitingDialog').hide();PF('buscarCliente').hide()" icon="ui-icon-check" 
-                                                             style="margin:0" /> 
-                                        </p:column>  
-                                    </p:dataTable>
+                                                <p:column headerText="Nombres" style="text-align: center;">
+                                                    <h:outputText value="#{client.nombres}">
+                                                    </h:outputText>
+                                                </p:column>
+                                                <p:column headerText="Apellidos" style="text-align: center;">
+                                                    <h:outputText value="#{client.apellidos}">
+                                                    </h:outputText>
+                                                </p:column>
+                                                <p:column headerText="Identificacion" style="text-align: center;">
+                                                    <h:outputText value="#{client.identificacion}">
+                                                    </h:outputText>
+                                                </p:column>
+                                                <p:column headerText="Seleccionar" style="text-align: center;">
+                                                    <p:commandButton actionListener="#{generadorSolicitudBonos.crearClienteBlanco()}"
+                                                                     onstart="PF('ajaxWaitingDialog').show();" onsuccess="PF('ajaxWaitingDialog').hide();PF('buscarCliente').hide();PF('addCliente').hide();" icon="ui-icon-check" 
+                                                                     style="margin:0" update=":#{p:component('clientesBlancos')} :#{p:component('buscarCliente')}">
+                                                        <f:setPropertyActionListener value="#{client}" target="#{generadorSolicitudBonos.clienteSeleccionado}" />  
+                                                    </p:commandButton> 
+                                                </p:column>  
+                                            </p:dataTable>
+                                        </div>
+
+                                    </div>
+
                                 </div>
 
                             </div>
@@ -722,6 +800,7 @@
                     </div>
                     <div class="panel-footer text-right">
                     </div>
+                </div>
             </p:dialog> 
         </h:form>
 

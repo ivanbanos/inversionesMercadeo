@@ -39,6 +39,10 @@ public class ControlsalidabonosHasLotesbonos implements Serializable {
     protected ControlsalidabonosHasLotesbonosPK controlsalidabonosHasLotesbonosPK;
     @Column(name = "cantidad")
     private Integer cantidad;
+    @Column(name = "cantPre")
+    private Integer cantPre;
+    @Column(name = "cantA")
+    private Integer cantA;
     @JoinColumn(name = "LotesBonos_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Lotebono lotebono;
@@ -135,6 +139,22 @@ public class ControlsalidabonosHasLotesbonos implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos[ controlsalidabonosHasLotesbonosPK=" + controlsalidabonosHasLotesbonosPK + " ]";
+    }
+
+    public Integer getCantPre() {
+        return cantPre;
+    }
+
+    public void setCantPre(Integer cantPre) {
+        this.cantPre = cantPre;
+    }
+
+    public Integer getCantA() {
+        return cantA;
+    }
+
+    public void setCantA(Integer cantA) {
+        this.cantA = cantA;
     }
 
 }
