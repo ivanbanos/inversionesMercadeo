@@ -96,18 +96,7 @@
                                                 <label class="col-md-2 control-label" >(&Uacute;ltimo dia del mes de)</label>
                                                 <div class="col-md-4">
                                                     <p:selectOneMenu id="fecha3" value="#{generadorSolicitudBonos.mes}">
-                                                        <f:selectItem itemLabel="Enero" itemValue="0" /> 
-                                                        <f:selectItem itemLabel="Febrero" itemValue="1" /> 
-                                                        <f:selectItem itemLabel="Marzo" itemValue="2" /> 
-                                                        <f:selectItem itemLabel="Abril" itemValue="3" /> 
-                                                        <f:selectItem itemLabel="Mayo" itemValue="4" /> 
-                                                        <f:selectItem itemLabel="Junio" itemValue="5" /> 
-                                                        <f:selectItem itemLabel="Julio" itemValue="6" /> 
-                                                        <f:selectItem itemLabel="Agosto" itemValue="7" /> 
-                                                        <f:selectItem itemLabel="Septiembre" itemValue="8" /> 
-                                                        <f:selectItem itemLabel="Octubre" itemValue="9" /> 
-                                                        <f:selectItem itemLabel="Noviembre" itemValue="10" /> 
-                                                        <f:selectItem itemLabel="Diciembre" itemValue="11" /> 
+                                                        <f:selectItems var="mes" value="#{generadorSolicitudBonos.meses}" itemValue="#{mes.mes}" itemLabel="#{mes.mesaano}" /> 
                                                     </p:selectOneMenu>
                                                 </div>
                                             </div>
@@ -142,19 +131,19 @@
                                                                 <p:column headerText="3" />
                                                             </p:row>
                                                         </p:columnGroup>
-                                                        <p:column width="5%">
+                                                        <p:column style="text-align: center;" width="5%">
                                                             <f:facet name="header">
                                                                 <h:outputText value="Item" />
                                                             </f:facet>
                                                             <label>#{table + 1}</label>
                                                         </p:column>
-                                                        <p:column filterBy="#{cli.clientessgb.nombres} #{cli.clientessgb.apellidos}" sortBy="#{cli.clientessgb.nombres}" filterMatchMode="contains" >
+                                                        <p:column style="text-align: center;" filterBy="#{cli.clientessgb.nombres} #{cli.clientessgb.apellidos}" sortBy="#{cli.clientessgb.nombres}" filterMatchMode="contains" >
                                                             <f:facet name="header">
                                                                 <h:outputText value="Nombre" />
                                                             </f:facet>
                                                             <label>#{cli.clientessgb.nombres} #{cli.clientessgb.apellidos}</label>
                                                         </p:column>
-                                                        <p:column width="10%">
+                                                        <p:column style="text-align: center;" width="10%">
                                                             <f:facet name="header">
                                                                 <h:outputText value="Cupo fidelizaci&oacute;n" />
                                                             </f:facet>
@@ -162,7 +151,7 @@
                                                                 <f:converter  converterId="numberSeparationConverter"  />
                                                             </h:outputLabel>
                                                         </p:column>
-                                                        <p:column >
+                                                        <p:column style="text-align: center;" >
                                                             <f:facet name="header">
                                                                 <h:outputText value="Valor" />
                                                             </f:facet>
@@ -182,14 +171,14 @@
 
                                                         </p:column>
 
-                                                        <p:column >
+                                                        <p:column style="text-align: center;">
                                                             <p:selectOneMenu id="forma2" value="#{cli.forma}">
                                                                 <f:selectItem itemLabel="Grandes denominaciones" itemValue="1" /> 
                                                                 <f:selectItem itemLabel="Peque&ntilde;as denominaciones" itemValue="2" />  
                                                             </p:selectOneMenu>
                                                         </p:column>
 
-                                                        <p:column width="10%">
+                                                        <p:column width="10%" style="text-align: center;">
                                                             <f:facet name="header">
                                                                 <h:outputText value="aprobado 3er mes" />
                                                             </f:facet>
@@ -198,7 +187,7 @@
                                                             </h:outputLabel>
                                                         </p:column>
 
-                                                        <p:column width="10%">
+                                                        <p:column width="10%" style="text-align: center;">
                                                             <f:facet name="header">
                                                                 <h:outputText value="aprobado 2de mes" />
                                                             </f:facet>
@@ -207,7 +196,7 @@
                                                             </h:outputLabel>
                                                         </p:column>
 
-                                                        <p:column width="10%">
+                                                        <p:column width="10%" style="text-align: center;">
                                                             <f:facet name="header">
                                                                 <h:outputText value="aprobado 1er mes" />
                                                             </f:facet>
@@ -240,34 +229,12 @@
                                             <label class="col-md-2 control-label" >(&Uacute;ltimo dia del mes de)</label>
                                             <div class="col-md-4">
                                                 <p:selectOneMenu id="fecha1" value="#{generadorSolicitudBonos.mes}">
-                                                    <f:selectItem itemLabel="Enero" itemValue="0" /> 
-                                                    <f:selectItem itemLabel="Febrero" itemValue="1" /> 
-                                                    <f:selectItem itemLabel="Marzo" itemValue="2" /> 
-                                                    <f:selectItem itemLabel="Abril" itemValue="3" /> 
-                                                    <f:selectItem itemLabel="Mayo" itemValue="4" /> 
-                                                    <f:selectItem itemLabel="Junio" itemValue="5" /> 
-                                                    <f:selectItem itemLabel="Julio" itemValue="6" /> 
-                                                    <f:selectItem itemLabel="Agosto" itemValue="7" /> 
-                                                    <f:selectItem itemLabel="Septiembre" itemValue="8" /> 
-                                                    <f:selectItem itemLabel="Octubre" itemValue="9" /> 
-                                                    <f:selectItem itemLabel="Noviembre" itemValue="10" /> 
-                                                    <f:selectItem itemLabel="Diciembre" itemValue="11" /> 
+                                                    <f:selectItems var="mes" value="#{generadorSolicitudBonos.meses}" itemValue="#{mes.mes}" itemLabel="#{mes.mesaano}" /> 
                                                 </p:selectOneMenu>
                                             </div>
                                         </div>
                                     </div>
 
-                                </div>
-
-                                <div class="row">
-                                    <div class="control-group">
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" >#{label['justificacion']}</label>
-                                            <div class="col-md-9">
-                                                <h:inputTextarea id="just1" value="#{generadorSolicitudBonos.elemento.justificacion}" class="form-control"/>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="container">
                                     <div class="row">
@@ -283,29 +250,48 @@
                                             <p:dataList id="clientesBlancos" value="#{generadorSolicitudBonos.clientesBlancosLotes}" var="clientesBlancos" rowIndexVar="status"
                                                         emptyMessage="#{label['lb_table.noelementos']}" widgetVar="clientesBlancos" >
                                                 <div class="row">
-                                                    <label>Nombres: </label> #{clientesBlancos.clienteblanco.nombres}
-                                                    <label>Apellidos: </label> #{clientesBlancos.clienteblanco.apellidos}
-                                                </div>
-                                                <div class="row">
-                                                    <label class="col-md-3 control-label" >Justificacion</label>
-                                                    <div class="col-md-9">
-                                                        <h:inputTextarea id="just1" value="#{clientesBlancos.clienteblanco.justificacion}" class="form-control"/>
+
+
+                                                    <div class="col-md-2">
+                                                        <div class="row"><label>Nombres: </label></div>
+                                                        <div class="row">#{clientesBlancos.clienteblanco.nombres}</div>
+                                                        <div class="row"><label>Apellidos: </label></div>
+                                                        <div class="row">#{clientesBlancos.clienteblanco.apellidos}</div>
+
+
                                                     </div>
+                                                    <div class="col-md-3">
+                                                        <p:dataTable value="#{clientesBlancos.lotesBono}" var="determinar" rowIndexVar="status" style="width: 100%;"
+                                                                     emptyMessage="#{label['lb_table.noelementos']}" widgetVar="den">
+                                                            <p:column headerText="Denominacion"  style="text-align: right; " >
+                                                                <h:outputText id="totalcam" value="#{determinar.lotesBono.denominacion.valor}">
+                                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                                </h:outputText>
+
+                                                            </p:column>
+                                                            <p:column headerText="Cantidad" >
+                                                                <p:column headerText="Cantidad">
+                                                                    <h:inputText style="width: 100%;text-align: right;"  value="#{determinar.cantidad}">
+
+                                                                    </h:inputText>
+
+                                                                </p:column>
+                                                            </p:column>
+                                                        </p:dataTable>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="row" ><label>Justificaci&oacute;n:</label></div>
+                                                        <div class="row">
+                                                            <h:inputTextarea id="just1" value="#{clientesBlancos.clienteblanco.justificacion}" style="height: 150px;width: 90%;" class="form-control"/>
+                                                        </div>
+                                                    </div>
+
+
+
+
                                                 </div>
-                                                <p:dataTable value="#{clientesBlancos.lotesBono}" var="determinar" rowIndexVar="status"
-                                                             emptyMessage="#{label['lb_table.noelementos']}" widgetVar="den">
-                                                    <p:column headerText="Denominacion">
-                                                        #{determinar.lotesBono.denominacion.valor}
-                                                    </p:column>
-                                                    <p:column headerText="Cantidad">
-                                                        <p:column headerText="Cantidad">
-                                                            <p:spinner  min="0" stepFactor="1" value="#{determinar.cantidad}">
 
-                                                            </p:spinner>
 
-                                                        </p:column>
-                                                    </p:column>
-                                                </p:dataTable>
                                             </p:dataList>
 
 
@@ -333,18 +319,7 @@
                                             <label class="col-md-2 control-label" >(&Uacute;ltimo dia del mes de)</label>
                                             <div class="col-md-4">
                                                 <p:selectOneMenu id="fecha2" value="#{generadorSolicitudBonos.mes}">
-                                                    <f:selectItem itemLabel="Enero" itemValue="0" /> 
-                                                    <f:selectItem itemLabel="Febrero" itemValue="1" /> 
-                                                    <f:selectItem itemLabel="Marzo" itemValue="2" /> 
-                                                    <f:selectItem itemLabel="Abril" itemValue="3" /> 
-                                                    <f:selectItem itemLabel="Mayo" itemValue="4" /> 
-                                                    <f:selectItem itemLabel="Junio" itemValue="5" /> 
-                                                    <f:selectItem itemLabel="Julio" itemValue="6" /> 
-                                                    <f:selectItem itemLabel="Agosto" itemValue="7" /> 
-                                                    <f:selectItem itemLabel="Septiembre" itemValue="8" /> 
-                                                    <f:selectItem itemLabel="Octubre" itemValue="9" /> 
-                                                    <f:selectItem itemLabel="Noviembre" itemValue="10" /> 
-                                                    <f:selectItem itemLabel="Diciembre" itemValue="11" /> 
+                                                    <f:selectItems var="mes" value="#{generadorSolicitudBonos.meses}" itemValue="#{mes.mes}" itemLabel="#{mes.mesaano}" /> 
                                                 </p:selectOneMenu>
                                             </div>
                                         </div>
@@ -494,39 +469,42 @@
                                                                             </f:facet>
                                                                             <p:columnGroup type="header">
                                                                                 <p:row>
-                                                                                    <p:column width="5%" rowspan="2" headerText="Item" />
-                                                                                    <p:column rowspan="2" headerText="Nombre" />
-                                                                                    <p:column rowspan="2" headerText="Cupo de Fidelizaci&oacute;n" />
-                                                                                    <p:column rowspan="2" headerText="Valor Solicitado" />
-                                                                                    <p:column width="30%"  colspan="3" headerText="Valores otorgados en los ultimos 3 meses" />
+                                                                                    <p:column width="5%" rowspan="2" headerText="Item" style="text-align: center;"/>
+                                                                                    <p:column rowspan="2" headerText="Nombre" style="text-align: center;"/>
+                                                                                    <p:column rowspan="2" headerText="Cupo de Fidelizaci&oacute;n" style="text-align: center;" />
+                                                                                    <p:column rowspan="2" headerText="Valor Solicitado" style="text-align: center;"/>
+                                                                                    <p:column width="30%"  colspan="3" headerText="Valores otorgados en los ultimos 3 meses" style="text-align: center;"/>
                                                                                 </p:row>
                                                                                 <p:row>
-                                                                                    <p:column headerText="1" />
-                                                                                    <p:column headerText="2" />
-                                                                                    <p:column headerText="3" />
+                                                                                    <p:column headerText="1" style="text-align: center;"/>
+                                                                                    <p:column headerText="2" style="text-align: center;"/>
+                                                                                    <p:column headerText="3" style="text-align: center;"/>
                                                                                 </p:row>
                                                                             </p:columnGroup>
-                                                                            <p:column width="5%">
+                                                                            <p:column width="5%" style="text-align: center;">
                                                                                 <f:facet name="header">
                                                                                     <h:outputText value="Item" />
                                                                                 </f:facet>
                                                                                 <label>#{table + 1}</label>
                                                                             </p:column>
-                                                                            <p:column filterBy="#{cli.clientessgb.nombres} #{cli.clientessgb.apellidos}" sortBy="#{cli.clientessgb.nombres}" filterMatchMode="contains" >
+                                                                            <p:column style="text-align: center;" filterBy="#{cli.clientessgb.nombres} #{cli.clientessgb.apellidos}" sortBy="#{cli.clientessgb.nombres}" filterMatchMode="contains" >
                                                                                 <f:facet name="header">
                                                                                     <h:outputText value="Nombre" />
                                                                                 </f:facet>
-                                                                                <label>#{cli.clientessgb.nombres} #{cli.clientessgb.apellidos}</label>
+                                                                                <div style="text-align: center;">
+                                                                                    <label style="text-align: center;">#{cli.clientessgb.nombres} #{cli.clientessgb.apellidos}</label>
+                                                                                </div>
+                                                                                
                                                                             </p:column>
-                                                                            <p:column width="10%">
+                                                                            <p:column width="10%" style="text-align: center;">
                                                                                 <f:facet name="header">
                                                                                     <h:outputText value="Cupo fidelizaci&oacute;n" />
                                                                                 </f:facet>
-                                                                                <h:outputLabel value="#{cli.clientessgb.bonoFidelizacion}">
+                                                                                <h:outputLabel style="text-align: center;" value="#{cli.clientessgb.bonoFidelizacion}">
                                                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                                                 </h:outputLabel>
                                                                             </p:column>
-                                                                            <p:column >
+                                                                            <p:column style="text-align: center;">
                                                                                 <f:facet name="header">
                                                                                     <h:outputText value="Valor" />
                                                                                 </f:facet>
@@ -543,7 +521,7 @@
 
                                                                             </p:column>
 
-                                                                            <p:column width="10%">
+                                                                            <p:column width="10%" style="text-align: center;">
                                                                                 <f:facet name="header">
                                                                                     <h:outputText value="aprobado 3er mes" />
                                                                                 </f:facet>
@@ -552,7 +530,7 @@
                                                                                 </h:outputLabel>
                                                                             </p:column>
 
-                                                                            <p:column width="10%">
+                                                                            <p:column width="10%" style="text-align: center;">
                                                                                 <f:facet name="header">
                                                                                     <h:outputText value="aprobado 2de mes" />
                                                                                 </f:facet>
@@ -561,7 +539,7 @@
                                                                                 </h:outputLabel>
                                                                             </p:column>
 
-                                                                            <p:column width="10%">
+                                                                            <p:column width="10%" style="text-align: center;">
                                                                                 <f:facet name="header">
                                                                                     <h:outputText value="aprobado 1er mes" />
                                                                                 </f:facet>
@@ -596,7 +574,7 @@
                                                         <f:converter  converterId="numberSeparationConverter"  />
                                                     </h:outputText>
                                                 </p:column>
-                                                <p:column headerText="Cantidad a producir" width="30%">
+                                                <p:column headerText="Cantidad a producir" width="30%" style="text-align: center;">
                                                     <h:outputText value="#{solicitudes.cantidad}">
                                                         <f:converter  converterId="numberSeparationConverter"  />
                                                     </h:outputText>
@@ -614,32 +592,57 @@
                                             </p:dataTable>
                                         </div>
                                         <div class="row">
-                                            <p:dataList id="clientesBlancosC" value="#{generadorSolicitudBonos.clientesBlancosLotes}" var="clientesBlancos" rowIndexVar="status"
-                                                        emptyMessage="#{label['lb_table.noelementos']}" widgetVar="clientesBlancos" 
-                                                        rendered="#{generadorSolicitudBonos.clientesBlancosLotes.size()!=0}">
+                                            <p:dataList id="clientesBlancosg" value="#{generadorSolicitudBonos.clientesBlancosLotes}" var="clientesBlancos" rowIndexVar="status"
+                                                        emptyMessage="#{label['lb_table.noelementos']}" widgetVar="clientesBlancosg" rendered="#{generadorSolicitudBonos.clientesBlancosLotes.size()!=0}">
+                                                <div class="row">
 
-                                                <label>Nombres: </label> #{clientesBlancos.clienteblanco.nombres}
-                                                <label>Apellidos: </label> #{clientesBlancos.clienteblanco.apellidos}
-                                                <p:dataTable value="#{clientesBlancos.lotesBono}" var="determinar" rowIndexVar="status"
-                                                             emptyMessage="#{label['lb_table.noelementos']}" widgetVar="den">
-                                                    <p:column headerText="Denominacion">
-                                                        #{determinar.lotesBono.denominacion.valor}
-                                                    </p:column>
-                                                    <p:column headerText="Cantidad">
-                                                        <p:column headerText="Cantidad">
-                                                            #{determinar.cantidad}
-                                                        </p:column>
-                                                    </p:column>
-                                                </p:dataTable>
+
+                                                    <div class="col-md-2">
+                                                        <div class="row"><label>Nombres: </label></div>
+                                                        <div class="row">#{clientesBlancos.clienteblanco.nombres}</div>
+                                                        <div class="row"><label>Apellidos: </label></div>
+                                                        <div class="row">#{clientesBlancos.clienteblanco.apellidos}</div>
+
+
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <p:dataTable value="#{clientesBlancos.lotesBono}" var="determinar" rowIndexVar="status" style="width: 100%;"
+                                                                     emptyMessage="#{label['lb_table.noelementos']}" widgetVar="den">
+                                                            <p:column headerText="Denominacion"  style="text-align: right; " >
+                                                                <h:outputText id="totalcamg" value="#{determinar.lotesBono.denominacion.valor}">
+                                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                                </h:outputText>
+
+                                                            </p:column>
+                                                            <p:column headerText="Cantidad" >
+                                                                <p:column headerText="Cantidad">
+                                                                    <h:outputText style="width: 100%;text-align: right;"  value="#{determinar.cantidad}">
+
+                                                                    </h:outputText>
+
+                                                                </p:column>
+                                                            </p:column>
+                                                        </p:dataTable>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="row" ><label>Justificaci&oacute;n:</label></div>
+                                                        <div class="row">
+                                                            <h:outputText id="just1g" value="#{clientesBlancos.clienteblanco.justificacion}" style="height: 150px;width: 90%;"/>
+                                                        </div>
+                                                    </div>
+
+
+
+
+                                                </div>
+
+
                                             </p:dataList>
-
-
-
                                         </div>
 
                                         <div class="text-right col-md-11"> 
                                             <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{generadorSolicitudBonos.guardar()}"
-                                                             ajax="false" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
+                                                             ajax="false" style="margin:0" onclick="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
 
 
                                         </div>

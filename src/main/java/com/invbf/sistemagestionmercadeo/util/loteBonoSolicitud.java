@@ -21,6 +21,8 @@ public class loteBonoSolicitud implements Serializable {
 
     private Integer id;
     private Integer cantidad;
+    private Integer cantPre;
+    private Integer cantA;
     private Lotebono lotesBonosid;
     private List<BonosnoincluidosDTO> bonosnoincluidosList;
     private List<String> todosBonos;
@@ -185,6 +187,22 @@ public class loteBonoSolicitud implements Serializable {
 
     public void setLimite(Integer limite) {
         this.limite = limite;
+    }
+
+    public Integer getCantPre() {
+        return cantPre;
+    }
+
+    public void setCantPre(Integer cantPre) {
+        this.cantPre = cantPre;
+    }
+
+    public Integer getCantA() {
+        return cantA;
+    }
+
+    public void setCantA(Integer cantA) {
+        this.cantA = cantA;
     }
 
 }

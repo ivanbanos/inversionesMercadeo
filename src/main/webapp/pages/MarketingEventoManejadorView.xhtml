@@ -51,7 +51,7 @@
                         <div class="form-group col-md-6">
                             <label class="col-md-4 control-label" >#{label['fechainicio']}:</label>
                             <div class="col-md-8">
-                                <p:calendar id="feciniEventos" value="#{marketingEventoManejadorBean.elemento.fechaInicio}" pattern="dd/MMMM/yyyy HH:mm:ss" locale="es">
+                                <p:calendar id="feciniEventos" value="#{marketingEventoManejadorBean.elemento.fechaInicio}" pattern="dd/MMMM/yyyy HH:mm:ss" locale="es_CO">
 
                                     <p:ajax event="dateSelect" update=":#{p:component('fecfinEventos')}" />
                                 </p:calendar>
@@ -62,7 +62,7 @@
                         <div class="form-group col-md-6">
                             <label class="col-md-4 control-label" >#{label['fechafinal']}:</label>
                             <div class="col-md-8">
-                                <p:calendar id="fecfinEventos" value="#{marketingEventoManejadorBean.elemento.fechaFinal}" pattern="dd/MMMM/yyyy HH:mm:ss" locale="es"/>
+                                <p:calendar id="fecfinEventos" value="#{marketingEventoManejadorBean.elemento.fechaFinal}" pattern="dd/MMMM/yyyy HH:mm:ss" locale="es_CO"/>
                             </div>
                         </div>
 

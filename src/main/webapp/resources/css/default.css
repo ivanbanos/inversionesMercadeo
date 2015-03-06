@@ -6,6 +6,9 @@
         Purpose of the stylesheet follows.
 */
 
+.ui-spinner-input{
+    width:90%;
+}
 body{
     font-size: 14px!important;
     line-height: 1.42857!important;

@@ -27,6 +27,7 @@ import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.LotebonoCanti;
 import com.invbf.sistemagestionmercadeo.util.MatematicaAplicada;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
+import com.invbf.sistemagestionmercadeo.util.MesAnno;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import com.invbf.sistemagestionmercadeo.util.TipoJuegoBoolean;
 import com.invbf.sistemagestionmercadeo.util.loteBonoSolicitud;
@@ -91,6 +92,7 @@ public class GeneradorSolicitudBonos implements Serializable {
     private Cliente clienteSeleccionado;
     private Clienteblanco clienteBlanco;
     private List<ClienteBlancoLotes> clientesBlancosLotes;
+    private List<MesAnno> meses;
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -169,10 +171,60 @@ public class GeneradorSolicitudBonos implements Serializable {
         }
         Calendar c = Calendar.getInstance();
         mes = c.get(Calendar.MONTH);
-        mes++;
-        if (mes == 12) {
-            mes = 0;
+        int anio= c.get(Calendar.YEAR);
+        meses= new ArrayList<MesAnno>();
+        switch(mes){
+            case 0 :
+                meses.add(new MesAnno(mes, "Enero "+anio));
+                meses.add(new MesAnno(mes+1, "Febrero "+anio));
+                break;
+            case 1:
+                meses.add(new MesAnno(mes, "Febrero "+anio));
+                meses.add(new MesAnno(mes+1, "Marzo "+anio));
+                break;
+            case 2 :
+                meses.add(new MesAnno(mes, "Marzo "+anio));
+                meses.add(new MesAnno(mes+1, "Abril "+anio));
+                break;
+            case 3 :
+                meses.add(new MesAnno(mes, "Abril "+anio));
+                meses.add(new MesAnno(mes+1, "Mayo "+anio));
+                break;
+            case 4 :
+                meses.add(new MesAnno(mes, "Mayo "+anio));
+                meses.add(new MesAnno(mes+1, "Junio "+anio));
+                break;
+            case 5 :
+                meses.add(new MesAnno(mes, "Junio "+anio));
+                meses.add(new MesAnno(mes+1, "Julio "+anio));
+                break;
+            case 6:
+                meses.add(new MesAnno(mes, "Julio "+anio));
+                meses.add(new MesAnno(mes+1, "Agosto "+anio));
+                break;
+            case 7 :
+                meses.add(new MesAnno(mes, "Agosto "+anio));
+                meses.add(new MesAnno(mes+1, "Septiembre "+anio));
+                break;
+            case 8 :
+                meses.add(new MesAnno(mes, "Septiembre "+anio));
+                meses.add(new MesAnno(mes+1, "Octubre "+anio));
+                break;
+            case 9 :
+                meses.add(new MesAnno(mes, "Octubre "+anio));
+                meses.add(new MesAnno(mes+1, "Noviembre "+anio));
+                break;
+            case 10 :
+                meses.add(new MesAnno(mes, "Noviembre "+anio));
+                meses.add(new MesAnno(mes+1, "Diciembre "+anio));
+                break;
+            case 11 :
+                meses.add(new MesAnno(mes, "Diciembre "+anio));
+                meses.add(new MesAnno(mes+1, "Enero "+(anio+1)));
+                break;
+        
         }
+        
         clientesBuscados = new ArrayList<Cliente>();
         clienteSeleccionado = new Cliente();
         clienteBlanco = new Clienteblanco();
@@ -202,7 +254,7 @@ public class GeneradorSolicitudBonos implements Serializable {
                 Controlsalidabono control = new Controlsalidabono();
                 Calendar c = Calendar.getInstance();
                 int act = c.get(Calendar.MONTH);
-                if (act >= mes) {
+                if (act > mes) {
                     c.set(Calendar.YEAR, c.get(Calendar.YEAR) + 1);
                 }
                 c.set(Calendar.MONTH, mes);
@@ -246,6 +298,8 @@ public class GeneradorSolicitudBonos implements Serializable {
                     for (loteBonoSolicitud lbs : loteBonoSolicitudes) {
                         ControlsalidabonosHasLotesbonos element = new ControlsalidabonosHasLotesbonos();
                         element.setCantidad(lbs.getCantidad());
+                        element.setCantPre(lbs.getCantidad());
+                        element.setCantA(lbs.getCantidad());
                         element.setControlsalidabono(control);
                         element.setLotebono(lbs.getLotesBonosid());
                         element.setClienteblancoList(new ArrayList<Clienteblanco>());
@@ -280,12 +334,15 @@ public class GeneradorSolicitudBonos implements Serializable {
                 }
                 elemento = sessionBean.marketingUserFacade.guardarSolicitudentrega(elemento, clientesABorrar);
                 String body = "Se ha creado una solicitud de bonos con el número de acta " + elemento.getId()
-                        + ".\nPor favor revisar la pagina de Lista de solicitudes de bonos.";
+                        + ".\nPor favor revisar la Lista de solicitudes de bonos.";
 
                 control.setEstado("PRESOLICITADA");
                 control.setFechavencimientobonos(elemento.getFechavencimientobonos());
                 control.setSolicitudEntregaid(elemento);
                 sessionBean.marketingUserFacade.guardarControlSalidaBonos(control, false);
+                elemento.setControlsalidabonoList(new ArrayList<Controlsalidabono>());
+                elemento.getControlsalidabonoList().add(control);
+                elemento = sessionBean.marketingUserFacade.guardarSolicitudentrega(elemento, clientesABorrar);
                 Notificador.notificar(Notificador.SOLICITUD_BONOS_GENERADA, body, "Solicitud de bonos generada", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
                 sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
                 sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Solicitud generada con exito!", "Notificación enviada"));
@@ -826,6 +883,14 @@ public class GeneradorSolicitudBonos implements Serializable {
 
     public void setClientesBlancosLotes(List<ClienteBlancoLotes> clientesBlancosLotes) {
         this.clientesBlancosLotes = clientesBlancosLotes;
+    }
+
+    public List<MesAnno> getMeses() {
+        return meses;
+    }
+
+    public void setMeses(List<MesAnno> meses) {
+        this.meses = meses;
     }
 
 }

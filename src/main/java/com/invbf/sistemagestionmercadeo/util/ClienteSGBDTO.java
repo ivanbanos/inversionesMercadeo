@@ -16,6 +16,8 @@ import java.io.Serializable;
  */
 public class ClienteSGBDTO  implements Serializable{
     private Float valorTotal;
+    private Float preaprobado;
+    private Float aprobado;
     private Cliente clientessgb;
     private Float bono;
     private Float ultimaSol;
@@ -108,6 +110,22 @@ public class ClienteSGBDTO  implements Serializable{
 
     public void setForma(int forma) {
         this.forma = forma;
+    }
+
+    public Float getPreaprobado() {
+        return preaprobado;
+    }
+
+    public void setPreaprobado(Float preaprobado) {
+        this.preaprobado = preaprobado;
+    }
+
+    public Float getAprobado() {
+        return aprobado;
+    }
+
+    public void setAprobado(Float aprobado) {
+        this.aprobado = aprobado;
     }
     
 }
