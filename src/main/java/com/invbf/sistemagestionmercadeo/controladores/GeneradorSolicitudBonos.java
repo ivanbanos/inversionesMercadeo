@@ -291,7 +291,20 @@ public class GeneradorSolicitudBonos implements Serializable {
                         }
                     }
                     elemento.setSolicitudentregaclienteList(solicitudentregaclienteses);
+                    
+                    List<ControlsalidabonosHasLotesbonos> csl = new ArrayList<ControlsalidabonosHasLotesbonos>();
+                    for (loteBonoSolicitud lbs : loteBonoSolicitudes) {
+                        ControlsalidabonosHasLotesbonos element = new ControlsalidabonosHasLotesbonos();
+                        element.setCantidad(lbs.getCantidad());
+                        element.setCantPre(lbs.getCantidad());
+                        element.setCantA(lbs.getCantidad());
+                        element.setControlsalidabono(control);
+                        element.setLotebono(lbs.getLotesBonosid());
+                        element.setClienteblancoList(new ArrayList<Clienteblanco>());
+                        csl.add(element);
+                    }
 
+                    control.setControlsalidabonosHasLotesbonosList(csl);
                 } else if (elemento.getTipoBono().getNombre().equals("NO PROMOCIONAL") && elemento.getPropositoEntrega().getNombre().equals("CASOS ESPECIALES")) {
 
                     List<ControlsalidabonosHasLotesbonos> csl = new ArrayList<ControlsalidabonosHasLotesbonos>();
@@ -703,6 +716,11 @@ public class GeneradorSolicitudBonos implements Serializable {
             }
             if (event.getOldStep().equals("fidelizacion")) {
                 elemento.setJustificacion("Fidelización de Clientes.");
+                List<Lotebono> lotesbonoses = sessionBean.marketingUserFacade.getLotesBonosByCasinoNoPromo(elemento.getIdCasino());
+                loteBonoSolicitudes = new ArrayList<loteBonoSolicitud>();
+                for (Lotebono lotesbonose : lotesbonoses) {
+                    loteBonoSolicitudes.add(new loteBonoSolicitud(lotesbonose));
+                }
                 List<Lotebono> lotes = sessionBean.marketingUserFacade.getLotesBonosCasinoTipoBono(elemento.getIdCasino().getIdCasino(), elemento.getTipoBono());
                 Float[] denominaciones = new Float[lotes.size()];
                 int i = 0;
@@ -891,6 +909,14 @@ public class GeneradorSolicitudBonos implements Serializable {
 
     public void setMeses(List<MesAnno> meses) {
         this.meses = meses;
+    }
+    
+    public float getTotalpromo(){
+        float total = 0;
+        for (loteBonoSolicitud lbs : loteBonoSolicitudes) {
+            total += lbs.getCantidad()*lbs.getLotesBonosid().getDenominacion().getValor();
+        }
+        return total;
     }
 
 }

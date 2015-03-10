@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Controlsalidabono.findById", query = "SELECT c FROM Controlsalidabono c WHERE c.id = :id"),
     @NamedQuery(name = "Controlsalidabono.findByFecha", query = "SELECT c FROM Controlsalidabono c WHERE c.fecha = :fecha"),
     @NamedQuery(name = "Controlsalidabono.findByEstado", query = "SELECT c FROM Controlsalidabono c WHERE c.estado = :estado"),
+    @NamedQuery(name = "Controlsalidabono.findAllButPRESOLICITADA", query = "SELECT c FROM Controlsalidabono c WHERE c.estado != 'PRESOLICITADA'"),
     @NamedQuery(name = "Controlsalidabono.findByFechavencimientobonos", query = "SELECT c FROM Controlsalidabono c WHERE c.fechavencimientobonos = :fechavencimientobonos")})
 public class Controlsalidabono implements Serializable {
     private static final long serialVersionUID = 1L;

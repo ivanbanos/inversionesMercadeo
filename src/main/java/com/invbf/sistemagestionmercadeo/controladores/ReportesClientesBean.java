@@ -108,12 +108,12 @@ public class ReportesClientesBean implements Serializable {
         List<Categoria> categorias = sessionBean.marketingUserFacade.findAllCategorias();
         juegoBooleans = new ArrayList<TipoJuegoBoolean>();
         casinoBooleans = new ArrayList<CasinoBoolean>();
+        for (Casino casinob : casinos) {
+            casinoBooleans.add(new CasinoBoolean(casinob, true));
+        }
         categoriaBooleans = new ArrayList<CategoriaBoolean>();
         for (Tipojuego tipoJuego : tipoJuegos) {
             juegoBooleans.add(new TipoJuegoBoolean(tipoJuego, false));
-        }
-        for (Casino casinob : casinos) {
-            casinoBooleans.add(new CasinoBoolean(casinob, true));
         }
         for (Categoria categoria : categorias) {
             categoriaBooleans.add(new CategoriaBoolean(categoria, false));

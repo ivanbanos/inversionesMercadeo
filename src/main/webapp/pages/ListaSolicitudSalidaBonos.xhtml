@@ -9,7 +9,7 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:define name="content">
-        
+
         <div class="row">
 
             <div class="control-group">
@@ -23,7 +23,7 @@
             <div class="row clearfix">
                 <div class="col-md-12 ">
                     <div class="panel panel-primary">
-                        <div class="panel-heading"><h4>#{label['listasalidabonos']}</h4></div>
+                        <div class="panel-heading"><h4>Ordenes de retiro de inventario</h4></div>
                         <div class="panel-body">
                             <div class="row">
 
@@ -37,36 +37,32 @@
                                                  paginator="true"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  rowIndexVar="index" rowsPerPageTemplate="5,10,15, 20, 25, 30">
-                                <p:column headerText="Fila #">
-                                    #{index + 1}
-                                </p:column>>
+                                        <p:column headerText="Fila #" style="width: 5%; text-align: center;">
+                                            #{index + 1}
+                                        </p:column>>
 
-                                        <p:column headerText="#{label['id']}" sortBy="#{element.id}" filterBy="#{element.id}" filterMatchMode="exact" >
-                                            <h:outputText value="#{element.id}" />
+                                        <p:column headerText="#{label['id']}" style="width: 5%; text-align: center;" sortBy="#{element.id}" >
+                                            <h:outputText value="#{element.solicitudEntregaid.id}" />
                                         </p:column>
 
-                                        <p:column headerText="#{label['fechacreacion']}" sortBy="#{element.fecha}" filterBy="#{element.fecha}" filterMatchMode="contains" >
+                                        <p:column headerText="#{label['fechacreacion']}" style="text-align: center;" sortBy="#{element.fecha}" filterBy="#{element.fecha}" filterMatchMode="contains" >
                                             <h:outputText value="#{element.fecha}" >
-                                                <f:convertDateTime pattern="dd/MMMMM/yyyy " locale="es" />
+                                                <f:convertDateTime pattern="dd/MMMMM/yyyy " locale="es_CO" />
                                             </h:outputText>
                                         </p:column>
 
-                                        <p:column headerText="#{label['estado']}" sortBy="#{element.estado}" filterBy="#{element.estado}" filterMatchMode="in" >
-                                            <f:facet name="filter">
-                                                <p:selectCheckboxMenu label="#{label['estado']}" onchange="PF('detailsTable').filter()" >
-                                                    <f:selectItems value="#{filtrosListas.estadoOrdenSalida}" />
-                                                </p:selectCheckboxMenu>
-                                            </f:facet>
+                                        <p:column headerText="#{label['estado']}" sortBy="#{element.estado}"  >
+
                                             <h:outputText value="#{element.estado}" />
                                         </p:column>
 
                                         <p:column headerText="#{label['acciones']}" >   
-                                            <p:commandButton id="aceptar" action="#{listaSolicitudesdeSalidadeBonos.goSolicitudAceptar(element.id)}" icon="ui-icon-check" 
-                                                             title="#{label['lb_btn.aceptar']}"
-                                                             rendered="#{sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;) and !element.estado.equals(&quot;POR VERIFICAR&quot;)}"/> 
-                                            <p:commandButton id="validar" action="#{listaSolicitudesdeSalidadeBonos.goSolicitudValidarBonos(element.id)}" icon="ui-icon-gear" 
-                                                             title="Verificar"
-                                                             rendered="#{sessionBean.perfilViewMatch(&quot;Verificarbono&quot;) and element.estado.equals(&quot;POR VERIFICAR&quot;)}"/> 
+                                            <p:commandButton id="ver" action="#{listaSolicitudesdeSalidadeBonos.goSolicitudAceptar(element.id)}" icon="ui-icon-search" 
+                                                             title="retirar bonos" rendered="#{sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;) or sessionBean.perfilViewMatch(&quot;Verbonosporverificar&quot;)}"/> 
+                                            <p:commandButton id="validar" action="#{listaSolicitudesdeSalidadeBonos.goSolicitudValidarBonos(element.id)}" icon="ui-icon-pencil" 
+                                                             title="Diligenciar"
+                                                             rendered="#{sessionBean.perfilViewMatch(&quot;Verificarbono&quot;) and element.estado.equals(&quot;BONOS EN PROCESO DE DILIGENCIAMIENTO&quot;)}"/> 
+
                                         </p:column>
 
 

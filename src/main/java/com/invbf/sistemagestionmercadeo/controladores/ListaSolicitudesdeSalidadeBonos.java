@@ -51,6 +51,7 @@ public class ListaSolicitudesdeSalidadeBonos implements Serializable{
         lista = sessionBean.marketingUserFacade.getAllControlsalidabonos();
         Collections.reverse(lista);
         System.out.println(lista.size());
+        sessionBean.printMensajes();
     }
 
     public List<Controlsalidabono> getLista() {

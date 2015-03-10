@@ -18,9 +18,11 @@ public class ConsecutivoBono  implements Serializable{
     private Integer idDenominacion;
     private Integer idCliente;
     private String nombreClietne;
+    private String razonAnulamineto;
 
     public ConsecutivoBono(Integer id) {
         this.id = id;
+        razonAnulamineto = "";
     }
 
     public ConsecutivoBono(Integer id, String consecutivo, Float denominacion, Integer idDenominacion) {
@@ -28,6 +30,7 @@ public class ConsecutivoBono  implements Serializable{
         this.consecutivo = consecutivo;
         this.denominacion = denominacion;
         this.idDenominacion = idDenominacion;
+        razonAnulamineto = "";
     }
 
     public ConsecutivoBono(Integer id, String consecutivo, Float denominacion, Integer idDenominacion, Integer idCliente, String nombreClietne) {
@@ -37,6 +40,7 @@ public class ConsecutivoBono  implements Serializable{
         this.idDenominacion = idDenominacion;
         this.idCliente = idCliente;
         this.nombreClietne = nombreClietne;
+        razonAnulamineto = "";
     }
 
     public String getConsecutivo() {
@@ -107,6 +111,14 @@ public class ConsecutivoBono  implements Serializable{
             return false;
         }
         return true;
+    }
+
+    public String getRazonAnulamineto() {
+        return razonAnulamineto;
+    }
+
+    public void setRazonAnulamineto(String razonAnulamineto) {
+        this.razonAnulamineto = razonAnulamineto;
     }
     
 }

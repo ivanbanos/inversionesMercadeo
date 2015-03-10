@@ -436,13 +436,17 @@ public class SessionBean implements Serializable, Subject {
             ruta = "/Inventario/Bonos por entregar a clientes";
             return "/pages/BonosEntregarClienteView.xhtml";
         } else if (page.equals("Verbonosporcanjear")) {
-            active = "inventario";
+            active = "requisiciones";
             ruta = "/Inventario/Bonos por canjear";
             return "/pages/BonosCanjearView.xhtml";
         } else if (page.equals("reportesbonos")) {
             active = "reportes";
             ruta = "/Reportes/Movimiento de bonos";
             return "/pages/ReporteMovimientoBono.xhtml";
+        }else if (page.equals("reporteGenerar")) {
+            active = "reportes";
+            ruta = "/Reportes/Movimiento de bonos";
+            return "/pages/GenerarReporteGestionView.xhtml";
         }
         return "/pages/InicioSession.xhtml";
     }

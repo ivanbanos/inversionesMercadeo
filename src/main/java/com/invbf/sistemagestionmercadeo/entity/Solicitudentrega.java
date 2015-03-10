@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,10 +37,20 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "SolicitudEntrega")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Solicitudentrega.revisarestados", query = "UPDATE Solicitudentrega s SET s.estado = 'BONOS VENCIDOS. PENDIENTE POR GENERAR REPORTE' WHERE s.fechavencimientobonos < CURRENT_TIMESTAMP AND s.estado != 'REPORTE DE GESTIÓN DISPONIBLE' "),
+   
+    @NamedQuery(name = "Solicitudentrega.vencidoSol", query = "SELECT s FROM Solicitudentrega s WHERE s.solicitante.idUsuario = :solicitante AND ( s.estado = 'BONOS VENCIDOS. PENDIENTE POR GENERAR REPORTE' OR s.estado = 'REPORTE DE GESTIÓN DISPONIBLE')"),
+    @NamedQuery(name = "Solicitudentrega.vencido", query = "SELECT s FROM Solicitudentrega s WHERE ( s.estado = 'BONOS VENCIDOS. PENDIENTE POR GENERAR REPORTE' OR s.estado = 'REPORTE DE GESTIÓN DISPONIBLE')"),
+    @NamedQuery(name = "Solicitudentrega.novencidoSol", query = "SELECT s FROM Solicitudentrega s WHERE s.solicitante.idUsuario = :solicitante AND ( s.estado != 'BONOS VENCIDOS. PENDIENTE POR GENERAR REPORTE' AND s.estado != 'REPORTE DE GESTIÓN DISPONIBLE')"),
+    @NamedQuery(name = "Solicitudentrega.novencido", query = "SELECT s FROM Solicitudentrega s WHERE ( s.estado != 'BONOS VENCIDOS. PENDIENTE POR GENERAR REPORTE' AND s.estado != 'REPORTE DE GESTIÓN DISPONIBLE')"),
+    
+    
+    
     @NamedQuery(name = "Solicitudentrega.findAll", query = "SELECT s FROM Solicitudentrega s"),
     @NamedQuery(name = "Solicitudentrega.findById", query = "SELECT s FROM Solicitudentrega s WHERE s.id = :id"),
     @NamedQuery(name = "Solicitudentrega.findByFecha", query = "SELECT s FROM Solicitudentrega s WHERE s.fecha = :fecha"),
-    @NamedQuery(name = "Solicitudentrega.findBySolicitante", query = "SELECT s FROM Solicitudentrega s WHERE s.solicitante = :solicitante"),
+    @NamedQuery(name = "Solicitudentrega.findBySolicitante", query = "SELECT s FROM Solicitudentrega s WHERE s.solicitante.idUsuario = :solicitante"),
+    @NamedQuery(name = "Solicitudentrega.findBySolicitanteestado", query = "SELECT s FROM Solicitudentrega s WHERE s.solicitante.idUsuario = :solicitante AND s.estado = :estado"),
     @NamedQuery(name = "Solicitudentrega.findByAprobador", query = "SELECT s FROM Solicitudentrega s WHERE s.aprobador = :aprobador"),
     @NamedQuery(name = "Solicitudentrega.findByJustificacion", query = "SELECT s FROM Solicitudentrega s WHERE s.justificacion = :justificacion"),
     @NamedQuery(name = "Solicitudentrega.findByEstado", query = "SELECT s FROM Solicitudentrega s WHERE s.estado = :estado"),
@@ -74,7 +85,7 @@ public class Solicitudentrega implements Serializable {
     private Float totalpreaprobado;
     @Column(name = "totalaprobado")
     private Float totalaprobado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudentrega")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudentrega", fetch = FetchType.EAGER)
     private List<Solicitudentregacliente> solicitudentregaclienteList;
     @JoinColumn(name = "aprobador", referencedColumnName = "idUsuario")
     @ManyToOne

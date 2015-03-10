@@ -9,7 +9,7 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:define name="content">
-        
+
         <div class="row">
 
             <div class="control-group">
@@ -42,10 +42,10 @@
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  rowIndexVar="index" rowsPerPageTemplate="5,10,15, 20, 25, 30">
                                         <p:column headerText="Fila #" width="5%">
-                                    #{index + 1}
-                                </p:column>
+                                            #{index + 1}
+                                        </p:column>
 
-                                        <p:column headerText="#{label['id']}" sortBy="#{element.id}" filterBy="#{element.id}" filterMatchMode="exact" >
+                                        <p:column headerText="#{label['id']}" width="5%"  >
                                             <h:outputText value="#{element.id}" />
                                         </p:column>
 
@@ -54,7 +54,7 @@
                                                 <f:convertDateTime pattern="dd/MMMMM/yyyy " locale="es" />
                                             </h:outputText>
                                         </p:column>
-                                        
+
                                         <p:column headerText="#{label['proposito']}" sortBy="#{element.propositoEntrega.nombre}" filterBy="#{element.propositoEntrega.nombre}" filterMatchMode="in" >
                                             <f:facet name="filter">
                                                 <p:selectCheckboxMenu label="#{label['propositos']}" onchange="PF('detailsTable').filter()" >
@@ -63,7 +63,7 @@
                                             </f:facet>
                                             <h:outputText value="#{element.propositoEntrega.nombre}" />
                                         </p:column>
-                                        
+
                                         <p:column headerText="#{label['tipobono']}" sortBy="#{element.tipoBono.nombre}" filterBy="#{element.tipoBono.nombre}" filterMatchMode="in" >
                                             <f:facet name="filter">
                                                 <p:selectCheckboxMenu label="#{label['tipobono']}" onchange="PF('detailsTable').filter()" >
@@ -72,7 +72,7 @@
                                             </f:facet>
                                             <h:outputText value="#{element.tipoBono.nombre}" />
                                         </p:column>
-                                        
+
                                         <p:column headerText="#{label['casino']}" sortBy="#{element.idCasino.nombre}" filterBy="#{element.idCasino.nombre}" filterMatchMode="in" >
                                             <f:facet name="filter">
                                                 <p:selectCheckboxMenu label="#{label['casino']}" onchange="PF('detailsTable').filter()" >
@@ -92,16 +92,18 @@
                                         </p:column>
 
                                         <p:column headerText="#{label['acciones']}" >   
-                                            <p:commandButton id="aprobar" action="#{listaSolicitudBonosBean.goSolicitudAceptar(element.id)}" icon="ui-icon-check" 
+                                            <p:commandButton id="aprobar" action="#{listaSolicitudBonosBean.goSolicitudAceptar(element.id)}" icon="ui-icon-check"  onclick="PF('ajaxWaitingDialog').show();"
                                                              title="#{label['lb_btn.aprobar']}"
                                                              rendered="#{sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;) and (element.estado.equals(&quot;PREAPROBADA&quot;) or element.estado.equals(&quot;CREADA&quot;))}"/> 
-                                            <p:commandButton id="preaprobar" action="#{listaSolicitudBonosBean.goSolicitudpreAceptar(element.id)}" icon="ui-icon-comment" 
+                                            <p:commandButton id="preaprobar" action="#{listaSolicitudBonosBean.goSolicitudpreAceptar(element.id)}" icon="ui-icon-comment" onclick="PF('ajaxWaitingDialog').show();" 
                                                              title="#{label['lb_btn.preaprobar']}"
                                                              rendered="#{sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;) and ( element.estado.equals(&quot;CREADA&quot;) or element.estado.equals(&quot;PREAPROBADA&quot;))}"/> 
+                                            <p:commandButton id="ver" action="#{listaSolicitudBonosBean.goSolicitudver(element.id)}" icon="ui-icon-search" onclick="PF('ajaxWaitingDialog').show();"
+                                                             title="Ver"/> 
                                         </p:column>
 
                                         <f:facet name="footer"> 
-                                            <p:commandButton id="addButton" action="#{listaSolicitudBonosBean.goSolicitud(0)}"
+                                            <p:commandButton id="addButton" action="#{listaSolicitudBonosBean.goSolicitud(0)}" onclick="PF('ajaxWaitingDialog').show();"
                                                              value="Agregar Nueva Solicitud de Bonos" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
                                                              rendered="#{sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;) }"/>   
                                         </f:facet>

@@ -25,7 +25,7 @@
                 <h:form>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h4>#{label['bonosporcanjear']}</h4>
+                            <h4>Canje de bonos</h4>
                         </div>
                         <div class="panel-body">
 
@@ -36,10 +36,10 @@
                                 <div class="row">
 
                                     <div class="form-group col-md-6">
-                                        <label class="col-md-3 control-label" >Casino:</label>
+                                        <label class="col-md-3 control-label" >Sala donde se hace el canje:</label>
                                         <div class="col-md-9">
                                             <p:selectOneMenu id="casino" value="#{bonoCanjeCliente.casinoSelected.idCasino}">
-                                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                                <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
                                                 <f:selectItems value="#{bonoCanjeCliente.casinos}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.idCasino}"/>  
                                             </p:selectOneMenu>
                                         </div>
@@ -49,27 +49,13 @@
                                 <div class="row">
 
                                     <div class="form-group col-md-6">
-                                        <label class="col-md-3 control-label" >#{label['nombres']}</label>
+                                        <label class="col-md-3 control-label" >Denominaci&oacute;n:</label>
                                         <div class="col-md-9">
-                                            <h:inputText value="#{bonoCanjeCliente.nombres}"/>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                        <label class="col-md-3 control-label" >#{label['apellidos']}</label>
-                                        <div class="col-md-9">
-                                            <h:inputText value="#{bonoCanjeCliente.apellidos}"/>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="row">
-
-                                    <div class="form-group col-md-6">
-                                        <label class="col-md-3 control-label" >#{label['identificacion']}</label>
-                                        <div class="col-md-9">
-                                            <h:inputText value="#{bonoCanjeCliente.identificacion}"/>
+                                            <p:selectOneMenu id="categoria" value="#{bonoCanjeCliente.denominacion.id}" required="true" 
+                                                             requiredMessage="Debe seleccionar una denominaci&oacute;n">
+                                                <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
+                                                <f:selectItems value="#{bonoCanjeCliente.denominaciones}" var="cat" itemLabel="#{cat.valor}" itemValue="#{cat.id}"/> 
+                                            </p:selectOneMenu>
                                         </div>
                                     </div>
 
@@ -77,7 +63,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="col-md-3 control-label" >#{label['consecutivo']}</label>
                                         <div class="col-md-9">
-                                            <h:inputText value="#{bonoCanjeCliente.consecutivo}"/>
+                                            <h:inputText value="#{bonoCanjeCliente.consecutivo}" required="true" requiredMessage="Debe escribir el consecutivo"/>
                                         </div>
                                     </div>
 
@@ -86,7 +72,7 @@
                                 <div class="control-group text-right">
                                     <p:commandButton value="Buscar" actionListener="#{bonoCanjeCliente.buscarBonosValidadosPorCasino()}" 
                                                      icon="ui-icon-check"  onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
-                                                     update=":#{p:component('bonos')} :#{p:component('messages')}" style="margin:0" /> 
+                                                     update=":#{p:component('bonos')} :#{p:component('canjearOk')} :#{p:component('messages')}" style="margin:0" /> 
                                 </div>
                             </div>
 
@@ -95,47 +81,33 @@
 
 
                             <div class="row">
-                                <p:dataTable id="bonos" var="bono" value="#{bonoCanjeCliente.bonosCasinoEntregados}" style="margin-bottom:0">
-                                    <p:column headerText="consecutivo" sortBy="#{bono.consecutivo}" filterBy="#{bono.consecutivo}" filterMatchMode="contains">
+                                <p:dataTable id="bonos" var="bono" value="#{bonoCanjeCliente.bonosCasinoEntregados}" style="margin-bottom:0" emptyMessage="No se tienen bonos">
+
+                                    <p:column headerText="Tipo de bono" >
+                                        <h:outputText value="#{bono.tipo.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="consecutivo" >
                                         <h:outputText value="#{bono.consecutivo}" />
                                     </p:column>
-                                    <p:column headerText="Denominacion" sortBy="#{bono.denominacion.valor}" filterBy="#{bono.denominacion.valor}" filterMatchMode="contains">
+                                    <p:column headerText="Denominacion" >
                                         <h:outputText value="#{bono.denominacion.valor}" >
                                             <f:converter  converterId="numberSeparationConverter"  />
                                         </h:outputText>
                                     </p:column>
-                                    <p:column headerText="Tipo de bono" sortBy="#{bono.tipo.nombre}" filterBy="#{bono.tipo.nombre}" filterMatchMode="contains">
-                                        <h:outputText value="#{bono.tipo.nombre}" />
+                                    <p:column headerText="Cliente" >
+                                        <h:outputText value="#{bono.nombreCliente}" />
                                     </p:column>
-                                    <p:column headerText="Cliente" sortBy="#{bono.cliente.nombres} #{bono.cliente.apellidos}" filterBy="#{bono.cliente.nombres} #{bono.cliente.apellidos}" filterMatchMode="contains">
-                                        <h:outputText value="#{bono.cliente.nombres} #{bono.cliente.apellidos}" />
-                                    </p:column>
-                                    <p:column headerText="Fecha Expiraci&oacute;n" sortBy="#{bono.fechaExpiracion}" >
+                                    <p:column headerText="Fecha Expiraci&oacute;n"  >
                                         <h:outputText value="#{bono.fechaExpiracion}" >
                                             <f:convertDateTime pattern="dd/MMMMM/yyyy" locale="es" timeZone="EDT"/>
                                         </h:outputText>
                                     </p:column>
-                                    <p:column headerText="Acciones" >
-                                        <p:commandButton value="Validar" oncomplete="PF('validarOk').show()" icon="ui-icon-check" rendered="#{bono.estado.equals(&quot;ENTREGADO CLIENTE&quot;)
-                                                                                                                                              and sessionBean.perfilViewMatch(&quot;Validarbono&quot;)}"
-                                                         update=":#{p:component('validarOk')} :#{p:component('messages')}" style="margin:0" >
-                                            <f:setPropertyActionListener value="#{bono}" target="#{bonoCanjeCliente.elemento}" /> 
-                                        </p:commandButton>  
-                                        <p:commandButton value="Autorizar" oncomplete="PF('autoOk').show()" icon="ui-icon-check" rendered="#{bono.estado.equals(&quot;VALIDADO&quot;)
-                                                                                                                                             and sessionBean.perfilViewMatch(&quot;Autorizarbono&quot;)}"
-                                                         update=":#{p:component('autoOk')} :#{p:component('messages')}" style="margin:0" >
-                                            <f:setPropertyActionListener value="#{bono}" target="#{bonoCanjeCliente.elemento}" /> 
-                                        </p:commandButton>  
-                                        <p:commandButton value="Canjear" oncomplete="PF('canjearOk').show()" icon="ui-icon-check" rendered="#{bono.estado.equals(&quot;AUTORIZADO&quot;)
-                                                                                                                                              and sessionBean.perfilViewMatch(&quot;Canjearbono&quot;)
-                                                                                                                                              and bono.tipo.nombre.equals(&quot;NO PROMOCIONAL&quot;)}"
+                                    <p:column headerText="Acciones" >  
+                                        <p:commandButton value="Validar y Autorizar"  onstart="PF('ajaxWaitingDialog').show();"  
+                                                         oncomplete="PF('ajaxWaitingDialog').hide();PF('canjearOk').show();" icon="ui-icon-check" rendered="#{bono.estado == 'EN SALA'
+                                                                                                                                                              and sessionBean.perfilViewMatch(&quot;Canjearbono&quot;)
+                                                                                                                                                              and bono.tipo.nombre == 'NO PROMOCIONAL'}"
                                                          update=":#{p:component('canjearOk')} :#{p:component('messages')}" style="margin:0" >
-                                            <f:setPropertyActionListener value="#{bono}" target="#{bonoCanjeCliente.elemento}" /> 
-                                        </p:commandButton> 
-                                        <p:commandButton value="Canjear" oncomplete="PF('canjearproOk').show()" icon="ui-icon-check" rendered="#{bono.estado.equals(&quot;AUTORIZADO&quot;)
-                                                                                                                                              and sessionBean.perfilViewMatch(&quot;Canjearbono&quot;)
-                                                                                                                                              and bono.tipo.nombre.equals(&quot;PROMOCIONAL&quot;)}"
-                                                         update=":#{p:component('canjearproOk')} :#{p:component('messages')}" style="margin:0" >
                                             <f:setPropertyActionListener value="#{bono}" target="#{bonoCanjeCliente.elemento}" /> 
                                         </p:commandButton>     
                                     </p:column>
@@ -146,95 +118,49 @@
                     </div>
                 </h:form>
             </div>
-            <h:form>
-                <p:confirmDialog id="validarOk" message="Seguro quiere validar el bono #{bonoCanjeCliente.elemento.consecutivo}?"  
-                                 header="Validar" severity="alert" widgetVar="validarOk" closable="false">  
 
-                    <p:commandButton id="confirm" value="Aceptar" oncomplete="PF('validarOk').hide()"  
-                                     action="#{bonoCanjeCliente.validar()}" update=":#{p:component('bonos')} :#{p:component('messages')}"/>  
-                    <p:commandButton id="decline" value="Cancelar" onclick="PF('validarOk').hide()" type="button" />   
 
-                </p:confirmDialog> 
-            </h:form>
-            <h:form>
-                <p:confirmDialog id="autoOk" message="Seguro quiere autorizar el bono #{bonoCanjeCliente.elemento.consecutivo}?"  
-                                 header="Autorizar" severity="alert" widgetVar="autoOk" closable="false">  
-
-                    <p:commandButton id="confirm" value="Aceptar" oncomplete="PF('autoOk').hide()"  
-                                     action="#{bonoCanjeCliente.autorizar()}" update=":#{p:component('bonos')} :#{p:component('messages')}"/>  
-                    <p:commandButton id="decline" value="Cancelar" onclick="PF('autoOk').hide()" type="button" />   
-
-                </p:confirmDialog> 
-            </h:form>
-            <h:form>
-                <p:confirmDialog id="canjearOk" message="Seguro quiere canjear el bono #{bonoCanjeCliente.elemento.consecutivo}?"  
-                                 header="Canjear" severity="alert" widgetVar="canjearOk" closable="false">  
-
-                    <p:commandButton id="confirm" value="Aceptar" oncomplete="PF('canjearOk').hide()"  
-                                     action="#{bonoCanjeCliente.canjear()}" update=":#{p:component('bonos')} :#{p:component('messages')}"/>  
-                    <p:commandButton id="decline" value="Cancelar" onclick="PF('canjearOk').hide()" type="button" />   
-
-                </p:confirmDialog> 
-            </h:form>
-            <h:form>
-                <p:confirmDialog id="canjearproOk" message="Seguro quiere canjear el bono #{bonoCanjeCliente.elemento.consecutivo}?"  
-                                 header="Canjear" severity="alert" widgetVar="canjearproOk" closable="false">  
-                    <div class="row clearfix">
-
-                        <div class="form-group col-md-6">
-                            <label class="col-md-4 control-label" >* #{label['nombres']}:</label>
-                            <div class="col-md-8">
-                                <p:inputText id="nombres" value="#{bonoCanjeCliente.nombresc}" requiredMessage="#{label['msj.req.nombres']}"/>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label class="col-md-4 control-label" >* #{label['apellidos']}:</label>
-                            <div class="col-md-8">
-                                <p:inputText id="apellidos" value="#{bonoCanjeCliente.apellidosc}" requiredMessage="#{label['msj.req.apellidos']}"/>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row clearfix">
-
-                        <div class="form-group col-md-6">
-                            <label class="col-md-4 control-label" >#{label['tel1']}:</label>
-                            <div class="col-md-8">
-                                <p:inputText id="tel1" value="#{bonoCanjeCliente.telefono1}"  />
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label class="col-md-4 control-label" >#{label['tel2']}:</label>
-                            <div class="col-md-8">
-                                <p:inputText id="tel2" value="#{bonoCanjeCliente.telefono2}"  />
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row clearfix">
-
-                        <div class="form-group col-md-12">
-                            <label class="col-md-2 control-label" >#{label['correo']}:</label>
-                            <div class="col-md-6">
-                                <p:inputText style="width: 100%;" id="correo" value="#{bonoCanjeCliente.correo}"  size="40"
-                                             validatorMessage="#{label['msj.invalid.correo']}">
-                                    <f:validateRegex
-                                        pattern="^([_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$)$" />
-                                </p:inputText>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <p:commandButton id="confirm" value="Aceptar" oncomplete="PF('canjearproOk').hide()"  
-                                     action="#{bonoCanjeCliente.canjearpro()}" update=":#{p:component('bonos')} :#{p:component('messages')}"/>  
-                    <p:commandButton id="decline" value="Cancelar" onclick="PF('canjearproOk').hide()" type="button" />   
-
-                </p:confirmDialog> 
-            </h:form>
         </div>
+        <h:form>
+            <p:dialog id="canjearOk" header="Validaci&oacute;n y autorizaci&oacute;n" widgetVar="canjearOk" modal="true" resizable="false" >  
+                <div class="panel panel-primary">
 
+                    <div class="panel-body">
+                        <fieldset>
+                            <div class="row">
+
+                                <div class="control-group">
+                                    <!-- Username -->
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" >Autorizado por:</label>
+                                        <div class="col-md-9">
+
+                                            <p:selectOneMenu id="categoria" value="#{bonoCanjeCliente.elemento.autorizador.idUsuario}" required="true" 
+                                                             requiredMessage="Debe seleccionar un autorizador">
+                                                <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
+                                                <f:selectItems value="#{bonoCanjeCliente.autorizadores}" var="cat" itemLabel="#{cat.nombre}" itemValue="#{cat.idUsuario}"/> 
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </fieldset>
+                    </div>
+                    <div class="panel-footer text-right"> 
+                        <p:commandButton id="confirm" value="Confirmar" oncomplete="PF('ajaxWaitingDialog').hide();PF('canjearOk').hide()"  
+                                         onstart="PF('ajaxWaitingDialog').show();"  
+                                                        
+                                         action="#{bonoCanjeCliente.canjear()}" update=":#{p:component('bonos')} :#{p:component('messages')}"/>   
+                    </div>
+                </div>
+
+
+
+
+            </p:dialog> 
+        </h:form>
     </ui:define>           
 </ui:composition>

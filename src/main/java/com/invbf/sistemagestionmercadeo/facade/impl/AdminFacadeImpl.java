@@ -408,4 +408,9 @@ public class AdminFacadeImpl implements AdminFacade, Serializable {
         return PropositosentregaDao.find(id);
     }
 
+    @Override
+    public List<Usuario> findUsuariosAutorizadoresCasino(Casino casinoSelected) {
+        return UsuarioDao.findAutorizadoresCasino(casinoSelected);
+    }
+
 }

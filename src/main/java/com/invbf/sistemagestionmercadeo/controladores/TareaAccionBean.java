@@ -5,6 +5,7 @@
 package com.invbf.sistemagestionmercadeo.controladores;
 
 import com.invbf.sistemagestionmercadeo.entity.Accion;
+import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Categoria;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Evento;
@@ -13,6 +14,7 @@ import com.invbf.sistemagestionmercadeo.entity.Tarea;
 import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import com.invbf.sistemagestionmercadeo.entity.Tipotarea;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
+import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.TipoJuegoBoolean;
@@ -42,7 +44,7 @@ import org.primefaces.model.DualListModel;
  */
 @ManagedBean
 @ViewScoped
-public class TareaAccionBean implements Serializable{
+public class TareaAccionBean implements Serializable {
 
     private Tarea elemento;
     @ManagedProperty("#{sessionBean}")
@@ -60,6 +62,8 @@ public class TareaAccionBean implements Serializable{
     private String cuerpo;
     private boolean enviarcorreo;
     private boolean skip;
+    private List<CasinoBoolean> casinoBooleans;
+    private boolean todoscasinos;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -81,7 +85,7 @@ public class TareaAccionBean implements Serializable{
             }
         }
 
-        if (sessionBean.getAttributes("idTarea")==null) {
+        if (sessionBean.getAttributes("idTarea") == null) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("tareas.xhtml");
             } catch (IOException ex) {
@@ -99,7 +103,7 @@ public class TareaAccionBean implements Serializable{
         }
         if (((Integer) sessionBean.getAttributes("idTarea")) == 0) {
             elemento = new Tarea();
-            if (sessionBean.getAttributes("idEvento")!=null) {
+            if (sessionBean.getAttributes("idEvento") != null) {
                 evento = sessionBean.marketingUserFacade.findEvento((Integer) sessionBean.getAttributes("idEvento"));
                 elemento.setIdEvento(evento);
             }
@@ -143,7 +147,11 @@ public class TareaAccionBean implements Serializable{
             }
             todosusuarioses = new DualListModel<Usuario>(usuarioses, elemento.getUsuarioList());
         }
-
+        List<Casino> casinos = sessionBean.getUsuario().getCasinoList();
+        casinoBooleans = new ArrayList<CasinoBoolean>();
+        for (Casino casinob : casinos) {
+            casinoBooleans.add(new CasinoBoolean(casinob, true));
+        }
         tipotareas = sessionBean.marketingUserFacade.findAllTipotarea();
         skip = false;
     }
@@ -168,7 +176,12 @@ public class TareaAccionBean implements Serializable{
         Accion estadoscliente = sessionBean.marketingUserFacade.findByNombreAccion("INICIAL");
         ArrayList<Listasclientestareas> al = new ArrayList<Listasclientestareas>(elemento.getListasclientestareasList());
         elemento.getListasclientestareasList().clear();
-        List<Cliente> todosclienteses = sessionBean.marketingUserFacade.findAllClientes();
+        List<Cliente> todosclienteses = new ArrayList<Cliente>();
+        for (CasinoBoolean casino : casinoBooleans) {
+            if (casino.isSelected()) {
+                todosclienteses.addAll(sessionBean.marketingUserFacade.findAllClientesCasinos(casino.getCasino(), "", "", "", null));
+            }
+        }
         boolean noCatselected = true;
         boolean noTipselected = true;
         for (CategoriaBoolean cb : categoriasBoolean) {
@@ -267,69 +280,61 @@ public class TareaAccionBean implements Serializable{
     public void guardar() {
         guardar:
         {
-            try {
-                if (elemento.getTipo() == null || elemento.getTipo().getIdTipotarea() == 0) {
-                    FacesUtil.addErrorMessage("Elemento no creado", "Debe seleccionar un tipo de tarea");
+            if (elemento.getTipo() == null || elemento.getTipo().getIdTipotarea() == 0) {
+                FacesUtil.addErrorMessage("Elemento no creado", "Debe seleccionar un tipo de tarea");
+                break guardar;
+            }
+            Calendar fechainicio = Calendar.getInstance();
+            Calendar fechafinal = Calendar.getInstance();
+
+            Calendar nowDate = Calendar.getInstance();
+
+            fechainicio.setTime(elemento.getFechaInicio());
+            fechafinal.setTime(elemento.getFechaFinalizacion());
+
+            System.out.println(nowDate.getTime());
+            if (elemento.getIdTarea() == null || elemento.getIdTarea() == 0) {
+                if (fechainicio.before(nowDate)) {
+                    FacesUtil.addErrorMessage("Fechas incorrectas", "Fecha inicial antes de la fecha actual");
+                    break guardar;
+                } else if (fechafinal.before(fechainicio)) {
+                    FacesUtil.addErrorMessage("Fechas incorrectas", "Fecha final antes de la fecha inicial");
                     break guardar;
                 }
-                Calendar fechainicio = Calendar.getInstance();
-                Calendar fechafinal = Calendar.getInstance();
-
-                DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
-                DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
-                TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
-                df.setTimeZone(timeZone);
-                Calendar nowDate = Calendar.getInstance();
-                nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
-                fechainicio.setTime(elemento.getFechaInicio());
-                fechafinal.setTime(elemento.getFechaFinalizacion());
-
-                System.out.println(nowDate.getTime());
-                if (elemento.getIdTarea() == null || elemento.getIdTarea() == 0) {
-                    if (fechainicio.before(nowDate)) {
-                        FacesUtil.addErrorMessage("Fechas incorrectas", "Fecha inicial antes de la fecha actual");
-                        break guardar;
-                    } else if (fechafinal.before(fechainicio)) {
-                        FacesUtil.addErrorMessage("Fechas incorrectas", "Fecha final antes de la fecha inicial");
-                        break guardar;
-                    }
-                }
-                elemento.setEstado("POR INICIAR");
-                if (fechainicio.before(nowDate)) {
-                    elemento.setEstado("ACTIVO");
-                }
-                if (fechafinal.before(nowDate)) {
-                    elemento.setEstado("VENCIDO");
-                }
-                sessionBean.registrarlog("actualizar", "Eventos", "Tarea guardada " + elemento.getNombre());
-                sessionBean.marketingUserFacade.guardarTarea(elemento);
-
-                elemento.setUsuarioList(todosusuarioses.getTarget());
-                for (Usuario s : todosusuarioses.getTarget()) {
-                    sessionBean.adminFacade.agregarTareaUsuarios(s, elemento);
-                }
-
-                sessionBean.actualizarUsuario();
-
-                usuarioses = sessionBean.adminFacade.findAllUsuariosHostess();
-                for (Usuario u : elemento.getUsuarioList()) {
-                    if (usuarioses.contains(u)) {
-                        usuarioses.remove(u);
-                    }
-                }
-                todosusuarioses = new DualListModel<Usuario>(usuarioses, elemento.getUsuarioList());
-
-                elemento = sessionBean.marketingUserFacade.guardarTarea(elemento);
-                if (evento != null) {
-                    evento.getTareaList().add(elemento);
-                    sessionBean.marketingUserFacade.guardarEventos(evento);
-                }
-                goBack();
-                FacesUtil.addInfoMessage("Tarea guardado con exito", elemento.getNombre());
-
-            } catch (ParseException ex) {
-                Logger.getLogger(TareaAccionBean.class.getName()).log(Level.SEVERE, null, ex);
             }
+            elemento.setEstado("POR INICIAR");
+            if (fechainicio.before(nowDate)) {
+                elemento.setEstado("ACTIVO");
+            }
+            if (fechafinal.before(nowDate)) {
+                elemento.setEstado("VENCIDO");
+            }
+            sessionBean.registrarlog("actualizar", "Eventos", "Tarea guardada " + elemento.getNombre());
+            sessionBean.marketingUserFacade.guardarTarea(elemento);
+
+            elemento.setUsuarioList(todosusuarioses.getTarget());
+            for (Usuario usu : todosusuarioses.getTarget()) {
+                sessionBean.adminFacade.agregarTareaUsuarios(usu, elemento);
+            }
+
+            sessionBean.actualizarUsuario();
+
+            usuarioses = sessionBean.adminFacade.findAllUsuariosHostess();
+            for (Usuario u : elemento.getUsuarioList()) {
+                if (usuarioses.contains(u)) {
+                    usuarioses.remove(u);
+                }
+            }
+            todosusuarioses = new DualListModel<Usuario>(usuarioses, elemento.getUsuarioList());
+
+            elemento = sessionBean.marketingUserFacade.guardarTarea(elemento);
+            if (evento != null) {
+                evento.getTareaList().add(elemento);
+                sessionBean.marketingUserFacade.guardarEventos(evento);
+            }
+            goBack();
+            FacesUtil.addInfoMessage("Tarea guardado con exito", elemento.getNombre());
+
         }
     }
 
@@ -457,15 +462,33 @@ public class TareaAccionBean implements Serializable{
             return event.getNewStep();
         }
     }
-    public void quitarCliente(Integer cliente){
+
+    public void quitarCliente(Integer cliente) {
         List<Listasclientestareas> lcts = elemento.getListasclientestareasList();
         for (Iterator<Listasclientestareas> iterator = lcts.iterator(); iterator.hasNext();) {
             Listasclientestareas lct = iterator.next();
-             if(lct.getCliente().getIdCliente() == cliente.intValue()){
+            if (lct.getCliente().getIdCliente() == cliente.intValue()) {
                 iterator.remove();
             }
         }
-        
+
         conteo = elemento.getListasclientestareasList().size();
     }
+
+    public List<CasinoBoolean> getCasinoBooleans() {
+        return casinoBooleans;
+    }
+
+    public void setCasinoBooleans(List<CasinoBoolean> casinoBooleans) {
+        this.casinoBooleans = casinoBooleans;
+    }
+
+    public boolean isTodoscasinos() {
+        return todoscasinos;
+    }
+
+    public void setTodoscasinos(boolean todoscasinos) {
+        this.todoscasinos = todoscasinos;
+    }
+    
 }

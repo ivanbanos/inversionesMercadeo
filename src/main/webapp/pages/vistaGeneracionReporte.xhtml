@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+        <div class="row">
+
+            <div class="control-group">
+                <!-- Username -->
+                <div class="form-group">
+                    <label class="col-md-12 control-label" >#{label['ruta']}: #{label['ruta.PreAprobarSolicitudBonos']}</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 ">
+
+                <h:form id="form">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h3>Generaci&oacute;n de reporte</h3></div>
+                        <div class="panel-body">
+                            <div class="container">
+                                <table class="table" style="border: 4px solid #dddddd!important;">
+                                    <tr style="border-top:none!important;border-bottom:none!important;background-color: #444343!important;">
+                                        <td colspan="8" style="text-align: center;border-top:none!important;border-bottom:none!important;">
+                                            <h3 >Reporte de Gesti&oacute;n de bonos de juego</h3>
+                                        </td>
+                                    </tr>
+                                    <tr style="border-top:none!important;border-bottom:none!important; background-color: #444343!important;">
+                                        
+                                        <td style="text-align: center;border-top:none!important;border-bottom:none!important;">
+                                            <h4>Sala:</h4>
+                                        </td>
+                                        <td  style="text-align: center;border-top:none!important;border-bottom:none!important;"> 
+                                            <h5>#{generacionBean.elemento.idCasino.nombre}</h5>
+                                        </td>
+                                        <td  style="text-align: center;border-top:none!important;border-bottom:none!important;">
+                                            <h4>Periodo:</h4>
+                                        </td>
+                                        <td  style="text-align: center;border-top:none!important;border-bottom:none!important;"> 
+                                            <h5><h:outputText value="#{generacionBean.elemento.fechavencimientobonos}" >
+                                                <f:convertDateTime pattern="MMMM/yyyy" locale="es_CO" />
+                                            </h:outputText></h5>
+                                        </td>
+                                        <td  style="text-align: center;border-top:none!important;border-bottom:none!important;">
+                                            <h4>Tipo de bono:</h4>
+                                        </td>
+                                        <td  style="text-align: center;border-top:none!important;border-bottom:none!important;"> 
+                                            <h5>#{generacionBean.elemento.tipoBono.nombre}</h5>
+                                        </td>
+                                        <td  style="text-align: center;border-top:none!important;border-bottom:none!important;">
+                                            <h4>Proposito del bono:</h4>
+                                        </td>
+                                        <td  style="text-align: center;border-top:none!important;border-bottom:none!important;"> 
+                                            <h5>#{generacionBean.elemento.propositoEntrega.nombre}</h5>
+                                        </td>
+                                    </tr>
+
+                                    <tr style="border: 2px solid #dddddd!important;">
+                                        <td colspan="2" style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h4 style="color: black!important;">Bonos Solicitados</h4>
+                                        </td>
+                                        <td colspan="2" style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h4 style="color: black!important;">Bonos Aprobados</h4>
+                                        </td>
+                                        <td colspan="2" style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h4 style="color: black!important;">Bonos Canjeados</h4>
+                                        </td>
+                                        <td colspan="2" style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h4 style="color: black!important;">Efectividad</h4>
+                                        </td>
+                                    </tr>
+                                    <tr style="border: 2px solid #dddddd!important;">
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h:outputLabel value="Cantidad"/>
+                                        </td>
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;"> 
+                                            <h:outputLabel value="Monto"/>
+                                        </td>
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h:outputLabel value="Cantidad"/>
+                                        </td>
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h:outputLabel value="Monto"/>
+                                        </td>
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h:outputLabel value="Cantidad"/>
+                                        </td>
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h:outputLabel value="Monto"/>
+                                        </td>
+                                        <td colspan="2" rowspan="2" style="text-align: center;border: 2px solid #dddddd!important;">
+
+                                            <h:outputText style="font-size: 25px" value="#{generacionBean.estadistica.efectividad}%"/>
+                                        </td>
+                                    </tr>
+                                    <tr style="border: 2px solid #dddddd!important;">
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h:outputText value="#{generacionBean.estadistica.bonosSolocitados}"/>
+                                        </td>
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h:outputText value="#{generacionBean.estadistica.montoSolicitado}">
+                                                <f:converter  converterId="numberSeparationConverter"  />
+                                            </h:outputText>
+                                        </td>
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h:outputText value="#{generacionBean.estadistica.bonosAprobados}"/>
+                                        </td>
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h:outputText value="#{generacionBean.estadistica.montoAprobado}">
+                                                <f:converter  converterId="numberSeparationConverter"  />
+                                            </h:outputText>
+                                        </td>
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h:outputText value="#{generacionBean.estadistica.bonosCanjeados}"/>
+                                        </td>
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h:outputText value="#{generacionBean.estadistica.montoCanjeado}">
+                                                <f:converter  converterId="numberSeparationConverter"  />
+                                            </h:outputText>
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <p:outputPanel style="display:block" >
+                        <div class="container">
+                            <div class="row">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading"><h4>Listado de bonos no canjeados</h4></div>
+                                    <div class="panel-body">
+                                        <p:dataTable id="bonos" var="bono" value="#{generacionBean.bonos}" style="margin-bottom:0"
+                                                     rowIndexVar="index">
+
+                                            <p:column headerText="Fila #" style="width: 5%; text-align: center;">
+                                                #{index + 1}
+                                            </p:column>
+                                            <p:column headerText="consecutivo" sortBy="#{bono.consecutivo}" filterBy="#{bono.consecutivo}" filterMatchMode="contains">
+                                                <h:outputText value="#{bono.consecutivo}" />
+                                            </p:column>
+                                            <p:column headerText="denominación" style="text-align: center;" sortBy="#{bono.denominacion.valor}" filterBy="#{bono.denominacion.valor}" filterMatchMode="contains">
+                                                <h:outputText value="#{bono.denominacion.valor}" >
+                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="cliente" sortBy="#{bono.nombreCliente}" filterBy="#{bono.nombreCliente}" filterMatchMode="contains">
+                                                <h:outputText value="#{bono.nombreCliente}" />
+                                            </p:column>
+                                            <p:column headerText="Causas de la falla" >
+                                                <h:inputText  value="#{bono.causadenocanje}" disabled="#{generacionBean.elemento.estado == 'REPORTE DE GESTIÓN DISPONIBLE' }"/>
+                                            </p:column>
+                                        </p:dataTable>
+
+                                    </div>
+
+                                    <div class="panel-footer text-right">
+                                        <p:commandButton id="btnconfirm" value="Generar reporte"  rendered="#{generacionBean.elemento.estado != 'REPORTE DE GESTIÓN DISPONIBLE' }"
+                                                         style="margin:0" onclick="PF('ajaxWaitingDialog').show();" onsuccess="PF('ajaxWaitingDialog').hide();PF('recibir').show();"/>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </p:outputPanel>
+
+
+
+                </h:form>
+                <h:form>
+                    <p:confirmDialog id="recibir" message="Seguro desea generar el reporte?"  
+                                     header="Confirmaci&oacute;n de cierre de solicitud" severity="alert" widgetVar="recibir" closable="false">  
+
+                        <p:commandButton id="confirm" value="Confirmar" onerror="PF('ajaxWaitingDialog').hide();" onclick="PF('ajaxWaitingDialog').show();" 
+                                         action="#{generacionBean.cerrar()}" ajax="false"/>  
+                        <p:commandButton id="decline" value="Cancelar" onclick="PF('recibir').hide()" type="button" />   
+
+                    </p:confirmDialog> 
+                </h:form>
+            </div>
+        </div>
+    </ui:define>            
+</ui:composition>

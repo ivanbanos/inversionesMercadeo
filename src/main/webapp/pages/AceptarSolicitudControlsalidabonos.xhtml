@@ -27,7 +27,7 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h4>
-                                    #{label['generarsolicitudcontrolsalida']}
+                                    Orden de retiro de inventario
                                 </h4>
                             </div>
                             <div class="panel-body">
@@ -166,8 +166,12 @@
 
                             </div>
                             <div class="panel-footer text-right"> 
-                                <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{aceptarSolicitudSalidaBonosBean.guardar()}" 
-                                                 ajax="false" style="margin:0" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
+                                <p:commandButton id="retirar" value="Confirmar el retiro" actionListener="#{aceptarSolicitudSalidaBonosBean.retirar()}" 
+                                                 ajax="false" style="margin:0" onclick="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                                 rendered="#{sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;) and aceptarSolicitudSalidaBonosBean.elemento.estado == 'PENDIENTE POR PROCESAR'}"/>
+                                <p:commandButton id="recojer" value="Confirmar recepci&oacute;n de bonos" actionListener="#{aceptarSolicitudSalidaBonosBean.recoger()}" 
+                                                 ajax="false" style="margin:0" onclick="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                                 rendered="#{sessionBean.perfilViewMatch(&quot;Verbonosporverificar&quot;) and aceptarSolicitudSalidaBonosBean.elemento.estado == 'BONOS LISTOS PARA SER DILIGENCIADOS'}"/>
                             </div>
                         </div>
                     </h:form>

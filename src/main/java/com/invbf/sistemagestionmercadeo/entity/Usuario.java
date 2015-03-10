@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByNombreUsuario", query = "SELECT u FROM Usuario u WHERE u.nombreUsuario = :nombreUsuario"),
     @NamedQuery(name = "Usuario.findByContrasena", query = "SELECT u FROM Usuario u WHERE u.contrasena = :contrasena"),
     @NamedQuery(name = "Usuario.findByEstado", query = "SELECT u FROM Usuario u WHERE u.estado = :estado"),
+    @NamedQuery(name = "Usuario.findByCasino", query = "SELECT u FROM Usuario u WHERE u.casinoList = :casino"),
     @NamedQuery(name = "Usuarios.findByTipoPerfil", query = "SELECT u FROM Usuario u WHERE u.idPerfil.nombre = :nombrePerfil")})
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -292,7 +293,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.invbf.sistemagestionmercadeo.entity.Usuario[ idUsuario=" + idUsuario + nombreUsuario+" ]";
+        return  idUsuario +" "+ nombreUsuario;
     }
 
     public String getNombre() {

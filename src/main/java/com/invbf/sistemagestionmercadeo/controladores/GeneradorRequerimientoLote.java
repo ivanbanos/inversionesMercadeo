@@ -11,10 +11,8 @@ import com.invbf.sistemagestionmercadeo.entity.Lotebono;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
 import com.invbf.sistemagestionmercadeo.exceptions.CasinoHaveSolicitudCreadaException;
-import com.invbf.sistemagestionmercadeo.reportes.ReportCreator;
 import com.invbf.sistemagestionmercadeo.util.BonosnoincluidosDTO;
 import com.invbf.sistemagestionmercadeo.util.ConvertidorConsecutivo;
-import static com.invbf.sistemagestionmercadeo.util.ConvertidorConsecutivo.getNumeroFromConsecutivo;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
@@ -37,7 +35,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.model.StreamedContent;
 

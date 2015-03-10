@@ -11,6 +11,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -43,6 +44,10 @@ public class ControlsalidabonosHasLotesbonos implements Serializable {
     private Integer cantPre;
     @Column(name = "cantA")
     private Integer cantA;
+    @Column(name = "desde")
+    private String desde;
+    @Column(name = "hasta")
+    private String hasta;
     @JoinColumn(name = "LotesBonos_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Lotebono lotebono;
@@ -51,7 +56,7 @@ public class ControlsalidabonosHasLotesbonos implements Serializable {
     private Controlsalidabono controlsalidabono;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "controlsalidabonosHasLotesbonos")
     private List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClientesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "controlsalidabonosHasLotesbonos")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "controlsalidabonosHasLotesbonos", fetch = FetchType.EAGER)
     private List<Clienteblanco> clienteblancoList;
 
 
@@ -155,6 +160,22 @@ public class ControlsalidabonosHasLotesbonos implements Serializable {
 
     public void setCantA(Integer cantA) {
         this.cantA = cantA;
+    }
+
+    public String getDesde() {
+        return desde;
+    }
+
+    public void setDesde(String desde) {
+        this.desde = desde;
+    }
+
+    public String getHasta() {
+        return hasta;
+    }
+
+    public void setHasta(String hasta) {
+        this.hasta = hasta;
     }
 
 }

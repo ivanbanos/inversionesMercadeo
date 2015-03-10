@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Bono")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Bono.revisarestados", query = "UPDATE Bono b SET b.estado = 'VENCIDO' WHERE b.fechaExpiracion < CURRENT_TIMESTAMP"),
+    @NamedQuery(name = "Bono.revisarestados", query = "UPDATE Bono b SET b.estado = 'VENCIDO' WHERE b.fechaExpiracion < CURRENT_TIMESTAMP AND b.estado != 'ANULADO' AND b.estado != 'CANJEADO'"),
     @NamedQuery(name = "Bono.findAll", query = "SELECT b FROM Bono b"),
     @NamedQuery(name = "Bono.findById", query = "SELECT b FROM Bono b WHERE b.id = :id"),
     @NamedQuery(name = "Bono.findByConsecutivo", query = "SELECT b FROM Bono b WHERE b.consecutivo = :consecutivo "),
@@ -93,6 +93,15 @@ public class Bono implements Serializable {
     @JoinColumn(name = "casino", referencedColumnName = "idCasino")
     @ManyToOne(optional = false)
     private Casino casino;
+    @Size(max = 90)
+    @Column(name = "nombreCliente")
+    private String nombreCliente;
+    @Size(max = 200)
+    @Column(name = "razonAnulamiento")
+    private String razonAnulamiento;
+    @Size(max = 400)
+    @Column(name = "causadenocanje")
+    private String causadenocanje;
 
     public Bono() {
     }
@@ -241,6 +250,30 @@ public class Bono implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Bono[ id=" + id + " ]";
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
+    public String getRazonAnulamiento() {
+        return razonAnulamiento;
+    }
+
+    public void setRazonAnulamiento(String razonAnulamiento) {
+        this.razonAnulamiento = razonAnulamiento;
+    }
+
+    public String getCausadenocanje() {
+        return causadenocanje;
+    }
+
+    public void setCausadenocanje(String causadenocanje) {
+        this.causadenocanje = causadenocanje;
     }
     
 }

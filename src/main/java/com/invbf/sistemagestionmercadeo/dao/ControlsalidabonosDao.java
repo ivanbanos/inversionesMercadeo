@@ -9,6 +9,7 @@ import com.invbf.sistemagestionmercadeo.entity.Clienteblanco;
 import com.invbf.sistemagestionmercadeo.entity.Controlsalidabono;
 import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos;
 import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosPK;
+import com.invbf.sistemagestionmercadeo.entity.Solicitudentrega;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -37,8 +38,10 @@ public class ControlsalidabonosDao {
                 System.out.println("3");
                 csbhlb1.setControlsalidabonosHasLotesbonosPK(new ControlsalidabonosHasLotesbonosPK(elemento.getId(), csbhlb1.getLotebono().getId()));
                 List<Clienteblanco> cbl = csbhlb1.getClienteblancoList() == null ? new ArrayList<Clienteblanco>() : csbhlb1.getClienteblancoList();
+                 System.out.println("Cant clb"+cbl.size());
                 for (Clienteblanco clientesBlanco1 : cbl) {
                     clientesBlanco1.setControlsalidabonosHasLotesbonos(csbhlb1);
+                    System.out.println("Cant pre"+clientesBlanco1.getCantPre());
                 }
                 System.out.println("4");
                 em.merge(csbhlb1);
@@ -55,6 +58,27 @@ public class ControlsalidabonosDao {
         em.clear();
         em.close();
         emf.close();
+    }
+
+    public static List<Controlsalidabono> findAllButPRESOLICITADA() {EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Controlsalidabono> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Controlsalidabono>) em.createNamedQuery("Controlsalidabono.findAllButPRESOLICITADA")
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+
+        return cargos;
     }
 
     public ControlsalidabonosDao() {
@@ -92,11 +116,11 @@ public class ControlsalidabonosDao {
         tx.begin();
         try {
             System.out.println("Sigue todo");
-            cargo.setControlsalidabonosHasLotesbonosList(null);
             if (cargo.getId() == null) {
                 em.persist(cargo);
             }
-            em.flush();
+            em.merge(cargo.getSolicitudEntregaid());
+            em.merge(cargo);
 
             tx.commit();
         } catch (Exception e) {

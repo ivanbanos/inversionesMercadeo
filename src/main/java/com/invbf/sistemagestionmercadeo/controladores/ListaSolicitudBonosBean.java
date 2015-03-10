@@ -28,7 +28,7 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @ViewScoped
 public class ListaSolicitudBonosBean implements Serializable{
-
+    
     private List<Solicitudentrega> lista;
     private List<Solicitudentrega> listaFiltrada;
     private Solicitudentrega elemento;
@@ -57,7 +57,7 @@ public class ListaSolicitudBonosBean implements Serializable{
         }
         if (sessionBean.perfilViewMatch("AprobarSolicitudBono") || sessionBean.perfilViewMatch("PreAprobarSolicitudBono")) {
 
-            lista = sessionBean.marketingUserFacade.getAllSolicitudentrega();
+            lista = sessionBean.marketingUserFacade.getAllSolicitudentreganovenc();
         } else {
             lista = sessionBean.marketingUserFacade.getAllSolicitudentregaSolicitante(sessionBean.getUsuario().getIdUsuario());
         }
@@ -112,6 +112,16 @@ public class ListaSolicitudBonosBean implements Serializable{
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public void goSolicitudver(Integer i) {
+        try {
+            sessionBean.setAttribute("idSolicitudentrega", i);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("vistaSolicitud.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
 
     public void goSolicitudpreAceptar(Integer i) {
         try {

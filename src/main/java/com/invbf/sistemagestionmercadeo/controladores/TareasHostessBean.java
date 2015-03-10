@@ -59,7 +59,7 @@ public class TareasHostessBean implements Serializable{
         }
         sessionBean.removeAttribute("idTarea");
         sessionBean.removeAttribute("isLeavingTarea");
-        lista = sessionBean.marketingUserFacade.getTareasUsuario(sessionBean.getUsuario());
+        lista = sessionBean.getUsuario().getTareaList();
         for (Tarea t : lista) {
             if (!t.getEstado().equals("VENCIDO")) {
                 sessionBean.checkEstadoTarea(t);

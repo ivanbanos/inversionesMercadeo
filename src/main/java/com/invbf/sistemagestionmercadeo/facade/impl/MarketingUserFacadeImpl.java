@@ -41,6 +41,7 @@ import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Clienteatributo;
 import com.invbf.sistemagestionmercadeo.entity.Controlsalidabono;
 import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos;
+import com.invbf.sistemagestionmercadeo.entity.Denominacion;
 import com.invbf.sistemagestionmercadeo.entity.Evento;
 import com.invbf.sistemagestionmercadeo.entity.Listasclientestareas;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
@@ -59,8 +60,11 @@ import com.invbf.sistemagestionmercadeo.exceptions.CasinoHaveSolicitudCreadaExce
 import com.invbf.sistemagestionmercadeo.exceptions.ExistenBonosFisicosException;
 import com.invbf.sistemagestionmercadeo.exceptions.LoteBonosExistenteException;
 import com.invbf.sistemagestionmercadeo.facade.MarketingUserFacade;
+import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.DBConnection;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
+import com.invbf.sistemagestionmercadeo.util.PropositosBoolean;
+import com.invbf.sistemagestionmercadeo.util.TipoBonoBoolean;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
@@ -845,7 +849,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
 
     @Override
     public List<Controlsalidabono> getAllControlsalidabonos() {
-        return ControlsalidabonosDao.findAll();
+        return ControlsalidabonosDao.findAllButPRESOLICITADA();
     }
 
     @Override
@@ -862,10 +866,11 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     public Controlsalidabono guardarControlSalidaBonos(Controlsalidabono elemento, boolean enviar) {
         System.out.println("Comienza todo");
         List<ControlsalidabonosHasLotesbonos> csbhlb = elemento.getControlsalidabonosHasLotesbonosList() != null ? elemento.getControlsalidabonosHasLotesbonosList() : new ArrayList<ControlsalidabonosHasLotesbonos>();
-
+        elemento.setControlsalidabonosHasLotesbonosList(null);
         elemento = ControlsalidabonosDao.edit(elemento);
         elemento.setControlsalidabonosHasLotesbonosList(csbhlb);
         ControlsalidabonosDao.finish(elemento);
+
         if (enviar) {
             String cuerpo = "Orden de salida de bonos con número de acta" + elemento.getId() + " aceptada.";
             String titulo = "Orden de salida de bonos aceptada.";
@@ -917,17 +922,12 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     public void saveBonos(Controlsalidabono elemento, Integer idUsuario) {
         List<Bono> bonos = elemento.getBonoList();
         for (Bono bono : bonos) {
-            if (bono.getCliente() != null && bono.getCliente().getIdCliente() != null) {
-                if (bono.getEstado().equals("VERIFICADO")) {
-                    continue;
-                }
-                bono.setEstado("VERIFICADO");
-                if (bono.getValidador() == null) {
-                    bono.setValidador(new Usuario(idUsuario));
-                }
-                BonoDao.edit(bono);
+            if (bono.getTipo().getNombre().equals("PROMOCIONAL")) {
+                bono.setCliente(null);
             }
+            BonoDao.edit(bono);
         }
+        ControlsalidabonosDao.edit(elemento);
     }
 
     @Override
@@ -976,9 +976,9 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     }
 
     @Override
-    public List<Lotebono> getLotesBonosByCasino(Casino casinoSelected)throws CasinoHaveSolicitudCreadaException {
+    public List<Lotebono> getLotesBonosByCasino(Casino casinoSelected) throws CasinoHaveSolicitudCreadaException {
         System.out.println(SolicitudentregalotesDao.CasinoHaveSolicitudCreada(casinoSelected));
-        if(SolicitudentregalotesDao.CasinoHaveSolicitudCreada(casinoSelected)){
+        if (SolicitudentregalotesDao.CasinoHaveSolicitudCreada(casinoSelected)) {
             throw new CasinoHaveSolicitudCreadaException();
         }
         return LotebonoDao.getByCasino(casinoSelected.getIdCasino());
@@ -1024,5 +1024,59 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     @Override
     public List<Lotebono> getLotesBonosByCasinoNoPromo(Casino idCasino) {
         return LotebonoDao.getByCasinoNoPromo(idCasino.getIdCasino());
+    }
+
+    @Override
+    public Controlsalidabono guardarControlSalidaBonosLista(Controlsalidabono elemento, boolean enviar) {
+        System.out.println("Vamos a ver que pasa aqui");
+        System.out.println("Control " + elemento.getId());
+        System.out.println("Control " + elemento.getEstado());
+        elemento = ControlsalidabonosDao.edit(elemento);
+
+        return elemento;
+    }
+
+    @Override
+    public List<Bono> getBonosPorAtributos(String en_sala, Casino casinoSelected, String consecutivo, Denominacion denominacion) {
+        return BonoDao.getBonoPorCasinoDenominacionConsecutivo(en_sala, casinoSelected, consecutivo, denominacion);
+    }
+
+    @Override
+    public void verificarEstadoSolicitudes() {
+        SolicitudEntregaDao.verificar();
+        BonoDao.revisarEstadoBonos();
+    }
+
+    @Override
+    public List<Solicitudentrega> getAllSolicitudentregaSolicitanteEstado(Integer idUsuario, String bonos_vencidos_pendiente_por_generar_repo) {
+        return SolicitudEntregaDao.findByIdCreadorEstado(idUsuario , bonos_vencidos_pendiente_por_generar_repo);
+    }
+
+    @Override
+    public void cerrarSol(Solicitudentrega elemento, List<Bono> bonos) {
+        SolicitudEntregaDao.edit(elemento);
+        for (Bono bono : bonos) {
+            BonoDao.edit(bono);
+        }
+    }
+
+    @Override
+    public List<Bono> getBonosporCasinoPropositoTipoFecha(List<CasinoBoolean> casinos, List<PropositosBoolean> propositos, List<TipoBonoBoolean> tipos, Integer ano, Integer mes) {
+        return BonoDao.getBonosporCasinoPropositoTipoFecha(casinos, propositos, tipos, ano, mes);
+    }
+
+    @Override
+    public List<Solicitudentrega> getAllSolicitudentreganovenc() {
+        return SolicitudEntregaDao.findByNoVenc();
+    }
+
+    @Override
+    public List<Solicitudentrega> getAllSolicitudentregaSolicitanteVENC(Integer idUsuario) {
+        return SolicitudEntregaDao.findBySolVenc(idUsuario);
+    }
+
+    @Override
+    public List<Solicitudentrega> getAllSolicitudentregaVENC() {
+        return SolicitudEntregaDao.findByVenc();
     }
 }

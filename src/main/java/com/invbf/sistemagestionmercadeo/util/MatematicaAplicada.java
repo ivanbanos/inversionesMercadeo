@@ -21,6 +21,8 @@ public class MatematicaAplicada  implements Serializable{
         while (num > 0) {
             Float dividir = 0f;
             for (Float multiplo : multiplos) {
+                System.out.println(num);
+                System.out.println(multiplo);
                 if (num % multiplo == 0) {
                     return true;
                 } else {

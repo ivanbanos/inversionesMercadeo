@@ -19,6 +19,118 @@ import javax.persistence.Persistence;
  */
 public class SolicitudEntregaDao {
 
+    public static void verificar() {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        try {
+            em.createNamedQuery("Solicitudentrega.revisarestados")
+                    .executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+    }
+
+    public static List<Solicitudentrega> findByIdCreadorEstado(Integer id, String estado) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Solicitudentrega> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Solicitudentrega>) em.createNamedQuery("Solicitudentrega.findBySolicitanteestado")
+                    .setParameter("solicitante", id)
+                    .setParameter("estado", estado)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+
+        return cargos;
+    }
+
+    public static List<Solicitudentrega> findByNoVenc() {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Solicitudentrega> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Solicitudentrega>) em.createNamedQuery("Solicitudentrega.novencido")
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+
+        return cargos;
+    }
+
+    public static List<Solicitudentrega> findByVenc() {
+         EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Solicitudentrega> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Solicitudentrega>) em.createNamedQuery("Solicitudentrega.vencido")
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+
+        return cargos;
+    }
+
+    public static List<Solicitudentrega> findBySolVenc(Integer id) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Solicitudentrega> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Solicitudentrega>) em.createNamedQuery("Solicitudentrega.vencidoSol")
+                    .setParameter("solicitante", id)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+
+        return cargos;
+    }
+
     public SolicitudEntregaDao() {
     }
 
@@ -187,7 +299,7 @@ public class SolicitudEntregaDao {
         List<Solicitudentrega> cargos = null;
         tx.begin();
         try {
-            cargos = (List<Solicitudentrega>) em.createNamedQuery("Solicitudentrega.findBySolicitante")
+            cargos = (List<Solicitudentrega>) em.createNamedQuery("Solicitudentrega.novencidoSol")
                     .setParameter("solicitante", id)
                     .getResultList();
             tx.commit();

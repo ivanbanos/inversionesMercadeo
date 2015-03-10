@@ -10,6 +10,7 @@ import com.invbf.sistemagestionmercadeo.entity.Bononofisico;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Controlsalidabono;
 import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos;
+import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosHasClientes;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentrega;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
@@ -18,6 +19,7 @@ import com.invbf.sistemagestionmercadeo.exceptions.LoteBonosExistenteException;
 import com.invbf.sistemagestionmercadeo.util.ConvertidorConsecutivo;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.LoteBonoCant;
+import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.io.Serializable;
@@ -64,7 +66,7 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("salidadebonos");
-        if (!sessionBean.perfilViewMatch("AceptarSolicitudSalida")) {
+        if (!sessionBean.perfilViewMatch("AceptarSolicitudSalida")&&!sessionBean.perfilViewMatch("Verbonosporverificar")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
@@ -99,38 +101,56 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
         Solicitudentrega sol = elemento.getSolicitudEntregaid();
         loteBonoCants = new ArrayList<LoteBonoCant>();
         List<ControlsalidabonosHasLotesbonos> controlsalidabonosHasLotesbonoses = elemento.getControlsalidabonosHasLotesbonosList();
+
         for (ControlsalidabonosHasLotesbonos controlsalidabonosHasLotesbonos : controlsalidabonosHasLotesbonoses) {
-            LoteBonoCant ltc = new LoteBonoCant(controlsalidabonosHasLotesbonos.getLotebono(), controlsalidabonosHasLotesbonos.getCantidad());
-            ltc.setDesde(controlsalidabonosHasLotesbonos.getLotebono().getDesde());
-            String hasta = ltc.getDesde();
-            for (int i = controlsalidabonosHasLotesbonos.getCantidad() - 1; i > 0; i--) {
-                System.out.println(i);
-                while (true) {
-                    boolean seencontro = false;
-                    for (Bononofisico bnf : controlsalidabonosHasLotesbonos.getLotebono().getBononofisicoList()) {
-                        System.out.println("Comprobando " + bnf.getConsecutivo() + " " + hasta);
-                        if (bnf.getConsecutivo().equals(hasta)) {
-                            hasta = sumeUno(hasta);
-                            seencontro = true;
+            if (elemento.getSolicitudEntregaid().getPropositoEntrega().getNombre().equals("FIDELIZACIÓN")) {
+                controlsalidabonosHasLotesbonos.setCantidad(0);
+                controlsalidabonosHasLotesbonos.setCantA(0);
+                controlsalidabonosHasLotesbonos.setCantPre(0);
+                for (ControlsalidabonosHasLotesbonosHasClientes cshlohc : controlsalidabonosHasLotesbonos.getControlsalidabonosHasLotesbonosHasClientesList()) {
+                    controlsalidabonosHasLotesbonos.setCantidad(controlsalidabonosHasLotesbonos.getCantidad() + cshlohc.getCantidad());
+                    controlsalidabonosHasLotesbonos.setCantPre(controlsalidabonosHasLotesbonos.getCantidad() + cshlohc.getCantidad());
+                    controlsalidabonosHasLotesbonos.setCantA(controlsalidabonosHasLotesbonos.getCantidad() + cshlohc.getCantidad());
+                }
+            }
+            LoteBonoCant ltc = new LoteBonoCant(controlsalidabonosHasLotesbonos.getLotebono(), controlsalidabonosHasLotesbonos.getCantA());
+            if (elemento.getEstado().equals("PENDIENTE POR PROCESAR")) {
+                ltc.setDesde(sumeUno(controlsalidabonosHasLotesbonos.getLotebono().getDesde()));
+                String hasta = ltc.getDesde();
+                for (int i = 0; i < controlsalidabonosHasLotesbonos.getCantA(); i++) {
+                    System.out.println(i);
+                    while (true) {
+                        boolean seencontro = false;
+                        for (Bononofisico bnf : controlsalidabonosHasLotesbonos.getLotebono().getBononofisicoList()) {
+                            System.out.println("Comprobando " + bnf.getConsecutivo() + " " + hasta);
+                            if (bnf.getConsecutivo().equals(hasta)) {
+                                hasta = sumeUno(hasta);
+                                seencontro = true;
+                                break;
+                            }
+                        }
+                        if (!seencontro) {
                             break;
                         }
                     }
-                    if (!seencontro) {
-                        break;
-                    }
+                    hasta = sumeUno(hasta);
                 }
-                hasta = sumeUno(hasta);
-            }
-            if (ltc.getCantidad() != 0) {
-                ltc.setHasta(hasta);
-            }else{
-                ltc.setHasta("");
-            }
-            total += controlsalidabonosHasLotesbonos.getCantidad() * controlsalidabonosHasLotesbonos.getLotebono().getDenominacion().getValor();
+                hasta = resteUno(hasta);
+                if (ltc.getCantidad() != 0) {
+                    ltc.setHasta(hasta);
+                } else {
+                    ltc.setHasta("");
+                }
+                total += controlsalidabonosHasLotesbonos.getCantA() * controlsalidabonosHasLotesbonos.getLotebono().getDenominacion().getValor();
+                controlsalidabonosHasLotesbonos.setDesde(ltc.getDesde());
+                controlsalidabonosHasLotesbonos.setHasta(ltc.getHasta());
 
+            } else {
+                ltc.setDesde(controlsalidabonosHasLotesbonos.getDesde());
+                ltc.setHasta(controlsalidabonosHasLotesbonos.getHasta());
+            }
             loteBonoCants.add(ltc);
         }
-
         casinos = sessionBean.adminFacade.findAllCasinos();
     }
 
@@ -142,11 +162,27 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
         this.elemento = elemento;
     }
 
-    public void guardar() {
-        elemento.setEstado("POR VERIFICAR");
+    public void retirar() {
+        elemento.setEstado("BONOS LISTOS PARA SER DILIGENCIADOS");
+        elemento.getSolicitudEntregaid().setEstado("BONOS LISTOS PARA SER DILIGENCIADOS");
         crearBonos();
-        sessionBean.marketingUserFacade.guardarControlSalidaBonos(elemento, true);
-        FacesUtil.addInfoMessage("Se aceptó la solicitud!", "Notificación enviada");
+        sessionBean.marketingUserFacade.guardarControlSalidaBonosLista(elemento, true);
+        String cuerpo = "Orden de retiro de bonos de inventario con número de acta " + elemento.getId() + " procesada. Los bonos se encuentran listos para ser diligenciados.";
+        String titulo = "Orden de retiro de bonos de inventario procesada";
+        Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_APROBADA, cuerpo, titulo, "");
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Bonos retirados de inventario!", "Notificación enviada"));
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudSalidaBonos.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(AceptarSolicitudSalidaBonosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void recoger() {
+        elemento.setEstado("BONOS EN PROCESO DE DILIGENCIAMIENTO");
+        elemento.getSolicitudEntregaid().setEstado("BONOS EN PROCESO DE DILIGENCIAMIENTO");
+        sessionBean.marketingUserFacade.guardarControlSalidaBonosLista(elemento, true);
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Bonos recibidos para diligenciamiento!", ""));
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudSalidaBonos.xhtml");
         } catch (IOException ex) {
@@ -203,7 +239,7 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
         for (Lotebono lote : lotes) {
             try {
                 System.out.println(lote.getDenominacion().getValor());
-                String desde = lote.getDesde();
+                String desde = sumeUno(lote.getDesde());
                 System.out.println("Desde " + desde);
                 for (ControlsalidabonosHasLotesbonos control : bonosControlSalida) {
 
@@ -235,10 +271,10 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
                             b.setControlSalidaBonosid(elemento);
                             if (lote.getTipoBono().getNombre().equals("PROMOCIONAL")) {
                                 System.out.println(casino.getCasinodetalle().getAbreCiudad());
-                                b.setConsecutivo(casino.getCasinodetalle().getCiudad() + desde);
-                                b.setEstado("VERIFICADO");
+                                b.setConsecutivo(casino.getCasinodetalle().getCiudad() +"-"+ desde);
+                                b.setEstado("POR VERIFICAR");
                             } else {
-                                b.setConsecutivo(casino.getCasinodetalle().getAbrenopromo() + desde);
+                                b.setConsecutivo(casino.getCasinodetalle().getAbrenopromo() +"-"+ desde);
                                 b.setEstado("POR VERIFICAR");
                             }
                             b.setPropositosEntregaid(elemento.getSolicitudEntregaid().getPropositoEntrega());
@@ -256,22 +292,23 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
         }
         boolean enviarmail = false;
         for (Lotebono lote : lotes) {
-            if (ConvertidorConsecutivo.getCantidadInt(lote.getDesde(), lote.getHasta()) < 200) {
+            if (ConvertidorConsecutivo.getCantidadInt(lote.getDesde(), lote.getHasta()) < 1000) {
                 enviarmail = true;
             }
         }
         if (enviarmail) {
-            Notificador.notificar(Notificador.INVENTARIO_EN_PROBLEMA, "Alerta de stock de bonos", "Existen Stocks de bonos que la cantidad es muy baja. Revisar el Inventario.", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+            Notificador.notificar(Notificador.INVENTARIO_EN_PROBLEMA, "Un tipo de bono ha sido alcanzado el nivel minimo establecido en el inventario. Debe revisarse el stock para generar requerimiento de producción de lotes.", "ALERTA INVENTARIO DE BONOS HA ALCANZADO UN NIVEL MINIMO", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         }
         sessionBean.marketingUserFacade.guardarBonos(bonosAGuardar);
 
-        String body = "Se ha aceptado la solicitud de salida de bonos con el número de acta " + elemento.getId()
-                + ".\nPor favor revisar la pagina de Lista de solicitudes de salida de bonos.";
-        Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_ACEPTADA, body, "Se ha aceptado una solicitud de salida de bonos de caja", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
     }
 
     private String sumeUno(String desde) {
         return ConvertidorConsecutivo.sumarUno(desde);
+    }
+
+    private String resteUno(String hasta) {
+        return ConvertidorConsecutivo.restarUno(hasta);
     }
 
 }

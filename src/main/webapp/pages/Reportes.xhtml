@@ -32,6 +32,8 @@
                             <br/>#{label['tareas']}</h:link>
                         <h:link outcome="/pages/ReporteMovimientoBono.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-ticket fa-5x"></i> 
                             <br/>#{label['bonos']}</h:link>
+                        <h:link rendered="#{sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;)}" outcome="/pages/GenerarReporteGestionView.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-book fa-5x"></i> 
+                            <br/>Generar reporte de gesti&oacute;n</h:link>
                     </div>
                     
                     

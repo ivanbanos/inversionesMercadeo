@@ -494,7 +494,7 @@
                                                                                 <div style="text-align: center;">
                                                                                     <label style="text-align: center;">#{cli.clientessgb.nombres} #{cli.clientessgb.apellidos}</label>
                                                                                 </div>
-                                                                                
+
                                                                             </p:column>
                                                                             <p:column width="10%" style="text-align: center;">
                                                                                 <f:facet name="header">
@@ -567,7 +567,7 @@
                                         <div class="row">
                                             <p:dataTable value="#{generadorSolicitudBonos.loteBonoSolicitudes}" var="solicitudes" rowIndexVar="status"
                                                          emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" 
-                                                         rendered="#{generadorSolicitudBonos.loteBonoSolicitudes.size()!=0 and generadorSolicitudBonos.elemento.propositoEntrega.nombre != 'CASOS ESPECIALES'}">
+                                                         rendered="#{generadorSolicitudBonos.loteBonoSolicitudes.size()!=0 and generadorSolicitudBonos.elemento.propositoEntrega.nombre != 'CASOS ESPECIALES' and generadorSolicitudBonos.elemento.propositoEntrega.nombre != 'FIDELIZACIÓN'}">
 
                                                 <p:column headerText="Stock Actual" style="text-align: center;">
                                                     <h:outputText value="#{generadorSolicitudBonos.getCantidad(solicitudes.lotesBonosid.desde, solicitudes.lotesBonosid.hasta)}">
@@ -588,6 +588,13 @@
                                                     <h:outputText value="#{solicitudes.lotesBonosid.denominacion.valor*solicitudes.cantidad}">
                                                         <f:converter  converterId="numberSeparationConverter"  />
                                                     </h:outputText>
+                                                    <f:facet name="footer">
+
+                                                        <h:outputText  value="#{generadorSolicitudBonos.totalpromo}">
+
+                                                            <f:converter  converterId="numberSeparationConverter"  />
+                                                        </h:outputText>
+                                                    </f:facet>
                                                 </p:column>
                                             </p:dataTable>
                                         </div>
@@ -612,15 +619,33 @@
                                                                 <h:outputText id="totalcamg" value="#{determinar.lotesBono.denominacion.valor}">
                                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                                 </h:outputText>
-
+                                                                
                                                             </p:column>
                                                             <p:column headerText="Cantidad" >
                                                                 <p:column headerText="Cantidad">
                                                                     <h:outputText style="width: 100%;text-align: right;"  value="#{determinar.cantidad}">
 
                                                                     </h:outputText>
+                                                                   <f:facet name="footer">
 
+                                                                    <h:outputText  value="Total">
+
+                                                                    </h:outputText>
+                                                                </f:facet>
                                                                 </p:column>
+                                                            </p:column>
+                                                            <p:column id="totalprea" headerText="Total" >
+                                                                <h:outputText style="width: 100%;text-align: right;"  value="#{determinar.cantidad * determinar.lotesBono.denominacion.valor}">
+
+                                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                                </h:outputText>
+                                                                <f:facet name="footer">
+                                                                    
+                                                                    <h:outputText  value="#{clientesBlancos.total}">
+
+                                                                        <f:converter  converterId="numberSeparationConverter"  />
+                                                                    </h:outputText>
+                                                                </f:facet>
                                                             </p:column>
                                                         </p:dataTable>
                                                     </div>

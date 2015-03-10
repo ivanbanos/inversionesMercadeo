@@ -7,9 +7,12 @@ package com.invbf.sistemagestionmercadeo.controladores;
 
 import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
+import com.invbf.sistemagestionmercadeo.entity.Propositoentrega;
+import com.invbf.sistemagestionmercadeo.entity.Tipobono;
 import com.invbf.sistemagestionmercadeo.util.AnalisisBono;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.PropositosBoolean;
+import com.invbf.sistemagestionmercadeo.util.TipoBonoBoolean;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,13 +37,12 @@ public class ReporteMovimientoBonosBean implements Serializable{
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
     private List<CasinoBoolean> casinos;
-    private Date hasta;
-    private Date desde;
     private List<PropositosBoolean> propositos;
-    private String nombre;
-    private String apellidos;
-    private String identificacion;
-    private boolean todoscas;
+    private List<TipoBonoBoolean> tipos;
+    private List<Integer> anos;
+    private Integer ano;
+    private Integer mes;
+    private List<Bono> bonos;
 
     private List<AnalisisBono> promocional;
 
@@ -64,148 +66,40 @@ public class ReporteMovimientoBonosBean implements Serializable{
         Calendar now = Calendar.getInstance();
         Calendar monthago = Calendar.getInstance();
         monthago.add(Calendar.MONTH, 1);
-        hasta = monthago.getTime();
-        desde = now.getTime();
-        List<Bono> bonosAnalizar = sessionBean.marketingUserFacade.getAllBonosFecha(desde, hasta);
-        System.out.println(bonosAnalizar.size());
         List<Casino> casinosNormales = sessionBean.adminFacade.findAllCasinos();
         casinos = new ArrayList<CasinoBoolean>();
         for (Casino casinosNormale : casinosNormales) {
             casinos.add(new CasinoBoolean(casinosNormale, true));
         }
-        analizarBonos(bonosAnalizar);
+        List<Propositoentrega> proposotos = sessionBean.adminFacade.findAllPropositosentrega();
+        propositos = new ArrayList<PropositosBoolean>();
+        for (Propositoentrega proposito : proposotos) {
+            propositos.add(new PropositosBoolean(proposito, true));
+        }
+        List<Tipobono> tipobonos = sessionBean.adminFacade.findAllTiposbonos();
+        tipos = new ArrayList<TipoBonoBoolean>();
+        for (Tipobono tipo : tipobonos) {
+            tipos.add(new TipoBonoBoolean(tipo, true));
+        }
+        anos = new ArrayList<Integer>();
+        Calendar c = Calendar.getInstance();
+        ano = c.get(Calendar.YEAR);
+        mes = c.get(Calendar.MONTH);
+        for(int i = 2015; i<=c.get(Calendar.YEAR) ; i++){
+            anos.add(i);
+        }
+        buscarBonos();
     }
 
     public void buscarBonosPorCasinosYFecha() {
 
-        List<Bono> bonosAnalizar = sessionBean.marketingUserFacade.getAllBonosFecha(desde, hasta);
-        for (Iterator<Bono> iterator = bonosAnalizar.iterator(); iterator.hasNext();) {
-            Bono next = iterator.next();
-            if (nombre != null && !nombre.equals("")) {
-                if (!next.getCliente().getNombres().contains(nombre.toUpperCase())) {
-                    iterator.remove();
-                    continue;
-                }
-            }
-            if (apellidos != null && !apellidos.equals("")) {
-                if (!next.getCliente().getApellidos().contains(apellidos.toUpperCase())) {
-                    iterator.remove();
-                    continue;
-                }
-            }
-            boolean ok = false;
-            boolean oneselected = false;
-            for (CasinoBoolean casino : casinos) {
-                if (casino.isSelected()) {
-                    oneselected = true;
-                    if (casino.getCasino().getIdCasino().equals(next.getCasino().getIdCasino())) {
-                        ok = true;
-                    }
-                }
-            }
-            System.out.println(ok);
-            if ((!ok) && oneselected) {
-                iterator.remove();
-            }
-        }
-        analizarBonos(bonosAnalizar);
         
         System.gc();
     }
 
-    public List<CasinoBoolean> getCasinos() {
-        return casinos;
+    private void buscarBonos() {
+        bonos = sessionBean.marketingUserFacade.getBonosporCasinoPropositoTipoFecha(casinos, propositos, tipos, ano, mes);
     }
 
-    public void setCasinos(List<CasinoBoolean> casinos) {
-        this.casinos = casinos;
-    }
-
-    public Date getHasta() {
-        return hasta;
-    }
-
-    public void setHasta(Date hasta) {
-        this.hasta = hasta;
-    }
-
-    public Date getDesde() {
-        return desde;
-    }
-
-    public void setDesde(Date desde) {
-        this.desde = desde;
-    }
-
-    public List<AnalisisBono> getPromocional() {
-        return promocional;
-    }
-
-    public void setPromocional(List<AnalisisBono> promocional) {
-        this.promocional = promocional;
-    }
-
-    private void analizarBonos(List<Bono> bonosAnalizar) {
-        promocional = new ArrayList<AnalisisBono>();
-        if ((nombre == null || nombre.equals("")) && (apellidos == null || apellidos.equals(""))) {
-            for (Bono bono : bonosAnalizar) {
-                if (!promocional.contains(new AnalisisBono(bono.getPropositosEntregaid().getNombre()))) {
-                    promocional.add(new AnalisisBono(bono.getPropositosEntregaid().getNombre()));
-                    System.out.println(bono.getPropositosEntregaid().getNombre());
-                }
-                AnalisisBono ab = promocional.get(promocional.indexOf(new AnalisisBono(bono.getPropositosEntregaid().getNombre())));
-                ab.addBono(bono);
-            }
-        } else {
-            for (Bono bono : bonosAnalizar) {
-                if (!promocional.contains(new AnalisisBono(bono.getCliente().getNombres()+" "+bono.getCliente().getApellidos()))) {
-                    promocional.add(new AnalisisBono(bono.getCliente().getNombres()+" "+bono.getCliente().getApellidos()));
-                    System.out.println(bono.getCliente().getNombres()+" "+bono.getCliente().getApellidos());
-                }
-                AnalisisBono ab = promocional.get(promocional.indexOf(new AnalisisBono(bono.getCliente().getNombres()+" "+bono.getCliente().getApellidos())));
-                ab.addBono(bono);
-            }
-        }
-    }
-
-    public List<PropositosBoolean> getPropositos() {
-        return propositos;
-    }
-
-    public void setPropositos(List<PropositosBoolean> propositos) {
-        this.propositos = propositos;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellidos() {
-        return apellidos;
-    }
-
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
-
-    public String getIdentificacion() {
-        return identificacion;
-    }
-
-    public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
-    }
-
-    public boolean isTodoscas() {
-        return todoscas;
-    }
-
-    public void setTodoscas(boolean todoscas) {
-        this.todoscas = todoscas;
-    }
-
+    
 }

@@ -86,7 +86,7 @@ public class ConvertidorConsecutivo  implements Serializable{
             factor += 1;
 
         }
-        return (cantidad * 10000) + total;
+        return (cantidad * 9999) + total;
     }
 
     public static String getConsecutivoFromNumero(long numero) {
@@ -134,5 +134,9 @@ public class ConvertidorConsecutivo  implements Serializable{
 
     static Integer getCantidadLote(String desde) {
         return Integer.parseInt(desde.substring(0, 4));
+    }
+
+    public static String restarUno(String hasta) {
+        return getConsecutivoFromNumero(getNumeroFromConsecutivo(hasta) - 1);
     }
 }

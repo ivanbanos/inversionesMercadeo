@@ -24,8 +24,7 @@ import com.invbf.sistemagestionmercadeo.util.LotebonoCanti;
 import com.invbf.sistemagestionmercadeo.util.MatematicaAplicada;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
-import static com.invbf.sistemagestionmercadeo.util.Notificador.SOLICITUD_CONTROL_SALIDA_GENERADA;
-import static com.invbf.sistemagestionmercadeo.util.Notificador.SOLICITUD_CONTROL_SALIDA_SOLICITADA;
+import com.invbf.sistemagestionmercadeo.util.estadisticaBonos;
 import com.invbf.sistemagestionmercadeo.util.loteBonoSolicitud;
 import java.io.IOException;
 import java.io.Serializable;
@@ -46,7 +45,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class PreaprobarSolicitudBonos implements Serializable {
+public class GeneracionBean implements Serializable {
 
     private List<ClienteBlancoLotes> clientesBlancosLotes;
     private List<loteBonoSolicitud> loteBonoSolicitudes;
@@ -56,6 +55,8 @@ public class PreaprobarSolicitudBonos implements Serializable {
     private Solicitudentrega elemento;
     private int tipo;
     private Float totalEntregar;
+    private estadisticaBonos estadistica;
+    private List<Bono> bonos;
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -64,7 +65,7 @@ public class PreaprobarSolicitudBonos implements Serializable {
         this.sessionBean = sessionBean;
     }
 
-    public PreaprobarSolicitudBonos() {
+    public GeneracionBean() {
     }
 
     @PostConstruct
@@ -171,6 +172,9 @@ public class PreaprobarSolicitudBonos implements Serializable {
             }
 
             System.out.println("TIPO" + tipo);
+
+            resolverbonos();
+
         } else {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
@@ -646,5 +650,90 @@ public class PreaprobarSolicitudBonos implements Serializable {
             total += lbs.getCantA() * lbs.getLotesBonosid().getDenominacion().getValor();
         }
         return total;
+    }
+
+    private void resolverbonos() {
+        estadistica = new estadisticaBonos();
+        estadistica.setBonosAprobados(0);
+        estadistica.setBonosCanjeados(0);
+        estadistica.setMontoAprobado(0);
+        estadistica.setMontoCanjeado(0);
+        estadistica.setMontoSolicitado(0);
+        bonos = new ArrayList<Bono>();
+        for (Bono bono : elemento.getControlsalidabonoList().get(0).getBonoList()) {
+            if (!bono.getEstado().equals("ANULADO")) {
+
+                estadistica.setBonosAprobados(estadistica.getBonosAprobados() + 1);
+                estadistica.setMontoAprobado(estadistica.getMontoAprobado() + (bono.getDenominacion().getValor()));
+                if (bono.getEstado().equals("CANJEADO")) {
+                    estadistica.setBonosCanjeados(estadistica.getBonosCanjeados() + 1);
+                    estadistica.setMontoCanjeado(estadistica.getMontoCanjeado() + (bono.getDenominacion().getValor()));
+
+                } else {
+                    bonos.add(bono);
+                }
+
+            }
+        }
+        estadistica.setEfectividad();
+        if (elemento.getTipoBono().getNombre().equals("NO PROMOCIONAL") && elemento.getPropositoEntrega().getNombre().equals("FIDELIZACIÓN")) {
+            for (ClienteSGBDTO cliente : clientes) {
+                estadistica.setMontoSolicitado(estadistica.getMontoSolicitado() + cliente.getValorTotal());
+            }
+        } else {
+            estadistica.setBonosSolocitados(0);
+            for (loteBonoSolicitud lbs : loteBonoSolicitudes) {
+                estadistica.setBonosSolocitados(estadistica.getBonosSolocitados() + lbs.getCantidad());
+                estadistica.setMontoSolicitado(estadistica.getMontoSolicitado() + (lbs.getCantidad() * lbs.getLotesBonosid().getDenominacion().getValor()));
+
+            }
+
+        }
+    }
+
+    public Float getTotalEntregar() {
+        return totalEntregar;
+    }
+
+    public void setTotalEntregar(Float totalEntregar) {
+        this.totalEntregar = totalEntregar;
+    }
+
+    public estadisticaBonos getEstadistica() {
+        return estadistica;
+    }
+
+    public void setEstadistica(estadisticaBonos estadistica) {
+        this.estadistica = estadistica;
+    }
+
+    public List<Bono> getBonos() {
+        return bonos;
+    }
+
+    public void setBonos(List<Bono> bonos) {
+        this.bonos = bonos;
+    }
+
+    public void cerrar() {
+        cerrar:
+        {
+            try {
+                for (Bono bono : bonos) {
+                    if (bono.getCausadenocanje() == null || bono.getCausadenocanje().equals("")) {
+                        FacesUtil.addErrorMessage("Debe colocar una causa de no canje", "");
+                        
+                        break cerrar;
+                    }
+                }
+                elemento.setEstado("REPORTE DE GESTIÓN DISPONIBLE");
+                sessionBean.marketingUserFacade.cerrarSol(elemento, bonos);
+                
+                sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Reporte generado", ""));
+                FacesContext.getCurrentInstance().getExternalContext().redirect("GenerarReporteGestionView.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(GeneracionBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }

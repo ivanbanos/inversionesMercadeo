@@ -19,6 +19,7 @@ public class ClienteBlancoLotes implements Serializable{
 
     private Clienteblanco clienteblanco;
     private List<LotebonoCanti> lotesBono;
+    private Float total;
 
     public ClienteBlancoLotes(Clienteblanco clienteblanco, List<loteBonoSolicitud> lbs) {
         this.clienteblanco = clienteblanco;
@@ -71,6 +72,32 @@ public class ClienteBlancoLotes implements Serializable{
             return false;
         }
         return true;
+    }
+
+    public Float getTotal() {
+        total = 0f;
+        for (LotebonoCanti lotesBono1 : lotesBono) {
+            total += lotesBono1.getCantidad()*lotesBono1.getLotesBono().getDenominacion().getValor();
+        }
+        return total;
+    }
+    public Float getTotalPre() {
+        total = 0f;
+        for (LotebonoCanti lotesBono1 : lotesBono) {
+            total += lotesBono1.getCantPre()*lotesBono1.getLotesBono().getDenominacion().getValor();
+        }
+        return total;
+    }
+    public Float getTotalA() {
+        total = 0f;
+        for (LotebonoCanti lotesBono1 : lotesBono) {
+            total += lotesBono1.getCantA()*lotesBono1.getLotesBono().getDenominacion().getValor();
+        }
+        return total;
+    }
+
+    public void setTotal(Float total) {
+        this.total = total;
     }
 
 

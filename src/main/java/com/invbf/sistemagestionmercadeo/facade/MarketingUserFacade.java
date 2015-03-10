@@ -14,6 +14,7 @@ import com.invbf.sistemagestionmercadeo.entity.Casinodetalle;
 import com.invbf.sistemagestionmercadeo.entity.Categoria;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Controlsalidabono;
+import com.invbf.sistemagestionmercadeo.entity.Denominacion;
 import com.invbf.sistemagestionmercadeo.entity.Evento;
 import com.invbf.sistemagestionmercadeo.entity.Listasclientestareas;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
@@ -30,6 +31,9 @@ import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.exceptions.CasinoHaveSolicitudCreadaException;
 import com.invbf.sistemagestionmercadeo.exceptions.ExistenBonosFisicosException;
 import com.invbf.sistemagestionmercadeo.exceptions.LoteBonosExistenteException;
+import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
+import com.invbf.sistemagestionmercadeo.util.PropositosBoolean;
+import com.invbf.sistemagestionmercadeo.util.TipoBonoBoolean;
 import java.util.Date;
 import java.util.List;
 
@@ -176,6 +180,8 @@ public interface MarketingUserFacade {
     public List<Lotebono> getLotesBonosCasinoTipoBono(Integer idCasino, Tipobono tipoBono);
 
     public Controlsalidabono guardarControlSalidaBonos(Controlsalidabono elemento, boolean enviar);
+    
+    public Controlsalidabono guardarControlSalidaBonosLista(Controlsalidabono elemento, boolean enviar);
 
     public void cambiarEstadoSolicitudentrega(Solicitudentrega elemento);
 
@@ -224,5 +230,21 @@ public interface MarketingUserFacade {
     public List<Lotebono> getLotesBonosByCasinoPromo(Casino idCasino);
 
     public List<Lotebono> getLotesBonosByCasinoNoPromo(Casino idCasino);
+
+    public List<Bono> getBonosPorAtributos(String en_sala, Casino casinoSelected, String consecutivo, Denominacion denominacion);
+
+    public void verificarEstadoSolicitudes();
+
+    public List<Solicitudentrega> getAllSolicitudentregaSolicitanteEstado(Integer idUsuario, String bonos_vencidos_pendiente_por_generar_repo);
+
+    public void cerrarSol(Solicitudentrega elemento, List<Bono> bonos);
+
+    public List<Bono> getBonosporCasinoPropositoTipoFecha(List<CasinoBoolean> casinos, List<PropositosBoolean> propositos, List<TipoBonoBoolean> tipos, Integer ano, Integer mes);
+
+    public List<Solicitudentrega> getAllSolicitudentreganovenc();
+
+    public List<Solicitudentrega> getAllSolicitudentregaSolicitanteVENC(Integer idUsuario);
+
+    public List<Solicitudentrega> getAllSolicitudentregaVENC();
 
 }

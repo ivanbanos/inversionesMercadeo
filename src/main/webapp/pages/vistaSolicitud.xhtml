@@ -18,16 +18,17 @@
                 </div>
             </div>
         </div>
-            <div class="row clearfix">
-                <div class="col-md-12 ">
+        <div class="row clearfix">
+            <div class="col-md-12 ">
 
-                    <h:form id="form">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading"><h4>#{label['preaprobarsolicitud']}</h4></div>
-                            <div class="panel-body">
+                <h:form id="form">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h4>solicitud de bonos</h4></div>
+                        <div class="panel-body">
 
-                                
                             <div class="container">
+
+
                                 <div class="row">
 
                                     <div class="row">
@@ -127,7 +128,10 @@
                                                                                 <p:column rowspan="2" headerText="Nombre" style="text-align: center;"/>
                                                                                 <p:column rowspan="2" headerText="Cupo de Fidelizaci&oacute;n" style="text-align: center;" />
                                                                                 <p:column rowspan="2" headerText="Valor Solicitado" style="text-align: center;"/>
-                                                                                <p:column rowspan="2" headerText="Valor Preaprobado" style="text-align: center;"/>
+                                                                                <p:column rowspan="2" headerText="Valor Preaprobado" style="text-align: center;" rendered="#{preaprobarSolicitudBonos.elemento.estado=='PREAPROBADA'
+                                                                                                                                                                             or preaprobarSolicitudBonos.elemento.estado=='BONOS RECIBIDOS EN SALA' or preaprobarSolicitudBonos.elemento.estado=='APROBADA' or preaprobarSolicitudBonos.elemento.estado=='BONOS DILIGENCIADOS'}"/>
+                                                                                <p:column rowspan="2" headerText="Valor Aprobado" style="text-align: center;" rendered="#{preaprobarSolicitudBonos.elemento.estado=='APROBADA'
+                                                                                                                                                                          or preaprobarSolicitudBonos.elemento.estado=='BONOS RECIBIDOS EN SALA' or preaprobarSolicitudBonos.elemento.estado=='BONOS DILIGENCIADOS'}"/>
                                                                                 <p:column width="30%"  colspan="3" headerText="Valores otorgados en los ultimos 3 meses" style="text-align: center;"/>
                                                                             </p:row>
                                                                             <p:row>
@@ -163,7 +167,7 @@
                                                                             <f:facet name="header">
                                                                                 <h:outputText value="Valor" />
                                                                             </f:facet>
-                                                                            <h:outputLabel  id="valorr#{cli.clientessgb.idCliente}" value="#{cli.valorTotal}" >
+                                                                            <h:outputLabel  id="valorrt#{cli.clientessgb.idCliente}" value="#{cli.valorTotal}" >
                                                                                 <f:converter  converterId="numberSeparationConverter"  />
                                                                             </h:outputLabel>
                                                                             <f:facet name="footer">
@@ -176,25 +180,47 @@
 
                                                                         </p:column>
 
-                                                                        <p:column style="text-align: center;" >
+                                                                        <p:column style="text-align: center;" rendered="#{preaprobarSolicitudBonos.elemento.estado=='PREAPROBADA'
+                                                                                                                          or preaprobarSolicitudBonos.elemento.estado=='BONOS RECIBIDOS EN SALA' or preaprobarSolicitudBonos.elemento.estado=='APROBADA' or preaprobarSolicitudBonos.elemento.estado=='BONOS DILIGENCIADOS'}">
                                                                             <f:facet name="header">
                                                                                 <h:outputText value="Valor Preaprobar" />
                                                                             </f:facet>
-                                                                            <p:spinner  max="#{cli.clientessgb.bonoFidelizacion}" min="0" prefix="$" stepFactor="5000" id="valor#{cli.clientessgb.idCliente}" value="#{cli.preaprobado}" >
 
-                                                                            </p:spinner>
+                                                                            <h:outputLabel  id="valorrp#{cli.clientessgb.idCliente}" value="#{cli.preaprobado}"  >
+                                                                                <f:converter  converterId="numberSeparationConverter"  />
+                                                                            </h:outputLabel>
                                                                             <f:facet name="footer">
                                                                                 <h:outputLabel value="Total: "></h:outputLabel>
                                                                                 <h:outputText id="totalcam" value="#{preaprobarSolicitudBonos.totalPre}">
                                                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                                                 </h:outputText>
 
-                                                                                <p:commandButton id="settotal" update=":#{p:component('totalcam')}"
-                                                                                                 icon="ui-icon-refresh" title="#{label['lb_btn.agregar']}" 
-                                                                                                 onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
                                                                             </f:facet>
 
                                                                         </p:column>
+
+
+
+
+                                                                        <p:column style="text-align: center;" rendered="#{preaprobarSolicitudBonos.elemento.estado=='APROBADA'
+                                                                                                                          or preaprobarSolicitudBonos.elemento.estado=='BONOS RECIBIDOS EN SALA' or preaprobarSolicitudBonos.elemento.estado=='BONOS DILIGENCIADOS'}">
+                                                                            <f:facet name="header">
+                                                                                <h:outputText value="Valor Aprobado" />
+                                                                            </f:facet>
+                                                                            <h:outputLabel  id="valorraa#{cli.clientessgb.idCliente}" value="#{cli.aprobado}" >
+                                                                                <f:converter  converterId="numberSeparationConverter"  />
+                                                                            </h:outputLabel>
+                                                                            <f:facet name="footer">
+                                                                                <h:outputLabel value="Total: "></h:outputLabel>
+                                                                                <h:outputText id="totalapr" value="#{preaprobarSolicitudBonos.totalA}">
+                                                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                                                </h:outputText>
+
+                                                                            </f:facet>
+
+                                                                        </p:column>
+
+
 
                                                                         <p:column width="10%" style="text-align: center;">
                                                                             <f:facet name="header">
@@ -244,21 +270,19 @@
                                                      emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" 
                                                      rendered="#{preaprobarSolicitudBonos.tipo == 1}" >
 
-                                            <p:column headerText="Stock Actual" style="text-align: center;">
-                                                <h:outputText value="#{preaprobarSolicitudBonos.getCantidad(solicitudes.lotesBonosid.desde, solicitudes.lotesBonosid.hasta)}">
+
+                                            <p:column headerText="Cantidad preaprobada" width="10%" style="text-align: center;" rendered="#{preaprobarSolicitudBonos.elemento.estado=='PREAPROBADA' or preaprobarSolicitudBonos.elemento.estado=='APROBADA' or preaprobarSolicitudBonos.elemento.estado=='BONOS DILIGENCIADOS'
+                                                                                                                                            or preaprobarSolicitudBonos.elemento.estado=='BONOS RECIBIDOS EN SALA'}">
+                                                <h:outputText value="#{solicitudes.cantPre}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                 </h:outputText>
                                             </p:column>
-                                            <p:column headerText="Cantidad solicitada" width="30%" style="text-align: center;">
-                                                <h:outputText value="#{solicitudes.cantidad}">
-                                                    <f:converter  converterId="numberSeparationConverter"  />
-                                                </h:outputText>
-                                            </p:column>
-                                            <p:column headerText="Cantidad preaprobada" width="30%">
+                                            <p:column headerText="Cantidad aprobada" width="10%" style="text-align: center;" rendered="#{preaprobarSolicitudBonos.elemento.estado=='APROBADA' or preaprobarSolicitudBonos.elemento.estado=='BONOS DILIGENCIADOS'
+                                                                                                                                         or preaprobarSolicitudBonos.elemento.estado=='BONOS RECIBIDOS EN SALA'}">
                                                 <span id="cantidad#{status}">
-                                                    <p:spinner min="0" stepFactor="100" max="#{preaprobarSolicitudBonos.getCantidad(solicitudes.lotesBonosid.desde, solicitudes.lotesBonosid.hasta)}"
-                                                               value="#{solicitudes.cantPre}">
-                                                    </p:spinner>
+                                                    <h:outputText value="#{solicitudes.cantA}">
+                                                        <f:converter  converterId="numberSeparationConverter"  />
+                                                    </h:outputText>
                                                 </span>
                                             </p:column>
                                             <p:column headerText="Denominaci&oacute;n" style="text-align: center;">
@@ -267,16 +291,26 @@
                                                 </h:outputText>
                                             </p:column>
                                             <p:column headerText="Total" style="text-align: center;">
-                                                <h:outputText value="#{solicitudes.lotesBonosid.denominacion.valor*solicitudes.cantPre}">
+                                                <h:outputText value="#{solicitudes.lotesBonosid.denominacion.valor*solicitudes.cantA}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                 </h:outputText>
                                                 <f:facet name="footer">
 
-                                                        <h:outputText  value="#{preaprobarSolicitudBonos.totalprepromo}">
+                                                    <h:outputText  value="#{preaprobarSolicitudBonos.totalapromo}">
 
-                                                            <f:converter  converterId="numberSeparationConverter"  />
-                                                        </h:outputText>
-                                                    </f:facet>
+                                                        <f:converter  converterId="numberSeparationConverter"  />
+                                                    </h:outputText>
+                                                </f:facet>
+                                            </p:column>
+                                            <p:column headerText="Stock Actual" style="text-align: center;">
+                                                <h:outputText value="#{preaprobarSolicitudBonos.getCantidad(solicitudes.lotesBonosid.desde, solicitudes.lotesBonosid.hasta)}">
+                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Cantidad solicitada" width="10%" style="text-align: center;">
+                                                <h:outputText value="#{solicitudes.cantidad}">
+                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                </h:outputText>
                                             </p:column>
                                         </p:dataTable>
                                     </div>
@@ -296,7 +330,7 @@
 
 
                                                     </div>
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-6">
                                                         <p:dataTable value="#{clientesBlancos.lotesBono}" var="determinar" rowIndexVar="status" style="width: 100%;"
                                                                      emptyMessage="#{label['lb_table.noelementos']}" widgetVar="den">
                                                             <p:column headerText="Denominacion"  style="text-align: right; " >
@@ -305,31 +339,41 @@
                                                                 </h:outputText>
 
                                                             </p:column>
-                                                            <p:column headerText="Cantidad" >
-                                                                <p:column headerText="Cantidad">
+                                                            <p:column headerText="Cantidad solicitada" >
+                                                                <p:column headerText="Cantidadsolicitada">
                                                                     <h:outputText style="width: 100%;text-align: right;"  value="#{determinar.cantidad}">
 
                                                                     </h:outputText>
 
                                                                 </p:column>
                                                             </p:column>
-                                                            <p:column headerText="Cantidad Preaprobada" >
-                                                                <p:inputText style="width: 100%;text-align: right;"  value="#{determinar.cantPre}">
-                                                                    <p:ajax event="blur" update="totalprea"/>
-                                                                </p:inputText>
+                                                            <p:column headerText="Cantidad preaprobada" rendered="#{preaprobarSolicitudBonos.elemento.estado=='PREAPROBADA' or preaprobarSolicitudBonos.elemento.estado=='APROBADA' or preaprobarSolicitudBonos.elemento.estado=='BONOS DILIGENCIADOS'
+                                                                                                                    or preaprobarSolicitudBonos.elemento.estado=='BONOS RECIBIDOS EN SALA'}">
+                                                                <p:column headerText="Cantidad preaprobada">
+                                                                    <h:outputText style="width: 100%;text-align: right;"  value="#{determinar.cantPre}">
+
+                                                                    </h:outputText>
+
+                                                                </p:column>
+                                                            </p:column>
+                                                            <p:column headerText="Cantidad aprobada" rendered="#{preaprobarSolicitudBonos.elemento.estado=='APROBADA' or preaprobarSolicitudBonos.elemento.estado=='BONOS DILIGENCIADOS'
+                                                                                                                 or preaprobarSolicitudBonos.elemento.estado=='BONOS RECIBIDOS EN SALA'}">
+                                                                <h:outputText style="width: 100%;text-align: right;"  value="#{determinar.cantA}">
+
+                                                                </h:outputText>
                                                                 <f:facet name="footer">
                                                                     <h:outputLabel  value="Total">
                                                                     </h:outputLabel>
                                                                 </f:facet>
                                                             </p:column>
                                                             <p:column id="totalprea" headerText="Total" >
-                                                                <h:outputText style="width: 100%;text-align: right;"  value="#{determinar.cantPre * determinar.lotesBono.denominacion.valor}">
+                                                                <h:outputText style="width: 100%;text-align: right;"  value="#{determinar.cantA * determinar.lotesBono.denominacion.valor}">
 
                                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                                 </h:outputText>
                                                                 <f:facet name="footer">
-                                                                    
-                                                                    <h:outputText  value="#{clientesBlancos.totalPre}">
+
+                                                                    <h:outputText  value="#{clientesBlancos.totalA}">
 
                                                                         <f:converter  converterId="numberSeparationConverter"  />
                                                                     </h:outputText>
@@ -337,7 +381,7 @@
                                                             </p:column>
                                                         </p:dataTable>
                                                     </div>
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-4">
                                                         <div class="row" ><label>Justificaci&oacute;n:</label></div>
                                                         <div class="row">
                                                             <h:outputText id="just1g" value="#{clientesBlancos.clienteblanco.justificacion}" style="height: 150px;width: 90%;"/>
@@ -354,19 +398,72 @@
                                         </div>
                                     </div>
 
+
                                 </div>
 
-
-                            </div>
-                            </div>
-                            <div class="panel-footer text-right"> 
-                                <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{preaprobarSolicitudBonos.guardar()}"
-                                                 ajax="false" style="margin:0" onclick="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
                             </div>
                         </div>
-                    </h:form>
+                    </div>
+                    <p:outputPanel style="display:block" rendered="#{preaprobarSolicitudBonos.elemento.estado=='BONOS DILIGENCIADOS' 
+                                                                     or preaprobarSolicitudBonos.elemento.estado=='BONOS RECIBIDOS EN SALA'}">
+                        <div class="container">
+                            <div class="row">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading"><h4>Listado de bonos diligenciados</h4></div>
+                                    <div class="panel-body">
+                                        <p:dataTable id="bonos" var="bono" value="#{preaprobarSolicitudBonos.control.bonoList}" style="margin-bottom:0"
+                                                     rowIndexVar="index">
 
-                </div>
+                                            <p:column headerText="Fila #" style="width: 5%; text-align: center;">
+                                                #{index + 1}
+                                            </p:column>
+                                            <p:column headerText="Estado" >
+                                                <h:outputText  value="#{bono.estado}" />
+                                            </p:column>
+                                            <p:column headerText="Motivo de anulaci&oacute;n" >
+                                                <h:outputText  value="#{bono.razonAnulamiento}" />
+                                            </p:column>
+                                            <p:column headerText="consecutivo" sortBy="#{bono.consecutivo}" filterBy="#{bono.consecutivo}" filterMatchMode="contains">
+                                                <h:outputText value="#{bono.consecutivo}" />
+                                            </p:column>
+                                            <p:column headerText="denominación" style="text-align: center;" sortBy="#{bono.denominacion.valor}" filterBy="#{bono.denominacion.valor}" filterMatchMode="contains">
+                                                <h:outputText value="#{bono.denominacion.valor}" >
+                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="cliente" sortBy="#{bono.nombreCliente}" filterBy="#{bono.nombreCliente}" filterMatchMode="contains">
+                                                <h:outputText value="#{bono.nombreCliente}" />
+                                            </p:column>
+                                        </p:dataTable>
+
+                                    </div>
+
+                                    <div class="panel-footer text-right">
+                                        <p:commandButton id="btnconfirm" value="Recibido en sala" 
+                                                         rendered="#{preaprobarSolicitudBonos.elemento.estado!='BONOS RECIBIDOS EN SALA'}"
+                                                          style="margin:0" onclick="PF('ajaxWaitingDialog').show();" onsuccess="PF('ajaxWaitingDialog').hide();PF('recibir').show();"/>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </p:outputPanel>
+
+
+
+                </h:form>
+                <h:form>
+                    <p:confirmDialog id="recibir" message="Seguro desea confirmar la correcta recepci&oacute;n de los bonos?"  
+                                     header="Confirmaci&oacute;n de recepci&oacute;n de bonos" severity="alert" widgetVar="recibir" closable="false">  
+
+                        <p:commandButton id="confirm" value="Confirmar" onerror="PF('ajaxWaitingDialog').hide();" onclick="PF('ajaxWaitingDialog').show();" 
+                                         action="#{preaprobarSolicitudBonos.recibirBonosEnSala()}" ajax="false"/>  
+                        <p:commandButton id="decline" value="Cancelar" onclick="PF('recibir').hide()" type="button" />   
+
+                    </p:confirmDialog> 
+                </h:form>
             </div>
+        </div>
     </ui:define>            
 </ui:composition>

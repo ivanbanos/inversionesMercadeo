@@ -43,17 +43,13 @@
                                   or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)
                                   or sessionBean.perfilViewMatch(&quot;Verificarbono&quot;)}">
                         <h:commandLink  action="#{sessionBean.go(&quot;ControlSalidaBono&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-sign-out fa-5x"></i> 
-                            <br/>#{label['salidabonoscaja']}</h:commandLink>
+                            <br/>Ordenes de retiro de bonos de inventario</h:commandLink>
                     </c:if>
-                    
-                    <c:if test="#{sessionBean.perfilViewMatch(&quot;Entregarbonocaja&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporentregarcaja&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-envelope fa-5x"></i> 
-                            <br/>#{label['bonosporentregarcaja']}</h:commandLink>
-                    </c:if>
-                    
-                    <c:if test="#{sessionBean.perfilViewMatch(&quot;Recibirbono&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporrecibir&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-envelope-square fa-5x"></i> 
-                            <br/>#{label['bonosporrecibir']}</h:commandLink>
+                    <c:if test="#{sessionBean.perfilViewMatch(&quot;Verbonosporcanjear&quot;)
+                                  or sessionBean.perfilViewMatch(&quot;VerbonosporValidar&quot;)
+                                  or sessionBean.perfilViewMatch(&quot;VerbonosporAutorizar&quot;)}">
+                        <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporcanjear&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-exchange fa-5x"></i> 
+                            <br/>Canje de bonos</h:commandLink>
                     </c:if>
 
                 </h:form>

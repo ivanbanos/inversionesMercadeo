@@ -119,5 +119,7 @@ public interface AdminFacade {
     public void guardarBono(Bono bono);
 
     public Propositoentrega findProposito(Integer id);
+
+    public List<Usuario> findUsuariosAutorizadoresCasino(Casino casinoSelected);
     
 }
