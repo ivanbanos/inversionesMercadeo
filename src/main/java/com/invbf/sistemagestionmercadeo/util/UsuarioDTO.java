@@ -5,38 +5,14 @@
  */
 package com.invbf.sistemagestionmercadeo.util;
 
-import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Cargo;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
-import com.invbf.sistemagestionmercadeo.entity.CommputadorRegistrado;
-import com.invbf.sistemagestionmercadeo.entity.Controlsalidabono;
-import com.invbf.sistemagestionmercadeo.entity.Listasclientestareas;
-import com.invbf.sistemagestionmercadeo.entity.Log;
 import com.invbf.sistemagestionmercadeo.entity.Perfil;
-import com.invbf.sistemagestionmercadeo.entity.Solicitudcambiocupofidelizacion;
-import com.invbf.sistemagestionmercadeo.entity.Solicitudentrega;
-import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
-import com.invbf.sistemagestionmercadeo.entity.Tarea;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.entity.Usuariodetalle;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -62,6 +38,9 @@ public class UsuarioDTO implements Serializable {
         estado  = u.getEstado();
         nombre = u.getNombre();
         usuariodetalle  = u.getUsuariodetalle();
+        if(usuariodetalle==null){
+            usuariodetalle = new Usuariodetalle(idUsuario);
+        }
         if(usuariodetalle.getIdcargo()==null){
             usuariodetalle.setIdcargo(new Cargo());
         }

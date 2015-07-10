@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var minutos = 3;
+var minutos = 18;
 var segundos = 0;
 var counter;
 function timer()

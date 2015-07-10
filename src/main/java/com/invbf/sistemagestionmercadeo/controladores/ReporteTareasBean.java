@@ -62,11 +62,7 @@ public class ReporteTareasBean implements Serializable{
         }
         elemento = new Tarea();
         lista = sessionBean.marketingUserFacade.findAllTareas();
-        for(Tarea t :lista){
-            if(!t.getEstado().equals("VENCIDO")) {
-                sessionBean.checkEstadoTarea(t);
-            }
-        }
+        sessionBean.checkEstadoTarea();
     }
 
     public List<Tarea> getLista() {

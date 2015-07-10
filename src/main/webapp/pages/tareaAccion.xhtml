@@ -18,350 +18,109 @@
                 </div>
             </div>
         </div>
-        <h:form>
+        <h:form enctype="multipart/form-data">
             * #{label['mensaje.camporequerido']}
             <div class="panel panel-primary">
 
                 <div class="panel-heading"><h4>Tarea</h4></div>
                 <div class="panel-body">
-
-
-                    <p:wizard flowListener="#{tareaAccionBean.onFlowProcess}" backLabel="Atrás" nextLabel="Siguiente">
-                        <p:tab id="general" title="Datos generales">
-
-
-                            <c:choose>
-                                <c:when test="#{tareaAccionBean.evento!=null}">
-                                    <div class="panel panel-primary">
-                                        <div class="panel-body">
-                                            <div class="row clearfix">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
-                                                    <b><label class="col-md-3 control-label" >#{label['nombreevento']}:</label></b>
-                                                    <div class="col-md-9">
-                                                        <h:outputText id="nombre" value="#{tareaAccionBean.evento.nombre}" />
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row clearfix">
-                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
-                                                    <b><label class="col-md-6 control-label" >#{label['fechainicio']}:</label></b>
-                                                    <div class="col-md-6">
-                                                        <h:outputText id="fecini" value="#{tareaAccionBean.evento.fechaInicio}" >
-                                                            <f:convertDateTime pattern="dd/MMMMM/yyyy HH:mm:ss" locale="es_CO" />
-                                                        </h:outputText>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
-                                                    <b><label class="col-md-6 control-label" >#{label['fechafinal']}:</label></b>
-                                                    <div class="col-md-6">
-                                                        <h:outputText id="fecfin" value="#{tareaAccionBean.evento.fechaFinal}"  >
-                                                            <f:convertDateTime pattern="dd/MMMMM/yyyy HH:mm:ss" locale="es_CO" />
-                                                        </h:outputText>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row clearfix">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
-                                                    <b><label class="col-md-3 control-label" >#{label['descripcion']}:</label></b>
-                                                    <div class="col-md-9">
-                                                        <h:outputText id="descripcion" value="#{tareaAccionBean.evento.decripcion}" />
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row clearfix">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
-                                                    <b><label class="col-md-3 control-label" >#{label['casino']}:</label></b>
-                                                    <div class="col-md-9">
-                                                        <h:outputText id="casino" value="#{tareaAccionBean.evento.idCasino.nombre}" />
-                                                    </div>
-                                                </div>
+                    <c:choose>
+                        <c:when test="#{tareaAccionBean.evento!=null}">
+                            <div class="panel panel-primary">
+                                <div class="panel-body">
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-3 control-label" >#{label['nombreevento']}:</label></b>
+                                            <div class="col-md-9">
+                                                <h:outputText id="nombre" value="#{tareaAccionBean.evento.nombre}" />
                                             </div>
                                         </div>
                                     </div>
-                                </c:when>
-                                <c:otherwise>
 
                                     <div class="row clearfix">
-                                        <div class="form-group col-md-12">
-                                            <label class="col-md-2 control-label" >#{label['evento']}</label>
-                                            <label class="col-md-8 control-label" >Ninguno</label>
-                                        </div>
-                                    </div>
-                                </c:otherwise>
-                            </c:choose>
-
-                            <div class="row clearfix">
-                                <div class="form-group col-md-6">
-                                    <label class="col-md-4 control-label" >* #{label['tipotarea']}:</label>
-                                    <div class="col-md-8">
-                                        <p:selectOneMenu id="tipo" value="#{tareaAccionBean.elemento.tipo.idTipotarea}" required="true" requiredMessage="#{label['msj.req.tipotarea']}" >
-                                            <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
-                                            <f:selectItems value="#{tareaAccionBean.tipotareas}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.idTipotarea}"/> 
-                                        </p:selectOneMenu>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row clearfix">
-                                <div class="form-group col-md-12">
-                                    <label class="col-md-2 control-label" >* #{label['nombre']}:</label>
-                                    <div class="col-md-6">
-                                        <p:inputText id="nombreEventos" style="width: 100%;" value="#{tareaAccionBean.elemento.nombre}" required="true" requiredMessage="#{label['msj.req.nombres']}"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row clearfix">
-                                <div class="form-group col-md-6">
-                                    <label class="col-md-4 control-label" >* #{label['fechainicio']}:</label>
-                                    <div class="col-md-8">
-                                        <p:calendar pattern="dd/MMMM/yyyy HH:mm:ss" id="feciniEventos" value="#{tareaAccionBean.elemento.fechaInicio}" locale="es_CO" timeZone="GTM-5" required="true">
-                                            <p:ajax event="dateSelect" update=":#{p:component('fecfinEventos')}" />
-                                        </p:calendar>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-6">
-                                    <label class="col-md-4 control-label" >* #{label['fechafinal']}:</label>
-                                    <div class="col-md-8">
-                                        <p:calendar pattern="dd/MMMM/yyyy HH:mm:ss" id="fecfinEventos" value="#{tareaAccionBean.elemento.fechaFinalizacion}" locale="es_CO" timeZone="GTM-5" required="true"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row clearfix">
-                                <div class="form-group col-md-12">
-                                    <label class="col-md-2 control-label" >#{label['descripcion']}:</label>
-                                    <div class="col-md-6">
-                                        <p:inputTextarea id="descripcionEventos" style="width: 100%;" value="#{tareaAccionBean.elemento.descripcion}"/>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                        </p:tab>
-
-                        <p:tab id="speech" title="Dialogo">
-
-
-                            <div class="row clearfix">
-                                <div class="form-group col-md-12">
-                                    <label class="col-md-2 control-label" >#{label['speech']}:</label>
-                                    <div class="col-md-6">
-                                        <p:inputTextarea id="speechTarea" style="width: 100%;" value="#{tareaAccionBean.elemento.speech}"/>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </p:tab>
-
-                        <p:tab id="clientes" title="Selecci&oacute;n de Clientes">
-                            <p:outputPanel id="tablaclientes" style="display:block">
-
-                                <div class="panel panel-primary">
-                                    <div class="panel-heading">#{label['clientes']}</div>
-                                    <div class="panel-body">
-                                        <div class="row clearfix">
-                                            <div class="panel panel-primary">
-
-                                                <div class="panel-heading">
-                                                    #{label['casinos']}
-                                                </div>
-                                                <div class="panel-body">
-                                                    <ul id="casinosList">
-                                                        <li>
-                                                            <h:selectBooleanCheckbox value="#{tareaAccionBean.todoscasinos}" onclick="toggle('casinosList')">
-                                                            </h:selectBooleanCheckbox>
-                                                            <label>Todos</label>
-                                                        </li>
-
-                                                        <c:forEach var="itemcas" items="#{tareaAccionBean.casinoBooleans}">
-                                                            <li>
-                                                                <h:selectBooleanCheckbox value="#{itemcas.selected}" onclick="deselecttodo('casinosList')"/>&nbsp;
-                                                                <label>#{itemcas.casino.nombre}</label>
-                                                            </li>
-                                                        </c:forEach>
-                                                    </ul>
-                                                </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-6 control-label" >#{label['fechainicio']}:</label></b>
+                                            <div class="col-md-6">
+                                                <h:outputText id="fecini" value="#{tareaAccionBean.evento.fechaInicio}" >
+                                                    <f:convertDateTime pattern="dd/MMMM/yyyy HH:mm:ss" locale="es_CO" timeZone="America/Bogota"/>
+                                                </h:outputText>
                                             </div>
                                         </div>
 
-                                        <div id="clientes" class="row clearfix">
-                                            <div class="form-group col-md-12">
-                                                <label class="col-md-2 control-label" >#{label['clientes']}: cant #{tareaAccionBean.conteo}</label>
-                                                <div class="col-md-4">
-                                                    <div class="panel panel-primary">
-
-                                                        <div class="panel-heading">
-                                                            #{label['categorias']}
-                                                        </div>
-                                                        <div class="panel-body">
-                                                            <ul id="categoriasList">
-                                                                <li>
-                                                                    <h:selectBooleanCheckbox value="#{tareaAccionBean.todoscat}" onclick="toggle('categoriasList')">
-                                                                    </h:selectBooleanCheckbox>
-                                                                    <label>Todos</label>
-                                                                </li>
-
-                                                                <c:forEach var="itemcat" items="#{tareaAccionBean.categoriasBoolean}">
-                                                                    <li>
-                                                                        <h:selectBooleanCheckbox value="#{itemcat.selected}" onclick="deselecttodo('categoriasList')"/>&nbsp;
-                                                                        <label>#{itemcat.categoria.nombre}</label>
-                                                                    </li>
-                                                                </c:forEach>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="panel panel-primary">
-
-                                                        <div class="panel-heading">#{label['tipojuegos']}</div>
-                                                        <div class="panel-body">
-
-                                                            <ul id="tipojuegoList">
-
-
-                                                                <li>
-                                                                    <h:selectBooleanCheckbox value="#{tareaAccionBean.todostip}" onclick="toggle('tipojuegoList')">
-                                                                    </h:selectBooleanCheckbox>
-                                                                    <label>Todos</label>
-                                                                </li>
-                                                                <c:forEach var="itemtip" items="#{tareaAccionBean.tipoJuegosBoolean}">
-                                                                    <li>
-                                                                        <h:selectBooleanCheckbox value="#{itemtip.selected}" onclick="deselecttodo('tipojuegoList')"/>&nbsp;
-                                                                        <label >#{itemtip.tipoJuego.nombre}</label>
-                                                                    </li>
-                                                                </c:forEach>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-6 control-label" >#{label['fechafinal']}:</label></b>
+                                            <div class="col-md-6">
+                                                <h:outputText id="fecfin" value="#{tareaAccionBean.evento.fechaFinal}"  >
+                                                    <f:convertDateTime pattern="dd/MMMM/yyyy HH:mm:ss" locale="es_CO" timeZone="America/Bogota"/>
+                                                </h:outputText>
                                             </div>
                                         </div>
-                                        <div class="row clearfix">
-                                            <div class="form-group col-md-12">
+                                    </div>
 
-                                                <p:dataTable id="detailsTableClientes" var="element" value="#{tareaAccionBean.elemento.listasclientestareasList}"  
-                                                             emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTableClientes"
-                                                             rows="#{sessionBean.paginacion}"
-                                                             paginator="true"
-                                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                             >
-
-                                                    <p:column headerText="#{label['identificacion']}" sortBy="#{element.cliente.identificacion}" filterBy="#{element.cliente.identificacion}" filterMatchMode="contains" >
-                                                        <h:outputText value="#{element.cliente.identificacion}" />
-                                                    </p:column>
-
-                                                    <p:column headerText="#{label['nombres']}" sortBy="#{element.cliente.nombres}" filterBy="#{element.cliente.nombres}" filterMatchMode="contains" >
-                                                        <h:outputText value="#{element.cliente.nombres}" />
-                                                    </p:column>
-
-                                                    <p:column headerText="#{label['apellidos']}" sortBy="#{element.cliente.apellidos}" filterBy="#{element.cliente.apellidos}" filterMatchMode="contains" >
-                                                        <h:outputText value="#{element.cliente.apellidos}" />
-                                                    </p:column>
-
-                                                    <p:column headerText="#{label['acciones']}">
-                                                        <p:commandButton id="deleteButton" actionListener="#{tareaAccionBean.quitarCliente(element.cliente.idCliente)}"
-                                                                         icon="ui-icon-trash" title="#{label['lb_btn.borrar']}"  update=":#{p:component('tablaclientes')}"/>
-                                                    </p:column>
-
-                                                </p:dataTable>
-
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-3 control-label" >#{label['descripcion']}:</label></b>
+                                            <div class="col-md-9">
+                                                <h:outputText id="descripcion" value="#{tareaAccionBean.evento.decripcion}" />
                                             </div>
                                         </div>
-
                                     </div>
-                                    <div class="panel-footer">
 
-                                        <p:commandButton value="Confirmar" actionListener="#{tareaAccionBean.createClientes()}" 
-                                                         update=":#{p:component('tablaclientes')}" icon="ui-icon-check" style="margin:0" />
-
-                                    </div>
-                                </div>
-                            </p:outputPanel>
-                        </p:tab>
-
-                        <p:tab id="usuarios" title="Selecci&oacute;n de usuarios">
-                            <div class="row clearfix">
-                                <div class="form-group col-md-12">
-                                    <label class="col-md-2 control-label" >#{label['usuarios']}:</label>
-                                    <div class="col-md-10">
-                                        <p:pickList id="PojoPickList2" value="#{tareaAccionBean.todosusuarioses}" var="form2" effect="bounce"
-                                                    itemValue="#{form2}" converter="usercom" itemLabel="#{form2.nombreUsuario}"  showCheckbox="true"
-                                                    showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"  >
-
-                                            <f:facet name="sourceCaption">#{label['disponibles']}</f:facet>
-                                            <f:facet name="targetCaption">#{label['tareaasignadaa']}</f:facet>
-
-                                        </p:pickList>
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-3 control-label" >#{label['casino']}:</label></b>
+                                            <div class="col-md-9">
+                                                <h:outputText id="casino" value="#{tareaAccionBean.evento.idCasino.nombre}" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </p:tab>
+                        </c:when>
+                        <c:otherwise>
 
-                        <p:tab id="confirmar" title="Confirmar">
-                            <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{tareaAccionBean.guardar()}" style="margin:0" />
-                            <p:commandButton id="btnclose" value="#{label['Volver']}" actionListener="#{tareaAccionBean.goBack()}" style="margin:0" />
+                            <div class="row clearfix">
+                                <div class="form-group col-md-12">
+                                    <label class="col-md-2 control-label" >#{label['evento']}</label>
+                                    <label class="col-md-8 control-label" >Ninguno</label>
+                                </div>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
 
-                            <c:if test="#{tareaAccionBean.elemento.tipo.nombre eq 'EMAIL'}">
-                                <p:commandButton id="btncorreo" oncomplete="PF('email').show();" 
-                                                 value="#{label['EnviarCorreo']}" icon="ui-icon-plusthick" title="#{label['EnviarCorreo']}" /> 
-                            </c:if>
-                        </p:tab>
-                    </p:wizard>
+
+
+                    <div class="row clearfix">
+                        <div class="form-group col-md-6">
+                            <label class="col-md-4 control-label" >* #{label['tipotarea']}:</label>
+                            <div class="col-md-8">
+                                <p:selectOneMenu id="tipo" value="#{tareaAccionBean.elemento.tipo.idTipotarea}" required="true" requiredMessage="#{label['msj.req.tipotarea']}" >
+                                    <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
+                                    <f:selectItems value="#{tareaAccionBean.tipotareas}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.idTipotarea}"/> 
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="form-group col-md-12">
+                            <div class="col-md-5">
+
+                                <h:commandButton value="Siguiente" styleClass="btn btn-primary" onclick="PF('ajaxWaitingDialog').show()"
+                                                 action="#{tareaAccionBean.enviarAPagina()}">
+                                </h:commandButton>
+                            </div>
+                        </div>
+                    </div>
+
 
 
                 </div>
             </div>
 
         </h:form>
-        <h:form>
-            <p:dialog id="email" header="email" height="80%" width="80%" widgetVar="email" modal="true" closable="false" resizable="false">
-                <div class="panel panel-primary">
 
-                    <div class="panel-body">
-                        <fieldset>
-                            <div class="control-group">
-                                <!-- Username -->
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label" >#{label['asunto']}</label>
-                                    <div class="col-md-9">
-                                        <h:inputText id="asunto" value="#{tareaAccionBean.asunto}" required="true" class="form-control"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <!-- Username -->
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <h:selectBooleanCheckbox id="envioimagen" value="#{tareaAccionBean.enviarcorreo}" />
-                                        <label>#{label['enviarimagen']}</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <!-- Username -->
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <h:inputTextarea id="cuerpo" value="#{tareaAccionBean.cuerpo}" required="true" class="form-control"/>
-                                    </div>
-                                </div>
-                            </div>
 
-                        </fieldset>
-                    </div>
-                    <div class="panel-footer text-right"> 
-                        <p:commandButton value="Confirmar" actionListener="#{tareaAccionBean.enviarCorreo()}" 
-                                         oncomplete="PF('email').hide()" icon="ui-icon-check" style="margin:0" />   
-                        <p:commandButton value="Cerrar" oncomplete="PF('email').hide()" icon="ui-icon-closethick"/>  
-                    </div>
-                </div>
-            </p:dialog> 
-        </h:form>
+
+
     </ui:define>            
 </ui:composition>

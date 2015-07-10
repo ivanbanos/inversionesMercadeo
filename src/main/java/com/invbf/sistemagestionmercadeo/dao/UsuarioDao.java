@@ -5,6 +5,7 @@
 package com.invbf.sistemagestionmercadeo.dao;
 
 import com.invbf.sistemagestionmercadeo.entity.Casino;
+import com.invbf.sistemagestionmercadeo.entity.CommputadorRegistrado;
 import com.invbf.sistemagestionmercadeo.entity.Perfil;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.entity.Vista;
@@ -277,6 +278,34 @@ public class UsuarioDao {
         }
         
         return usuarios;
+    }
+
+    public static void registrarMaquina(Usuario usuario, String ipAddress) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+
+        tx.begin();
+        try {
+            CommputadorRegistrado cr = new CommputadorRegistrado();
+            cr.setMac(ipAddress);
+            cr.setUsuariosidUsuario(usuario);
+            cr.setEstado("INACTIVO");
+            if(usuario.getComputadorregistradoList()==null){
+                usuario.setComputadorregistradoList(new ArrayList<CommputadorRegistrado>());
+            }
+            usuario.getComputadorregistradoList().add(cr);
+            em.merge(usuario);
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
     }
 
 }

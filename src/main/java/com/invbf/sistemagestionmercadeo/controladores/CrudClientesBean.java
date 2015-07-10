@@ -127,7 +127,7 @@ public class CrudClientesBean  implements Serializable{
     }
 
     public void delete() {
-        sessionBean.managerUserFacade.addPermiso(new Permiso("ELIMINAR", elemento.getIdCliente().toString(), "CLIENTE", "", "", "", "", "", ""));
+        sessionBean.managerUserFacade.addPermiso(new Permiso("ELIMINAR", elemento.getIdCliente().toString(), "CLIENTE", "", "", "", "", "", "",sessionBean.getUsuario()));
         lista = sessionBean.marketingUserFacade.findAllClientes();
         sessionBean.registrarlog("eliminar", "Clientes", "Cleinte enviado a eliminar:"+elemento.toString());
         

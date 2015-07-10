@@ -5,7 +5,11 @@
  */
 package com.invbf.sistemagestionmercadeo.dao;
 
+import com.invbf.sistemagestionmercadeo.entity.Clienteblanco;
+import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos;
+import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosPK;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentrega;
+import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -87,7 +91,7 @@ public class SolicitudEntregaDao {
     }
 
     public static List<Solicitudentrega> findByVenc() {
-         EntityManagerFactory emf
+        EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -131,6 +135,83 @@ public class SolicitudEntregaDao {
         return cargos;
     }
 
+    public static List<Solicitudentrega> findByCasinoUsuario(Usuario usuario) {
+        if (usuario.getCasinoList().isEmpty()) {
+            return new ArrayList<Solicitudentrega>();
+        } else {
+            String query = "SELECT s FROM Solicitudentrega s WHERE (s.estado != 'REPORTE DE GESTIÓN DISPONIBLE') AND ( s.idCasino.idCasino = " + usuario.getCasinoList().get(0).getIdCasino();
+            for (int i = 1; i < usuario.getCasinoList().size(); i++) {
+                query += " OR s.idCasino.idCasino = " + usuario.getCasinoList().get(i).getIdCasino();
+            }
+            query+=" ) ";
+            EntityManagerFactory emf
+                    = Persistence.createEntityManagerFactory("AdminClientesPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            List<Solicitudentrega> cargos = null;
+            tx.begin();
+            try {
+                cargos = (List<Solicitudentrega>) em.createQuery(query)
+                        .getResultList();
+                tx.commit();
+            } catch (Exception e) {
+                System.out.println(e);
+                tx.rollback();
+            }
+
+            em.clear();
+            em.close();
+            emf.close();
+
+            return cargos;
+        }
+    }
+
+    public static long countpreaprobarsolicitud() {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        long cargos = 0;
+        tx.begin();
+        try {
+            cargos = em.createNamedQuery("Solicitudentrega.creados", Long.class).getSingleResult();
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        System.out.println("cantodad creadas: "+cargos);
+        return cargos;
+    }
+
+    public static long countaprobarsolicitud() {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        long cargos = 0;
+        tx.begin();
+        try {
+            cargos = em.createNamedQuery("Solicitudentrega.preaprobados", Long.class).getSingleResult();
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        System.out.println("cantodad creadas: "+cargos);
+
+        return cargos;
+    }
+
     public SolicitudEntregaDao() {
     }
 
@@ -164,9 +245,12 @@ public class SolicitudEntregaDao {
 
         tx.begin();
         try {
+            System.err.println(cargo.getFechavencimientobonos());
             em.merge(cargo);
+            System.err.println(cargo.getFechavencimientobonos());
             tx.commit();
         } catch (Exception e) {
+            System.err.println(e);
             tx.rollback();
         }
 
@@ -183,6 +267,7 @@ public class SolicitudEntregaDao {
 
         tx.begin();
         try {
+            
             em.remove(em.merge(cargo));
             tx.commit();
         } catch (Exception e) {

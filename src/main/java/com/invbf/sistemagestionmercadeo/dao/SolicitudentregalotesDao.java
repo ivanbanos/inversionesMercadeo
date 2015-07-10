@@ -199,4 +199,44 @@ public class SolicitudentregalotesDao {
         System.out.println("Existen solicitudes"+count.size());
         return !(count == null || count.isEmpty());
     }
+
+    public static long countrequerimientosolicitado() {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        long count = 0;
+        tx.begin();
+        try {
+            count = em.createNamedQuery("Solicitudentregalotesmaestro.findCountCreados", Long.class).getSingleResult();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return count;
+    }
+
+    public static long countingresoloteinventario() {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        long count = 0;
+        tx.begin();
+        try {
+            count = em.createNamedQuery("Solicitudentregalotesmaestro.findCountEnviadoAcaja", Long.class).getSingleResult();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return count;
+    }
 }

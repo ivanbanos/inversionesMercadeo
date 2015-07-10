@@ -18,15 +18,15 @@
                 </div>
             </div>
         </div>
-            <div class="row clearfix">
-                <div class="col-md-12 ">
+        <div class="row clearfix">
+            <div class="col-md-12 ">
 
-                    <h:form id="form">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading"><h4>#{label['preaprobarsolicitud']}</h4></div>
-                            <div class="panel-body">
+                <h:form id="form">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h4>#{label['preaprobarsolicitud']}</h4></div>
+                        <div class="panel-body">
 
-                                
+
                             <div class="container">
                                 <div class="row">
 
@@ -89,12 +89,23 @@
                                         </div>
 
                                     </div>
-
                                     <div class="row">
+
                                         <div class="control-group">
                                             <div class="form-group">
-                                                <label class="col-md-1 control-label" >#{label['justificacion']}</label>
-                                                <div class="col-md-11">
+                                                <label class="col-md-2 control-label" >Total a entregar:</label>
+                                                <div class="col-md-4">
+                                                    <h:outputText id="totalentregar" value="#{preaprobarSolicitudBonos.totalEntregar}">
+                                                        <f:converter  converterId="numberSeparationConverter"  />
+                                                    </h:outputText>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="control-group">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" >#{label['justificacion']}</label>
+                                                <div class="col-md-4">
                                                     <h:outputText id="justificacion" value="#{preaprobarSolicitudBonos.elemento.justificacion}"/>
                                                 </div>
                                             </div>
@@ -102,6 +113,20 @@
                                     </div>
 
 
+                                    <div class="row">
+
+
+                                        <div class="control-group">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" >Fecha de Vencimiento de los bonos:</label>
+                                                <div class="col-md-4">
+                                                    <h:outputText value="#{preaprobarSolicitudBonos.elemento.fechavencimientobonos}">
+                                                        <f:convertDateTime pattern="dd/MMMM/yyyy" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                    </h:outputText>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="container">
                                             <div class="row">
@@ -128,12 +153,29 @@
                                                                                 <p:column rowspan="2" headerText="Cupo de Fidelizaci&oacute;n" style="text-align: center;" />
                                                                                 <p:column rowspan="2" headerText="Valor Solicitado" style="text-align: center;"/>
                                                                                 <p:column rowspan="2" headerText="Valor Preaprobado" style="text-align: center;"/>
-                                                                                <p:column width="30%"  colspan="3" headerText="Valores otorgados en los ultimos 3 meses" style="text-align: center;"/>
+                                                                                <p:column width="30%"  colspan="3" headerText="Valores canjeados en los ultimos 3 meses" style="text-align: center;"/>
                                                                             </p:row>
                                                                             <p:row>
-                                                                                <p:column headerText="1" style="text-align: center;"/>
-                                                                                <p:column headerText="2" style="text-align: center;"/>
-                                                                                <p:column headerText="3" style="text-align: center;"/>
+                                                                                <p:column style="text-align: center;">
+                                                                                    <f:facet name="header">
+                                                                                        <h:outputText value="#{preaprobarSolicitudBonos.tresmeses}">
+                                                                                            <f:convertDateTime pattern="MMMM/yyyy" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                                        </h:outputText>
+                                                                                    </f:facet>
+                                                                                </p:column>
+                                                                                <p:column style="text-align: center;">
+                                                                                    <f:facet name="header">
+                                                                                        <h:outputText value="#{preaprobarSolicitudBonos.dosmeses}">
+                                                                                            <f:convertDateTime pattern="MMMM/yyyy" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                                        </h:outputText>
+                                                                                    </f:facet></p:column>
+                                                                                <p:column style="text-align: center;">
+                                                                                    <f:facet name="header">
+                                                                                        <h:outputText value="#{preaprobarSolicitudBonos.unmes}">
+                                                                                            <f:convertDateTime pattern="MMMM/yyyy" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                                        </h:outputText>
+                                                                                    </f:facet>
+                                                                                </p:column>
                                                                             </p:row>
                                                                         </p:columnGroup>
                                                                         <p:column width="5%" style="text-align: center;">
@@ -203,6 +245,13 @@
                                                                             <h:outputLabel value="#{cli.trasultimaSol}">
                                                                                 <f:converter  converterId="numberSeparationConverter"  />
                                                                             </h:outputLabel>
+
+                                                                            <f:facet name="footer">
+
+                                                                                <h:outputLabel value="#{preaprobarSolicitudBonos.totalMes3}">
+                                                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                                                </h:outputLabel>
+                                                                            </f:facet>
                                                                         </p:column>
 
                                                                         <p:column width="10%" style="text-align: center;">
@@ -212,6 +261,12 @@
                                                                             <h:outputLabel value="#{cli.penultimaSol}">
                                                                                 <f:converter  converterId="numberSeparationConverter"  />
                                                                             </h:outputLabel>
+                                                                            <f:facet name="footer">
+
+                                                                                <h:outputLabel value="#{preaprobarSolicitudBonos.totalMes2}">
+                                                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                                                </h:outputLabel>
+                                                                            </f:facet>
                                                                         </p:column>
 
                                                                         <p:column width="10%" style="text-align: center;">
@@ -221,10 +276,14 @@
                                                                             <h:outputLabel value="#{cli.ultimaSol}">
                                                                                 <f:converter  converterId="numberSeparationConverter"  />
                                                                             </h:outputLabel>
-                                                                        </p:column>
-                                                                        <f:facet name="footer">
+                                                                            <f:facet name="footer">
 
-                                                                        </f:facet>
+                                                                                <h:outputLabel value="#{preaprobarSolicitudBonos.totalMes1}">
+                                                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                                                </h:outputLabel>
+                                                                            </f:facet>
+                                                                        </p:column>
+
                                                                     </p:dataTable>
 
 
@@ -272,11 +331,11 @@
                                                 </h:outputText>
                                                 <f:facet name="footer">
 
-                                                        <h:outputText  value="#{preaprobarSolicitudBonos.totalprepromo}">
+                                                    <h:outputText  value="#{preaprobarSolicitudBonos.totalprepromo}">
 
-                                                            <f:converter  converterId="numberSeparationConverter"  />
-                                                        </h:outputText>
-                                                    </f:facet>
+                                                        <f:converter  converterId="numberSeparationConverter"  />
+                                                    </h:outputText>
+                                                </f:facet>
                                             </p:column>
                                         </p:dataTable>
                                     </div>
@@ -328,7 +387,7 @@
                                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                                 </h:outputText>
                                                                 <f:facet name="footer">
-                                                                    
+
                                                                     <h:outputText  value="#{clientesBlancos.totalPre}">
 
                                                                         <f:converter  converterId="numberSeparationConverter"  />
@@ -358,15 +417,23 @@
 
 
                             </div>
-                            </div>
-                            <div class="panel-footer text-right"> 
-                                <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{preaprobarSolicitudBonos.guardar()}"
-                                                 ajax="false" style="margin:0" onclick="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
-                            </div>
                         </div>
-                    </h:form>
+                        <div class="panel-footer text-right"> 
+                            <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" style="margin:0" onclick="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('confirmacion').show();"/>
+                        </div>
+                    </div>
+                </h:form>
+                <h:form >
+                    <p:confirmDialog id="confirmacion" message="¿Está seguro que desea preaprobar la solicitud de bonos de juego?"  
+                                     header="Confirmar" severity="alert" widgetVar="confirmacion" closable="false">  
 
-                </div>
+                        <p:commandButton id="confirm" value="Si" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('confirmacion').hide()"  
+                                         action="#{preaprobarSolicitudBonos.guardar()}"/>  
+                        <p:commandButton id="decline" value="No" onclick="PF('confirmacion').hide()" type="button" />   
+
+                    </p:confirmDialog> 
+                </h:form>
             </div>
+        </div>
     </ui:define>            
 </ui:composition>

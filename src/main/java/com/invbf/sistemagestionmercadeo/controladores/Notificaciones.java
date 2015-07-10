@@ -29,6 +29,7 @@ public class Notificaciones implements Serializable{
     private SessionBean sessionBean;
     private List<Permiso> permisos;
     private List<PermisoCliente> lista;
+    private List<PermisoCliente> listaselected;
     private PermisoCliente permiso;
 
     public void setSessionBean(SessionBean sessionBean) {
@@ -71,11 +72,12 @@ public class Notificaciones implements Serializable{
 
     public void ejecutarPermiso() {
         try {
+            
             String message = sessionBean.managerUserFacade.ejecutarPermiso(permiso.getPermiso());
         sessionBean.registrarlog(null, null, "Permiso para cambiar el cliente "+permiso.getCliente().toString()+"campo:"+permiso.getPermiso().getCampo()+":ACEPTADO");
             FacesUtil.addInfoMessage("Acción realizada con éxito", message);
         } catch (clienteInexistenteException ex) {
-            FacesUtil.addInfoMessage("Problemas al realizar la accion", "El registro ya no existe");
+            FacesUtil.addInfoMessage("Problemas al realizar la accion", "El cliente ya no existe");
         }
 
         sessionBean.managerUserFacade.eliminarPermiso(permiso.getPermiso());
@@ -95,7 +97,7 @@ public class Notificaciones implements Serializable{
     public void eliminarPermiso() {
         sessionBean.managerUserFacade.eliminarPermiso(permiso.getPermiso());
         sessionBean.registrarlog(null, null, "Permiso para cambiar el cliente "+permiso.getCliente().toString()+"campo:"+permiso.getPermiso().getCampo()+":RECHAZADO");
-        FacesUtil.addInfoMessage("Acción no realizada", "Eliminada con exito");
+        FacesUtil.addInfoMessage("Cambio Rechazado", "");
         permisos = sessionBean.managerUserFacade.getAllPermisos();
         lista = new ArrayList<PermisoCliente>();
         for (Permiso p : permisos) {

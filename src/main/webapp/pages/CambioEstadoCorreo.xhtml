@@ -14,7 +14,7 @@
                 <h:form>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h4>#{label['bonosporcanjear']}</h4>
+                            <h4>Buscar Bono</h4>
                         </div>
                         <div class="panel-body">
 
@@ -58,112 +58,198 @@
                                 <div class="control-group text-right">
                                     <p:commandButton value="Buscar" action="#{buscadorBono.buscarBono()}" 
                                                      icon="ui-icon-check"  onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
-                                                     update="@all" style="margin:0" /> 
+                                                     ajax="false" style="margin:0" /> 
                                 </div>
                             </div>
 
 
-                                
-                                
-                                
+
+
+
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 control-label" >Consecutio:</label>
+                                    <div class="col-md-9">
+                                        <h:outputText value="#{buscadorBono.bono.consecutivo}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 control-label" >Denominaci&oacute;n:</label>
+                                    <div class="col-md-9">
+                                        <h:outputText value="#{buscadorBono.bono.denominacion.valor}"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 control-label" >Casino:</label>
+                                    <div class="col-md-9">
+                                        <h:outputText value="#{buscadorBono.bono.casino.nombre}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 control-label" >Cliente:</label>
+                                    <div class="col-md-9">
+                                        <h:outputText value="#{buscadorBono.bono.cliente.nombres} #{buscadorBono.bono.cliente.apellidos}"/>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 control-label" >Tipo de bono:</label>
+                                    <div class="col-md-9">
+                                        <h:outputText value="#{buscadorBono.bono.tipo.nombre}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 control-label" >Estado:</label>
+                                    <div class="col-md-9">
+                                        <h:outputText value="#{buscadorBono.bono.estado}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 control-label" >Validador:</label>
+                                    <div class="col-md-9">
+                                        <h:outputText value="#{buscadorBono.bono.validador.nombreUsuario}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 control-label" >Autorizador:</label>
+                                    <div class="col-md-9">
+                                        <h:outputText value="#{buscadorBono.bono.autorizador.nombreUsuario}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 control-label" >Fecha de canje:</label>
+                                    <div class="col-md-9">
+                                        <h:outputText value="#{buscadorBono.bono.fechaEntrega}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <p:commandButton value="Anular" actionListener="#{buscadorBono.cambiarEstadoBono(&quot;ANULADO&quot;)}" 
+                                                 icon="ui-icon-check"  onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                                 style="margin:0" 
+                                                 update="@form" rendered="#{buscadorBono.bono.id !=null}"/> 
+                                <p:commandButton value="Vencer" actionListener="#{buscadorBono.cambiarEstadoBono(&quot;VENCIDO&quot;)}" 
+                                                 icon="ui-icon-check"  onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                                 style="margin:0" 
+                                                 update="@form" rendered="#{buscadorBono.bono.id !=null}"/> 
+                                <p:commandButton value="Canjear" actionListener="#{buscadorBono.cambiarEstadoBono(&quot;CANJEADO&quot;)}" 
+                                                 icon="ui-icon-check"  onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                                 style="margin:0" update="@form" rendered="#{buscadorBono.bono.id !=null}"/> 
+                            </div>
+
+
+
+
+
+                        </div>
+                    </div>
+
+
+                </h:form>
+                <h:form>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Buscar Solicitud</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+                            <div class="row">
+
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label class="col-md-3 control-label" >Consecutio:</label>
+                                        <label class="col-md-3 control-label" >Numero de acta:</label>
                                         <div class="col-md-9">
-                                            <h:outputText value="#{buscadorBono.bono.consecutivo}"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label class="col-md-3 control-label" >Denominaci&oacute;n:</label>
-                                        <div class="col-md-9">
-                                            <h:outputText value="#{buscadorBono.bono.denominacion.valor}"/>
+                                            <h:inputText value="#{buscadorBono.numeroActa}"/>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label class="col-md-3 control-label" >Casino:</label>
-                                        <div class="col-md-9">
-                                            <h:outputText value="#{buscadorBono.bono.casino.nombre}"/>
-                                        </div>
+
+                                <div class="control-group text-right">
+                                    <p:commandButton value="Buscar" action="#{buscadorBono.buscarSolicitud()}" 
+                                                     icon="ui-icon-check"  onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                                    ajax="false" style="margin:0" /> 
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 control-label" >N° de acta:</label>
+                                    <div class="col-md-9">
+                                        <h:outputText value="#{buscadorBono.solicitudentrega.id}"/>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label class="col-md-3 control-label" >Cliente:</label>
-                                        <div class="col-md-9">
-                                            <h:outputText value="#{buscadorBono.bono.cliente.nombres} #{buscadorBono.bono.cliente.apellidos}"/>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 control-label" >Sala:</label>
+                                    <div class="col-md-9">
+                                        <h:outputText value="#{buscadorBono.solicitudentrega.idCasino.nombre}"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 control-label" >Tipo de solicitud:</label>
+                                    <div class="col-md-9">
+                                        <h:outputText value="#{buscadorBono.solicitudentrega.tipoBono.nombre}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 control-label" >Proposito de la entrega:</label>
+                                    <div class="col-md-9">
+                                        <h:outputText value="#{buscadorBono.solicitudentrega.propositoEntrega.nombre}"/>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-3 control-label" >Esatdo:</label>
+                                    <div class="col-md-9">
+                                        <h:outputText value="#{buscadorBono.solicitudentrega.estado}"/>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label" >#{label['fechavencimientobono']} :</label>
+                                        <label class="col-md-2 control-label" >(&Uacute;ltimo dia del mes de)</label>
+                                        <div class="col-md-4">
+                                            <p:selectOneMenu id="fecha3" value="#{buscadorBono.mes}">
+                                                <f:selectItems var="mes" value="#{buscadorBono.meses}" itemValue="#{mes.mes}" itemLabel="#{mes.mesaano}" /> 
+                                            </p:selectOneMenu>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label class="col-md-3 control-label" >Tipo de bono:</label>
-                                        <div class="col-md-9">
-                                            <h:outputText value="#{buscadorBono.bono.tipo.nombre}"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label class="col-md-3 control-label" >Estado:</label>
-                                        <div class="col-md-9">
-                                            <h:outputText value="#{buscadorBono.bono.estado}"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label class="col-md-3 control-label" >Validador:</label>
-                                        <div class="col-md-9">
-                                            <h:outputText value="#{buscadorBono.bono.validador.nombreUsuario}"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label class="col-md-3 control-label" >Autorizador:</label>
-                                        <div class="col-md-9">
-                                            <h:outputText value="#{buscadorBono.bono.autorizador.nombreUsuario}"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <p:commandButton value="Verificar" actionListener="#{buscadorBono.cambiarEstadoBono(&quot;VERIFICADO&quot;)}" 
-                                                     icon="ui-icon-check"  onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
-                                                      style="margin:0" 
-                                                     update="@all" rendered="#{buscadorBono.bono.id !=null}"/> 
-                                    <p:commandButton value="Vencer" actionListener="#{buscadorBono.cambiarEstadoBono(&quot;VENCIDO&quot;)}" 
-                                                     icon="ui-icon-check"  onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
-                                                      style="margin:0" 
-                                                     update="@all" rendered="#{buscadorBono.bono.id !=null}"/> 
-                                    <p:commandButton value="enviar a verificaci&oacute;n" actionListener="#{buscadorBono.cambiarEstadoBono(&quot;POR VERIFICAR&quot;)}" 
-                                                     icon="ui-icon-check"  onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
-                                                      style="margin:0" 
-                                                     update="@all" rendered="#{buscadorBono.bono.id !=null}"/> 
-                                    <p:commandButton value="Entregar a sala" actionListener="#{buscadorBono.cambiarEstadoBono(&quot;ENTREGADO&quot;)}" 
-                                                     icon="ui-icon-check"  onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
-                                                     style="margin:0" 
-                                                     update="@all" rendered="#{buscadorBono.bono.id !=null}"/> 
-                                    <p:commandButton value="Recibir en sala" actionListener="#{buscadorBono.cambiarEstadoBono(&quot;EN SALA&quot;)}" 
-                                                     icon="ui-icon-check"  onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
-                                                     style="margin:0" 
-                                                     update="@all" rendered="#{buscadorBono.bono.id !=null}"/> 
-                                    <p:commandButton value="Entregar a cliente" actionListener="#{buscadorBono.cambiarEstadoBono(&quot;ENTREGADO CLIENTE&quot;)}" 
-                                                     icon="ui-icon-check"  onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
-                                                     style="margin:0" 
-                                                     update="@all" rendered="#{buscadorBono.bono.id !=null}"/> 
-                                    <p:commandButton value="Validar" actionListener="#{buscadorBono.cambiarEstadoBono(&quot;VALIDADO&quot;)}" 
-                                                     icon="ui-icon-check"  onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
-                                                     style="margin:0" 
-                                                     update="@all" rendered="#{buscadorBono.bono.id !=null}"/> 
-                                    <p:commandButton value="Autorizar" actionListener="#{buscadorBono.cambiarEstadoBono(&quot;AUTORIZADO&quot;)}" 
-                                                     icon="ui-icon-check"  onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
-                                                     style="margin:0" 
-                                                     update="@all" rendered="#{buscadorBono.bono.id !=null}"/> 
-                                    <p:commandButton value="Canjear" actionListener="#{buscadorBono.cambiarEstadoBono(&quot;CANJEADO&quot;)}" 
-                                                     icon="ui-icon-check"  onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
-                                                     style="margin:0" update="@all" rendered="#{buscadorBono.bono.id !=null}"/> 
-                                </div>
-                                
-                                
+                            </div>
+                            <div class="row">
+                                <p:commandButton value="Cambiar Fecha" actionListener="#{buscadorBono.cambiarSol()}" 
+                                                 icon="ui-icon-check"  onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                                 style="margin:0" rendered="#{buscadorBono.solicitudentrega.estado != 'BONOS RECIBIDOS EN SALA'
+                                                                              and buscadorBono.solicitudentrega.estado != 'BONOS VENCIDOS. PENDIENTE POR GENERAR REPORTE'
+                                                                              and buscadorBono.solicitudentrega.estado != 'REPORTE DE GESTIÓN DISPONIBLE'}"
+                                                                              update="@form"/> 
+                            </div>
+
+
 
 
 

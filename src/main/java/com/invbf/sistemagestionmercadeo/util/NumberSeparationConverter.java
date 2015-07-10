@@ -47,7 +47,6 @@ public class NumberSeparationConverter implements Converter, Serializable {
             } else {
                 number = (String) o;
             }
-            System.out.println("numero " + number);
             if (number.lastIndexOf(".") != -1) {
                 iPartS = number.substring(0, number.lastIndexOf("."));
             } else {
@@ -57,8 +56,6 @@ public class NumberSeparationConverter implements Converter, Serializable {
         boolean milesima = true;
 
         while (true) {
-            System.out.println("asi va el numero " + numberseparated);
-            System.out.println("y queda esto " + iPartS);
             if (iPartS.length() == 0) {
                 break;
             } else if (iPartS.length() <= 3) {
@@ -76,10 +73,6 @@ public class NumberSeparationConverter implements Converter, Serializable {
                 }
             }
         }
-        System.out.println("asi quedo sin parte real " + numberseparated);
-        System.out.println("asi quedo con parte real " + numberseparated);
-        System.out.println();
-        System.out.println();
         return numberseparated;
     }
 

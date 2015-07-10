@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+
+        <div class="row">
+
+            <div class="control-group">
+                <!-- Username -->
+                <div class="form-group">
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Gesti&oacute;n de barajas/Barajas</label>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row clearfix">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+
+                        <div class="clickable">
+                            <h3 class="panel-title">Barajas</h3>
+                            <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <h:form class="form-horizontal">
+                            <p:dataTable id="detailsTablebarajas" var="element" value="#{crudBarajasBean.lista}"  
+                                         emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTablebarajas">
+
+                                <f:facet name="header">
+
+                                </f:facet>
+
+                                <p:column headerText="Material" sortBy="#{element.material.nombre}" filterBy="#{element.material.nombre}" filterMatchMode="contains" >
+                                    <h:outputText value="#{element.material.nombre}" />
+                                </p:column>
+                                <p:column headerText="Color" sortBy="#{element.color}" filterBy="#{element.color}" filterMatchMode="contains" >
+                                    <h:outputText value="#{element.color}" />
+                                </p:column>
+                                <p:column headerText="Material" sortBy="#{element.marca}" filterBy="#{element.marca}" filterMatchMode="contains" >
+                                    <h:outputText value="#{element.marca}" />
+                                </p:column>
+                                <p:column headerText="Precio estimado" sortBy="#{element.valorpromedio}" filterBy="#{element.valorpromedio}" filterMatchMode="contains" >
+                                    <h:outputText value="#{element.valorpromedio}" />
+                                </p:column>
+
+                                <p:column  rendered="#{sessionBean.perfilFormMatch(&quot;Barajas&quot; , &quot;actualizar&quot;)
+                                                       or sessionBean.perfilFormMatch(&quot;Barajas&quot; , &quot;eliminar&quot;)}">
+                                    <p:commandButton  icon="ui-icon-pencil" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                                      title="#{label['lb_btn.editarPerfiles']}" update=":#{p:component('material')} :#{p:component('marca')} :#{p:component('vlpro')} :#{p:component('color')}">
+                                        <f:setPropertyActionListener value="#{element}" target="#{crudBarajasBean.elemento}" />    
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+
+
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                    <h:form>
+                        <div class="row clearfix">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <div class="clickable">
+                                        <h3 class="panel-title">Baraja</h3>
+                                        <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-3 control-label" >id:</label></b>
+                                            <b><label class="col-md-3 control-label" >#{crudBarajasBean.elemento.id}</label></b>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-3 control-label" >Material:</label></b>
+                                            <div class="col-md-9">
+                                                <p:selectOneMenu id="material" value="#{crudBarajasBean.elemento.material.id}" required="true" requiredMessage="#{label['msj.req.tipotarea']}" >
+                                                    <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
+                                                    <f:selectItems value="#{crudBarajasBean.materiales}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.id}"/> 
+                                                </p:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-3 control-label" >Color:</label></b>
+                                            <div class="col-md-9">
+                                                <p:inputText id="color" style="width: 100%;" value="#{crudBarajasBean.elemento.color}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-3 control-label" >Marca:</label></b>
+                                            <div class="col-md-9">
+                                                <p:inputText id="marca" style="width: 100%;" value="#{crudBarajasBean.elemento.marca}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-3 control-label" >Precio estimado:</label></b>
+                                            <div class="col-md-9">
+
+                                                <p:inputText id="vlpro" style="width: 100%;" value="#{crudBarajasBean.elemento.valorpromedio}" converterMessage="Debe escribir un n&uacute;mero!">
+                                                    <f:validateDoubleRange minimum="0.0" />
+                                                </p:inputText>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    <p:commandButton  value="Nueva baraja" onstart="PF('ajaxWaitingDialog').show();" 
+                                                      oncomplete="PF('ajaxWaitingDialog').hide();PF('nueva').show();"
+                                                      title="#{label['lb_btn.editarPerfiles']}">   
+                                    </p:commandButton>
+                                    <p:commandButton value="Guardar baraja" icon="ui-icon-pencil" onstart="PF('ajaxWaitingDialog').show();" 
+                                                     oncomplete="PF('ajaxWaitingDialog').hide();PF('guardar').show();"
+                                                     title="#{label['lb_btn.editarPerfiles']}">   
+                                    </p:commandButton>
+                                    <p:commandButton value="Eliminar baraja" icon="ui-icon-pencil" onstart="PF('ajaxWaitingDialog').show();" 
+                                                     oncomplete="PF('ajaxWaitingDialog').hide();PF('eliminarba').show();"
+                                                     title="#{label['lb_btn.editarPerfiles']}">   
+                                    </p:commandButton>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+
+
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                    <h:form>
+
+                        <p:dataTable id="detailsTablebarajas" var="element" value="#{crudBarajasBean.materiales}"  
+                                     emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTablebarajas">
+
+                            <f:facet name="header">
+
+                            </f:facet>
+
+                            <p:column headerText="Nombre" sortBy="#{element.nombre}" filterBy="#{element.nombre}" filterMatchMode="contains" >
+                                <h:outputText value="#{element.nombre}" />
+                                <f:facet name="footer">
+                                    <p:inputText id="nombremarca" style="width: 100%;" value="#{crudBarajasBean.material.nombre}"/>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="Material" sortBy="#{element.material.nombre}" filterBy="#{element.material.nombre}" filterMatchMode="contains" >
+                                <p:commandButton  icon="ui-icon-closethick" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('elimat').show();"
+                                                  title="#{label['lb_btn.editarPerfiles']}">
+                                    <f:setPropertyActionListener value="#{element}" target="#{crudBarajasBean.material}" />    
+                                </p:commandButton>
+                                <f:facet name="footer">
+                                    <p:commandButton  icon="ui-icon-plusthick" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('addmat').show();"
+                                                      title="#{label['lb_btn.editarPerfiles']}">   
+                                    </p:commandButton>
+                                </f:facet>
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <h:form >
+            <p:confirmDialog id="nueva" message="Va a crear una nueva baraja, se perderan todos los cambios no guardados. ¿Desea continuar?"  
+                             header="Vueva baraja" severity="alert" widgetVar="nueva" closable="false">  
+
+                <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" 
+                                 action="#{crudBarajasBean.nuevaBaraja()}"  ajax="false"/>  
+                <p:commandButton id="decline" value="No" onclick="PF('nueva').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+
+        <h:form >
+            <p:confirmDialog id="guardar" message="¿Está seguro que desea guardar la baraja?"  
+                             header="Guardar baraja" severity="alert" widgetVar="guardar" closable="false">  
+
+                <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();"  
+                                 action="#{crudBarajasBean.actualizarBaraja()}"  ajax="false"/>  
+                <p:commandButton id="decline" value="No" onclick="PF('guardar').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+        <h:form >
+            <p:confirmDialog id="eliminarba" message="¿Está seguro que desea eliminar la baraja?"  
+                             header="Eliminar baraja" severity="alert" widgetVar="eliminarba" closable="false">  
+
+                <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" 
+                                 action="#{crudBarajasBean.eliminarBaraja()}"  ajax="false"/>  
+                <p:commandButton id="decline" value="No" onclick="PF('eliminarba').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+        <h:form >
+            <p:confirmDialog id="elimat" message="¿Está seguro que desea eliminar el material?"  
+                             header="Confirmar" severity="alert" widgetVar="elimat" closable="false">  
+
+                <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" 
+                                 action="#{crudBarajasBean.eliminarMaterial()}"  ajax="false"/>  
+                <p:commandButton id="decline" value="No" onclick="PF('elimat').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+        <h:form >
+            <p:confirmDialog id="addmat" message="¿Está seguro que desea guardar el material?"  
+                             header="Confirmar" severity="alert" widgetVar="addmat" closable="false">  
+
+                <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" 
+                                 action="#{crudBarajasBean.agregarMaterial()}" ajax="false"/>  
+                <p:commandButton id="decline" value="No" onclick="PF('addmat').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+
+    </ui:define>            
+</ui:composition>

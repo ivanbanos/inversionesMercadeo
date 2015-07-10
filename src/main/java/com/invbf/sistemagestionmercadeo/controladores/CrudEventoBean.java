@@ -9,6 +9,7 @@ import com.invbf.sistemagestionmercadeo.entity.Evento;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -65,8 +66,9 @@ public class CrudEventoBean implements Serializable {
         }
         elemento = new Evento();
         lista = sessionBean.marketingUserFacade.findAllEventos();
+        
         listacasinos = sessionBean.marketingUserFacade.findAllCasinos();
-        editar = false;
+        editar = false;sessionBean.checkEstadoTarea();
     }
 
     public List<Evento> getLista() {

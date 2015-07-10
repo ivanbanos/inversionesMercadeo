@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,6 +40,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Tarea.findAll", query = "SELECT t FROM Tarea t"),
+    @NamedQuery(name = "Tarea.setActive", query = "UPDATE Tarea t SET t.estado = 'ACTIVO' WHERE t.fechaInicio > CURRENT_DATE "),
+    @NamedQuery(name = "Tarea.setVencida", query = "UPDATE Tarea t SET t.estado = 'VENCIDO' WHERE t.fechaFinalizacion < CURRENT_DATE "),
     @NamedQuery(name = "Tarea.findByIdTarea", query = "SELECT t FROM Tarea t WHERE t.idTarea = :idTarea"),
     @NamedQuery(name = "Tarea.findByNombre", query = "SELECT t FROM Tarea t WHERE t.nombre = :nombre"),
     @NamedQuery(name = "Tarea.findByFechaInicio", query = "SELECT t FROM Tarea t WHERE t.fechaInicio = :fechaInicio"),
@@ -84,7 +87,7 @@ public class Tarea implements Serializable {
     @JoinTable(name = "TareaUsuarios", joinColumns = {
         @JoinColumn(name = "idTarea", referencedColumnName = "idTarea")}, inverseJoinColumns = {
         @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Usuario> usuarioList;
     @JoinColumn(name = "idEvento", referencedColumnName = "idEvento")
     @ManyToOne

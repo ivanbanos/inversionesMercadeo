@@ -62,6 +62,7 @@ public class ReportesClientesBean implements Serializable {
     private String identificacion;
     private Tipodocumento tipodocumento;
     private List<Tipodocumento> listaTipos;
+    private String sexo;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -219,7 +220,7 @@ public class ReportesClientesBean implements Serializable {
         List<Cliente> clientes = new ArrayList<Cliente>();
         for (CasinoBoolean casino : casinoBooleans) {
             if (casino.isSelected()) {
-                clientes.addAll(sessionBean.marketingUserFacade.findAllClientesCasinos(casino.getCasino(), nombre, apellidos, identificacion, tipodocumento));
+                clientes.addAll(sessionBean.marketingUserFacade.findAllClientesCasinos(casino.getCasino(), nombre, apellidos, identificacion, tipodocumento, sexo));
             }
         }
 
@@ -402,7 +403,7 @@ public class ReportesClientesBean implements Serializable {
     private void buscarCLientesIniciales() {
         lista = new ArrayList<ClienteDTO>();
         for (Casino c : sessionBean.getUsuario().getCasinoList()) {
-            List<Cliente> clientes = sessionBean.marketingUserFacade.findAllClientesCasinos(c, "", "", "", tipodocumento);
+            List<Cliente> clientes = sessionBean.marketingUserFacade.findAllClientesCasinos(c, "", "", "", tipodocumento, "");
             fillClientes(clientes);
         }
     }
@@ -464,6 +465,14 @@ public class ReportesClientesBean implements Serializable {
 
     public void setListaTipos(List<Tipodocumento> listaTipos) {
         this.listaTipos = listaTipos;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
     }
     
 }

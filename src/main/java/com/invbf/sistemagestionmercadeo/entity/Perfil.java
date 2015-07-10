@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -52,14 +53,14 @@ public class Perfil implements Serializable {
     @JoinTable(name = "PerfilesVistas", joinColumns = {
         @JoinColumn(name = "idPerfil", referencedColumnName = "idPerfil")}, inverseJoinColumns = {
         @JoinColumn(name = "idVista", referencedColumnName = "idVista")})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Vista> vistaList;
     @JoinTable(name = "PerfilesFormularios", joinColumns = {
         @JoinColumn(name = "idPerfil", referencedColumnName = "idPerfil")}, inverseJoinColumns = {
         @JoinColumn(name = "idFormulario", referencedColumnName = "idFormulario")})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Formulario> formularioList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerfil")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerfil" , fetch = FetchType.EAGER)
     private List<Usuario> usuarioList;
 
     public Perfil() {

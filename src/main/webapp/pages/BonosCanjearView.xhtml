@@ -105,8 +105,7 @@
                                     <p:column headerText="Acciones" >  
                                         <p:commandButton value="Validar y Autorizar"  onstart="PF('ajaxWaitingDialog').show();"  
                                                          oncomplete="PF('ajaxWaitingDialog').hide();PF('canjearOk').show();" icon="ui-icon-check" rendered="#{bono.estado == 'EN SALA'
-                                                                                                                                                              and sessionBean.perfilViewMatch(&quot;Canjearbono&quot;)
-                                                                                                                                                              and bono.tipo.nombre == 'NO PROMOCIONAL'}"
+                                                                                                                                                              and sessionBean.perfilViewMatch(&quot;Canjearbono&quot;)}"
                                                          update=":#{p:component('canjearOk')} :#{p:component('messages')}" style="margin:0" >
                                             <f:setPropertyActionListener value="#{bono}" target="#{bonoCanjeCliente.elemento}" /> 
                                         </p:commandButton>     
@@ -150,10 +149,8 @@
                         </fieldset>
                     </div>
                     <div class="panel-footer text-right"> 
-                        <p:commandButton id="confirm" value="Confirmar" oncomplete="PF('ajaxWaitingDialog').hide();PF('canjearOk').hide()"  
-                                         onstart="PF('ajaxWaitingDialog').show();"  
-                                                        
-                                         action="#{bonoCanjeCliente.canjear()}" update=":#{p:component('bonos')} :#{p:component('messages')}"/>   
+                        <p:commandButton id="confirm" value="Confirmar" oncomplete="PF('ajaxWaitingDialog').hide();PF('canjearOk').hide();PF('confirmacion').show()"  
+                                         onstart="PF('ajaxWaitingDialog').show();"  />   
                     </div>
                 </div>
 
@@ -162,5 +159,16 @@
 
             </p:dialog> 
         </h:form>
+        
+                <h:form >
+                    <p:confirmDialog id="confirmacion" message="¿Está seguro que desea diligenciar los bonos de juego?"  
+                                     header="Confirmar" severity="alert" widgetVar="confirmacion" closable="false">  
+
+                        <p:commandButton id="confirm" value="Si" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('confirmacion').hide()"  
+                                         action="#{bonoCanjeCliente.canjear()}" update=":#{p:component('bonos')} :#{p:component('messages')}"/>  
+                        <p:commandButton id="decline" value="No" onclick="PF('confirmacion').hide()" type="button" />   
+
+                    </p:confirmDialog> 
+                </h:form>
     </ui:define>           
 </ui:composition>

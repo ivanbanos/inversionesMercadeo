@@ -21,6 +21,84 @@
         <h:form>
             <div class="container">
 
+                <c:if test="#{notificacionesBean.totalPendiente !=0}">
+                    <div class="row">
+
+
+                        <div class="panel panel-primary">
+                            <div class="panel-heading clickable">
+
+                                <div class="clickable">
+                                    <h3 class="panel-title">Tareas Pendientes</h3>
+                                    <span class="pull-right"><i class="fa fa-minus"></i></span>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-3 column">
+                                    <i class="fa fa-exclamation-triangle fa-5x center-block"></i>
+                                </div>
+
+                                <div class="col-md-9 column">
+                                    <c:if test="#{notificacionesBean.requerimientoProduccionLotes !=0}">
+                                        <div class="row">
+                                            <!--span class="badge badge-notify">3</span-->
+
+                                            <h:link outcome="/pages/RequerimientosProduccionLotes.xhtml" >Tienes #{notificacionesBean.requerimientoProduccionLotes} requerimineto(s) de producci&oacute;n de lotes por revisar</h:link>
+                                        </div>
+                                    </c:if> 
+                                    <c:if test="#{notificacionesBean.ingresoloteinventario !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/ListaSolicitudLotesBonosView.xhtml" >Tienes #{notificacionesBean.ingresoloteinventario} ingreso(s) de lotes de bonos por revisar</h:link>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="#{notificacionesBean.preaprobarsolicitud !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/ListaSolicitudBono.xhtml" >Tienes #{notificacionesBean.preaprobarsolicitud} Solicitud(es) de bonos pendientes por preaprobar</h:link>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="#{notificacionesBean.aprobarsolicitud !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/ListaSolicitudBono.xhtml" >Tienes #{notificacionesBean.aprobarsolicitud} Solicitud(es) de bonos pendientes por aprobar</h:link>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="#{notificacionesBean.confimacionordenretiro !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/ListaSolicitudSalidaBonos.xhtml" >Tienes #{notificacionesBean.confimacionordenretiro} Orden(es) de retiro de bonos de inventario por procesar</h:link>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="#{notificacionesBean.confirmarrecepcion !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/ListaSolicitudSalidaBonos.xhtml" >Tienes #{notificacionesBean.confirmarrecepcion} Orden(es) de retiro de bonos de inventario por recibir</h:link>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="#{notificacionesBean.diligenciar !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/ListaSolicitudSalidaBonos.xhtml" >Tienes #{notificacionesBean.diligenciar} Orden(es) de retiro de bonos de inventario por diligenciar</h:link>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="#{notificacionesBean.recibirsala !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/ListaSolicitudBono.xhtml" >Tienes #{notificacionesBean.recibirsala} Solicitud(es) de bonos por recibir en sala</h:link>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="#{notificacionesBean.edicioncliente !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/notificaciones.xhtml" >Tienes #{notificacionesBean.edicioncliente} cliente(s) por aprobar cambio</h:link>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="#{notificacionesBean.pendientereporte !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/GenerarReporteGestionView.xhtml" >Tienes pendientes por generar #{notificacionesBean.pendientereporte} reporte(s) de gesti&oacute;n de bonos</h:link>
+                                        </div>
+                                    </c:if>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </c:if>
                 <div class="row">
 
 
@@ -45,7 +123,8 @@
                                       or sessionBean.perfilViewMatch(&quot;Propositos&quot;)
                                       or sessionBean.perfilViewMatch(&quot;Areas&quot;)
                                       or sessionBean.perfilViewMatch(&quot;denominaciones&quot;)
-                                      or sessionBean.perfilViewMatch(&quot;TipoBono&quot;)}">
+                                      or sessionBean.perfilViewMatch(&quot;TipoBono&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;veripregistradas&quot;)}">
                             <h:link outcome="/pages/Configuracion.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-cogs fa-5x"></i> 
                                 <br/>#{label['configuracion']}</h:link>
                         </c:if>
@@ -58,25 +137,27 @@
                                 <br/>Gesti&oacute;n de clientes</h:link>
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;)
-                              or sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;)
-                              or sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;)
-                              or sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;)
-                              or sessionBean.perfilViewMatch(&quot;Controlsalidabonos&quot;)
-                              or sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;)
-                              or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)
-                              or sessionBean.perfilViewMatch(&quot;Recibirbono&quot;)}">
+                                      or sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;Controlsalidabonos&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;Recibirbono&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;Canjearbono&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;LoteBono&quot;)}">
                             <h:link outcome="/pages/Requisiciones.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-ticket fa-5x"></i> 
                                 <br/>Gesti&oacute;n de bonos</h:link>
                         </c:if>
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;verBarajas&quot;)
+                                      or  sessionBean.perfilViewMatch(&quot;verInventarioBarajas&quot;)}">
+                            <h:link outcome="/pages/gestionBarajas.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-ticket fa-5x"></i> 
+                                <br/>Gesti&oacute;n de barajas</h:link>
+                        </c:if>
+
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Reportes&quot;)}">
                             <h:link outcome="/pages/Reportes.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-bar-chart-o fa-5x"></i> 
                                 <br/>#{label['reportes']}</h:link>
-                        </c:if>
-                        <c:if test="#{sessionBean.perfilViewMatch(&quot;LoteBono&quot;)
-                                      or sessionBean.perfilViewMatch(&quot;Verbonosporcanjear&quot;)
-                                      or sessionBean.perfilViewMatch(&quot;Verbonosporentregarcliente&quot;)}">
-                            <h:link outcome="/pages/Inventario.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-briefcase fa-5x"></i> 
-                                <br/>#{label['inventario']}</h:link>
                         </c:if>
 
                         <h:commandLink  action="#{sessionBean.go(&quot;cuenta&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-pencil fa-5x"></i> 

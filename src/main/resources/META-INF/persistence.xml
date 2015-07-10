@@ -46,6 +46,9 @@
     <class>com.invbf.sistemagestionmercadeo.entity.Categorias</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Clientes</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Casinos</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Inventarobarajas</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Materialesbarajas</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Barajas</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>

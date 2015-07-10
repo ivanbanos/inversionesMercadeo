@@ -97,7 +97,9 @@
                                         </td>
                                         <td colspan="2" rowspan="2" style="text-align: center;border: 2px solid #dddddd!important;">
 
-                                            <h:outputText style="font-size: 25px" value="#{generacionBean.estadistica.efectividad}%"/>
+                                            <h:outputText style="font-size: 25px" value="#{generacionBean.estadistica.efectividad}">
+                                                <f:convertNumber type="number" pattern="#0.00"/>
+                                            </h:outputText><h:outputText style="font-size: 25px" value="%"/>
                                         </td>
                                     </tr>
                                     <tr style="border: 2px solid #dddddd!important;">
@@ -157,7 +159,7 @@
                                                 <h:outputText value="#{bono.nombreCliente}" />
                                             </p:column>
                                             <p:column headerText="Causas de la falla" >
-                                                <h:inputText  value="#{bono.causadenocanje}" disabled="#{generacionBean.elemento.estado == 'REPORTE DE GESTIÓN DISPONIBLE' }"/>
+                                                <h:inputTextarea  value="#{bono.causadenocanje}" disabled="#{generacionBean.elemento.estado == 'REPORTE DE GESTIÓN DISPONIBLE' }"/>
                                             </p:column>
                                         </p:dataTable>
 

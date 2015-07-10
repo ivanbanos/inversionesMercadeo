@@ -272,7 +272,7 @@ public class AprobarSolicitudBonos implements Serializable {
                         solec1.setValorAprobado(monto);
                     }
                     totalEntregar += monto;
-                    ClienteMonto cliente = new ClienteMonto(solec1.getCliente().getIdCliente(), solec1.getCliente().getNombres() + " " + solec1.getCliente().getApellidos(), monto, lotesSol, 1, solec1.getValorTotal(), solec1.getValorPreAprobado(), solec1.getValorAprobado());
+                    ClienteMonto cliente = new ClienteMonto(solec1.getCliente().getIdCliente(), solec1.getCliente().getNombres() + " " + solec1.getCliente().getApellidos(), monto, lotesSol, solec1.getEntrega(), solec1.getValorTotal(), solec1.getValorPreAprobado(), solec1.getValorAprobado());
                     clientesMontos.add(cliente);
                     List<DenoinacionCant> listClientes = cliente.getDenominacionCant();
                     for (DenoinacionCant listCliente : listClientes) {
@@ -421,7 +421,7 @@ public class AprobarSolicitudBonos implements Serializable {
     }
 
     public void busquedaClientes() {
-        clientessgbs = sessionBean.marketingUserFacade.findAllClientesCasinos(elemento.getIdCasino(), "", "", "", null);
+        clientessgbs = sessionBean.marketingUserFacade.findAllClientesCasinos(elemento.getIdCasino(), "", "", "", null,"");
     }
 
     public List<Cliente> getSelectedClientessgbs() {

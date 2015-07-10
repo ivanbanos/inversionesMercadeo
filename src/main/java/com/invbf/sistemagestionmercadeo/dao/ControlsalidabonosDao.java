@@ -5,6 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.dao;
 
+import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Clienteblanco;
 import com.invbf.sistemagestionmercadeo.entity.Controlsalidabono;
 import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos;
@@ -23,11 +24,11 @@ import javax.persistence.Persistence;
  */
 public class ControlsalidabonosDao {
 
-    public static void finish(Controlsalidabono elemento) {
+    public static Controlsalidabono finish(Controlsalidabono elemento) {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
-        
+
         EntityTransaction tx2 = em.getTransaction();
         tx2.begin();
         try {
@@ -38,10 +39,10 @@ public class ControlsalidabonosDao {
                 System.out.println("3");
                 csbhlb1.setControlsalidabonosHasLotesbonosPK(new ControlsalidabonosHasLotesbonosPK(elemento.getId(), csbhlb1.getLotebono().getId()));
                 List<Clienteblanco> cbl = csbhlb1.getClienteblancoList() == null ? new ArrayList<Clienteblanco>() : csbhlb1.getClienteblancoList();
-                 System.out.println("Cant clb"+cbl.size());
+                System.out.println("Cant clb" + cbl.size());
                 for (Clienteblanco clientesBlanco1 : cbl) {
                     clientesBlanco1.setControlsalidabonosHasLotesbonos(csbhlb1);
-                    System.out.println("Cant pre"+clientesBlanco1.getCantPre());
+                    System.out.println("Cant pre" + clientesBlanco1.getCantPre());
                 }
                 System.out.println("4");
                 em.merge(csbhlb1);
@@ -58,9 +59,11 @@ public class ControlsalidabonosDao {
         em.clear();
         em.close();
         emf.close();
+        return elemento;
     }
 
-    public static List<Controlsalidabono> findAllButPRESOLICITADA() {EntityManagerFactory emf
+    public static List<Controlsalidabono> findAllButPRESOLICITADA() {
+        EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -69,6 +72,69 @@ public class ControlsalidabonosDao {
         try {
             cargos = (List<Controlsalidabono>) em.createNamedQuery("Controlsalidabono.findAllButPRESOLICITADA")
                     .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+
+        return cargos;
+    }
+
+    public static long countPorDiligenciar() {
+         EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        long cargos = 0;
+        tx.begin();
+        try {
+            cargos = em.createNamedQuery("Controlsalidabono.findcountPorDiligenciar", Long.class).getSingleResult();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+
+        return cargos;
+       
+    }
+
+    public static long countconfirmarrecepcion() {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        long cargos = 0;
+        tx.begin();
+        try {
+            cargos = em.createNamedQuery("Controlsalidabono.confirmarrecepcion", Long.class).getSingleResult();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+
+        return cargos;
+    }
+
+    public static long countconfimacionordenretiro() {EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        long cargos = 0;
+        tx.begin();
+        try {
+            cargos = em.createNamedQuery("Controlsalidabono.confirmarretiro", Long.class).getSingleResult();
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -105,6 +171,38 @@ public class ControlsalidabonosDao {
         emf.close();
     }
 
+    public static Controlsalidabono editwb(Controlsalidabono cargo) {
+
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<ControlsalidabonosHasLotesbonos> csbhlb = cargo.getControlsalidabonosHasLotesbonosList() != null ? cargo.getControlsalidabonosHasLotesbonosList() : new ArrayList<ControlsalidabonosHasLotesbonos>();
+
+        tx.begin();
+        try {
+            System.out.println("Sigue todo");
+            for (Bono b : cargo.getBonoList()) {
+                em.merge(b);
+            }
+            if (cargo.getId() == null) {
+                em.persist(cargo);
+            }
+            em.merge(cargo.getSolicitudEntregaid());
+            em.merge(cargo);
+
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return cargo;
+    }
+
     public static Controlsalidabono edit(Controlsalidabono cargo) {
 
         EntityManagerFactory emf
@@ -116,10 +214,10 @@ public class ControlsalidabonosDao {
         tx.begin();
         try {
             System.out.println("Sigue todo");
+            System.out.println(cargo.getSolicitudEntregaid().getFecha());
             if (cargo.getId() == null) {
                 em.persist(cargo);
             }
-            em.merge(cargo.getSolicitudEntregaid());
             em.merge(cargo);
 
             tx.commit();

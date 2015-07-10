@@ -24,6 +24,7 @@ public class LCTPojo  implements Serializable{
     private Integer accion;
     private Cliente cliente;
     private Tarea tareas;
+    private int count;
 
     public LCTPojo() {
     }
@@ -39,6 +40,7 @@ public class LCTPojo  implements Serializable{
         this.accion = lct.getIdAccion().getIdAccion();
         this.cliente = lct.getCliente();
         this.tareas = lct.getTarea();
+        this.count = lct.getCount();
     }
 
     public Listasclientestareas getListaclientetareas(Usuario usuario, Accion accion) {
@@ -49,6 +51,7 @@ public class LCTPojo  implements Serializable{
         lct.setIdAccion(accion);
         lct.setCliente(cliente);
         lct.setTarea(tareas);
+        lct.setCount(count);
         return lct;
     }
 

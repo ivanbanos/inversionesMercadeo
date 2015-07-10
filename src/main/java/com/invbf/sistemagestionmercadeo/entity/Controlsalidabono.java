@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,6 +40,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Controlsalidabono.findById", query = "SELECT c FROM Controlsalidabono c WHERE c.id = :id"),
     @NamedQuery(name = "Controlsalidabono.findByFecha", query = "SELECT c FROM Controlsalidabono c WHERE c.fecha = :fecha"),
     @NamedQuery(name = "Controlsalidabono.findByEstado", query = "SELECT c FROM Controlsalidabono c WHERE c.estado = :estado"),
+    @NamedQuery(name = "Controlsalidabono.findcountPorDiligenciar", query = "SELECT COUNT(c) FROM Controlsalidabono c WHERE c.estado = 'BONOS EN PROCESO DE DILIGENCIAMIENTO'"),
+    @NamedQuery(name = "Controlsalidabono.confirmarrecepcion", query = "SELECT COUNT(c) FROM Controlsalidabono c WHERE c.estado = 'BONOS LISTOS PARA SER DILIGENCIADOS'"),
+    @NamedQuery(name = "Controlsalidabono.confirmarretiro", query = "SELECT COUNT(c) FROM Controlsalidabono c WHERE c.estado = 'PENDIENTE POR PROCESAR'"),
     @NamedQuery(name = "Controlsalidabono.findAllButPRESOLICITADA", query = "SELECT c FROM Controlsalidabono c WHERE c.estado != 'PRESOLICITADA'"),
     @NamedQuery(name = "Controlsalidabono.findByFechavencimientobonos", query = "SELECT c FROM Controlsalidabono c WHERE c.fechavencimientobonos = :fechavencimientobonos")})
 public class Controlsalidabono implements Serializable {
@@ -57,7 +61,7 @@ public class Controlsalidabono implements Serializable {
     @Column(name = "fechavencimientobonos")
     @Temporal(TemporalType.DATE)
     private Date fechavencimientobonos;
-    @OneToMany(mappedBy = "controlSalidaBonosid")
+    @OneToMany(mappedBy = "controlSalidaBonosid",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Bono> bonoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "controlsalidabono")
     private List<ControlsalidabonosHasLotesbonos> controlsalidabonosHasLotesbonosList;
@@ -65,7 +69,7 @@ public class Controlsalidabono implements Serializable {
     @ManyToOne
     private Usuario solicitante;
     @JoinColumn(name = "SolicitudEntrega_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Solicitudentrega solicitudEntregaid;
 
     public Controlsalidabono() {

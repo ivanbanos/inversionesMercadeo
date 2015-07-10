@@ -37,13 +37,15 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "SolicitudEntrega")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Solicitudentrega.revisarestados", query = "UPDATE Solicitudentrega s SET s.estado = 'BONOS VENCIDOS. PENDIENTE POR GENERAR REPORTE' WHERE s.fechavencimientobonos < CURRENT_TIMESTAMP AND s.estado != 'REPORTE DE GESTIÓN DISPONIBLE' "),
+    @NamedQuery(name = "Solicitudentrega.revisarestados", query = "UPDATE Solicitudentrega s SET s.estado = 'BONOS VENCIDOS. PENDIENTE POR GENERAR REPORTE' WHERE s.fechavencimientobonos < CURRENT_DATE AND s.estado != 'REPORTE DE GESTIÓN DISPONIBLE' "),
    
     @NamedQuery(name = "Solicitudentrega.vencidoSol", query = "SELECT s FROM Solicitudentrega s WHERE s.solicitante.idUsuario = :solicitante AND ( s.estado = 'BONOS VENCIDOS. PENDIENTE POR GENERAR REPORTE' OR s.estado = 'REPORTE DE GESTIÓN DISPONIBLE')"),
     @NamedQuery(name = "Solicitudentrega.vencido", query = "SELECT s FROM Solicitudentrega s WHERE ( s.estado = 'BONOS VENCIDOS. PENDIENTE POR GENERAR REPORTE' OR s.estado = 'REPORTE DE GESTIÓN DISPONIBLE')"),
     @NamedQuery(name = "Solicitudentrega.novencidoSol", query = "SELECT s FROM Solicitudentrega s WHERE s.solicitante.idUsuario = :solicitante AND ( s.estado != 'BONOS VENCIDOS. PENDIENTE POR GENERAR REPORTE' AND s.estado != 'REPORTE DE GESTIÓN DISPONIBLE')"),
-    @NamedQuery(name = "Solicitudentrega.novencido", query = "SELECT s FROM Solicitudentrega s WHERE ( s.estado != 'BONOS VENCIDOS. PENDIENTE POR GENERAR REPORTE' AND s.estado != 'REPORTE DE GESTIÓN DISPONIBLE')"),
+    @NamedQuery(name = "Solicitudentrega.novencido", query = "SELECT s FROM Solicitudentrega s WHERE ( s.estado != 'REPORTE DE GESTIÓN DISPONIBLE')"),
     
+    @NamedQuery(name = "Solicitudentrega.creados", query = "SELECT COUNT(s) FROM Solicitudentrega s WHERE s.estado = 'CREADA'"),
+    @NamedQuery(name = "Solicitudentrega.preaprobados", query = "SELECT COUNT(s) FROM Solicitudentrega s WHERE s.estado = 'CREADA' OR s.estado = 'PREAPROBADA'"),
     
     
     @NamedQuery(name = "Solicitudentrega.findAll", query = "SELECT s FROM Solicitudentrega s"),
@@ -102,7 +104,7 @@ public class Solicitudentrega implements Serializable {
     @JoinColumn(name = "idCasino", referencedColumnName = "idCasino")
     @ManyToOne
     private Casino idCasino;
-    @OneToMany(mappedBy = "solicitudEntregaid")
+    @OneToMany(mappedBy = "solicitudEntregaid", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Controlsalidabono> controlsalidabonoList;
     @Column(name = "fechavencimientobonos")
     @Temporal(TemporalType.DATE)
@@ -274,5 +276,6 @@ public class Solicitudentrega implements Serializable {
     public void setFechavencimientobonos(Date fechavencimientobonos) {
         this.fechavencimientobonos = fechavencimientobonos;
     }
+
     
 }

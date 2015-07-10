@@ -7,11 +7,13 @@ package com.invbf.sistemagestionmercadeo.dao;
 
 import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
+import com.invbf.sistemagestionmercadeo.entity.Controlsalidabono;
 import com.invbf.sistemagestionmercadeo.entity.Denominacion;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.PropositosBoolean;
 import com.invbf.sistemagestionmercadeo.util.TipoBonoBoolean;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -276,22 +278,39 @@ public class BonoDao {
         return cargos;
     }
 
-    public static List<Bono> getBonosporCasinoPropositoTipoFecha(List<CasinoBoolean> casinos, List<PropositosBoolean> propositos, List<TipoBonoBoolean> tipos, Integer ano, Integer mes) {
-
-        String query = "SELECT b FROM Bono b WHERE EXTRACT(YEAR, b.fechaExpiracion) = "+ano;
-        
-        
-        
-        
-        
+    public static List<Bono> getBonosporCasinoPropositoTipoFecha(List<CasinoBoolean> casinos, List<PropositosBoolean> propositos, List<TipoBonoBoolean> tipos, Integer ano, Integer mes, Integer anodesde, Integer mesdesde) {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-        List<Bono> cargos = null;
+        List<Bono> cargos = new ArrayList<Bono>();
         tx.begin();
+        Calendar desde = Calendar.getInstance();
+        Calendar hasta = Calendar.getInstance();
+
+        hasta.set(Calendar.YEAR, ano);
+        hasta.set(Calendar.MONTH, mes);
+        hasta.add(Calendar.MONTH, 1);
+        hasta.set(Calendar.DAY_OF_MONTH, 1);
+
+        desde.set(Calendar.YEAR, anodesde);
+        desde.set(Calendar.MONTH, mesdesde);
+        desde.set(Calendar.DAY_OF_MONTH, 1);
         try {
-            cargos = (List<Bono>) em.createQuery(query).getResultList();
+            for (CasinoBoolean cb : casinos) {
+                if (cb.isSelected()) {
+                    for (PropositosBoolean pb : propositos) {
+                        if (pb.isSelected()) {
+                            cargos.addAll(em.createNamedQuery("Bono.getReporteBono")
+                                    .setParameter("desde", desde.getTime())
+                                    .setParameter("hasta", hasta.getTime())
+                                    .setParameter("casino", cb.getCasino())
+                                    .setParameter("proposito", pb.getPropositoentrega())
+                                    .getResultList());
+                        }
+                    }
+                }
+            }
 
             tx.commit();
         } catch (Exception e) {
@@ -304,6 +323,26 @@ public class BonoDao {
         emf.close();
         return cargos;
 
+    }
+
+    public static void editList(List<Bono> bonos, Controlsalidabono elemento) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        try {
+            em.createNamedQuery("Bono.cambiarestadoBonoByControl")
+                    .setParameter("control", elemento)
+                    .executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
     }
 
     public BonoDao() {

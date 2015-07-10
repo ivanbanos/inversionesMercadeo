@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author ivan
  */
-public class MatematicaAplicada  implements Serializable{
+public class MatematicaAplicada implements Serializable {
 
     public static boolean sePuedeLleagar(Float num, Float... multiplos) {
         while (num > 0) {
@@ -75,9 +75,9 @@ public class MatematicaAplicada  implements Serializable{
             }
 
         }
-        for(Lotebono lb:denominaciones){
+        for (Lotebono lb : denominaciones) {
             DenoinacionCant denominacincant = new DenoinacionCant(lb);
-            if(!denoinacionCants.contains(denominacincant)){
+            if (!denoinacionCants.contains(denominacincant)) {
                 denoinacionCants.add(denominacincant);
             }
         }
@@ -85,7 +85,7 @@ public class MatematicaAplicada  implements Serializable{
     }
 
     public static List<DenoinacionCant> getBonosAsignadosDEnominacinesNormales(List<Lotebono> denominaciones, Float cantidad) {
-        for (int i = denominaciones.size(); i > 0; i--) {
+        for (int i = denominaciones.size()-1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if (denominaciones.get(j).getDenominacion().getValor() > denominaciones.get(j + 1).getDenominacion().getValor()) {
                     Collections.swap(denominaciones, j + 1, j);
@@ -96,13 +96,17 @@ public class MatematicaAplicada  implements Serializable{
         float restante = cantidad;
         List<DenoinacionCant> denoinacionCants = new ArrayList<DenoinacionCant>();
         int punto = denominaciones.size() - 1;
+        boolean bajouna = false;
 
         while (restante > 0) {
             for (int i = punto; i >= 0; i--) {
                 Lotebono get = denominaciones.get(i);
-                if (get.getDenominacion().getValor() < restante) {
-                    denoinacionCants.add(new DenoinacionCant(get, (int) (restante / get.getDenominacion().getValor())));
-                    restante %= get.getDenominacion().getValor();
+                if (get.getDenominacion().getValor() <= restante) {
+                    if (i == 0 || bajouna) {
+                        denoinacionCants.add(new DenoinacionCant(get, (int) (restante / get.getDenominacion().getValor())));
+                        restante %= get.getDenominacion().getValor();
+                    }
+                    bajouna = true;
                 }
             }
             if (restante != 0) {

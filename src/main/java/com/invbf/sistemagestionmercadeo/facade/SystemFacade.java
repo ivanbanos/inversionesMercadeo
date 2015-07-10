@@ -43,11 +43,36 @@ public interface SystemFacade {
     
     public String getPathImage(byte[] imagen, String mime, String nombre)throws IOException ;
 
-    public List<InfoCorreoCliente> enviarCorreo(Tarea elemento, String asunto, String cuerpo, boolean enviarimagen) ;
+    public List<InfoCorreoCliente> enviarCorreo(Tarea elemento, String asunto, String cuerpo, String enviarimagen) ;
 
     public Usuario getUsuario(Integer idUsuario);
 
     public List<Log> getLogs();
 
     public String getNombreDeUsuario(Integer id);
+
+    public long getnumedicioncliente();
+
+    public long getnumrecibirsala();
+
+    public long getnumdiligenciar();
+
+    public long getnumconfirmarrecepcion();
+
+    public long getnumconfimacionordenretiro();
+
+    public long getnumrequerimientosolicitado();
+
+    public long getnumingresoloteinventario();
+
+    public long getnumpreaprobarsolicitud();
+
+    public long getnumaprobarsolicitud();
+
+    public void registrarEquipo( Usuario usuario, String ipAddress);
+
+    public boolean isIpActiva(Usuario usuario, String ipAddress);
+
+    public void checkEstadoTarea();
+
 }

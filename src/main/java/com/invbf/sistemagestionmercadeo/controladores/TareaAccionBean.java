@@ -16,7 +16,10 @@ import com.invbf.sistemagestionmercadeo.entity.Tipotarea;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
+import com.invbf.sistemagestionmercadeo.util.ClienteDTO;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
+import static com.invbf.sistemagestionmercadeo.util.Notificador.AVISO_TAREA_ASIGNADA;
 import com.invbf.sistemagestionmercadeo.util.TipoJuegoBoolean;
 import java.io.IOException;
 import java.io.Serializable;
@@ -27,16 +30,24 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
+import javax.servlet.http.Part;
+import org.apache.commons.io.IOUtils;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.model.DualListModel;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -45,6 +56,32 @@ import org.primefaces.model.DualListModel;
 @ManagedBean
 @ViewScoped
 public class TareaAccionBean implements Serializable {
+
+    public void upload() {
+        filename = file.getFileName().replace(" ", "");
+        System.out.println(filename.replace(" ", ""));
+        sessionBean.marketingUserFacade.guardarImagen(file.getContents(), filename);
+        sessionBean.setAttribute("imagen", file.getContents());
+        System.out.println("File name: " + filename);
+        file = null;
+
+    }
+
+    public void validateFile(FacesContext ctx,
+            UIComponent comp,
+            Object value) {
+        List<FacesMessage> msgs = new ArrayList<FacesMessage>();
+        Part file = (Part) value;
+        if (file.getSize() > 1024) {
+            msgs.add(new FacesMessage("file too big"));
+        }
+        if (!"text/plain".equals(file.getContentType())) {
+            msgs.add(new FacesMessage("not a text file"));
+        }
+        if (!msgs.isEmpty()) {
+            throw new ValidatorException(msgs);
+        }
+    }
 
     private Tarea elemento;
     @ManagedProperty("#{sessionBean}")
@@ -57,24 +94,29 @@ public class TareaAccionBean implements Serializable {
     private DualListModel<Usuario> todosusuarioses;
     private boolean todoscat;
     private boolean todostip;
-    private long conteo;
     private String asunto;
     private String cuerpo;
     private boolean enviarcorreo;
     private boolean skip;
     private List<CasinoBoolean> casinoBooleans;
     private boolean todoscasinos;
+    private List<ClienteDTO> clientesSelected;
+    private List<ClienteDTO> clientes;
+    private UploadedFile file;
+    private String filename;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
     }
 
     public TareaAccionBean() {
+        cuerpo = "";
     }
 
     @PostConstruct
     public void init() {
-        conteo = 0;
+        clientesSelected = new ArrayList<ClienteDTO>();
+        clientes = new ArrayList<ClienteDTO>();
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("tareas");
         if (!sessionBean.perfilViewMatch("Tareas")) {
@@ -115,7 +157,6 @@ public class TareaAccionBean implements Serializable {
             todosusuarioses = new DualListModel<Usuario>(usuarioses, elemento.getUsuarioList());
         } else {
             elemento = sessionBean.marketingUserFacade.findTarea((Integer) sessionBean.getAttributes("idTarea"));
-            conteo = elemento.getListasclientestareasList().size();
             evento = elemento.getIdEvento();
             if (elemento.getCategorias() == null || elemento.getCategorias().equals("")) {
                 elemento.setCategorias("");
@@ -147,6 +188,12 @@ public class TareaAccionBean implements Serializable {
             }
             todosusuarioses = new DualListModel<Usuario>(usuarioses, elemento.getUsuarioList());
         }
+        if (sessionBean.getAttributes("tipo") != null) {
+            elemento.setTipo(sessionBean.marketingUserFacade.findTipoTarea((Integer) sessionBean.getAttributes("tipo")));
+        }
+        if (elemento.getTipo() == null) {
+            elemento.setTipo(new Tipotarea());
+        }
         List<Casino> casinos = sessionBean.getUsuario().getCasinoList();
         casinoBooleans = new ArrayList<CasinoBoolean>();
         for (Casino casinob : casinos) {
@@ -172,14 +219,23 @@ public class TareaAccionBean implements Serializable {
         this.skip = skip;
     }
 
+    public void sacarCliente() {
+        for (Iterator<ClienteDTO> iterator = clientesSelected.iterator(); iterator.hasNext();) {
+            ClienteDTO next = iterator.next();
+            clientes.remove(next);
+            iterator.remove();
+        }
+    }
+
     public void createClientes() {
-        Accion estadoscliente = sessionBean.marketingUserFacade.findByNombreAccion("INICIAL");
-        ArrayList<Listasclientestareas> al = new ArrayList<Listasclientestareas>(elemento.getListasclientestareasList());
-        elemento.getListasclientestareasList().clear();
+
+        clientesSelected = new ArrayList<ClienteDTO>();
+
+        ArrayList<ClienteDTO> al = new ArrayList<ClienteDTO>();
         List<Cliente> todosclienteses = new ArrayList<Cliente>();
         for (CasinoBoolean casino : casinoBooleans) {
             if (casino.isSelected()) {
-                todosclienteses.addAll(sessionBean.marketingUserFacade.findAllClientesCasinos(casino.getCasino(), "", "", "", null));
+                todosclienteses.addAll(sessionBean.marketingUserFacade.findAllClientesCasinos(casino.getCasino(), "", "", "", null, ""));
             }
         }
         boolean noCatselected = true;
@@ -208,11 +264,6 @@ public class TareaAccionBean implements Serializable {
 
             boolean siCategoria = false;
             boolean siTipoJuego = false;
-            if (elemento.getIdEvento() != null) {
-                if (!c.getIdCasinoPreferencial().equals(elemento.getIdEvento().getIdCasino())) {
-                    continue;
-                }
-            }
             if (noCatselected) {
                 siCategoria = true;
             } else {
@@ -241,23 +292,11 @@ public class TareaAccionBean implements Serializable {
             }
             if (siCategoria && siTipoJuego) {
                 System.out.println("Entra Cliente");
-                Listasclientestareas listasclientesevento = new Listasclientestareas();
-
-                if (al.contains(listasclientesevento)) {
-                    elemento.getListasclientestareasList().add(al.get(al.indexOf(listasclientesevento)));
-                } else {
-                    listasclientesevento.setIdAccion(estadoscliente);
-                    listasclientesevento.setTarea(elemento);
-                    listasclientesevento.setCliente(c);
-                    listasclientesevento.setCount(0);
-                    elemento.getListasclientestareasList().add(listasclientesevento);
-                }
+                clientes.add(new ClienteDTO(c));
             } else {
                 if (elemento.getIdTarea() != null) {
-                    Listasclientestareas listasclientesevento = new Listasclientestareas(elemento.getIdTarea(), c.getIdCliente());
-                    if (al.contains(listasclientesevento)) {
-                        elemento.getListasclientestareasList().remove(al.get(al.indexOf(listasclientesevento)));
-                    }
+
+                    clientes.add(new ClienteDTO(c));
                 }
             }
         }
@@ -274,7 +313,11 @@ public class TareaAccionBean implements Serializable {
                 elemento.setTiposdejuegos(elemento.getTiposdejuegos() + tjb.getTipoJuego().getIdTipoJuego() + " ");
             }
         }
-        conteo = elemento.getListasclientestareasList().size();
+    }
+
+    public void enviarEmail() {
+        upload();
+        guardar();
     }
 
     public void guardar() {
@@ -288,16 +331,19 @@ public class TareaAccionBean implements Serializable {
             Calendar fechafinal = Calendar.getInstance();
 
             Calendar nowDate = Calendar.getInstance();
+            if (!elemento.getTipo().getNombre().equals("EMAIL")) {
+                fechainicio.setTime(elemento.getFechaInicio());
+                fechafinal.setTime(elemento.getFechaFinalizacion());
+            }
 
-            fechainicio.setTime(elemento.getFechaInicio());
-            fechafinal.setTime(elemento.getFechaFinalizacion());
+            elemento.setFechaInicio(nowDate.getTime());
+            elemento.setFechaFinalizacion(nowDate.getTime());
+            System.out.println(fechainicio.getTime());
+            System.out.println(fechafinal.getTime());
 
             System.out.println(nowDate.getTime());
             if (elemento.getIdTarea() == null || elemento.getIdTarea() == 0) {
-                if (fechainicio.before(nowDate)) {
-                    FacesUtil.addErrorMessage("Fechas incorrectas", "Fecha inicial antes de la fecha actual");
-                    break guardar;
-                } else if (fechafinal.before(fechainicio)) {
+                if (fechafinal.before(fechainicio)) {
                     FacesUtil.addErrorMessage("Fechas incorrectas", "Fecha final antes de la fecha inicial");
                     break guardar;
                 }
@@ -310,12 +356,8 @@ public class TareaAccionBean implements Serializable {
                 elemento.setEstado("VENCIDO");
             }
             sessionBean.registrarlog("actualizar", "Eventos", "Tarea guardada " + elemento.getNombre());
-            sessionBean.marketingUserFacade.guardarTarea(elemento);
 
             elemento.setUsuarioList(todosusuarioses.getTarget());
-            for (Usuario usu : todosusuarioses.getTarget()) {
-                sessionBean.adminFacade.agregarTareaUsuarios(usu, elemento);
-            }
 
             sessionBean.actualizarUsuario();
 
@@ -325,12 +367,27 @@ public class TareaAccionBean implements Serializable {
                     usuarioses.remove(u);
                 }
             }
+            Accion estadoscliente = sessionBean.marketingUserFacade.findByNombreAccion("INICIAL");
             todosusuarioses = new DualListModel<Usuario>(usuarioses, elemento.getUsuarioList());
-
+            elemento.setListasclientestareasList(new ArrayList<Listasclientestareas>());
+            for (ClienteDTO cdto : clientes) {
+                Listasclientestareas lct = new Listasclientestareas();
+                lct.setIdAccion(estadoscliente);
+                lct.setTarea(elemento);
+                lct.setCliente(new Cliente(cdto.getIdCliente()));
+                lct.setCount(0);
+                elemento.getListasclientestareasList().add(lct);
+            }
+            if (elemento.getTipo().getNombre().equals("EMAIL")) {
+                elemento.setEstado("VENCIDO");
+            }
             elemento = sessionBean.marketingUserFacade.guardarTarea(elemento);
-            if (evento != null) {
-                evento.getTareaList().add(elemento);
-                sessionBean.marketingUserFacade.guardarEventos(evento);
+            if (elemento.getTipo().getNombre().equals("EMAIL")) {
+                enviarCorreo();
+            } else {
+                for (Usuario s : elemento.getUsuarioList()) {
+                    Notificador.notificar(Notificador.AVISO_TAREA_ASIGNADA, "Se le ha asignado la tarea " + elemento.getNombre() + " para ser ejecutada.", "Tarea Asignada", s.getUsuariodetalle().getCorreo());
+                }
             }
             goBack();
             FacesUtil.addInfoMessage("Tarea guardado con exito", elemento.getNombre());
@@ -379,7 +436,7 @@ public class TareaAccionBean implements Serializable {
     }
 
     public void enviarCorreo() {
-        sessionBean.sessionFacade.enviarCorreo(elemento, asunto, cuerpo, enviarcorreo);
+        sessionBean.sessionFacade.enviarCorreo(elemento, asunto, cuerpo, filename);
     }
 
     public boolean isTodoscat() {
@@ -412,11 +469,7 @@ public class TareaAccionBean implements Serializable {
     }
 
     public long getConteo() {
-        return conteo;
-    }
-
-    public void setConteo(long conteo) {
-        this.conteo = conteo;
+        return clientes.size();
     }
 
     public String getAsunto() {
@@ -444,23 +497,30 @@ public class TareaAccionBean implements Serializable {
     }
 
     public String onFlowProcess(FlowEvent event) {
-        System.out.println(skip);
-        System.out.println(elemento.getTipo().getNombre());
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        if (skip) {
-            return "confirmar";
-        }
+
         if (elemento.getTipo().getNombre() == null) {
             elemento.setTipo(sessionBean.marketingUserFacade.findTipoTarea(elemento.getTipo().getIdTipotarea()));
         }
-        if (elemento.getTipo().getNombre().equals("EMAIL")) {
-            return "confirmar";
-        } else {
-            return event.getNewStep();
+        if (event.getNewStep().equals("correp")) {
+            if (!elemento.getTipo().getNombre().equals("EMAIL")) {
+                if (event.getOldStep().equals("clientes")) {
+                    return "general";
+                } else {
+                    return "clientes";
+                }
+            }
         }
+        if (event.getNewStep().equals("dattarea")) {
+            if (elemento.getTipo().getNombre().equals("EMAIL")) {
+                if (event.getOldStep().equals("clientes")) {
+                    return "tipotarea";
+                } else {
+                    return "clientes";
+                }
+            }
+        }
+
+        return event.getNewStep();
     }
 
     public void quitarCliente(Integer cliente) {
@@ -472,7 +532,6 @@ public class TareaAccionBean implements Serializable {
             }
         }
 
-        conteo = elemento.getListasclientestareasList().size();
     }
 
     public List<CasinoBoolean> getCasinoBooleans() {
@@ -490,5 +549,71 @@ public class TareaAccionBean implements Serializable {
     public void setTodoscasinos(boolean todoscasinos) {
         this.todoscasinos = todoscasinos;
     }
-    
+
+    public List<Usuario> getUsuarioses() {
+        return usuarioses;
+    }
+
+    public void setUsuarioses(List<Usuario> usuarioses) {
+        this.usuarioses = usuarioses;
+    }
+
+    public List<ClienteDTO> getClientesSelected() {
+        return clientesSelected;
+    }
+
+    public void setClientesSelected(List<ClienteDTO> clientesSelected) {
+        this.clientesSelected = clientesSelected;
+    }
+
+    public List<ClienteDTO> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(List<ClienteDTO> clientes) {
+        this.clientes = clientes;
+    }
+
+    public void handleFileUpload(FileUploadEvent event) {
+        if (event != null) {
+            file = event.getFile();
+            sessionBean.marketingUserFacade.guardarImagen(file.getContents(), file.getFileName());
+            sessionBean.setAttribute("imagen", file.getContents());
+            filename = file.getFileName();
+
+            System.out.println("File name: " + file.getFileName());
+        }
+    }
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public void enviarAPagina() {
+        elemento.setTipo(sessionBean.marketingUserFacade.findTipoTarea(elemento.getTipo().getIdTipotarea()));
+        try {
+            sessionBean.setAttribute("tipo", elemento.getTipo().getIdTipotarea());
+            if (elemento.getTipo().getNombre().equals("EMAIL")) {
+
+                FacesContext.getCurrentInstance().getExternalContext().redirect("TareaAccionEmail.xhtml");
+
+            } else {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("TareaAccionOtros.xhtml");
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(TareaAccionBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

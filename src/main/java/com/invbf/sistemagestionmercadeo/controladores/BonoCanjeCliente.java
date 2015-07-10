@@ -66,7 +66,7 @@ public class BonoCanjeCliente implements Serializable {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("requisiciones");
-        if (!sessionBean.perfilViewMatch("Recibirbono")) {
+        if (!sessionBean.perfilViewMatch("Canjearbono")&&!sessionBean.perfilViewMatch("Autorizarbono")&&!sessionBean.perfilViewMatch("VerbonosporAutorizar")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
@@ -126,6 +126,7 @@ public class BonoCanjeCliente implements Serializable {
 
         Calendar nowDate = Calendar.getInstance();
         elemento.setFechaEntrega(nowDate.getTime());
+        elemento.setValidador(sessionBean.getUsuario());
         sessionBean.marketingUserFacade.guardaBono(elemento);
         elemento.setAutorizador(sessionBean.adminFacade.findUsuarios(elemento.getAutorizador().getIdUsuario()));
         String body = "";

@@ -306,7 +306,7 @@ public class ClienteDao {
 
     }
 
-    public static List<Cliente> findByIdCasino(Integer idCasino, String nombre, String apellidos, String ident, Tipodocumento tipodocumento) {
+    public static List<Cliente> findByIdCasino(Integer idCasino, String nombre, String apellidos, String ident, Tipodocumento tipodocumento, String sexo) {
 
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
@@ -328,6 +328,11 @@ public class ClienteDao {
         } else {
             ident = ident.toUpperCase();
         }
+        if (sexo == null) {
+            sexo = "";
+        } else {
+            sexo = sexo.toUpperCase();
+        }
         tx.begin();
         try {
             if (tipodocumento == null || tipodocumento.getIdTipoDocumento() == null || tipodocumento.getIdTipoDocumento() == 0) {
@@ -336,6 +341,7 @@ public class ClienteDao {
                         .setParameter("nombres", nombre + "%")
                         .setParameter("apellidos", apellidos + "%")
                         .setParameter("identificacion", ident + "%")
+                        .setParameter("sexo", sexo + "%")
                         .getResultList();
             } else {
                 cargos = (List<Cliente>) em.createNamedQuery("Cliente.findByCasinoNombreYApellidosYtipo")
@@ -343,6 +349,7 @@ public class ClienteDao {
                         .setParameter("nombres", nombre + "%")
                         .setParameter("apellidos", apellidos + "%")
                         .setParameter("identificacion", ident + "%")
+                        .setParameter("sexo", sexo + "%")
                         .setParameter("idTipo", tipodocumento)
                         .getResultList();
             }

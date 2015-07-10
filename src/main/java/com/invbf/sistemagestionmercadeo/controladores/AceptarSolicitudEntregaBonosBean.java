@@ -104,12 +104,6 @@ public class AceptarSolicitudEntregaBonosBean implements Serializable {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("lotesdebonos");
-        if (!sessionBean.perfilViewMatch("AceptarSolicitudLotesBonos")) {
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
-            } catch (IOException ex) {
-            }
-        }
 
         System.out.println("Buscando info de la solictud si existe");
         if (sessionBean.getAttributes("idsolicitudentregalotes") != null && (Integer) sessionBean.getAttributes("idsolicitudentregalotes") != 0) {
@@ -154,7 +148,7 @@ public class AceptarSolicitudEntregaBonosBean implements Serializable {
             sessionBean.setAttribute("idsolicitudentregalotes", elemento.getId());
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudLotesBonosView.xhtml");
             sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Orden de ingreso aceptada con exito!", ""));
-            Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_ENVIADA, "Se recibió un requerimiento de lote de bonos", "Se ha recibido un requerimiento de bonos con el nunmero de acta " + elemento.getId() + ". Favor revisar la lista de Requerimientos de lotes", "");
+            Notificador.notificar(Notificador.SOLICITUD_ENTREGA_LOTES_ENVIADA, "Se ha recibido un lote de bonos", "Se ha recibido un lote de bonos con el nunmero de acta " + elemento.getId() + ". DEBE PROCESARSE EL INGRESO AL INVENTARIO. Favor revisar la lista de Ordenes de ingreso de lote de bonos.", "");
         } catch (IOException ex) {
             Logger.getLogger(GeneradorSolicitudLotesBonos.class.getName()).log(Level.SEVERE, null, ex);
         }

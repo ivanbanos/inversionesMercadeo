@@ -283,6 +283,7 @@ public class BonoValidarBean implements Serializable {
             elemento.getSolicitudEntregaid().setEstado("BONOS DILIGENCIADOS");
             elemento.setEstado("BONOS DILIGENCIADOS");
             sessionBean.marketingUserFacade.saveBonos(elemento, sessionBean.getUsuario().getIdUsuario());
+            Notificador.notificar(Notificador.ENTREGA_A_SALA, "Bonos diligenciados y en proceso de entrega a sala", "Bonos diligenciados", "");
             FacesUtil.addInfoMessage("Bonos asignados con exito", "Se diligenciarón " + bonosSelected.size() + " bonos");
             sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Bonos diligenciados y/o anulados con exito", "Se diligenciarón " + bonosSelected.size() + " bonos"));
             try {

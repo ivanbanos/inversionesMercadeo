@@ -4,11 +4,17 @@
  */
 package com.invbf.sistemagestionmercadeo.facade.impl;
 
-
 import com.invbf.sistemagestionmercadeo.dao.AccionDao;
+import com.invbf.sistemagestionmercadeo.dao.ClienteDao;
+import com.invbf.sistemagestionmercadeo.dao.CommputadorRegistradoDao;
 import com.invbf.sistemagestionmercadeo.dao.ConfiguracionDao;
+import com.invbf.sistemagestionmercadeo.dao.ControlsalidabonosDao;
 import com.invbf.sistemagestionmercadeo.dao.FormularioDao;
 import com.invbf.sistemagestionmercadeo.dao.LogDao;
+import com.invbf.sistemagestionmercadeo.dao.PermisosDao;
+import com.invbf.sistemagestionmercadeo.dao.SolicitudEntregaDao;
+import com.invbf.sistemagestionmercadeo.dao.SolicitudentregalotesDao;
+import com.invbf.sistemagestionmercadeo.dao.TareasDao;
 import com.invbf.sistemagestionmercadeo.dao.UsuarioDao;
 import com.invbf.sistemagestionmercadeo.dao.UsuarioDetalleDao;
 import com.invbf.sistemagestionmercadeo.entity.Accion;
@@ -61,11 +67,11 @@ public class SystemFacadeImpl implements SystemFacade, Serializable {
             System.out.println(usuarios);
             if (usuarios != null) {
                 Usuario usuarioConectado = usuarios;
-                if (usuarioConectado.getEstado()==null||usuarioConectado.getEstado().equals("INACTIVO")) {
+                if (usuarioConectado.getEstado() == null || usuarioConectado.getEstado().equals("INACTIVO")) {
                     throw new UsuarioInactivoException();
                 }
                 Usuariodetalle du = UsuarioDetalleDao.find(usuarioConectado.getIdUsuario());
-                if(du==null){
+                if (du == null) {
                     UsuarioDetalleDao.create(du);
                 }
                 if (!EncryptUtil.comparePassword(usuario.getContrasena(), usuarioConectado.getContrasena())) {
@@ -108,6 +114,13 @@ public class SystemFacadeImpl implements SystemFacade, Serializable {
     @Override
     public void setAllConfiguraciones(List<Configuracion> configuraciones) {
         for (Configuracion c : configuraciones) {
+            if (c.getNombre().equals("ContraseñaRegistroIp")) {
+                try {
+                    c.setValor(EncryptUtil.encryptPassword(c.getValor()));
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(SystemFacadeImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             ConfiguracionDao.edit(c);
         }
     }
@@ -165,7 +178,7 @@ public class SystemFacadeImpl implements SystemFacade, Serializable {
     }
 
     @Override
-    public List<InfoCorreoCliente> enviarCorreo(Tarea elemento, String asunto, String cuerpo, boolean enviarimagen) {
+    public List<InfoCorreoCliente> enviarCorreo(Tarea elemento, String asunto, String cuerpo, String filename) {
         EmailSender es = new EmailSender();
         es.setAuth(true);
         es.setDebug(true);
@@ -179,24 +192,28 @@ public class SystemFacadeImpl implements SystemFacade, Serializable {
         Accion noenviado = AccionDao.findByNombreAccion("NO ENVIADO");
         for (Listasclientestareas lce : elemento.getListasclientestareasList()) {
             try {
-                String correoString = lce.getCliente().getCorreo();
+                
+                String correoString = ClienteDao.find(lce.getListasclientestareasPK().getIdCliente()).getCorreo();
                 if (correoString.equals("")) {
 
                     lce.setIdAccion(noenviado);
                     lce.setObservaciones("Correo vacio");
                 }
-                if (elemento.getIdEvento() != null && elemento.getIdEvento().getImagen() != null && !elemento.getIdEvento().getImagen().equals("") && enviarimagen) {
-                    es.sendEmail(correoString, asunto, cuerpo, elemento.getIdEvento().getImagen());
-                } else {
-                    es.sendEmail(correoString, asunto, cuerpo, "noimage");
-                }
+                 es.sendEmailCliente(correoString, asunto, cuerpo, filename);
+                
 
                 lce.setIdAccion(enviado);
-            } catch (Exception ex) {
+            } catch (NullPointerException ex) {
+                ex.printStackTrace();
+                lce.setIdAccion(noenviado);
+                lce.setObservaciones("Cliente no tiene email o esta errado.");
+            }catch (Exception ex) {
+                ex.printStackTrace();
                 lce.setIdAccion(noenviado);
                 lce.setObservaciones("problemas externos, llamar administrador");
             }
         }
+        TareasDao.edit(elemento);
         return null;
     }
 
@@ -209,14 +226,76 @@ public class SystemFacadeImpl implements SystemFacade, Serializable {
     public List<Log> getLogs() {
         return LogDao.findAll();
     }
-    
+
     @Override
     public String getNombreDeUsuario(Integer id) {
         Usuario u = UsuarioDao.find(id);
-        if(u==null){
+        if (u == null) {
             return "No registrado";
         } else {
             return u.getNombreUsuario();
         }
     }
+
+    @Override
+    public long getnumedicioncliente() {
+        return PermisosDao.count();
+    }
+
+    @Override
+    public long getnumrecibirsala() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public long getnumdiligenciar() {
+        return ControlsalidabonosDao.countPorDiligenciar();
+    }
+
+    @Override
+    public long getnumconfirmarrecepcion() {
+        return ControlsalidabonosDao.countconfirmarrecepcion();
+    }
+
+    @Override
+    public long getnumconfimacionordenretiro() {
+        return ControlsalidabonosDao.countconfimacionordenretiro();
+    }
+
+    @Override
+    public long getnumrequerimientosolicitado() {
+        return SolicitudentregalotesDao.countrequerimientosolicitado();
+    }
+
+    @Override
+    public long getnumingresoloteinventario() {
+        return SolicitudentregalotesDao.countingresoloteinventario();
+    }
+
+    @Override
+    public long getnumpreaprobarsolicitud() {
+        return SolicitudEntregaDao.countpreaprobarsolicitud();
+    }
+
+    @Override
+    public long getnumaprobarsolicitud() {
+        return SolicitudEntregaDao.countaprobarsolicitud();
+    }
+
+    @Override
+    public void registrarEquipo(Usuario usuario, String ipAddress) {
+        UsuarioDao.registrarMaquina(usuario, ipAddress);
+    }
+
+    @Override
+    public boolean isIpActiva(Usuario usuario, String ipAddress) {
+        return CommputadorRegistradoDao.isRegistrado(usuario, ipAddress);
+    }
+
+    @Override
+    public void checkEstadoTarea() {
+        TareasDao.checkEstadoTarea();
+        TareasDao.checkEstadoTareaVn();
+    }
+
 }

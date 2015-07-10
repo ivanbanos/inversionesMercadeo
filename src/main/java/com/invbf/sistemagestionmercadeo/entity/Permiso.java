@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -71,11 +73,14 @@ public class Permiso implements Serializable {
     @Size(max = 400)
     @Column(name = "observaciones")
     private String observaciones;
+    @JoinColumn(name = "Usuario", referencedColumnName = "idUsuario")
+    @ManyToOne(optional = false)
+    private Usuario usuario;
 
     public Permiso() {
     }
 
-    public Permiso(String tipo, String id, String tabla, String campo, String nuevoValor, String detalleNuevoValor, String valorActual, String detalleValorActual, String observaciones) {
+    public Permiso(String tipo, String id, String tabla, String campo, String nuevoValor, String detalleNuevoValor, String valorActual, String detalleValorActual, String observaciones, Usuario usaurio) {
         this.tipo = tipo;
         this.id = id;
         this.tabla = tabla;
@@ -85,6 +90,7 @@ public class Permiso implements Serializable {
         this.valorActual = valorActual;
         this.detalleValorActual = detalleValorActual;
         this.observaciones = observaciones;
+        this.usuario = usaurio;
     }
 
     public Permiso(Integer idAcciones) {
@@ -194,6 +200,14 @@ public class Permiso implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Permiso[ idAcciones=" + idAcciones + " ]";
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
     
 }

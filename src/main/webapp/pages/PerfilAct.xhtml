@@ -75,20 +75,6 @@
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.eliminarPerfiles.selected}"/></td>
                                                     </tr>
                                                     <tr>
-                                                        <td>#{label['cargos']}</td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.vistaCargo.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.agregarCargo.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.actualizarCargo.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.eliminarCargo.selected}"/></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>#{label['acceso']}</td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.vistaAcceso.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.agregarAcceso.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.actualizarAcceso.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.eliminarAcceso.selected}"/></td>
-                                                    </tr>
-                                                    <tr>
                                                         <td>#{label['casinos']}</td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.vistaCasinos.selected}"/></td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.agregarCasinos.selected}"/></td>
@@ -152,18 +138,11 @@
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.eliminarTipoBono.selected}"/></td>
                                                     </tr>
                                                     <tr>
-                                                        <td>#{label['propositos']}</td>
+                                                        <td>Proposito de entrega de bonos</td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.vistaPropositos.selected}"/></td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.agregarPropositos.selected}"/></td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.actualizarPropositos.selected}"/></td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.eliminarPropositos.selected}"/></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>#{label['areas']}</td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.vistaAreas.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.agregarAreas.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.actualizarAreas.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.eliminarAreas.selected}"/></td>
                                                     </tr>
 
                                                     <tr>
@@ -178,6 +157,14 @@
                                                     <tr>
                                                         <td>Cambio de estado de bonos</td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.cambioEstadoBono.selected}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Ver IP's Registradas</td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.veripregistradas.selected}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Entrar Sin Registro de maquina</td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.entrarsinregistro.selected}"/></td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -217,14 +204,6 @@
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.actualizarClientes.selected}"/></td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.eliminarClientes.selected}"/></td>
                                                     </tr>
-
-                                                    <tr>
-                                                        <td>#{label['peticionescupo']}</td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.solicitudCambioCupo.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.agregarPeticionesCupo.selected}"/></td>
-                                                        <td></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.eliminarPeticionesCupo.selected}"/></td>
-                                                    </tr>
                                                 </table>
                                                 <table class="table table-bordered table-striped">
                                                     <tr>
@@ -251,6 +230,10 @@
                                                         <td>Enviar cliente por mail</td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.mailcliente.selected}"/></td>
                                                     </tr>
+                                                    <tr>
+                                                        <td>Ver detalle de cliente</td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.vertodoslosclientes.selected}"/></td>
+                                                    </tr>
                                                 </table>
                                             </div>
                                         </div>
@@ -264,26 +247,24 @@
                                                     <tr>
                                                         <th>Nombre</th>
                                                         <th>#{label['ver']}</th>
-                                                        <th>#{label['agregar']}</th>
-                                                        <th>#{label['actualizar']}</th>
-                                                        <th>#{label['borrar']}</th>
+                                                        <th>Agregar denominaciones</th>
+                                                        <th>Borrar denominaciones</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>#{label['stockbonos']}</td>
+                                                        <td>Inventario</td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.vistaLoteBono.selected}"/></td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.agregarLoteBono.selected}"/></td>
-                                                        <td></td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.eliminarLoteBono.selected}"/></td>
                                                     </tr>
 
                                                 </table>
                                                 <table class="table table-bordered table-striped">
-                                                    
+
                                                     <tr>
                                                         <th>Requerimientos de Lote</th>
                                                         <th>Ver</th>
                                                         <th>Crear</th>
-                                                        <th>Ordenar</th>
+                                                        <th>Aprobar</th>
                                                         <th>Rechazar</th>
                                                     </tr>
                                                     <tr>
@@ -296,13 +277,13 @@
 
                                                 </table>
                                                 <table class="table table-bordered table-striped">
-                                                    
+
                                                     <tr>
-                                                        <th>Solicitudes de entrada de Lote de Bonos</th>
-                                                        <th>Ver Solicitudes de entrada de Lote</th>
+                                                        <th>Ingreso de lote de bonos  a inventario</th>
+                                                        <th>Ver solicitudes de ingreso</th>
                                                         <th>Recibir Lote</th>
                                                         <th>Devolver Lote</th>
-                                                        <th>Aceptar Lote</th>
+                                                        <th>Ingresar Lote </th>
                                                     </tr>
                                                     <tr>
                                                         <td></td>
@@ -313,15 +294,15 @@
                                                     </tr>
 
                                                 </table>
-                                                
+
                                                 <table class="table table-bordered table-striped">
                                                     <tr>
-                                                        <th>Acci&oacute;n</th>
+                                                        <th>Acci&oacute;n sobre la solicitud de bonos</th>
                                                         <th>Ejecutar</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>#{label['AceptarSolicitudLotesBonos']}</td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.aceptarSolictudLotesBons.selected}"/></td>
+                                                        <td>Ver las solicitudes de bonos de los casinos asignados:</td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.vistaSolicitudesCasino.selected}"/></td>
                                                     </tr>
                                                     <tr>
                                                         <td>#{label['generarsolicitudbonos']}</td>
@@ -336,59 +317,35 @@
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.aprobarSolicitudBono.selected}"/></td>
                                                     </tr>
                                                     <tr>
-                                                        <td>#{label['vertodoslosclientes']}</td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.vertodoslosclientes.selected}"/></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>#{label['vertodoscasinos']}</td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.verTodosCasinos.selected}"/></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>#{label['controlsalidabonos']}</td>
+                                                        <td>Confirmar orden de retiro de bonos de inventario</td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.controlSalidaBonos.selected}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Confirmar recepci&oacute;n de bonos para diligenciamiento</td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.bonosVerificarVer.selected}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Confirmar diligenciamiento de los bonos</td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.bonosVerificarEjecutar.selected}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Confirmar recepci&oacute;n de bonos en sala</td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.bonosRecibirEjecutar.selected}"/></td>
                                                     </tr>
                                                 </table>
                                                 <h2>#{label['bonos']}</h2>
                                                 <table class="table table-bordered table-striped">
                                                     <tr>
                                                         <th>Accion sobre el bono</th>
-                                                        <th>#{label['ver']}</th>
                                                         <th>#{label['ejecutar']}</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>#{label['verificar']}</td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.bonosVerificarVer.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.bonosVerificarEjecutar.selected}"/></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>#{label['entregarsala']}</td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.bonosEntregarCajaVer.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.bonosEntregarCajaEjecutar.selected}"/></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>#{label['recibirensala']}</td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.bonosRecibirVer.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.bonosRecibirEjecutar.selected}"/></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>#{label['entregarcliente']}</td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.bonosEntregarClienteVer.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.bonosEntregarClienteEjecutar.selected}"/></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>#{label['validar']}</td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.bonosValidarVer.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.bonosValidarEjecutar.selected}"/></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>#{label['autorizar']}</td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.bonosAutorizarVer.selected}"/></td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.bonosAutorizarEjecutar.selected}"/></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>#{label['canjear']}</td>
-                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.bonoCanjearVer.selected}"/></td>
+                                                        <td>Validar</td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.bonoCanjearEjecutar.selected}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Autorizar y canjear</td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.bonosAutorizarEjecutar.selected}"/></td>
                                                     </tr>
 
                                                 </table>
@@ -400,38 +357,75 @@
                                 </div>
 
                             </div>
+
                             <div class="panel panel-primary">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">#{label['correos']}</h3>
+                                    <h3 class="panel-title">Gesti&oacute;n de barajas</h3>
                                 </div>
                                 <div class="panel-body">
                                     <table class="table table-bordered table-striped">
                                         <tr>
-                                            <th>Tipo</th>
-                                            <th></th>
+                                            <th>Nombre</th>
+                                            <th>#{label['ver']}</th>
+                                            <th>#{label['agregar']}</th>
+                                            <th>#{label['actualizar']}</th>
+                                            <th>#{label['borrar']}</th>
                                         </tr>
                                         <tr>
-                                            <td>Requerimiento de lote generado</td>
+                                            <td>Barajas</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.vistaBarajas.selected}"/></td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.agregarBarajas.selected}"/></td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.actualizarBarajas.selected}"/></td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.eliminarBarajas.selected}"/></td>
+                                        </tr>
+
+                                    </table>
+                                    <table class="table table-bordered table-striped">
+                                        <tr>
+                                            <th>Acci&oacute;n</th>
+                                            <th>Ejecutar</th>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Ver inventario de barajas</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.verInventarioBarajas.selected}"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Notificaci&oacute;n por correo</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <table class="table table-bordered table-striped">
+                                        <tr>
+                                            <th>Mensaje enviado</th>
+                                            <th>Recibir</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Requerimiento de producci&oacute;n de lotes generado</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.correoRequerimientoLoteCreado.selected}"/></td>
                                         </tr>
                                         <tr>
-                                            <td>Requerimiento de lote ordenado</td>
+                                            <td>Requerimiento de producci&oacute;n de lotes aprobado</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.correoRequerimeintoLoteOrdenado.selected}"/></td>
                                         </tr>
                                         <tr>
-                                            <td>Requerimiento de lote rechazado</td>
+                                            <td>Requerimiento de producci&oacute;n de lotes rechazado</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.correoRequerimientoLoteRechazado.selected}"/></td>
                                         </tr>
                                         <tr>
-                                            <td>Requerimiento de lote Recibido</td>
+                                            <td>Lote de bonos recibido</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.correoRequerimentoLoteRecibido.selected}"/></td>
                                         </tr>
                                         <tr>
-                                            <td>Solicitud de entrega de Lote Aceptada</td>
+                                            <td>Lote de bono ingresado a inventario</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.correoSolicitudEntradaValidada.selected}"/></td>
                                         </tr>
                                         <tr>
-                                            <td>Solicitud de entrega de Lote devuelta</td>
+                                            <td>lote de bonos devuelto</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.correoSolicitudEntradaDevuelta.selected}"/></td>
                                         </tr>
                                         <tr>
@@ -447,19 +441,23 @@
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.solicitudaprobadacorreo.selected}"/></td>
                                         </tr>
                                         <tr>
-                                            <td>Retiro de bonos en caja</td>
+                                            <td>Orden de retiro de bonos de inventario generada</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.senalbusquedacorreo.selected}"/></td>
                                         </tr>
                                         <tr>
-                                            <td>Entrega de bonos a sala</td>
+                                            <td>Bonos retirados de inventario</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.bonosretiradosCorreo.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bonos diligenciados, en proceso de entrega a sala</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.entregarbonocajacorreo.selected}"/></td>
                                         </tr>
                                         <tr>
-                                            <td>Recibo de bonos en sala</td>
+                                            <td>Bonos recibidos en sala</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.recibirbonocorreo.selected}"/></td>
                                         </tr>
                                         <tr>
-                                            <td>Notiicaci&oacute;n de cambio en cliente</td>
+                                            <td>Noticaci&oacute;n de edici&oacute;n de cliente</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.notificacionescorreo.selected}"/></td>
                                         </tr>
 

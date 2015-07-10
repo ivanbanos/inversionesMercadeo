@@ -18,76 +18,80 @@
                 </div>
             </div>
         </div>
-        <div class="container">
-            <div class="row clearfix">
-                <div class="col-md-12 column">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
 
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div>
-                                <h3 class="panel-title">#{label['cambiosusuario']}</h3>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div>
+                            <h3 class="panel-title">#{label['cambiosusuario']}</h3>
 
-                            </div>
                         </div>
-                        <div class="panel-body">
-                            <h:form class="form-horizontal">
-                                <p:dataTable id="detailsTableUsuarios" var="element" value="#{notificaciones.lista}"  
-                                             emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTableUsuarios" 
-                                             rows="#{sessionBean.paginacion}"
-                                             paginator="true"
-                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                             >
+                    </div>
+                    <div class="panel-body">
+                        <h:form class="form-horizontal">
+                            <p:dataTable id="detailsTableUsuarios" var="element" value="#{notificaciones.lista}"  
+                                         emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTableUsuarios" 
+                                         rows="#{sessionBean.paginacion}"
+                                         paginator="true"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         >
 
-                                    <p:column headerText="Tipo" sortBy="#{element.permiso.tipo}" filterBy="#{element.permiso.tipo}" filterMatchMode="contains" >
-                                        <h:outputText value="#{element.permiso.tipo}" />
-                                    </p:column>
-                                    <p:column headerText="Nombre Cliente" sortBy="#{element.cliente.nombres}" filterBy="#{element.cliente.nombres}" filterMatchMode="contains" >
-                                        <h:outputText value="#{element.cliente.nombres}" />
-                                    </p:column>
-                                    <p:column headerText="Apellido Cliente" sortBy="#{element.cliente.apellidos}" filterBy="#{element.cliente.apellidos}" filterMatchMode="contains" >
-                                        <h:outputText value="#{element.cliente.apellidos}" />
-                                    </p:column>
-                                    <p:column headerText="Campo" sortBy="#{element.permiso.campo}" filterBy="#{element.permiso.campo}" filterMatchMode="contains" >
-                                        <h:outputText value="#{element.permiso.campo}" />
-                                    </p:column>
-                                    <p:column headerText="Valor Actual" sortBy="#{element.permiso.detalleValorActual}" filterBy="#{element.permiso.detalleValorActual}" filterMatchMode="contains" >
-                                        <h:outputText value="#{element.permiso.detalleValorActual}" />
-                                    </p:column>
-                                    <p:column headerText="Valor Nuevo" sortBy="#{element.permiso.detalleNuevoValor}" filterBy="#{element.permiso.detalleNuevoValor}" filterMatchMode="contains" >
-                                        <h:outputText value="#{element.permiso.detalleNuevoValor}" />
-                                    </p:column>
+                                <p:column headerText="Tipo" sortBy="#{element.permiso.tipo}" filterBy="#{element.permiso.tipo}" filterMatchMode="contains" >
+                                    <h:outputText value="#{element.permiso.tipo}" />
+                                </p:column>
+                                <p:column headerText="Nombre Cliente" sortBy="#{element.cliente.nombres}" filterBy="#{element.cliente.nombres}" filterMatchMode="contains" >
+                                    <h:outputText value="#{element.cliente.nombres}" />
+                                </p:column>
+                                <p:column headerText="Apellido Cliente" sortBy="#{element.cliente.apellidos}" filterBy="#{element.cliente.apellidos}" filterMatchMode="contains" >
+                                    <h:outputText value="#{element.cliente.apellidos}" />
+                                </p:column>
+                                <p:column headerText="Sala Cliente" sortBy="#{element.cliente.idCasinoPreferencial.nombre}" filterBy="#{element.cliente.idCasinoPreferencial.nombre}" filterMatchMode="contains" >
+                                    <h:outputText value="#{element.cliente.idCasinoPreferencial.nombre}" />
+                                </p:column>
+                                <p:column headerText="Campo" sortBy="#{element.permiso.campo}" filterBy="#{element.permiso.campo}" filterMatchMode="contains" >
+                                    <h:outputText value="#{element.permiso.campo}" />
+                                </p:column>
+                                <p:column headerText="Valor Actual" sortBy="#{element.permiso.detalleValorActual}" filterBy="#{element.permiso.detalleValorActual}" filterMatchMode="contains" >
+                                    <h:outputText value="#{element.permiso.detalleValorActual}" />
+                                </p:column>
+                                <p:column headerText="Valor Nuevo" sortBy="#{element.permiso.detalleNuevoValor}" filterBy="#{element.permiso.detalleNuevoValor}" filterMatchMode="contains" >
+                                    <h:outputText value="#{element.permiso.detalleNuevoValor}" />
+                                </p:column>
+                                <p:column headerText="Justificaci&oacute;n del cambio" sortBy="#{element.permiso.observaciones}" filterBy="#{element.permiso.observaciones}" filterMatchMode="contains" >
+                                    <h:outputText value="#{element.permiso.observaciones}" />
+                                </p:column>
 
-                                    <p:column headerText="Acciones" >
-                                        <p:commandButton id="editButton" update=":#{p:component('editDialog')}" 
-                                                         oncomplete="PF('editDialog').show()" icon="ui-icon-pencil" 
-                                                         title="#{label['lb_btn.editar']}" >  
-                                            <f:setPropertyActionListener value="#{element}" target="#{notificaciones.permiso}" />  
-                                        </p:commandButton>
-                                        <p:commandButton id="deleteButton" oncomplete="PF('deleteDialog').show();" 
-                                                         icon="ui-icon-trash" title="#{label['lb_btn.borrar']}"  update=":#{p:component('deleteDialog')}">
-                                            <f:setPropertyActionListener value="#{element}" target="#{notificaciones.permiso}" /> 
-                                        </p:commandButton> 
-                                    </p:column>
-                                </p:dataTable>
+                                <p:column headerText="Acciones" >
+                                    <p:commandButton id="editButton" update=":#{p:component('editDialog')}" 
+                                                     oncomplete="PF('editDialog').show()" icon="ui-icon-check" 
+                                                     title="Aprobar" >  
+                                        <f:setPropertyActionListener value="#{element}" target="#{notificaciones.permiso}" />  
+                                    </p:commandButton>
+                                    <p:commandButton id="deleteButton" oncomplete="PF('deleteDialog').show();" 
+                                                     icon="ui-icon-trash" title="Rechazar"  update=":#{p:component('deleteDialog')}">
+                                        <f:setPropertyActionListener value="#{element}" target="#{notificaciones.permiso}" /> 
+                                    </p:commandButton> 
+                                </p:column>
+                            </p:dataTable>
 
-                                <p:confirmDialog id="deleteDialog" message="Quiere borrar la acción #{notificaciones.permiso.permiso.tipo}?"  
-                                                 header="Borrar" severity="alert" widgetVar="deleteDialog" closable="false">  
+                            <p:confirmDialog id="deleteDialog" message="¿Quier&eacute; rechazar el cambio?"  
+                                             header="Borrar" severity="alert" widgetVar="deleteDialog" closable="false">  
 
-                                    <p:commandButton  value="Aceptar" oncomplete="PF('deleteDialog').hide()"  
-                                                      action="#{notificaciones.eliminarPermiso()}" update=":#{p:component('detailsTableUsuarios')} :#{p:component('messages')}"/>  
-                                    <p:commandButton  value="Cancelar" onclick="PF('deleteDialog').hide()" type="button" />   
+                                <p:commandButton  value="Aceptar" oncomplete="PF('deleteDialog').hide()"  
+                                                  action="#{notificaciones.eliminarPermiso()}" update=":#{p:component('detailsTableUsuarios')} :#{p:component('messages')}"/>  
+                                <p:commandButton  value="Cancelar" onclick="PF('deleteDialog').hide()" type="button" />   
 
-                                </p:confirmDialog> 
-                                <p:confirmDialog id="editDialog" message="Quiere ejecutar la acción #{notificaciones.permiso.permiso.tipo}?"  
-                                                 header="Borrar" severity="alert" widgetVar="editDialog" closable="false">  
+                            </p:confirmDialog> 
+                            <p:confirmDialog id="editDialog" message="¿Quier&eacute; aprobar el cambio?"  
+                                             header="Borrar" severity="alert" widgetVar="editDialog" closable="false">  
 
-                                    <p:commandButton  value="Aceptar" oncomplete="PF('editDialog').hide()"  
-                                                      action="#{notificaciones.ejecutarPermiso()}" update=":#{p:component('detailsTableUsuarios')} :#{p:component('messages')}"/>  
-                                    <p:commandButton  value="Cancelar" onclick="PF('editDialog').hide()" type="button" />   
+                                <p:commandButton  value="Aceptar" oncomplete="PF('editDialog').hide()"  
+                                                  action="#{notificaciones.ejecutarPermiso()}" update=":#{p:component('detailsTableUsuarios')} :#{p:component('messages')}"/>  
+                                <p:commandButton  value="Cancelar" onclick="PF('editDialog').hide()" type="button" />   
 
-                                </p:confirmDialog> 
-                            </h:form>
-                        </div>
+                            </p:confirmDialog> 
+                        </h:form>
                     </div>
                 </div>
             </div>

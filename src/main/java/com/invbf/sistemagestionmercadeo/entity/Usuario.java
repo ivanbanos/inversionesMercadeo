@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -69,12 +70,12 @@ public class Usuario implements Serializable {
     @Size(max = 45)
     @Column(name = "estado")
     private String estado;
-    @ManyToMany(mappedBy = "usuarioList")
+    @ManyToMany(mappedBy = "usuarioList",fetch = FetchType.EAGER)
     private List<Tarea> tareaList;
     @JoinTable(name = "Usuarios_has_Casinos", joinColumns = {
         @JoinColumn(name = "Usuarios_idUsuario", referencedColumnName = "idUsuario")}, inverseJoinColumns = {
         @JoinColumn(name = "Casinos_idCasino", referencedColumnName = "idCasino")})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Casino> casinoList;
     @OneToMany(mappedBy = "aprobador")
     private List<Solicitudentrega> solicitudentregaList;
@@ -82,7 +83,7 @@ public class Usuario implements Serializable {
     private List<Solicitudentrega> solicitudentregaList1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "remitente")
     private List<Solicitudentregalotesmaestro> solicitudentregalotesmaestroList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuariosidUsuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuariosidUsuario", fetch = FetchType.EAGER)
     private List<CommputadorRegistrado> computadorregistradoList;
     @OneToMany(mappedBy = "autorizador")
     private List<Bono> bonoList;
@@ -99,8 +100,10 @@ public class Usuario implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
     private Usuariodetalle usuariodetalle;
     @JoinColumn(name = "idPerfil", referencedColumnName = "idPerfil")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Perfil idPerfil;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Usuario")
+    private List<Permiso> permisoList;
 
     public Usuario() {
     }

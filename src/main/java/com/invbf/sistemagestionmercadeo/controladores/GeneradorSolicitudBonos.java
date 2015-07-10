@@ -6,12 +6,14 @@
 package com.invbf.sistemagestionmercadeo.controladores;
 
 import com.invbf.sistemagestionmercadeo.entity.Area;
+import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Categoria;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Clienteblanco;
 import com.invbf.sistemagestionmercadeo.entity.Controlsalidabono;
 import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos;
+import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosPK;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
 import com.invbf.sistemagestionmercadeo.entity.Propositoentrega;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentrega;
@@ -71,6 +73,7 @@ public class GeneradorSolicitudBonos implements Serializable {
     private List<ClienteSGBDTO> clientes;
     private List<ClienteSGBDTO> clientesFiltered;
     private List<Integer> clientesABorrar;
+    private int mespumpe;
 
     private String pais;
     private String ciudad;
@@ -86,13 +89,20 @@ public class GeneradorSolicitudBonos implements Serializable {
     private List<loteBonoSolicitud> loteBonoSolicitudes;
 
     private List<Cliente> clientesBuscados;
+    private List<Cliente> clientesBuscadosSeleccionados;
     private String nombreBusqueda;
     private String apellidosBusqueda;
     private String identificacionBusqueda;
-    private Cliente clienteSeleccionado;
     private Clienteblanco clienteBlanco;
     private List<ClienteBlancoLotes> clientesBlancosLotes;
     private List<MesAnno> meses;
+    private Date unmes;
+    private Date dosmeses;
+    private Date tresmeses;
+    
+    private Float totalMes1;
+    private Float totalMes2;
+    private Float totalMes3;
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -106,6 +116,13 @@ public class GeneradorSolicitudBonos implements Serializable {
 
     @PostConstruct
     public void init() {
+        Calendar c2 = Calendar.getInstance();
+        c2.add(Calendar.MONTH, -1);
+        unmes = new Date(c2.getTime().getTime());
+        c2.add(Calendar.MONTH, -1);
+        dosmeses = new Date(c2.getTime().getTime());
+        c2.add(Calendar.MONTH, -1);
+        tresmeses = new Date(c2.getTime().getTime());
         loteBonoSolicitudes = new ArrayList<loteBonoSolicitud>();
         clientes = new ArrayList<ClienteSGBDTO>();
         sessionBean.checkUsuarioConectado();
@@ -171,62 +188,63 @@ public class GeneradorSolicitudBonos implements Serializable {
         }
         Calendar c = Calendar.getInstance();
         mes = c.get(Calendar.MONTH);
-        int anio= c.get(Calendar.YEAR);
-        meses= new ArrayList<MesAnno>();
-        switch(mes){
-            case 0 :
-                meses.add(new MesAnno(mes, "Enero "+anio));
-                meses.add(new MesAnno(mes+1, "Febrero "+anio));
+        mespumpe = 12;
+        int anio = c.get(Calendar.YEAR);
+        meses = new ArrayList<MesAnno>();
+        switch (mes) {
+            case 0:
+                meses.add(new MesAnno(0, "Enero " + anio));
+                meses.add(new MesAnno(1, "Febrero " + anio));
                 break;
             case 1:
-                meses.add(new MesAnno(mes, "Febrero "+anio));
-                meses.add(new MesAnno(mes+1, "Marzo "+anio));
+                meses.add(new MesAnno(1, "Febrero " + anio));
+                meses.add(new MesAnno(2, "Marzo " + anio));
                 break;
-            case 2 :
-                meses.add(new MesAnno(mes, "Marzo "+anio));
-                meses.add(new MesAnno(mes+1, "Abril "+anio));
+            case 2:
+                meses.add(new MesAnno(2, "Marzo " + anio));
+                meses.add(new MesAnno(3, "Abril " + anio));
                 break;
-            case 3 :
-                meses.add(new MesAnno(mes, "Abril "+anio));
-                meses.add(new MesAnno(mes+1, "Mayo "+anio));
+            case 3:
+                meses.add(new MesAnno(3, "Abril " + anio));
+                meses.add(new MesAnno(4, "Mayo " + anio));
                 break;
-            case 4 :
-                meses.add(new MesAnno(mes, "Mayo "+anio));
-                meses.add(new MesAnno(mes+1, "Junio "+anio));
+            case 4:
+                meses.add(new MesAnno(4, "Mayo " + anio));
+                meses.add(new MesAnno(5, "Junio " + anio));
                 break;
-            case 5 :
-                meses.add(new MesAnno(mes, "Junio "+anio));
-                meses.add(new MesAnno(mes+1, "Julio "+anio));
+            case 5:
+                meses.add(new MesAnno(5, "Junio " + anio));
+                meses.add(new MesAnno(6, "Julio " + anio));
                 break;
             case 6:
-                meses.add(new MesAnno(mes, "Julio "+anio));
-                meses.add(new MesAnno(mes+1, "Agosto "+anio));
+                meses.add(new MesAnno(6, "Julio " + anio));
+                meses.add(new MesAnno(7, "Agosto " + anio));
                 break;
-            case 7 :
-                meses.add(new MesAnno(mes, "Agosto "+anio));
-                meses.add(new MesAnno(mes+1, "Septiembre "+anio));
+            case 7:
+                meses.add(new MesAnno(7, "Agosto " + anio));
+                meses.add(new MesAnno(8, "Septiembre " + anio));
                 break;
-            case 8 :
-                meses.add(new MesAnno(mes, "Septiembre "+anio));
-                meses.add(new MesAnno(mes+1, "Octubre "+anio));
+            case 8:
+                meses.add(new MesAnno(8, "Septiembre " + anio));
+                meses.add(new MesAnno(9, "Octubre " + anio));
                 break;
-            case 9 :
-                meses.add(new MesAnno(mes, "Octubre "+anio));
-                meses.add(new MesAnno(mes+1, "Noviembre "+anio));
+            case 9:
+                meses.add(new MesAnno(9, "Octubre " + anio));
+                meses.add(new MesAnno(10, "Noviembre " + anio));
                 break;
-            case 10 :
-                meses.add(new MesAnno(mes, "Noviembre "+anio));
-                meses.add(new MesAnno(mes+1, "Diciembre "+anio));
+            case 10:
+                meses.add(new MesAnno(10, "Noviembre " + anio));
+                meses.add(new MesAnno(11, "Diciembre " + anio));
                 break;
-            case 11 :
-                meses.add(new MesAnno(mes, "Diciembre "+anio));
-                meses.add(new MesAnno(mes+1, "Enero "+(anio+1)));
+            case 11:
+                meses.add(new MesAnno(11, "Diciembre " + anio));
+                meses.add(new MesAnno(0, "Enero " + (anio + 1)));
                 break;
-        
+
         }
-        
+
         clientesBuscados = new ArrayList<Cliente>();
-        clienteSeleccionado = new Cliente();
+        clientesBuscadosSeleccionados = new ArrayList<Cliente>();
         clienteBlanco = new Clienteblanco();
         clienteBlanco.setIdCliente(new Cliente());
         clientesBlancosLotes = new ArrayList<ClienteBlancoLotes>();
@@ -291,7 +309,7 @@ public class GeneradorSolicitudBonos implements Serializable {
                         }
                     }
                     elemento.setSolicitudentregaclienteList(solicitudentregaclienteses);
-                    
+
                     List<ControlsalidabonosHasLotesbonos> csl = new ArrayList<ControlsalidabonosHasLotesbonos>();
                     for (loteBonoSolicitud lbs : loteBonoSolicitudes) {
                         ControlsalidabonosHasLotesbonos element = new ControlsalidabonosHasLotesbonos();
@@ -306,7 +324,6 @@ public class GeneradorSolicitudBonos implements Serializable {
 
                     control.setControlsalidabonosHasLotesbonosList(csl);
                 } else if (elemento.getTipoBono().getNombre().equals("NO PROMOCIONAL") && elemento.getPropositoEntrega().getNombre().equals("CASOS ESPECIALES")) {
-
                     List<ControlsalidabonosHasLotesbonos> csl = new ArrayList<ControlsalidabonosHasLotesbonos>();
                     for (loteBonoSolicitud lbs : loteBonoSolicitudes) {
                         ControlsalidabonosHasLotesbonos element = new ControlsalidabonosHasLotesbonos();
@@ -319,6 +336,7 @@ public class GeneradorSolicitudBonos implements Serializable {
                         csl.add(element);
                     }
                     for (ClienteBlancoLotes cbl : clientesBlancosLotes) {
+                        System.out.println(cbl.getLotesBono().size());
                         for (LotebonoCanti lb : cbl.getLotesBono()) {
                             for (ControlsalidabonosHasLotesbonos csl1 : csl) {
                                 if (csl1.getLotebono().equals(lb.getLotesBono())) {
@@ -328,13 +346,13 @@ public class GeneradorSolicitudBonos implements Serializable {
                                     cb.setCantidad(lb.getCantidad());
                                     cb.setCantPre(lb.getCantidad());
                                     cb.setCantA(lb.getCantidad());
-                                    cb.setIdCliente(cbl.getClienteblanco().getIdCliente().getIdCliente()==null?null:cbl.getClienteblanco().getIdCliente());
+                                    cb.setIdCliente(cbl.getClienteblanco().getIdCliente().getIdCliente() == null ? null : cbl.getClienteblanco().getIdCliente());
                                     cb.setJustificacion(cbl.getClienteblanco().getJustificacion());
-                                    
+
                                     csl1.getClienteblancoList().add(cb);
-                                    csl1.setCantidad(csl1.getCantidad()+lb.getCantidad());
-                                    csl1.setCantA(csl1.getCantidad()+lb.getCantidad());
-                                    csl1.setCantPre(csl1.getCantidad()+lb.getCantidad());
+                                    csl1.setCantidad(csl1.getCantidad() + lb.getCantidad());
+                                    csl1.setCantA(csl1.getCantidad() + lb.getCantidad());
+                                    csl1.setCantPre(csl1.getCantidad() + lb.getCantidad());
                                 }
                             }
                         }
@@ -352,10 +370,7 @@ public class GeneradorSolicitudBonos implements Serializable {
                 control.setEstado("PRESOLICITADA");
                 control.setFechavencimientobonos(elemento.getFechavencimientobonos());
                 control.setSolicitudEntregaid(elemento);
-                sessionBean.marketingUserFacade.guardarControlSalidaBonos(control, false);
-                elemento.setControlsalidabonoList(new ArrayList<Controlsalidabono>());
-                elemento.getControlsalidabonoList().add(control);
-                elemento = sessionBean.marketingUserFacade.guardarSolicitudentrega(elemento, clientesABorrar);
+                control = sessionBean.marketingUserFacade.guardarControlSalidaBonos(control, false);
                 Notificador.notificar(Notificador.SOLICITUD_BONOS_GENERADA, body, "Solicitud de bonos generada", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
                 sessionBean.registrarlog(null, null, "Generada solicitud Usuario:" + sessionBean.getUsuario().getNombreUsuario());
                 sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Solicitud generada con exito!", "Notificación enviada"));
@@ -547,6 +562,9 @@ public class GeneradorSolicitudBonos implements Serializable {
     }
 
     public void creadorClientesSolicitud() {
+        totalMes1=0f;
+        totalMes2=0f;
+        totalMes3=0f;
         for (Cliente selected : clientessgbs) {
             boolean existe = false;
             for (ClienteSGBDTO sec : clientes) {
@@ -557,20 +575,44 @@ public class GeneradorSolicitudBonos implements Serializable {
             }
             System.out.println("Este cliente, " + selected.getNombres() + " " + selected.getApellidos() + ", existes? " + existe);
             if (!existe) {
-
+                
                 ClienteSGBDTO sec = new ClienteSGBDTO();
                 sec.setClientessgb(selected);
                 sec.setBono(Float.parseFloat(selected.getBonoFidelizacion()));
                 sec.setValorTotal(Float.parseFloat(selected.getBonoFidelizacion()));
                 System.out.println(selected.getSolicitudentregaclienteList() != null ? selected.getSolicitudentregaclienteList().size() : "nulo");
                 if (selected.getSolicitudentregaclienteList() != null && selected.getSolicitudentregaclienteList().size() > 0) {
-                    sec.setUltimaSol(selected.getSolicitudentregaclienteList().get(selected.getSolicitudentregaclienteList().size() - 1).getValorAprobado());
+                    Float valor = 0f;
+                    int idSol = selected.getSolicitudentregaclienteList().get(selected.getSolicitudentregaclienteList().size() - 1).getSolicitudentrega().getId();
+                    for (Bono b : selected.getBonoList()) {
+                        if (b.getControlSalidaBonosid().getSolicitudEntregaid().getId() == idSol && b.getEstado().equals("CANJEADO")) {
+                            valor += b.getDenominacion().getValor();
+                        }
+                    }
+                    sec.setUltimaSol(valor);
+                    totalMes1+=valor;
                 }
                 if (selected.getSolicitudentregaclienteList() != null && selected.getSolicitudentregaclienteList().size() > 1) {
-                    sec.setPenultimaSol(selected.getSolicitudentregaclienteList().get(selected.getSolicitudentregaclienteList().size() - 2).getValorAprobado());
+                    Float valor = 0f;
+                    int idSol = selected.getSolicitudentregaclienteList().get(selected.getSolicitudentregaclienteList().size() - 2).getSolicitudentrega().getId();
+                    for (Bono b : selected.getBonoList()) {
+                        if (b.getControlSalidaBonosid().getSolicitudEntregaid().getId() == idSol && b.getEstado().equals("CANJEADO")) {
+                            valor += b.getDenominacion().getValor();
+                        }
+                    }
+                    sec.setPenultimaSol(valor);
+                    totalMes2+=valor;
                 }
                 if (selected.getSolicitudentregaclienteList() != null && selected.getSolicitudentregaclienteList().size() > 2) {
-                    sec.setTrasultimaSol(selected.getSolicitudentregaclienteList().get(selected.getSolicitudentregaclienteList().size() - 3).getValorAprobado());
+                    Float valor = 0f;
+                    int idSol = selected.getSolicitudentregaclienteList().get(selected.getSolicitudentregaclienteList().size() - 3).getSolicitudentrega().getId();
+                    for (Bono b : selected.getBonoList()) {
+                        if (b.getControlSalidaBonosid().getSolicitudEntregaid().getId() == idSol && b.getEstado().equals("CANJEADO")) {
+                            valor += b.getDenominacion().getValor();
+                        }
+                    }
+                    sec.setTrasultimaSol(valor);
+                    totalMes3+=valor;
                 }
 
                 clientes.add(sec);
@@ -701,6 +743,16 @@ public class GeneradorSolicitudBonos implements Serializable {
                 if (event.getNewStep().equals("casosesp")) {
                     return "general";
                 } else {
+                    boolean isempty = true;
+                    for (loteBonoSolicitud lbs : loteBonoSolicitudes) {
+                        if (lbs.getCantidad() != 0) {
+                            isempty = false;
+                        }
+                    }
+                    if (isempty) {
+                        FacesUtil.addErrorMessage("No se puede guardar la solicitud", "No se puede crear una solicitud sin contenido");
+                        return "promocional";
+                    }
                     return "confirmar";
                 }
             }
@@ -740,6 +792,16 @@ public class GeneradorSolicitudBonos implements Serializable {
                 if (event.getNewStep().equals("general")) {
                     return "general";
                 } else {
+                    boolean isempty = true;
+                    for (ClienteSGBDTO clientesGBT : clientes) {
+                        if (clientesGBT.getValorTotal() != 0) {
+                            isempty = false;
+                        }
+                    }
+                    if (isempty) {
+                        FacesUtil.addErrorMessage("No se puede guardar la solicitud", "No se puede crear una solicitud sin contenido");
+                        return "fidelizacion";
+                    }
                     return "confirmar";
                 }
             }
@@ -760,6 +822,18 @@ public class GeneradorSolicitudBonos implements Serializable {
                 if (event.getNewStep().equals("fidelizacion")) {
                     return "general";
                 } else {
+                    boolean isempty = true;
+                    for (ClienteBlancoLotes cbl : clientesBlancosLotes) {
+                        for (LotebonoCanti lb : cbl.getLotesBono()) {
+                            if (lb.getCantidad() != 0) {
+                                isempty = false;
+                            }
+                        }
+                    }
+                    if (isempty) {
+                        FacesUtil.addErrorMessage("No se puede guardar la solicitud", "No se puede crear una solicitud sin contenido");
+                        return "casosesp";
+                    }
                     return "confirmar";
                 }
             }
@@ -851,28 +925,29 @@ public class GeneradorSolicitudBonos implements Serializable {
     }
 
     public void BuscarClientes() {
-        clientesBuscados = sessionBean.marketingUserFacade.findAllClientesCasinos(elemento.getIdCasino(), nombreBusqueda, apellidosBusqueda, identificacionBusqueda, null);
+        clientesBuscados = sessionBean.marketingUserFacade.findAllClientesCasinos(elemento.getIdCasino(), nombreBusqueda, apellidosBusqueda, identificacionBusqueda, null,"");
+        for (Iterator<Cliente> it = clientesBuscados.iterator(); it.hasNext();) {
+            Cliente cliente = it.next();
+
+            if (mespumpe != 12) {
+                Calendar fecha = Calendar.getInstance();
+                if (cliente.getCumpleanos() == null) {
+                    it.remove();
+                    continue;
+                }
+                fecha.setTime(cliente.getCumpleanos());
+                if (fecha.get(Calendar.MONTH) != mespumpe) {
+                    it.remove();
+                }
+            }
+        }
         FacesUtil.addInfoMessage("Clientes encontrados", "");
 
     }
 
-    public Cliente getClienteSeleccionado() {
-        return clienteSeleccionado;
-    }
-
-    public void setClienteSeleccionado(Cliente clienteSeleccionado) {
-        this.clienteSeleccionado = clienteSeleccionado;
-
-        clienteBlanco = new Clienteblanco();
-        clienteBlanco.setIdCliente(clienteSeleccionado);
-        clienteBlanco.setNombres(clienteSeleccionado.getNombres());
-        clienteBlanco.setApellidos(clienteSeleccionado.getApellidos());
-        clientesBlancosLotes.add(new ClienteBlancoLotes(clienteBlanco, loteBonoSolicitudes));
-        clienteBlanco = new Clienteblanco();
-        clienteBlanco.setIdCliente(new Cliente());
-    }
-
     public void selectCliente() {
+        clienteBlanco.setApellidos(clienteBlanco.getApellidos().toUpperCase());
+        clienteBlanco.setNombres(clienteBlanco.getNombres().toUpperCase());
         clientesBlancosLotes.add(new ClienteBlancoLotes(clienteBlanco, loteBonoSolicitudes));
 
         clienteBlanco = new Clienteblanco();
@@ -893,6 +968,16 @@ public class GeneradorSolicitudBonos implements Serializable {
     }
 
     public void crearClienteBlanco() {
+        for (Cliente clienteSeleccionado : clientesBuscadosSeleccionados) {
+            clienteBlanco = new Clienteblanco();
+            clienteBlanco.setIdCliente(clienteSeleccionado);
+            clienteBlanco.setNombres(clienteSeleccionado.getNombres());
+            clienteBlanco.setApellidos(clienteSeleccionado.getApellidos());
+            clientesBlancosLotes.add(new ClienteBlancoLotes(clienteBlanco, loteBonoSolicitudes));
+            clienteBlanco = new Clienteblanco();
+            clienteBlanco.setIdCliente(new Cliente());
+
+        }
     }
 
     public List<ClienteBlancoLotes> getClientesBlancosLotes() {
@@ -910,13 +995,77 @@ public class GeneradorSolicitudBonos implements Serializable {
     public void setMeses(List<MesAnno> meses) {
         this.meses = meses;
     }
-    
-    public float getTotalpromo(){
+
+    public float getTotalpromo() {
         float total = 0;
         for (loteBonoSolicitud lbs : loteBonoSolicitudes) {
-            total += lbs.getCantidad()*lbs.getLotesBonosid().getDenominacion().getValor();
+            total += lbs.getCantidad() * lbs.getLotesBonosid().getDenominacion().getValor();
         }
         return total;
+    }
+
+    public int getMespumpe() {
+        return mespumpe;
+    }
+
+    public void setMespumpe(int mespumpe) {
+        this.mespumpe = mespumpe;
+    }
+
+    public List<Cliente> getClientesBuscadosSeleccionados() {
+        return clientesBuscadosSeleccionados;
+    }
+
+    public void setClientesBuscadosSeleccionados(List<Cliente> clientesBuscadosSeleccionados) {
+        this.clientesBuscadosSeleccionados = clientesBuscadosSeleccionados;
+    }
+
+    public Date getUnmes() {
+        return unmes;
+    }
+
+    public void setUnmes(Date unmes) {
+        this.unmes = unmes;
+    }
+
+    public Date getDosmeses() {
+        return dosmeses;
+    }
+
+    public void setDosmeses(Date dosmeses) {
+        this.dosmeses = dosmeses;
+    }
+
+    public Date getTresmeses() {
+        return tresmeses;
+    }
+
+    public void setTresmeses(Date tresmeses) {
+        this.tresmeses = tresmeses;
+    }
+
+    public Float getTotalMes1() {
+        return totalMes1;
+    }
+
+    public void setTotalMes1(Float totalMes1) {
+        this.totalMes1 = totalMes1;
+    }
+
+    public Float getTotalMes2() {
+        return totalMes2;
+    }
+
+    public void setTotalMes2(Float totalMes2) {
+        this.totalMes2 = totalMes2;
+    }
+
+    public Float getTotalMes3() {
+        return totalMes3;
+    }
+
+    public void setTotalMes3(Float totalMes3) {
+        this.totalMes3 = totalMes3;
     }
 
 }

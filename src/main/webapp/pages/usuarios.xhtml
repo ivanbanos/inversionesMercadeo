@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+        <div class="row">
+
+            <div class="control-group">
+                <!-- Username -->
+                <div class="form-group">
+                    <label class="col-md-12 control-label" >#{label['ruta']}: #{label['ruta.AdministradorAtributosSistema']}</label>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+
+                    <!--Usuarios-->
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="clickable">
+                                    <h3 class="panel-title">Usuarios</h3>
+                                    <span class="pull-right"><i class="fa fa-minus"></i></span>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <h:form class="form-horizontal">
+                                    <p:dataTable id="detailsTableUsuarios" var="element" value="#{crudUsuariosBean.lista}"  
+                                                 emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTableUsuarios" filteredValue="#{crudUsuariosBean.flista}"
+                                                 rows="#{sessionBean.paginacion}"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 >
+
+                                        <f:facet name="header">
+
+                                        </f:facet>
+
+                                        <p:column headerText="Nombre de usuario" sortBy="#{element.nombreUsuario}" filterBy="#{element.nombreUsuario}" filterMatchMode="contains" >
+                                            <h:outputText value="#{element.nombreUsuario}" />
+                                        </p:column>
+
+                                        <p:column headerText="Estado" sortBy="#{element.estado}" filterBy="#{element.estado}" filterMatchMode="contains" >
+                                            <h:outputText value="#{element.estado}" />
+                                        </p:column>
+                                        
+                                        <p:column headerText="Nombre" sortBy="#{element.nombre}" filterBy="#{element.nombre}" filterMatchMode="contains" >
+                                            <h:outputText value="#{element.nombre}" />
+                                        </p:column>
+
+                                        <p:column headerText="Perfil" sortBy="#{element.idPerfil.nombre}" filterBy="#{element.idPerfil.nombre}" filterMatchMode="in" >
+                                            <f:facet name="filter">
+                                                <p:selectCheckboxMenu label="Perfiles" onchange="PF('detailsTableUsuarios').filter()" >
+                                                    <f:selectItems value="#{filtrosListas.perfiles}" />
+                                                </p:selectCheckboxMenu>
+                                            </f:facet>
+                                            <h:outputText value="#{element.idPerfil.nombre}" />
+                                        </p:column>
+
+                                        <p:column headerText="Acciones" filterBy="#{element.nombreUsuario}" filterMatchMode="contains" filterStyle="display:none">
+                                            
+                                        </p:column>
+
+                                        <f:facet name="footer">  
+                                        </f:facet>
+                                    </p:dataTable>
+
+                                </h:form>
+                            </div>
+                        </div>
+
+                    <!--Fin Usuarios-->
+
+
+
+                </div>
+
+               
+
+
+            </div>
+
+
+        </div>
+    </ui:define>            
+</ui:composition>

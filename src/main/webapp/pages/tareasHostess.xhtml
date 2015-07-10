@@ -37,7 +37,7 @@
                             </div>
                             <div class="panel-body">
                                 <h:form class="form-horizontal">
-                                    <p:dataTable id="detailsTableEventos" var="element" value="#{sessionBean.usuario.tareaList}"  
+                                    <p:dataTable id="detailsTableEventos" var="element" value="#{tareasHostessBean.lista}"  
                                                  emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTableEventos" filteredValue="#{tareasHostessBean.flista}"
                                                  rows="#{sessionBean.paginacion}"
                                                  paginator="true"

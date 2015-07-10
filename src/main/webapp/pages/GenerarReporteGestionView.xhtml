@@ -71,7 +71,7 @@
 
                                         <p:column headerText="#{label['acciones']}" >   
                                             <p:commandButton action="#{generarReporteGestionBean.goSolicitudver(element.id)}" icon="ui-icon-clipboard"  onclick="PF('ajaxWaitingDialog').show();"
-                                                             title="generar reporte de gesti&oacute;n" rendered="#{element.estado != 'REPORTE DE GESTIÓN DISPONIBLE'}"/> 
+                                                             title="generar reporte de gesti&oacute;n" rendered="#{element.estado = 'BONOS VENCIDOS. PENDIENTE POR GENERAR REPORTE'}"/> 
                                             <p:commandButton action="#{generarReporteGestionBean.goSolicitudver(element.id)}" icon="ui-icon-search"  onclick="PF('ajaxWaitingDialog').show();"
                                                              title="ver" rendered="#{element.estado == 'REPORTE DE GESTIÓN DISPONIBLE'}"/> 
                                             

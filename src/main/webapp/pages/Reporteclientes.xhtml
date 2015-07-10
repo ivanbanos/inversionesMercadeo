@@ -124,6 +124,15 @@
                                             <f:selectItems value="#{reportesClientesBean.listaTipos}" var="perfil" itemLabel="#{perfil.nombre}" itemValue="#{perfil.idTipoDocumento}"/>  
                                         </p:selectOneMenu>
                                     </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <h:outputLabel class="col-md-6 control-label" value="Genero" />
+                                        <p:selectOneMenu id="sexo" value="#{reportesClientesBean.sexo}">
+                                            <f:selectItem itemLabel="Select One" itemValue="" />
+                                            <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                            <f:selectItem itemLabel="Femenino" itemValue="F" />
+                                            <f:selectItem itemLabel="No digitado" itemValue="N" />
+                                        </p:selectOneMenu>
+                                    </div>
                                 </div>
                                 <div id="clientes" class="row clearfix">
                                     <div class="form-group col-md-12">
@@ -232,7 +241,7 @@
                                 <p:column style="width:4%" rendered="#{sessionBean.perfilViewMatch(&quot;verTodosClientes&quot;)}" >
                                     <p:commandButton id="ver" update=":#{p:component('clientedetalle')}" 
                                                      oncomplete="PF('clientedetalle').show();PF('ajaxWaitingDialog').hide();" icon="ui-icon-search" onstart="PF('ajaxWaitingDialog').show();"
-                                                     title="#{label['lb_btn.editar']}" >  
+                                                     title="Ver" >  
                                         <f:setPropertyActionListener value="#{element}" target="#{reportesClientesBean.elemento}" />  
                                     </p:commandButton>
                                 </p:column>

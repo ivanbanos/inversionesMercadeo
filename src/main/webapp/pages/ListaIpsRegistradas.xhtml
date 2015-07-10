@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml">
+
+    <ui:define name="content">
+
+        <div class="row">
+
+            <div class="control-group">
+                <!-- Username -->
+                <div class="form-group">
+                    <label class="col-md-12 control-label" >#{label['ruta']}: #{label['ruta.PerfilAct']}</label>
+                </div>
+            </div>
+        </div>
+        <h:form>
+
+            <div class="container">
+                <div class="row clearfix">
+
+                    <div class="panel panel-primary">
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Lista de IP's/Usuarios registrados</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p:dataTable id="detailsTableUsuarios" var="element" value="#{listaipsbean.lista}"  
+                                         emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTableUsuarios" 
+                                         rows="#{sessionBean.paginacion}"
+                                         paginator="true"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         >
+
+                                <p:column headerText="Ip" sortBy="#{element.mac}" filterBy="#{element.mac}" filterMatchMode="contains" >
+                                    <h:outputText value="#{element.mac}" />
+                                </p:column>
+                                <p:column headerText="Nombre Usuario" sortBy="#{element.usuariosidUsuario.nombreUsuario}" filterBy="#{element.usuariosidUsuario.nombreUsuario}" filterMatchMode="contains" >
+                                    <h:outputText value="#{element.usuariosidUsuario.nombreUsuario}" />
+                                </p:column>
+                                <p:column headerText="Estado" sortBy="#{element.estado}" filterBy="#{element.estado}" filterMatchMode="contains" >
+                                    <h:outputText value="#{element.estado}" />
+                                </p:column>
+
+                                <p:column headerText="Acciones" >
+                                    <p:commandButton id="deleteButton" oncomplete="PF('deleteDialog').show();" rendered="#{element.estado == 'ACTIVO'}"
+                                                     icon="ui-icon-closethick" title="Desactivar"  update=":#{p:component('deleteDialog')}">
+                                        <f:setPropertyActionListener value="#{element}" target="#{listaipsbean.elemento}" /> 
+                                    </p:commandButton>
+                                    <p:commandButton id="activarB" oncomplete="PF('activar').show();" rendered="#{element.estado == 'INACTIVO'}"
+                                                     icon="ui-icon-check" title="Activar"  update=":#{p:component('activar')}">
+                                        <f:setPropertyActionListener value="#{element}" target="#{listaipsbean.elemento}" /> 
+                                    </p:commandButton> 
+                                    <p:commandButton id="borrarb" oncomplete="PF('borrar').show();" 
+                                                     icon="ui-icon-trash" title="Eliminar"  update=":#{p:component('borrar')}">
+                                        <f:setPropertyActionListener value="#{element}" target="#{listaipsbean.elemento}" /> 
+                                    </p:commandButton> 
+                                </p:column>
+                            </p:dataTable>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <p:confirmDialog id="deleteDialog" message="¿Quier&eacute; desactivar el usuario?"  
+                             header="Borrar" severity="alert" widgetVar="deleteDialog" closable="false">  
+
+                <p:commandButton  value="Aceptar" oncomplete="PF('deleteDialog').hide()"  
+                                  action="#{listaipsbean.eliminarComputador()}" update=":#{p:component('detailsTableUsuarios')} :#{p:component('messages')}"/>  
+                <p:commandButton  value="Cancelar" onclick="PF('deleteDialog').hide()" type="button" />   
+
+            </p:confirmDialog> 
+
+            <p:confirmDialog id="activar" message="¿Quier&eacute; activar el usuario?"  
+                             header="Activar" severity="alert" widgetVar="activar" closable="false">  
+
+                <p:commandButton  value="Aceptar" oncomplete="PF('activar').hide()"  
+                                  action="#{listaipsbean.editarComputador()}" update=":#{p:component('detailsTableUsuarios')} :#{p:component('messages')}"/>  
+                <p:commandButton  value="Cancelar" onclick="PF('activar').hide()" type="button" />   
+
+            </p:confirmDialog> 
+
+            <p:confirmDialog id="borrar" message="¿Quier&eacute; borrar el registro ip/usuario?"  
+                             header="Eliminar" severity="alert" widgetVar="borrar" closable="false">  
+
+                <p:commandButton  value="Aceptar" oncomplete="PF('borrar').hide()"  
+                                  action="#{listaipsbean.borrarComputador()}" update=":#{p:component('detailsTableUsuarios')} :#{p:component('messages')}"/>  
+                <p:commandButton  value="Cancelar" onclick="PF('borrar').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+
+
+    </ui:define>            
+</ui:composition>

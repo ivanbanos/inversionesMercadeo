@@ -43,7 +43,7 @@ public class ClienteMonto  implements Serializable{
         if (formaentrega == 1) {
             denominacionCant = MatematicaAplicada.getBonosAsignadosDEnominacinesGrandes(lotes, monto);
         } else {
-            denominacionCant = MatematicaAplicada.getBonosAsignadosDEnominacinesGrandes(lotes, monto);
+            denominacionCant = MatematicaAplicada.getBonosAsignadosDEnominacinesNormales(lotes, monto);
         }
     }
 

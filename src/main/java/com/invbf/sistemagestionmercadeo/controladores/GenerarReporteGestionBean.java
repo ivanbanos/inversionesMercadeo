@@ -42,7 +42,7 @@ public class GenerarReporteGestionBean implements Serializable {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("solicitudbonos");
-        if (!sessionBean.perfilViewMatch("GenerarSolicitudBono")) {
+        if (!sessionBean.perfilViewMatch("GenerarSolicitudBono")&&!sessionBean.perfilViewMatch("AprobarSolicitudBono")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {

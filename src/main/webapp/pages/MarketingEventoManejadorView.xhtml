@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <h:form id="formEvento">
+        <h:form id="formEvento" enctype="multipart/form-data">
 
             * #{label['mensaje.camporequerido']}
             <div class="panel panel-primary">
@@ -79,20 +79,27 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="row clearfix">
                         <div class="form-group col-md-12">
-                            <label class="col-md-2 control-label" >#{label['imagen']}:</label>
                             <div class="col-md-5">
-                                <p:fileUpload id="imagenEventos" fileUploadListener="#{marketingEventoManejadorBean.handleFileUpload}" mode="advanced" dragDropSupport="true"
-                                              label="Escoger" update=":#{p:component('imagenact')} :#{p:component('messages')}" cancelLabel="Cancelar" uploadLabel="Cargar" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                                <p:fileUpload mode="simple" id="file" value="#{marketingEventoManejadorBean.file}"/>
                             </div>
                         </div>
-
+                    </div>
+                    <div class="row clearfix">
                         <div class="form-group col-md-12">
-                            <label class="col-md-2 control-label" >#{label['imagenactual']}:</label>
-                            <div class="col-md-10">
-                                <h:graphicImage id="imagenact" value="/image/#{marketingEventoManejadorBean.elemento.imagen}" alt="No tiene imagen" class="LogoImage"/>
+                            <div class="col-md-5">
+
+                                <h:commandButton value="Subir imagen" onclick="PF('ajaxWaitingDialog').show()"
+                                                 action="#{marketingEventoManejadorBean.upload()}">
+                                </h:commandButton>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="form-group col-md-12">
+                            <div class="col-md-5">
+                                <h:graphicImage id="imagenact" value="/image/#{marketingEventoManejadorBean.elemento.imagen}" style="width: 1000px;"/>
                             </div>
                         </div>
                     </div>
@@ -102,7 +109,7 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
                                 <label class="col-md-12 control-label" >#{label['Tareasevento']}:</label>
                                 <div class="col-md-12">
-                                    <p:dataTable id="detailsTableTareas" var="element" value="#{marketingEventoManejadorBean.elemento.tareasList}"  
+                                    <p:dataTable id="detailsTableTareas" var="element" value="#{marketingEventoManejadorBean.elemento.tareaList}"  
                                                  emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTableCasinos"
                                                  rows="#{sessionBean.paginacion}"
                                                  paginator="true"
@@ -151,7 +158,7 @@
                 </div>
                 <div class="panel-footer text-right"> 
 
-                    <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{marketingEventoManejadorBean.guardar()}" style="margin:0" />
+                    <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" ajax="false" actionListener="#{marketingEventoManejadorBean.guardar()}" style="margin:0" />
                     <p:button id="btnclose" value="#{label['Volver']}" outcome="/pages/eventos.xhtml" />
                 </div>
             </div>

@@ -44,6 +44,8 @@ public class Notificador  implements Serializable{
     public static final int REQUERIMIENTO_LOTE_RECIBIDO = 17;
     public static final int SOLICITUD_ENTREGA_LOTES_ENVIADA = 18;
     public static final int REQUERIMIENTO_LOTE_DEVUELTA = 19;
+    public static final int ENTREGA_A_SALA = 20;
+    public static final int AVISO_TAREA_ASIGNADA = 21;
     
 
     public static void notificar(int tipo, String body, String subject, String correosolicitantes) {
@@ -67,7 +69,7 @@ public class Notificador  implements Serializable{
                 sendEmail("senalbusquedacorreo", subject, body, false, correosolicitantes);
                 break;
             case SOLICITUD_CONTROL_SALIDA_APROBADA:
-                sendEmail("senalbusquedacorreo", subject, body, false, correosolicitantes);
+                sendEmail("bonosretiradosCorreo", subject, body, false, correosolicitantes);
                 break;
             case SOLICITUD_ENTREGA_BONOS:
                 sendEmail("entregarbonocajacorreo", subject, body, false, correosolicitantes);
@@ -77,6 +79,9 @@ public class Notificador  implements Serializable{
                 break;
             case SOLICITUD_CAMBIO_CLIENTE:
                 sendEmail("notificacionescorreo", subject, body, false, correosolicitantes);
+                break;
+            case ENTREGA_A_SALA:
+                sendEmail("entregarbonocajacorreo", subject, body, false, correosolicitantes);
                 break;
             case INVENTARIO_EN_PROBLEMA:
                 sendEmail("SolicitudLotes", body, subject, false, correosolicitantes);
@@ -102,6 +107,10 @@ public class Notificador  implements Serializable{
                 break;
             case REQUERIMIENTO_LOTE_DEVUELTA:
                 sendEmail("correoSolicitudEntradaDevuelta", subject, body, false, correosolicitantes);
+                break;
+            case AVISO_TAREA_ASIGNADA:
+                
+                sendEmailCliente(subject, body, correosolicitantes);
                 break;
         }
     }

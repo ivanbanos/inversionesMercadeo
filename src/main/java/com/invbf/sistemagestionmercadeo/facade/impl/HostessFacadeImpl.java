@@ -61,7 +61,7 @@ public class HostessFacadeImpl implements HostessFacade, Serializable {
         System.out.println("Buscando clientes " + integer);
         List<Listasclientestareas> clientes = ListasclientestareasDao.findByIdTareaInicial(integer);
 
-        System.out.println("Encontrados");
+        System.out.println("Encontrados "+clientes.size());
         List<Listasclientestareas> clientesAEnviar = new ArrayList<Listasclientestareas>();
 
         int cantidadClientes = findCantidadClientes();
@@ -118,6 +118,8 @@ public class HostessFacadeImpl implements HostessFacade, Serializable {
         while (iterator.hasNext()) {
             Listasclientestareas lce = iterator.next();
             if (!clientes.contains(lce) && !lce.equals(l)) {
+                System.out.println(lce.getCliente().getNombres());
+                System.out.println(lce.getCount());
                 lce.setCount(lce.getCount() + 1);
                 ListasclientestareasDao.edit(lce);
                 return lce;

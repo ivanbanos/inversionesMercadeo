@@ -211,7 +211,7 @@ public interface MarketingUserFacade {
 
     public void guardaBono(Bono elemento);
 
-    public List<Cliente> findAllClientesCasinos(Casino idCasino, String nombre, String apellidos, String ident, Tipodocumento tipodocumento);
+    public List<Cliente> findAllClientesCasinos(Casino idCasino, String nombre, String apellidos, String ident, Tipodocumento tipodocumento, String sexo);
 
     public List<Lotebono> getLotesBonosByCasino(Casino casinoSelected)throws CasinoHaveSolicitudCreadaException ;
 
@@ -239,12 +239,18 @@ public interface MarketingUserFacade {
 
     public void cerrarSol(Solicitudentrega elemento, List<Bono> bonos);
 
-    public List<Bono> getBonosporCasinoPropositoTipoFecha(List<CasinoBoolean> casinos, List<PropositosBoolean> propositos, List<TipoBonoBoolean> tipos, Integer ano, Integer mes);
+    public List<Bono> getBonosporCasinoPropositoTipoFecha(List<CasinoBoolean> casinos, List<PropositosBoolean> propositos, List<TipoBonoBoolean> tipos, Integer ano, Integer mes, Integer anodesde, Integer mesdesde);
 
     public List<Solicitudentrega> getAllSolicitudentreganovenc();
 
     public List<Solicitudentrega> getAllSolicitudentregaSolicitanteVENC(Integer idUsuario);
 
     public List<Solicitudentrega> getAllSolicitudentregaVENC();
+
+    public List<Solicitudentrega> getAllSolicitudentregaCasino(Usuario usuario);
+
+    public void cambiarFechaSolicitud(Solicitudentrega solicitudentrega);
+
+    public void rechazar(Solicitudentrega elemento);
 
 }

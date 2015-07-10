@@ -5,6 +5,12 @@
     Description:
         Purpose of the stylesheet follows.
 */
+.badge-notify{
+    background-color:red;
+    position:absolute;
+   top: -1%;
+   left: -1%;
+}
 
 .ui-spinner-input{
     width:90%;
@@ -153,6 +159,9 @@ a:focus{
 .LogoImage{
     width: 100%;
 }
+.evImage{
+    width: 350px;
+}
 
 .titulo{
     color: #CE6B0F!important;
@@ -183,5 +192,12 @@ a:focus{
 
 .ui-picklist-item td{
     text-align: left;
-    
+
+}
+
+hr {
+width: 80%;
+margin-left: auto;
+margin-right: auto;
+height: 10px;
 }

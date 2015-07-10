@@ -10,6 +10,7 @@ import com.invbf.sistemagestionmercadeo.entity.Cargo;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Casinodetalle;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
+import com.invbf.sistemagestionmercadeo.entity.CommputadorRegistrado;
 import com.invbf.sistemagestionmercadeo.entity.Denominacion;
 import com.invbf.sistemagestionmercadeo.entity.Formulario;
 import com.invbf.sistemagestionmercadeo.entity.Perfil;
@@ -121,5 +122,11 @@ public interface AdminFacade {
     public Propositoentrega findProposito(Integer id);
 
     public List<Usuario> findUsuariosAutorizadoresCasino(Casino casinoSelected);
+
+    public List<CommputadorRegistrado> getComputadoresRegistrados();
+
+    public void saveMaq(CommputadorRegistrado elemento);
+
+    public void deleteMaq(CommputadorRegistrado elemento);
     
 }

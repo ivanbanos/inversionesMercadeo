@@ -86,10 +86,10 @@
                                                 <c:forEach items="#{aceptarSolicitudEntregaBonosBean.elemento.solicitudentregaloteList}" var="solicitudes" varStatus="status">
                                                     <tr>
                                                         <td id="cantidad#{status.count}">
-                                                            <label>#{solicitudes.cantidad}</label>
+                                                            #{solicitudes.cantidad}
                                                         </td>
-                                                        <td id="desde#{status.count}"><label>#{solicitudes.desde}</label></td>
-                                                        <td id="hasta#{status.count}"><label>#{solicitudes.hasta}</label></td>
+                                                        <td id="desde#{status.count}">#{solicitudes.desde}</td>
+                                                        <td id="hasta#{status.count}">#{solicitudes.hasta}</td>
 
                                                         <td>#{solicitudes.lotesBonosid.idCasino.nombre}</td>
                                                         <td>#{solicitudes.lotesBonosid.denominacion.valor}</td>
@@ -100,7 +100,7 @@
                                                             <td colspan="6">
                                                                 <p:outputPanel id="bonosnoincluidos#{status.count}" style="display:block" rendered="#{aceptarSolicitudEntregaBonosBean.elemento.id != null}">
                                                                     Bonos no incluidos:
-                                                                    <c:forEach items="#{solicitudes.bonosnoincluidosList}" var="bonosno" >
+                                                                    <c:forEach items="#{solicitudes.bononoincluidoList}" var="bonosno" >
                                                                         <h:inputText value="#{bonosno.consecutivo}"/>&nbsp;
                                                                     </c:forEach>
                                                                     <p:commandButton id="addCliente#{status.count}" 

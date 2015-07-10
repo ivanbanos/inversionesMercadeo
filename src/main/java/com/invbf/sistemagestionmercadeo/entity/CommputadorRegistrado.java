@@ -10,6 +10,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ivan
  */
 @Entity
-@Table(name = "CommputadoresRegistrados")
+@Table(name = "commputadoresRegistrados")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CommputadorRegistrado.findAll", query = "SELECT c FROM CommputadorRegistrado c"),
@@ -33,16 +35,20 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "CommputadorRegistrado.findByMac", query = "SELECT c FROM CommputadorRegistrado c WHERE c.mac = :mac")})
 public class CommputadorRegistrado implements Serializable {
     private static final long serialVersionUID = 1L;
+   
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Size(max = 45)
     @Column(name = "mac")
     private String mac;
+    @Size(max = 45)
+    @Column(name = "estado")
+    private String estado;
     @JoinColumn(name = "Usuarios_idUsuario", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Usuario usuariosidUsuario;
 
     public CommputadorRegistrado() {
@@ -99,6 +105,14 @@ public class CommputadorRegistrado implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Computadorregistrado[ id=" + id + " ]";
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
     
 }

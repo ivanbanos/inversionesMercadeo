@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+
+        <div class="row">
+
+            <div class="control-group">
+                <!-- Username -->
+                <div class="form-group">
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Gesti&oacute;n de barajas/Inventario Barajas</label>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row clearfix">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+
+                        <div class="clickable">
+                            <h3 class="panel-title">Inventario de barajas</h3>
+                            <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <p:dataScroller value="#{inventarioBarajasBean.inventario.inventario}" var="inventario" chunkSize="10">
+                            
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                        
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                                <label>Material</label>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                                #{inventario.baraja.material.nombre}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                                <label>Color</label>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                                #{inventario.baraja.color}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                                <label>Marca</label>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                                #{inventario.baraja.marca}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                                <label>Precio estimado</label>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                                #{inventario.baraja.valorpromedio}
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                        
+                                        <div class="row">Cantidad</div>
+                                        <div class="row">
+                                            <p id="cantbar#{inventario.baraja.id}" style="font-size: 35px"> #{inventario.cantidad}
+                                            </p>
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                </div>
+                                <hr />
+                            </div>
+                            <script>setStyle("cantbar#{inventario.baraja.id}", #{inventario.cantidad}, #{inventarioBarajasBean.cantidadMin})</script>
+                        </p:dataScroller>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </ui:define>            
+</ui:composition>

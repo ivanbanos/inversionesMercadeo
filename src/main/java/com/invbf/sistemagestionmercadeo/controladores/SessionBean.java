@@ -5,6 +5,7 @@
 package com.invbf.sistemagestionmercadeo.controladores;
 
 import com.invbf.sistemagestionmercadeo.dao.ConfiguracionDao;
+import com.invbf.sistemagestionmercadeo.entity.CommputadorRegistrado;
 import com.invbf.sistemagestionmercadeo.entity.Configuracion;
 import com.invbf.sistemagestionmercadeo.entity.Evento;
 import com.invbf.sistemagestionmercadeo.entity.Formulario;
@@ -17,11 +18,13 @@ import com.invbf.sistemagestionmercadeo.exceptions.UsuarioNoConectadoException;
 import com.invbf.sistemagestionmercadeo.exceptions.UsuarioNoExisteException;
 import com.invbf.sistemagestionmercadeo.exceptions.UsuarioSinAccesoalSistemaException;
 import com.invbf.sistemagestionmercadeo.facade.AdminFacade;
+import com.invbf.sistemagestionmercadeo.facade.BarajasFacade;
 import com.invbf.sistemagestionmercadeo.facade.HostessFacade;
 import com.invbf.sistemagestionmercadeo.facade.ManagerUserFacade;
 import com.invbf.sistemagestionmercadeo.facade.MarketingUserFacade;
 import com.invbf.sistemagestionmercadeo.facade.SystemFacade;
 import com.invbf.sistemagestionmercadeo.facade.impl.AdminFacadeImpl;
+import com.invbf.sistemagestionmercadeo.facade.impl.BarajasFacadeImpl;
 import com.invbf.sistemagestionmercadeo.facade.impl.HostessFacadeImpl;
 import com.invbf.sistemagestionmercadeo.facade.impl.ManagerUserFacadeImpl;
 import com.invbf.sistemagestionmercadeo.facade.impl.MarketingUserFacadeImpl;
@@ -54,6 +57,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.ftp.FTP;
@@ -73,6 +77,7 @@ public class SessionBean implements Serializable, Subject {
     MarketingUserFacade marketingUserFacade;
     HostessFacade hostessFacade;
     ManagerUserFacade managerUserFacade;
+    BarajasFacade barajasFacade;
     private Usuario usuario;//Almacena el objeto usuario de la session
     private List<Observer> observers;
     private int paginacion;
@@ -80,6 +85,8 @@ public class SessionBean implements Serializable, Subject {
     private String ruta;
     @ManagedProperty("#{applicationContainer}")
     private ApplicationContainer container;
+    private String admin;
+    private String contrasena;
 
     public void setContainer(ApplicationContainer container) {
         this.container = container;
@@ -98,6 +105,7 @@ public class SessionBean implements Serializable, Subject {
         marketingUserFacade = new MarketingUserFacadeImpl();
         hostessFacade = new HostessFacadeImpl();
         managerUserFacade = new ManagerUserFacadeImpl();
+        barajasFacade = new BarajasFacadeImpl();
         usuario = new Usuario();
         observers = new ArrayList<Observer>();
         Configuracion configuracion = sessionFacade.getConfiguracionByName("paginacion");
@@ -123,16 +131,34 @@ public class SessionBean implements Serializable, Subject {
 
     public String Conectar() {
         try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            String ipAddress = request.getHeader("X-FORWARDED-FOR");
+            if (ipAddress == null) {
+                ipAddress = request.getRemoteAddr();
+            }
+
+            if (ipAddress.contains(",")) {
+                ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));
+            }
+            System.out.println("ipAddress:" + ipAddress);
             if (container.isUsuarioConectado(usuario.getNombreUsuario())) {
                 FacesUtil.addErrorMessage("No se puede conectar", "Usuario ya inició sesión");
             } else {
                 usuario = sessionFacade.iniciarSession(usuario);
+                boolean isRegistrado = perfilViewMatch("entrarsinregistro");
+                if (!isRegistrado) {
+                    isRegistrado = sessionFacade.isIpActiva(usuario, ipAddress);
+                }
+                if (isRegistrado) {
 
-                sessionFacade.registrarlog(null, null, "Inicio de sesion del usuario " + usuario.getNombreUsuario(), usuario);
-                active = "inicio";
-                ruta = "/Inicio";
-                container.conectarUsuario(usuario.getNombreUsuario());
-                return "/pages/index.xhtml";
+                    sessionFacade.registrarlog(null, null, "Inicio de sesion del usuario " + usuario.getNombreUsuario(), usuario);
+                    active = "inicio";
+                    ruta = "/Inicio";
+                    container.conectarUsuario(usuario.getNombreUsuario());
+                    return "/pages/index.xhtml";
+                } else {
+                    return "/pages/RegistroMaquina.xhtml";
+                }
             }
         } catch (ClavesNoConcuerdanException ex) {
             FacesUtil.addErrorMessage("Usuario no conectado", ex.getMessage());
@@ -167,7 +193,7 @@ public class SessionBean implements Serializable, Subject {
         session.invalidate();
         return "/pages/InicioSession.xhtml";
     }
-    
+
     public void DesconectarUsuario() {
         container.desconectarUsuario(usuario.getNombreUsuario());
         usuario = new Usuario();
@@ -214,10 +240,12 @@ public class SessionBean implements Serializable, Subject {
     }
 
     public Object getAttributes(String key) {
+        System.out.println("problen here");
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
         HttpSession session = (HttpSession) externalContext.getSession(true);
 
+        System.out.println("problen here");
         return session.getAttribute(key);
     }
 
@@ -330,6 +358,15 @@ public class SessionBean implements Serializable, Subject {
     }
 
     public String go(String page) {
+        if (page.equals("barajas")) {
+            active = "barajas";
+            ruta = "/Inicio";
+            return "/pages/curdBarajas.xhtml";
+        }if (page.equals("inventarioBaraja")) {
+            active = "barajas";
+            ruta = "/Inicio";
+            return "/pages/InventarioBarajas.xhtml";
+        }
         if (page.equals("inicio")) {
             active = "inicio";
             ruta = "/Inicio";
@@ -338,6 +375,10 @@ public class SessionBean implements Serializable, Subject {
             active = "configuracion";
             ruta = "/Configuración/Sistema";
             return "/pages/AdministradorAtributosSistema.xhtml";
+        } else if (page.equals("AtributosSistemap")) {
+            active = "configuracion";
+            ruta = "/Configuración/Sistema";
+            return "/pages/AdministradorAtributosSistemap.xhtml";
         } else if (page.equals("cambioEstadoBono")) {
             active = "configuracion";
             ruta = "/Configuración/Sistema";
@@ -389,10 +430,10 @@ public class SessionBean implements Serializable, Subject {
         } else if (page.equals("SolicitudCambioCupo")) {
             active = "requisiciones";
             return "/pages/SolicitudCambioCupoFidelizacion.xhtml";
-        }else if (page.equals("requerimientosLotes")) {
+        } else if (page.equals("requerimientosLotes")) {
             active = "requisiciones";
             return "/pages/RequerimientosProduccionLotes.xhtml";
-        }  else if (page.equals("logs")) {
+        } else if (page.equals("logs")) {
             active = "configuracion";
             ruta = "/Configuración/Logs";
             return "/pages/logs.xhtml";
@@ -443,37 +484,22 @@ public class SessionBean implements Serializable, Subject {
             active = "reportes";
             ruta = "/Reportes/Movimiento de bonos";
             return "/pages/ReporteMovimientoBono.xhtml";
-        }else if (page.equals("reporteGenerar")) {
+        } else if (page.equals("reporteGenerar")) {
             active = "reportes";
             ruta = "/Reportes/Movimiento de bonos";
             return "/pages/GenerarReporteGestionView.xhtml";
+        } else if (page.equals("veripregistradas")) {
+            active = "configuracion";
+            ruta = "/Reportes/Movimiento de bonos";
+            return "/pages/ListaIpsRegistradas.xhtml";
         }
-        return "/pages/InicioSession.xhtml";
+        return "";
     }
 
-    public void checkEstadoTarea(Tarea tarea) {
-        try {
-            Calendar fechainicio = Calendar.getInstance();
-            Calendar fechafinal = Calendar.getInstance();
-
-            DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
-            DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
-            TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
-            df.setTimeZone(timeZone);
-            Calendar nowDate = Calendar.getInstance();
-            nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
-            fechainicio.setTime(tarea.getFechaInicio());
-            fechafinal.setTime(tarea.getFechaFinalizacion());
-            tarea.setEstado("POR INICIAR");
-            if (fechainicio.before(nowDate)) {
-                tarea.setEstado("ACTIVO");
-            }
-            if (fechafinal.before(nowDate)) {
-                tarea.setEstado("VENCIDO");
-            }
-        } catch (ParseException ex) {
-            Logger.getLogger(SessionBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void checkEstadoTarea() {
+       
+            sessionFacade.checkEstadoTarea();
+        
     }
 
     void obtenerUsuario(Integer idUsuario) {
@@ -506,6 +532,14 @@ public class SessionBean implements Serializable, Subject {
 
     public MarketingUserFacade getMarketingUserFacade() {
         return marketingUserFacade;
+    }
+
+    public BarajasFacade getBarajasFacade() {
+        return barajasFacade;
+    }
+
+    public void setBarajasFacade(BarajasFacade barajasFacade) {
+        this.barajasFacade = barajasFacade;
     }
 
     public void setMarketingUserFacade(MarketingUserFacade marketingUserFacade) {
@@ -591,7 +625,7 @@ public class SessionBean implements Serializable, Subject {
     }
 
     public void revisarEstadoBonos() {
-        adminFacade.revisarBonos();
+        marketingUserFacade.verificarEstadoSolicitudes();
     }
 
     public void putMensaje(Mensajes m) {
@@ -621,6 +655,22 @@ public class SessionBean implements Serializable, Subject {
             }
             iterator.remove();
         }
+    }
+
+    public String getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(String admin) {
+        this.admin = admin;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
 }

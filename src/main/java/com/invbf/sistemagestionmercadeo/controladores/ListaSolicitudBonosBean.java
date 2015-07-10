@@ -49,7 +49,8 @@ public class ListaSolicitudBonosBean implements Serializable{
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("solicitudbonos");
-        if (!sessionBean.perfilViewMatch("GenerarSolicitudBono") && !sessionBean.perfilViewMatch("PreAprobarSolicitudBono") && !sessionBean.perfilViewMatch("AprobarSolicitudBono")) {
+        sessionBean.marketingUserFacade.verificarEstadoSolicitudes();
+        if (!sessionBean.perfilViewMatch("GenerarSolicitudBono") &&!sessionBean.perfilViewMatch("vistaSolicitudesCasino") && !sessionBean.perfilViewMatch("PreAprobarSolicitudBono") && !sessionBean.perfilViewMatch("AprobarSolicitudBono")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
@@ -59,7 +60,7 @@ public class ListaSolicitudBonosBean implements Serializable{
 
             lista = sessionBean.marketingUserFacade.getAllSolicitudentreganovenc();
         } else {
-            lista = sessionBean.marketingUserFacade.getAllSolicitudentregaSolicitante(sessionBean.getUsuario().getIdUsuario());
+            lista = sessionBean.marketingUserFacade.getAllSolicitudentregaCasino(sessionBean.getUsuario());
         }
         Collections.reverse(lista);
         casinos = sessionBean.adminFacade.findAllCasinos();
@@ -132,7 +133,14 @@ public class ListaSolicitudBonosBean implements Serializable{
         }
     }
     
-    
+    public void goSolicitudGEnerar(Integer i) {
+        try {
+            sessionBean.setAttribute("idSolicitudentrega", i);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("vistaGeneracionReporte.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public Casino getCasinoById(Integer idCasino) {
         int casinoIndex = casinos.indexOf(new Casino(idCasino));
         if (casinoIndex != -1) {

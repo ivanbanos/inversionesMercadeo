@@ -9,6 +9,7 @@ import com.invbf.sistemagestionmercadeo.dao.BonoDao;
 import com.invbf.sistemagestionmercadeo.dao.CargoDao;
 import com.invbf.sistemagestionmercadeo.dao.CasinoDao;
 import com.invbf.sistemagestionmercadeo.dao.ClienteDao;
+import com.invbf.sistemagestionmercadeo.dao.CommputadorRegistradoDao;
 import com.invbf.sistemagestionmercadeo.dao.DenominacionDao;
 import com.invbf.sistemagestionmercadeo.dao.DetalleCasinoDao;
 import com.invbf.sistemagestionmercadeo.dao.FormularioDao;
@@ -25,6 +26,7 @@ import com.invbf.sistemagestionmercadeo.entity.Cargo;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Casinodetalle;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
+import com.invbf.sistemagestionmercadeo.entity.CommputadorRegistrado;
 import com.invbf.sistemagestionmercadeo.entity.Denominacion;
 import com.invbf.sistemagestionmercadeo.entity.Formulario;
 import com.invbf.sistemagestionmercadeo.entity.Perfil;
@@ -411,6 +413,21 @@ public class AdminFacadeImpl implements AdminFacade, Serializable {
     @Override
     public List<Usuario> findUsuariosAutorizadoresCasino(Casino casinoSelected) {
         return UsuarioDao.findAutorizadoresCasino(casinoSelected);
+    }
+
+    @Override
+    public List<CommputadorRegistrado> getComputadoresRegistrados() {
+        return CommputadorRegistradoDao.findAll();
+    }
+
+    @Override
+    public void saveMaq(CommputadorRegistrado elemento) {
+        CommputadorRegistradoDao.edit(elemento);
+    }
+
+    @Override
+    public void deleteMaq(CommputadorRegistrado elemento) {
+        CommputadorRegistradoDao.eliminarMaq(elemento);
     }
 
 }

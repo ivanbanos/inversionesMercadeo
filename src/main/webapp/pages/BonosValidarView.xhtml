@@ -73,15 +73,23 @@
 
                         </div>
                         <div class="panel-footer text-right"> 
-                            <p:commandButton value="guardar" actionListener="#{bonoValidarBean.guardarCambiosBonos()}" icon="ui-icon-check" 
-                                             update=":#{p:component('bonos')} :#{p:component('messages')}" style="margin:0" onclick="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>   
-                        </div>
+                            <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" style="margin:0" onclick="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('confirmacion').show();"/>
+                       </div>
                     </div>
 
                 </h:form>
+                <h:form >
+                    <p:confirmDialog id="confirmacion" message="¿Está seguro que desea diligenciar los bonos de juego?"  
+                                     header="Confirmar" severity="alert" widgetVar="confirmacion" closable="false">  
 
+                        <p:commandButton id="confirm" value="Si" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('confirmacion').hide()"  
+                                         action="#{bonoValidarBean.guardarCambiosBonos()}"/>  
+                        <p:commandButton id="decline" value="No" onclick="PF('confirmacion').hide()" type="button" />   
+
+                    </p:confirmDialog> 
+                </h:form>
             </div>
-            
+
         </div>
 
 

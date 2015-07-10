@@ -159,6 +159,11 @@ public class PerfilActBean implements Serializable{
 
     private VistaBoolean solicitudCambioCupo;
     private VistaBoolean Mailcliente;
+    private VistaBoolean bonosretiradosCorreo;
+    private VistaBoolean verInventarioBarajas;
+    
+    private VistaBoolean veripregistradas;
+    private VistaBoolean entrarsinregistro;
     
     private VistaBoolean verTodosCasinos;
     private VistaBoolean cambioEstadoBono;
@@ -186,6 +191,13 @@ public class PerfilActBean implements Serializable{
     private VistaBoolean entregarbonocajacorreo;
     private VistaBoolean recibirbonocorreo;
     private VistaBoolean notificacionescorreo;
+    private VistaBoolean vistaSolicitudesCasino;
+    
+    
+    private VistaBoolean vistaBarajas;
+    private FormularioBoolean agregarBarajas;
+    private FormularioBoolean actualizarBarajas;
+    private FormularioBoolean eliminarBarajas;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -255,7 +267,14 @@ public class PerfilActBean implements Serializable{
         for (Formulario f : formularios) {
 
             if (f.getAccion().equals("crear")) {
-                if (f.getTabla().equals("PeticionesCupo")) {
+                if (f.getTabla().equals("Barajas")) {
+
+                    if (elemento.getFormularioList().contains(f)) {
+                        agregarBarajas = new FormularioBoolean(f, true);
+                    } else {
+                        agregarBarajas = new FormularioBoolean(f, false);
+                    }
+                }if (f.getTabla().equals("PeticionesCupo")) {
 
                     if (elemento.getFormularioList().contains(f)) {
                         agregarPeticionesCupo = new FormularioBoolean(f, true);
@@ -437,6 +456,13 @@ public class PerfilActBean implements Serializable{
                     } else {
                         actualizarAreas = new FormularioBoolean(f, false);
                     }
+                }if (f.getTabla().equals("Barajas")) {
+
+                    if (elemento.getFormularioList().contains(f)) {
+                        actualizarBarajas = new FormularioBoolean(f, true);
+                    } else {
+                        actualizarBarajas = new FormularioBoolean(f, false);
+                    }
                 }
                 if (f.getTabla().equals("Propositos")) {
 
@@ -596,6 +622,14 @@ public class PerfilActBean implements Serializable{
                         eliminarPeticionesCupo = new FormularioBoolean(f, true);
                     } else {
                         eliminarPeticionesCupo = new FormularioBoolean(f, false);
+                    }
+                }
+                if (f.getTabla().equals("Barajas")) {
+
+                    if (elemento.getFormularioList().contains(f)) {
+                        eliminarBarajas = new FormularioBoolean(f, true);
+                    } else {
+                        eliminarBarajas = new FormularioBoolean(f, false);
                     }
                 }
                 if (f.getTabla().equals("Areas")) {
@@ -869,7 +903,32 @@ public class PerfilActBean implements Serializable{
                 } else {
                     Mailcliente = new VistaBoolean(v, false);
                 }
-            }if (v.getNombreVista().equals("VerTodosCasinos")) {
+            }if (v.getNombreVista().equals("bonosretiradosCorreo")) {
+                if (elemento.getVistaList().contains(v)) {
+                    bonosretiradosCorreo = new VistaBoolean(v, true);
+                } else {
+                    bonosretiradosCorreo = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("verInventarioBarajas")) {
+                if (elemento.getVistaList().contains(v)) {
+                    verInventarioBarajas = new VistaBoolean(v, true);
+                } else {
+                    verInventarioBarajas = new VistaBoolean(v, false);
+                }
+            } if (v.getNombreVista().equals("veripregistradas")) {
+                if (elemento.getVistaList().contains(v)) {
+                    veripregistradas = new VistaBoolean(v, true);
+                } else {
+                    veripregistradas = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("entrarsinregistro")) {
+                if (elemento.getVistaList().contains(v)) {
+                    entrarsinregistro = new VistaBoolean(v, true);
+                } else {
+                    entrarsinregistro = new VistaBoolean(v, false);
+                }
+            }
+                    if (v.getNombreVista().equals("VerTodosCasinos")) {
                 if (elemento.getVistaList().contains(v)) {
                     verTodosCasinos = new VistaBoolean(v, true);
                 } else {
@@ -938,6 +997,18 @@ public class PerfilActBean implements Serializable{
                     notificacionescorreo = new VistaBoolean(v, true);
                 } else {
                     notificacionescorreo = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("vistaSolicitudesCasino")) {
+                if (elemento.getVistaList().contains(v)) {
+                    vistaSolicitudesCasino = new VistaBoolean(v, true);
+                } else {
+                    vistaSolicitudesCasino = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("verBarajas")) {
+                if (elemento.getVistaList().contains(v)) {
+                    vistaBarajas = new VistaBoolean(v, true);
+                } else {
+                    vistaBarajas = new VistaBoolean(v, false);
                 }
             }
             
@@ -1383,6 +1454,12 @@ public class PerfilActBean implements Serializable{
         if (notificacionescorreo.isSelected()) {
             elemento.getVistaList().add(notificacionescorreo.getVista());
         }
+        if (vistaSolicitudesCasino.isSelected()) {
+            elemento.getVistaList().add(vistaSolicitudesCasino.getVista());
+        }
+        if (vistaBarajas.isSelected()) {
+            elemento.getVistaList().add(vistaBarajas.getVista());
+        }
         
         if (recibirbonocorreo.isSelected()) {
             elemento.getVistaList().add(recibirbonocorreo.getVista());
@@ -1501,6 +1578,18 @@ public class PerfilActBean implements Serializable{
         }
         if (Mailcliente.isSelected()) {
             elemento.getVistaList().add(Mailcliente.getVista());
+        }
+        if (bonosretiradosCorreo.isSelected()) {
+            elemento.getVistaList().add(bonosretiradosCorreo.getVista());
+        }
+        if (verInventarioBarajas.isSelected()) {
+            elemento.getVistaList().add(verInventarioBarajas.getVista());
+        }
+        if (entrarsinregistro.isSelected()) {
+            elemento.getVistaList().add(entrarsinregistro.getVista());
+        }
+        if (veripregistradas.isSelected()) {
+            elemento.getVistaList().add(veripregistradas.getVista());
         }
         if (verTodosCasinos.isSelected()) {
             elemento.getVistaList().add(verTodosCasinos.getVista());
@@ -1811,6 +1900,15 @@ public class PerfilActBean implements Serializable{
         }
         if (eliminarSolicitudesLotes.isSelected()) {
             elemento.getFormularioList().add(eliminarSolicitudesLotes.getFormulario());
+        }
+        if (agregarBarajas.isSelected()) {
+            elemento.getFormularioList().add(agregarBarajas.getFormulario());
+        }
+        if (actualizarBarajas.isSelected()) {
+            elemento.getFormularioList().add(actualizarBarajas.getFormulario());
+        }
+        if (eliminarBarajas.isSelected()) {
+            elemento.getFormularioList().add(eliminarBarajas.getFormulario());
         }
         if (agregarLoteBono.isSelected()) {
             elemento.getFormularioList().add(agregarLoteBono.getFormulario());
@@ -3003,6 +3101,78 @@ public class PerfilActBean implements Serializable{
 
     public void setVerRequerimiento(VistaBoolean verRequerimiento) {
         this.verRequerimiento = verRequerimiento;
+    }
+
+    public VistaBoolean getBonosretiradosCorreo() {
+        return bonosretiradosCorreo;
+    }
+
+    public void setBonosretiradosCorreo(VistaBoolean bonosretiradosCorreo) {
+        this.bonosretiradosCorreo = bonosretiradosCorreo;
+    }
+
+    public VistaBoolean getVistaSolicitudesCasino() {
+        return vistaSolicitudesCasino;
+    }
+
+    public void setVistaSolicitudesCasino(VistaBoolean vistaSolicitudesCasino) {
+        this.vistaSolicitudesCasino = vistaSolicitudesCasino;
+    }
+
+    public VistaBoolean getVeripregistradas() {
+        return veripregistradas;
+    }
+
+    public void setVeripregistradas(VistaBoolean veripregistradas) {
+        this.veripregistradas = veripregistradas;
+    }
+
+    public VistaBoolean getEntrarsinregistro() {
+        return entrarsinregistro;
+    }
+
+    public void setEntrarsinregistro(VistaBoolean entrarsinregistro) {
+        this.entrarsinregistro = entrarsinregistro;
+    }
+
+    public VistaBoolean getVistaBarajas() {
+        return vistaBarajas;
+    }
+
+    public void setVistaBarajas(VistaBoolean vistaBarajas) {
+        this.vistaBarajas = vistaBarajas;
+    }
+
+    public FormularioBoolean getAgregarBarajas() {
+        return agregarBarajas;
+    }
+
+    public void setAgregarBarajas(FormularioBoolean agregarBarajas) {
+        this.agregarBarajas = agregarBarajas;
+    }
+
+    public FormularioBoolean getActualizarBarajas() {
+        return actualizarBarajas;
+    }
+
+    public void setActualizarBarajas(FormularioBoolean actualizarBarajas) {
+        this.actualizarBarajas = actualizarBarajas;
+    }
+
+    public FormularioBoolean getEliminarBarajas() {
+        return eliminarBarajas;
+    }
+
+    public void setEliminarBarajas(FormularioBoolean eliminarBarajas) {
+        this.eliminarBarajas = eliminarBarajas;
+    }
+
+    public VistaBoolean getVerInventarioBarajas() {
+        return verInventarioBarajas;
+    }
+
+    public void setVerInventarioBarajas(VistaBoolean verInventarioBarajas) {
+        this.verInventarioBarajas = verInventarioBarajas;
     }
 
 }

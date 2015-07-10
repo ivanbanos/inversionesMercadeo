@@ -17,19 +17,13 @@ import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.entity.Usuariodetalle;
 import com.invbf.sistemagestionmercadeo.exceptions.LoteBonosExistenteException;
 import com.invbf.sistemagestionmercadeo.util.ConvertidorConsecutivo;
-import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.LoteBonoCant;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -66,7 +60,7 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("salidadebonos");
-        if (!sessionBean.perfilViewMatch("AceptarSolicitudSalida")&&!sessionBean.perfilViewMatch("Verbonosporverificar")) {
+        if (!sessionBean.perfilViewMatch("AceptarSolicitudSalida") && !sessionBean.perfilViewMatch("Verbonosporverificar")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
@@ -83,18 +77,9 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
             }
         }
         if (elemento.getSolicitante() == null || elemento.getSolicitante().getIdUsuario() == null || elemento.getSolicitante().getIdUsuario() == 0) {
-            try {
-                elemento.setSolicitante(sessionBean.getUsuario());
-                DateFormat df = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
-                DateFormat df2 = new SimpleDateFormat("dd/MMMM/yyyy HH:mm:ss");
-                TimeZone timeZone = TimeZone.getTimeZone("GMT-5");
-                df.setTimeZone(timeZone);
-                Calendar nowDate = Calendar.getInstance();
-                nowDate.setTime(df2.parse(df.format(nowDate.getTime())));
-                elemento.setFecha(nowDate.getTime());
-            } catch (ParseException ex) {
-                Logger.getLogger(GeneradorControlSalidaBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
+            elemento.setSolicitante(sessionBean.getUsuario());
+            elemento.setFecha(elemento.getSolicitudEntregaid().getFecha());
         }
         usuario = elemento.getSolicitante();
         usuariosdetalles = elemento.getSolicitante().getUsuariodetalle();
@@ -109,8 +94,8 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
                 controlsalidabonosHasLotesbonos.setCantPre(0);
                 for (ControlsalidabonosHasLotesbonosHasClientes cshlohc : controlsalidabonosHasLotesbonos.getControlsalidabonosHasLotesbonosHasClientesList()) {
                     controlsalidabonosHasLotesbonos.setCantidad(controlsalidabonosHasLotesbonos.getCantidad() + cshlohc.getCantidad());
-                    controlsalidabonosHasLotesbonos.setCantPre(controlsalidabonosHasLotesbonos.getCantidad() + cshlohc.getCantidad());
-                    controlsalidabonosHasLotesbonos.setCantA(controlsalidabonosHasLotesbonos.getCantidad() + cshlohc.getCantidad());
+                    controlsalidabonosHasLotesbonos.setCantPre(controlsalidabonosHasLotesbonos.getCantPre() + cshlohc.getCantidad());
+                    controlsalidabonosHasLotesbonos.setCantA(controlsalidabonosHasLotesbonos.getCantA() + cshlohc.getCantidad());
                 }
             }
             LoteBonoCant ltc = new LoteBonoCant(controlsalidabonosHasLotesbonos.getLotebono(), controlsalidabonosHasLotesbonos.getCantA());
@@ -247,7 +232,7 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
 
                         System.out.println("Cantidad de Bonos " + control.getCantidad());
                         System.out.println("Cantidad de Bonos " + control.getCantidad());
-                        for (int i = control.getCantidad(); i > 0; i--) {
+                        for (int i = control.getCantA(); i > 0; i--) {
                             System.out.println(i);
                             while (true) {
                                 boolean seencontro = false;
@@ -271,10 +256,10 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
                             b.setControlSalidaBonosid(elemento);
                             if (lote.getTipoBono().getNombre().equals("PROMOCIONAL")) {
                                 System.out.println(casino.getCasinodetalle().getAbreCiudad());
-                                b.setConsecutivo(casino.getCasinodetalle().getCiudad() +"-"+ desde);
+                                b.setConsecutivo(casino.getCasinodetalle().getCiudad() + "-" + desde);
                                 b.setEstado("POR VERIFICAR");
                             } else {
-                                b.setConsecutivo(casino.getCasinodetalle().getAbrenopromo() +"-"+ desde);
+                                b.setConsecutivo(casino.getCasinodetalle().getAbrenopromo() + "-" + desde);
                                 b.setEstado("POR VERIFICAR");
                             }
                             b.setPropositosEntregaid(elemento.getSolicitudEntregaid().getPropositoEntrega());
@@ -284,20 +269,17 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
                         }
                     }
                 }
-                lote.setDesde(desde);
+                lote.setDesde(resteUno(desde));
                 sessionBean.marketingUserFacade.guardarLote(lote);
             } catch (LoteBonosExistenteException ex) {
                 Logger.getLogger(AceptarSolicitudSalidaBonosBean.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        boolean enviarmail = false;
         for (Lotebono lote : lotes) {
             if (ConvertidorConsecutivo.getCantidadInt(lote.getDesde(), lote.getHasta()) < 1000) {
-                enviarmail = true;
+                 Notificador.notificar(Notificador.INVENTARIO_EN_PROBLEMA, "ALERTA INVENTARIO DE BONOS HA ALCANZADO UN NIVEL MINIMO", "El lote de bonos "+lote.getTipoBono().getNombre() +", de denominación "+lote.getDenominacion().getValor()+", de la sala "+lote.getIdCasino().getNombre()+"  ha alcanzado el nivel minimo establecido en el inventario. Debe revisarse el stock para generar requerimiento de producción de lotes.", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+        
             }
-        }
-        if (enviarmail) {
-            Notificador.notificar(Notificador.INVENTARIO_EN_PROBLEMA, "Un tipo de bono ha sido alcanzado el nivel minimo establecido en el inventario. Debe revisarse el stock para generar requerimiento de producción de lotes.", "ALERTA INVENTARIO DE BONOS HA ALCANZADO UN NIVEL MINIMO", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         }
         sessionBean.marketingUserFacade.guardarBonos(bonosAGuardar);
 
@@ -311,4 +293,11 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
         return ConvertidorConsecutivo.restarUno(hasta);
     }
 
+    public void volver() {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudSalidaBonos.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(VistaRequerimientoLoteBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

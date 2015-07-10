@@ -1,0 +1,292 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+        <div class="row">
+
+            <div class="control-group">
+                <!-- Username -->
+                <div class="form-group">
+                    <label class="col-md-12 control-label" >#{label['ruta']}: #{label['ruta.tareaAccion']}</label>
+                </div>
+            </div>
+        </div>
+        <h:form enctype="multipart/form-data">
+            * #{label['mensaje.camporequerido']}
+            <div class="panel panel-primary">
+
+                <div class="panel-heading"><h4>Tarea</h4></div>
+                <div class="panel-body">
+                    <c:choose>
+                        <c:when test="#{tareaAccionBean.evento!=null}">
+                            <div class="panel panel-primary">
+                                <div class="panel-body">
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-3 control-label" >#{label['nombreevento']}:</label></b>
+                                            <div class="col-md-9">
+                                                <h:outputText id="nombre" value="#{tareaAccionBean.evento.nombre}" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row clearfix">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-6 control-label" >#{label['fechainicio']}:</label></b>
+                                            <div class="col-md-6">
+                                                <h:outputText id="fecini" value="#{tareaAccionBean.evento.fechaInicio}" >
+                                                    <f:convertDateTime pattern="dd/MMMM/yyyy HH:mm:ss" locale="es_CO" timeZone="America/Bogota"/>
+                                                </h:outputText>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-6 control-label" >#{label['fechafinal']}:</label></b>
+                                            <div class="col-md-6">
+                                                <h:outputText id="fecfin" value="#{tareaAccionBean.evento.fechaFinal}"  >
+                                                    <f:convertDateTime pattern="dd/MMMM/yyyy HH:mm:ss" locale="es_CO" timeZone="America/Bogota"/>
+                                                </h:outputText>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-3 control-label" >#{label['descripcion']}:</label></b>
+                                            <div class="col-md-9">
+                                                <h:outputText id="descripcion" value="#{tareaAccionBean.evento.decripcion}" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-3 control-label" >#{label['casino']}:</label></b>
+                                            <div class="col-md-9">
+                                                <h:outputText id="casino" value="#{tareaAccionBean.evento.idCasino.nombre}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+
+                            <div class="row clearfix">
+                                <div class="form-group col-md-12">
+                                    <label class="col-md-2 control-label" >#{label['evento']}</label>
+                                    <label class="col-md-8 control-label" >Ninguno</label>
+                                </div>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+
+
+                    <div class="row clearfix">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-2 control-label" >* #{label['nombre']}:</label>
+                            <div class="col-md-6">
+                                <p:inputText id="nombreEventos" style="width: 100%;" value="#{tareaAccionBean.elemento.nombre}" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row clearfix">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-2 control-label" >#{label['descripcion']}:</label>
+                            <div class="col-md-6">
+                                <p:inputTextarea id="descripcionEventos" style="width: 100%;" value="#{tareaAccionBean.elemento.descripcion}"/>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <p:outputPanel id="tablaclientes" style="display:block">
+
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">#{label['clientes']}</div>
+                            <div class="panel-body">
+
+
+                                <div id="clientes" class="row clearfix">
+                                    <div class="form-group col-md-12">
+                                        <p:outputLabel id="conteo" >#{label['clientes']}: cant #{tareaAccionBean.conteo}</p:outputLabel>
+                                        <div class="col-md-4">
+                                            <div class="panel panel-primary">
+
+                                                <div class="panel-heading">
+                                                    #{label['categorias']}
+                                                </div>
+                                                <div class="panel-body">
+                                                    <ul id="categoriasList">
+                                                        <li>
+                                                            <h:selectBooleanCheckbox value="#{tareaAccionBean.todoscat}" onclick="toggle('categoriasList')">
+                                                            </h:selectBooleanCheckbox>
+                                                            <label>Todos</label>
+                                                        </li>
+
+                                                        <c:forEach var="itemcat" items="#{tareaAccionBean.categoriasBoolean}">
+                                                            <li>
+                                                                <h:selectBooleanCheckbox value="#{itemcat.selected}" onclick="deselecttodo('categoriasList')"/>&nbsp;
+                                                                <label>#{itemcat.categoria.nombre}</label>
+                                                            </li>
+                                                        </c:forEach>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="panel panel-primary">
+
+                                                <div class="panel-heading">#{label['tipojuegos']}</div>
+                                                <div class="panel-body">
+
+                                                    <ul id="tipojuegoList">
+
+
+                                                        <li>
+                                                            <h:selectBooleanCheckbox value="#{tareaAccionBean.todostip}" onclick="toggle('tipojuegoList')">
+                                                            </h:selectBooleanCheckbox>
+                                                            <label>Todos</label>
+                                                        </li>
+                                                        <c:forEach var="itemtip" items="#{tareaAccionBean.tipoJuegosBoolean}">
+                                                            <li>
+                                                                <h:selectBooleanCheckbox value="#{itemtip.selected}" onclick="deselecttodo('tipojuegoList')"/>&nbsp;
+                                                                <label >#{itemtip.tipoJuego.nombre}</label>
+                                                            </li>
+                                                        </c:forEach>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-4">
+                                            <div class="panel panel-primary">
+
+                                                <div class="panel-heading">
+                                                    #{label['casinos']}
+                                                </div>
+                                                <div class="panel-body">
+                                                    <ul id="casinosList">
+                                                        <li>
+                                                            <h:selectBooleanCheckbox value="#{tareaAccionBean.todoscasinos}" onclick="toggle('casinosList')">
+                                                            </h:selectBooleanCheckbox>
+                                                            <label>Todos</label>
+                                                        </li>
+
+                                                        <c:forEach var="itemcas" items="#{tareaAccionBean.casinoBooleans}">
+                                                            <li>
+                                                                <h:selectBooleanCheckbox value="#{itemcas.selected}" onclick="deselecttodo('casinosList')"/>&nbsp;
+                                                                <label>#{itemcas.casino.nombre}</label>
+                                                            </li>
+                                                        </c:forEach>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row clearfix">
+                                    <div class="form-group col-md-12">
+
+                                        <p:dataTable id="detailsTableClientes" var="element" value="#{tareaAccionBean.clientes}"  
+                                                     emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTableClientes"
+                                                     selection="#{tareaAccionBean.clientesSelected}" rowKey="#{element.idCliente}">
+
+                                            <p:column headerText="Seleccionar" selectionMode="multiple" style="width:8%;text-align:center"/>
+                                            <p:column headerText="#{label['identificacion']}" sortBy="#{element.identificacion}" filterBy="#{element.identificacion}" filterMatchMode="contains" >
+                                                <h:outputText value="#{element.identificacion}" />
+                                            </p:column>
+
+                                            <p:column headerText="#{label['nombres']}" sortBy="#{element.nombres}" filterBy="#{element.nombres}" filterMatchMode="contains" >
+                                                <h:outputText value="#{element.nombres}" />
+                                            </p:column>
+
+                                            <p:column headerText="#{label['apellidos']}" sortBy="#{element.apellidos}" filterBy="#{element.apellidos}" filterMatchMode="contains" >
+                                                <h:outputText value="#{element.apellidos}" />
+                                            </p:column>
+
+                                        </p:dataTable>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="panel-footer">
+                                <p:commandButton value="Buscar" actionListener="#{tareaAccionBean.createClientes()}" 
+                                                 update=":#{p:component('tablaclientes')} #{p:component('conteo')}" icon="ui-icon-search" style="margin:0" />
+                                <p:commandButton value="Sacar" actionListener="#{tareaAccionBean.sacarCliente()}" 
+                                                 update=":#{p:component('tablaclientes')} #{p:component('conteo')}" icon="ui-icon-closethick" style="margin:0" />
+
+                            </div>
+                        </div>
+                    </p:outputPanel>
+                    <div class="row clearfix">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-2 control-label" >* Asunto:</label>
+                            <div class="col-md-6">
+                                <p:inputText id="nasuntales" style="width: 100%;" value="#{tareaAccionBean.asunto}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="form-group col-md-12">
+                            <div class="col-md-12">
+                                <p:editor id="editor" widgetVar="editorWidget" value="#{tareaAccionBean.cuerpo}" style="width:95%;" ><f:view contentType="text/html"/></p:editor>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="form-group col-md-12">
+                            <div class="col-md-5">
+                                <p:fileUpload mode="simple" id="file" value="#{tareaAccionBean.file}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="form-group col-md-12">
+                            <div class="col-md-5">
+
+                                <h:commandButton value="Subir imagen" styleClass="btn btn-primary" onclick="PF('ajaxWaitingDialog').show()"
+                                                 action="#{tareaAccionBean.upload()}">
+                                </h:commandButton>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="form-group col-md-12">
+                            <div class="col-md-5">
+                                <h:graphicImage id="imagenact" value="/image/#{tareaAccionBean.filename}" style="width: 1000px;"/>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row clearfix">
+                        <div class="form-group col-md-12">
+                            <div class="col-md-5">
+
+                                <h:commandButton value="Enviar y guardar" styleClass="btn btn-primary" onclick="PF('ajaxWaitingDialog').show()"
+                                                 action="#{tareaAccionBean.guardar()}">
+                                </h:commandButton>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </h:form>
+
+
+
+
+    </ui:define>            
+</ui:composition>

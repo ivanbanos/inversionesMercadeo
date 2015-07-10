@@ -42,7 +42,7 @@ public class ListaSolicitudesdeSalidadeBonos implements Serializable{
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("salidadebonos");
-        if (!sessionBean.perfilViewMatch("Controlsalidabonos")) {
+        if (!sessionBean.perfilViewMatch("Controlsalidabonos")&&!sessionBean.perfilViewMatch("Verificarbono")&&!sessionBean.perfilViewMatch("Verbonosporverificar")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {

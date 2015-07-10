@@ -135,20 +135,6 @@
                                         </div>
                                     </div>
 
-
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" >#{label['banner']}</label>
-                                        <div class="col-md-9">
-
-                                            <h:graphicImage value="/image/#{hostessTareaManejadorBean.elemento.idEvento.imagen}" />
-                                        </div>
-                                    </div>
-
-
-
-
-
-
                                 </div>
                                 <div class="panel-footer text-right"> 
                                     <h:link id="btnclose" outcome="/pages/tareasHostess.xhtml" class="btn btn-primary"
@@ -167,7 +153,10 @@
                             <div class="panel-heading"><h4>Clientes</h4></div>
 
                             <div class="panel-body">
-                                <c:forEach items="#{hostessTareaManejadorBean.clientesPojo}" var="clientes" >
+                                <p:dataGrid var="clientes" value="#{hostessTareaManejadorBean.clientesPojo}" columns="1"
+                                            rows="4" paginator="true" id="clientes"
+                                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                            rowsPerPageTemplate="6,12,16">
                                     <div class="panel panel-primary col-md-12">
 
                                         <div class="panel-body">
@@ -220,18 +209,18 @@
 
                                         </div>
                                         <div class="panel-footer text-right"> 
-                                            <h:commandLink action="#{hostessTareaManejadorBean.guardar(clientes.cliente.idCliente)}" 
-                                                           class="btn btn-primary">
-                                                <i class="icon-search"></i> #{label['guardar']}
-                                            </h:commandLink> 
-                                            <h:commandLink action="#{hostessTareaManejadorBean.nuevo(clientes.cliente.idCliente)}" 
-                                                           class="btn btn-primary">
-                                                <i class="icon-search"></i> #{label['nuevo']}
-                                            </h:commandLink> 
+                                            <p:commandButton value="Guardar"
+                                                onclick="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('confirmacion').show();">
+                                                <f:setPropertyActionListener value="#{clientes}" target="#{hostessTareaManejadorBean.clientePojo}" />
+                                            </p:commandButton> 
+                                            <p:commandButton value="Nuevo"
+                                                onclick="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('nuevo').show();">
+                                                <f:setPropertyActionListener value="#{clientes}" target="#{hostessTareaManejadorBean.clientePojo}" />
+                                            </p:commandButton> 
 
                                         </div>
                                     </div>
-                                </c:forEach>
+                                </p:dataGrid>
                             </div>
                         </div>
                     </div>
@@ -246,6 +235,26 @@
 
         </h:form>
 
+        <h:form >
+            <p:confirmDialog id="confirmacion" message="¿Está seguro que desea guardar la información del cliente?"  
+                             header="Confirmar" severity="alert" widgetVar="confirmacion" closable="false">  
 
+                <p:commandButton id="confirm" value="Si" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('confirmacion').hide()"  
+                                 action="#{hostessTareaManejadorBean.guardar()}"  update=":#{p:component('clientes')}"/>  
+                <p:commandButton id="decline" value="No" onclick="PF('confirmacion').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+
+        <h:form >
+            <p:confirmDialog id="nuevo" message="¿Está seguro que desea cambiar de cliente?"  
+                             header="Nuevo" severity="alert" widgetVar="nuevo" closable="false">  
+
+                <p:commandButton id="confirm" value="Si" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('nuevo').hide()"  
+                                 action="#{hostessTareaManejadorBean.nuevo()}"  update=":#{p:component('clientes')}"/>  
+                <p:commandButton id="decline" value="No" onclick="PF('nuevo').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
     </ui:define>            
 </ui:composition>

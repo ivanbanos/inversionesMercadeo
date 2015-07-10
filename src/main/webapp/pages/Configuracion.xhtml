@@ -22,12 +22,9 @@
             <div class="row clearfix">
                 <h:form>
                     <div class="col-xs-12 col-md-9 col-md-offset-1 panel-body panel-bodyindex">
-                        <c:if test="#{sessionBean.perfilViewMatch(&quot;acceso&quot;) 
-                                      or sessionBean.perfilViewMatch(&quot;Cargo&quot;) 
-                                      or sessionBean.perfilViewMatch(&quot;Perfiles&quot;) 
-                                      or sessionBean.perfilViewMatch(&quot;Usuarios&quot;)}">
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;Perfiles&quot;) or usuariodetalle.getIdcargo()==null }">
                             <h:commandLink  action="#{sessionBean.go(&quot;AtributosSistema&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-laptop fa-5x"></i> 
-                                <br/>#{label['atributossistemas']}</h:commandLink>
+                                <br/>Sistema</h:commandLink>
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;Casinos&quot;)
                                       or sessionBean.perfilViewMatch(&quot;Acciones&quot;)
@@ -58,6 +55,11 @@
                             <h:commandLink  action="#{sessionBean.go(&quot;atributosbonos&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-ticket fa-5x"></i> 
                                 <br/>#{label['atributosbono']}</h:commandLink>
 
+                        </c:if>
+                        
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;veripregistradas&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;veripregistradas&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-desktop fa-5x"></i> 
+                                <br/>Ip/Usuarios registrados</h:commandLink>
                         </c:if>
 
                     </div>

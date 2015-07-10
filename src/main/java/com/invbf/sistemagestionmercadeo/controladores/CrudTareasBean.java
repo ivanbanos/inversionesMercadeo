@@ -68,10 +68,7 @@ public class CrudTareasBean  implements Serializable{
                 t.setIdEvento(new Evento());
                 t.getIdEvento().setNombre("GENÉRICO");
             }
-            if (!t.getEstado().equals("VENCIDO")) {
-                sessionBean.checkEstadoTarea(t);
-            }
-        }
+        }sessionBean.checkEstadoTarea();
     }
     
     public List<Tarea> getLista() {

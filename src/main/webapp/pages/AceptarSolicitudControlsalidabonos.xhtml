@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="container">
             <div class="row clearfix">
                 <div class="col-md-12 ">
@@ -45,8 +45,8 @@
                                             <div class="form-group">
                                                 <label class="col-md-2 control-label" >#{label['fechacreacion']}</label>
                                                 <div class="col-md-4">
-                                                    <h:outputText value="#{aceptarSolicitudSalidaBonosBean.elemento.fecha}">
-                                                        <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es" timeZone="GTM-5"  />
+                                                    <h:outputText value="#{aceptarSolicitudSalidaBonosBean.elemento.solicitudEntregaid.fecha}">
+                                                        <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
                                                     </h:outputText>
 
                                                 </div>
@@ -103,7 +103,7 @@
                                                 <label class="col-md-2 control-label" >#{label['fechavencimientobono']}</label>
                                                 <div class="col-md-4">
                                                     <h:outputText value="#{aceptarSolicitudSalidaBonosBean.elemento.fechavencimientobonos}">
-                                                        <f:convertDateTime pattern="dd/MMMMM/yyyy " locale="es" timeZone="GTM-5"  />
+                                                        <f:convertDateTime pattern="dd/MMMMM/yyyy " locale="es_CO" type="both" timeZone="America/Bogota"/>
                                                     </h:outputText>
                                                 </div>
                                             </div>
@@ -116,41 +116,41 @@
                                             <div class="col-md-12">
                                                 <table class="table table-striped">
                                                     <tr>
-                                                        <th>#{'cantidad'}</th>
-                                                        <th>#{'denominacion'}</th>
-                                                        <th>#{'desde'}</th>
-                                                        <th>#{'hasta'}</th>
-                                                        <th>#{'total'}</th>
+                                                        <th>Cantidad</th>
+                                                        <th>Denominaci&oacute;n</th>
+                                                        <th>Desde</th>
+                                                        <th>Hasta</th>
+                                                        <th>Total</th>
                                                     </tr>
                                                     <c:forEach items="#{aceptarSolicitudSalidaBonosBean.loteBonoCants}" var="lote" varStatus="status">
                                                         <tr> 
                                                             <td>#{lote.cantidad}</td>
                                                             <td>
-                                                                <h:outputLabel value="#{lote.lote.denominacion.valor}">
+                                                                <h:outputText value="#{lote.lote.denominacion.valor}">
                                                                     <f:converter  converterId="numberSeparationConverter"  />
-                                                                </h:outputLabel>
+                                                                </h:outputText>
                                                             </td>
                                                             <td>
-                                                                <h:outputLabel value="#{lote.desde}">
-                                                                </h:outputLabel>
+                                                                <h:outputText value="#{lote.desde}">
+                                                                </h:outputText>
                                                             </td>
                                                             <td>
-                                                                <h:outputLabel value="#{lote.hasta}">
-                                                                </h:outputLabel>
+                                                                <h:outputText value="#{lote.hasta}">
+                                                                </h:outputText>
                                                             </td>
                                                             <td>
-                                                                <h:outputLabel value="#{lote.total}">
+                                                                <h:outputText value="#{lote.total}">
                                                                     <f:converter  converterId="numberSeparationConverter"  />
-                                                                </h:outputLabel>
+                                                                </h:outputText>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
 
                                                     <tr>
                                                         <td colspan="3"></td>
-                                                        <td ><label>#{label['totalretirado']}</label></td>
-                                                        <td>
-                                                            <h:outputLabel value="#{aceptarSolicitudSalidaBonosBean.total}">
+                                                        <td style="text-align: left;"><label style="padding-left: 0px!important;">#{label['totalretirado']}</label></td>
+                                                        <td style="text-align: left;">
+                                                            <h:outputLabel style="padding-left: 0px!important;" value="#{aceptarSolicitudSalidaBonosBean.total}">
                                                                 <f:converter  converterId="numberSeparationConverter"  />
                                                             </h:outputLabel>
                                                         </td>
@@ -166,16 +166,38 @@
 
                             </div>
                             <div class="panel-footer text-right"> 
-                                <p:commandButton id="retirar" value="Confirmar el retiro" actionListener="#{aceptarSolicitudSalidaBonosBean.retirar()}" 
-                                                 ajax="false" style="margin:0" onclick="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" style="margin:0" 
+                                                 onclick="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('retirar').show();"
                                                  rendered="#{sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;) and aceptarSolicitudSalidaBonosBean.elemento.estado == 'PENDIENTE POR PROCESAR'}"/>
-                                <p:commandButton id="recojer" value="Confirmar recepci&oacute;n de bonos" actionListener="#{aceptarSolicitudSalidaBonosBean.recoger()}" 
-                                                 ajax="false" style="margin:0" onclick="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                <p:commandButton id="btnconfirmr" value="#{label['Confirmar']}" style="margin:0" 
+                                                 onclick="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('recibir').show();"
                                                  rendered="#{sessionBean.perfilViewMatch(&quot;Verbonosporverificar&quot;) and aceptarSolicitudSalidaBonosBean.elemento.estado == 'BONOS LISTOS PARA SER DILIGENCIADOS'}"/>
+                                <p:commandButton  actionListener="#{aceptarSolicitudSalidaBonosBean.volver()}" value="Volver" onclick="PF('ajaxWaitingDialog').show();"> </p:commandButton>
+
                             </div>
                         </div>
                     </h:form>
 
+                    <h:form >
+                        <p:confirmDialog id="retirar" message="¿Está seguro que desea confirmar el retiro de bonos de juego?"  
+                                         header="Confirmar" severity="alert" widgetVar="retirar" closable="false">  
+
+                            <p:commandButton id="confirmr" value="Si" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('retirar').hide()"  
+                                             action="#{aceptarSolicitudSalidaBonosBean.retirar()}"/>  
+                            <p:commandButton id="decliner" value="No" onclick="PF('confirmacion').hide()" type="button" />   
+
+                        </p:confirmDialog> 
+                    </h:form>
+                    <h:form >
+                        <p:confirmDialog id="recibir" message="¿Está seguro que desea confirmar recepci&oacute;n de bonos de juego?"  
+                                         header="Confirmar" severity="alert" widgetVar="recibir" closable="false">  
+
+                            <p:commandButton id="confirm" value="Si" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('recibir').hide()"  
+                                             action="#{aceptarSolicitudSalidaBonosBean.recoger()}"/>  
+                            <p:commandButton id="decline" value="No" onclick="PF('confirmacion').hide()" type="button" />   
+
+                        </p:confirmDialog> 
+                    </h:form>
                 </div>
             </div>
         </div>

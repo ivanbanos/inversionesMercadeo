@@ -44,12 +44,7 @@ public class ListaRequerimientoLotes implements Serializable {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("requisiciones");
-        if (!sessionBean.perfilViewMatch("verRequerimiento")) {
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
-            } catch (IOException ex) {
-            }
-        }
+        
         lista = sessionBean.marketingUserFacade.getRequeriemntosLotes();
         elemento = new Solicitudentregalotesmaestro();
         sessionBean.printMensajes();

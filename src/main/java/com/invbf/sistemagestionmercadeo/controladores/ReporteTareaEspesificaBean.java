@@ -21,7 +21,8 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class ReporteTareaEspesificaBean implements Serializable{
+public class ReporteTareaEspesificaBean implements Serializable {
+
     private Tarea elemento;
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -30,7 +31,7 @@ public class ReporteTareaEspesificaBean implements Serializable{
     private List<AccionConteo> hostessConteo;
     private long totalClientes;
     private long totalRevisados;
-
+    
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
     }
@@ -40,7 +41,7 @@ public class ReporteTareaEspesificaBean implements Serializable{
      */
     public ReporteTareaEspesificaBean() {
     }
-
+    
     @PostConstruct
     public void init() {
         sessionBean.checkUsuarioConectado();
@@ -52,8 +53,8 @@ public class ReporteTareaEspesificaBean implements Serializable{
             } catch (IOException ex) {
             }
         }
-
-        if (sessionBean.getAttributes("idTarea")==null) {
+        
+        if (sessionBean.getAttributes("idTarea") == null) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("ReporteTareas.xhtml");
             } catch (IOException ex) {
@@ -84,60 +85,70 @@ public class ReporteTareaEspesificaBean implements Serializable{
                 } else {
                     accionesConteo.add(new AccionConteo(lct.getIdAccion().getNombre(), 1));
                 }
+                
                 if (hostessConteo.contains(new AccionConteo(lct.getUsuario().getNombreUsuario(), 0))) {
                     AccionConteo ac = hostessConteo.get(hostessConteo.indexOf(new AccionConteo(lct.getUsuario().getNombreUsuario(), 0)));
                     ac.setCantidad(ac.getCantidad() + 1);
                 } else {
                     hostessConteo.add(new AccionConteo(lct.getUsuario().getNombreUsuario(), 1));
                 }
+                
+                if (elemento.getTipo().getNombre().equals("EMAILL")) {
+                    if (hostessConteo.contains(new AccionConteo(lct.getUsuario().getNombreUsuario(), 0))) {
+                        AccionConteo ac = hostessConteo.get(hostessConteo.indexOf(new AccionConteo(lct.getUsuario().getNombreUsuario(), 0)));
+                        ac.setCantidad(ac.getCantidad() + 1);
+                    } else {
+                        hostessConteo.add(new AccionConteo(lct.getUsuario().getNombreUsuario(), 1));
+                    }
+                }
             }
         }
     }
-
+    
     public Tarea getElemento() {
         return elemento;
     }
-
+    
     public void setElemento(Tarea elemento) {
         this.elemento = elemento;
     }
-
+    
     public List<String> getAcciones() {
         return acciones;
     }
-
+    
     public void setAcciones(List<String> acciones) {
         this.acciones = acciones;
     }
-
+    
     public List<AccionConteo> getAccionesConteo() {
         return accionesConteo;
     }
-
+    
     public void setAccionesConteo(List<AccionConteo> accionesConteo) {
         this.accionesConteo = accionesConteo;
     }
-
+    
     public List<AccionConteo> getHostessConteo() {
         return hostessConteo;
     }
-
+    
     public void setHostessConteo(List<AccionConteo> hostessConteo) {
         this.hostessConteo = hostessConteo;
     }
-
+    
     public long getTotalClientes() {
         return totalClientes;
     }
-
+    
     public void setTotalClientes(long totalClientes) {
         this.totalClientes = totalClientes;
     }
-
+    
     public long getTotalRevisados() {
         return totalRevisados;
     }
-
+    
     public void setTotalRevisados(long totalRevisados) {
         this.totalRevisados = totalRevisados;
     }

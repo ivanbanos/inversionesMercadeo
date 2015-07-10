@@ -47,12 +47,15 @@ public class ClientesActBean implements Serializable {
     private List<Categoria> listacategorias;
     private List<Tipodocumento> tipoDocumentos;
     private String observaciones;
-    private int anio;
 
     private List<Integer> annos;
 
     private Integer dia;
     private Integer mes;
+    private int anio;
+    private Integer diav;
+    private Integer mesv;
+    private int aniov;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -132,6 +135,9 @@ public class ClientesActBean implements Serializable {
             dia = c.get(Calendar.DAY_OF_MONTH);
             mes = c.get(Calendar.MONTH);
             anio = c.get(Calendar.YEAR);
+            diav = c.get(Calendar.DAY_OF_MONTH);
+            mesv = c.get(Calendar.MONTH);
+            aniov = c.get(Calendar.YEAR);
         } else {
             mes = 12;
         }
@@ -181,6 +187,8 @@ public class ClientesActBean implements Serializable {
                         break guardar;
                     }
                 }
+
+                elemento.setTipojuegoList(tiposJuegosTodos.getTarget());
                 if (mes != 12 && dia != 0) {
                     Calendar cumple = Calendar.getInstance();
                     cumple.set(Calendar.MONTH, mes);
@@ -189,17 +197,96 @@ public class ClientesActBean implements Serializable {
                     elemento.setCumpleanos(cumple.getTime());
                 }
 
-                elemento.setTipojuegoList(tiposJuegosTodos.getTarget());
-                List<Clienteatributo> clienteatributos = elemento.getClienteatributoList();
-                elemento.setClienteatributoList(new ArrayList<Clienteatributo>());
-
-                sessionBean.marketingUserFacade.guardarClientes(elemento);
-                FacesUtil.addInfoMessage("Cliente creado con exito!", "");
-                sessionBean.registrarlog("actualizar", "Clientes", "Cliente creado: " + elemento.toString());
                 if (elemento.getIdCliente() == null || elemento.getIdCliente() == 0) {
+
+                    List<Clienteatributo> clienteatributos = elemento.getClienteatributoList();
+                    elemento.setClienteatributoList(new ArrayList<Clienteatributo>());
+                    sessionBean.marketingUserFacade.guardarClientes(elemento);
+                    FacesUtil.addInfoMessage("Cliente creado con exito!", "");
+                    sessionBean.registrarlog("actualizar", "Clientes", "Cliente creado: " + elemento.toString());
                     sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Cliente creado con exito", ""));
-                }else{
-                    sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Cliente editado con exito", ""));}
+                } else {
+                    if (sessionBean.perfilViewMatch("notificaciones")) {
+                        sessionBean.marketingUserFacade.guardarClientes(elemento);
+                        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Cliente actualizado con exito", ""));
+                    } else {
+                        String body = "<div><Label>El usuario "+sessionBean.getUsuario().getNombre()+" solicit&oacute; un cambio en un perfil de un cliente.</label><br /></div> ";
+
+                        body += "<div><Label>Cliente:</label><br /></div>";
+                        body += "<div><Label>Nombres: </label> " + elemento.getNombres() + "</div>";
+                        body += "<div><Label>Apellidos: </label>  " + elemento.getApellidos() + "</div>";
+                        body += "<div><Label>Sala: </label>  " + elemento.getIdCasinoPreferencial().getNombre()+ "</div>";
+
+                        body += "<div><Label>Cambios:</label><br /></div>";
+                        body += "<div><br /><table border=\"1\" style=\"width:100%\"><tr>"
+                                + "<th>Campo</th>"
+                                + "<th>Valor anterior</th>"
+                                + "<th>Valor actualizado</th>"
+                                + "</tr>";
+                        boolean hubocambioImportante = false;
+                        if (elemento.getIdCategorias() != null && !elemento.getIdCategorias().equals(viejo.getIdCategorias())) {
+                            elemento.setIdCategorias(sessionBean.marketingUserFacade.findCategoria(elemento.getIdCategorias().getIdCategorias()));
+                            sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "CATEGORIA", elemento.getIdCategorias().getIdCategorias().toString(), elemento.getIdCategorias().getNombre(), viejo.getIdCategorias() == null ? "" : viejo.getIdCategorias().getIdCategorias().toString(), viejo.getIdCategorias() == null ? "" : viejo.getIdCategorias().getNombre(), observaciones, sessionBean.getUsuario()));
+                            body += "<tr>";
+                            body += "<td align=\"center\">Categor&iacute;a</td>";
+                            body += "<td align=\"center\">" + viejo.getIdCategorias().getNombre() + "</td>";
+                            body += "<td align=\"center\">" + elemento.getIdCategorias().getNombre() + "</td></tr>";
+                            elemento.setIdCategorias(viejo.getIdCategorias());
+                            hubocambioImportante = true;
+                        }
+                        if (!elemento.getTelefono1().equals(viejo.getTelefono1())) {
+                            sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "TELEFONO 1", elemento.getTelefono1(), elemento.getTelefono1(), viejo.getTelefono1(), viejo.getTelefono1(), observaciones, sessionBean.getUsuario()));
+                            body += "<tr>";
+                            body += "<td align=\"center\">Tel&eacute;fono 1</td>";
+                            body += "<td align=\"center\">" + viejo.getTelefono1() + "</td>";
+                            body += "<td align=\"center\">" + elemento.getTelefono1() + "</td></tr>";
+                            elemento.setTelefono1(viejo.getTelefono1());
+                            hubocambioImportante = true;
+                        }
+                        if (!elemento.getTelefono2().equals(viejo.getTelefono2())) {
+                            sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "TELEFONO 2", elemento.getTelefono2(), elemento.getTelefono2(), viejo.getTelefono2(), viejo.getTelefono2(), observaciones, sessionBean.getUsuario()));
+                            body += "<tr>";
+                            body += "<td align=\"center\">Tel&eacute;fono 2</td>";
+                            body += "<td align=\"center\">" + viejo.getTelefono2() + "</td>";
+                            body += "<td align=\"center\">" + elemento.getTelefono2() + "</td></tr>";
+                            elemento.setTelefono2(viejo.getTelefono2());
+                            hubocambioImportante = true;
+                        }
+                        if (!elemento.getCorreo().equals(viejo.getCorreo())) {
+                            sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "CORREO", elemento.getCorreo(), elemento.getCorreo(), viejo.getCorreo(), viejo.getCorreo(), observaciones, sessionBean.getUsuario()));
+                            body += "<tr>";
+                            body += "<td align=\"center\">Correo</td>";
+                            body += "<td align=\"center\">" + viejo.getCorreo() + "</td>";
+                            body += "<td align=\"center\">" + elemento.getCorreo() + "</td></tr>";
+                            elemento.setCorreo(viejo.getCorreo());
+                            hubocambioImportante = true;
+                        }
+
+                        if (!elemento.getBonoFidelizacion().equals(viejo.getBonoFidelizacion())) {
+                            sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR", elemento.getIdCliente().toString(), "CLIENTE", "CUPO DE FIDELIZACION", elemento.getBonoFidelizacion(), elemento.getBonoFidelizacion(), viejo.getBonoFidelizacion(), viejo.getBonoFidelizacion(), observaciones, sessionBean.getUsuario()));
+                            body += "<tr>";
+                            body += "<td align=\"center\">Cupo de fidelizaci&oacute;n</td>";
+                            body += "<td align=\"center\">" + viejo.getBonoFidelizacion() + "</td>";
+                            body += "<td align=\"center\">" + elemento.getBonoFidelizacion() + "</td></tr>";
+                            elemento.setBonoFidelizacion(viejo.getBonoFidelizacion());
+                            hubocambioImportante = true;
+                        }
+                        body += "</table><br /></div>";
+
+                        body += "<div><span style=\"font-weight:bold\">Justificaci&oacute;n del cambio:</span><br /></div>";
+                        body += "<div><Label>"+observaciones+".</label><br /></div>";
+                        body += "<div><br /><Label>Favor revisar la lista de cambios en clientes.</label><br /></div>";
+                        sessionBean.marketingUserFacade.guardarClientes(elemento);
+                        if (hubocambioImportante) {
+                            Notificador.notificar(Notificador.SOLICITUD_CAMBIO_CLIENTE,
+                                    body,
+                                    "Cambio en cliente", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Actualización enviada", "Pendiente por aprobación"));
+                        } else {
+                            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Cliente actualizado con exito", ""));
+                        }
+                    }
+                }
                 FacesContext.getCurrentInstance().getExternalContext().redirect("Reporteclientes.xhtml");
 
             } catch (IOException ex) {

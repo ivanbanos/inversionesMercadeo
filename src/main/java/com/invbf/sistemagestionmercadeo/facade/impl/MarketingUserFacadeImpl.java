@@ -44,6 +44,7 @@ import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonos;
 import com.invbf.sistemagestionmercadeo.entity.Denominacion;
 import com.invbf.sistemagestionmercadeo.entity.Evento;
 import com.invbf.sistemagestionmercadeo.entity.Listasclientestareas;
+import com.invbf.sistemagestionmercadeo.entity.ListasclientestareasPK;
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentrega;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregacliente;
@@ -440,33 +441,27 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
 
     @Override
     public Tarea guardarTarea(Tarea elemento) {
-        if (elemento.getIdTarea() == null) {
-            for (int i = 0; i < elemento.getUsuarioList().size(); i++) {
-                Usuario u = UsuarioDao.find(elemento.getUsuarioList().get(i).getIdUsuario());
-                elemento.getUsuarioList().remove(i);
-                if (u.getTareaList() == null) {
-                    u.setTareaList(new ArrayList<Tarea>());
-                }
-                u.getTareaList().add(elemento);
-                elemento.getUsuarioList().add(i, u);
-                UsuarioDao.edit(u);
-            }
-            TareasDao.create(elemento);
-            return elemento;
-        } else {
-            for (int i = 0; i < elemento.getUsuarioList().size(); i++) {
-                Usuario u = UsuarioDao.find(elemento.getUsuarioList().get(i).getIdUsuario());
-                elemento.getUsuarioList().remove(i);
-                if (u.getTareaList() == null) {
-                    u.setTareaList(new ArrayList<Tarea>());
-                }
-                u.getTareaList().add(elemento);
-                elemento.getUsuarioList().add(i, u);
-                UsuarioDao.edit(u);
-            }
-            TareasDao.edit(elemento);
-            return elemento;
+        List<Listasclientestareas> lcts = elemento.getListasclientestareasList();
+
+        elemento.setListasclientestareasList(null);
+        elemento = TareasDao.create(elemento);
+        System.out.println(elemento == null);
+        for (Listasclientestareas lct : lcts) {
+            lct.setListasclientestareasPK(new ListasclientestareasPK(elemento.getIdTarea(), lct.getCliente().getIdCliente()));
         }
+        elemento.setListasclientestareasList(lcts);
+        for (int i = 0; i < elemento.getUsuarioList().size(); i++) {
+            Usuario u = UsuarioDao.find(elemento.getUsuarioList().get(i).getIdUsuario());
+            elemento.getUsuarioList().remove(i);
+            if (u.getTareaList() == null) {
+                u.setTareaList(new ArrayList<Tarea>());
+            }
+            u.getTareaList().add(elemento);
+            elemento.getUsuarioList().add(i, u);
+            UsuarioDao.edit(u);
+        }
+        TareasDao.edit(elemento);
+        return elemento;
     }
 
     @Override
@@ -869,7 +864,8 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
         elemento.setControlsalidabonosHasLotesbonosList(null);
         elemento = ControlsalidabonosDao.edit(elemento);
         elemento.setControlsalidabonosHasLotesbonosList(csbhlb);
-        ControlsalidabonosDao.finish(elemento);
+        System.out.println(elemento.getId());
+        elemento = ControlsalidabonosDao.finish(elemento);
 
         if (enviar) {
             String cuerpo = "Orden de salida de bonos con número de acta" + elemento.getId() + " aceptada.";
@@ -922,12 +918,15 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     public void saveBonos(Controlsalidabono elemento, Integer idUsuario) {
         List<Bono> bonos = elemento.getBonoList();
         for (Bono bono : bonos) {
-            if (bono.getTipo().getNombre().equals("PROMOCIONAL")) {
+            if (bono.getTipo().getNombre().equals("PROMOCIONAL") || bono.getCliente() == null || bono.getCliente().getIdCliente() == null) {
                 bono.setCliente(null);
             }
-            BonoDao.edit(bono);
+            if (bono.getEstado().equals("ANULADO")) {
+                BonoDao.edit(bono);
+            }
         }
-        ControlsalidabonosDao.edit(elemento);
+        elemento.setBonoList(bonos);
+        ControlsalidabonosDao.editwb(elemento);
     }
 
     @Override
@@ -971,8 +970,8 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     }
 
     @Override
-    public List<Cliente> findAllClientesCasinos(Casino idCasino, String nombre, String apellidos, String ident, Tipodocumento tipodocumento) {
-        return ClienteDao.findByIdCasino(idCasino.getIdCasino(), nombre, apellidos, ident, tipodocumento);
+    public List<Cliente> findAllClientesCasinos(Casino idCasino, String nombre, String apellidos, String ident, Tipodocumento tipodocumento, String sexo) {
+        return ClienteDao.findByIdCasino(idCasino.getIdCasino(), nombre, apellidos, ident, tipodocumento, sexo);
     }
 
     @Override
@@ -1049,7 +1048,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
 
     @Override
     public List<Solicitudentrega> getAllSolicitudentregaSolicitanteEstado(Integer idUsuario, String bonos_vencidos_pendiente_por_generar_repo) {
-        return SolicitudEntregaDao.findByIdCreadorEstado(idUsuario , bonos_vencidos_pendiente_por_generar_repo);
+        return SolicitudEntregaDao.findByIdCreadorEstado(idUsuario, bonos_vencidos_pendiente_por_generar_repo);
     }
 
     @Override
@@ -1061,8 +1060,8 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     }
 
     @Override
-    public List<Bono> getBonosporCasinoPropositoTipoFecha(List<CasinoBoolean> casinos, List<PropositosBoolean> propositos, List<TipoBonoBoolean> tipos, Integer ano, Integer mes) {
-        return BonoDao.getBonosporCasinoPropositoTipoFecha(casinos, propositos, tipos, ano, mes);
+    public List<Bono> getBonosporCasinoPropositoTipoFecha(List<CasinoBoolean> casinos, List<PropositosBoolean> propositos, List<TipoBonoBoolean> tipos, Integer ano, Integer mes, Integer anodesde, Integer mesdesde) {
+        return BonoDao.getBonosporCasinoPropositoTipoFecha(casinos, propositos, tipos, ano, mes, anodesde, mesdesde);
     }
 
     @Override
@@ -1078,5 +1077,26 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     @Override
     public List<Solicitudentrega> getAllSolicitudentregaVENC() {
         return SolicitudEntregaDao.findByVenc();
+    }
+
+    @Override
+    public List<Solicitudentrega> getAllSolicitudentregaCasino(Usuario usuario) {
+        return SolicitudEntregaDao.findByCasinoUsuario(usuario);
+    }
+
+    @Override
+    public void cambiarFechaSolicitud(Solicitudentrega solicitudentrega) {
+        for (Controlsalidabono col : solicitudentrega.getControlsalidabonoList()) {
+            col.setFechavencimientobonos(solicitudentrega.getFechavencimientobonos());
+            for (Bono bono : col.getBonoList()) {
+                bono.setFechaExpiracion(solicitudentrega.getFechavencimientobonos());
+            }
+        }
+        SolicitudEntregaDao.edit(solicitudentrega);
+    }
+
+    @Override
+    public void rechazar(Solicitudentrega elemento) {
+        SolicitudEntregaDao.remove(elemento);
     }
 }

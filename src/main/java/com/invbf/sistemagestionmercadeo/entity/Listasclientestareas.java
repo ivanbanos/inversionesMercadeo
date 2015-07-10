@@ -33,12 +33,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Listasclientestareas.findByIdCliente", query = "SELECT l FROM Listasclientestareas l WHERE l.listasclientestareasPK.idCliente = :idCliente"),
     @NamedQuery(name = "Listasclientestareas.findByObservaciones", query = "SELECT l FROM Listasclientestareas l WHERE l.observaciones = :observaciones"),
     @NamedQuery(name = "Listasclientestareas.findByFechaAtencion", query = "SELECT l FROM Listasclientestareas l WHERE l.fechaAtencion = :fechaAtencion"),
+    @NamedQuery(name = "Listasclientestareas.findByIdTareaInicial", query = "SELECT l FROM Listasclientestareas l WHERE l.listasclientestareasPK.idTarea = :idTarea AND l.idAccion.nombre = 'INICIAL' ORDER BY l.count ASC"),
     @NamedQuery(name = "Listasclientestareas.findByCount", query = "SELECT l FROM Listasclientestareas l WHERE l.count = :count")})
 public class Listasclientestareas implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ListasclientestareasPK listasclientestareasPK;
-    @Size(max = 45)
+    @Size(max = 500)
     @Column(name = "Observaciones")
     private String observaciones;
     @Column(name = "fechaAtencion")

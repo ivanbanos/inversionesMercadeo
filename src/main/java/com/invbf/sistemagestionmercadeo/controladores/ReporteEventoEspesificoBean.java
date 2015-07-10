@@ -73,11 +73,7 @@ public class ReporteEventoEspesificoBean implements Serializable{
             }
         }
         elemento = sessionBean.marketingUserFacade.findEvento((Integer) sessionBean.getAttributes("idEvento"));
-        for (Tarea t : elemento.getTareaList()) {
-            if (!t.getEstado().equals("VENCIDO")) {
-                sessionBean.checkEstadoTarea(t);
-            }
-        }
+        sessionBean.checkEstadoTarea();
         clienteses = sessionBean.marketingUserFacade.findAllClientes();
         usuarioses = sessionBean.adminFacade.findAllUsuariosHostess();
         clientesesEvento = new ArrayList<Cliente>();

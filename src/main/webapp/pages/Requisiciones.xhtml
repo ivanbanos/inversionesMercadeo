@@ -21,37 +21,44 @@
         <div class="container">
             <div class="row clearfix">
                 <h:form>
-                    <c:if test="#{sessionBean.perfilViewMatch(&quot;verRequerimiento&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;requerimientosLotes&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
-                            <br/>Requerimientos de producci&oacute;n de Lote</h:commandLink>
-                    </c:if>
-                    
-                    <c:if test="#{sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;listasolicitudlotes&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-truck fa-5x"></i> 
-                            <br/>Entrada de Lote a Inventario</h:commandLink>
-                    </c:if>
 
-                    <c:if test="#{sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;)
-                                  or sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;)
-                                  or sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;solicitudesbonos&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-edit fa-5x"></i> 
-                            <br/>#{label['solicitudesbonos']}</h:commandLink>
-                    </c:if>
-                    
-                    <c:if test="#{sessionBean.perfilViewMatch(&quot;Controlsalidabonos&quot;)
-                                  or sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;)
-                                  or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)
-                                  or sessionBean.perfilViewMatch(&quot;Verificarbono&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;ControlSalidaBono&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-sign-out fa-5x"></i> 
-                            <br/>Ordenes de retiro de bonos de inventario</h:commandLink>
-                    </c:if>
-                    <c:if test="#{sessionBean.perfilViewMatch(&quot;Verbonosporcanjear&quot;)
-                                  or sessionBean.perfilViewMatch(&quot;VerbonosporValidar&quot;)
-                                  or sessionBean.perfilViewMatch(&quot;VerbonosporAutorizar&quot;)}">
-                        <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporcanjear&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-exchange fa-5x"></i> 
-                            <br/>Canje de bonos</h:commandLink>
-                    </c:if>
+                    <div class="col-xs-12 col-md-12 panel-body panel-bodyindex">
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;verRequerimiento&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;requerimientosLotes&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
+                                <br/>Requerimientos de producci&oacute;n <br/>de Lote</h:commandLink>
+                        </c:if>
 
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;listasolicitudlotes&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-truck fa-5x"></i> 
+                                <br/>Ordenes de ingreso de lote <br/>de bonos</h:commandLink>
+                        </c:if>
+
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;vistaSolicitudesCasino&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;solicitudesbonos&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-edit fa-5x"></i> 
+                                <br/>#{label['solicitudesbonos']}<br/><br/></h:commandLink>
+                        </c:if>
+
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;Controlsalidabonos&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;ActSolicitudSalida&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;AceptarSolicitudSalida&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;Verificarbono&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;ControlSalidaBono&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-sign-out fa-5x"></i> 
+                                <br/>Ordenes de retiro de bonos<br/> de inventario</h:commandLink>
+                        </c:if>
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;Canjearbono&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporcanjear&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-exchange fa-5x"></i> 
+                                <br/>Canje de bonos<br/><br/></h:commandLink>
+                        </c:if>
+
+
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;LoteBono&quot;)}">
+                            <h:link outcome="/pages/Inventario.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-briefcase fa-5x"></i> 
+                                <br/>#{label['inventario']}<br/><br/></h:link>
+                        </c:if>
+                    </div>
                 </h:form>
             </div>
         </div>

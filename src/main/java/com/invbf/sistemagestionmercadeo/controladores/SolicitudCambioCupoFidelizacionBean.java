@@ -87,7 +87,7 @@ public class SolicitudCambioCupoFidelizacionBean implements Serializable{
         sessionBean.managerUserFacade.addPermiso(new Permiso("EDITAR",
                 elemento.getIdCliente().toString(), "CLIENTE",
                 "bonoFidelizacion", elemento.getBonoFidelizacion(),
-                elemento.getBonoFidelizacion(), viejo, viejo, observaciones));
+                elemento.getBonoFidelizacion(), viejo, viejo, observaciones,sessionBean.getUsuario()));
         Notificador.notificar(Notificador.SOLICITUD_CAMBIO_CLIENTE, "Se pidió un cambio en el cupo de fidelización del cliente "+elemento.getNombres()+" "+elemento.getApellidos()+". Favor revisar la pagina de cambios en usuario.",
                 "Cambio en cliente", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
     }

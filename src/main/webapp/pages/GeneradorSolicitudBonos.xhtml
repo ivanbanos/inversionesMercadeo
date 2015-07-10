@@ -30,7 +30,7 @@
                     <div class="panel-body">
 
 
-                        <p:wizard flowListener="#{generadorSolicitudBonos.onFlowProcess}" backLabel="Atrás" nextLabel="Siguiente" >
+                        <p:wizard flowListener="#{generadorSolicitudBonos.onFlowProcess}" backLabel="Atrás" nextLabel="Siguiente"  >
 
                             <p:tab id="general" title="Datos generales">
                                 <div class="container">
@@ -55,7 +55,7 @@
                                         <div class="row">
                                             <div class="control-group">
                                                 <div class="form-group">
-                                                    <label class="col-md-2 control-label" >#{label['casinos']}</label>
+                                                    <label class="col-md-2 control-label" >Sala</label>
                                                     <div class="col-md-4">
                                                         <p:selectOneMenu id="casinos" value="#{generadorSolicitudBonos.elemento.idCasino.idCasino}"  required="true">
                                                             <f:selectItem itemLabel="Selecciona Uno" itemValue="" />
@@ -110,7 +110,6 @@
 
                                                     <p:dataTable id="clienteTable" value="#{generadorSolicitudBonos.clientes}" var="cli" 
                                                                  emptyMessage="#{label['lb_table.noelementos']}" 
-                                                                 rows="#{sessionBean.paginacion}"
                                                                  filteredValue="#{generadorSolicitudBonos.clientesFiltered}"
                                                                  rowIndexVar="table">
                                                         <f:facet name="header">
@@ -120,15 +119,32 @@
                                                             <p:row>
                                                                 <p:column width="5%" rowspan="2" headerText="Item" />
                                                                 <p:column rowspan="2" headerText="Nombre" />
-                                                                <p:column rowspan="2" headerText="Cupo de Fidelizaci&oacute;n" />
+                                                                <p:column width="8%" rowspan="2" headerText="Cupo de Fidelizaci&oacute;n" />
                                                                 <p:column rowspan="2" headerText="Valor Solicitado" />
                                                                 <p:column rowspan="2" headerText="Denominaci&oacute;n solicitada" />
-                                                                <p:column width="30%"  colspan="3" headerText="Valores otorgados en los ultimos 3 meses" />
+                                                                <p:column width="24%"  colspan="3" headerText="Valores otorgados en los ultimos 3 meses" />
                                                             </p:row>
                                                             <p:row>
-                                                                <p:column headerText="1" />
-                                                                <p:column headerText="2" />
-                                                                <p:column headerText="3" />
+                                                                <p:column style="text-align: center;">
+                                                                    <f:facet name="header">
+                                                                        <h:outputText value="#{generadorSolicitudBonos.tresmeses}">
+                                                                            <f:convertDateTime pattern="MMMM/yyyy" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                        </h:outputText>
+                                                                    </f:facet>
+                                                                </p:column>
+                                                                <p:column style="text-align: center;">
+                                                                    <f:facet name="header">
+                                                                        <h:outputText value="#{generadorSolicitudBonos.dosmeses}">
+                                                                            <f:convertDateTime pattern="MMMM/yyyy" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                        </h:outputText>
+                                                                    </f:facet></p:column>
+                                                                <p:column style="text-align: center;">
+                                                                    <f:facet name="header">
+                                                                        <h:outputText value="#{generadorSolicitudBonos.unmes}">
+                                                                            <f:convertDateTime pattern="MMMM/yyyy" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                        </h:outputText>
+                                                                    </f:facet>
+                                                                </p:column>
                                                             </p:row>
                                                         </p:columnGroup>
                                                         <p:column style="text-align: center;" width="5%">
@@ -143,7 +159,7 @@
                                                             </f:facet>
                                                             <label>#{cli.clientessgb.nombres} #{cli.clientessgb.apellidos}</label>
                                                         </p:column>
-                                                        <p:column style="text-align: center;" width="10%">
+                                                        <p:column style="text-align: center;" width="8%">
                                                             <f:facet name="header">
                                                                 <h:outputText value="Cupo fidelizaci&oacute;n" />
                                                             </f:facet>
@@ -178,35 +194,49 @@
                                                             </p:selectOneMenu>
                                                         </p:column>
 
-                                                        <p:column width="10%" style="text-align: center;">
+                                                        <p:column width="8%" style="text-align: center;">
                                                             <f:facet name="header">
                                                                 <h:outputText value="aprobado 3er mes" />
                                                             </f:facet>
                                                             <h:outputLabel value="#{cli.trasultimaSol}">
                                                                 <f:converter  converterId="numberSeparationConverter"  />
-                                                            </h:outputLabel>
+                                                            </h:outputLabel><f:facet name="footer">
+
+                                                                <h:outputLabel value="#{generadorSolicitudBonos.totalMes3}">
+                                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                                </h:outputLabel>
+                                                            </f:facet>
                                                         </p:column>
 
-                                                        <p:column width="10%" style="text-align: center;">
+                                                        <p:column width="8%" style="text-align: center;">
                                                             <f:facet name="header">
                                                                 <h:outputText value="aprobado 2de mes" />
                                                             </f:facet>
                                                             <h:outputLabel value="#{cli.penultimaSol}">
                                                                 <f:converter  converterId="numberSeparationConverter"  />
-                                                            </h:outputLabel>
+                                                            </h:outputLabel><f:facet name="footer">
+
+                                                                <h:outputLabel value="#{generadorSolicitudBonos.totalMes2}">
+                                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                                </h:outputLabel>
+                                                            </f:facet>
                                                         </p:column>
 
-                                                        <p:column width="10%" style="text-align: center;">
+                                                        <p:column width="8%" style="text-align: center;">
                                                             <f:facet name="header">
                                                                 <h:outputText value="aprobado 1er mes" />
                                                             </f:facet>
                                                             <h:outputLabel value="#{cli.ultimaSol}">
                                                                 <f:converter  converterId="numberSeparationConverter"  />
                                                             </h:outputLabel>
-                                                        </p:column>
-                                                        <f:facet name="footer">
 
-                                                        </f:facet>
+                                                            <f:facet name="footer">
+
+                                                                <h:outputLabel value="#{generadorSolicitudBonos.totalMes1}">
+                                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                                </h:outputLabel>
+                                                            </f:facet>
+                                                        </p:column>
                                                     </p:dataTable>
 
 
@@ -282,7 +312,7 @@
                                                     <div class="col-md-7">
                                                         <div class="row" ><label>Justificaci&oacute;n:</label></div>
                                                         <div class="row">
-                                                            <h:inputTextarea id="just1" value="#{clientesBlancos.clienteblanco.justificacion}" style="height: 150px;width: 90%;" class="form-control"/>
+                                                            <h:inputTextarea id="just1" value="#{clientesBlancos.clienteblanco.justificacion}" style="height: 150px;width: 90%;" class="form-control" required="true" requiredMessage="Debe colocar una justificaci&oacute;n"/>
                                                         </div>
                                                     </div>
 
@@ -332,7 +362,7 @@
                                         <div class="form-group">
                                             <label class="col-md-3 control-label" >#{label['justificacion']}</label>
                                             <div class="col-md-9">
-                                                <h:inputTextarea id="just2" value="#{generadorSolicitudBonos.elemento.justificacion}" class="form-control"/>
+                                                <h:inputTextarea id="just2" value="#{generadorSolicitudBonos.elemento.justificacion}" class="form-control" required="true" requiredMessage="Debe colocar una justificaci&oacute;n"/>
                                             </div>
                                         </div>
                                     </div>
@@ -379,7 +409,7 @@
                                         <div class="row">
                                             <div class="control-group">
                                                 <div class="form-group">
-                                                    <label class="col-md-2 control-label" >Casino:</label>
+                                                    <label class="col-md-2 control-label" >Sala:</label>
                                                     <div class="col-md-4">
                                                         <h:outputText id="cas" value="#{generadorSolicitudBonos.elemento.idCasino.nombre}"/>
                                                     </div>
@@ -461,7 +491,6 @@
 
                                                                         <p:dataTable id="clienteTabletableResumn" value="#{generadorSolicitudBonos.clientes}" var="cli" 
                                                                                      emptyMessage="#{label['lb_table.noelementos']}" 
-                                                                                     rows="#{sessionBean.paginacion}"
                                                                                      filteredValue="#{generadorSolicitudBonos.clientesFiltered}"
                                                                                      rowIndexVar="table">
                                                                             <f:facet name="header">
@@ -473,12 +502,29 @@
                                                                                     <p:column rowspan="2" headerText="Nombre" style="text-align: center;"/>
                                                                                     <p:column rowspan="2" headerText="Cupo de Fidelizaci&oacute;n" style="text-align: center;" />
                                                                                     <p:column rowspan="2" headerText="Valor Solicitado" style="text-align: center;"/>
-                                                                                    <p:column width="30%"  colspan="3" headerText="Valores otorgados en los ultimos 3 meses" style="text-align: center;"/>
+                                                                                    <p:column width="30%"  colspan="3" headerText="Valores canjeados en los ultimos 3 meses" style="text-align: center;"/>
                                                                                 </p:row>
                                                                                 <p:row>
-                                                                                    <p:column headerText="1" style="text-align: center;"/>
-                                                                                    <p:column headerText="2" style="text-align: center;"/>
-                                                                                    <p:column headerText="3" style="text-align: center;"/>
+                                                                                    <p:column style="text-align: center;">
+                                                                                        <f:facet name="header">
+                                                                                            <h:outputText value="#{generadorSolicitudBonos.tresmeses}">
+                                                                                                <f:convertDateTime pattern="MMMM/yyyy" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                                            </h:outputText>
+                                                                                        </f:facet>
+                                                                                    </p:column>
+                                                                                    <p:column style="text-align: center;">
+                                                                                        <f:facet name="header">
+                                                                                            <h:outputText value="#{generadorSolicitudBonos.dosmeses}">
+                                                                                                <f:convertDateTime pattern="MMMM/yyyy" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                                            </h:outputText>
+                                                                                        </f:facet></p:column>
+                                                                                    <p:column style="text-align: center;">
+                                                                                        <f:facet name="header">
+                                                                                            <h:outputText value="#{generadorSolicitudBonos.unmes}">
+                                                                                                <f:convertDateTime pattern="MMMM/yyyy" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                                            </h:outputText>
+                                                                                        </f:facet>
+                                                                                    </p:column>
                                                                                 </p:row>
                                                                             </p:columnGroup>
                                                                             <p:column width="5%" style="text-align: center;">
@@ -528,6 +574,12 @@
                                                                                 <h:outputLabel value="#{cli.trasultimaSol}">
                                                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                                                 </h:outputLabel>
+                                                                                <f:facet name="footer">
+
+                                                                                    <h:outputLabel value="#{generadorSolicitudBonos.totalMes3}">
+                                                                                        <f:converter  converterId="numberSeparationConverter"  />
+                                                                                    </h:outputLabel>
+                                                                                </f:facet>
                                                                             </p:column>
 
                                                                             <p:column width="10%" style="text-align: center;">
@@ -537,6 +589,12 @@
                                                                                 <h:outputLabel value="#{cli.penultimaSol}">
                                                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                                                 </h:outputLabel>
+                                                                                <f:facet name="footer">
+
+                                                                                    <h:outputLabel value="#{generadorSolicitudBonos.totalMes2}">
+                                                                                        <f:converter  converterId="numberSeparationConverter"  />
+                                                                                    </h:outputLabel>
+                                                                                </f:facet>
                                                                             </p:column>
 
                                                                             <p:column width="10%" style="text-align: center;">
@@ -546,10 +604,13 @@
                                                                                 <h:outputLabel value="#{cli.ultimaSol}">
                                                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                                                 </h:outputLabel>
-                                                                            </p:column>
-                                                                            <f:facet name="footer">
+                                                                                <f:facet name="footer">
 
-                                                                            </f:facet>
+                                                                                    <h:outputLabel value="#{generadorSolicitudBonos.totalMes1}">
+                                                                                        <f:converter  converterId="numberSeparationConverter"  />
+                                                                                    </h:outputLabel>
+                                                                                </f:facet>
+                                                                            </p:column>
                                                                         </p:dataTable>
 
 
@@ -619,19 +680,19 @@
                                                                 <h:outputText id="totalcamg" value="#{determinar.lotesBono.denominacion.valor}">
                                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                                 </h:outputText>
-                                                                
+
                                                             </p:column>
                                                             <p:column headerText="Cantidad" >
                                                                 <p:column headerText="Cantidad">
                                                                     <h:outputText style="width: 100%;text-align: right;"  value="#{determinar.cantidad}">
 
                                                                     </h:outputText>
-                                                                   <f:facet name="footer">
+                                                                    <f:facet name="footer">
 
-                                                                    <h:outputText  value="Total">
+                                                                        <h:outputText  value="Total">
 
-                                                                    </h:outputText>
-                                                                </f:facet>
+                                                                        </h:outputText>
+                                                                    </f:facet>
                                                                 </p:column>
                                                             </p:column>
                                                             <p:column id="totalprea" headerText="Total" >
@@ -640,7 +701,7 @@
                                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                                 </h:outputText>
                                                                 <f:facet name="footer">
-                                                                    
+
                                                                     <h:outputText  value="#{clientesBlancos.total}">
 
                                                                         <f:converter  converterId="numberSeparationConverter"  />
@@ -666,8 +727,7 @@
                                         </div>
 
                                         <div class="text-right col-md-11"> 
-                                            <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" actionListener="#{generadorSolicitudBonos.guardar()}"
-                                                             ajax="false" style="margin:0" onclick="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"/>
+                                            <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" style="margin:0" onclick="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('confirmacion').show();"/>
 
 
                                         </div>
@@ -685,6 +745,16 @@
         </div>
 
 
+        <h:form >
+            <p:confirmDialog id="confirmacion" message="¿Está seguro que desea generar la solicitud de bonos de juego?"  
+                             header="Confirmar" severity="alert" widgetVar="confirmacion" closable="false">  
+
+                <p:commandButton id="confirm" value="Si" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('confirmacion').hide()"  
+                                 action="#{generadorSolicitudBonos.guardar()}"/>  
+                <p:commandButton id="decline" value="No" onclick="PF('confirmacion').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
 
 
         <h:form >
@@ -749,7 +819,7 @@
 
 
         <h:form >
-            <p:dialog id="buscarCliente" header="Agregar Cliente" widgetVar="buscarCliente" modal="true" resizable="false" >
+            <p:dialog id="buscarCliente" header="Agregar Cliente" widgetVar="buscarCliente" draggable="false" position="0" height="95%" width="95%" modal="true" resizable="false" minimizable="true" maximizable="true" >
                 <div class="panel panel-primary">
 
                     <div class="panel-body">
@@ -782,6 +852,30 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="control-group">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" >Mes de cumplea&ntilde;os:</label>
+                                        <div class="col-md-8">
+                                            <p:selectOneMenu id="mes" value="#{generadorSolicitudBonos.mespumpe}" >
+                                                <f:selectItem itemLabel="Mes" itemValue="12" />  
+                                                <f:selectItem itemLabel="Enero" itemValue="0" />    
+                                                <f:selectItem itemLabel="Febrero" itemValue="1" />    
+                                                <f:selectItem itemLabel="Marzo" itemValue="2" />    
+                                                <f:selectItem itemLabel="Abril" itemValue="3" />    
+                                                <f:selectItem itemLabel="Mayo" itemValue="4" />    
+                                                <f:selectItem itemLabel="Junio" itemValue="5" />    
+                                                <f:selectItem itemLabel="Julio" itemValue="6" />    
+                                                <f:selectItem itemLabel="Agosto" itemValue="7" />    
+                                                <f:selectItem itemLabel="Septiembre" itemValue="8" />    
+                                                <f:selectItem itemLabel="Octubre" itemValue="9" />    
+                                                <f:selectItem itemLabel="Noviembre" itemValue="10" />    
+                                                <f:selectItem itemLabel="Diciembre" itemValue="11" />  
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <p:commandButton id="addButton" icon="ui-icon-search" value="#{label['lb_btn.Buscar']}" onstart="PF('ajaxWaitingDialog').show();"
                                                      title="#{label['lb_btn.Go']}" action="#{generadorSolicitudBonos.BuscarClientes()}"
@@ -793,10 +887,12 @@
 
                                     <div class="container">
                                         <div class="row" style="text-align: center;">
-                                            <p:dataTable id="clientesMatch" value="#{generadorSolicitudBonos.clientesBuscados}" var="client" rowIndexVar="status"
-                                                         emptyMessage="#{label['lb_table.noelementos']}" widgetVar="client"  >
+                                            <p:dataTable id="clientesMatch" value="#{generadorSolicitudBonos.clientesBuscados}" var="client" rowIndexVar="status" scrollable="true" scrollHeight="250"
+                                                         emptyMessage="#{label['lb_table.noelementos']}" widgetVar="client" selection="#{generadorSolicitudBonos.clientesBuscadosSeleccionados}" rowKey="#{client.idCliente}"
+                                                         >
 
 
+                                                <p:column headerText="Validaci&oacute;n" selectionMode="multiple" style="width:8%;text-align:center"/>
                                                 <p:column headerText="Nombres" style="text-align: center;">
                                                     <h:outputText value="#{client.nombres}">
                                                     </h:outputText>
@@ -808,14 +904,7 @@
                                                 <p:column headerText="Identificacion" style="text-align: center;">
                                                     <h:outputText value="#{client.identificacion}">
                                                     </h:outputText>
-                                                </p:column>
-                                                <p:column headerText="Seleccionar" style="text-align: center;">
-                                                    <p:commandButton actionListener="#{generadorSolicitudBonos.crearClienteBlanco()}"
-                                                                     onstart="PF('ajaxWaitingDialog').show();" onsuccess="PF('ajaxWaitingDialog').hide();PF('buscarCliente').hide();PF('addCliente').hide();" icon="ui-icon-check" 
-                                                                     style="margin:0" update=":#{p:component('clientesBlancos')} :#{p:component('buscarCliente')}">
-                                                        <f:setPropertyActionListener value="#{client}" target="#{generadorSolicitudBonos.clienteSeleccionado}" />  
-                                                    </p:commandButton> 
-                                                </p:column>  
+                                                </p:column> 
                                             </p:dataTable>
                                         </div>
 
@@ -827,6 +916,10 @@
                         </fieldset>
                     </div>
                     <div class="panel-footer text-right">
+                        <p:commandButton actionListener="#{generadorSolicitudBonos.crearClienteBlanco()}"
+                                         onstart="PF('ajaxWaitingDialog').show();" onsuccess="PF('ajaxWaitingDialog').hide();PF('buscarCliente').hide();PF('addCliente').hide();" icon="ui-icon-check" 
+                                         style="margin:0" update=":#{p:component('clientesBlancos')} :#{p:component('buscarCliente')}">
+                        </p:commandButton> 
                     </div>
                 </div>
             </p:dialog> 

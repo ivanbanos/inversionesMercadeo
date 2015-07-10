@@ -45,6 +45,18 @@ public class MarketingEventoManejadorBean implements Serializable{
         this.sessionBean = sessionBean;
     }
 
+    public void upload() {
+        elemento.setImagen(file.getFileName().replace(" ", ""));
+        sessionBean.marketingUserFacade.guardarImagen(file.getContents(), elemento.getImagen());
+        sessionBean.setAttribute("imagen", file.getContents());
+        System.out.println("File name: " + elemento.getImagen());
+        file = null;
+
+    }
+    
+    
+    
+    
     /**
      * Creates a new instance of AtributosSistemaViewBean
      */
@@ -104,10 +116,7 @@ public class MarketingEventoManejadorBean implements Serializable{
                 fechainicio.setTime(elemento.getFechaInicio());
                 fechafinal.setTime(elemento.getFechaFinal());
                 if (elemento.getIdEvento() == null || elemento.getIdEvento() == 0) {
-                    if (fechainicio.before(nowDate)) {
-                        FacesUtil.addErrorMessage("Fehas incorrectas", "Fecha inicial antes de la fecha actual");
-                        break guardar;
-                    } else if (fechafinal.before(fechainicio)) {
+                    if (fechafinal.before(fechainicio)) {
                         FacesUtil.addErrorMessage("Fehas incorrectas", "Fecha final antes de la fecha inicial");
                         break guardar;
                     }
@@ -116,7 +125,7 @@ public class MarketingEventoManejadorBean implements Serializable{
                 sessionBean.registrarlog("actualizar", "Eventos", "Evento guardado:"+elemento.getNombre());
                 sessionBean.actualizarUsuario();
                 FacesUtil.addInfoMessage("Evento guardado con éxito", elemento.getNombre());
-                
+                sessionBean.setAttribute("idEvento", elemento.getIdEvento());
                 return "/pages/eventos.xhtml";
             } catch (ParseException ex) {
                 Logger.getLogger(MarketingEventoManejadorBean.class.getName()).log(Level.SEVERE, null, ex);

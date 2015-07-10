@@ -40,9 +40,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Solicitudentregalotesmaestro.findByFecha", query = "SELECT s FROM Solicitudentregalotesmaestro s WHERE s.fecha = :fecha"),
     @NamedQuery(name = "Solicitudentregalotesmaestro.findByObservaciones", query = "SELECT s FROM Solicitudentregalotesmaestro s WHERE s.observaciones = :observaciones"),
     @NamedQuery(name = "Solicitudentregalotesmaestro.findByEstado", query = "SELECT s FROM Solicitudentregalotesmaestro s WHERE s.estado = :estado"),
-    @NamedQuery(name = "Solicitudentregalotesmaestro.findNoAceptada", query = "SELECT s FROM Solicitudentregalotesmaestro s WHERE s.estado = 'LOTE RECIBIDO' OR s.estado = 'EN PROCESO' OR s.estado = 'INGRESADO A INVENTARIO' OR s.estado = 'DEVUELTO' ORDER BY s.fecha DESC"),
+    @NamedQuery(name = "Solicitudentregalotesmaestro.findNoAceptada", query = "SELECT s FROM Solicitudentregalotesmaestro s WHERE s.estado = 'ENVIADO A CAJA' OR s.estado = 'EN PROCESO' OR s.estado = 'INGRESADO A INVENTARIO' OR s.estado = 'DEVUELTO' ORDER BY s.fecha DESC"),
     @NamedQuery(name = "Solicitudentregalotesmaestro.findNoPrecreada", query = "SELECT s FROM Solicitudentregalotesmaestro s WHERE s.estado != 'PRE ORDENADA' ORDER BY s.fecha DESC"),
     @NamedQuery(name = "Solicitudentregalotesmaestro.findRequerimientos", query = "SELECT s FROM Solicitudentregalotesmaestro s WHERE s.estado = 'CREADO' OR s.estado = 'EN PROCESO' OR s.estado = 'RECHAZADA' ORDER BY s.fecha DESC"),
+    @NamedQuery(name = "Solicitudentregalotesmaestro.findCountCreados", query = "SELECT COUNT(s) FROM Solicitudentregalotesmaestro s WHERE s.estado = 'CREADO'"),
+    @NamedQuery(name = "Solicitudentregalotesmaestro.findCountEnviadoAcaja", query = "SELECT COUNT(s) FROM Solicitudentregalotesmaestro s WHERE s.estado = 'ENVIADO A CAJA'"),
     @NamedQuery(name = "Solicitudentregalotesmaestro.findByRemitente", query = "SELECT s FROM Solicitudentregalotesmaestro s WHERE s.remitente = :remitente")})
 public class Solicitudentregalotesmaestro implements Serializable {
     private static final long serialVersionUID = 1L;

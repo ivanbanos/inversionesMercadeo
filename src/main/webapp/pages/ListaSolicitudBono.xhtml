@@ -51,7 +51,7 @@
 
                                         <p:column headerText="#{label['fechacreacion']}" sortBy="#{element.fecha}" filterBy="#{element.fecha}" filterMatchMode="contains" >
                                             <h:outputText value="#{element.fecha}" >
-                                                <f:convertDateTime pattern="dd/MMMMM/yyyy " locale="es" />
+                                               <f:convertDateTime pattern="dd/MMMMM/yyyy HH:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
                                             </h:outputText>
                                         </p:column>
 
@@ -100,6 +100,8 @@
                                                              rendered="#{sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;) and ( element.estado.equals(&quot;CREADA&quot;) or element.estado.equals(&quot;PREAPROBADA&quot;))}"/> 
                                             <p:commandButton id="ver" action="#{listaSolicitudBonosBean.goSolicitudver(element.id)}" icon="ui-icon-search" onclick="PF('ajaxWaitingDialog').show();"
                                                              title="Ver"/> 
+                                            <p:commandButton action="#{listaSolicitudBonosBean.goSolicitudGEnerar(element.id)}" icon="ui-icon-clipboard"  onclick="PF('ajaxWaitingDialog').show();"
+                                                             title="generar reporte de gesti&oacute;n" rendered="#{element.estado == 'BONOS VENCIDOS. PENDIENTE POR GENERAR REPORTE'}"/>
                                         </p:column>
 
                                         <f:facet name="footer"> 

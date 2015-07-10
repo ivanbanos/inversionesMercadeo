@@ -23,7 +23,7 @@ import javax.persistence.criteria.Root;
  * @author ideacentre
  */
 public class TareasDao {
-
+    
     public static List<Tarea> GetTareaByUsuario(Usuario usuario) {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
@@ -39,41 +39,26 @@ public class TareasDao {
         } catch (Exception e) {
             tx.rollback();
         }
-
+        
         em.clear();
         em.close();
         emf.close();
-
-            return cargos;
+        
+        return cargos;
     }
 
-    public TareasDao() {
-    }
-
-    public static void create(Tarea tarea) {
-        tarea.setNombre(tarea.getNombre().toUpperCase());
-        tarea.setDescripcion(tarea.getDescripcion().toUpperCase());
-        tarea.setSpeech(tarea.getSpeech().toUpperCase());
+    public static void checkEstadoTarea() {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-
         tx.begin();
         try {
-            List<Listasclientestareas> lcts = tarea.getListasclientestareasList();
-            tarea.setListasclientestareasList(null);
-            em.persist(tarea);
-            for (Listasclientestareas lct : lcts) {
-                lct.setTarea(tarea);
-                lct.setListasclientestareasPK(new ListasclientestareasPK(tarea.getIdTarea(), lct.getCliente().getIdCliente()));
-                System.out.println("Accion" + lct.getIdAccion().getNombre());
-                em.merge(lct);
-            }
-            tarea.setListasclientestareasList(lcts);
-            em.merge(tarea);
+            em.createNamedQuery("Tarea.setActive")
+                    .executeUpdate();
             tx.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             tx.rollback();
         }
 
@@ -81,8 +66,39 @@ public class TareasDao {
         em.close();
         emf.close();
     }
+    public static void checkEstadoTareaVn() {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        try {
+            em.createNamedQuery("Tarea.setVencida")
+                    .executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        }
 
-    public static void edit(Tarea tarea) {
+        em.clear();
+        em.close();
+        emf.close();
+    }
+    
+    public TareasDao() {
+    }
+    
+    public static Tarea create(Tarea tarea) {
+        if (tarea.getNombre() == null) {
+            tarea.setNombre("");
+        }
+        if (tarea.getDescripcion()== null) {
+            tarea.setDescripcion("");
+        }
+        if (tarea.getSpeech()== null) {
+            tarea.setSpeech("");
+        }
         tarea.setNombre(tarea.getNombre().toUpperCase());
         tarea.setDescripcion(tarea.getDescripcion().toUpperCase());
         tarea.setSpeech(tarea.getSpeech().toUpperCase());
@@ -90,7 +106,39 @@ public class TareasDao {
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-
+        
+        tx.begin();
+        try {
+            em.persist(tarea);
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+        
+        em.clear();
+        em.close();
+        emf.close();
+        return tarea;
+    }
+    
+    public static void edit(Tarea tarea) {
+        if (tarea.getNombre() == null) {
+            tarea.setNombre("");
+        }
+        if (tarea.getDescripcion()== null) {
+            tarea.setDescripcion("");
+        }
+        if (tarea.getSpeech()== null) {
+            tarea.setSpeech("");
+        }
+        tarea.setNombre(tarea.getNombre().toUpperCase());
+        tarea.setDescripcion(tarea.getDescripcion().toUpperCase());
+        tarea.setSpeech(tarea.getSpeech().toUpperCase());
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        
         tx.begin();
         try {
             
@@ -109,18 +157,18 @@ public class TareasDao {
             System.out.println(e);
             tx.rollback();
         }
-
+        
         em.clear();
         em.close();
         emf.close();
     }
-
+    
     public static void remove(Tarea tarea) {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-
+        
         tx.begin();
         try {
             em.remove(em.merge(tarea));
@@ -128,19 +176,19 @@ public class TareasDao {
         } catch (Exception e) {
             tx.rollback();
         }
-
+        
         em.clear();
         em.close();
         emf.close();
     }
-
+    
     public static Tarea find(Integer id) {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         Tarea tarea = null;
-
+        
         tx.begin();
         try {
             tarea = em.find(Tarea.class, id);
@@ -148,20 +196,20 @@ public class TareasDao {
         } catch (Exception e) {
             tx.rollback();
         }
-
+        
         em.clear();
         em.close();
         emf.close();
         return tarea;
     }
-
+    
     public static List<Tarea> findAll() {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Tarea> lista = new ArrayList<Tarea>();
-
+        
         tx.begin();
         try {
             javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -173,20 +221,20 @@ public class TareasDao {
         } catch (Exception e) {
             tx.rollback();
         }
-
+        
         em.clear();
         em.close();
         emf.close();
         return lista;
     }
-
+    
     public static List<Tarea> findRange(int[] range) {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         List<Tarea> lista = new ArrayList<Tarea>();
-
+        
         tx.begin();
         try {
             javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -199,20 +247,20 @@ public class TareasDao {
         } catch (Exception e) {
             tx.rollback();
         }
-
+        
         em.clear();
         em.close();
         emf.close();
         return lista;
     }
-
+    
     public static int count() {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         int count = 0;
-
+        
         tx.begin();
         try {
             javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -224,11 +272,11 @@ public class TareasDao {
         } catch (Exception e) {
             tx.rollback();
         }
-
+        
         em.clear();
         em.close();
         emf.close();
         return count;
-
+        
     }
 }

@@ -30,6 +30,6 @@ public class ApplicationContainer  implements Serializable{
     }
 
     public boolean isUsuarioConectado(String usuario) {
-        return usuariosConectados.contains(usuario);
+        return false;
     }
 }

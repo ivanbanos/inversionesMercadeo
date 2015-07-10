@@ -730,7 +730,7 @@ public class GeneracionBean implements Serializable {
                 sessionBean.marketingUserFacade.cerrarSol(elemento, bonos);
                 
                 sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Reporte generado", ""));
-                FacesContext.getCurrentInstance().getExternalContext().redirect("GenerarReporteGestionView.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBono.xhtml");
             } catch (IOException ex) {
                 Logger.getLogger(GeneracionBean.class.getName()).log(Level.SEVERE, null, ex);
             }
