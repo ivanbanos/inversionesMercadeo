@@ -7,7 +7,9 @@ package com.invbf.sistemagestionmercadeo.entity;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,8 +19,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,6 +36,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Inventarobarajas.findById", query = "SELECT i FROM Inventarobarajas i WHERE i.id = :id"),
     @NamedQuery(name = "Inventarobarajas.findByCantidadbarajas", query = "SELECT i FROM Inventarobarajas i WHERE i.cantidadbarajas = :cantidadbarajas")})
 public class Inventarobarajas implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "inventarobarajas")
+    private List<Solicitudbarajadetalle> solicitudbarajadetalleList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "inventarobarajas")
+    private List<Ordencomprabarajadetalle> ordencomprabarajadetalleList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -98,6 +106,25 @@ public class Inventarobarajas implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Inventarobarajas[ id=" + id + " ]";
+    }
+
+
+    @XmlTransient
+    public List<Solicitudbarajadetalle> getSolicitudbarajadetalleList() {
+        return solicitudbarajadetalleList;
+    }
+
+    public void setSolicitudbarajadetalleList(List<Solicitudbarajadetalle> solicitudbarajadetalleList) {
+        this.solicitudbarajadetalleList = solicitudbarajadetalleList;
+    }
+
+    @XmlTransient
+    public List<Ordencomprabarajadetalle> getOrdencomprabarajadetalleList() {
+        return ordencomprabarajadetalleList;
+    }
+
+    public void setOrdencomprabarajadetalleList(List<Ordencomprabarajadetalle> ordencomprabarajadetalleList) {
+        this.ordencomprabarajadetalleList = ordencomprabarajadetalleList;
     }
     
 }

@@ -49,6 +49,10 @@
     <class>com.invbf.sistemagestionmercadeo.entity.Inventarobarajas</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Materialesbarajas</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Barajas</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Solicitudbarajadetalle</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Ordencomprabaraja</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Solicitudbarajas</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Ordencomprabarajadetalle</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>
