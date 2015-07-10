@@ -5,7 +5,6 @@
  */
 package com.invbf.sistemagestionmercadeo.entity;
 
-import com.invbf.sistemagestionmercadeo.entity.Inventarobarajas;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
