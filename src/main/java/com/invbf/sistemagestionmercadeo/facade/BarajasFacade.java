@@ -8,7 +8,10 @@ package com.invbf.sistemagestionmercadeo.facade;
 import com.invbf.sistemagestionmercadeo.dto.BarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.InventarioBarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.MaterialesDTO;
+import com.invbf.sistemagestionmercadeo.dto.OrdenCompraBarajaDTO;
+import com.invbf.sistemagestionmercadeo.dto.SolicitudBarajasDTO;
 import com.invbf.sistemagestionmercadeo.entity.Barajas;
+import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import java.util.List;
 
 /**
@@ -30,6 +33,26 @@ public interface BarajasFacade {
     public BarajasDTO deleteBaraja(BarajasDTO elemento);
 
     public InventarioBarajasDTO getInventario();
+
+    public List<OrdenCompraBarajaDTO> getOrdenesCompra();
+
+    public int crearOrdenBarajas(InventarioBarajasDTO inventario, Usuario usuario);
+
+    public OrdenCompraBarajaDTO getOrden(Integer idOrden);
+
+    public void aprobarOrden(Integer idOrden, Usuario usuario);
+
+    public void recibirOrden(Integer idOrden, Usuario usuario);
+
+    public List<SolicitudBarajasDTO> getSolicitudesBarajas(boolean todas, int idUsuario);
+
+    public int crearSolicitudBarajas(InventarioBarajasDTO inventario, Usuario usuario);
+
+    public SolicitudBarajasDTO getSolicitud(Integer idOrden);
+
+    public void entregarSolicitud(Integer idOrden, Usuario usuario);
+
+    public void recibirSolicitud(Integer idOrden, Usuario usuario);
 
     
 }

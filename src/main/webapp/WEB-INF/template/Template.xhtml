@@ -135,7 +135,7 @@
 
                                             </li>
                                         </c:if>
-                                        
+
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;veripregistradas&quot;)}">
                                             <li>
                                                 <h:commandLink  action="#{sessionBean.go(&quot;veripregistradas&quot;)}" value="Ip/Usuarios registrados"/>
@@ -254,9 +254,17 @@
                                 </li>
                             </c:if>
 
-                            
+
                             <c:if test="#{sessionBean.perfilViewMatch(&quot;verBarajas&quot;) 
-                                      or  sessionBean.perfilViewMatch(&quot;verInventarioBarajas&quot;)}">
+                                          or  sessionBean.perfilViewMatch(&quot;verInventarioBarajas&quot;)
+                                          or  sessionBean.perfilViewMatch(&quot;recibirOrdenBarajas&quot;)
+                                          or  sessionBean.perfilViewMatch(&quot;generarOrdenBarajas&quot;)
+                                          or  sessionBean.perfilViewMatch(&quot;aceptarOrdenBarajas&quot;)
+                                          or  sessionBean.perfilViewMatch(&quot;verSolicitudesBarajas&quot;)
+                                          or  sessionBean.perfilViewMatch(&quot;solicitasBarajas&quot;)
+                                          or  sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
+                                          or  sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
+                                          or  sessionBean.perfilViewMatch(&quot;destruirBarajas&quot;)}">
                                 <li class="dropdown ">
                                     <a href="#" class="dropdown-toggle #{sessionBean.isActive(&quot;barajas&quot;)}" data-toggle="dropdown">Gesti&oacute;n de Barajas<span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
@@ -270,13 +278,29 @@
                                                 <h:commandLink  action="#{sessionBean.go(&quot;inventarioBaraja&quot;)}" value="Inventario"/>
                                             </li>
                                         </c:if>
+                                        <c:if test="#{sessionBean.perfilViewMatch(&quot;recibirOrdenBarajas&quot;)
+                                                      or  sessionBean.perfilViewMatch(&quot;generarOrdenBarajas&quot;)
+                                                      or  sessionBean.perfilViewMatch(&quot;aceptarOrdenBarajas&quot;)}">
+                                            <li >
+                                                <h:commandLink  action="#{sessionBean.go(&quot;ordenesComprabaraja&quot;)}" value="Ordenes de compra de lote de barajas"/>
+                                            </li>
+                                        </c:if>
+                                        <c:if test="#{sessionBean.perfilViewMatch(&quot;verSolicitudesBarajas&quot;)
+                                                      or  sessionBean.perfilViewMatch(&quot;solicitasBarajas&quot;)
+                                                      or  sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
+                                                      or  sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
+                                                      or  sessionBean.perfilViewMatch(&quot;destruirBarajas&quot;)}">
+                                            <li >
+                                                <h:commandLink  action="#{sessionBean.go(&quot;solicitudbaraja&quot;)}" value="Solicitudes de barajas"/>
+                                            </li>
+                                        </c:if>
                                     </ul>
                                 </li>
                             </c:if>
 
-                            
-                            
-                            
+
+
+
                             <c:if test="#{sessionBean.perfilViewMatch(&quot;Reportes&quot;)}">
                                 <li class="dropdown ">
                                     <a href="#" class="dropdown-toggle #{sessionBean.isActive(&quot;reportes&quot;)}" data-toggle="dropdown">Reportes<span class="caret"></span></a>

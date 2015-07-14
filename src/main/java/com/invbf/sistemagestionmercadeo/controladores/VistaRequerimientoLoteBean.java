@@ -6,6 +6,7 @@ import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
 import com.invbf.sistemagestionmercadeo.util.BonosnoincluidosDTO;
+import com.invbf.sistemagestionmercadeo.util.ConvertidorConsecutivo;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import com.invbf.sistemagestionmercadeo.util.loteBonoSolicitud;
@@ -135,10 +136,6 @@ public class VistaRequerimientoLoteBean implements Serializable {
     public void ordenar() {
         try {
 
-            for (Solicitudentregalote sol : elemento.getSolicitudentregaloteList()) {
-                sol.getLotesBonosid().setHasta(getConsecutivo(sol.getLotesBonosid().getHasta(), sol.getCantidad()));
-                sessionBean.marketingUserFacade.editLoteBono(sol.getLotesBonosid(), sol.getBononoincluidoList());
-            }
             elemento.setEstado("EN PROCESO");
             elemento = sessionBean.marketingUserFacade.guardarSolicitudentregabonos(elemento, null, 0);
             sessionBean.setAttribute("idsolicitudentregalotes", elemento.getId());
@@ -189,6 +186,11 @@ public class VistaRequerimientoLoteBean implements Serializable {
     public void recibir() {
         try {
             elemento.setEstado("LOTE RECIBIDO");
+            
+            for (Solicitudentregalote sol : elemento.getSolicitudentregaloteList()) {
+                sol.getLotesBonosid().setHasta(ConvertidorConsecutivo.sumarCantidad(sol.getLotesBonosid().getHasta(), sol.getCantidad()+1));
+                sessionBean.marketingUserFacade.editLoteBono(sol.getLotesBonosid(), sol.getBononoincluidoList());
+            }
             elemento = sessionBean.marketingUserFacade.guardarSolicitudentregabonos(elemento, null, 0);
             sessionBean.setAttribute("idsolicitudentregalotes", elemento.getId());
             sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Requerimiento ordenado con exito!", ""));

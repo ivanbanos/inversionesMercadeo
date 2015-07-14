@@ -277,7 +277,7 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
         }
         for (Lotebono lote : lotes) {
             if (ConvertidorConsecutivo.getCantidadInt(lote.getDesde(), lote.getHasta()) < 1000) {
-                 Notificador.notificar(Notificador.INVENTARIO_EN_PROBLEMA, "ALERTA INVENTARIO DE BONOS HA ALCANZADO UN NIVEL MINIMO", "El lote de bonos "+lote.getTipoBono().getNombre() +", de denominación "+lote.getDenominacion().getValor()+", de la sala "+lote.getIdCasino().getNombre()+"  ha alcanzado el nivel minimo establecido en el inventario. Debe revisarse el stock para generar requerimiento de producción de lotes.", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                 Notificador.notificar(Notificador.INVENTARIO_EN_PROBLEMA, "ALERTA INVENTARIO DE BONOS HA ALCANZADO UN NIVEL MINIMO", "El lote de bonos "+lote.getTipoBono().getNombre() +", de denominaci&oacute;n "+lote.getDenominacion().getValor()+", de la sala "+lote.getIdCasino().getNombre()+"  ha alcanzado el nivel m&iacute;nimo establecido en el inventario. Debe revisarse el stock para generar requerimiento de producción de lotes.", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         
             }
         }

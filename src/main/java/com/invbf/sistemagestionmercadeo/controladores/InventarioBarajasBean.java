@@ -48,7 +48,7 @@ public class InventarioBarajasBean implements Serializable {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("barajas");
-        if (!sessionBean.perfilViewMatch("verBarajas")) {
+        if (!sessionBean.perfilViewMatch("verInventarioBarajas")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
@@ -56,6 +56,7 @@ public class InventarioBarajasBean implements Serializable {
         }
         inventario = sessionBean.barajasFacade.getInventario();
         cantidadMin = Integer.parseInt(sessionBean.sessionFacade.getConfiguracionByName("minimo Barajas").getValor());
+        sessionBean.printMensajes();
     }
 
     public InventarioBarajasDTO getInventario() {

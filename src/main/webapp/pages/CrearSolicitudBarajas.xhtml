@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+
+        <div class="row">
+
+            <div class="control-group">
+                <!-- Username -->
+                <div class="form-group">
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Barajas/Crear solicitud de barajas</label>
+                </div>
+            </div>
+        </div>
+
+        <h:form>
+
+
+
+            <div class="row clearfix">
+
+                <div class="col-md-12 ">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h4>Creaci&oacute;n de solicitud de barajas</h4></div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="container">
+                                    <div class="row">
+                                        <p:dataTable value="#{crearSolicitudBarajasBean.inventario.inventario}" var="detalle" rowIndexVar="status"
+                                                     emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
+
+                                            <p:column headerText="Material" style="text-align: center;">
+                                                <h:outputText value="#{detalle.baraja.material.nombre}">
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Color" style="text-align: center;">
+                                                <h:outputText value="#{detalle.baraja.color}">
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Marca" style="text-align: center;">
+                                                <h:outputText value="#{detalle.baraja.marca}">
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Valor promedio" style="text-align: center;">
+                                                <h:outputText value="#{detalle.baraja.valorpromedio}">
+                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Cantidad solicitada" width="30%">
+                                                <span id="cantidad#{status}">
+                                                    <p:spinner min="0" stepFactor="1"
+                                                               value="#{detalle.cantidad}">
+                                                    </p:spinner>
+                                                </span>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer text-right">
+
+
+                            <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" style="margin:0" 
+                                             onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('add').show();"/>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </h:form>
+        <h:form>
+            <p:confirmDialog id="add" message="Quiere guardar la solicitud #{label['cierrepregunta']}"  
+                             header="Borrar" severity="alert" widgetVar="add" closable="false">  
+
+                <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
+                                 action="#{crearSolicitudBarajasBean.crear()}"/>  
+                <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('add').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+
+    </ui:define>            
+</ui:composition>

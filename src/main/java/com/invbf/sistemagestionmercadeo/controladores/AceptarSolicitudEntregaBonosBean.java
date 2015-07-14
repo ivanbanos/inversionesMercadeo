@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalote;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
+import com.invbf.sistemagestionmercadeo.util.ConvertidorConsecutivo;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
@@ -143,6 +144,10 @@ public class AceptarSolicitudEntregaBonosBean implements Serializable {
 
     public void enviar() {
         try {
+            for (Solicitudentregalote sol : elemento.getSolicitudentregaloteList()) {
+                sol.getLotesBonosid().setHasta(ConvertidorConsecutivo.sumarCantidad(sol.getLotesBonosid().getHasta(), sol.getCantidad()));
+                sessionBean.marketingUserFacade.editLoteBono(sol.getLotesBonosid(), sol.getBononoincluidoList());
+            }
             elemento.setEstado("ENVIADO A CAJA");
             elemento = sessionBean.marketingUserFacade.guardarSolicitudentregabonos(elemento, null, 0);
             sessionBean.setAttribute("idsolicitudentregalotes", elemento.getId());

@@ -186,6 +186,7 @@ public class GeneradorRequerimientoLote implements Serializable {
                 System.out.println(sel.getCantidad());
                 elemento.getSolicitudentregaloteList().add(sel);
                 listaBonosReincluidos.addAll(lotes.getBonosReincluidos());
+                System.err.println("getHasta "+sel.getLotesBonosid().getHasta());
             }
             sessionBean.marketingUserFacade.guardarSolicitudentregabonos(elemento, listaBonosReincluidos, 0);
             sessionBean.setAttribute("idsolicitudentregalotes", elemento.getId());

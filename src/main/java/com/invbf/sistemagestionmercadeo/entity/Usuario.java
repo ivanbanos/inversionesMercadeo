@@ -45,6 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByCasino", query = "SELECT u FROM Usuario u WHERE u.casinoList = :casino"),
     @NamedQuery(name = "Usuarios.findByTipoPerfil", query = "SELECT u FROM Usuario u WHERE u.idPerfil.nombre = :nombrePerfil")})
 public class Usuario implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,7 +71,7 @@ public class Usuario implements Serializable {
     @Size(max = 45)
     @Column(name = "estado")
     private String estado;
-    @ManyToMany(mappedBy = "usuarioList",fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "usuarioList", fetch = FetchType.EAGER)
     private List<Tarea> tareaList;
     @JoinTable(name = "Usuarios_has_Casinos", joinColumns = {
         @JoinColumn(name = "Usuarios_idUsuario", referencedColumnName = "idUsuario")}, inverseJoinColumns = {
@@ -104,6 +105,20 @@ public class Usuario implements Serializable {
     private Perfil idPerfil;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "Usuario")
     private List<Permiso> permisoList;
+    @OneToMany(mappedBy = "recibidor")
+    private List<Ordencomprabaraja> ordencomprabarajaList;
+    @OneToMany(mappedBy = "creador")
+    private List<Ordencomprabaraja> ordencomprabarajaList1;
+    @OneToMany(mappedBy = "aceptador")
+    private List<Ordencomprabaraja> ordencomprabarajaList2;
+    @OneToMany(mappedBy = "recibidor")
+    private List<Solicitudbarajas> solicitudbarajasList;
+    @OneToMany(mappedBy = "creador")
+    private List<Solicitudbarajas> solicitudbarajasList1;
+    @OneToMany(mappedBy = "aceptador")
+    private List<Solicitudbarajas> solicitudbarajasList2;
+    @OneToMany(mappedBy = "destructor")
+    private List<Solicitudbarajas> solicitudbarajasList3;
 
     public Usuario() {
     }
@@ -296,7 +311,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return  idUsuario +" "+ nombreUsuario;
+        return idUsuario + " " + nombreUsuario;
     }
 
     public String getNombre() {
@@ -314,5 +329,67 @@ public class Usuario implements Serializable {
     public void setTipo(Integer tipo) {
         this.tipo = tipo;
     }
-    
+
+    @XmlTransient
+    public List<Ordencomprabaraja> getOrdencomprabarajaList() {
+        return ordencomprabarajaList;
+    }
+
+    public void setOrdencomprabarajaList(List<Ordencomprabaraja> ordencomprabarajaList) {
+        this.ordencomprabarajaList = ordencomprabarajaList;
+    }
+
+    @XmlTransient
+    public List<Ordencomprabaraja> getOrdencomprabarajaList1() {
+        return ordencomprabarajaList1;
+    }
+
+    public void setOrdencomprabarajaList1(List<Ordencomprabaraja> ordencomprabarajaList1) {
+        this.ordencomprabarajaList1 = ordencomprabarajaList1;
+    }
+
+    @XmlTransient
+    public List<Ordencomprabaraja> getOrdencomprabarajaList2() {
+        return ordencomprabarajaList2;
+    }
+
+    public void setOrdencomprabarajaList2(List<Ordencomprabaraja> ordencomprabarajaList2) {
+        this.ordencomprabarajaList2 = ordencomprabarajaList2;
+    }
+
+    @XmlTransient
+    public List<Solicitudbarajas> getSolicitudbarajasList() {
+        return solicitudbarajasList;
+    }
+
+    public void setSolicitudbarajasList(List<Solicitudbarajas> solicitudbarajasList) {
+        this.solicitudbarajasList = solicitudbarajasList;
+    }
+
+    @XmlTransient
+    public List<Solicitudbarajas> getSolicitudbarajasList1() {
+        return solicitudbarajasList1;
+    }
+
+    public void setSolicitudbarajasList1(List<Solicitudbarajas> solicitudbarajasList1) {
+        this.solicitudbarajasList1 = solicitudbarajasList1;
+    }
+
+    @XmlTransient
+    public List<Solicitudbarajas> getSolicitudbarajasList2() {
+        return solicitudbarajasList2;
+    }
+
+    public void setSolicitudbarajasList2(List<Solicitudbarajas> solicitudbarajasList2) {
+        this.solicitudbarajasList2 = solicitudbarajasList2;
+    }
+
+    @XmlTransient
+    public List<Solicitudbarajas> getSolicitudbarajasList3() {
+        return solicitudbarajasList3;
+    }
+
+    public void setSolicitudbarajasList3(List<Solicitudbarajas> solicitudbarajasList3) {
+        this.solicitudbarajasList3 = solicitudbarajasList3;
+    }
 }

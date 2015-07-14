@@ -15,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -40,6 +42,15 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Ordencomprabaraja.findByFechaAceptada", query = "SELECT o FROM Ordencomprabaraja o WHERE o.fechaAceptada = :fechaAceptada"),
     @NamedQuery(name = "Ordencomprabaraja.findByFechaRecibida", query = "SELECT o FROM Ordencomprabaraja o WHERE o.fechaRecibida = :fechaRecibida")})
 public class Ordencomprabaraja implements Serializable {
+    @JoinColumn(name = "recibidor", referencedColumnName = "idUsuario")
+    @ManyToOne
+    private Usuario recibidor;
+    @JoinColumn(name = "creador", referencedColumnName = "idUsuario")
+    @ManyToOne
+    private Usuario creador;
+    @JoinColumn(name = "aceptador", referencedColumnName = "idUsuario")
+    @ManyToOne
+    private Usuario aceptador;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -140,6 +151,30 @@ public class Ordencomprabaraja implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.controladores.Ordencomprabaraja[ id=" + id + " ]";
+    }
+
+    public Usuario getRecibidor() {
+        return recibidor;
+    }
+
+    public void setRecibidor(Usuario recibidor) {
+        this.recibidor = recibidor;
+    }
+
+    public Usuario getCreador() {
+        return creador;
+    }
+
+    public void setCreador(Usuario creador) {
+        this.creador = creador;
+    }
+
+    public Usuario getAceptador() {
+        return aceptador;
+    }
+
+    public void setAceptador(Usuario aceptador) {
+        this.aceptador = aceptador;
     }
     
 }

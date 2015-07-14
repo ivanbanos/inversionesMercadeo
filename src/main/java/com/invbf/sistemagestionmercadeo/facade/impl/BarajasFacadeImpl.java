@@ -10,12 +10,21 @@ import com.invbf.sistemagestionmercadeo.dto.BarajasCantidad;
 import com.invbf.sistemagestionmercadeo.dto.BarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.InventarioBarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.MaterialesDTO;
+import com.invbf.sistemagestionmercadeo.dto.OrdenCompraBarajaDTO;
+import com.invbf.sistemagestionmercadeo.dto.SolicitudBarajasDTO;
 import com.invbf.sistemagestionmercadeo.entity.Barajas;
 import com.invbf.sistemagestionmercadeo.entity.Inventarobarajas;
 import com.invbf.sistemagestionmercadeo.entity.Materialesbarajas;
+import com.invbf.sistemagestionmercadeo.entity.Ordencomprabaraja;
+import com.invbf.sistemagestionmercadeo.entity.Ordencomprabarajadetalle;
+import com.invbf.sistemagestionmercadeo.entity.Solicitudbarajadetalle;
+import com.invbf.sistemagestionmercadeo.entity.Solicitudbarajas;
+import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.facade.BarajasFacade;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,14 +51,68 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
 
     private InventarioBarajasDTO transformarInventario(List<Inventarobarajas> listaInvenratioBarajas) {
         InventarioBarajasDTO inventario = new InventarioBarajasDTO();
-        
+        System.err.println(listaInvenratioBarajas.size());
         for (Inventarobarajas item : listaInvenratioBarajas) {
-            inventario.getInventario().add(new BarajasCantidad(transformarBaraja(item.getBaraja()), item.getCantidadbarajas()));
+            inventario.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), item.getCantidadbarajas(), item.getCantidadbarajas()));
         }
-        
+
         return inventario;
     }
-    
+
+    private List<OrdenCompraBarajaDTO> transformarOrdenesCompra(List<Ordencomprabaraja> listaOrdenesCompraBarajas) {
+        List<OrdenCompraBarajaDTO> ordenes = new ArrayList<OrdenCompraBarajaDTO>();
+
+        for (Ordencomprabaraja item : listaOrdenesCompraBarajas) {
+            ordenes.add(transormarOrdenCompra(item));
+        }
+
+        return ordenes;
+    }
+
+    private List<SolicitudBarajasDTO> transformarSolicitudesBarajas(List<Solicitudbarajas> listaSoliciudesBarajas) {
+        List<SolicitudBarajasDTO> ordenes = new ArrayList<SolicitudBarajasDTO>();
+
+        for (Solicitudbarajas item : listaSoliciudesBarajas) {
+            ordenes.add(transormarSolicitudBarajas(item));
+        }
+
+        return ordenes;
+    }
+
+    private OrdenCompraBarajaDTO transormarOrdenCompra(Ordencomprabaraja item) {
+        OrdenCompraBarajaDTO orden = new OrdenCompraBarajaDTO();
+        orden.setEstado(item.getEsatdo());
+        orden.setId(item.getId());
+        orden.setFechaAceptada(item.getFechaAceptada());
+        orden.setFechaCreacion(item.getFechaCreacion());
+        orden.setFechaRecibida(item.getFechaRecibida());
+        orden.setUsuarioCreado(item.getCreador() == null ? "" : item.getCreador().getNombreUsuario());
+        orden.setUsuarioAceptador(item.getAceptador() == null ? "" : item.getAceptador().getNombreUsuario());
+        orden.setUsuarioREcibidor(item.getRecibidor() == null ? "" : item.getRecibidor().getNombreUsuario());
+        for (Ordencomprabarajadetalle detalle : item.getOrdencomprabarajadetalleList()) {
+            orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(), detalle.getCantidad()));
+        }
+        return orden;
+    }
+
+    private SolicitudBarajasDTO transormarSolicitudBarajas(Solicitudbarajas item) {
+        SolicitudBarajasDTO orden = new SolicitudBarajasDTO();
+        orden.setEstado(item.getEstado());
+        orden.setId(item.getId());
+        orden.setFechaAceptada(item.getFechentrega());
+        orden.setFechaCreacion(item.getFechacreacion());
+        orden.setFechaRecibida(item.getFecharecepcion());
+        orden.setFechaDestruccion(item.getFechaDestruccion());
+        orden.setUsuarioCreado(item.getCreador() == null ? "" : item.getCreador().getNombreUsuario());
+        orden.setUsuarioAceptador(item.getAceptador() == null ? "" : item.getAceptador().getNombreUsuario());
+        orden.setUsuarioREcibidor(item.getRecibidor() == null ? "" : item.getRecibidor().getNombreUsuario());
+        orden.setUsuarioDestructor(item.getDestructor() == null ? "" : item.getDestructor().getNombreUsuario());
+        for (Solicitudbarajadetalle detalle : item.getSolicitudbarajadetalleList()) {
+            orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(),detalle.getCantidad()));
+        }
+        return orden;
+    }
+
     @Override
     public List<BarajasDTO> getListaBarajas() {
         List<Barajas> barajas = GestionBarajasDao.getListaBArajas();
@@ -100,5 +163,102 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         return transformarInventario(GestionBarajasDao.getListaInvenratioBarajas());
     }
 
+    @Override
+    public List<OrdenCompraBarajaDTO> getOrdenesCompra() {
+        return transformarOrdenesCompra(GestionBarajasDao.getListaOrdenesCompraBarajas());
+    }
+
+    @Override
+    public int crearOrdenBarajas(InventarioBarajasDTO inventario, Usuario usuario) {
+        Ordencomprabaraja orden = new Ordencomprabaraja();
+        orden.setFechaCreacion(new Date());
+        orden.setCreador(usuario);
+        orden.setEsatdo("CREADA");
+        orden = GestionBarajasDao.crearOrdenCompra(orden);
+        orden.setOrdencomprabarajadetalleList(getDetallesOrden(inventario, orden.getId()));
+        return GestionBarajasDao.guardarOrdenCompra(orden).getId();
+
+    }
+
+    private List<Ordencomprabarajadetalle> getDetallesOrden(InventarioBarajasDTO inventario, Integer id) {
+        List<Ordencomprabarajadetalle> detalles = new ArrayList<Ordencomprabarajadetalle>();
+        for (BarajasCantidad barajas : inventario.getInventario()) {
+            detalles.add(getDettaleOrden(barajas, id));
+        }
+        return detalles;
+    }
+
+    private List<Solicitudbarajadetalle> getDetallesSolicitud(InventarioBarajasDTO inventario, Integer id) {
+        List<Solicitudbarajadetalle> detalles = new ArrayList<Solicitudbarajadetalle>();
+        for (BarajasCantidad barajas : inventario.getInventario()) {
+            detalles.add(getDettaleSolicitud(barajas, id));
+        }
+        return detalles;
+    }
+
+    private Ordencomprabarajadetalle getDettaleOrden(BarajasCantidad barajas, Integer id) {
+        Ordencomprabarajadetalle detalle = new Ordencomprabarajadetalle(id, barajas.getId());
+        detalle.setCantidad(barajas.getCantidad());
+        detalle.setCantidadAprobada(barajas.getCantidadR());
+        return detalle;
+    }
+
+    private Solicitudbarajadetalle getDettaleSolicitud(BarajasCantidad barajas, Integer id) {
+        Solicitudbarajadetalle detalle = new Solicitudbarajadetalle(id, barajas.getId());
+        detalle.setCantidad(barajas.getCantidad());
+        return detalle;
+    }
+
+    @Override
+    public OrdenCompraBarajaDTO getOrden(Integer idOrden) {
+        return transormarOrdenCompra(GestionBarajasDao.getOrdenCompraBaraja(idOrden));
+    }
+
+    @Override
+    public void aprobarOrden(Integer idOrden, Usuario usuario) {
+        GestionBarajasDao.aprobarOrden(idOrden, usuario);
+    }
+
+    @Override
+    public void recibirOrden(Integer idOrden, Usuario usuario) {
+        GestionBarajasDao.recibirOrden(idOrden, usuario);
+    }
+
+    @Override
+    public List<SolicitudBarajasDTO> getSolicitudesBarajas(boolean getTodas, int idUsuario) {
+        if (getTodas) {
+            return transformarSolicitudesBarajas(GestionBarajasDao.getListaSoliciudesBarajas());
+        } else {
+            return transformarSolicitudesBarajas(GestionBarajasDao.getListaSoliciudesBarajas(idUsuario));
+        }
+    }
+
+    @Override
+    public int crearSolicitudBarajas(InventarioBarajasDTO inventario, Usuario usuario) {
+        Solicitudbarajas orden = new Solicitudbarajas();
+        orden.setFechacreacion(new Date());
+        orden.setCreador(usuario);
+        orden.setEstado("CREADA");
+        orden = GestionBarajasDao.crearSolicitudBarajas(orden);
+        orden.setSolicitudbarajadetalleList(getDetallesSolicitud(inventario, orden.getId()));
+        return GestionBarajasDao.guardarSolicitudBarajas(orden).getId();
+    }
+
+    @Override
+    public SolicitudBarajasDTO getSolicitud(Integer idOrden) {
+        return transormarSolicitudBarajas(GestionBarajasDao.getSolicitudBaraja(idOrden));
+    }
+
+    @Override
+    public void entregarSolicitud(Integer idOrden, Usuario usuario) {
+        GestionBarajasDao.entregarSolicitud(idOrden, usuario);
+
+        
+    }
+
+    @Override
+    public void recibirSolicitud(Integer idOrden, Usuario usuario) {
+        GestionBarajasDao.recibirSolicitud(idOrden, usuario);
+    }
 
 }

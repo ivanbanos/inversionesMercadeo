@@ -799,6 +799,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
             }
             solicitudentregalotese.setBononoincluidoList(bonosnoincluidos);
             SolicitudentregalotesDao.edit(solicitudentregalotese);
+           
         }
         elemento.setSolicitudentregaloteList(solicitudentregaloteses);
         SolicitudentregalotesmaestroDao.edit(elemento);

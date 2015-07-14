@@ -194,11 +194,30 @@ public class PerfilActBean implements Serializable{
     private VistaBoolean vistaSolicitudesCasino;
     
     
+    private VistaBoolean recibirOrdenBarajas;
+    private VistaBoolean generarOrdenBarajas;
+    private VistaBoolean aceptarOrdenBarajas;
+    
     private VistaBoolean vistaBarajas;
     private FormularioBoolean agregarBarajas;
     private FormularioBoolean actualizarBarajas;
     private FormularioBoolean eliminarBarajas;
+    
+    
+    private VistaBoolean verSolicitudesBarajas;
+    private VistaBoolean solicitasBarajas;
+    private VistaBoolean entregarBarajas;
+    private VistaBoolean recibirBarajas;
+    private VistaBoolean destruirBarajas;
 
+    private VistaBoolean correoOrdenBarajasCreada;
+    private VistaBoolean correoOrdenBarajasAprobada;
+    private VistaBoolean correoOrdenBarajasRecibida;
+    private VistaBoolean correoSolicitudBarajaCreada;
+    private VistaBoolean correoSolicitudBarajaEntregada;
+    private VistaBoolean correoSolicitudBarajaRecibida;
+    private VistaBoolean correoLimiteAlcanzadoBarajas;
+    
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
     }
@@ -1013,6 +1032,105 @@ public class PerfilActBean implements Serializable{
             }
             
             
+            if (v.getNombreVista().equals("correoOrdenBarajasCreada")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoOrdenBarajasCreada = new VistaBoolean(v, true);
+                } else {
+                    correoOrdenBarajasCreada = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoOrdenBarajasAprobada")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoOrdenBarajasAprobada = new VistaBoolean(v, true);
+                } else {
+                    correoOrdenBarajasAprobada = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoOrdenBarajasRecibida")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoOrdenBarajasRecibida = new VistaBoolean(v, true);
+                } else {
+                    correoOrdenBarajasRecibida = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoSolicitudBarajaCreada")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoSolicitudBarajaCreada = new VistaBoolean(v, true);
+                } else {
+                    correoSolicitudBarajaCreada = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoSolicitudBarajaEntregada")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoSolicitudBarajaEntregada = new VistaBoolean(v, true);
+                } else {
+                    correoSolicitudBarajaEntregada = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoSolicitudBarajaRecibida")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoSolicitudBarajaRecibida = new VistaBoolean(v, true);
+                } else {
+                    correoSolicitudBarajaRecibida = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoLimiteAlcanzadoBarajas")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoLimiteAlcanzadoBarajas = new VistaBoolean(v, true);
+                } else {
+                    correoLimiteAlcanzadoBarajas = new VistaBoolean(v, false);
+                }
+            }
+            
+            
+            
+            
+            if (v.getNombreVista().equals("verSolicitudesBarajas")) {
+                if (elemento.getVistaList().contains(v)) {
+                    verSolicitudesBarajas = new VistaBoolean(v, true);
+                } else {
+                    verSolicitudesBarajas = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("solicitasBarajas")) {
+                if (elemento.getVistaList().contains(v)) {
+                    solicitasBarajas = new VistaBoolean(v, true);
+                } else {
+                    solicitasBarajas = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("entregarBarajas")) {
+                if (elemento.getVistaList().contains(v)) {
+                    entregarBarajas = new VistaBoolean(v, true);
+                } else {
+                    entregarBarajas = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("recibirBarajas")) {
+                if (elemento.getVistaList().contains(v)) {
+                    recibirBarajas = new VistaBoolean(v, true);
+                } else {
+                    recibirBarajas = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("destruirBarajas")) {
+                if (elemento.getVistaList().contains(v)) {
+                    destruirBarajas = new VistaBoolean(v, true);
+                } else {
+                    destruirBarajas = new VistaBoolean(v, false);
+                }
+            }
+            
+            if (v.getNombreVista().equals("recibirOrdenBarajas")) {
+                if (elemento.getVistaList().contains(v)) {
+                    recibirOrdenBarajas = new VistaBoolean(v, true);
+                } else {
+                    recibirOrdenBarajas = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("aceptarOrdenBarajas")) {
+                if (elemento.getVistaList().contains(v)) {
+                    aceptarOrdenBarajas = new VistaBoolean(v, true);
+                } else {
+                    aceptarOrdenBarajas = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("generarOrdenBarajas")) {
+                if (elemento.getVistaList().contains(v)) {
+                    generarOrdenBarajas = new VistaBoolean(v, true);
+                } else {
+                    generarOrdenBarajas = new VistaBoolean(v, false);
+                }
+            }
+            
             if (v.getNombreVista().equals("correoRequerimientoLoteCreado")) {
                 if (elemento.getVistaList().contains(v)) {
                     correoRequerimientoLoteCreado = new VistaBoolean(v, true);
@@ -1450,6 +1568,45 @@ public class PerfilActBean implements Serializable{
         }
         
         
+        if (correoOrdenBarajasCreada.isSelected()) {
+            elemento.getVistaList().add(correoOrdenBarajasCreada.getVista());
+        }
+        if (correoOrdenBarajasAprobada.isSelected()) {
+            elemento.getVistaList().add(correoOrdenBarajasAprobada.getVista());
+        }
+        if (correoOrdenBarajasRecibida.isSelected()) {
+            elemento.getVistaList().add(correoOrdenBarajasRecibida.getVista());
+        }
+        if (correoSolicitudBarajaCreada.isSelected()) {
+            elemento.getVistaList().add(correoSolicitudBarajaCreada.getVista());
+        }
+        if (correoSolicitudBarajaEntregada.isSelected()) {
+            elemento.getVistaList().add(correoSolicitudBarajaEntregada.getVista());
+        }
+        if (correoSolicitudBarajaRecibida.isSelected()) {
+            elemento.getVistaList().add(correoSolicitudBarajaRecibida.getVista());
+        }
+        if (correoLimiteAlcanzadoBarajas.isSelected()) {
+            elemento.getVistaList().add(correoLimiteAlcanzadoBarajas.getVista());
+        }
+        
+        
+        if (verSolicitudesBarajas.isSelected()) {
+            elemento.getVistaList().add(verSolicitudesBarajas.getVista());
+        }
+        if (solicitasBarajas.isSelected()) {
+            elemento.getVistaList().add(solicitasBarajas.getVista());
+        }
+        if (entregarBarajas.isSelected()) {
+            elemento.getVistaList().add(entregarBarajas.getVista());
+        }
+        if (recibirBarajas.isSelected()) {
+            elemento.getVistaList().add(recibirBarajas.getVista());
+        }
+        if (destruirBarajas.isSelected()) {
+            elemento.getVistaList().add(destruirBarajas.getVista());
+        }
+        
         
         if (notificacionescorreo.isSelected()) {
             elemento.getVistaList().add(notificacionescorreo.getVista());
@@ -1459,6 +1616,15 @@ public class PerfilActBean implements Serializable{
         }
         if (vistaBarajas.isSelected()) {
             elemento.getVistaList().add(vistaBarajas.getVista());
+        }
+        if (recibirOrdenBarajas.isSelected()) {
+            elemento.getVistaList().add(recibirOrdenBarajas.getVista());
+        }
+        if (generarOrdenBarajas.isSelected()) {
+            elemento.getVistaList().add(generarOrdenBarajas.getVista());
+        }
+        if (aceptarOrdenBarajas.isSelected()) {
+            elemento.getVistaList().add(aceptarOrdenBarajas.getVista());
         }
         
         if (recibirbonocorreo.isSelected()) {
@@ -3173,6 +3339,126 @@ public class PerfilActBean implements Serializable{
 
     public void setVerInventarioBarajas(VistaBoolean verInventarioBarajas) {
         this.verInventarioBarajas = verInventarioBarajas;
+    }
+
+    public VistaBoolean getRecibirOrdenBarajas() {
+        return recibirOrdenBarajas;
+    }
+
+    public void setRecibirOrdenBarajas(VistaBoolean recibirOrdenBarajas) {
+        this.recibirOrdenBarajas = recibirOrdenBarajas;
+    }
+
+    public VistaBoolean getGenerarOrdenBarajas() {
+        return generarOrdenBarajas;
+    }
+
+    public void setGenerarOrdenBarajas(VistaBoolean generarOrdenBarajas) {
+        this.generarOrdenBarajas = generarOrdenBarajas;
+    }
+
+    public VistaBoolean getAceptarOrdenBarajas() {
+        return aceptarOrdenBarajas;
+    }
+
+    public void setAceptarOrdenBarajas(VistaBoolean aceptarOrdenBarajas) {
+        this.aceptarOrdenBarajas = aceptarOrdenBarajas;
+    }
+
+    public VistaBoolean getVerSolicitudesBarajas() {
+        return verSolicitudesBarajas;
+    }
+
+    public void setVerSolicitudesBarajas(VistaBoolean verSolicitudesBarajas) {
+        this.verSolicitudesBarajas = verSolicitudesBarajas;
+    }
+
+    public VistaBoolean getSolicitasBarajas() {
+        return solicitasBarajas;
+    }
+
+    public void setSolicitasBarajas(VistaBoolean solicitasBarajas) {
+        this.solicitasBarajas = solicitasBarajas;
+    }
+
+    public VistaBoolean getEntregarBarajas() {
+        return entregarBarajas;
+    }
+
+    public void setEntregarBarajas(VistaBoolean entregarBarajas) {
+        this.entregarBarajas = entregarBarajas;
+    }
+
+    public VistaBoolean getRecibirBarajas() {
+        return recibirBarajas;
+    }
+
+    public void setRecibirBarajas(VistaBoolean recibirBarajas) {
+        this.recibirBarajas = recibirBarajas;
+    }
+
+    public VistaBoolean getDestruirBarajas() {
+        return destruirBarajas;
+    }
+
+    public void setDestruirBarajas(VistaBoolean destruirBarajas) {
+        this.destruirBarajas = destruirBarajas;
+    }
+
+    public VistaBoolean getCorreoOrdenBarajasCreada() {
+        return correoOrdenBarajasCreada;
+    }
+
+    public void setCorreoOrdenBarajasCreada(VistaBoolean correoOrdenBarajasCreada) {
+        this.correoOrdenBarajasCreada = correoOrdenBarajasCreada;
+    }
+
+    public VistaBoolean getCorreoOrdenBarajasAprobada() {
+        return correoOrdenBarajasAprobada;
+    }
+
+    public void setCorreoOrdenBarajasAprobada(VistaBoolean correoOrdenBarajasAprobada) {
+        this.correoOrdenBarajasAprobada = correoOrdenBarajasAprobada;
+    }
+
+    public VistaBoolean getCorreoOrdenBarajasRecibida() {
+        return correoOrdenBarajasRecibida;
+    }
+
+    public void setCorreoOrdenBarajasRecibida(VistaBoolean correoOrdenBarajasRecibida) {
+        this.correoOrdenBarajasRecibida = correoOrdenBarajasRecibida;
+    }
+
+    public VistaBoolean getCorreoSolicitudBarajaCreada() {
+        return correoSolicitudBarajaCreada;
+    }
+
+    public void setCorreoSolicitudBarajaCreada(VistaBoolean correoSolicitudBarajaCreada) {
+        this.correoSolicitudBarajaCreada = correoSolicitudBarajaCreada;
+    }
+
+    public VistaBoolean getCorreoSolicitudBarajaEntregada() {
+        return correoSolicitudBarajaEntregada;
+    }
+
+    public void setCorreoSolicitudBarajaEntregada(VistaBoolean correoSolicitudBarajaEntregada) {
+        this.correoSolicitudBarajaEntregada = correoSolicitudBarajaEntregada;
+    }
+
+    public VistaBoolean getCorreoSolicitudBarajaRecibida() {
+        return correoSolicitudBarajaRecibida;
+    }
+
+    public void setCorreoSolicitudBarajaRecibida(VistaBoolean correoSolicitudBarajaRecibida) {
+        this.correoSolicitudBarajaRecibida = correoSolicitudBarajaRecibida;
+    }
+
+    public VistaBoolean getCorreoLimiteAlcanzadoBarajas() {
+        return correoLimiteAlcanzadoBarajas;
+    }
+
+    public void setCorreoLimiteAlcanzadoBarajas(VistaBoolean correoLimiteAlcanzadoBarajas) {
+        this.correoLimiteAlcanzadoBarajas = correoLimiteAlcanzadoBarajas;
     }
 
 }

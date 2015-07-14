@@ -150,7 +150,15 @@
                                 <br/>Gesti&oacute;n de bonos</h:link>
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verBarajas&quot;)
-                                      or  sessionBean.perfilViewMatch(&quot;verInventarioBarajas&quot;)}">
+                                      or  sessionBean.perfilViewMatch(&quot;verInventarioBarajas&quot;)
+                                      or  sessionBean.perfilViewMatch(&quot;recibirOrdenBarajas&quot;)
+                                      or  sessionBean.perfilViewMatch(&quot;generarOrdenBarajas&quot;)
+                                      or  sessionBean.perfilViewMatch(&quot;aceptarOrdenBarajas&quot;)
+                                      or  sessionBean.perfilViewMatch(&quot;verSolicitudesBarajas&quot;)
+                                      or  sessionBean.perfilViewMatch(&quot;solicitasBarajas&quot;)
+                                      or  sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
+                                      or  sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
+                                      or  sessionBean.perfilViewMatch(&quot;destruirBarajas&quot;)}">
                             <h:link outcome="/pages/gestionBarajas.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-ticket fa-5x"></i> 
                                 <br/>Gesti&oacute;n de barajas</h:link>
                         </c:if>

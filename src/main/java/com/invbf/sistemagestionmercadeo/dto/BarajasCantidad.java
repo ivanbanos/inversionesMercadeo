@@ -12,8 +12,10 @@ import java.io.Serializable;
  * @author ivan
  */
 public class BarajasCantidad implements Serializable{
+    private Integer id;
     private BarajasDTO baraja;
     private Integer cantidad;
+    private Integer cantidadR;
 
     public BarajasDTO getBaraja() {
         return baraja;
@@ -34,8 +36,32 @@ public class BarajasCantidad implements Serializable{
     public BarajasCantidad() {
     }
 
-    public BarajasCantidad(BarajasDTO baraja, Integer cantidad) {
+    public BarajasCantidad(Integer id, BarajasDTO baraja, Integer cantidad, Integer cantidadR) {
         this.baraja = baraja;
         this.cantidad = cantidad;
+        this.id = id;
+        this.cantidadR = cantidadR;
     }
+    public BarajasCantidad(Integer id, BarajasDTO baraja) {
+        this.baraja = baraja;
+        this.cantidad = 0;
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getCantidadR() {
+        return cantidadR;
+    }
+
+    public void setCantidadR(Integer cantidadR) {
+        this.cantidadR = cantidadR;
+    }
+    
 }

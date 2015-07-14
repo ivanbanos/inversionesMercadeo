@@ -25,12 +25,31 @@
                     <div class="col-xs-12 col-md-12 panel-body panel-bodyindex">
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verBarajas&quot;)}">
                             <h:commandLink  action="#{sessionBean.go(&quot;barajas&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
-                                <br/>Configuraci&oacute;n de barajas</h:commandLink>
+                                <br/>Configuraci&oacute;n de <br/>barajas</h:commandLink>
                         </c:if>
 
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verInventarioBarajas&quot;)}">
                             <h:commandLink  action="#{sessionBean.go(&quot;inventarioBaraja&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
-                                <br/>Inventario de barajas</h:commandLink>
+                                <br/>Inventario de barajas<br/><br/></h:commandLink>
+                        </c:if>
+
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;recibirOrdenBarajas&quot;)
+                                      or  sessionBean.perfilViewMatch(&quot;generarOrdenBarajas&quot;)
+                                      or  sessionBean.perfilViewMatch(&quot;aceptarOrdenBarajas&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;ordenesComprabaraja&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
+                                <br/>Ordenes de compra de <br/>lote de barajas</h:commandLink>
+
+                        </c:if>
+                        
+
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;verSolicitudesBarajas&quot;)
+                                      or  sessionBean.perfilViewMatch(&quot;solicitasBarajas&quot;)
+                                      or  sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
+                                      or  sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
+                                      or  sessionBean.perfilViewMatch(&quot;destruirBarajas&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;solicitudbaraja&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
+                                <br/>Solicitudes de barajas<br/><br/></h:commandLink>
+
                         </c:if>
                     </div>
                 </h:form>
