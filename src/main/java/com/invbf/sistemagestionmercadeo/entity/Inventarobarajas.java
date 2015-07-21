@@ -35,6 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Inventarobarajas.findById", query = "SELECT i FROM Inventarobarajas i WHERE i.id = :id"),
     @NamedQuery(name = "Inventarobarajas.findByCantidadbarajas", query = "SELECT i FROM Inventarobarajas i WHERE i.cantidadbarajas = :cantidadbarajas")})
 public class Inventarobarajas implements Serializable {
+    @OneToMany(mappedBy = "inventario")
+    private List<Actasdestruccionbarajas> actasdestruccionbarajasList;
 
     @Column(name = "uso")
     private Integer uso;
@@ -205,6 +207,15 @@ public class Inventarobarajas implements Serializable {
             }
         }
         return false;
+    }
+
+    @XmlTransient
+    public List<Actasdestruccionbarajas> getActasdestruccionbarajasList() {
+        return actasdestruccionbarajasList;
+    }
+
+    public void setActasdestruccionbarajasList(List<Actasdestruccionbarajas> actasdestruccionbarajasList) {
+        this.actasdestruccionbarajasList = actasdestruccionbarajasList;
     }
 
 }

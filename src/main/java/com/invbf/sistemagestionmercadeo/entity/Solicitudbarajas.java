@@ -42,6 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Solicitudbarajas.findByFechentrega", query = "SELECT s FROM Solicitudbarajas s WHERE s.fechentrega = :fechentrega"),
     @NamedQuery(name = "Solicitudbarajas.findByFecharecepcion", query = "SELECT s FROM Solicitudbarajas s WHERE s.fecharecepcion = :fecharecepcion")})
 public class Solicitudbarajas implements Serializable {
+
     @Column(name = "fechaDestruccion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaDestruccion;
@@ -63,6 +64,18 @@ public class Solicitudbarajas implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Column(name = "recibidasNuevas")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date recibidasNuevas;
+    @Column(name = "recibidasUsadas")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date recibidasUsadas;
+    @Column(name = "entregadasNuevas")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date entregadasNuevas;
+    @Column(name = "entregadasUsadas")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date entregadasUsadas;
     @Size(max = 100)
     @Column(name = "estado")
     private String estado;
@@ -198,5 +211,36 @@ public class Solicitudbarajas implements Serializable {
     public void setDestructor(Usuario destructor) {
         this.destructor = destructor;
     }
-    
+
+    public Date getRecibidasNuevas() {
+        return recibidasNuevas;
+    }
+
+    public void setRecibidasNuevas(Date recibidasNuevas) {
+        this.recibidasNuevas = recibidasNuevas;
+    }
+
+    public Date getRecibidasUsadas() {
+        return recibidasUsadas;
+    }
+
+    public void setRecibidasUsadas(Date recibidasUsadas) {
+        this.recibidasUsadas = recibidasUsadas;
+    }
+
+    public Date getEntregadasNuevas() {
+        return entregadasNuevas;
+    }
+
+    public void setEntregadasNuevas(Date entregadasNuevas) {
+        this.entregadasNuevas = entregadasNuevas;
+    }
+
+    public Date getEntregadasUsadas() {
+        return entregadasUsadas;
+    }
+
+    public void setEntregadasUsadas(Date entregadasUsadas) {
+        this.entregadasUsadas = entregadasUsadas;
+    }
 }

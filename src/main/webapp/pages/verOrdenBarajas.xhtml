@@ -172,25 +172,29 @@
                                                 <f:converter  converterId="numberSeparationConverter"  />
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Cantidad solicitada">
+                                        <p:column headerText="Cantidad solicitada" style="text-align: center;">
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidad}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                 </h:outputText>
                                             </span>
                                             <f:facet name="footer">
-                                                Total #{verOrdenCompraBarajas.orden.cantidadBarajas}<h:selectBooleanCheckbox />
+                                                Total #{verOrdenCompraBarajas.orden.cantidadBarajas}
                                             </f:facet>
                                         </p:column>
-                                        <p:column headerText="Cantidad recibidas" width="30%" >
+                                        <p:column headerText="Cantidad recibidas" width="30%" rendered="#{verOrdenCompraBarajas.orden.estado != 'CREADA'}">
                                             <span id="cantidad#{status}">
                                                 <p:spinner min="0" stepFactor="1"
-                                                           value="#{detalle.cantidadR}" rendered="#{verOrdenCompraBarajas.orden.estado != 'RECIBIDA'}">
+                                                           value="#{detalle.cantidadR}" rendered="#{verOrdenCompraBarajas.orden.estado == 'APROBADA'}">
                                                 </p:spinner>
                                                 <h:outputText value="#{detalle.cantidadR}" rendered="#{verOrdenCompraBarajas.orden.estado == 'RECIBIDA'}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                 </h:outputText>
                                             </span>
+                                            
+                                            <f:facet name="footer">
+                                                Total <h:outputText id="ajaxSpinnerValue" value="#{verOrdenCompraBarajas.orden.cantidadBarajasR}"/>
+                                            </f:facet>
                                         </p:column>
                                     </p:dataTable>
                                 </div>

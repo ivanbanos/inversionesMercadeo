@@ -5,6 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.facade;
 
+import com.invbf.sistemagestionmercadeo.dto.ActaDestruccionDTO;
 import com.invbf.sistemagestionmercadeo.dto.BarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.InventarioBarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.MaterialesDTO;
@@ -12,6 +13,7 @@ import com.invbf.sistemagestionmercadeo.dto.OrdenCompraBarajaDTO;
 import com.invbf.sistemagestionmercadeo.dto.SolicitudBarajasDTO;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,9 +52,13 @@ public interface BarajasFacade {
 
     public SolicitudBarajasDTO getSolicitud(Integer idOrden);
 
-    public void entregarSolicitud(Integer idOrden, Usuario usuario);
+    public void entregarNuevasSolicitud(Integer idOrden, Usuario usuario);
 
-    public void recibirSolicitud(Integer idOrden, Usuario usuario);
+    public void recibirNuevasSolicitud(Integer idOrden, Usuario usuario);
+
+    public void entregarUsadasSolicitud(Integer idOrden, Usuario usuario);
+
+    public void recibirUsadasSolicitud(Integer idOrden, Usuario usuario);
 
     public List<InventarioBarajasDTO> getBodegas();
 
@@ -62,5 +68,16 @@ public interface BarajasFacade {
 
     public List<InventarioBarajasDTO> getBodegas(Usuario usuario);
 
-    
+    public List<InventarioBarajasDTO> getBodegasParaSol(Usuario usuario);
+
+    public ActaDestruccionDTO getBodegasParaDes();
+
+    public ActaDestruccionDTO getBodegasParaDesPorId( Integer idOrden);
+
+    public Integer destruir(ActaDestruccionDTO acta, Usuario usuario);
+
+    public Date getFechaDestruccion(Integer idOrden);
+
+    public List<ActaDestruccionDTO> getActasDestruccion();
+
 }

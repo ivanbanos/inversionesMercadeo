@@ -62,7 +62,7 @@ public class CrearSolicitudBarajasBean implements Serializable {
         if (sessionBean.getUsuario().getCasinoList() == null || sessionBean.getUsuario().getCasinoList().isEmpty()) {
             lista = new ArrayList<InventarioBarajasDTO>();
         } else {
-            lista = sessionBean.barajasFacade.getBodegas(sessionBean.getUsuario());
+            lista = sessionBean.barajasFacade.getBodegasParaSol(sessionBean.getUsuario());
         }
         invent = new InventarioBarajasDTO();
     }

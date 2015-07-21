@@ -58,67 +58,35 @@
                                                                     <h:outputText value="#{verSolicitudBarajasBean.orden.usuarioCreado}"/>
                                                                 </td>
                                                             </tr>
-                                                            <tr>
-                                                                <c:choose>
-                                                                    <c:when test="#{verSolicitudBarajasBean.orden.estado == 'CREADA'}">
-                                                                        <td width="50px"></td>
-                                                                        <td>Por entregar</td>
-                                                                        <td></td>
-                                                                        <td></td>
-                                                                        <td></td>
-                                                                    </c:when>
-                                                                    <c:otherwise >
-                                                                        <td width="50px"><i class="fa fa-check"></i></td>
-                                                                        <td>Entregada en</td>
-                                                                        <td>
-                                                                            <h:outputText value="#{verSolicitudBarajasBean.orden.fechaAceptada}">
-                                                                                <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
-                                                                            </h:outputText>
-                                                                        </td>
-                                                                        <td>Por</td>
-                                                                        <td>
-                                                                            <h:outputText value="#{verSolicitudBarajasBean.orden.usuarioAceptador}"/>
-                                                                        </td>
-                                                                    </c:otherwise>
-                                                                </c:choose>
-                                                            </tr>
-                                                            <tr>
-                                                                <c:choose>
-                                                                    <c:when test="#{verSolicitudBarajasBean.orden.estado == 'ENTREGADA'}">
-                                                                        <td width="50px"></td>
-                                                                        <td>Por recibir</td>
-                                                                        <td></td>
-                                                                        <td></td>
-                                                                        <td></td>
-                                                                    </c:when>
-                                                                    <c:when test="#{verSolicitudBarajasBean.orden.estado == 'RECIBIDA' }">
-                                                                        <td width="50px"><i class="fa fa-check"></i></td>
-                                                                        <td>Recibida en</td>
-                                                                        <td>
-                                                                            <h:outputText value="#{verSolicitudBarajasBean.orden.fechaRecibida}">
-                                                                                <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
-                                                                            </h:outputText>
-                                                                        </td>
-                                                                        <td>Por</td>
-                                                                        <td>
-                                                                            <h:outputText value="#{verSolicitudBarajasBean.orden.usuarioREcibidor}"/>
-                                                                        </td>
-                                                                    </c:when>
-                                                                </c:choose>
-                                                            </tr>
+                                                            
+                                                            
                                                         </table>
                                                     </div>
                                                     <div class="panel-footer panel-footer-landing">
-                                                        <h:commandButton id="btnapro" value="Entregar" style="margin:0" onclick="PF('aprobar').show();"
+                                                        <h:commandButton id="btnen" value="Entregar Nuevas" style="margin:0" onclick="PF('ennu').show();"
                                                                          class="btn btn-primary" 
                                                                          rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
-                                                                                     and verSolicitudBarajasBean.orden.estado == 'CREADA'}">
+                                                                                     and verSolicitudBarajasBean.orden.entregadasnuevas == null}">
                                                             <f:ajax execute="@form" render="@none" />
                                                         </h:commandButton>
-                                                        <h:commandButton id="btnrec" value="Recibir" style="margin:0" onclick="PF('recibir').show();"
+                                                        <h:commandButton id="btnru" value="Recibir Usadas" style="margin:0" onclick="PF('reus').show();"
+                                                                         class="btn btn-primary"
+                                                                         rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
+                                                                                     and verSolicitudBarajasBean.orden.recibidasusadas == null
+                                                                                     and verSolicitudBarajasBean.orden.entregadasusadas != null }">
+                                                            <f:ajax execute="@form" render="@none" />
+                                                        </h:commandButton>
+                                                        <h:commandButton id="btnrn" value="Recibir Nuevas" style="margin:0" onclick="PF('renu').show();"
                                                                          class="btn btn-primary"
                                                                          rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
-                                                                                     and verSolicitudBarajasBean.orden.estado == 'ENTREGADA' }">
+                                                                                     and verSolicitudBarajasBean.orden.entregadasnuevas != null
+                                                                                     and verSolicitudBarajasBean.orden.recibidasnuevas == null}">
+                                                            <f:ajax execute="@form" render="@none" />
+                                                        </h:commandButton>
+                                                        <h:commandButton id="btneu" value="Entregar Usadas" style="margin:0" onclick="PF('enus').show();"
+                                                                         class="btn btn-primary" 
+                                                                         rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
+                                                                                     and verSolicitudBarajasBean.orden.entregadasusadas == null}">
                                                             <f:ajax execute="@form" render="@none" />
                                                         </h:commandButton>
                                                     </div>
@@ -164,48 +132,54 @@
                                                 <f:converter  converterId="numberSeparationConverter"  />
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Recibo viejas" width="30%" rendered="#{verSolicitudBarajasBean.orden.estado == 'CREADA'}">
+                                        <p:column headerText="Recibo usadas" rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
+                                                                                     and verSolicitudBarajasBean.orden.recibidasusadas == null}">
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidad}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                 </h:outputText>
                                             </span>
                                             <f:facet name="footer">
-                                                Recibo #{verSolicitudBarajasBean.orden.cantidadBarajas} usadas<h:selectBooleanCheckbox />
+                                                Recibo #{verSolicitudBarajasBean.orden.cantidadBarajas} usadas
                                             </f:facet>
                                         </p:column>
-                                        <p:column headerText="Entrego nuevas" width="30%" rendered="#{verSolicitudBarajasBean.orden.estado == 'CREADA'}">
+                                        <p:column headerText="Entrego nuevas" rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
+                                                                                     and verSolicitudBarajasBean.orden.entregadasnuevas == null}">
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidad}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                 </h:outputText>
                                             </span>
                                             <f:facet name="footer">
-                                                Entrego #{verSolicitudBarajasBean.orden.cantidadBarajas} nuevas<h:selectBooleanCheckbox />
+                                                Entrego #{verSolicitudBarajasBean.orden.cantidadBarajas} nuevas
                                             </f:facet>
                                         </p:column>
 
-                                        <p:column headerText="Recibo nuevas" width="30%" rendered="#{verSolicitudBarajasBean.orden.estado == 'ENTREGADA'}">
+                                        <p:column headerText="Recibo nuevas" rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
+                                                                                     and verSolicitudBarajasBean.orden.entregadasnuevas != null
+                                                                                     and verSolicitudBarajasBean.orden.recibidasnuevas == null}">
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidad}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                 </h:outputText>
                                             </span>
                                             <f:facet name="footer">
-                                                Recibo #{verSolicitudBarajasBean.orden.cantidadBarajas} nuevas<h:selectBooleanCheckbox />
+                                                Recibo #{verSolicitudBarajasBean.orden.cantidadBarajas} nuevas
                                             </f:facet>
                                         </p:column>
-                                        <p:column headerText="Entrego usadas" width="30%" rendered="#{verSolicitudBarajasBean.orden.estado == 'ENTREGADA'}">
+                                        <p:column headerText="Entrego usadas" rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
+                                                                                     and verSolicitudBarajasBean.orden.recibidasusadas != null
+                                                                                     and verSolicitudBarajasBean.orden.entregadasusadas == null}">
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidad}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                 </h:outputText>
                                             </span>
                                             <f:facet name="footer">
-                                                Entrego #{verSolicitudBarajasBean.orden.cantidadBarajas} usadas<h:selectBooleanCheckbox />
+                                                Entrego #{verSolicitudBarajasBean.orden.cantidadBarajas} usadas
                                             </f:facet>
                                         </p:column>
-                                        <p:column headerText="Cantidad solicitada" width="30%" rendered="#{verSolicitudBarajasBean.orden.estado != 'CREADA' and verSolicitudBarajasBean.orden.estado != 'ENTREGADA'}">
+                                        <p:column headerText="Cantidad solicitada" rendered="#{verSolicitudBarajasBean.orden.estado != 'CREADA' and verSolicitudBarajasBean.orden.estado != 'ENTREGADA'}">
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidad}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
@@ -221,21 +195,41 @@
             </div>
         </h:form>
         <h:form>
-            <p:confirmDialog id="aprobar" message="Quiere aprobar la orden #{label['cierrepregunta']}"  
-                             header="Borrar" severity="alert" widgetVar="aprobar" closable="false">  
+            <p:confirmDialog id="ennu" message="Entreg&oacute; las barajas nuevas #{label['cierrepregunta']}"  
+                             header="Entregar nuevas" severity="alert" widgetVar="ennu" closable="false">  
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
-                                 action="#{verSolicitudBarajasBean.aprobarOrden()}"/>  
-                <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('aprobar').hide()" type="button" />   
+                                 action="#{verSolicitudBarajasBean.entregarNuevas()}" oncomplete="PF('ennu').hide()"/>  
+                <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('ennu').hide()" type="button" />   
 
             </p:confirmDialog> 
         </h:form>
         <h:form>
-            <p:confirmDialog id="recibir" message="Quiere recibir la orden #{label['cierrepregunta']}"  
-                             header="Borrar" severity="alert" widgetVar="recibir" closable="false">  
+            <p:confirmDialog id="reus" message="Recibi&oacute; las barajas usadas #{label['cierrepregunta']}"  
+                             header="Borrar" severity="alert" widgetVar="reus" closable="false">  
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
-                                 action="#{verSolicitudBarajasBean.recibirOrden()}"/>  
+                                 action="#{verSolicitudBarajasBean.recibirUsadas()}" oncomplete="PF('reus').hide()"/>  
+                <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('reus').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+        <h:form>
+            <p:confirmDialog id="renu" message="Recibi&oacute; las barajas nuevas #{label['cierrepregunta']}"  
+                             header="Borrar" severity="alert" widgetVar="renu" closable="false">  
+
+                <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
+                                 action="#{verSolicitudBarajasBean.recibirNuevas()}" oncomplete="PF('renu').hide()"/>  
+                <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('renu').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+        <h:form>
+            <p:confirmDialog id="enus" message="Entreg&oacute; las barajas usadas #{label['cierrepregunta']}"  
+                             header="Borrar" severity="alert" widgetVar="enus" closable="false">  
+
+                <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
+                                 action="#{verSolicitudBarajasBean.entregarUsadas()}" oncomplete="PF('enus').hide()"/>  
                 <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('recibir').hide()" type="button" />   
 
             </p:confirmDialog> 

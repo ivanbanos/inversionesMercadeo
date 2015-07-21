@@ -108,4 +108,11 @@ public class OrdenCompraBarajaDTO implements Serializable {
         }
         return cantitadBarajas;
     }
+    public int getCantidadBarajasR() {
+        int cantitadBarajas = 0;
+        for (BarajasCantidad cantidad : cantidades) {
+            cantitadBarajas += cantidad.getCantidadR();
+        }
+        return cantitadBarajas;
+    }
 }

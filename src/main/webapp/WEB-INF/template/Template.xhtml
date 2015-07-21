@@ -296,10 +296,14 @@
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verSolicitudesBarajas&quot;)
                                                       or  sessionBean.perfilViewMatch(&quot;solicitasBarajas&quot;)
                                                       or  sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
-                                                      or  sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
-                                                      or  sessionBean.perfilViewMatch(&quot;destruirBarajas&quot;)}">
+                                                      or  sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)}">
                                             <li >
                                                 <h:commandLink  action="#{sessionBean.go(&quot;solicitudbaraja&quot;)}" value="Solicitudes de barajas"/>
+                                            </li>
+                                        </c:if>
+                                        <c:if test="#{sessionBean.perfilViewMatch(&quot;destruirBarajas&quot;)}">
+                                            <li >
+                                                <h:commandLink  action="#{sessionBean.go(&quot;destruirBarajas&quot;)}" value="Actas de destrucci&oacute;n de barajas"/>
                                             </li>
                                         </c:if>
                                     </ul>

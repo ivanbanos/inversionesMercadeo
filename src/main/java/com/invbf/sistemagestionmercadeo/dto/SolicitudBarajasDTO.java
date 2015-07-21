@@ -22,6 +22,10 @@ public class SolicitudBarajasDTO implements Serializable {
     private Date fechaAceptada;
     private Date fechaRecibida;
     private Date fechaDestruccion;
+    private Date entregadasnuevas;
+    private Date entregadasusadas;
+    private Date recibidasnuevas;
+    private Date recibidasusadas;
     private String usuarioCreado;
     private String usuarioAceptador;
     private String usuarioREcibidor;
@@ -127,4 +131,37 @@ public class SolicitudBarajasDTO implements Serializable {
         }
         return cantitadBarajas;
     }
+
+    public Date getEntregadasnuevas() {
+        return entregadasnuevas;
+    }
+
+    public void setEntregadasnuevas(Date entregadasnuevas) {
+        this.entregadasnuevas = entregadasnuevas;
+    }
+
+    public Date getEntregadasusadas() {
+        return entregadasusadas;
+    }
+
+    public void setEntregadasusadas(Date entregadasusadas) {
+        this.entregadasusadas = entregadasusadas;
+    }
+
+    public Date getRecibidasnuevas() {
+        return recibidasnuevas;
+    }
+
+    public void setRecibidasnuevas(Date recibidasnuevas) {
+        this.recibidasnuevas = recibidasnuevas;
+    }
+
+    public Date getRecibidasusadas() {
+        return recibidasusadas;
+    }
+
+    public void setRecibidasusadas(Date recibidasusadas) {
+        this.recibidasusadas = recibidasusadas;
+    }
+    
 }

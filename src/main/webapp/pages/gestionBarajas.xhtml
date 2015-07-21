@@ -47,12 +47,18 @@
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verSolicitudesBarajas&quot;)
                                       or  sessionBean.perfilViewMatch(&quot;solicitasBarajas&quot;)
                                       or  sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
-                                      or  sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
-                                      or  sessionBean.perfilViewMatch(&quot;destruirBarajas&quot;)}">
+                                      or  sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)}">
                             <h:commandLink  action="#{sessionBean.go(&quot;solicitudbaraja&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
                                 <br/>Solicitudes de barajas<br/><br/></h:commandLink>
 
                         </c:if>
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;destruirBarajas&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;destruirBarajas&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
+                                <br/>Acta de destrucci&oacute;n <br/>de barajas</h:commandLink>
+
+                        </c:if>
+                        
+                                      
                     </div>
                 </h:form>
             </div>
