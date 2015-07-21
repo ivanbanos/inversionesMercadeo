@@ -35,6 +35,20 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Inventarobarajas.findById", query = "SELECT i FROM Inventarobarajas i WHERE i.id = :id"),
     @NamedQuery(name = "Inventarobarajas.findByCantidadbarajas", query = "SELECT i FROM Inventarobarajas i WHERE i.cantidadbarajas = :cantidadbarajas")})
 public class Inventarobarajas implements Serializable {
+
+    @Column(name = "uso")
+    private Integer uso;
+    @Column(name = "pordestruir")
+    private Integer pordestruir;
+    @Column(name = "destruidas")
+    private Integer destruidas;
+    @Column(name = "max")
+    private Integer max;
+    @Column(name = "min")
+    private Integer min;
+    @JoinColumn(name = "bodega", referencedColumnName = "id")
+    @ManyToOne
+    private Bodega bodega;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "inventarobarajas")
     private List<Solicitudbarajadetalle> solicitudbarajadetalleList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "inventarobarajas")
@@ -52,6 +66,17 @@ public class Inventarobarajas implements Serializable {
     private Barajas baraja;
 
     public Inventarobarajas() {
+    }
+
+    public Inventarobarajas(Bodega bodega, Barajas baraja) {
+        this.bodega = bodega;
+        this.baraja = baraja;
+        cantidadbarajas = 0;
+        max = 0;
+        min = 0;
+        pordestruir = 0;
+        destruidas = 0;
+        uso = 0;
     }
 
     public Inventarobarajas(Integer id) {
@@ -107,7 +132,6 @@ public class Inventarobarajas implements Serializable {
         return "com.invbf.sistemagestionmercadeo.entity.Inventarobarajas[ id=" + id + " ]";
     }
 
-
     @XmlTransient
     public List<Solicitudbarajadetalle> getSolicitudbarajadetalleList() {
         return solicitudbarajadetalleList;
@@ -125,5 +149,62 @@ public class Inventarobarajas implements Serializable {
     public void setOrdencomprabarajadetalleList(List<Ordencomprabarajadetalle> ordencomprabarajadetalleList) {
         this.ordencomprabarajadetalleList = ordencomprabarajadetalleList;
     }
-    
+
+    public Integer getUso() {
+        return uso;
+    }
+
+    public void setUso(Integer uso) {
+        this.uso = uso;
+    }
+
+    public Integer getPordestruir() {
+        return pordestruir;
+    }
+
+    public void setPordestruir(Integer pordestruir) {
+        this.pordestruir = pordestruir;
+    }
+
+    public Integer getDestruidas() {
+        return destruidas;
+    }
+
+    public void setDestruidas(Integer destruidas) {
+        this.destruidas = destruidas;
+    }
+
+    public Integer getMax() {
+        return max;
+    }
+
+    public void setMax(Integer max) {
+        this.max = max;
+    }
+
+    public Integer getMin() {
+        return min;
+    }
+
+    public void setMin(Integer min) {
+        this.min = min;
+    }
+
+    public Bodega getBodega() {
+        return bodega;
+    }
+
+    public void setBodega(Bodega bodega) {
+        this.bodega = bodega;
+    }
+
+    public boolean isOrdenActiva() {
+        for (Ordencomprabarajadetalle ordencomprabarajadetalle : ordencomprabarajadetalleList) {
+            if (!ordencomprabarajadetalle.getOrdencomprabaraja().getEsatdo().equals("RECIBIDA")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

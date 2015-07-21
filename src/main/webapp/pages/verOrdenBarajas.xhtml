@@ -147,6 +147,14 @@
                                     <p:dataTable value="#{verOrdenCompraBarajas.orden.cantidades}" var="detalle" rowIndexVar="status"
                                                  emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
 
+                                        <p:column headerText="Bodega" style="text-align: center;">
+                                            <h:outputText value="#{detalle.bodega}">
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="Material" style="text-align: center;">
+                                            <h:outputText value="#{detalle.baraja.material.nombre}">
+                                            </h:outputText>
+                                        </p:column>
                                         <p:column headerText="Material" style="text-align: center;">
                                             <h:outputText value="#{detalle.baraja.material.nombre}">
                                             </h:outputText>
@@ -164,7 +172,7 @@
                                                 <f:converter  converterId="numberSeparationConverter"  />
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Cantidad solicitada" width="30%">
+                                        <p:column headerText="Cantidad solicitada">
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidad}">
                                                     <f:converter  converterId="numberSeparationConverter"  />

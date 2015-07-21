@@ -85,7 +85,31 @@ public class verSolicitudBarajasBean implements Serializable {
         }
     }
 
+    public void aprobarOrdenCompleta() {
+        sessionBean.barajasFacade.entregarSolicitud(idOrden, sessionBean.getUsuario()); 
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha entregado la solicitud con exito", "Acta de orden #" + orden.getId()));
+        Notificador.notificar(Notificador.correoSolicitudBarajaEntregada, 
+                    "Se ha aprobado la solicitud de barajas con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.", 
+                    "Se ha aprobado una solicitud de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBarajas.xhtml");
+        } catch (IOException ex) {
+        }
+    }
+
     public void recibirOrden() {
+        sessionBean.barajasFacade.recibirSolicitud(idOrden, sessionBean.getUsuario());
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha recibido la solicitud con exito", "Acta de orden #" + orden.getId()));
+        Notificador.notificar(Notificador.correoSolicitudBarajaRecibida, 
+                    "Se ha recibido la solicitud de barajas con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.", 
+                    "Se ha recibido una solicitud de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBarajas.xhtml");
+        } catch (IOException ex) {
+        }
+    }
+    
+    public void recibirOrdenCompleta() {
         sessionBean.barajasFacade.recibirSolicitud(idOrden, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha recibido la solicitud con exito", "Acta de orden #" + orden.getId()));
         Notificador.notificar(Notificador.correoSolicitudBarajaRecibida, 

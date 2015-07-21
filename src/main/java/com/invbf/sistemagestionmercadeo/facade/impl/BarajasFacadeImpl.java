@@ -8,11 +8,14 @@ package com.invbf.sistemagestionmercadeo.facade.impl;
 import com.invbf.sistemagestionmercadeo.dao.GestionBarajasDao;
 import com.invbf.sistemagestionmercadeo.dto.BarajasCantidad;
 import com.invbf.sistemagestionmercadeo.dto.BarajasDTO;
+import com.invbf.sistemagestionmercadeo.dto.CasinoDto;
 import com.invbf.sistemagestionmercadeo.dto.InventarioBarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.MaterialesDTO;
 import com.invbf.sistemagestionmercadeo.dto.OrdenCompraBarajaDTO;
 import com.invbf.sistemagestionmercadeo.dto.SolicitudBarajasDTO;
 import com.invbf.sistemagestionmercadeo.entity.Barajas;
+import com.invbf.sistemagestionmercadeo.entity.Bodega;
+import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Inventarobarajas;
 import com.invbf.sistemagestionmercadeo.entity.Materialesbarajas;
 import com.invbf.sistemagestionmercadeo.entity.Ordencomprabaraja;
@@ -21,6 +24,7 @@ import com.invbf.sistemagestionmercadeo.entity.Solicitudbarajadetalle;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudbarajas;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.facade.BarajasFacade;
+import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,14 +53,30 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         return new Materialesbarajas(material.getId(), material.getNombre());
     }
 
-    private InventarioBarajasDTO transformarInventario(List<Inventarobarajas> listaInvenratioBarajas) {
-        InventarioBarajasDTO inventario = new InventarioBarajasDTO();
-        System.err.println(listaInvenratioBarajas.size());
-        for (Inventarobarajas item : listaInvenratioBarajas) {
-            inventario.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), item.getCantidadbarajas(), item.getCantidadbarajas()));
+    private List<InventarioBarajasDTO> transformarBodegas(List<Bodega> bodegas) {
+        List<InventarioBarajasDTO> bodegasdto = new ArrayList<InventarioBarajasDTO>();
+        for (Bodega bodega : bodegas) {
+            bodegasdto.add(transformarInventario(bodega));
         }
+        return bodegasdto;
+    }
 
-        return inventario;
+    private InventarioBarajasDTO transformarInventario(Bodega bodega) {
+
+        InventarioBarajasDTO bodegadto = new InventarioBarajasDTO();
+        bodegadto.setId(bodega.getId());
+        bodegadto.setNombre(bodega.getNombre());
+        for (Inventarobarajas item : bodega.getInventarobarajasList()) {
+            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), item.getCantidadbarajas(), item.getCantidadbarajas(), item.getUso(), item.getPordestruir(), item.getDestruidas(), item.getMax(), item.getMin(), bodegadto.getNombre()));
+        }
+        for (Casino casino : bodega.getCasinosList()) {
+            bodegadto.getCasinos().add(transformarCasino(casino));
+        }
+        return bodegadto;
+    }
+
+    private CasinoDto transformarCasino(Casino casino) {
+        return new CasinoDto(casino.getIdCasino(), casino.getNombre());
     }
 
     private List<OrdenCompraBarajaDTO> transformarOrdenesCompra(List<Ordencomprabaraja> listaOrdenesCompraBarajas) {
@@ -90,7 +110,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         orden.setUsuarioAceptador(item.getAceptador() == null ? "" : item.getAceptador().getNombreUsuario());
         orden.setUsuarioREcibidor(item.getRecibidor() == null ? "" : item.getRecibidor().getNombreUsuario());
         for (Ordencomprabarajadetalle detalle : item.getOrdencomprabarajadetalleList()) {
-            orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(), detalle.getCantidad()));
+            orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getInventarobarajas().getBodega().getNombre()));
         }
         return orden;
     }
@@ -108,7 +128,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         orden.setUsuarioREcibidor(item.getRecibidor() == null ? "" : item.getRecibidor().getNombreUsuario());
         orden.setUsuarioDestructor(item.getDestructor() == null ? "" : item.getDestructor().getNombreUsuario());
         for (Solicitudbarajadetalle detalle : item.getSolicitudbarajadetalleList()) {
-            orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(),detalle.getCantidad()));
+            orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getInventarobarajas().getBodega().getNombre()));
         }
         return orden;
     }
@@ -148,7 +168,6 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     @Override
     public BarajasDTO addBaraja(BarajasDTO elemento) {
         elemento = transformarBaraja(GestionBarajasDao.addBaraja(transformarBaraja(elemento)));
-        GestionBarajasDao.addInventarioBaraja(transformarBaraja(elemento));
         return elemento;
     }
 
@@ -159,8 +178,8 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     }
 
     @Override
-    public InventarioBarajasDTO getInventario() {
-        return transformarInventario(GestionBarajasDao.getListaInvenratioBarajas());
+    public InventarioBarajasDTO getInventario(Integer id) {
+        return transformarInventario(GestionBarajasDao.getListaInvenratioBarajas(id));
     }
 
     @Override
@@ -169,13 +188,15 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     }
 
     @Override
-    public int crearOrdenBarajas(InventarioBarajasDTO inventario, Usuario usuario) {
+    public int crearOrdenBarajas(List<InventarioBarajasDTO> inventario, Usuario usuario) {
         Ordencomprabaraja orden = new Ordencomprabaraja();
         orden.setFechaCreacion(new Date());
         orden.setCreador(usuario);
         orden.setEsatdo("CREADA");
         orden = GestionBarajasDao.crearOrdenCompra(orden);
-        orden.setOrdencomprabarajadetalleList(getDetallesOrden(inventario, orden.getId()));
+        for (InventarioBarajasDTO inventario1 : inventario) {
+            orden.getOrdencomprabarajadetalleList().addAll(getDetallesOrden(inventario1, orden.getId()));
+        }
         return GestionBarajasDao.guardarOrdenCompra(orden).getId();
 
     }
@@ -253,12 +274,31 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     public void entregarSolicitud(Integer idOrden, Usuario usuario) {
         GestionBarajasDao.entregarSolicitud(idOrden, usuario);
 
-        
     }
 
     @Override
     public void recibirSolicitud(Integer idOrden, Usuario usuario) {
         GestionBarajasDao.recibirSolicitud(idOrden, usuario);
+    }
+
+    @Override
+    public List<InventarioBarajasDTO> getBodegas() {
+        return transformarBodegas(GestionBarajasDao.getBodegas());
+    }
+
+    @Override
+    public Integer crearBodega(String nombre) {
+        return GestionBarajasDao.crearBodega(nombre);
+    }
+
+    @Override
+    public void guardarBodega(InventarioBarajasDTO inventario, List<CasinoBoolean> casinos) {
+        GestionBarajasDao.guardarBodega(inventario, casinos);
+    }
+
+    @Override
+    public List<InventarioBarajasDTO> getBodegas(Usuario usuario) {
+        return transformarBodegas(GestionBarajasDao.getBodegasUsusario(usuario));
     }
 
 }

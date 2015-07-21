@@ -6,6 +6,7 @@
 package com.invbf.sistemagestionmercadeo.dto;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 
 /**
  *
@@ -16,6 +17,12 @@ public class BarajasCantidad implements Serializable{
     private BarajasDTO baraja;
     private Integer cantidad;
     private Integer cantidadR;
+    private Integer uso;
+    private Integer pordestruir;
+    private Integer destruidas;
+    private Integer max;
+    private Integer min;
+    private String bodega;
 
     public BarajasDTO getBaraja() {
         return baraja;
@@ -36,12 +43,59 @@ public class BarajasCantidad implements Serializable{
     public BarajasCantidad() {
     }
 
-    public BarajasCantidad(Integer id, BarajasDTO baraja, Integer cantidad, Integer cantidadR) {
+    public BarajasCantidad(Integer id, BarajasDTO baraja, Integer cantidad, Integer cantidadR, Integer uso, Integer pordestruir, Integer destruidas, Integer max, Integer min, String bodega) {
+        this.id = id;
         this.baraja = baraja;
         this.cantidad = cantidad;
-        this.id = id;
         this.cantidadR = cantidadR;
+        this.uso = uso;
+        this.pordestruir = pordestruir;
+        this.destruidas = destruidas;
+        this.max = max;
+        this.min = min;
+        this.bodega = bodega;
     }
+
+    public Integer getUso() {
+        return uso;
+    }
+
+    public void setUso(Integer uso) {
+        this.uso = uso;
+    }
+
+    public Integer getPordestruir() {
+        return pordestruir;
+    }
+
+    public void setPordestruir(Integer pordestruir) {
+        this.pordestruir = pordestruir;
+    }
+
+    public Integer getDestruidas() {
+        return destruidas;
+    }
+
+    public void setDestruidas(Integer destruidas) {
+        this.destruidas = destruidas;
+    }
+
+    public Integer getMax() {
+        return max;
+    }
+
+    public void setMax(Integer max) {
+        this.max = max;
+    }
+
+    public Integer getMin() {
+        return min;
+    }
+
+    public void setMin(Integer min) {
+        this.min = min;
+    }
+
     public BarajasCantidad(Integer id, BarajasDTO baraja) {
         this.baraja = baraja;
         this.cantidad = 0;
@@ -62,6 +116,14 @@ public class BarajasCantidad implements Serializable{
 
     public void setCantidadR(Integer cantidadR) {
         this.cantidadR = cantidadR;
+    }
+
+    public String getBodega() {
+        return bodega;
+    }
+
+    public void setBodega(String bodega) {
+        this.bodega = bodega;
     }
     
 }

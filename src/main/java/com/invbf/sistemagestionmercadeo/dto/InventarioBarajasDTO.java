@@ -14,10 +14,18 @@ import java.util.List;
  * @author ivan
  */
 public class InventarioBarajasDTO implements Serializable{
+    Integer id;
+    String nombre;
     private List<BarajasCantidad> inventario;
+    private List<CasinoDto> casinos;
 
     public InventarioBarajasDTO() {
         inventario = new ArrayList<BarajasCantidad>();
+        casinos = new ArrayList<CasinoDto>();
+    }
+
+    public InventarioBarajasDTO(Integer id) {
+        this.id = id;
     }
 
     public List<BarajasCantidad> getInventario() {
@@ -26,6 +34,52 @@ public class InventarioBarajasDTO implements Serializable{
 
     public void setInventario(List<BarajasCantidad> inventario) {
         this.inventario = inventario;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public List<CasinoDto> getCasinos() {
+        return casinos;
+    }
+
+    public void setCasinos(List<CasinoDto> casinos) {
+        this.casinos = casinos;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 17 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final InventarioBarajasDTO other = (InventarioBarajasDTO) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
     
 }

@@ -42,6 +42,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Ordencomprabaraja.findByFechaAceptada", query = "SELECT o FROM Ordencomprabaraja o WHERE o.fechaAceptada = :fechaAceptada"),
     @NamedQuery(name = "Ordencomprabaraja.findByFechaRecibida", query = "SELECT o FROM Ordencomprabaraja o WHERE o.fechaRecibida = :fechaRecibida")})
 public class Ordencomprabaraja implements Serializable {
+    @Column(name = "fechaVerificacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaVerificacion;
+    @JoinColumn(name = "verificador", referencedColumnName = "idUsuario")
+    @ManyToOne
+    private Usuario verificador;
     @JoinColumn(name = "recibidor", referencedColumnName = "idUsuario")
     @ManyToOne
     private Usuario recibidor;
@@ -175,6 +181,22 @@ public class Ordencomprabaraja implements Serializable {
 
     public void setAceptador(Usuario aceptador) {
         this.aceptador = aceptador;
+    }
+
+    public Date getFechaVerificacion() {
+        return fechaVerificacion;
+    }
+
+    public void setFechaVerificacion(Date fechaVerificacion) {
+        this.fechaVerificacion = fechaVerificacion;
+    }
+
+    public Usuario getVerificador() {
+        return verificador;
+    }
+
+    public void setVerificador(Usuario verificador) {
+        this.verificador = verificador;
     }
     
 }

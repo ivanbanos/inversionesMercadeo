@@ -10,8 +10,8 @@ import com.invbf.sistemagestionmercadeo.dto.InventarioBarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.MaterialesDTO;
 import com.invbf.sistemagestionmercadeo.dto.OrdenCompraBarajaDTO;
 import com.invbf.sistemagestionmercadeo.dto.SolicitudBarajasDTO;
-import com.invbf.sistemagestionmercadeo.entity.Barajas;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
+import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import java.util.List;
 
 /**
@@ -32,11 +32,11 @@ public interface BarajasFacade {
 
     public BarajasDTO deleteBaraja(BarajasDTO elemento);
 
-    public InventarioBarajasDTO getInventario();
+    public InventarioBarajasDTO getInventario(Integer id);
 
     public List<OrdenCompraBarajaDTO> getOrdenesCompra();
 
-    public int crearOrdenBarajas(InventarioBarajasDTO inventario, Usuario usuario);
+    public int crearOrdenBarajas(List<InventarioBarajasDTO> inventari, Usuario usuario);
 
     public OrdenCompraBarajaDTO getOrden(Integer idOrden);
 
@@ -53,6 +53,14 @@ public interface BarajasFacade {
     public void entregarSolicitud(Integer idOrden, Usuario usuario);
 
     public void recibirSolicitud(Integer idOrden, Usuario usuario);
+
+    public List<InventarioBarajasDTO> getBodegas();
+
+    public Integer crearBodega(String nombre);
+
+    public void guardarBodega(InventarioBarajasDTO inventario, List<CasinoBoolean> casinos);
+
+    public List<InventarioBarajasDTO> getBodegas(Usuario usuario);
 
     
 }

@@ -119,7 +119,24 @@ public class Usuario implements Serializable {
     private List<Solicitudbarajas> solicitudbarajasList2;
     @OneToMany(mappedBy = "destructor")
     private List<Solicitudbarajas> solicitudbarajasList3;
-
+@OneToMany(mappedBy = "verificador")
+    private List<Ordencomprabaraja> ordencomprabarajaList3;
+    @OneToMany(mappedBy = "recibidor")
+    private List<Ordencompraregalos> ordencompraregalosList;
+    @OneToMany(mappedBy = "creador")
+    private List<Ordencompraregalos> ordencompraregalosList1;
+    @OneToMany(mappedBy = "aceptador")
+    private List<Ordencompraregalos> ordencompraregalosList2;
+    @OneToMany(mappedBy = "verificador")
+    private List<Ordencompraregalos> ordencompraregalosList3;
+    @OneToMany(mappedBy = "recibidor")
+    private List<Solicitudregalos> solicitudregalosList;
+    @OneToMany(mappedBy = "destructor")
+    private List<Solicitudregalos> solicitudregalosList1;
+    @OneToMany(mappedBy = "creador")
+    private List<Solicitudregalos> solicitudregalosList2;
+    @OneToMany(mappedBy = "aceptador")
+    private List<Solicitudregalos> solicitudregalosList3;
     public Usuario() {
     }
 
@@ -391,5 +408,86 @@ public class Usuario implements Serializable {
 
     public void setSolicitudbarajasList3(List<Solicitudbarajas> solicitudbarajasList3) {
         this.solicitudbarajasList3 = solicitudbarajasList3;
+    }
+
+    @XmlTransient
+    public List<Ordencomprabaraja> getOrdencomprabarajaList3() {
+        return ordencomprabarajaList3;
+    }
+
+    public void setOrdencomprabarajaList3(List<Ordencomprabaraja> ordencomprabarajaList3) {
+        this.ordencomprabarajaList3 = ordencomprabarajaList3;
+    }
+
+    @XmlTransient
+    public List<Ordencompraregalos> getOrdencompraregalosList() {
+        return ordencompraregalosList;
+    }
+
+    public void setOrdencompraregalosList(List<Ordencompraregalos> ordencompraregalosList) {
+        this.ordencompraregalosList = ordencompraregalosList;
+    }
+
+    @XmlTransient
+    public List<Ordencompraregalos> getOrdencompraregalosList1() {
+        return ordencompraregalosList1;
+    }
+
+    public void setOrdencompraregalosList1(List<Ordencompraregalos> ordencompraregalosList1) {
+        this.ordencompraregalosList1 = ordencompraregalosList1;
+    }
+
+    @XmlTransient
+    public List<Ordencompraregalos> getOrdencompraregalosList2() {
+        return ordencompraregalosList2;
+    }
+
+    public void setOrdencompraregalosList2(List<Ordencompraregalos> ordencompraregalosList2) {
+        this.ordencompraregalosList2 = ordencompraregalosList2;
+    }
+
+    @XmlTransient
+    public List<Ordencompraregalos> getOrdencompraregalosList3() {
+        return ordencompraregalosList3;
+    }
+
+    public void setOrdencompraregalosList3(List<Ordencompraregalos> ordencompraregalosList3) {
+        this.ordencompraregalosList3 = ordencompraregalosList3;
+    }
+
+    @XmlTransient
+    public List<Solicitudregalos> getSolicitudregalosList() {
+        return solicitudregalosList;
+    }
+
+    public void setSolicitudregalosList(List<Solicitudregalos> solicitudregalosList) {
+        this.solicitudregalosList = solicitudregalosList;
+    }
+
+    @XmlTransient
+    public List<Solicitudregalos> getSolicitudregalosList1() {
+        return solicitudregalosList1;
+    }
+
+    public void setSolicitudregalosList1(List<Solicitudregalos> solicitudregalosList1) {
+        this.solicitudregalosList1 = solicitudregalosList1;
+    }
+
+    @XmlTransient
+    public List<Solicitudregalos> getSolicitudregalosList2() {
+        return solicitudregalosList2;
+    }
+
+    public void setSolicitudregalosList2(List<Solicitudregalos> solicitudregalosList2) {
+        this.solicitudregalosList2 = solicitudregalosList2;
+    }
+
+    @XmlTransient
+    public List<Solicitudregalos> getSolicitudregalosList3() {
+        return solicitudregalosList3;
+    }
+
+    public void setSolicitudregalosList3(List<Solicitudregalos> solicitudregalosList3) {
+        this.solicitudregalosList3 = solicitudregalosList3;
     }
 }

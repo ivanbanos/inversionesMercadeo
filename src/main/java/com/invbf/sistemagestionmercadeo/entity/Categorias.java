@@ -7,6 +7,7 @@ package com.invbf.sistemagestionmercadeo.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -35,6 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Categorias.findByIdCategorias", query = "SELECT c FROM Categorias c WHERE c.idCategorias = :idCategorias"),
     @NamedQuery(name = "Categorias.findByNombre", query = "SELECT c FROM Categorias c WHERE c.nombre = :nombre")})
 public class Categorias implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria")
+    private List<Regalos> regalosList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -109,6 +112,15 @@ public class Categorias implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Categorias[ idCategorias=" + idCategorias + " ]";
+    }
+
+    @XmlTransient
+    public List<Regalos> getRegalosList() {
+        return regalosList;
+    }
+
+    public void setRegalosList(List<Regalos> regalosList) {
+        this.regalosList = regalosList;
     }
     
 }

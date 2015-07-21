@@ -30,9 +30,8 @@ public class ListaOrdenesCompraBarajasBean implements Serializable {
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
-    
+
     private List<OrdenCompraBarajaDTO> lista;
-    
 
     public ListaOrdenesCompraBarajasBean() {
     }
@@ -49,8 +48,8 @@ public class ListaOrdenesCompraBarajasBean implements Serializable {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("barajas");
-        if (!sessionBean.perfilViewMatch("recibirOrdenBarajas") 
-                && !sessionBean.perfilViewMatch("generarOrdenBarajas") 
+        if (!sessionBean.perfilViewMatch("recibirOrdenBarajas")
+                && !sessionBean.perfilViewMatch("generarOrdenBarajas")
                 && !sessionBean.perfilViewMatch("aceptarOrdenBarajas")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
@@ -69,7 +68,7 @@ public class ListaOrdenesCompraBarajasBean implements Serializable {
     public void setLista(List<OrdenCompraBarajaDTO> lista) {
         this.lista = lista;
     }
-    
+
     public void goOrdenCrear() {
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("crearOrdenBarajas.xhtml");
@@ -77,11 +76,15 @@ public class ListaOrdenesCompraBarajasBean implements Serializable {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void goOrdenver(Integer i) {
+
+    public void goOrdenver(Integer i, String estado) {
         try {
             sessionBean.setAttribute("orden", i);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("verOrdenBarajas.xhtml");
+            if (estado.equals("PREORDENADA")) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("crearOrdenBarajas.xhtml");
+            } else {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("verOrdenBarajas.xhtml");
+            }
         } catch (IOException ex) {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }

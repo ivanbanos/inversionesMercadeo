@@ -5,9 +5,15 @@
  */
 package com.invbf.sistemagestionmercadeo.controladores;
 
+import com.invbf.sistemagestionmercadeo.dto.CasinoDto;
 import com.invbf.sistemagestionmercadeo.dto.InventarioBarajasDTO;
+import com.invbf.sistemagestionmercadeo.entity.Casino;
+import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
+import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -25,7 +31,7 @@ public class InventarioBarajasBean implements Serializable {
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
     private InventarioBarajasDTO inventario;
-    private int cantidadMin;
+    private List<CasinoBoolean> casinos;
 
     /**
      * @return the sessionBean
@@ -48,14 +54,31 @@ public class InventarioBarajasBean implements Serializable {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("barajas");
-        if (!sessionBean.perfilViewMatch("verInventarioBarajas")) {
+        if (!sessionBean.perfilViewMatch("verBodegas")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
             }
         }
-        inventario = sessionBean.barajasFacade.getInventario();
-        cantidadMin = Integer.parseInt(sessionBean.sessionFacade.getConfiguracionByName("minimo Barajas").getValor());
+        if (sessionBean.getAttributes("bodega") == null) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("ListaOrdenesCompraBarajasBean.xhtml");
+            } catch (IOException ex) {
+            }
+        }
+        Integer bodega = (Integer) sessionBean.getAttributes("bodega");
+        inventario = sessionBean.barajasFacade.getInventario(bodega);
+        casinos = new ArrayList<CasinoBoolean>();
+        List<Casino> casinose = sessionBean.adminFacade.findAllCasinos();
+        for (Casino casinoe : casinose) {
+            CasinoBoolean casino = new CasinoBoolean(casinoe, false);
+            for(CasinoDto casinodto : inventario.getCasinos()){
+                if(casinodto.getIdCasino().equals(casinoe.getIdCasino())){
+                    casino.setSelected(true);
+                }
+            }
+            casinos.add(casino);
+        }
         sessionBean.printMensajes();
     }
 
@@ -67,12 +90,16 @@ public class InventarioBarajasBean implements Serializable {
         this.inventario = inventario;
     }
 
-    public int getCantidadMin() {
-        return cantidadMin;
+    public List<CasinoBoolean> getCasinos() {
+        return casinos;
     }
 
-    public void setCantidadMin(int cantidadMin) {
-        this.cantidadMin = cantidadMin;
+    public void setCasinos(List<CasinoBoolean> casinos) {
+        this.casinos = casinos;
     }
-    
+
+    public void guardarCambios(){
+        sessionBean.barajasFacade.guardarBodega(inventario,casinos);
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Cambios guardados con exito!", ""));
+    }
 }

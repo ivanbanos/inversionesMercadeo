@@ -90,7 +90,7 @@ public class VerOrdenCompraBarajas implements Serializable {
                 "Se ha recibido la orden de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
                 "Se ha recibido una orden de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("InventarioBarajas.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaOrdenesCompraBarajas.xhtml");
         } catch (IOException ex) {
         }
     }

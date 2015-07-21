@@ -218,6 +218,12 @@ public class PerfilActBean implements Serializable{
     private VistaBoolean correoSolicitudBarajaRecibida;
     private VistaBoolean correoLimiteAlcanzadoBarajas;
     
+    
+    private VistaBoolean verBodegas;
+    private VistaBoolean crearBodegas;
+    private VistaBoolean actualizarBodegas;
+    private VistaBoolean eliminarBodega;
+    
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
     }
@@ -1078,6 +1084,32 @@ public class PerfilActBean implements Serializable{
             
             
             
+            if (v.getNombreVista().equals("verBodegas")) {
+                if (elemento.getVistaList().contains(v)) {
+                    verBodegas = new VistaBoolean(v, true);
+                } else {
+                    verBodegas = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("crearBodegas")) {
+                if (elemento.getVistaList().contains(v)) {
+                    crearBodegas = new VistaBoolean(v, true);
+                } else {
+                    crearBodegas = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("actualizarBodegas")) {
+                if (elemento.getVistaList().contains(v)) {
+                    actualizarBodegas = new VistaBoolean(v, true);
+                } else {
+                    actualizarBodegas = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("eliminarBodega")) {
+                if (elemento.getVistaList().contains(v)) {
+                    eliminarBodega = new VistaBoolean(v, true);
+                } else {
+                    eliminarBodega = new VistaBoolean(v, false);
+                }
+            }
+            
             
             if (v.getNombreVista().equals("verSolicitudesBarajas")) {
                 if (elemento.getVistaList().contains(v)) {
@@ -1588,6 +1620,21 @@ public class PerfilActBean implements Serializable{
         }
         if (correoLimiteAlcanzadoBarajas.isSelected()) {
             elemento.getVistaList().add(correoLimiteAlcanzadoBarajas.getVista());
+        }
+        
+        
+        
+        if (verBodegas.isSelected()) {
+            elemento.getVistaList().add(verBodegas.getVista());
+        }
+        if (crearBodegas.isSelected()) {
+            elemento.getVistaList().add(crearBodegas.getVista());
+        }
+        if (actualizarBodegas.isSelected()) {
+            elemento.getVistaList().add(actualizarBodegas.getVista());
+        }
+        if (eliminarBodega.isSelected()) {
+            elemento.getVistaList().add(eliminarBodega.getVista());
         }
         
         
@@ -3459,6 +3506,38 @@ public class PerfilActBean implements Serializable{
 
     public void setCorreoLimiteAlcanzadoBarajas(VistaBoolean correoLimiteAlcanzadoBarajas) {
         this.correoLimiteAlcanzadoBarajas = correoLimiteAlcanzadoBarajas;
+    }
+
+    public VistaBoolean getVerBodegas() {
+        return verBodegas;
+    }
+
+    public void setVerBodegas(VistaBoolean verBodegas) {
+        this.verBodegas = verBodegas;
+    }
+
+    public VistaBoolean getCrearBodegas() {
+        return crearBodegas;
+    }
+
+    public void setCrearBodegas(VistaBoolean crearBodegas) {
+        this.crearBodegas = crearBodegas;
+    }
+
+    public VistaBoolean getActualizarBodegas() {
+        return actualizarBodegas;
+    }
+
+    public void setActualizarBodegas(VistaBoolean actualizarBodegas) {
+        this.actualizarBodegas = actualizarBodegas;
+    }
+
+    public VistaBoolean getEliminarBodega() {
+        return eliminarBodega;
+    }
+
+    public void setEliminarBodega(VistaBoolean eliminarBodega) {
+        this.eliminarBodega = eliminarBodega;
     }
 
 }

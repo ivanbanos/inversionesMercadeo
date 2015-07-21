@@ -62,7 +62,7 @@
                                         </p:column>
 
                                         <p:column headerText="#{label['acciones']}" >   
-                                            <p:commandButton id="ver" action="#{listaOrdenesCompraBarajasBean.goOrdenver(element.id)}" icon="ui-icon-search" onclick="PF('ajaxWaitingDialog').show();"
+                                            <p:commandButton id="ver" action="#{listaOrdenesCompraBarajasBean.goOrdenver(element.id, element.estado)}" icon="ui-icon-search" onclick="PF('ajaxWaitingDialog').show();"
                                                              title="Ver"/> 
                                             </p:column>
 

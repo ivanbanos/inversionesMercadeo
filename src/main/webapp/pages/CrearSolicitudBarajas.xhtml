@@ -32,8 +32,18 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="container">
+                                    <div class="col-md-12 ">
+                                        <b><label class="col-md-3 control-label" >Seleccionar Bodega</label></b>
+                                        <div class="col-md-9">
+                                            <p:selectOneMenu id="inv" value="#{crearSolicitudBarajasBean.invent.id}" >
+                                                <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
+                                                <f:selectItems value="#{crearSolicitudBarajasBean.lista}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.id}"/> 
+                                                <p:ajax  update="tablaInv" listener="#{crearSolicitudBarajasBean.getinv()}"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
                                     <div class="row">
-                                        <p:dataTable value="#{crearSolicitudBarajasBean.inventario.inventario}" var="detalle" rowIndexVar="status"
+                                        <p:dataTable id="tablaInv" value="#{crearSolicitudBarajasBean.invent.inventario}" var="detalle" rowIndexVar="status"
                                                      emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
 
                                             <p:column headerText="Material" style="text-align: center;">
@@ -55,7 +65,7 @@
                                             </p:column>
                                             <p:column headerText="Cantidad solicitada" width="30%">
                                                 <span id="cantidad#{status}">
-                                                    <p:spinner min="0" stepFactor="1"
+                                                    <p:spinner min="0" stepFactor="1" max="#{detalle.cantidad}"
                                                                value="#{detalle.cantidad}">
                                                     </p:spinner>
                                                 </span>

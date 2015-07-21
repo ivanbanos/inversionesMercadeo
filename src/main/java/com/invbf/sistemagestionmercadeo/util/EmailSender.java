@@ -217,65 +217,65 @@ public class EmailSender implements Serializable {
             String htmlText = "<p>" + mesaje + "</p>";
             if (!nombre.equals("noimage")) {
                 htmlText += "<img style=\"width:1000px\" src=\"cid:image\">";
-                htmlText += "<div style=\"background-color:#DFDFDF;width: 1000px;\">\n" +
-"            <table style=\"background-color:#DFDFDF;width: 100%;\">\n" +
-"                <tbody>\n" +
-"                    <tr>\n" +
-"                        <td>\n" +
-"\n" +
-"\n" +
-"                            <table >\n" +
-"                                <tr>\n" +
-"                                    <td><b>TEXAS LUXURY CASINO</b><br />texasluxury@ibfcolombia.com<br /><a href=\"http://www.texasluxurycasino.com\">texasluxurycasino.com</a></td>\n" +
-"                                    <td>\n" +
-"                                        <a href=\"http://www.facebook.com/TexasLuxuryCasino\">\n" +
-"                                            <img src=\"cid:facebook1\" alt=\"facebook\" style=\"widht:100px;\">\n" +
-"                                        </a>\n" +
-"                                    </td>\n" +
-"                                    <td>\n" +
-"                                        <a href=\"http://www.twitter.com/TexasLuxuryC\">\n" +
-"                                            <img src=\"cid:twitter1\" alt=\"twitter\" style=\"widht:100px;\">\n" +
-"                                        </a>\n" +
-"                                    </td>\n" +
-"                                </tr>\n" +
-"                            </table>\n" +
-"\n" +
-"\n" +
-"                        </td>\n" +
-"                        <td align=\"right\">\n" +
-"\n" +
-"\n" +
-"                            <table >\n" +
-"                                <tr>\n" +
-"                                    <td>\n" +
-"                                        <a href=\"http://www.facebook.com/MastersRoyaleCasino\">\n" +
-"                                            <img src=\"cid:facebook2\" alt=\"facebook\" style=\"widht:100px;\">\n" +
-"                                        </a>\n" +
-"                                    </td>\n" +
-"                                    <td>\n" +
-"                                        <a href=\"http://www.twitter.com/MastersRoyaleC\">\n" +
-"                                            <img src=\"cid:twitter2\" alt=\"twitter\" style=\"widht:100px;\">\n" +
-"                                        </a>\n" +
-"                                    </td>\n" +
-"                                    <td><b>MASTERS ROYALE CASINO</b><br />mastersroyale@ibfcolombia.com<br /><a href=\"http://www.mastersroyale.com\">mastersroyale.com</a></td>\n" +
-"                                </tr>\n" +
-"                            </table>\n" +
-"\n" +
-"\n" +
-"                        </td>\n" +
-"                    </tr>\n" +
-"                    <tr>\n" +
-"                        <td align=\"center\" colspan=\"2\">\n" +
-"                            Usted recibe este email porque est&aacute; registrado en nuestra base de datos. Si usted ha recibido informaci&oacute;n no deseada o no requerida, a trav&eacute;s de nuestros servicios, por favor envíenos una copia de ese email con sus comentarios a <a href=\"mailto:comunicaciones@ibfcolombia.com\" target=\"_top\">comunicaciones@ibfcolombia.com</a> para nuestra revisi&oacute;n. Nosotros solucionaremos la situaci&oacute;n inmediatamente. No responda a este mensaje ya que ha sido generado autom&aacute;ticamente para su informaci&oacute;n.\n" +
-"                            <br />\n" +
-"                            Cartagena de Indias - Barranquilla - Colombia\n" +
-"                        </td>\n" +
-"                    </tr>\n" +
-"                </tbody>\n" +
-"            </table>\n" +
-"\n" +
-"\n" +
-"        </div>";
+                htmlText += "<div style=\"background-color:#DFDFDF;width: 1000px;\">\n"
+                        + "            <table style=\"background-color:#DFDFDF;width: 100%;\">\n"
+                        + "                <tbody>\n"
+                        + "                    <tr>\n"
+                        + "                        <td>\n"
+                        + "\n"
+                        + "\n"
+                        + "                            <table >\n"
+                        + "                                <tr>\n"
+                        + "                                    <td><b>TEXAS LUXURY CASINO</b><br />texasluxury@ibfcolombia.com<br /><a href=\"http://www.texasluxurycasino.com\">texasluxurycasino.com</a></td>\n"
+                        + "                                    <td>\n"
+                        + "                                        <a href=\"http://www.facebook.com/TexasLuxuryCasino\">\n"
+                        + "                                            <img src=\"cid:facebook1\" alt=\"facebook\" style=\"widht:100px;\">\n"
+                        + "                                        </a>\n"
+                        + "                                    </td>\n"
+                        + "                                    <td>\n"
+                        + "                                        <a href=\"http://www.twitter.com/TexasLuxuryC\">\n"
+                        + "                                            <img src=\"cid:twitter1\" alt=\"twitter\" style=\"widht:100px;\">\n"
+                        + "                                        </a>\n"
+                        + "                                    </td>\n"
+                        + "                                </tr>\n"
+                        + "                            </table>\n"
+                        + "\n"
+                        + "\n"
+                        + "                        </td>\n"
+                        + "                        <td align=\"right\">\n"
+                        + "\n"
+                        + "\n"
+                        + "                            <table >\n"
+                        + "                                <tr>\n"
+                        + "                                    <td>\n"
+                        + "                                        <a href=\"http://www.facebook.com/MastersRoyaleCasino\">\n"
+                        + "                                            <img src=\"cid:facebook2\" alt=\"facebook\" style=\"widht:100px;\">\n"
+                        + "                                        </a>\n"
+                        + "                                    </td>\n"
+                        + "                                    <td>\n"
+                        + "                                        <a href=\"http://www.twitter.com/MastersRoyaleC\">\n"
+                        + "                                            <img src=\"cid:twitter2\" alt=\"twitter\" style=\"widht:100px;\">\n"
+                        + "                                        </a>\n"
+                        + "                                    </td>\n"
+                        + "                                    <td><b>MASTERS ROYALE CASINO</b><br />mastersroyale@ibfcolombia.com<br /><a href=\"http://www.mastersroyale.com\">mastersroyale.com</a></td>\n"
+                        + "                                </tr>\n"
+                        + "                            </table>\n"
+                        + "\n"
+                        + "\n"
+                        + "                        </td>\n"
+                        + "                    </tr>\n"
+                        + "                    <tr>\n"
+                        + "                        <td align=\"center\" colspan=\"2\">\n"
+                        + "                            Usted recibe este email porque est&aacute; registrado en nuestra base de datos. Si usted ha recibido informaci&oacute;n no deseada o no requerida, a trav&eacute;s de nuestros servicios, por favor envíenos una copia de ese email con sus comentarios a <a href=\"mailto:comunicaciones@ibfcolombia.com\" target=\"_top\">comunicaciones@ibfcolombia.com</a> para nuestra revisi&oacute;n. Nosotros solucionaremos la situaci&oacute;n inmediatamente. No responda a este mensaje ya que ha sido generado autom&aacute;ticamente para su informaci&oacute;n.\n"
+                        + "                            <br />\n"
+                        + "                            Cartagena de Indias - Barranquilla - Colombia\n"
+                        + "                        </td>\n"
+                        + "                    </tr>\n"
+                        + "                </tbody>\n"
+                        + "            </table>\n"
+                        + "\n"
+                        + "\n"
+                        + "        </div>";
             }
             messageBodyPart.setContent(htmlText, "text/html");
             // add it
@@ -310,15 +310,12 @@ public class EmailSender implements Serializable {
 
                 InputStream inputStream = client.retrieveFileStream(remoteFile2);
                 bytesArray = IOUtils.toByteArray(inputStream);
-                
-                
 
                 boolean success = client.completePendingCommand();
                 if (success) {
                     System.out.println("File has been downloaded successfully.");
                 }
                 inputStream.close();
-
 
                 InputStream fstream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/images/facebook_1.png");
                 facebook = IOUtils.toByteArray(fstream);
@@ -346,7 +343,7 @@ public class EmailSender implements Serializable {
                 messageBodyPart.setDataHandler(new DataHandler(fds3));
                 messageBodyPart.setHeader("Content-ID", "<facebook2>");
                 multipart.addBodyPart(messageBodyPart);
-                
+
                 messageBodyPart = new MimeBodyPart();
                 DataSource fds4 = new ByteArrayDataSource(twitter, new MimetypesFileTypeMap().getContentType("twitter_1.png"));
 
@@ -445,75 +442,76 @@ public class EmailSender implements Serializable {
     }
 
     void sendEmailNotificador(String to, String subject, String mesaje) throws MessagingException, IOException {
+        if (to != null) {
+            Properties props = new Properties();
+            props.put("mail.smtp.host", host);
+            props.put("mail.smtp.port", port + "");
+            switch (protocol) {
+                case SMTPS:
+                    props.put("mail.smtp.ssl.enable", true);
+                    break;
+                case POP3:
+                case IMAP:
+                case SMTP:
+                case TLS:
+                    props.put("mail.smtp.starttls.enable", true);
+                    break;
+            }
 
-        Properties props = new Properties();
-        props.put("mail.smtp.host", host);
-        props.put("mail.smtp.port", port + "");
-        switch (protocol) {
-            case SMTPS:
-                props.put("mail.smtp.ssl.enable", true);
-                break;
-            case POP3:
-            case IMAP:
-            case SMTP:
-            case TLS:
-                props.put("mail.smtp.starttls.enable", true);
-                break;
+            Authenticator authenticator = null;
+            if (auth) {
+                props.put("mail.smtp.auth", "true");
+                authenticator = new Authenticator() {
+                    private PasswordAuthentication pa = new PasswordAuthentication(username, password);
+
+                    @Override
+                    public PasswordAuthentication getPasswordAuthentication() {
+                        return pa;
+                    }
+                };
+            }
+            Session session = Session.getInstance(props, authenticator);
+            session.setDebug(debug);
+
+            // Create a default MimeMessage object.
+            MimeMessage message = new MimeMessage(session);
+
+            message.setFrom(new InternetAddress(from));
+            InternetAddress[] address = {new InternetAddress(to)};
+            message.setRecipients(Message.RecipientType.TO, address);
+            message.setSubject(subject);
+            message.setSentDate(new Date());
+
+            MimeMultipart multipart = new MimeMultipart("related");
+            BodyPart messageBodyPart = new MimeBodyPart();
+            String htmlText = "<div><span style=\"color:#1f497d\">Este correo ha sido generado automáticamente por el Sistema de Gestión de Mercadeo de Inversiones Buena fortuna S.A.S.<u></u><u></u></span>"
+                    + "<p>" + mesaje + "</p>";
+
+            htmlText += "<p class=\"MsoNormal\"><span style=\"color:black\"><img src=\"cid:image\"></span></p>";
+
+            htmlText += "<p class=\"MsoNormal\"><span lang=\"ES\" style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:#7f7f7f\">Nota: El contenido de este mensaje de datos es confidencial y se entiende dirigido y para uso exclusivo del destinatario, por lo que no podrá distribuirse y/o difundirse por ningún medio sin la previa autorización del emisor original. Si usted no es el destinatario, se le prohíbe su utilización total o parcial para cualquier fin.<u></u><u></u></span></p>"
+                    + "</div></div>";
+            messageBodyPart.setContent(htmlText, "text/html");
+            // add it
+            multipart.addBodyPart(messageBodyPart);
+
+            InputStream iStream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/images/mastersemail.png");
+            byte[] bytesArray = IOUtils.toByteArray(iStream);
+            // second part (the image)
+            messageBodyPart = new MimeBodyPart();
+
+            DataSource fds = new ByteArrayDataSource(bytesArray, new MimetypesFileTypeMap().getContentType("IBFImage.png"));
+
+            messageBodyPart.setDataHandler(new DataHandler(fds));
+            messageBodyPart.setHeader("Content-ID", "<image>");
+
+            // add image to the multipart
+            multipart.addBodyPart(messageBodyPart);
+
+            // put everything together
+            message.setContent(multipart);
+
+            Transport.send(message);
         }
-
-        Authenticator authenticator = null;
-        if (auth) {
-            props.put("mail.smtp.auth", "true");
-            authenticator = new Authenticator() {
-                private PasswordAuthentication pa = new PasswordAuthentication(username, password);
-
-                @Override
-                public PasswordAuthentication getPasswordAuthentication() {
-                    return pa;
-                }
-            };
-        }
-        Session session = Session.getInstance(props, authenticator);
-        session.setDebug(debug);
-
-        // Create a default MimeMessage object.
-        MimeMessage message = new MimeMessage(session);
-
-        message.setFrom(new InternetAddress(from));
-        InternetAddress[] address = {new InternetAddress(to)};
-        message.setRecipients(Message.RecipientType.TO, address);
-        message.setSubject(subject);
-        message.setSentDate(new Date());
-
-        MimeMultipart multipart = new MimeMultipart("related");
-        BodyPart messageBodyPart = new MimeBodyPart();
-        String htmlText = "<div><span style=\"color:#1f497d\">Este correo ha sido generado automáticamente por el Sistema de Gestión de Mercadeo de Inversiones Buena fortuna S.A.S.<u></u><u></u></span>"
-                + "<p>" + mesaje + "</p>";
-
-        htmlText += "<p class=\"MsoNormal\"><span style=\"color:black\"><img src=\"cid:image\"></span></p>";
-
-        htmlText += "<p class=\"MsoNormal\"><span lang=\"ES\" style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:#7f7f7f\">Nota: El contenido de este mensaje de datos es confidencial y se entiende dirigido y para uso exclusivo del destinatario, por lo que no podrá distribuirse y/o difundirse por ningún medio sin la previa autorización del emisor original. Si usted no es el destinatario, se le prohíbe su utilización total o parcial para cualquier fin.<u></u><u></u></span></p>"
-                + "</div></div>";
-        messageBodyPart.setContent(htmlText, "text/html");
-        // add it
-        multipart.addBodyPart(messageBodyPart);
-
-        InputStream iStream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/images/mastersemail.png");
-        byte[] bytesArray = IOUtils.toByteArray(iStream);
-        // second part (the image)
-        messageBodyPart = new MimeBodyPart();
-
-        DataSource fds = new ByteArrayDataSource(bytesArray, new MimetypesFileTypeMap().getContentType("IBFImage.png"));
-
-        messageBodyPart.setDataHandler(new DataHandler(fds));
-        messageBodyPart.setHeader("Content-ID", "<image>");
-
-        // add image to the multipart
-        multipart.addBodyPart(messageBodyPart);
-
-        // put everything together
-        message.setContent(multipart);
-
-        Transport.send(message);
     }
 }

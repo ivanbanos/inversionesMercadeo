@@ -11,10 +11,13 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -67,7 +70,11 @@ public class Casino implements Serializable {
     private List<Lotebono> lotebonoList;
     @OneToMany(mappedBy = "idCasinoPreferencial")
     private List<Cliente> clienteList;
-
+    @JoinColumn(name = "bodega", referencedColumnName = "id")
+    @ManyToOne
+    private Bodega bodega;
+    
+ 
     public Casino() {
     }
 
@@ -190,5 +197,11 @@ public class Casino implements Serializable {
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Casino[ idCasino=" + idCasino + " ]";
     }
-    
+    public Bodega getBodega() {
+        return bodega;
+    }
+
+    public void setBodega(Bodega bodega) {
+        this.bodega = bodega;
+    }
 }
