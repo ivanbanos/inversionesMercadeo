@@ -21,7 +21,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class NotificacionesBean implements Serializable{
+public class NotificacionesBean implements Serializable {
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -37,6 +37,17 @@ public class NotificacionesBean implements Serializable{
     long edicioncliente;
     long pendientereporte;
     long totalPendiente;
+
+    long ordenGenerar;
+    long ordenAprobar;
+    long ordenRecibir;
+    long recibirBarajaCaja;
+
+    long solicitudEntregadasNuevas;
+    long solicitudEntregadasUsadas;
+    long solicitudRecibirNuevas;
+    long solicitudRecibirUsadas;
+    long barajasPorDestruir;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -59,6 +70,17 @@ public class NotificacionesBean implements Serializable{
         recibirsala = 0;
         edicioncliente = 0;
         totalPendiente = 0;
+        
+        ordenGenerar = 0;
+        ordenAprobar = 0;
+        ordenRecibir = 0;
+        recibirBarajaCaja = 0;
+        
+        solicitudEntregadasNuevas = 0;
+        solicitudEntregadasUsadas = 0;
+        solicitudRecibirNuevas = 0;
+        solicitudRecibirUsadas = 0;
+        barajasPorDestruir = 0;
         for (Vista v : sessionBean.getUsuario().getIdPerfil().getVistaList()) {
             vistasPerfil.add(v.getNombreVista());
         }
@@ -72,15 +94,15 @@ public class NotificacionesBean implements Serializable{
             totalPendiente += ingresoloteinventario;
         }
         if (vistasPerfil.contains("PreAprobarSolicitudBono")) {
-            
+
             preaprobarsolicitud = sessionBean.sessionFacade.getnumpreaprobarsolicitud();
-            System.out.println("Solicitudes por preaprobar: "+preaprobarsolicitud);
+            System.out.println("Solicitudes por preaprobar: " + preaprobarsolicitud);
             totalPendiente += preaprobarsolicitud;
         }
         if (vistasPerfil.contains("AprobarSolicitudBono")) {
 
             aprobarsolicitud = sessionBean.sessionFacade.getnumaprobarsolicitud();
-            System.out.println("Solicitudes por aprobar: "+aprobarsolicitud);
+            System.out.println("Solicitudes por aprobar: " + aprobarsolicitud);
             totalPendiente += aprobarsolicitud;
         }
         if (vistasPerfil.contains("Controlsalidabonos")) {
@@ -124,6 +146,62 @@ public class NotificacionesBean implements Serializable{
 
             edicioncliente = sessionBean.sessionFacade.getnumedicioncliente();
             totalPendiente += edicioncliente;
+        }
+
+        
+        
+        if (vistasPerfil.contains("generarOrdenBarajas")) {
+
+            ordenGenerar = sessionBean.sessionFacade.getOrdenesGenerar();
+            totalPendiente += ordenGenerar;
+        }
+
+        if (vistasPerfil.contains("aceptarOrdenBarajas")) {
+
+            ordenAprobar = sessionBean.sessionFacade.getOrdenesAprobar();
+            totalPendiente += ordenAprobar;
+        }
+
+        if (vistasPerfil.contains("generarOrdenBarajas")) {
+
+            ordenRecibir = sessionBean.sessionFacade.getOredenesREcibir();
+            totalPendiente += ordenRecibir;
+        }
+
+        if (vistasPerfil.contains("recibirOrdenBarajas")) {
+
+            recibirBarajaCaja = sessionBean.sessionFacade.getNumRecibirBarajasCaja(sessionBean.getUsuario());
+            totalPendiente += recibirBarajaCaja;
+        }
+
+        if (vistasPerfil.contains("entregarBarajas")) {
+
+            solicitudEntregadasNuevas = sessionBean.sessionFacade.getEntregarBarajanuevas(sessionBean.getUsuario());
+            totalPendiente += solicitudEntregadasNuevas;
+        }
+
+        if (vistasPerfil.contains("entregarBarajas")) {
+
+            solicitudRecibirUsadas = sessionBean.sessionFacade.getRecibirusadas(sessionBean.getUsuario());
+            totalPendiente += solicitudRecibirUsadas;
+        }
+
+        if (vistasPerfil.contains("recibirBarajas")) {
+
+            solicitudEntregadasUsadas = sessionBean.sessionFacade.getEntregarUsadas(sessionBean.getUsuario());
+            totalPendiente += solicitudEntregadasUsadas;
+        }
+
+        if (vistasPerfil.contains("recibirBarajas")) {
+
+            solicitudRecibirNuevas = sessionBean.sessionFacade.getREcibirNuevas(sessionBean.getUsuario());
+            totalPendiente += solicitudRecibirNuevas;
+        }
+
+        if (vistasPerfil.contains("destruirBarajas")) {
+
+            barajasPorDestruir = sessionBean.sessionFacade.getIfDestruir(sessionBean.getUsuario());
+            totalPendiente += barajasPorDestruir;
         }
     }
 
@@ -221,6 +299,78 @@ public class NotificacionesBean implements Serializable{
 
     public void setPendientereporte(long pendientereporte) {
         this.pendientereporte = pendientereporte;
+    }
+
+    public long getOrdenGenerar() {
+        return ordenGenerar;
+    }
+
+    public void setOrdenGenerar(long ordenGenerar) {
+        this.ordenGenerar = ordenGenerar;
+    }
+
+    public long getOrdenAprobar() {
+        return ordenAprobar;
+    }
+
+    public void setOrdenAprobar(long ordenAprobar) {
+        this.ordenAprobar = ordenAprobar;
+    }
+
+    public long getOrdenRecibir() {
+        return ordenRecibir;
+    }
+
+    public void setOrdenRecibir(long ordenRecibir) {
+        this.ordenRecibir = ordenRecibir;
+    }
+
+    public long getRecibirBarajaCaja() {
+        return recibirBarajaCaja;
+    }
+
+    public void setRecibirBarajaCaja(long recibirBarajaCaja) {
+        this.recibirBarajaCaja = recibirBarajaCaja;
+    }
+
+    public long getSolicitudEntregadasNuevas() {
+        return solicitudEntregadasNuevas;
+    }
+
+    public void setSolicitudEntregadasNuevas(long solicitudEntregadasNuevas) {
+        this.solicitudEntregadasNuevas = solicitudEntregadasNuevas;
+    }
+
+    public long getSolicitudEntregadasUsadas() {
+        return solicitudEntregadasUsadas;
+    }
+
+    public void setSolicitudEntregadasUsadas(long solicitudEntregadasUsadas) {
+        this.solicitudEntregadasUsadas = solicitudEntregadasUsadas;
+    }
+
+    public long getSolicitudRecibirNuevas() {
+        return solicitudRecibirNuevas;
+    }
+
+    public void setSolicitudRecibirNuevas(long solicitudRecibirNuevas) {
+        this.solicitudRecibirNuevas = solicitudRecibirNuevas;
+    }
+
+    public long getSolicitudRecibirUsadas() {
+        return solicitudRecibirUsadas;
+    }
+
+    public void setSolicitudRecibirUsadas(long solicitudRecibirUsadas) {
+        this.solicitudRecibirUsadas = solicitudRecibirUsadas;
+    }
+
+    public long getBarajasPorDestruir() {
+        return barajasPorDestruir;
+    }
+
+    public void setBarajasPorDestruir(long barajasPorDestruir) {
+        this.barajasPorDestruir = barajasPorDestruir;
     }
 
 }

@@ -7,6 +7,7 @@ package com.invbf.sistemagestionmercadeo.entity;
 
 import com.invbf.sistemagestionmercadeo.entity.Inventarobarajas;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -15,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -31,6 +34,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Ordencomprabarajadetalle.findByCantidad", query = "SELECT o FROM Ordencomprabarajadetalle o WHERE o.cantidad = :cantidad"),
     @NamedQuery(name = "Ordencomprabarajadetalle.findByCantidadAprobada", query = "SELECT o FROM Ordencomprabarajadetalle o WHERE o.cantidadAprobada = :cantidadAprobada")})
 public class Ordencomprabarajadetalle implements Serializable {
+    @Column(name = "fecharecibida")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecharecibida;
+    @JoinColumn(name = "recibidor", referencedColumnName = "idUsuario")
+    @ManyToOne
+    private Usuario recibidor;
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected OrdencomprabarajadetallePK ordencomprabarajadetallePK;
@@ -119,6 +128,22 @@ public class Ordencomprabarajadetalle implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.controladores.Ordencomprabarajadetalle[ ordencomprabarajadetallePK=" + ordencomprabarajadetallePK + " ]";
+    }
+
+    public Date getFecharecibida() {
+        return fecharecibida;
+    }
+
+    public void setFecharecibida(Date fecharecibida) {
+        this.fecharecibida = fecharecibida;
+    }
+
+    public Usuario getRecibidor() {
+        return recibidor;
+    }
+
+    public void setRecibidor(Usuario recibidor) {
+        this.recibidor = recibidor;
     }
     
 }

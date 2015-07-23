@@ -9,6 +9,7 @@ import com.invbf.sistemagestionmercadeo.dto.BarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.OrdenCompraBarajaDTO;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -56,7 +57,15 @@ public class ListaOrdenesCompraBarajasBean implements Serializable {
             } catch (IOException ex) {
             }
         }
-        lista = sessionBean.barajasFacade.getOrdenesCompra();
+        if (sessionBean.perfilViewMatch("generarOrdenBarajas") || sessionBean.perfilViewMatch("aceptarOrdenBarajas")) {
+            lista = sessionBean.barajasFacade.getOrdenesCompra();
+        } else {
+            if (sessionBean.perfilViewMatch("recibirOrdenBarajas")) {
+                lista = sessionBean.barajasFacade.getOrdenesCompra(sessionBean.getUsuario());
+            } else {
+                lista = new ArrayList<OrdenCompraBarajaDTO>();
+            }
+        }
         Collections.reverse(lista);
         sessionBean.printMensajes();
     }
@@ -67,6 +76,14 @@ public class ListaOrdenesCompraBarajasBean implements Serializable {
 
     public void setLista(List<OrdenCompraBarajaDTO> lista) {
         this.lista = lista;
+    }
+
+    public void goOrdenrecibircaja(Integer i, String estado) {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("recibirOrdenCaja.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void goOrdenCrear() {
@@ -80,11 +97,18 @@ public class ListaOrdenesCompraBarajasBean implements Serializable {
     public void goOrdenver(Integer i, String estado) {
         try {
             sessionBean.setAttribute("orden", i);
-            if (estado.equals("PREORDENADA")) {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("crearOrdenBarajas.xhtml");
-            } else {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("verOrdenBarajas.xhtml");
-            }
+            FacesContext.getCurrentInstance().getExternalContext().redirect("verOrdenBarajas.xhtml");
+
+        } catch (IOException ex) {
+            Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void goOrdenvernadaMas(Integer i, String estado) {
+        try {
+            sessionBean.setAttribute("orden", i);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("verOrdenBarajasNadaMAs.xhtml");
+
         } catch (IOException ex) {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }

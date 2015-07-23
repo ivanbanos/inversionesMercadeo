@@ -76,10 +76,10 @@ public class verSolicitudBarajasBean implements Serializable {
 
     public void entregarNuevas() {
         sessionBean.barajasFacade.entregarNuevasSolicitud(idOrden, sessionBean.getUsuario()); 
-        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han entregado las barajas con exito", "Acta de orden #" + orden.getId()));
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han entregado las barajas nuevas con exito", "Acta de orden #" + orden.getId()));
         Notificador.notificar(Notificador.correoSolicitudBarajaEntregada, 
-                    "Se han entregado las barajas de la solicitud con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.", 
-                    "Se  han entregado barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                    "Se han entregado las barajas nuevas de la solicitud con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.", 
+                    "Se  han entregado barajas nuevas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         
         idOrden = (Integer) sessionBean.getAttributes("solicitudBaraja");
         orden = sessionBean.barajasFacade.getSolicitud(idOrden);
@@ -88,10 +88,10 @@ public class verSolicitudBarajasBean implements Serializable {
 
     public void recibirUsadas() {
         sessionBean.barajasFacade.recibirUsadasSolicitud(idOrden, sessionBean.getUsuario()); 
-        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha entregado la solicitud con exito", "Acta de orden #" + orden.getId()));
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han recibido las barajas usadas con exito", "Acta de orden #" + orden.getId()));
         Notificador.notificar(Notificador.correoSolicitudBarajaEntregada, 
-                    "Se ha aprobado la solicitud de barajas con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.", 
-                    "Se ha aprobado una solicitud de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                    "Se han recibido las barajas usadas de la solicitud con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.", 
+                    "Se  han recibido barajas usadas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         
         idOrden = (Integer) sessionBean.getAttributes("solicitudBaraja");
         orden = sessionBean.barajasFacade.getSolicitud(idOrden);
@@ -100,10 +100,10 @@ public class verSolicitudBarajasBean implements Serializable {
 
     public void entregarUsadas() {
         sessionBean.barajasFacade.entregarUsadasSolicitud(idOrden, sessionBean.getUsuario());
-        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha recibido la solicitud con exito", "Acta de orden #" + orden.getId()));
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han entregado las barajas usadas con exito", "Acta de orden #" + orden.getId()));
         Notificador.notificar(Notificador.correoSolicitudBarajaRecibida, 
-                    "Se ha recibido la solicitud de barajas con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.", 
-                    "Se ha recibido una solicitud de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                    "Se han entregado las barajas usadas de la solicitud con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.", 
+                    "Se  han entregado barajas usadas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         
         idOrden = (Integer) sessionBean.getAttributes("solicitudBaraja");
         orden = sessionBean.barajasFacade.getSolicitud(idOrden);
@@ -112,10 +112,10 @@ public class verSolicitudBarajasBean implements Serializable {
     
     public void recibirNuevas() {
         sessionBean.barajasFacade.recibirNuevasSolicitud(idOrden, sessionBean.getUsuario());
-        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha recibido la solicitud con exito", "Acta de orden #" + orden.getId()));
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han recibido las barajas nuevas con exito", "Acta de orden #" + orden.getId()));
         Notificador.notificar(Notificador.correoSolicitudBarajaRecibida, 
-                    "Se ha recibido la solicitud de barajas con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.", 
-                    "Se ha recibido una solicitud de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                    "Se han recibido las barajas nuevas de la solicitud con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.", 
+                    "Se  han recibido barajas nuevas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         
         idOrden = (Integer) sessionBean.getAttributes("solicitudBaraja");
         orden = sessionBean.barajasFacade.getSolicitud(idOrden);

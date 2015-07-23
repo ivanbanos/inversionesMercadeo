@@ -89,4 +89,20 @@ public class ListaSolicitudesBarajasBean implements Serializable {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public void goOrdenversala(Integer i) {
+        try {
+            sessionBean.setAttribute("solicitudBaraja", i);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("verSolicitudBarajaRecibir.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void goOrdenversalanadaMas(Integer i) {
+        try {
+            sessionBean.setAttribute("solicitudBaraja", i);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("verSolicitudBarajanadaMas.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

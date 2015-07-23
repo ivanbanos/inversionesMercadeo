@@ -51,7 +51,7 @@ public class ListaBodegasBean implements Serializable {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("barajas");
-        if (!sessionBean.perfilViewMatch("verInventarioBarajas")) {
+        if (!sessionBean.perfilViewMatch("verBodegas")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {

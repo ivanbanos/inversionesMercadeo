@@ -70,14 +70,24 @@ public interface BarajasFacade {
 
     public List<InventarioBarajasDTO> getBodegasParaSol(Usuario usuario);
 
-    public ActaDestruccionDTO getBodegasParaDes();
+    public ActaDestruccionDTO getBodegasParaDes(Usuario usuario);
 
-    public ActaDestruccionDTO getBodegasParaDesPorId( Integer idOrden);
+    public ActaDestruccionDTO getBodegasParaDesPorId(Usuario usuario, Integer idOrden);
 
     public Integer destruir(ActaDestruccionDTO acta, Usuario usuario);
 
     public Date getFechaDestruccion(Integer idOrden);
 
     public List<ActaDestruccionDTO> getActasDestruccion();
+
+    public MaterialesDTO editMaterial(MaterialesDTO material);
+
+    public void crearOrden(Integer idOrden, Usuario usuario);
+
+    public OrdenCompraBarajaDTO getOrdenRecibir(Integer idOrden, Usuario usuario);
+
+    public void recibirOrdenCaja(Integer idOrden, Usuario usuario);
+
+    public List<OrdenCompraBarajaDTO> getOrdenesCompra(Usuario usuario);
 
 }

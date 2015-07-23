@@ -58,7 +58,6 @@
                                                                     <h:outputText value="#{verSolicitudBarajasBean.orden.usuarioCreado}"/>
                                                                 </td>
                                                             </tr>
-                                                            
                                                             <c:if test="#{verSolicitudBarajasBean.orden.entregadasnuevas != null}">
                                                                 <tr>
                                                                     <td width="50px"><i class="fa fa-check"></i></td>
@@ -119,21 +118,21 @@
                                                                     </td>
                                                                 </tr>
                                                             </c:if>
+
                                                         </table>
                                                     </div>
                                                     <div class="panel-footer panel-footer-landing">
-                                                        <h:commandButton id="btnen" value="Entregar Nuevas" style="margin:5px" onclick="PF('ennu').show();"
-                                                                         class="btn btn-primary" 
-                                                                         rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
-                                                                                     and verSolicitudBarajasBean.orden.entregadasnuevas == null}">
+                                                        <h:commandButton id="btnrn" value="Recibir Nuevas" style="margin:0" onclick="PF('renu').show();"
+                                                                         class="btn btn-primary"
+                                                                         rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
+                                                                                     and verSolicitudBarajasBean.orden.entregadasnuevas != null
+                                                                                     and verSolicitudBarajasBean.orden.recibidasnuevas == null}">
                                                             <f:ajax execute="@form" render="@none" />
                                                         </h:commandButton>
-                                                        
-                                                        <h:commandButton id="btnru" value="Recibir Usadas" style="margin:5px" onclick="PF('reus').show();"
-                                                                         class="btn btn-primary"
-                                                                         rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
-                                                                                     and verSolicitudBarajasBean.orden.recibidasusadas == null
-                                                                                     and verSolicitudBarajasBean.orden.entregadasusadas != null }">
+                                                        <h:commandButton id="btneu" value="Entregar Usadas" style="margin:0" onclick="PF('enus').show();"
+                                                                         class="btn btn-primary" 
+                                                                         rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
+                                                                                     and verSolicitudBarajasBean.orden.entregadasusadas == null}">
                                                             <f:ajax execute="@form" render="@none" />
                                                         </h:commandButton>
                                                     </div>
@@ -175,7 +174,7 @@
                                             </h:outputText>
                                         </p:column>
                                         <p:column headerText="Recibo usadas" rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
-                                                                                     and verSolicitudBarajasBean.orden.recibidasusadas == null}">
+                                                                                         and verSolicitudBarajasBean.orden.recibidasusadas == null}">
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidad}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
@@ -186,7 +185,7 @@
                                             </f:facet>
                                         </p:column>
                                         <p:column headerText="Entrego nuevas" rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
-                                                                                     and verSolicitudBarajasBean.orden.entregadasnuevas == null}">
+                                                                                          and verSolicitudBarajasBean.orden.entregadasnuevas == null}">
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidad}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
@@ -198,8 +197,8 @@
                                         </p:column>
 
                                         <p:column headerText="Recibo nuevas" rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
-                                                                                     and verSolicitudBarajasBean.orden.entregadasnuevas != null
-                                                                                     and verSolicitudBarajasBean.orden.recibidasnuevas == null}">
+                                                                                         and verSolicitudBarajasBean.orden.entregadasnuevas != null
+                                                                                         and verSolicitudBarajasBean.orden.recibidasnuevas == null}">
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidad}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
@@ -210,8 +209,8 @@
                                             </f:facet>
                                         </p:column>
                                         <p:column headerText="Entrego usadas" rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
-                                                                                     and verSolicitudBarajasBean.orden.recibidasusadas != null
-                                                                                     and verSolicitudBarajasBean.orden.entregadasusadas == null}">
+                                                                                          and verSolicitudBarajasBean.orden.recibidasusadas != null
+                                                                                          and verSolicitudBarajasBean.orden.entregadasusadas == null}">
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidad}">
                                                     <f:converter  converterId="numberSeparationConverter"  />

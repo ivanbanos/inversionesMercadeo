@@ -104,6 +104,14 @@ public class CrudBarajasBean implements Serializable {
         inicializar();
     }
 
+    public void editarMaterial() {
+        material = sessionBean.barajasFacade.editMaterial(material);
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "OK!", "Material de barajas " + material.getNombre() + " editado con exito!"));
+
+        inicializar();
+    }
+    
+
     public void agregarMaterial() {
         material.setId(null);
         material = sessionBean.barajasFacade.addMaterial(material);

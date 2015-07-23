@@ -62,8 +62,12 @@
                                         </p:column>
 
                                         <p:column headerText="#{label['acciones']}" >   
-                                            <p:commandButton id="ver" action="#{listaOrdenesCompraBarajasBean.goOrdenver(element.id, element.estado)}" icon="ui-icon-search" onclick="PF('ajaxWaitingDialog').show();"
-                                                             title="Ver"/> 
+                                            <p:commandButton id="ver" action="#{listaOrdenesCompraBarajasBean.goOrdenvernadaMas(element.id, element.estado)}" icon="ui-icon-search" onclick="PF('ajaxWaitingDialog').show();"
+                                                             title="Ver"/>  
+                                            <p:commandButton id="recibirsala" action="#{listaOrdenesCompraBarajasBean.goOrdenver(element.id, element.estado)}" icon="ui-icon-search" onclick="PF('ajaxWaitingDialog').show();"
+                                                             title="Acciones" rendered="#{sessionBean.perfilViewMatch(&quot;generarOrdenBarajas&quot;)or sessionBean.perfilViewMatch(&quot;aceptarOrdenBarajas&quot;) }"/>  
+                                            <p:commandButton id="recibircaja" action="#{listaOrdenesCompraBarajasBean.goOrdenrecibircaja(element.id, element.estado)}" icon="ui-icon-arrowthickstop-1-s" onclick="PF('ajaxWaitingDialog').show();"
+                                                             title="Acciones en caja" rendered="#{sessionBean.perfilViewMatch(&quot;recibirOrdenBarajas&quot;) }"/> 
                                             </p:column>
 
                                         <f:facet name="footer"> 

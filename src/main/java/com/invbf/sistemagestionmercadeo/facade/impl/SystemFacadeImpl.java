@@ -10,6 +10,7 @@ import com.invbf.sistemagestionmercadeo.dao.CommputadorRegistradoDao;
 import com.invbf.sistemagestionmercadeo.dao.ConfiguracionDao;
 import com.invbf.sistemagestionmercadeo.dao.ControlsalidabonosDao;
 import com.invbf.sistemagestionmercadeo.dao.FormularioDao;
+import com.invbf.sistemagestionmercadeo.dao.GestionBarajasDao;
 import com.invbf.sistemagestionmercadeo.dao.LogDao;
 import com.invbf.sistemagestionmercadeo.dao.PermisosDao;
 import com.invbf.sistemagestionmercadeo.dao.SolicitudEntregaDao;
@@ -192,22 +193,21 @@ public class SystemFacadeImpl implements SystemFacade, Serializable {
         Accion noenviado = AccionDao.findByNombreAccion("NO ENVIADO");
         for (Listasclientestareas lce : elemento.getListasclientestareasList()) {
             try {
-                
+
                 String correoString = ClienteDao.find(lce.getListasclientestareasPK().getIdCliente()).getCorreo();
                 if (correoString.equals("")) {
 
                     lce.setIdAccion(noenviado);
                     lce.setObservaciones("Correo vacio");
                 }
-                 es.sendEmailCliente(correoString, asunto, cuerpo, filename);
-                
+                es.sendEmailCliente(correoString, asunto, cuerpo, filename);
 
                 lce.setIdAccion(enviado);
             } catch (NullPointerException ex) {
                 ex.printStackTrace();
                 lce.setIdAccion(noenviado);
                 lce.setObservaciones("Cliente no tiene email o esta errado.");
-            }catch (Exception ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 lce.setIdAccion(noenviado);
                 lce.setObservaciones("problemas externos, llamar administrador");
@@ -296,6 +296,51 @@ public class SystemFacadeImpl implements SystemFacade, Serializable {
     public void checkEstadoTarea() {
         TareasDao.checkEstadoTarea();
         TareasDao.checkEstadoTareaVn();
+    }
+
+    @Override
+    public long getOrdenesGenerar() {
+        return GestionBarajasDao.getOrdenesGenerar();
+    }
+
+    @Override
+    public long getOrdenesAprobar() {
+        return GestionBarajasDao.getOrdenesAprobar();
+    }
+
+    @Override
+    public long getOredenesREcibir() {
+        return GestionBarajasDao.getOrdenesRecibir();
+    }
+
+    @Override
+    public long getNumRecibirBarajasCaja(Usuario usuario) {
+        return 0;
+    }
+
+    @Override
+    public long getEntregarBarajanuevas(Usuario usuario) {
+        return 0;
+    }
+
+    @Override
+    public long getRecibirusadas(Usuario usuario) {
+        return 0;
+    }
+
+    @Override
+    public long getEntregarUsadas(Usuario usuario) {
+        return 0;
+    }
+
+    @Override
+    public long getREcibirNuevas(Usuario usuario) {
+        return 0;
+    }
+
+    @Override
+    public long getIfDestruir(Usuario usuario) {
+        return 0;
     }
 
 }

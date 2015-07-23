@@ -56,10 +56,10 @@ public class verDestruccionBarajasBean implements Serializable {
         sessionBean.printMensajes();
         idOrden = (Integer) sessionBean.getAttributes("destruirbarajas");
         if (idOrden == null) {
-            acta = sessionBean.barajasFacade.getBodegasParaDes();
+            acta = sessionBean.barajasFacade.getBodegasParaDes(sessionBean.getUsuario());
             
         } else {
-            acta = sessionBean.barajasFacade.getBodegasParaDesPorId( idOrden);
+            acta = sessionBean.barajasFacade.getBodegasParaDesPorId(sessionBean.getUsuario(), idOrden);
         }
     }
 
@@ -69,7 +69,7 @@ public class verDestruccionBarajasBean implements Serializable {
         Notificador.notificar(Notificador.correoSolicitudBarajaEntregada,
                 "Se han entregado las barajas de la solicitud con el n&uacute;mero de acta " + idOrden + ". Favor revisar la lista de solicitudes de barajas.",
                 "Se  han entregado barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
-        acta = sessionBean.barajasFacade.getBodegasParaDesPorId( idOrden);
+        acta = sessionBean.barajasFacade.getBodegasParaDesPorId(sessionBean.getUsuario(), idOrden);
         
         sessionBean.printMensajes();
     }

@@ -12,6 +12,7 @@ import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,14 +64,6 @@ public class CrearOrdenBarajasBean implements Serializable {
                     baraja.setCantidad(0);
                     baraja.setCantidadR(0);
                 }
-            }
-        } else {
-            Integer idOrden = (Integer) sessionBean.getAttributes("orden");
-            OrdenCompraBarajaDTO orden = sessionBean.barajasFacade.getOrden(idOrden);
-            for (BarajasCantidad baraja : orden.getCantidades()) {
-                baraja.setCantidad(0);
-                baraja.setCantidadR(0);
-
             }
         }
     }

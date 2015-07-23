@@ -162,5 +162,6 @@ public class Usuarios implements Serializable {
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Usuarios[ idUsuario=" + idUsuario + " ]";
     }
+
     
 }

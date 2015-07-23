@@ -46,6 +46,10 @@ public class Materialesbarajas implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "nombre")
     private String nombre;
+    @Basic(optional = false)
+    @Size(max = 100)
+    @Column(name = "descripcion")
+    private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "material")
     private List<Barajas> barajasList;
 
@@ -56,9 +60,10 @@ public class Materialesbarajas implements Serializable {
         this.id = id;
     }
 
-    public Materialesbarajas(Integer id, String nombre) {
+    public Materialesbarajas(Integer id, String nombre, String descripcion) {
         this.id = id;
         this.nombre = nombre;
+        this.descripcion = descripcion;
     }
 
     public Integer getId() {
@@ -109,6 +114,14 @@ public class Materialesbarajas implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Materialesbarajas[ id=" + id + " ]";
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
     
 }

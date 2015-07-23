@@ -198,5 +198,5 @@ public class Ordencomprabaraja implements Serializable {
     public void setVerificador(Usuario verificador) {
         this.verificador = verificador;
     }
-    
+
 }

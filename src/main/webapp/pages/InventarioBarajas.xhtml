@@ -99,7 +99,7 @@
                                                     <label>Baraja</label>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
-                                                    #{inventario.baraja.material.nombre} #{inventario.baraja.color}  #{inventario.baraja.marca}
+                                                    #{inventario.baraja.material.nombre} #{inventario.baraja.material.descripcion} #{inventario.baraja.color}  #{inventario.baraja.marca}
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -150,7 +150,7 @@
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
 
-                                            <div class="row">Cantidad</div>
+                                            <div class="row">Inventario disponible</div>
                                             <div class="row">
                                                 <p id="cantbar#{inventario.baraja.id}" style="font-size: 35px"> #{inventario.cantidad - inventario.uso -inventario.destruidas-inventario.pordestruir}
                                                 </p>

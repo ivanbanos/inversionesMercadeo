@@ -123,24 +123,7 @@
                                                         </table>
                                                     </div>
                                                     <div class="panel-footer panel-footer-landing">
-                                                        <h:commandButton id="btncre" value="Ordenar" style="margin:0" onclick="PF('crear').show();"
-                                                                         class="btn btn-primary" 
-                                                                         rendered="#{sessionBean.perfilViewMatch(&quot;generarOrdenBarajas&quot;)
-                                                                                     and verOrdenCompraBarajas.orden.estado == 'PREGENERADA'}">
-                                                            <f:ajax execute="@form" render="@none" />
-                                                        </h:commandButton>
-                                                        <h:commandButton id="btnapro" value="Aprobar" style="margin:0" onclick="PF('aprobar').show();"
-                                                                         class="btn btn-primary" 
-                                                                         rendered="#{sessionBean.perfilViewMatch(&quot;aceptarOrdenBarajas&quot;)
-                                                                                     and verOrdenCompraBarajas.orden.estado == 'GENERADA'}">
-                                                            <f:ajax execute="@form" render="@none" />
-                                                        </h:commandButton>
-                                                        <h:commandButton id="btnrec" value="Recibir" style="margin:0" onclick="PF('recibir').show();"
-                                                                         class="btn btn-primary"
-                                                                         rendered="#{sessionBean.perfilViewMatch(&quot;generarOrdenBarajas&quot;)
-                                                                                     and verOrdenCompraBarajas.orden.estado == 'APROBADA' }">
-                                                            <f:ajax execute="@form" render="@none" />
-                                                        </h:commandButton>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>

@@ -22,7 +22,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class VerOrdenCompraBarajas implements Serializable {
+public class RecibirOrdenBarajaBean implements Serializable {
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -30,7 +30,7 @@ public class VerOrdenCompraBarajas implements Serializable {
     private OrdenCompraBarajaDTO orden;
     private Integer idOrden;
 
-    public VerOrdenCompraBarajas() {
+    public RecibirOrdenBarajaBean() {
     }
 
     public SessionBean getSessionBean() {
@@ -60,7 +60,7 @@ public class VerOrdenCompraBarajas implements Serializable {
             }
         }
         idOrden = (Integer) sessionBean.getAttributes("orden");
-        orden = sessionBean.barajasFacade.getOrden(idOrden);
+        orden = sessionBean.barajasFacade.getOrdenRecibir(idOrden, sessionBean.getUsuario());
     }
 
     public OrdenCompraBarajaDTO getOrden() {
@@ -71,31 +71,8 @@ public class VerOrdenCompraBarajas implements Serializable {
         this.orden = orden;
     }
 
-    public void crearrOrden() {
-        sessionBean.barajasFacade.crearOrden(idOrden, sessionBean.getUsuario());
-        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha generado la orden con exito", "Acta de orden #" + orden.getId()));
-        Notificador.notificar(Notificador.correoOrdenBarajasCreada,
-                "Se ha generado la orden de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
-                "Se ha generado una orden de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaOrdenesCompraBarajas.xhtml");
-        } catch (IOException ex) {
-        }
-    }
-    public void aprobarOrden() {
-        sessionBean.barajasFacade.aprobarOrden(idOrden, sessionBean.getUsuario());
-        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha aprobado la orden con exito", "Acta de orden #" + orden.getId()));
-        Notificador.notificar(Notificador.correoOrdenBarajasAprobada,
-                "Se ha aprobado la orden de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
-                "Se ha aprobado una orden de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaOrdenesCompraBarajas.xhtml");
-        } catch (IOException ex) {
-        }
-    }
-
     public void recibirOrden() {
-        sessionBean.barajasFacade.recibirOrden(idOrden, sessionBean.getUsuario());
+        sessionBean.barajasFacade.recibirOrdenCaja(idOrden, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha recibido la orden con exito", "Acta de orden #" + orden.getId()));
         Notificador.notificar(Notificador.correoOrdenBarajasRecibida,
                 "Se ha recibido la orden de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",

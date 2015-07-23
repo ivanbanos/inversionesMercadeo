@@ -75,4 +75,22 @@ public interface SystemFacade {
 
     public void checkEstadoTarea();
 
+    public long getOrdenesGenerar();
+
+    public long getOrdenesAprobar();
+
+    public long getNumRecibirBarajasCaja(Usuario usuario);
+
+    public long getEntregarBarajanuevas(Usuario usuario);
+
+    public long getRecibirusadas(Usuario usuario);
+
+    public long getEntregarUsadas(Usuario usuario);
+
+    public long getREcibirNuevas(Usuario usuario);
+
+    public long getIfDestruir(Usuario usuario);
+
+    public long getOredenesREcibir();
+
 }

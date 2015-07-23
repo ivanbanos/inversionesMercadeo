@@ -14,13 +14,15 @@ import java.io.Serializable;
 public class MaterialesDTO implements Serializable {
     private Integer id;
     private String nombre;
+    private String descripcion;
 
     public MaterialesDTO() {
     }
 
-    public MaterialesDTO(Integer id, String nombre) {
+    public MaterialesDTO(Integer id, String nombre, String descripcion) {
         this.id = id;
         this.nombre = nombre;
+        this.descripcion = descripcion;
     }
 
     public Integer getId() {
@@ -59,6 +61,14 @@ public class MaterialesDTO implements Serializable {
             return false;
         }
         return true;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
     
 }

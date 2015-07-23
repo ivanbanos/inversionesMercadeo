@@ -48,11 +48,11 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     }
 
     private MaterialesDTO transformarMaterial(Materialesbarajas material) {
-        return new MaterialesDTO(material.getId(), material.getNombre());
+        return new MaterialesDTO(material.getId(), material.getNombre(), material.getDescripcion());
     }
 
     private Materialesbarajas transformarMaterial(MaterialesDTO material) {
-        return new Materialesbarajas(material.getId(), material.getNombre());
+        return new Materialesbarajas(material.getId(), material.getNombre(), material.getDescripcion());
     }
 
     private List<InventarioBarajasDTO> transformarBodegas(List<Bodega> bodegas) {
@@ -80,6 +80,19 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     }
 
     private InventarioBarajasDTO transformarInventario(Bodega bodega) {
+
+        InventarioBarajasDTO bodegadto = new InventarioBarajasDTO();
+        bodegadto.setId(bodega.getId());
+        bodegadto.setNombre(bodega.getNombre());
+        for (Inventarobarajas item : bodega.getInventarobarajasList()) {
+            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), item.getCantidadbarajas(), item.getCantidadbarajas(), item.getUso(), item.getPordestruir(), item.getDestruidas(), item.getMax(), item.getMin(), bodegadto.getNombre()));
+        }
+        for (Casino casino : bodega.getCasinosList()) {
+            bodegadto.getCasinos().add(transformarCasino(casino));
+        }
+        return bodegadto;
+    }
+    private InventarioBarajasDTO transformarInventarioO(Bodega bodega) {
 
         InventarioBarajasDTO bodegadto = new InventarioBarajasDTO();
         bodegadto.setId(bodega.getId());
@@ -214,6 +227,10 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         GestionBarajasDao.deleteMaterial(transformarMaterial(material));
         return material;
     }
+    @Override
+    public MaterialesDTO editMaterial(MaterialesDTO material) {
+        return transformarMaterial(GestionBarajasDao.editMaterial(transformarMaterial(material)));
+    }
 
     @Override
     public BarajasDTO addBaraja(BarajasDTO elemento) {
@@ -242,7 +259,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         Ordencomprabaraja orden = new Ordencomprabaraja();
         orden.setFechaCreacion(new Date());
         orden.setCreador(usuario);
-        orden.setEsatdo("CREADA");
+        orden.setEsatdo("GENERADA");
         orden = GestionBarajasDao.crearOrdenCompra(orden);
         for (InventarioBarajasDTO inventario1 : inventario) {
             orden.getOrdencomprabarajadetalleList().addAll(getDetallesOrden(inventario1, orden.getId()));
@@ -395,15 +412,15 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     }
 
     @Override
-    public ActaDestruccionDTO getBodegasParaDes() {
+    public ActaDestruccionDTO getBodegasParaDes(Usuario usuario) {
         ActaDestruccionDTO nueva = new ActaDestruccionDTO();
-        nueva.setDetalle(transformarDetalleDestrucinoNuevo(GestionBarajasDao.getBodegas()));
+        nueva.setDetalle(transformarDetalleDestrucinoNuevo(GestionBarajasDao.getBodegas(usuario)));
         return nueva;
     }
 
     @Override
-    public ActaDestruccionDTO getBodegasParaDesPorId(Integer idOrden) {
-        return tranformarActaDestruccion(GestionBarajasDao.getDestruccionMaestro(idOrden));
+    public ActaDestruccionDTO getBodegasParaDesPorId(Usuario usuario, Integer idOrden) {
+        return tranformarActaDestruccion(GestionBarajasDao.getDestruccionMaestro(usuario, idOrden));
     }
 
     @Override
@@ -432,5 +449,28 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         }
         return lista;
     }
+
+    @Override
+    public void crearOrden(Integer idOrden, Usuario usuario) {
+        GestionBarajasDao.crearOrden(idOrden, usuario);
+    }
+
+    @Override
+    public OrdenCompraBarajaDTO getOrdenRecibir(Integer idOrden, Usuario usuario) {
+        return transormarOrdenCompra(GestionBarajasDao.getOrdenCompraBaraja(idOrden, usuario));
+    }
+
+    @Override
+    public void recibirOrdenCaja(Integer idOrden, Usuario usuario) {
+        GestionBarajasDao.recibirOrdenCaja(idOrden, usuario);
+    }
+
+    @Override
+    public List<OrdenCompraBarajaDTO> getOrdenesCompra(Usuario usuario) {
+        return transformarOrdenesCompra(GestionBarajasDao.getListaOrdenesCompraBarajasUsuario(usuario));
+    }
+
+
+    
 
 }

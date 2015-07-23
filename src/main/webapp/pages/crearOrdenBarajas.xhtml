@@ -40,8 +40,8 @@
                                                 <f:facet name="header">
                                                     #{invent.nombre}
                                                 </f:facet>
-                                                <p:column headerText="Material" style="text-align: center;">
-                                                    <h:outputText value="#{detalle.baraja.material.nombre}">
+                                                <p:column headerText="Descripci&oacute;n" style="text-align: center;">
+                                                    <h:outputText value="#{detalle.baraja.material.nombre} #{detalle.baraja.material.descripcion}">
                                                     </h:outputText>
                                                 </p:column>
                                                 <p:column headerText="Color" style="text-align: center;">
@@ -53,8 +53,7 @@
                                                     </h:outputText>
                                                 </p:column>
                                                 <p:column headerText="Valor promedio" style="text-align: center;">
-                                                    <h:outputText value="#{detalle.baraja.valorpromedio}">
-                                                        <f:converter  converterId="numberSeparationConverter"  />
+                                                    <h:outputText value="$#{detalle.baraja.valorpromedio}">
                                                     </h:outputText>
                                                 </p:column>
                                                 <p:column headerText="Cantidad solicitada" width="30%">

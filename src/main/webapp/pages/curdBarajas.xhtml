@@ -38,8 +38,8 @@
 
                                 </f:facet>
 
-                                <p:column headerText="Material" sortBy="#{element.material.nombre}" filterBy="#{element.material.nombre}" filterMatchMode="contains" >
-                                    <h:outputText value="#{element.material.nombre}" />
+                                <p:column headerText="Descripci&oacute;n" >
+                                    <h:outputText value="#{element.material.nombre} #{element.material.descripcion}" />
                                 </p:column>
                                 <p:column headerText="Color" sortBy="#{element.color}" filterBy="#{element.color}" filterMatchMode="contains" >
                                     <h:outputText value="#{element.color}" />
@@ -66,7 +66,7 @@
             <div class="row clearfix">
 
 
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
                     <h:form>
                         <div class="row clearfix">
                             <div class="panel panel-primary">
@@ -98,7 +98,7 @@
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
                                             <b><label class="col-md-3 control-label" >Color:</label></b>
                                             <div class="col-md-9">
-                                                <p:inputText id="color" style="width: 100%;" value="#{crudBarajasBean.elemento.color}"/>
+                                                <p:inputText id="color" value="#{crudBarajasBean.elemento.color}"/>
                                             </div>
                                         </div>
                                     </div>
@@ -106,7 +106,7 @@
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
                                             <b><label class="col-md-3 control-label" >Juego:</label></b>
                                             <div class="col-md-9">
-                                                <p:inputText id="marca" style="width: 100%;" value="#{crudBarajasBean.elemento.marca}"/>
+                                                <p:inputText id="marca"  value="#{crudBarajasBean.elemento.marca}"/>
                                             </div>
                                         </div>
                                     </div>
@@ -115,9 +115,9 @@
                                             <b><label class="col-md-3 control-label" >Precio estimado:</label></b>
                                             <div class="col-md-9">
 
-                                                <p:inputText id="vlpro" style="width: 100%;" value="#{crudBarajasBean.elemento.valorpromedio}" converterMessage="Debe escribir un n&uacute;mero!">
-                                                    <f:validateDoubleRange minimum="0.0" />
-                                                </p:inputText>
+                                                <p:spinner id="vlpro"  value="#{crudBarajasBean.elemento.valorpromedio}" prefix="$">
+
+                                                </p:spinner>
                                             </div>
                                         </div>
                                     </div>
@@ -141,36 +141,64 @@
                     </h:form>
                 </div>
 
+            </div>
+            <div class="row clearfix">
 
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
                     <h:form>
+                        <div class="row clearfix">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <div class="clickable">
+                                        <h3 class="panel-title">Materiales</h3>
+                                        <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row clearfix">
+                                        <p:dataTable id="detailsTablebarajas" var="element" value="#{crudBarajasBean.materiales}"  
+                                                     emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTablebarajas">
 
-                        <p:dataTable id="detailsTablebarajas" var="element" value="#{crudBarajasBean.materiales}"  
-                                     emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTablebarajas">
+                                            <f:facet name="header">
 
-                            <f:facet name="header">
+                                            </f:facet>
 
-                            </f:facet>
+                                            <p:column headerText="Nombre" sortBy="#{element.nombre}" filterBy="#{element.nombre}" filterMatchMode="contains" >
+                                                <p:inputText style="width: 100%;" value="#{element.nombre}" />
+                                                <f:facet name="footer">
+                                                    <p:inputText  id="nombremarca" style="width: 100%;" value="#{crudBarajasBean.material.nombre}"/>
+                                                </f:facet>
+                                            </p:column>
 
-                            <p:column headerText="Nombre" sortBy="#{element.nombre}" filterBy="#{element.nombre}" filterMatchMode="contains" >
-                                <h:outputText value="#{element.nombre}" />
-                                <f:facet name="footer">
-                                    <p:inputText id="nombremarca" style="width: 100%;" value="#{crudBarajasBean.material.nombre}"/>
-                                </f:facet>
-                            </p:column>
-                            <p:column headerText="Material" sortBy="#{element.material.nombre}" filterBy="#{element.material.nombre}" filterMatchMode="contains" >
-                                <p:commandButton  icon="ui-icon-closethick" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('elimat').show();"
-                                                  title="#{label['lb_btn.editarPerfiles']}">
-                                    <f:setPropertyActionListener value="#{element}" target="#{crudBarajasBean.material}" />    
-                                </p:commandButton>
-                                <f:facet name="footer">
-                                    <p:commandButton  icon="ui-icon-plusthick" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('addmat').show();"
-                                                      title="#{label['lb_btn.editarPerfiles']}">   
-                                    </p:commandButton>
-                                </f:facet>
-                            </p:column>
+                                            <p:column headerText="Descripi&oacute;n" sortBy="#{element.descripcion}" filterBy="#{element.descripcion}" filterMatchMode="contains" >
+                                                <p:inputText style="width: 100%;" value="#{element.descripcion}" />
+                                                <f:facet name="footer">
+                                                    <p:inputText id="desc" style="width: 100%;" value="#{crudBarajasBean.material.descripcion}"/>
+                                                </f:facet>
+                                            </p:column>
+                                            <p:column headerText="Material" sortBy="#{element.material.nombre}" filterBy="#{element.material.nombre}" filterMatchMode="contains" >
+                                                <p:commandButton  icon="ui-icon-closethick" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('elimat').show();"
+                                                                  title="#{label['lb_btn.editarPerfiles']}">
+                                                    <f:setPropertyActionListener value="#{element}" target="#{crudBarajasBean.material}" />    
+                                                </p:commandButton>
+                                                <p:commandButton  icon="ui-icon-pencil" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('edimat').show();"
+                                                                  title="#{label['lb_btn.editarPerfiles']}">
+                                                    <f:setPropertyActionListener value="#{element}" target="#{crudBarajasBean.material}" />    
+                                                </p:commandButton>
+                                                <f:facet name="footer">
+                                                    <p:commandButton  icon="ui-icon-plusthick" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('addmat').show();"
+                                                                      title="#{label['lb_btn.editarPerfiles']}">   
+                                                    </p:commandButton>
+                                                </f:facet>
+                                            </p:column>
 
-                        </p:dataTable>
+                                        </p:dataTable>
+                                    </div>
+                                </div>
+                                
+                                <div class="panel-footer-landing"></div>
+                            </div>
+                        </div>
                     </h:form>
                 </div>
             </div>
@@ -215,6 +243,16 @@
 
                 <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" 
                                  action="#{crudBarajasBean.eliminarMaterial()}"  ajax="false"/>  
+                <p:commandButton id="decline" value="No" onclick="PF('elimat').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+        <h:form >
+            <p:confirmDialog id="edimat" message="¿Está seguro que desea editar el material?"  
+                             header="Confirmar" severity="alert" widgetVar="edimat" closable="false">  
+
+                <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" 
+                                 action="#{crudBarajasBean.editarMaterial()}"  ajax="false"/>  
                 <p:commandButton id="decline" value="No" onclick="PF('elimat').hide()" type="button" />   
 
             </p:confirmDialog> 

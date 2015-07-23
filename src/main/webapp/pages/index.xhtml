@@ -91,6 +91,59 @@
                                             <h:link outcome="/pages/GenerarReporteGestionView.xhtml" >Tienes pendientes por generar #{notificacionesBean.pendientereporte} reporte(s) de gesti&oacute;n de bonos</h:link>
                                         </div>
                                     </c:if>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    <c:if test="#{notificacionesBean.ordenGenerar !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/ListaOrdenesCompraBarajas.xhtml" >Tienes pendientes por revisar #{notificacionesBean.ordenGenerar} ordenes de barajas pregenradas</h:link>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="#{notificacionesBean.ordenAprobar !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/ListaOrdenesCompraBarajas.xhtml" >Tienes pendientes por aprobar #{notificacionesBean.ordenAprobar} ordenes de barajas</h:link>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="#{notificacionesBean.ordenRecibir !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/ListaOrdenesCompraBarajas.xhtml" >Tienes pendientes por recibir #{notificacionesBean.ordenRecibir} ordenes de barajas</h:link>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="#{notificacionesBean.recibirBarajaCaja !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/ListaOrdenesCompraBarajas.xhtml" >Tienes pendientes por recibir en sala #{notificacionesBean.recibirBarajaCaja} ordenes de barajas</h:link>
+                                        </div>
+                                    </c:if>
+                                    
+                                    
+                                    
+                                    <c:if test="#{notificacionesBean.solicitudEntregadasNuevas !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/ListaSolicitudBarajas.xhtml" >Tienes pendientes por entregar barajas nuevas de #{notificacionesBean.solicitudEntregadasNuevas} solicitudes de barajas</h:link>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="#{notificacionesBean.solicitudEntregadasUsadas !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/ListaSolicitudBarajas.xhtml" >Tienes pendientes por entregar barajas usadas de #{notificacionesBean.solicitudEntregadasUsadas} solicitudes de barajas</h:link>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="#{notificacionesBean.solicitudRecibirNuevas !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/ListaSolicitudBarajas.xhtml" >Tienes pendientes por recibir barajas nuevas de #{notificacionesBean.solicitudRecibirNuevas} solicitudes de barajas</h:link>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="#{notificacionesBean.solicitudRecibirUsadas !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/ListaSolicitudBarajas.xhtml" >Tienes pendientes por recibir barajas usadas de #{notificacionesBean.solicitudRecibirUsadas} solicitudes de barajas</h:link>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="#{notificacionesBean.barajasPorDestruir !=0}">
+                                        <div class="row">
+                                            <h:link outcome="/pages/ListaDestruccionBarajas.xhtml" >Tienes pendientes barajas por destruir</h:link>
+                                        </div>
+                                    </c:if>
                                 </div>
                             </div>
                         </div>
