@@ -315,32 +315,32 @@ public class SystemFacadeImpl implements SystemFacade, Serializable {
 
     @Override
     public long getNumRecibirBarajasCaja(Usuario usuario) {
-        return 0;
+        return GestionBarajasDao.getNumRecibirBarajasCaja(usuario);
     }
 
     @Override
     public long getEntregarBarajanuevas(Usuario usuario) {
-        return 0;
+        return GestionBarajasDao.getEntregarBarajanuevas(usuario);
     }
 
     @Override
     public long getRecibirusadas(Usuario usuario) {
-        return 0;
+        return GestionBarajasDao.getRecibirusadas(usuario);
     }
 
     @Override
     public long getEntregarUsadas(Usuario usuario) {
-        return 0;
+        return GestionBarajasDao.getEntregarUsadas(usuario);
     }
 
     @Override
     public long getREcibirNuevas(Usuario usuario) {
-        return 0;
+        return GestionBarajasDao.getREcibirNuevas(usuario);
     }
 
     @Override
     public long getIfDestruir(Usuario usuario) {
-        return 0;
+        return GestionBarajasDao.getIfDestruir(usuario);
     }
 
 }

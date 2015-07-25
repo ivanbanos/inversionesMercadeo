@@ -666,7 +666,11 @@ public class GestionBarajasDao {
 
         try {
             Solicitudbarajas orden = em.find(Solicitudbarajas.class, idOrden);
-            orden.setEstado("RECIBIDAS NUEVAS");
+            if (orden.getRecibidasUsadas() != null) {
+                orden.setEstado("TERMINADA");
+            } else {
+                orden.setEstado("RECIBIDAS NUEVAS");
+            }
             orden.setRecibidor(usuario);
             orden.setFecharecepcion(new Date());
 
@@ -723,7 +727,11 @@ public class GestionBarajasDao {
         tx.begin();
         try {
             Solicitudbarajas orden = em.find(Solicitudbarajas.class, idOrden);
-            orden.setEstado("RECIBIDAS USADAS");
+            if (orden.getRecibidasNuevas() != null) {
+                orden.setEstado("TERMINADA");
+            } else {
+                orden.setEstado("RECIBIDAS USADAS");
+            }
             orden.setRecibidasUsadas(new Date());
 
             em.merge(orden);
@@ -1086,24 +1094,17 @@ public class GestionBarajasDao {
     }
 
     public static long getOrdenesGenerar() {
+
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-        List<Ordencomprabaraja> lista = new ArrayList<Ordencomprabaraja>();
-
+        List<Ordencomprabaraja> ordenes = null;
         tx.begin();
         try {
-            javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Ordencomprabaraja> c = cq.from(Ordencomprabaraja.class);
-            cq.select(c);
-            lista = em.createQuery(cq).getResultList();
-            for (Iterator<Ordencomprabaraja> iterator = lista.iterator(); iterator.hasNext();) {
-                Ordencomprabaraja next = iterator.next();
-                if (!next.getEsatdo().equals("PREGENERADA")) {
-                    iterator.remove();
-                }
-            }
+            ordenes = em.createNamedQuery("Ordencomprabaraja.findByEsatdo")
+                    .setParameter("esatdo", "PREGENERADA")
+                    .getResultList();
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -1112,28 +1113,22 @@ public class GestionBarajasDao {
         em.clear();
         em.close();
         emf.close();
-        return lista.size();
+        return ordenes.size();
+
     }
 
     public static long getOrdenesAprobar() {
+
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-        List<Ordencomprabaraja> lista = new ArrayList<Ordencomprabaraja>();
-
+        List<Ordencomprabaraja> ordenes = null;
         tx.begin();
         try {
-            javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Ordencomprabaraja> c = cq.from(Ordencomprabaraja.class);
-            cq.select(c);
-            lista = em.createQuery(cq).getResultList();
-            for (Iterator<Ordencomprabaraja> iterator = lista.iterator(); iterator.hasNext();) {
-                Ordencomprabaraja next = iterator.next();
-                if (!next.getEsatdo().equals("GENERADA")) {
-                    iterator.remove();
-                }
-            }
+            ordenes = em.createNamedQuery("Ordencomprabaraja.findByEsatdo")
+                    .setParameter("esatdo", "GENERADA")
+                    .getResultList();
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -1142,28 +1137,22 @@ public class GestionBarajasDao {
         em.clear();
         em.close();
         emf.close();
-        return lista.size();
+        return ordenes.size();
+
     }
 
     public static long getOrdenesRecibir() {
+
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-        List<Ordencomprabaraja> lista = new ArrayList<Ordencomprabaraja>();
-
+        List<Ordencomprabaraja> ordenes = null;
         tx.begin();
         try {
-            javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Ordencomprabaraja> c = cq.from(Ordencomprabaraja.class);
-            cq.select(c);
-            lista = em.createQuery(cq).getResultList();
-            for (Iterator<Ordencomprabaraja> iterator = lista.iterator(); iterator.hasNext();) {
-                Ordencomprabaraja next = iterator.next();
-                if (!next.getEsatdo().equals("APROBADA")) {
-                    iterator.remove();
-                }
-            }
+            ordenes = em.createNamedQuery("Ordencomprabaraja.findByEsatdo")
+                    .setParameter("esatdo", "APROBADA")
+                    .getResultList();
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -1172,28 +1161,22 @@ public class GestionBarajasDao {
         em.clear();
         em.close();
         emf.close();
-        return lista.size();
+        return ordenes.size();
+
     }
 
     public static long getOrdenesPrRecibirCaja() {
+
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-        List<Ordencomprabaraja> lista = new ArrayList<Ordencomprabaraja>();
-
+        List<Ordencomprabaraja> ordenes = null;
         tx.begin();
         try {
-            javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Ordencomprabaraja> c = cq.from(Ordencomprabaraja.class);
-            cq.select(c);
-            lista = em.createQuery(cq).getResultList();
-            for (Iterator<Ordencomprabaraja> iterator = lista.iterator(); iterator.hasNext();) {
-                Ordencomprabaraja next = iterator.next();
-                if (!next.getEsatdo().equals("RECIBIDA")) {
-                    iterator.remove();
-                }
-            }
+            ordenes = em.createNamedQuery("Ordencomprabaraja.findByEsatdo")
+                    .setParameter("esatdo", "RECIBIDA")
+                    .getResultList();
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -1202,6 +1185,199 @@ public class GestionBarajasDao {
         em.clear();
         em.close();
         emf.close();
-        return lista.size();
+        return ordenes.size();
+
+    }
+
+    public static long getNumRecibirBarajasCaja(Usuario usuario) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Ordencomprabaraja> ordenes = null;
+        tx.begin();
+        long count = 0;
+        try {
+            ordenes = em.createNamedQuery("Ordencomprabaraja.findByEsatdo")
+                    .setParameter("esatdo", "RECIBIDA")
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        for (Ordencomprabaraja ordene : ordenes) {
+
+            for (Ordencomprabarajadetalle detalle : ordene.getOrdencomprabarajadetalleList()) {
+                if (detalle.getRecibidor() == null) {
+                    for (Casino casino : detalle.getInventarobarajas().getBodega().getCasinosList()) {
+                        if (usuario.getCasinoList().contains(casino)) {
+                            count++;
+                        }
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
+    public static long getEntregarBarajanuevas(Usuario usuario) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Solicitudbarajas> solicitudes = null;
+        long count = 0;
+        tx.begin();
+        try {
+            String query = "SELECT s FROM Solicitudbarajas s WHERE s.entregadasNuevas != null";
+            solicitudes = (List<Solicitudbarajas>) em.createQuery(query).getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        for (Solicitudbarajas ordene : solicitudes) {
+            for (Solicitudbarajadetalle detalle : ordene.getSolicitudbarajadetalleList()) {
+                for (Casino casino : detalle.getInventarobarajas().getBodega().getCasinosList()) {
+                    if (usuario.getCasinoList().contains(casino)) {
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
+    public static long getRecibirusadas(Usuario usuario) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Solicitudbarajas> solicitudes = null;
+        long count = 0;
+        tx.begin();
+        try {
+            String query = "SELECT s FROM Solicitudbarajas s WHERE s.recibidasUsadas != null";
+            solicitudes = (List<Solicitudbarajas>) em.createQuery(query).getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        for (Solicitudbarajas ordene : solicitudes) {
+            for (Solicitudbarajadetalle detalle : ordene.getSolicitudbarajadetalleList()) {
+                for (Casino casino : detalle.getInventarobarajas().getBodega().getCasinosList()) {
+                    if (usuario.getCasinoList().contains(casino)) {
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
+    public static long getEntregarUsadas(Usuario usuario) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Solicitudbarajas> solicitudes = null;
+        long count = 0;
+        tx.begin();
+        try {
+            String query = "SELECT s FROM Solicitudbarajas s WHERE s.entregadasUsadas != null";
+            solicitudes = (List<Solicitudbarajas>) em.createQuery(query).getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        for (Solicitudbarajas ordene : solicitudes) {
+            for (Solicitudbarajadetalle detalle : ordene.getSolicitudbarajadetalleList()) {
+                for (Casino casino : detalle.getInventarobarajas().getBodega().getCasinosList()) {
+                    if (usuario.getCasinoList().contains(casino)) {
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
+    public static long getREcibirNuevas(Usuario usuario) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Solicitudbarajas> solicitudes = null;
+        long count = 0;
+        tx.begin();
+        try {
+            String query = "SELECT s FROM Solicitudbarajas s WHERE s.recibidasNuevas != null";
+            solicitudes = (List<Solicitudbarajas>) em.createQuery(query).getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        for (Solicitudbarajas ordene : solicitudes) {
+            for (Solicitudbarajadetalle detalle : ordene.getSolicitudbarajadetalleList()) {
+                for (Casino casino : detalle.getInventarobarajas().getBodega().getCasinosList()) {
+                    if (usuario.getCasinoList().contains(casino)) {
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
+    public static long getIfDestruir(Usuario usuario) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Inventarobarajas> ordenes = null;
+        tx.begin();
+        long count = 0;
+        try {
+            String query = "SELECT i FROM Inventarobarajas i WHERE i.pordestruir != 0";
+            ordenes = (List<Inventarobarajas>) em.createQuery(query).getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        for (Inventarobarajas ordene : ordenes) {
+            for (Casino casino : ordene.getBodega().getCasinosList()) {
+                if (usuario.getCasinoList().contains(casino)) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 }

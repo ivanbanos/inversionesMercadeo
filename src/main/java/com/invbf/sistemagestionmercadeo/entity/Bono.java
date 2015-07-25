@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     
     
     
+    @NamedQuery(name = "Bono.getReporteBonoVer", query = "SELECT b FROM Bono b WHERE b.fechaExpiracion >= :desde AND b.fechaExpiracion <= :hasta AND b.casino = :casino "),
     @NamedQuery(name = "Bono.getReporteBono", query = "SELECT b FROM Bono b WHERE b.fechaExpiracion >= :desde AND b.fechaExpiracion <= :hasta AND b.casino = :casino AND b.propositosEntregaid = :proposito"),
     
     

@@ -80,6 +80,7 @@ public class ListaOrdenesCompraBarajasBean implements Serializable {
 
     public void goOrdenrecibircaja(Integer i, String estado) {
         try {
+            sessionBean.setAttribute("orden", i);
             FacesContext.getCurrentInstance().getExternalContext().redirect("recibirOrdenCaja.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);

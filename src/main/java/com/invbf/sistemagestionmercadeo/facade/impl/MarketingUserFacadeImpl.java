@@ -28,6 +28,8 @@ import com.invbf.sistemagestionmercadeo.dao.TipoDocumentoDao;
 import com.invbf.sistemagestionmercadeo.dao.TipoJuegoDao;
 import com.invbf.sistemagestionmercadeo.dao.TipostareasDao;
 import com.invbf.sistemagestionmercadeo.dao.UsuarioDao;
+import com.invbf.sistemagestionmercadeo.dto.BonosAprobadosCanjeados;
+import com.invbf.sistemagestionmercadeo.dto.BonosCantidadMes;
 import com.invbf.sistemagestionmercadeo.entity.Accion;
 import com.invbf.sistemagestionmercadeo.entity.Area;
 import com.invbf.sistemagestionmercadeo.entity.Atributo;
@@ -799,7 +801,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
             }
             solicitudentregalotese.setBononoincluidoList(bonosnoincluidos);
             SolicitudentregalotesDao.edit(solicitudentregalotese);
-           
+
         }
         elemento.setSolicitudentregaloteList(solicitudentregaloteses);
         SolicitudentregalotesmaestroDao.edit(elemento);
@@ -1099,5 +1101,50 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     @Override
     public void rechazar(Solicitudentrega elemento) {
         SolicitudEntregaDao.remove(elemento);
+    }
+
+    @Override
+    public List<BonosCantidadMes> getBonosPorCantidad(List<CasinoBoolean> casinos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde) {
+        List<Bono> bonos = BonoDao.getBonosPorCasino(casinos, ano, mes, annodesde, mesdesde);
+        List<BonosCantidadMes> bonosPorFecha = new ArrayList<BonosCantidadMes>();
+        Calendar c = Calendar.getInstance();
+        for (Bono bono : bonos) {
+            if (bono.getFechaExpiracion() != null) {
+                c.setTime(bono.getFechaExpiracion());
+                BonosCantidadMes b = new BonosCantidadMes(bono.getCasino().getNombre(), bono.getDenominacion().getValor() + "", bono.getTipo().getNombre());
+                if (!bonosPorFecha.contains(b)) {
+                    bonosPorFecha.add(b);
+
+                }
+                bonosPorFecha.get(bonosPorFecha.indexOf(b)).sumarCantidad(c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+            }
+        }
+        return bonosPorFecha;
+    }
+
+    @Override
+    public List<BonosAprobadosCanjeados> getBonosPorCantidadMesuales(List<CasinoBoolean> casinos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde) {
+        List<Bono> bonos = BonoDao.getBonosPorCasino(casinos, ano, mes, annodesde, mesdesde);
+        List<BonosAprobadosCanjeados> bonosPorFecha = new ArrayList<BonosAprobadosCanjeados>();
+        Calendar c = Calendar.getInstance();
+        for (Bono bono : bonos) {
+            if (bono.getFechaExpiracion() != null) {
+                c.setTime(bono.getFechaExpiracion());
+                BonosAprobadosCanjeados b = new BonosAprobadosCanjeados(bono.getCasino().getNombre());
+                if (!bonosPorFecha.contains(b)) {
+                    bonosPorFecha.add(b);
+
+                }
+                if (!bono.getEstado().equals("ANULADO")) {
+                    System.out.println("Bono den "+bono.getDenominacion().getValor());
+                    if (!bono.getEstado().equals("CANJEADO")) {
+                        bonosPorFecha.get(bonosPorFecha.indexOf(b)).sumarCantidad2(c.get(Calendar.MONTH), c.get(Calendar.YEAR),bono.getDenominacion().getValor());
+                    } else {
+                        bonosPorFecha.get(bonosPorFecha.indexOf(b)).sumarCantidad(c.get(Calendar.MONTH), c.get(Calendar.YEAR),bono.getDenominacion().getValor());
+                    }
+                }
+            }
+        }
+        return bonosPorFecha;
     }
 }

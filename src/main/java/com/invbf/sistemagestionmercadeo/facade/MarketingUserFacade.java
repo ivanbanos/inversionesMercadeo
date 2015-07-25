@@ -5,6 +5,8 @@
 package com.invbf.sistemagestionmercadeo.facade;
 
 
+import com.invbf.sistemagestionmercadeo.dto.BonosAprobadosCanjeados;
+import com.invbf.sistemagestionmercadeo.dto.BonosCantidadMes;
 import com.invbf.sistemagestionmercadeo.entity.Accion;
 import com.invbf.sistemagestionmercadeo.entity.Atributo;
 import com.invbf.sistemagestionmercadeo.entity.Bono;
@@ -252,5 +254,9 @@ public interface MarketingUserFacade {
     public void cambiarFechaSolicitud(Solicitudentrega solicitudentrega);
 
     public void rechazar(Solicitudentrega elemento);
+
+    public List<BonosCantidadMes> getBonosPorCantidad(List<CasinoBoolean> casinos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde);
+
+    public List<BonosAprobadosCanjeados> getBonosPorCantidadMesuales(List<CasinoBoolean> casinos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde);
 
 }

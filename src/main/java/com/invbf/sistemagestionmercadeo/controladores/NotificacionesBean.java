@@ -169,33 +169,40 @@ public class NotificacionesBean implements Serializable {
         }
 
         if (vistasPerfil.contains("recibirOrdenBarajas")) {
-
             recibirBarajaCaja = sessionBean.sessionFacade.getNumRecibirBarajasCaja(sessionBean.getUsuario());
             totalPendiente += recibirBarajaCaja;
         }
 
         if (vistasPerfil.contains("entregarBarajas")) {
 
+            System.out.println("solicitudEntregadasNuevas");
             solicitudEntregadasNuevas = sessionBean.sessionFacade.getEntregarBarajanuevas(sessionBean.getUsuario());
             totalPendiente += solicitudEntregadasNuevas;
+            System.out.println(solicitudEntregadasNuevas);
         }
 
         if (vistasPerfil.contains("entregarBarajas")) {
 
+            System.out.println("solicitudRecibirUsadas");
             solicitudRecibirUsadas = sessionBean.sessionFacade.getRecibirusadas(sessionBean.getUsuario());
             totalPendiente += solicitudRecibirUsadas;
+            System.out.println(solicitudRecibirUsadas);
         }
 
         if (vistasPerfil.contains("recibirBarajas")) {
 
+            System.out.println("solicitudEntregadasUsadas");
             solicitudEntregadasUsadas = sessionBean.sessionFacade.getEntregarUsadas(sessionBean.getUsuario());
             totalPendiente += solicitudEntregadasUsadas;
+            System.out.println(solicitudEntregadasUsadas);
         }
 
         if (vistasPerfil.contains("recibirBarajas")) {
 
+            System.out.println("solicitudRecibirNuevas");
             solicitudRecibirNuevas = sessionBean.sessionFacade.getREcibirNuevas(sessionBean.getUsuario());
             totalPendiente += solicitudRecibirNuevas;
+            System.out.println(solicitudRecibirNuevas);
         }
 
         if (vistasPerfil.contains("destruirBarajas")) {

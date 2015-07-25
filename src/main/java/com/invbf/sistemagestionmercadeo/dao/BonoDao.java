@@ -345,6 +345,10 @@ public class BonoDao {
         emf.close();
     }
 
+    public static void getBonosPorCasino(List<CasinoBoolean> casinos) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public BonoDao() {
     }
 
@@ -549,6 +553,48 @@ public class BonoDao {
                     .getResultList();
             tx.commit();
         } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return cargos;
+    }
+
+    public static List<Bono> getBonosPorCasino(List<CasinoBoolean> casinos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Bono> cargos = new ArrayList<Bono>();
+        tx.begin();
+        Calendar desde = Calendar.getInstance();
+        Calendar hasta = Calendar.getInstance();
+
+        hasta.set(Calendar.YEAR, ano);
+        hasta.set(Calendar.MONTH, mes);
+        hasta.add(Calendar.MONTH, 1);
+        hasta.set(Calendar.DAY_OF_MONTH, 1);
+
+        desde.set(Calendar.YEAR, annodesde);
+        desde.set(Calendar.MONTH, mesdesde);
+        desde.set(Calendar.DAY_OF_MONTH, 1);
+        try {
+            for (CasinoBoolean cb : casinos) {
+                if (cb.isSelected()) {
+                    cargos.addAll(em.createNamedQuery("Bono.getReporteBonoVer")
+                            .setParameter("desde", desde.getTime())
+                            .setParameter("hasta", hasta.getTime())
+                            .setParameter("casino", cb.getCasino())
+                            .getResultList());
+
+                }
+            }
+
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
             tx.rollback();
         }
 
