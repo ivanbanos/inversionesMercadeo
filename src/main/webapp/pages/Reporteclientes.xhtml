@@ -234,7 +234,10 @@
                                          rowIndexVar="index" rowsPerPageTemplate="5,10,15, 20, 25, 30">
                                 <p:ajax event="page" oncomplete="PF('ajaxWaitingDialog').hide();" onstart="PF('ajaxWaitingDialog').show();"/>
                                 <p:ajax event="sort" oncomplete="PF('ajaxWaitingDialog').hide();" onstart="PF('ajaxWaitingDialog').show();"/>
-                                <p:column headerText="Fila #" style="width:3%;text-align: center;">
+                                <p:column headerText="Fila #" style="width:3%;text-align: center;background-color: #F2FF71;" rendered="#{element.porActualizar}">
+                                    #{index + 1}
+                                </p:column>
+                                <p:column headerText="Fila #" style="width:3%;text-align: center;" rendered="#{!element.porActualizar}">
                                     #{index + 1}
                                 </p:column>
 

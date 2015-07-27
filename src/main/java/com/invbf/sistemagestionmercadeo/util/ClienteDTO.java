@@ -46,6 +46,7 @@ public class ClienteDTO implements Serializable {
     private String idCategorias;
     private String idCasinoPreferencial;
     private String fuma;
+    private boolean porActualizar;
 
     public ClienteDTO() {
     }
@@ -86,6 +87,7 @@ public class ClienteDTO implements Serializable {
         this.idCategorias = c.getIdCategorias().getNombre();
         this.idCasinoPreferencial = c.getIdCasinoPreferencial().getNombre();
         this.fuma = c.getFuma();
+        this.porActualizar = c.getPorActualizar()!=null && c.getPorActualizar()==1;
     }
 
     public Integer getIdCliente() {
@@ -380,6 +382,14 @@ public class ClienteDTO implements Serializable {
         }
         htmlText += " </ul></div>";
         return htmlText;
+    }
+
+    public boolean isPorActualizar() {
+        return porActualizar;
+    }
+
+    public void setPorActualizar(boolean porActualizar) {
+        this.porActualizar = porActualizar;
     }
 
 }

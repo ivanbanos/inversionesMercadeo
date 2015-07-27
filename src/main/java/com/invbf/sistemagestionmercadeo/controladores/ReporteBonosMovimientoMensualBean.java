@@ -159,7 +159,7 @@ public class ReporteBonosMovimientoMensualBean implements Serializable {
             Axis yAxis = lineModel.getAxis(AxisType.Y);
             yAxis.setLabel("$");
             yAxis.setMin(0);
-            yAxis.setMax((long) max + 5000000);
+            yAxis.setMax((long) max + (max/20));
             lineModels.add(lineModel);
         }
     }

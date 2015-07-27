@@ -154,6 +154,17 @@ public class Cliente implements Serializable {
     @Column(name = "fuma")
     private String fuma;
     
+    @Size(max = 500)
+    @Column(name = "observacionesAct")
+    private String observacionesAct;
+    
+    
+    @Column(name = "porActualizar")
+    private Integer porActualizar;
+    
+    @Column(name = "sendEmail")
+    private Integer sendEmail;
+    
     
     @JoinTable(name = "ClientesTiposJuegos", joinColumns = {
         @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")}, inverseJoinColumns = {
@@ -506,6 +517,30 @@ public class Cliente implements Serializable {
 
     public void setFuma(String fuma) {
         this.fuma = fuma;
+    }
+
+    public String getObservacionesAct() {
+        return observacionesAct;
+    }
+
+    public void setObservacionesAct(String observacionesAct) {
+        this.observacionesAct = observacionesAct;
+    }
+
+    public Integer getPorActualizar() {
+        return porActualizar;
+    }
+
+    public void setPorActualizar(Integer porActualizar) {
+        this.porActualizar = porActualizar;
+    }
+
+    public Integer getSendEmail() {
+        return sendEmail;
+    }
+
+    public void setSendEmail(Integer sendEmail) {
+        this.sendEmail = sendEmail;
     }
     
 }

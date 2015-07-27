@@ -164,7 +164,7 @@ public class ReporteBonosUtilizadosBean implements Serializable {
             Axis yAxis = lineModel.getAxis(AxisType.Y);
             yAxis.setLabel("Cantidad");
             yAxis.setMin(0);
-            yAxis.setMax(max + 50);
+            yAxis.setMax(max + (max/20));
             lineModels.add(lineModel);
         }
     }

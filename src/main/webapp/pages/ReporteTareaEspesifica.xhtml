@@ -155,6 +155,11 @@
                             <p:column headerText="Observaciones" sortBy="#{element.observaciones}" >
                                 <h:outputText value="#{element.observaciones}" />
                             </p:column>
+                            
+                            <p:column headerText="Acciones" rendered="#{reporteTareaEspesificaBean.elemento.tipo.idTipotarea == 6 and sessionBean.perfilFormMatch(&quot;Clientes&quot;, &quot;actualizar&quot;)}" >
+                                <p:commandButton id="editButtonClientes" action="#{reporteTareaEspesificaBean.goCliente(element.cliente.idCliente, element.observaciones)}" icon="ui-icon-pencil" 
+                                                     title="#{label['lb_btn.editar']}" onstart="PF('ajaxWaitingDialog').show();" />
+                            </p:column>
 
                         </p:dataTable>
                     </div>

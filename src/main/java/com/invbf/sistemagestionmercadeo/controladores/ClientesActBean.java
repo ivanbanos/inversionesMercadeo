@@ -47,6 +47,7 @@ public class ClientesActBean implements Serializable {
     private List<Categoria> listacategorias;
     private List<Tipodocumento> tipoDocumentos;
     private String observaciones;
+    private String observacionesTarea;
 
     private List<Integer> annos;
 
@@ -140,6 +141,10 @@ public class ClientesActBean implements Serializable {
             aniov = c.get(Calendar.YEAR);
         } else {
             mes = 12;
+        }
+        observacionesTarea = "";
+        if (elemento.getPorActualizar() != null && elemento.getPorActualizar() == 1) {
+            observacionesTarea = elemento.getObservacionesAct();
         }
     }
 
@@ -276,6 +281,7 @@ public class ClientesActBean implements Serializable {
                         body += "<div><span style=\"font-weight:bold\">Justificaci&oacute;n del cambio:</span><br /></div>";
                         body += "<div><Label>"+observaciones+".</label><br /></div>";
                         body += "<div><br /><Label>Favor revisar la lista de cambios en clientes.</label><br /></div>";
+                        elemento.setPorActualizar(0);
                         sessionBean.marketingUserFacade.guardarClientes(elemento);
                         if (hubocambioImportante) {
                             Notificador.notificar(Notificador.SOLICITUD_CAMBIO_CLIENTE,
@@ -372,6 +378,14 @@ public class ClientesActBean implements Serializable {
 
     public void setAnio(int anio) {
         this.anio = anio;
+    }
+
+    public String getObservacionesTarea() {
+        return observacionesTarea;
+    }
+
+    public void setObservacionesTarea(String observacionesTarea) {
+        this.observacionesTarea = observacionesTarea;
     }
 
 }

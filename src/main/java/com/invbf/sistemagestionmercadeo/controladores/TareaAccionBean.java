@@ -261,56 +261,57 @@ public class TareaAccionBean implements Serializable {
             }
         }
         for (Cliente c : todosclienteses) {
-
-            boolean siCategoria = false;
-            boolean siTipoJuego = false;
-            if (noCatselected) {
-                siCategoria = true;
-            } else {
-                for (CategoriaBoolean cb : categoriasBoolean) {
-                    if (cb.isSelected()) {
-                        if (c.getIdCategorias().equals(cb.getCategoria())) {
-                            siCategoria = true;
-                            break;
-                        }
-                    }
-                }
-            }
-            if (noTipselected) {
-                siTipoJuego = true;
-            } else {
-                for (TipoJuegoBoolean tjb : tipoJuegosBoolean) {
-                    if (tjb.isSelected()) {
-                        for (Tipojuego tj : c.getTipojuegoList()) {
-                            if (tj.equals(tjb.getTipoJuego())) {
-                                siTipoJuego = true;
+            if (elemento.getTipo().getIdTipotarea() != 3 || (elemento.getTipo().getIdTipotarea() == 3 && c.getSendEmail() == 1)) {
+                boolean siCategoria = false;
+                boolean siTipoJuego = false;
+                if (noCatselected) {
+                    siCategoria = true;
+                } else {
+                    for (CategoriaBoolean cb : categoriasBoolean) {
+                        if (cb.isSelected()) {
+                            if (c.getIdCategorias().equals(cb.getCategoria())) {
+                                siCategoria = true;
                                 break;
                             }
                         }
                     }
                 }
-            }
-            if (siCategoria && siTipoJuego) {
-                System.out.println("Entra Cliente");
-                clientes.add(new ClienteDTO(c));
-            } else {
-                if (elemento.getIdTarea() != null) {
-
+                if (noTipselected) {
+                    siTipoJuego = true;
+                } else {
+                    for (TipoJuegoBoolean tjb : tipoJuegosBoolean) {
+                        if (tjb.isSelected()) {
+                            for (Tipojuego tj : c.getTipojuegoList()) {
+                                if (tj.equals(tjb.getTipoJuego())) {
+                                    siTipoJuego = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (siCategoria && siTipoJuego) {
+                    System.out.println("Entra Cliente");
                     clientes.add(new ClienteDTO(c));
+                } else {
+                    if (elemento.getIdTarea() != null) {
+
+                        clientes.add(new ClienteDTO(c));
+                    }
                 }
             }
-        }
-        elemento.setCategorias("");
-        for (CategoriaBoolean cb : categoriasBoolean) {
-            if (cb.isSelected()) {
-                elemento.setCategorias(elemento.getCategorias() + cb.getCategoria().getIdCategorias() + " ");
+            elemento.setCategorias("");
+            for (CategoriaBoolean cb : categoriasBoolean) {
+                if (cb.isSelected()) {
+                    elemento.setCategorias(elemento.getCategorias() + cb.getCategoria().getIdCategorias() + " ");
+                }
             }
-        }
 
-        elemento.setTiposdejuegos("");
-        for (TipoJuegoBoolean tjb : tipoJuegosBoolean) {
-            if (tjb.isSelected()) {
-                elemento.setTiposdejuegos(elemento.getTiposdejuegos() + tjb.getTipoJuego().getIdTipoJuego() + " ");
+            elemento.setTiposdejuegos("");
+            for (TipoJuegoBoolean tjb : tipoJuegosBoolean) {
+                if (tjb.isSelected()) {
+                    elemento.setTiposdejuegos(elemento.getTiposdejuegos() + tjb.getTipoJuego().getIdTipoJuego() + " ");
+                }
             }
         }
     }

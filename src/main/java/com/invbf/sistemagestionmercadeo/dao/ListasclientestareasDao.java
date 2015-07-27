@@ -4,6 +4,7 @@
  */
 package com.invbf.sistemagestionmercadeo.dao;
 
+import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Listasclientestareas;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +80,12 @@ public class ListasclientestareasDao {
         try {
 
             em.merge(listasclientestareas);
+            if (listasclientestareas.getTarea().getTipo().getIdTipotarea() == 6) {
+                Cliente  cliente = em.find(Cliente.class, listasclientestareas.getCliente().getIdCliente());
+                cliente.setPorActualizar(1);
+                cliente.setObservacionesAct(listasclientestareas.getObservaciones());
+                em.merge(cliente);
+            }
             System.out.println("gurdado");
             tx.commit();
 

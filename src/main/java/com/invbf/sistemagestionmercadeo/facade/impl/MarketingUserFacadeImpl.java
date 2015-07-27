@@ -1137,7 +1137,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
                 }
                 if (!bono.getEstado().equals("ANULADO")) {
                     System.out.println("Bono den "+bono.getDenominacion().getValor());
-                    if (!bono.getEstado().equals("CANJEADO")) {
+                    if (bono.getEstado().equals("CANJEADO")) {
                         bonosPorFecha.get(bonosPorFecha.indexOf(b)).sumarCantidad2(c.get(Calendar.MONTH), c.get(Calendar.YEAR),bono.getDenominacion().getValor());
                     } else {
                         bonosPorFecha.get(bonosPorFecha.indexOf(b)).sumarCantidad(c.get(Calendar.MONTH), c.get(Calendar.YEAR),bono.getDenominacion().getValor());

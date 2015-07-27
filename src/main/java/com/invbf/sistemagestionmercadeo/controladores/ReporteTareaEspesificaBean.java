@@ -152,4 +152,13 @@ public class ReporteTareaEspesificaBean implements Serializable {
     public void setTotalRevisados(long totalRevisados) {
         this.totalRevisados = totalRevisados;
     }
+    
+    public void goCliente(int id, String observaciones) {
+        try {
+            sessionBean.setAttribute("idCliente", new Integer(id));
+            sessionBean.setAttribute("observaciones", observaciones);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ClientesAct.xhtml");
+        } catch (IOException ex) {
+        }
+    }
 }
