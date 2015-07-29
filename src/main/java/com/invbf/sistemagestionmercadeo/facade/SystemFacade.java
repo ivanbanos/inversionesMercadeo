@@ -91,6 +91,4 @@ public interface SystemFacade {
 
     public long getIfDestruir(Usuario usuario);
 
-    public long getOredenesREcibir();
-
 }

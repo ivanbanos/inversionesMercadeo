@@ -33,14 +33,14 @@
                         or  sessionBean.perfilViewMatch(&quot;actualizarBodegas&quot;)
                         or  sessionBean.perfilViewMatch(&quot;eliminarBodega&quot;)}">
                             <h:commandLink  action="#{sessionBean.go(&quot;bodegas&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
-                                <br/>Bodegas <br/><br/></h:commandLink>
+                                <br/>Lista de Depositos de <br/>Barajas en Salas </h:commandLink>
                         </c:if>
 
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;recibirOrdenBarajas&quot;)
                                       or  sessionBean.perfilViewMatch(&quot;generarOrdenBarajas&quot;)
                                       or  sessionBean.perfilViewMatch(&quot;aceptarOrdenBarajas&quot;)}">
                             <h:commandLink  action="#{sessionBean.go(&quot;ordenesComprabaraja&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
-                                <br/>Ordenes de compra de <br/>lote de barajas</h:commandLink>
+                                <br/>Requerimientos de compra de <br/>lote de barajas</h:commandLink>
 
                         </c:if>
 

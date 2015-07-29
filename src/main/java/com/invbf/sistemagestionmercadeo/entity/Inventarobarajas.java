@@ -35,6 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Inventarobarajas.findById", query = "SELECT i FROM Inventarobarajas i WHERE i.id = :id"),
     @NamedQuery(name = "Inventarobarajas.findByCantidadbarajas", query = "SELECT i FROM Inventarobarajas i WHERE i.cantidadbarajas = :cantidadbarajas")})
 public class Inventarobarajas implements Serializable {
+    @JoinColumn(name = "casino", referencedColumnName = "idCasino")
+    @ManyToOne
+    private Casino casino;
     @OneToMany(mappedBy = "inventario")
     private List<Actasdestruccionbarajas> actasdestruccionbarajasList;
 
@@ -48,9 +51,6 @@ public class Inventarobarajas implements Serializable {
     private Integer max;
     @Column(name = "min")
     private Integer min;
-    @JoinColumn(name = "bodega", referencedColumnName = "id")
-    @ManyToOne
-    private Bodega bodega;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "inventarobarajas")
     private List<Solicitudbarajadetalle> solicitudbarajadetalleList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "inventarobarajas")
@@ -70,8 +70,8 @@ public class Inventarobarajas implements Serializable {
     public Inventarobarajas() {
     }
 
-    public Inventarobarajas(Bodega bodega, Barajas baraja) {
-        this.bodega = bodega;
+    public Inventarobarajas(Casino bodega, Barajas baraja) {
+        this.casino = bodega;
         this.baraja = baraja;
         cantidadbarajas = 0;
         max = 0;
@@ -192,14 +192,6 @@ public class Inventarobarajas implements Serializable {
         this.min = min;
     }
 
-    public Bodega getBodega() {
-        return bodega;
-    }
-
-    public void setBodega(Bodega bodega) {
-        this.bodega = bodega;
-    }
-
     public boolean isOrdenActiva() {
         for (Ordencomprabarajadetalle ordencomprabarajadetalle : ordencomprabarajadetalleList) {
             if (!ordencomprabarajadetalle.getOrdencomprabaraja().getEsatdo().equals("RECIBIDA")) {
@@ -216,6 +208,14 @@ public class Inventarobarajas implements Serializable {
 
     public void setActasdestruccionbarajasList(List<Actasdestruccionbarajas> actasdestruccionbarajasList) {
         this.actasdestruccionbarajasList = actasdestruccionbarajasList;
+    }
+
+    public Casino getCasino() {
+        return casino;
+    }
+
+    public void setCasino(Casino casino) {
+        this.casino = casino;
     }
 
 }

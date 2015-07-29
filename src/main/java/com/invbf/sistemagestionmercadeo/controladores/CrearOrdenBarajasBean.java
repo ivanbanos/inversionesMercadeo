@@ -71,11 +71,11 @@ public class CrearOrdenBarajasBean implements Serializable {
     public void crear() {
         try {
             int i = sessionBean.barajasFacade.crearOrdenBarajas(invent, sessionBean.getUsuario());
-            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha generado la orden con exito", "Acta de orden #" + i));
+            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha generado el requerimiento con exito", "Acta de orden #" + i));
 
             Notificador.notificar(Notificador.correoOrdenBarajasCreada,
-                    "Se ha creado la orden de compra de barajas con el n&uacute;mero de acta " + i + ". Favor revisar la lista de ordenes de compra de barajas.",
-                    "Se ha creado una orden de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                    "Se ha creado el requerimiento de compra de barajas con el n&uacute;mero de acta " + i + ". Favor revisar la lista de requerimientos de compra de barajas.",
+                    "Se ha creado un requerimiento de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
 
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaOrdenesCompraBarajas.xhtml");
         } catch (IOException ex) {

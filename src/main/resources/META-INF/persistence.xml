@@ -61,7 +61,6 @@
     <class>com.invbf.sistemagestionmercadeo.entity.Solicitudregalodetalle</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Ordencompraregalos</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Perfiles</class>
-    <class>com.invbf.sistemagestionmercadeo.entity.Bodega</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Actasdestruccionbarajas</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Destruccionbarajasmaestro</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>

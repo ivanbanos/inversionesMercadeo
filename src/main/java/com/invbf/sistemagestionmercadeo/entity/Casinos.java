@@ -7,6 +7,7 @@ package com.invbf.sistemagestionmercadeo.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,9 +38,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Casinos.findByNombre", query = "SELECT c FROM Casinos c WHERE c.nombre = :nombre"),
     @NamedQuery(name = "Casinos.findByDireccion", query = "SELECT c FROM Casinos c WHERE c.direccion = :direccion")})
 public class Casinos implements Serializable {
-    @JoinColumn(name = "bodega", referencedColumnName = "id")
-    @ManyToOne
-    private Bodega bodega;
     
     private static final long serialVersionUID = 1L;
     @Id
@@ -139,12 +137,5 @@ public class Casinos implements Serializable {
         return "com.invbf.sistemagestionmercadeo.entity.Casinos[ idCasino=" + idCasino + " ]";
     }
 
-    public Bodega getBodega() {
-        return bodega;
-    }
 
-    public void setBodega(Bodega bodega) {
-        this.bodega = bodega;
-    }
-    
 }

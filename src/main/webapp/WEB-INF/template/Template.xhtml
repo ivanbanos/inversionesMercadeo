@@ -283,14 +283,14 @@
                                                       or  sessionBean.perfilViewMatch(&quot;actualizarBodegas&quot;)
                                                       or  sessionBean.perfilViewMatch(&quot;eliminarBodega&quot;)}">
                                             <li >
-                                                <h:commandLink  action="#{sessionBean.go(&quot;bodegas&quot;)}" value="Lista de bodegas"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;bodegas&quot;)}" value="Lista de Depositos de Barajas en Salas"/>
                                             </li>
                                         </c:if>
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;recibirOrdenBarajas&quot;)
                                                       or  sessionBean.perfilViewMatch(&quot;generarOrdenBarajas&quot;)
                                                       or  sessionBean.perfilViewMatch(&quot;aceptarOrdenBarajas&quot;)}">
                                             <li >
-                                                <h:commandLink  action="#{sessionBean.go(&quot;ordenesComprabaraja&quot;)}" value="Ordenes de compra de lote de barajas"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;ordenesComprabaraja&quot;)}" value="Requerimientos de compra de lote de barajas"/>
                                             </li>
                                         </c:if>
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verSolicitudesBarajas&quot;)

@@ -62,9 +62,9 @@ public interface BarajasFacade {
 
     public List<InventarioBarajasDTO> getBodegas();
 
-    public Integer crearBodega(String nombre);
+    public Integer crearBodega(int id);
 
-    public void guardarBodega(InventarioBarajasDTO inventario, List<CasinoBoolean> casinos);
+    public void guardarBodega(InventarioBarajasDTO inventario);
 
     public List<InventarioBarajasDTO> getBodegas(Usuario usuario);
 

@@ -70,9 +70,8 @@ public class Casino implements Serializable {
     private List<Lotebono> lotebonoList;
     @OneToMany(mappedBy = "idCasinoPreferencial")
     private List<Cliente> clienteList;
-    @JoinColumn(name = "bodega", referencedColumnName = "id")
-    @ManyToOne
-    private Bodega bodega;
+    @OneToMany(mappedBy = "casino")
+    private List<Inventarobarajas> inventarobarajasList;
     
  
     public Casino() {
@@ -197,11 +196,13 @@ public class Casino implements Serializable {
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Casino[ idCasino=" + idCasino + " ]";
     }
-    public Bodega getBodega() {
-        return bodega;
+    
+    @XmlTransient
+    public List<Inventarobarajas> getInventarobarajasList() {
+        return inventarobarajasList;
     }
 
-    public void setBodega(Bodega bodega) {
-        this.bodega = bodega;
+    public void setInventarobarajasList(List<Inventarobarajas> inventarobarajasList) {
+        this.inventarobarajasList = inventarobarajasList;
     }
 }

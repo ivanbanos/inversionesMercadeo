@@ -5,23 +5,14 @@
  */
 package com.invbf.sistemagestionmercadeo.facade.impl;
 
+import com.invbf.sistemagestionmercadeo.dao.GestionRegaloDao;
 import com.invbf.sistemagestionmercadeo.dto.CategoriaDTO;
-import com.invbf.sistemagestionmercadeo.dto.InventarioRegalosDTO;
-import com.invbf.sistemagestionmercadeo.dto.OrdenCompraRegaloDTO;
 import com.invbf.sistemagestionmercadeo.dto.RegaloDTO;
-import com.invbf.sistemagestionmercadeo.dto.RegalosCantidadDTO;
-import com.invbf.sistemagestionmercadeo.dto.SolicitudRegaloDTO;
 import com.invbf.sistemagestionmercadeo.entity.Categorias;
-import com.invbf.sistemagestionmercadeo.entity.Ordencompraregalodetalle;
-import com.invbf.sistemagestionmercadeo.entity.Ordencompraregalos;
 import com.invbf.sistemagestionmercadeo.entity.Regalos;
-import com.invbf.sistemagestionmercadeo.entity.Regalosinventario;
-import com.invbf.sistemagestionmercadeo.entity.Solicitudregalos;
-import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.facade.RegalosFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,87 +22,33 @@ import java.util.List;
 public class RegalosFacadeImpl implements RegalosFacade, Serializable {
 
     @Override
-    public List<RegaloDTO> getListaBarajas() {
+    public List<CategoriaDTO> getListaCategorias() {
+        List<Categorias> categorias = GestionRegaloDao.getListaCategorias();
+        List<CategoriaDTO> categoriasDto = new ArrayList<CategoriaDTO>();
+        for (Categorias categoria : categorias) {
+            categoriasDto.add(new CategoriaDTO(categoria.getIdCategorias(), categoria.getNombre()));
+        }
+        return categoriasDto;
+    }
+
+    @Override
+    public List<RegaloDTO> getListaRegalos() {
+        List<Regalos> regalos = GestionRegaloDao.getListaRegalos();
+        List<RegaloDTO> regaloDTOs = new ArrayList<RegaloDTO>();
+        for (Regalos regalo : regalos) {
+            regaloDTOs.add(new RegaloDTO(regalo));
+        }
+        return regaloDTOs;
+    }
+
+    @Override
+    public RegaloDTO deleteRegalo(RegaloDTO elemento) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<CategoriaDTO> getListaMateriales() {
+    public RegaloDTO addRegalo(RegaloDTO elemento) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public CategoriaDTO addMaterial(CategoriaDTO material) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public CategoriaDTO deleteMaterial(CategoriaDTO material) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public RegaloDTO addBaraja(RegaloDTO elemento) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public RegaloDTO deleteBaraja(RegaloDTO elemento) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public InventarioRegalosDTO getInventario() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<OrdenCompraRegaloDTO> getOrdenesCompra() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int crearOrdenBarajas(InventarioRegalosDTO inventario, Usuario usuario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public OrdenCompraRegaloDTO getOrden(Integer idOrden) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void aprobarOrden(Integer idOrden, Usuario usuario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void recibirOrden(Integer idOrden, Usuario usuario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<SolicitudRegaloDTO> getSolicitudesBarajas(boolean todas, int idUsuario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int crearSolicitudBarajas(InventarioRegalosDTO inventario, Usuario usuario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public SolicitudRegaloDTO getSolicitud(Integer idOrden) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void entregarSolicitud(Integer idOrden, Usuario usuario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void recibirSolicitud(Integer idOrden, Usuario usuario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

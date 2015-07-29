@@ -77,6 +77,14 @@ public class ListaBodegasBean implements Serializable {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public void goBodegaVer(Integer id) {
+        try {
+            sessionBean.setAttribute("bodega", id);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("InventarioBarajasVer.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public String getNombre() {
         return nombre;
@@ -86,8 +94,4 @@ public class ListaBodegasBean implements Serializable {
         this.nombre = nombre;
     }
     
-    public void nuevaBodega(){
-        Integer id = sessionBean.barajasFacade.crearBodega(nombre);
-        goBodega(id);
-    }
 }

@@ -10,6 +10,8 @@ import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -75,50 +77,68 @@ public class verSolicitudBarajasBean implements Serializable {
     }
 
     public void entregarNuevas() {
-        sessionBean.barajasFacade.entregarNuevasSolicitud(idOrden, sessionBean.getUsuario()); 
-        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han entregado las barajas nuevas con exito", "Acta de orden #" + orden.getId()));
-        Notificador.notificar(Notificador.correoSolicitudBarajaEntregada, 
-                    "Se han entregado las barajas nuevas de la solicitud con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.", 
+        try {
+            sessionBean.barajasFacade.entregarNuevasSolicitud(idOrden, sessionBean.getUsuario());
+            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han entregado las barajas nuevas con exito", "Acta de orden #" + orden.getId()));
+            Notificador.notificar(Notificador.correoSolicitudBarajaEntregada, 
+                    "Se han entregado las barajas nuevas de la solicitud con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.",
                     "Se  han entregado barajas nuevas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
-        
-        idOrden = (Integer) sessionBean.getAttributes("solicitudBaraja");
-        orden = sessionBean.barajasFacade.getSolicitud(idOrden);
-        sessionBean.printMensajes();
+            
+            idOrden = (Integer) sessionBean.getAttributes("solicitudBaraja");
+            orden = sessionBean.barajasFacade.getSolicitud(idOrden);
+            sessionBean.printMensajes();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBarajas.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(verSolicitudBarajasBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void recibirUsadas() {
-        sessionBean.barajasFacade.recibirUsadasSolicitud(idOrden, sessionBean.getUsuario()); 
-        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han recibido las barajas usadas con exito", "Acta de orden #" + orden.getId()));
-        Notificador.notificar(Notificador.correoSolicitudBarajaEntregada, 
-                    "Se han recibido las barajas usadas de la solicitud con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.", 
+        try {
+            sessionBean.barajasFacade.recibirUsadasSolicitud(idOrden, sessionBean.getUsuario());
+            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han recibido las barajas usadas con exito", "Acta de orden #" + orden.getId()));
+            Notificador.notificar(Notificador.correoSolicitudBarajaEntregada, 
+                    "Se han recibido las barajas usadas de la solicitud con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.",
                     "Se  han recibido barajas usadas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
-        
-        idOrden = (Integer) sessionBean.getAttributes("solicitudBaraja");
-        orden = sessionBean.barajasFacade.getSolicitud(idOrden);
-        sessionBean.printMensajes();
+            
+            idOrden = (Integer) sessionBean.getAttributes("solicitudBaraja");
+            orden = sessionBean.barajasFacade.getSolicitud(idOrden);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBarajas.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(verSolicitudBarajasBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void entregarUsadas() {
-        sessionBean.barajasFacade.entregarUsadasSolicitud(idOrden, sessionBean.getUsuario());
-        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han entregado las barajas usadas con exito", "Acta de orden #" + orden.getId()));
-        Notificador.notificar(Notificador.correoSolicitudBarajaRecibida, 
-                    "Se han entregado las barajas usadas de la solicitud con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.", 
+        try {
+            sessionBean.barajasFacade.entregarUsadasSolicitud(idOrden, sessionBean.getUsuario());
+            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han entregado las barajas usadas con exito", "Acta de orden #" + orden.getId()));
+            Notificador.notificar(Notificador.correoSolicitudBarajaRecibida, 
+                    "Se han entregado las barajas usadas de la solicitud con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.",
                     "Se  han entregado barajas usadas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
-        
-        idOrden = (Integer) sessionBean.getAttributes("solicitudBaraja");
-        orden = sessionBean.barajasFacade.getSolicitud(idOrden);
-        sessionBean.printMensajes();
+            
+            idOrden = (Integer) sessionBean.getAttributes("solicitudBaraja");
+            orden = sessionBean.barajasFacade.getSolicitud(idOrden);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBarajas.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(verSolicitudBarajasBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void recibirNuevas() {
-        sessionBean.barajasFacade.recibirNuevasSolicitud(idOrden, sessionBean.getUsuario());
-        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han recibido las barajas nuevas con exito", "Acta de orden #" + orden.getId()));
-        Notificador.notificar(Notificador.correoSolicitudBarajaRecibida, 
-                    "Se han recibido las barajas nuevas de la solicitud con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.", 
+        try {
+            sessionBean.barajasFacade.recibirNuevasSolicitud(idOrden, sessionBean.getUsuario());
+            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han recibido las barajas nuevas con exito", "Acta de orden #" + orden.getId()));
+            Notificador.notificar(Notificador.correoSolicitudBarajaRecibida, 
+                    "Se han recibido las barajas nuevas de la solicitud con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.",
                     "Se  han recibido barajas nuevas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
-        
-        idOrden = (Integer) sessionBean.getAttributes("solicitudBaraja");
-        orden = sessionBean.barajasFacade.getSolicitud(idOrden);
-        sessionBean.printMensajes();
+            
+            idOrden = (Integer) sessionBean.getAttributes("solicitudBaraja");
+            orden = sessionBean.barajasFacade.getSolicitud(idOrden);
+            
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBarajas.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(verSolicitudBarajasBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

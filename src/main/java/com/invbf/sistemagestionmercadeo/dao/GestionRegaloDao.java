@@ -27,6 +27,7 @@ import javax.persistence.criteria.Root;
  * @author ivan
  */
 public class GestionRegaloDao {
+    
     public static List<Regalos> getListaRegalos() {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
@@ -51,7 +52,7 @@ public class GestionRegaloDao {
         return lista;
     }
 
-    public static List<Categorias> getListaMateriales() {
+    public static List<Categorias> getListaCategorias() {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
@@ -76,7 +77,7 @@ public class GestionRegaloDao {
     }
 
     
-    public static Regalos addBaraja(Regalos regalo) {
+    public static Regalos addRegalo(Regalos regalo) {
         regalo.setNombre(regalo.getNombre().toUpperCase());
         regalo.setDescripcion(regalo.getDescripcion().toUpperCase());
         EntityManagerFactory emf

@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}:/Barajas/Lista de bodegas</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}:/Barajas/Lista de Depositos de Barajas en Salas</label>
                 </div>
             </div>
         </div>
@@ -27,64 +27,26 @@
                         <div class="panel-heading">
 
                             <div class="clickable">
-                                <h3 class="panel-title">Lista de bodegas</h3>
+                                <h3 class="panel-title">Lista de Depositos de Barajas en Salas</h3>
                                 <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
                             </div>
                         </div>
                         <div class="panel-body">
-                            <p:dataGrid var="bodegas" value="#{listaBodegasBean.bodegas}" columns="1"
-                                        rows="12" paginator="true" id="bodegas">
-                                <p:panel header="#{car.id}" style="text-align:center">
-                                    <f:facet name="header">
-                                        #{bodegas.nombre}
-                                    </f:facet>
+                            <p:dataTable var="bodegas" value="#{listaBodegasBean.bodegas}" id="bodegas">
+                                <p:column headerText="Nombre">
+                                    #{bodegas.nombre}
+                                </p:column>
 
-                                    <p:dataList value="#{bodegas.casinos}" var="cas" type="ordered">
-                                        <f:facet name="header">
-                                            Salas
-                                        </f:facet>
-                                        #{cas.nombre}
-                                    </p:dataList>
-
-
-
-                                    <hr />
+                                <p:column>
                                     <p:commandButton id="addButton" action="#{listaBodegasBean.goBodega(bodegas.id)}" onclick="PF('ajaxWaitingDialog').show();"
-                                                     value="Ir" icon="ui-icon-search" title="ir" 
+                                                      icon="ui-icon-gear" title="Configurar" 
                                                      />   
-                                </p:panel>
-                                <f:facet name="footer">
-                                    <div class="row clearfix">
+                                    <p:commandButton id="goVer" action="#{listaBodegasBean.goBodegaVer(bodegas.id)}" onclick="PF('ajaxWaitingDialog').show();"
+                                                      icon="ui-icon-search" title="Ver" 
+                                                     />   
+                                </p:column>
 
-                                        <div class="row clearfix">
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
-                                                <b><label class="col-md-12 control-label text-center" >Agregar Bodega</label></b>
-                                            </div>
-                                        </div>
-                                        <div class="row clearfix">
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
-                                                <b><label class="col-md-3 control-label" >Nombre:</label></b>
-                                                <div class="col-md-9">
-                                                    <p:inputText id="color" style="width: 100%;" value="#{listaBodegasBean.nombre}"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row clearfix">
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
-                                                <div class="col-md-9">
-                                                    <p:commandButton  value="Nueva bodega" onstart="PF('ajaxWaitingDialog').show();" 
-                                                                      oncomplete="PF('ajaxWaitingDialog').hide();PF('nueva').show();"
-                                                                      title="#{label['lb_btn.editarPerfiles']}">   
-                                                    </p:commandButton>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-
-                                    </div>
-                                </f:facet>
-                            </p:dataGrid>
+                            </p:dataTable>
                         </div>
                     </div>
                 </div>

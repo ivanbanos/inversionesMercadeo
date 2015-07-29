@@ -40,7 +40,6 @@ public class NotificacionesBean implements Serializable {
 
     long ordenGenerar;
     long ordenAprobar;
-    long ordenRecibir;
     long recibirBarajaCaja;
 
     long solicitudEntregadasNuevas;
@@ -73,7 +72,6 @@ public class NotificacionesBean implements Serializable {
         
         ordenGenerar = 0;
         ordenAprobar = 0;
-        ordenRecibir = 0;
         recibirBarajaCaja = 0;
         
         solicitudEntregadasNuevas = 0;
@@ -160,12 +158,6 @@ public class NotificacionesBean implements Serializable {
 
             ordenAprobar = sessionBean.sessionFacade.getOrdenesAprobar();
             totalPendiente += ordenAprobar;
-        }
-
-        if (vistasPerfil.contains("generarOrdenBarajas")) {
-
-            ordenRecibir = sessionBean.sessionFacade.getOredenesREcibir();
-            totalPendiente += ordenRecibir;
         }
 
         if (vistasPerfil.contains("recibirOrdenBarajas")) {
@@ -322,14 +314,6 @@ public class NotificacionesBean implements Serializable {
 
     public void setOrdenAprobar(long ordenAprobar) {
         this.ordenAprobar = ordenAprobar;
-    }
-
-    public long getOrdenRecibir() {
-        return ordenRecibir;
-    }
-
-    public void setOrdenRecibir(long ordenRecibir) {
-        this.ordenRecibir = ordenRecibir;
     }
 
     public long getRecibirBarajaCaja() {

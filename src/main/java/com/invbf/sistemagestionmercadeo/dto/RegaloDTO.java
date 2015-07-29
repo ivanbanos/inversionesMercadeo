@@ -5,6 +5,8 @@
  */
 package com.invbf.sistemagestionmercadeo.dto;
 
+import com.invbf.sistemagestionmercadeo.entity.Regalos;
+
 /**
  *
  * @author ivan
@@ -18,6 +20,13 @@ public class RegaloDTO {
     private CategoriaDTO categoria;
 
     public RegaloDTO() {
+    }
+    public RegaloDTO(Regalos regalo) {
+        this.id = regalo.getId();
+        this.nombre = regalo.getNombre();
+        this.genero = regalo.getGenero();
+        this.descripcion = regalo.getDescripcion();
+        this.categoria = new CategoriaDTO(regalo.getCategoria().getIdCategorias(), regalo.getCategoria().getNombre());
     }
 
     public RegaloDTO(Integer id, String nombre, String genero, String descripcion, CategoriaDTO categoria) {

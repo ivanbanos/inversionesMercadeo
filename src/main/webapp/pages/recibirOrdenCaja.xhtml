@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: /Barajas/Ordenes de compra de lotes de barajas</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Barajas/Requerimiento de compra de lotes de barajas</label>
                 </div>
             </div>
         </div>
@@ -24,8 +24,91 @@
                 <div class="row clearfix">
                     <div class="col-md-12 ">
                         <div class="panel panel-primary">
-                            <div class="panel-heading"><h4>Orden de compra de lotes de barajas</h4></div>
+                            <div class="panel-heading"><h4>Requerimiento de compra de lotes de barajas</h4></div>
                             <div class="panel-body">
+                                <div class="row">
+
+
+
+
+                                    <div class="row text-center">
+                                        <div class="col-md-12" style="margin-top: 20px;">
+                                            <div class="pricing-table">
+                                                <div class="panel panel-primary" style="border: none;">
+                                                    <div class="controle-header panel-heading panel-heading-landing">
+                                                        <h4 >
+                                                            Acta # #{verOrdenCompraBarajas.orden.id}
+                                                        </h4>
+                                                    </div>
+                                                    <div class="controle-panel-heading panel-heading panel-heading-landing-box">
+                                                        #{verOrdenCompraBarajas.orden.estado}
+                                                    </div>
+                                                    <div class="panel-body panel-body-landing">
+                                                        <table class="table">
+                                                            <tr>
+                                                                <c:choose>
+                                                                    <c:when test="#{verOrdenCompraBarajas.orden.estado == 'PREGENERADA'}">
+                                                                        <td width="50px"></td>
+                                                                        <td>Por generar</td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                    </c:when>
+                                                                    <c:otherwise >
+                                                                        <td width="50px"><i class="fa fa-check"></i></td>
+                                                                        <td>Generada en</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{verOrdenCompraBarajas.orden.fechaCreacion}">
+                                                                                <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                            </h:outputText>
+                                                                        </td>
+                                                                        <td>Por</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{verOrdenCompraBarajas.orden.usuarioCreado}"/>
+                                                                        </td>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </tr>
+                                                            <tr>
+                                                                <c:choose>
+                                                                    <c:when test="#{verOrdenCompraBarajas.orden.estado == 'GENERADA'}">
+                                                                        <td width="50px"></td>
+                                                                        <td>Por aprobar</td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                    </c:when>
+                                                                    <c:when test="#{verOrdenCompraBarajas.orden.estado == 'PREGENERADA'}">
+
+                                                                    </c:when>
+                                                                    <c:otherwise >
+                                                                        <td width="50px"><i class="fa fa-check"></i></td>
+                                                                        <td>Aprobada en</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{verOrdenCompraBarajas.orden.fechaAceptada}">
+                                                                                <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                            </h:outputText>
+                                                                        </td>
+                                                                        <td>Por</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{verOrdenCompraBarajas.orden.usuarioAceptador}"/>
+                                                                        </td>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </tr>
+                                                            <tr>
+
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div class="panel-footer panel-footer-landing">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <p:dataTable value="#{recibirOrdenBarajaBean.orden.cantidades}" var="detalle" rowIndexVar="status"
                                                  emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
@@ -48,9 +131,8 @@
                                         </p:column>
                                         <p:column headerText="Cantidad recibidas"  width="25%"  >
                                             <span id="cantidad#{status}">
-                                                <h:outputText value="#{detalle.cantidadR}" rendered="#{recibirOrdenBarajaBean.orden.estado == 'RECIBIDA'}">
-                                                    <f:converter  converterId="numberSeparationConverter"  />
-                                                </h:outputText>
+                                                <p:spinner value="#{detalle.cantidadR}"  >
+                                                </p:spinner>
                                             </span>
 
                                             <f:facet name="footer">
@@ -60,9 +142,9 @@
                                     </p:dataTable>
                                 </div>
                             </div>
-                            <div class="panel-footer panel-footer-landing">
+                            <div class="panel-footer panel-footer-landing  text-right">
 
-                                <h:commandButton id="btnrec" value="Recibir" style="margin:0" onclick="PF('recibir').show();"
+                                <h:commandButton id="btnrec" value="Ingresar barajas recibidas al inventario" style="margin:0" onclick="PF('recibir').show();"
                                                  class="btn btn-primary">
                                     <f:ajax execute="@form" render="@none" />
                                 </h:commandButton>
@@ -74,7 +156,7 @@
         </h:form>
 
         <h:form>
-            <p:confirmDialog id="recibir" message="Quiere recibir la orden #{label['cierrepregunta']}"  
+            <p:confirmDialog id="recibir" message="Quiere recibir las barajas #{label['cierrepregunta']}"  
                              header="Borrar" severity="alert" widgetVar="recibir" closable="false">  
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"

@@ -309,11 +309,6 @@ public class SystemFacadeImpl implements SystemFacade, Serializable {
     }
 
     @Override
-    public long getOredenesREcibir() {
-        return GestionBarajasDao.getOrdenesRecibir();
-    }
-
-    @Override
     public long getNumRecibirBarajasCaja(Usuario usuario) {
         return GestionBarajasDao.getNumRecibirBarajasCaja(usuario);
     }

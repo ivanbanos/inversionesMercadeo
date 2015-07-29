@@ -17,11 +17,9 @@ public class InventarioBarajasDTO implements Serializable{
     Integer id;
     String nombre;
     private List<BarajasCantidad> inventario;
-    private List<CasinoDto> casinos;
 
     public InventarioBarajasDTO() {
         inventario = new ArrayList<BarajasCantidad>();
-        casinos = new ArrayList<CasinoDto>();
     }
 
     public InventarioBarajasDTO(Integer id) {
@@ -50,14 +48,6 @@ public class InventarioBarajasDTO implements Serializable{
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public List<CasinoDto> getCasinos() {
-        return casinos;
-    }
-
-    public void setCasinos(List<CasinoDto> casinos) {
-        this.casinos = casinos;
     }
 
     @Override

@@ -47,7 +47,7 @@
                                                         <table class="table">
                                                             <tr>
                                                                 <td width="50px"><i class="fa fa-check"></i></td>
-                                                                <td>Creada en</td>
+                                                                <td>Solicitada en</td>
                                                                 <td>
                                                                     <h:outputText value="#{verSolicitudBarajasBean.orden.fechaCreacion}">
                                                                         <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
@@ -70,21 +70,6 @@
                                                                     <td>Por</td>
                                                                     <td>
                                                                         <h:outputText value="#{verSolicitudBarajasBean.orden.usuarioAceptador}"/>
-                                                                    </td>
-                                                                </tr>
-                                                            </c:if>
-                                                            <c:if test="#{verSolicitudBarajasBean.orden.recibidasnuevas != null}">
-                                                                <tr>
-                                                                    <td width="50px"><i class="fa fa-check"></i></td>
-                                                                    <td>Recibidas nuevas en</td>
-                                                                    <td>
-                                                                        <h:outputText value="#{verSolicitudBarajasBean.orden.recibidasnuevas}">
-                                                                            <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
-                                                                        </h:outputText>
-                                                                    </td>
-                                                                    <td>Por</td>
-                                                                    <td>
-                                                                        <h:outputText value="#{verSolicitudBarajasBean.orden.usuarioREcibidor}"/>
                                                                     </td>
                                                                 </tr>
                                                             </c:if>
@@ -120,21 +105,6 @@
                                                             </c:if>
 
                                                         </table>
-                                                    </div>
-                                                    <div class="panel-footer panel-footer-landing">
-                                                        <h:commandButton id="btnrn" value="Recibir Nuevas" style="margin:0" onclick="PF('renu').show();"
-                                                                         class="btn btn-primary"
-                                                                         rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
-                                                                                     and verSolicitudBarajasBean.orden.entregadasnuevas != null
-                                                                                     and verSolicitudBarajasBean.orden.recibidasnuevas == null}">
-                                                            <f:ajax execute="@form" render="@none" />
-                                                        </h:commandButton>
-                                                        <h:commandButton id="btneu" value="Entregar Usadas" style="margin:0" onclick="PF('enus').show();"
-                                                                         class="btn btn-primary" 
-                                                                         rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
-                                                                                     and verSolicitudBarajasBean.orden.entregadasusadas == null}">
-                                                            <f:ajax execute="@form" render="@none" />
-                                                        </h:commandButton>
                                                     </div>
                                                 </div>
                                             </div>
@@ -229,6 +199,15 @@
                                         </p:column>
                                     </p:dataTable>
                                 </div>
+                            </div>
+
+                            <div class="panel-footer panel-footer-landing text-right">
+                                <h:commandButton id="btneu" value="Entregar Usadas" style="margin:0" onclick="PF('enus').show();"
+                                                 class="btn btn-primary" 
+                                                 rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
+                                                             and verSolicitudBarajasBean.orden.entregadasusadas == null}">
+                                    <f:ajax execute="@form" render="@none" />
+                                </h:commandButton>
                             </div>
                         </div>
                     </div>

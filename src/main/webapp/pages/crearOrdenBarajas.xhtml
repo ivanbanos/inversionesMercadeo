@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: /Barajas/Crear orden de compra de lotes de barajas</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Barajas/Crear requerimiento de lotes de barajas</label>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
 
                 <div class="col-md-12 ">
                     <div class="panel panel-primary">
-                        <div class="panel-heading"><h4>Creaci&oacute;n de compra de lotes de barajas</h4></div>
+                        <div class="panel-heading"><h4>Creaci&oacute;n de requerimiento de lotes de barajas</h4></div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="container">
@@ -84,8 +84,8 @@
 
         </h:form>
         <h:form>
-            <p:confirmDialog id="add" message="Quiere guardar la orden #{label['cierrepregunta']}"  
-                             header="Borrar" severity="alert" widgetVar="add" closable="false">  
+            <p:confirmDialog id="add" message="Quiere guardar el requerimiento #{label['cierrepregunta']}"  
+                             header="Creando Requerimiento" severity="alert" widgetVar="add" closable="false">  
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
                                  action="#{crearOrdenBarajasBean.crear()}"/>  

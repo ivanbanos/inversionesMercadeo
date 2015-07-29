@@ -22,6 +22,7 @@ import com.invbf.sistemagestionmercadeo.facade.BarajasFacade;
 import com.invbf.sistemagestionmercadeo.facade.HostessFacade;
 import com.invbf.sistemagestionmercadeo.facade.ManagerUserFacade;
 import com.invbf.sistemagestionmercadeo.facade.MarketingUserFacade;
+import com.invbf.sistemagestionmercadeo.facade.RegalosFacade;
 import com.invbf.sistemagestionmercadeo.facade.SystemFacade;
 import com.invbf.sistemagestionmercadeo.facade.impl.AdminFacadeImpl;
 import com.invbf.sistemagestionmercadeo.facade.impl.BarajasFacadeImpl;
@@ -78,6 +79,7 @@ public class SessionBean implements Serializable, Subject {
     HostessFacade hostessFacade;
     ManagerUserFacade managerUserFacade;
     BarajasFacade barajasFacade;
+    RegalosFacade regalosFacade;
     private Usuario usuario;//Almacena el objeto usuario de la session
     private List<Observer> observers;
     private int paginacion;

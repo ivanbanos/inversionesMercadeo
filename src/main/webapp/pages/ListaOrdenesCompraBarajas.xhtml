@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: /Barajas/Ordenes de compra de lotes de barajas</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Barajas/Requerimientos de lotes de barajas</label>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
 
                 <div class="col-md-12 ">
                     <div class="panel panel-primary">
-                        <div class="panel-heading"><h4>Ordenes de compra de lotes de barajas</h4></div>
+                        <div class="panel-heading"><h4>Requerimientos de lotes de barajas</h4></div>
                         <div class="panel-body">
                             <div class="row">
 
@@ -64,10 +64,10 @@
                                         <p:column headerText="#{label['acciones']}" >   
                                             <p:commandButton id="ver" action="#{listaOrdenesCompraBarajasBean.goOrdenvernadaMas(element.id, element.estado)}" icon="ui-icon-search" onclick="PF('ajaxWaitingDialog').show();"
                                                              title="Ver"/>  
-                                            <p:commandButton id="recibirsala" action="#{listaOrdenesCompraBarajasBean.goOrdenver(element.id, element.estado)}" icon="ui-icon-search" onclick="PF('ajaxWaitingDialog').show();"
-                                                             title="Acciones" rendered="#{sessionBean.perfilViewMatch(&quot;generarOrdenBarajas&quot;)or sessionBean.perfilViewMatch(&quot;aceptarOrdenBarajas&quot;) }"/>  
+                                            <p:commandButton id="recibirsala" action="#{listaOrdenesCompraBarajasBean.goOrdenver(element.id, element.estado)}" icon="ui-icon-check" onclick="PF('ajaxWaitingDialog').show();"
+                                                             title="Aprobar" rendered="#{sessionBean.perfilViewMatch(&quot;aceptarOrdenBarajas&quot;) and element.estado == 'GENERADA' }"/>  
                                             <p:commandButton id="recibircaja" action="#{listaOrdenesCompraBarajasBean.goOrdenrecibircaja(element.id, element.estado)}" icon="ui-icon-arrowthickstop-1-s" onclick="PF('ajaxWaitingDialog').show();"
-                                                             title="Acciones en caja" rendered="#{sessionBean.perfilViewMatch(&quot;recibirOrdenBarajas&quot;) }"/> 
+                                                             title="Recibir" rendered="#{sessionBean.perfilViewMatch(&quot;recibirOrdenBarajas&quot;) and (element.estado == 'APROBADA' or element.estado == 'RECIBIDA')}"/> 
                                             </p:column>
 
                                         <f:facet name="footer"> 
