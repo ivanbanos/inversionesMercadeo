@@ -7,7 +7,6 @@ package com.invbf.sistemagestionmercadeo.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -37,19 +36,19 @@ public class BonosAprobadosCanjeados implements Serializable {
 
     public void sumarCantidad(int mes, int anio, float cant) {
         mes++;
-        if (!mesesCant.contains(new MesesCantFloat(("" + mes)+"/" + anio,0,0))) {
-            mesesCant.add(new MesesCantFloat(("" + mes)+"/" + anio,0,0));
+        if (!mesesCant.contains(new MesesCantFloat(mes , anio,0,0))) {
+            mesesCant.add(new MesesCantFloat(mes , anio,0,0));
         }
-        mesesCant.get(mesesCant.indexOf(new MesesCantFloat(("" + mes)+"/" + anio,0,0))).sumar(cant);
+        mesesCant.get(mesesCant.indexOf(new MesesCantFloat(mes , anio,0,0))).sumar(cant);
     }
     
     public void sumarCantidad2(int mes, int anio, float cant) {
         mes++;
-        if (!mesesCant.contains(new MesesCantFloat(("" + mes)+"/" + anio,0,0))) {
-            mesesCant.add(new MesesCantFloat(("" + mes)+"/" + anio,0,0));
+        if (!mesesCant.contains(new MesesCantFloat(mes , anio,0,0))) {
+            mesesCant.add(new MesesCantFloat(mes , anio,0,0));
         }
-        mesesCant.get(mesesCant.indexOf(new MesesCantFloat(("" + mes)+"/" + anio,0,0))).sumar(cant);
-        mesesCant.get(mesesCant.indexOf(new MesesCantFloat(("" + mes)+"/" + anio,0,0))).sumar2(cant);
+        mesesCant.get(mesesCant.indexOf(new MesesCantFloat(mes , anio,0,0))).sumar(cant);
+        mesesCant.get(mesesCant.indexOf(new MesesCantFloat(mes , anio,0,0))).sumar2(cant);
     }
 
     public List<MesesCantFloat> getMesesCant() {

@@ -22,8 +22,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -37,7 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Destruccionbarajasmaestro.findAll", query = "SELECT d FROM Destruccionbarajasmaestro d"),
     @NamedQuery(name = "Destruccionbarajasmaestro.findById", query = "SELECT d FROM Destruccionbarajasmaestro d WHERE d.id = :id"),
-    @NamedQuery(name = "Destruccionbarajasmaestro.findByFechaDestruccion", query = "SELECT d FROM Destruccionbarajasmaestro d WHERE d.fechaDestruccion = :fechaDestruccion")})
+    @NamedQuery(name = "Destruccionbarajasmaestro.findByFechaDestruccion", query = "SELECT d FROM Destruccionbarajasmaestro d WHERE d.fechaDestruccion = :fechaDestruccion"),
+    @NamedQuery(name = "Destruccionbarajasmaestro.getPorFecha", query = "SELECT d FROM Destruccionbarajasmaestro d WHERE d.fechaDestruccion >= :desde AND d.fechaDestruccion <= :hasta ")})
 public class Destruccionbarajasmaestro implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

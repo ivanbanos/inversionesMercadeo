@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+        <div class="row">
+
+            <div class="control-group">
+                <!-- Username -->
+                <div class="form-group">
+                    <label class="col-md-12 control-label" >#{label['ruta']}: #{label['ruta.PreAprobarSolicitudBonos']}</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 ">
+
+                <h:form id="form">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h3>Reporte de Gesti&oacute;n de Bonos Mensuales</h3></div>
+                        <div class="panel-body">
+
+                            <div class="panel panel-primary">
+                                <div class="panel-heading"><h3>Criterios de busqueda</h3></div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+
+
+                                            <div class="row">
+                                                <h:outputLabel class="col-md-6 control-label" value="Mes desde:" />
+                                                <p:selectOneMenu id="mesd" value="#{reporteBarajasDestruidasBean.mesdesde}" > 
+                                                    <f:selectItem itemLabel="Enero" itemValue="0" />    
+                                                    <f:selectItem itemLabel="Febrero" itemValue="1" />    
+                                                    <f:selectItem itemLabel="Marzo" itemValue="2" />    
+                                                    <f:selectItem itemLabel="Abril" itemValue="3" />    
+                                                    <f:selectItem itemLabel="Mayo" itemValue="4" />    
+                                                    <f:selectItem itemLabel="Junio" itemValue="5" />    
+                                                    <f:selectItem itemLabel="Julio" itemValue="6" />    
+                                                    <f:selectItem itemLabel="Agosto" itemValue="7" />    
+                                                    <f:selectItem itemLabel="Septiembre" itemValue="8" />    
+                                                    <f:selectItem itemLabel="Octubre" itemValue="9" />    
+                                                    <f:selectItem itemLabel="Noviembre" itemValue="10" />    
+                                                    <f:selectItem itemLabel="Diciembre" itemValue="11" />  
+                                                </p:selectOneMenu>
+                                            </div>
+                                            <div class="row">
+
+                                                <h:outputLabel class="col-md-6 control-label" value="A&ntilde;o desde:" /> 
+                                                <p:selectOneMenu id="and" value="#{reporteBarajasDestruidasBean.annodesde}" >
+                                                    <f:selectItems value="#{reporteBarajasDestruidasBean.anos}" var="ano" itemLabel="#{ano}" itemValue="#{ano}"/>  
+                                                </p:selectOneMenu>
+                                            </div>
+                                            <div class="row">
+                                                <h:outputLabel class="col-md-6 control-label" value="Mes hasta:" />
+                                                <p:selectOneMenu id="mesa" value="#{reporteBarajasDestruidasBean.mes}" > 
+                                                    <f:selectItem itemLabel="Enero" itemValue="0" />    
+                                                    <f:selectItem itemLabel="Febrero" itemValue="1" />    
+                                                    <f:selectItem itemLabel="Marzo" itemValue="2" />    
+                                                    <f:selectItem itemLabel="Abril" itemValue="3" />    
+                                                    <f:selectItem itemLabel="Mayo" itemValue="4" />    
+                                                    <f:selectItem itemLabel="Junio" itemValue="5" />    
+                                                    <f:selectItem itemLabel="Julio" itemValue="6" />    
+                                                    <f:selectItem itemLabel="Agosto" itemValue="7" />    
+                                                    <f:selectItem itemLabel="Septiembre" itemValue="8" />    
+                                                    <f:selectItem itemLabel="Octubre" itemValue="9" />    
+                                                    <f:selectItem itemLabel="Noviembre" itemValue="10" />    
+                                                    <f:selectItem itemLabel="Diciembre" itemValue="11" />  
+                                                </p:selectOneMenu>
+                                            </div>
+                                            <div class="row">
+                                                <h:outputLabel class="col-md-6 control-label" value="a&ntilde;o hasta:" /> 
+                                                <p:selectOneMenu id="ana" value="#{reporteBarajasDestruidasBean.ano}" >
+                                                    <f:selectItems value="#{reporteBarajasDestruidasBean.anos}" var="ano" itemLabel="#{ano}" itemValue="#{ano}"/>  
+                                                </p:selectOneMenu>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    <p:commandButton id="addButton" icon="ui-icon-search" value="#{label['lb_btn.Buscar']}" onstart="PF('ajaxWaitingDialog').show();"
+                                                     title="Buscar" action="#{reporteBarajasDestruidasBean.buscarSolicitudes()}"
+                                                     ajax="false" oncomplete="PF('ajaxWaitingDialog').hide();">
+                                    </p:commandButton> 
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="container">
+                                
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                </h:form>
+
+            </div>
+        </div>
+    </ui:define>            
+</ui:composition>

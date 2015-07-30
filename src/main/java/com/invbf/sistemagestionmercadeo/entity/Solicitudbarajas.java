@@ -40,7 +40,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Solicitudbarajas.findByEstado", query = "SELECT s FROM Solicitudbarajas s WHERE s.estado = :estado"),
     @NamedQuery(name = "Solicitudbarajas.findByFechacreacion", query = "SELECT s FROM Solicitudbarajas s WHERE s.fechacreacion = :fechacreacion"),
     @NamedQuery(name = "Solicitudbarajas.findByFechentrega", query = "SELECT s FROM Solicitudbarajas s WHERE s.fechentrega = :fechentrega"),
-    @NamedQuery(name = "Solicitudbarajas.findByFecharecepcion", query = "SELECT s FROM Solicitudbarajas s WHERE s.fecharecepcion = :fecharecepcion")})
+    @NamedQuery(name = "Solicitudbarajas.findByFecharecepcion", query = "SELECT s FROM Solicitudbarajas s WHERE s.fecharecepcion = :fecharecepcion"),
+    @NamedQuery(name = "Solicitudbarajas.getPorFecha", query = "SELECT s FROM Solicitudbarajas s WHERE s.fechacreacion >= :desde AND s.fechacreacion <= :hasta ")})
 public class Solicitudbarajas implements Serializable {
 
     @Column(name = "fechaDestruccion")

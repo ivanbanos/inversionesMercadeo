@@ -10,10 +10,12 @@ import com.invbf.sistemagestionmercadeo.dto.ActaDestruccionDTO;
 import com.invbf.sistemagestionmercadeo.dto.BarajasCantidad;
 import com.invbf.sistemagestionmercadeo.dto.BarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.CasinoDto;
+import com.invbf.sistemagestionmercadeo.dto.DestruccionPorMes;
 import com.invbf.sistemagestionmercadeo.dto.InventarioBarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.MaterialesDTO;
 import com.invbf.sistemagestionmercadeo.dto.OrdenCompraBarajaDTO;
 import com.invbf.sistemagestionmercadeo.dto.SolicitudBarajasDTO;
+import com.invbf.sistemagestionmercadeo.dto.SolicitudesPorMes;
 import com.invbf.sistemagestionmercadeo.entity.Actasdestruccionbarajas;
 import com.invbf.sistemagestionmercadeo.entity.Barajas;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
@@ -29,6 +31,7 @@ import com.invbf.sistemagestionmercadeo.facade.BarajasFacade;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -461,6 +464,37 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     @Override
     public List<OrdenCompraBarajaDTO> getOrdenesCompra(Usuario usuario) {
         return transformarOrdenesCompra(GestionBarajasDao.getListaOrdenesCompraBarajasUsuario(usuario));
+    }
+
+    @Override
+    public List<SolicitudesPorMes> getSolicitudesSolicitudesMes(Integer ano, Integer mes, Integer annodesde, Integer mesdesde) {
+        List<SolicitudBarajasDTO> solicitudes = transformarSolicitudesBarajas(GestionBarajasDao.getListaSoliciudesBarajas());
+        List<SolicitudesPorMes> solicitudesPorMeses = new ArrayList<SolicitudesPorMes>();
+        Calendar c = Calendar.getInstance();
+        for (SolicitudBarajasDTO solicitud : solicitudes) {
+            c.setTime(solicitud.getFechaCreacion());
+            if(!solicitudesPorMeses.contains(new SolicitudesPorMes(c.get(Calendar.MONTH), c.get(Calendar.YEAR)))){
+                solicitudesPorMeses.add(new SolicitudesPorMes(c.get(Calendar.MONTH), c.get(Calendar.YEAR)));
+            }
+            solicitudesPorMeses.get(solicitudesPorMeses.indexOf(new SolicitudesPorMes(c.get(Calendar.MONTH), c.get(Calendar.YEAR)))).getSolicitudes().add(solicitud);
+        }
+        return solicitudesPorMeses;
+    }
+
+    @Override
+    public List<DestruccionPorMes> getDestruidasMes(Integer ano, Integer mes, Integer annodesde, Integer mesdesde) {
+        List<ActaDestruccionDTO> solicitudes = transformarActasDestruccion(GestionBarajasDao.getDestruccionDesdeHasta(ano, mes, annodesde, mesdesde));
+        List<DestruccionPorMes> solicitudesPorMeses = new ArrayList<DestruccionPorMes>();
+        
+        Calendar c = Calendar.getInstance();
+        for (ActaDestruccionDTO solicitud : solicitudes) {
+            c.setTime(solicitud.getFecha());
+            if(!solicitudesPorMeses.contains(new DestruccionPorMes(c.get(Calendar.MONTH), c.get(Calendar.YEAR)))){
+                solicitudesPorMeses.add(new DestruccionPorMes(c.get(Calendar.MONTH), c.get(Calendar.YEAR)));
+            }
+            solicitudesPorMeses.get(solicitudesPorMeses.indexOf(new DestruccionPorMes(c.get(Calendar.MONTH), c.get(Calendar.YEAR)))).getSolicitudes().add(solicitud);
+        }
+        return solicitudesPorMeses;
     }
 
 }

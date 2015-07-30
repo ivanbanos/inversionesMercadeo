@@ -7,7 +7,6 @@ package com.invbf.sistemagestionmercadeo.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -57,10 +56,10 @@ public class BonosCantidadMes implements Serializable {
 
     public void sumarCantidad(int mes, int anio) {
         mes++;
-        if (!mesesCant.contains(new MesesCant(("" + mes)+"/" + anio,0,0))) {
-            mesesCant.add(new MesesCant(("" + mes)+"/" + anio,0,0));
+        if (!mesesCant.contains(new MesesCant(mes , anio,0,0))) {
+            mesesCant.add(new MesesCant(mes , anio,0,0));
         }
-        mesesCant.get(mesesCant.indexOf(new MesesCant(("" + mes)+"/" + anio,0,0))).sumar();
+        mesesCant.get(mesesCant.indexOf(new MesesCant(mes , anio,0,0))).sumar();
     }
 
     public List<MesesCant> getMesesCant() {

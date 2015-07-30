@@ -16,6 +16,8 @@ public class MesesCantFloat implements Serializable{
     private String mesanio;
     private float cantidad;
     private float cantidad2;
+    private int mes;
+    private int anio;
 
     @Override
     public int hashCode() {
@@ -42,10 +44,12 @@ public class MesesCantFloat implements Serializable{
     public MesesCantFloat() {
     }
 
-    public MesesCantFloat(String mesanio, long cantidad, long cantidad2) {
-        this.mesanio = mesanio;
+    public MesesCantFloat(int mes, int anio, long cantidad, long cantidad2) {
+        this.mesanio = getMes(mes)+"/"+anio;
         this.cantidad = cantidad;
         this.cantidad2 = cantidad2;
+        this.mes = mes;
+        this.anio = anio;
     }
     
     public float getCantidad2() {
@@ -79,5 +83,52 @@ public class MesesCantFloat implements Serializable{
     void sumar2(float cant) {
         System.out.println("cant"+cant);
         cantidad2+=cant;
+    }
+    
+    private String getMes(int mes){
+        switch(mes){
+            case 1:
+                return "Ene";
+            case 2:
+                return "Feb";
+            case 3:
+                return "Mar";
+            case 4:
+                return "Abr";
+            case 5:
+                return "May";
+            case 6:
+                return "Jun";
+            case 7:
+                return "Jul";
+            case 8:
+                return "Ago";
+            case 9:
+                return "Sep";
+            case 10:
+                return "Oct";
+            case 11:
+                return "Nov";
+            case 12:
+                return "Dic";
+            default:
+                return mes+"";
+        }
+    }
+
+    public int getMes() {
+        return mes;
+    }
+
+    public void setMes(int mes) {
+        this.mes = mes;
+    }
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
     }
 }

@@ -10,6 +10,7 @@ import com.invbf.sistemagestionmercadeo.dto.BarajasCantidad;
 import com.invbf.sistemagestionmercadeo.dto.InventarioBarajasDTO;
 import com.invbf.sistemagestionmercadeo.entity.Actasdestruccionbarajas;
 import com.invbf.sistemagestionmercadeo.entity.Barajas;
+import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Destruccionbarajasmaestro;
 import com.invbf.sistemagestionmercadeo.entity.Inventarobarajas;
@@ -22,6 +23,7 @@ import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -1285,5 +1287,76 @@ public class GestionBarajasDao {
             }
         }
         return count;
+    }
+
+    public static List<Solicitudbarajas> getSolicitudesDesdeHasta(Integer ano, Integer mes, Integer annodesde, Integer mesdesde) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Solicitudbarajas> cargos = new ArrayList<Solicitudbarajas>();
+        tx.begin();
+        Calendar desde = Calendar.getInstance();
+        Calendar hasta = Calendar.getInstance();
+
+        hasta.set(Calendar.YEAR, ano);
+        hasta.set(Calendar.MONTH, mes);
+        hasta.add(Calendar.MONTH, 1);
+        hasta.set(Calendar.DAY_OF_MONTH, 1);
+
+        desde.set(Calendar.YEAR, annodesde);
+        desde.set(Calendar.MONTH, mesdesde);
+        desde.set(Calendar.DAY_OF_MONTH, 1);
+        try {
+            cargos.addAll(em.createNamedQuery("Solicitudbarajas.getPorFecha")
+                    .setParameter("desde", desde.getTime())
+                    .setParameter("hasta", hasta.getTime())
+                    .getResultList());
+
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return cargos;
+    } 
+    public static List<Destruccionbarajasmaestro> getDestruccionDesdeHasta(Integer ano, Integer mes, Integer annodesde, Integer mesdesde) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Destruccionbarajasmaestro> cargos = new ArrayList<Destruccionbarajasmaestro>();
+        tx.begin();
+        Calendar desde = Calendar.getInstance();
+        Calendar hasta = Calendar.getInstance();
+
+        hasta.set(Calendar.YEAR, ano);
+        hasta.set(Calendar.MONTH, mes);
+        hasta.add(Calendar.MONTH, 1);
+        hasta.set(Calendar.DAY_OF_MONTH, 1);
+
+        desde.set(Calendar.YEAR, annodesde);
+        desde.set(Calendar.MONTH, mesdesde);
+        desde.set(Calendar.DAY_OF_MONTH, 1);
+        try {
+            cargos.addAll(em.createNamedQuery("Destruccionbarajasmaestro.getPorFecha")
+                    .setParameter("desde", desde.getTime())
+                    .setParameter("hasta", hasta.getTime())
+                    .getResultList());
+
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return cargos;
     }
 }

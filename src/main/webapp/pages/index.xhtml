@@ -106,11 +106,6 @@
                                             <h:link outcome="/pages/ListaOrdenesCompraBarajas.xhtml" >Tienes pendientes por aprobar #{notificacionesBean.ordenAprobar} ordenes de barajas</h:link>
                                         </div>
                                     </c:if>
-                                    <c:if test="#{notificacionesBean.ordenRecibir !=0}">
-                                        <div class="row">
-                                            <h:link outcome="/pages/ListaOrdenesCompraBarajas.xhtml" >Tienes pendientes por recibir #{notificacionesBean.ordenRecibir} ordenes de barajas</h:link>
-                                        </div>
-                                    </c:if>
                                     <c:if test="#{notificacionesBean.recibirBarajaCaja !=0}">
                                         <div class="row">
                                             <h:link outcome="/pages/ListaOrdenesCompraBarajas.xhtml" >Tienes pendientes por recibir en sala #{notificacionesBean.recibirBarajaCaja} ordenes de barajas</h:link>
