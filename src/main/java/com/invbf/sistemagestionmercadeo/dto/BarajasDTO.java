@@ -90,5 +90,10 @@ public class BarajasDTO implements Serializable {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return  color + " " + marca + " " + material.getNombre();
+    }
     
 }

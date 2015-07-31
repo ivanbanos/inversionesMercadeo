@@ -101,30 +101,40 @@
                                 <c:forEach items="#{reporteBarajasSolicitadasBean.solicitudes}" var="solicitud">
                                     <div class="row">
                                         <label>#{solicitud.mesanio}</label>
-                                        <table class="table-bordered">
+                                        <table class="table table-hover table-bordered">
                                             <tr>
                                                 <th>Acta</th>
                                                 <th>Sala</th>
                                                 <th>Baraja</th>
                                                 <th>Usuario que entreg&oacute;</th>
                                                 <th>Usuario que recibi&oacute;</th>
-                                                <th>Cantidad entregada</th>
-                                                <th>Cantidad recibida</th>
+                                                <th>Cantidad</th>
                                                 <th>Fecha entrega</th>
                                                 <th>fecha recibo</th>
                                             </tr>
                                             <c:forEach items="#{solicitud.solicitudes}" var="detalle">
                                                 <tr>
-                                                    <td>Acta</td>
-                                                    <th>Sala</th>
-                                                    <th>Baraja</th>
-                                                    <th>Usuario que entreg&oacute;</th>
-                                                    <th>Usuario que recibi&oacute;</th>
-                                                    <th>Cantidad entregada</th>
-                                                    <th>Cantidad recibida</th>
-                                                    <th>Fecha entrega</th>
-                                                    <th>fecha recibo</th>
+                                                    <td>#{detalle.id}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>#{detalle.usuarioAceptador}</td>
+                                                    <td>#{detalle.usuarioREcibidor}</td>
+                                                    <td></td>
+                                                    <td>#{detalle.fechaAceptada}</td>
+                                                    <td>#{detalle.fechaRecibida}</td>
                                                 </tr>
+                                                <c:forEach items="#{detalle.cantidades}" var="cantidades">
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>#{cantidades.bodega}</td>
+                                                        <td>#{cantidades.baraja.toString()}</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>#{cantidades.cantidad}</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </c:forEach>
                                             </c:forEach>
 
                                         </table>

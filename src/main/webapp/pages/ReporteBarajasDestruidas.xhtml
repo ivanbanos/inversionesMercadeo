@@ -98,7 +98,44 @@
 
 
                             <div class="container">
-                                
+                                <c:forEach items="#{reporteBarajasDestruidasBean.solicitudes}" var="solicitud">
+                                    <div class="row">
+                                        <label>#{solicitud.mesanio}</label>
+                                        <table class="table table-hover table-bordered">
+                                            <tr>
+                                                <th>Acta</th>
+                                                <th>Sala</th>
+                                                <th>Baraja</th>
+                                                <th>Usuario</th>
+                                                <th>Cantidad</th>
+                                                <th>Fecha</th>
+                                            </tr>
+                                            <c:forEach items="#{solicitud.solicitudes}" var="detalle">
+                                                <tr>
+                                                    <td>#{detalle.id}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>#{detalle.usuario}</td>
+                                                    <td></td>
+                                                    <td>#{detalle.fecha}</td>
+                                                </tr>
+                                                <c:forEach items="#{detalle.detalle}" var="cantidades">
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>#{cantidades.bodega}</td>
+                                                        <td>#{cantidades.baraja.toString()}</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>#{cantidades.cantidad}</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </c:forEach>
+
+                                        </table>
+                                    </div>
+                                </c:forEach>
                             </div>
                         </div>
                     </div>
