@@ -57,7 +57,7 @@ public interface BarajasFacade {
 
     public void recibirNuevasSolicitud(Integer idOrden, Usuario usuario);
 
-    public void entregarUsadasSolicitud(Integer idOrden, Usuario usuario);
+    public void entregarUsadasSolicitud(SolicitudBarajasDTO idOrden, Usuario usuario);
 
     public void recibirUsadasSolicitud(Integer idOrden, Usuario usuario);
 

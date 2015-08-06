@@ -89,12 +89,18 @@ public class GestionRegaloDao {
         try {
             if (regalo.getId() == null) {
                 em.persist(regalo);
+                em.flush();
+                Regalosinventario inventario = new Regalosinventario();
+                inventario.setCantidad(0);
+                inventario.setRegalo(regalo);
+                em.persist(inventario);
             } else {
                 Regalos regaloc = em.find(Regalos.class, regalo.getId());
                 regaloc.setNombre(regalo.getNombre());
                 regaloc.setDescripcion(regalo.getDescripcion());
                 regaloc.setGenero(regalo.getGenero());
                 regaloc.setCategoria(regalo.getCategoria());
+                
                 em.merge(regaloc);
             }
             tx.commit();

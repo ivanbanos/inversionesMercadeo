@@ -20,11 +20,15 @@ public class NumberSeparationConverter implements Converter, Serializable {
 
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
-        String parteFlotante = string.substring(string.lastIndexOf("."));
-        string = string.substring(0, string.lastIndexOf("."));
-        string = string.replace('.', '_');
-        string = string.replace('\'', '_');
-        return Float.parseFloat(string + parteFlotante);
+        if (string.lastIndexOf(".") != -1) {
+            String parteFlotante = string.substring(string.lastIndexOf("."));
+            string = string.substring(0, string.lastIndexOf("."));
+            string = string.replace('.', '_');
+            string = string.replace('\'', '_');
+            return Float.parseFloat(string + parteFlotante);
+        } else {
+            return Float.parseFloat(string);
+        }
     }
 
     @Override

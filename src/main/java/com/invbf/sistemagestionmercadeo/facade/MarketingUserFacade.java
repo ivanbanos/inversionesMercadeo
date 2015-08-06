@@ -183,7 +183,7 @@ public interface MarketingUserFacade {
 
     public Controlsalidabono guardarControlSalidaBonos(Controlsalidabono elemento, boolean enviar);
     
-    public Controlsalidabono guardarControlSalidaBonosLista(Controlsalidabono elemento, boolean enviar);
+    public Controlsalidabono guardarControlSalidaBonosLista(Controlsalidabono elemento, boolean enviar, List<Bono> bonosAGuardar);
 
     public void cambiarEstadoSolicitudentrega(Solicitudentrega elemento);
 

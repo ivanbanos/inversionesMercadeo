@@ -53,6 +53,7 @@ public class Notificador implements Serializable {
     public static final int correoOrdenBarajasRecibida = 26;
     public static final int correoOrdenBarajasAprobada = 27;
     public static final int correoOrdenBarajasCreada = 28;
+    public static final int correoLibre=29;
 
     public static void notificar(int tipo, String body, String subject, String correosolicitantes) {
         switch (tipo) {
@@ -139,6 +140,9 @@ public class Notificador implements Serializable {
             case correoOrdenBarajasCreada:
                 sendEmail("correoOrdenBarajasCreada", subject, body, false, correosolicitantes);
                 break;
+            case correoLibre:
+                sendEmail(subject, body, correosolicitantes);
+                break;
         }
     }
 
@@ -174,6 +178,27 @@ public class Notificador implements Serializable {
             if (enviarSol) {
                 es.sendEmailNotificador(correo, subject, mesaje);
             }
+        } catch (MessagingException ex) {
+            Logger.getLogger(Notificador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Notificador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private static void sendEmail(String subject, String mesaje, String correo) {
+        EmailSender es = new EmailSender();
+        es.setAuth(true);
+        es.setDebug(true);
+        es.setFrom(ConfiguracionDao.findByNombre("correo").getValor());
+        es.setHost(ConfiguracionDao.findByNombre("host").getValor());
+        es.setPort(Integer.parseInt(ConfiguracionDao.findByNombre("port").getValor()));
+        es.setProtocol(ConfiguracionDao.findByNombre("protocol").getValor());
+        es.setUsername(ConfiguracionDao.findByNombre("username").getValor());
+        es.setPassword(ConfiguracionDao.findByNombre("contrasena").getValor());
+
+        try {
+                es.sendEmailNotificador(correo, subject, mesaje);
+            
         } catch (MessagingException ex) {
             Logger.getLogger(Notificador.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

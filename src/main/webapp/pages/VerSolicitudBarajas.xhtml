@@ -139,57 +139,11 @@
                                             <h:outputText value="#{detalle.baraja.color}">
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Marca" style="text-align: center;">
+                                        <p:column headerText="Juego" style="text-align: center;">
                                             <h:outputText value="#{detalle.baraja.marca}">
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Recibo usadas" rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
-                                                                                         and verSolicitudBarajasBean.orden.recibidasusadas == null}">
-                                            <span id="cantidad#{status}">
-                                                <h:outputText value="#{detalle.cantidad}">
-                                                    <f:converter  converterId="numberSeparationConverter"  />
-                                                </h:outputText>
-                                            </span>
-                                            <f:facet name="footer">
-                                                Recibo #{verSolicitudBarajasBean.orden.cantidadBarajas} usadas
-                                            </f:facet>
-                                        </p:column>
-                                        <p:column headerText="Entrego nuevas" rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
-                                                                                          and verSolicitudBarajasBean.orden.entregadasnuevas == null}">
-                                            <span id="cantidad#{status}">
-                                                <h:outputText value="#{detalle.cantidad}">
-                                                    <f:converter  converterId="numberSeparationConverter"  />
-                                                </h:outputText>
-                                            </span>
-                                            <f:facet name="footer">
-                                                Entrego #{verSolicitudBarajasBean.orden.cantidadBarajas} nuevas
-                                            </f:facet>
-                                        </p:column>
-
-                                        <p:column headerText="Recibo nuevas" rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
-                                                                                         and verSolicitudBarajasBean.orden.entregadasnuevas != null
-                                                                                         and verSolicitudBarajasBean.orden.recibidasnuevas == null}">
-                                            <span id="cantidad#{status}">
-                                                <h:outputText value="#{detalle.cantidad}">
-                                                    <f:converter  converterId="numberSeparationConverter"  />
-                                                </h:outputText>
-                                            </span>
-                                            <f:facet name="footer">
-                                                Recibo #{verSolicitudBarajasBean.orden.cantidadBarajas} nuevas
-                                            </f:facet>
-                                        </p:column>
-                                        <p:column headerText="Entrego usadas" rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
-                                                                                          and verSolicitudBarajasBean.orden.recibidasusadas != null
-                                                                                          and verSolicitudBarajasBean.orden.entregadasusadas == null}">
-                                            <span id="cantidad#{status}">
-                                                <h:outputText value="#{detalle.cantidad}">
-                                                    <f:converter  converterId="numberSeparationConverter"  />
-                                                </h:outputText>
-                                            </span>
-                                            <f:facet name="footer">
-                                                Entrego #{verSolicitudBarajasBean.orden.cantidadBarajas} usadas
-                                            </f:facet>
-                                        </p:column>
+                                        
                                         <p:column headerText="Cantidad solicitada" rendered="#{verSolicitudBarajasBean.orden.estado != 'CREADA' and verSolicitudBarajasBean.orden.estado != 'ENTREGADA'}">
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidad}">
@@ -197,24 +151,32 @@
                                                 </h:outputText>
                                             </span>
                                         </p:column>
+                                        <p:column headerText="Cantidad devuelta" rendered="#{verSolicitudBarajasBean.orden.estado != 'CREADA'}">
+                                            <span id="cantidad#{status}">
+                                                <h:outputText value="#{detalle.devueltas}">
+                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                </h:outputText>
+                                            </span>
+                                        </p:column>
                                     </p:dataTable>
                                 </div>
                             </div>
-                            <div class="panel-footer panel-footer-landing">
-                                <h:commandButton id="btnen" value="Entregar Nuevas" style="margin:5px" onclick="PF('ennu').show();"
+                            <div class="panel-footer panel-footer-landing text-right">
+                                <h:commandButton id="btnen" value="Entregar barajas nuevas" style="margin:5px" onclick="PF('ennu').show();"
                                                  class="btn btn-primary" 
                                                  rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
                                                              and verSolicitudBarajasBean.orden.entregadasnuevas == null}">
                                     <f:ajax execute="@form" render="@none" />
                                 </h:commandButton>
 
-                                <h:commandButton id="btnru" value="Recibir Usadas" style="margin:5px" onclick="PF('reus').show();"
+                                <h:commandButton id="btnru" value="Recibir barajas usadas" style="margin:5px" onclick="PF('reus').show();"
                                                  class="btn btn-primary"
                                                  rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
                                                              and verSolicitudBarajasBean.orden.recibidasusadas == null
-                                                             and verSolicitudBarajasBean.orden.entregadasusadas != null }">
+                                                             and verSolicitudBarajasBean.orden.entregadasnuevas != null }">
                                     <f:ajax execute="@form" render="@none" />
                                 </h:commandButton>
+                                <h:commandLink  action="#{sessionBean.go(&quot;solicitudbaraja&quot;)}" class="btn btn-primary">volver</h:commandLink>
                             </div>
                         </div>
                     </div>
@@ -233,7 +195,7 @@
         </h:form>
         <h:form>
             <p:confirmDialog id="reus" message="Recibi&oacute; las barajas usadas #{label['cierrepregunta']}"  
-                             header="Borrar" severity="alert" widgetVar="reus" closable="false">  
+                             header="Recibir usadas" severity="alert" widgetVar="reus" closable="false">  
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
                                  action="#{verSolicitudBarajasBean.recibirUsadas()}" oncomplete="PF('reus').hide()"/>  
@@ -243,7 +205,7 @@
         </h:form>
         <h:form>
             <p:confirmDialog id="renu" message="Recibi&oacute; las barajas nuevas #{label['cierrepregunta']}"  
-                             header="Borrar" severity="alert" widgetVar="renu" closable="false">  
+                             header="Recibir nuevas" severity="alert" widgetVar="renu" closable="false">  
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
                                  action="#{verSolicitudBarajasBean.recibirNuevas()}" oncomplete="PF('renu').hide()"/>  

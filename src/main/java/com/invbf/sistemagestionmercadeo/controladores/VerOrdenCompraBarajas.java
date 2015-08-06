@@ -5,6 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.controladores;
 
+import com.invbf.sistemagestionmercadeo.dto.BarajasCantidad;
 import com.invbf.sistemagestionmercadeo.dto.OrdenCompraBarajaDTO;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
@@ -29,6 +30,7 @@ public class VerOrdenCompraBarajas implements Serializable {
 
     private OrdenCompraBarajaDTO orden;
     private Integer idOrden;
+    private Float total;
 
     public VerOrdenCompraBarajas() {
     }
@@ -61,6 +63,12 @@ public class VerOrdenCompraBarajas implements Serializable {
         }
         idOrden = (Integer) sessionBean.getAttributes("orden");
         orden = sessionBean.barajasFacade.getOrden(idOrden);
+        total = 0f;
+        for (BarajasCantidad baraja : orden.getCantidades()) {
+            if (baraja.getBaraja().getValorpromedio() != null) {
+                total = baraja.getCantidad() * baraja.getBaraja().getValorpromedio();
+            }
+        }
     }
 
     public OrdenCompraBarajaDTO getOrden() {
@@ -82,6 +90,7 @@ public class VerOrdenCompraBarajas implements Serializable {
         } catch (IOException ex) {
         }
     }
+
     public void aprobarOrden() {
         sessionBean.barajasFacade.aprobarOrden(idOrden, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha aprobado la orden con exito", "Acta de orden #" + orden.getId()));
@@ -105,4 +114,21 @@ public class VerOrdenCompraBarajas implements Serializable {
         } catch (IOException ex) {
         }
     }
+
+    public Integer getIdOrden() {
+        return idOrden;
+    }
+
+    public void setIdOrden(Integer idOrden) {
+        this.idOrden = idOrden;
+    }
+
+    public Float getTotal() {
+        return total;
+    }
+
+    public void setTotal(Float total) {
+        this.total = total;
+    }
+
 }

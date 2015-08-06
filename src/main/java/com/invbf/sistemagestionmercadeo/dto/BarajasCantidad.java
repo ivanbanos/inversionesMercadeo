@@ -6,7 +6,6 @@
 package com.invbf.sistemagestionmercadeo.dto;
 
 import java.io.Serializable;
-import javax.persistence.Column;
 
 /**
  *
@@ -23,6 +22,7 @@ public class BarajasCantidad implements Serializable{
     private Integer max;
     private Integer min;
     private String bodega;
+    private Integer devueltas;
 
     public BarajasDTO getBaraja() {
         return baraja;
@@ -43,7 +43,7 @@ public class BarajasCantidad implements Serializable{
     public BarajasCantidad() {
     }
 
-    public BarajasCantidad(Integer id, BarajasDTO baraja, Integer cantidad, Integer cantidadR, Integer uso, Integer pordestruir, Integer destruidas, Integer max, Integer min, String bodega) {
+    public BarajasCantidad(Integer id, BarajasDTO baraja, Integer cantidad, Integer cantidadR, Integer uso, Integer pordestruir, Integer destruidas, Integer max, Integer min, String bodega, Integer devueltas) {
         this.id = id;
         this.baraja = baraja;
         this.cantidad = cantidad;
@@ -54,6 +54,7 @@ public class BarajasCantidad implements Serializable{
         this.max = max;
         this.min = min;
         this.bodega = bodega;
+        this.devueltas = devueltas;
     }
 
     public Integer getUso() {
@@ -124,6 +125,16 @@ public class BarajasCantidad implements Serializable{
 
     public void setBodega(String bodega) {
         this.bodega = bodega;
+    }
+
+    public Integer getDevueltas() {
+        return devueltas;
+    }
+
+    public void setDevueltas(Integer devueltas) {
+        System.out.println("Setting "+devueltas);
+        this.devueltas = devueltas;
+        System.out.println("Setted "+this.devueltas);
     }
     
 }

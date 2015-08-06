@@ -156,14 +156,14 @@
                                             <h:outputText value="#{detalle.baraja.color}">
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Marca" style="text-align: center;">
+                                        <p:column headerText="Juego" style="text-align: center;">
                                             <h:outputText value="#{detalle.baraja.marca}">
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Recibo usadas" rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
+                                        <p:column headerText="Usadas" rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
                                                                                          and verSolicitudBarajasBean.orden.recibidasusadas == null}">
                                             <span id="cantidad#{status}">
-                                                <h:outputText value="#{detalle.cantidad}">
+                                                <h:outputText value="#{detalle.devueltas}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                 </h:outputText>
                                             </span>
@@ -171,7 +171,7 @@
                                                 Recibo #{verSolicitudBarajasBean.orden.cantidadBarajas} usadas
                                             </f:facet>
                                         </p:column>
-                                        <p:column headerText="Entrego nuevas" rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
+                                        <p:column headerText="Nuevas" rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
                                                                                           and verSolicitudBarajasBean.orden.entregadasnuevas == null}">
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidad}">
@@ -183,7 +183,7 @@
                                             </f:facet>
                                         </p:column>
 
-                                        <p:column headerText="Recibo nuevas" rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
+                                        <p:column headerText="Nuevas" rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
                                                                                          and verSolicitudBarajasBean.orden.entregadasnuevas != null
                                                                                          and verSolicitudBarajasBean.orden.recibidasnuevas == null}">
                                             <span id="cantidad#{status}">
@@ -195,11 +195,11 @@
                                                 Recibo #{verSolicitudBarajasBean.orden.cantidadBarajas} nuevas
                                             </f:facet>
                                         </p:column>
-                                        <p:column headerText="Entrego usadas" rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
+                                        <p:column headerText="Usadas" rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
                                                                                           and verSolicitudBarajasBean.orden.recibidasusadas != null
                                                                                           and verSolicitudBarajasBean.orden.entregadasusadas == null}">
                                             <span id="cantidad#{status}">
-                                                <h:outputText value="#{detalle.cantidad}">
+                                                <h:outputText value="#{detalle.devueltas}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                 </h:outputText>
                                             </span>
@@ -207,15 +207,11 @@
                                                 Entrego #{verSolicitudBarajasBean.orden.cantidadBarajas} usadas
                                             </f:facet>
                                         </p:column>
-                                        <p:column headerText="Cantidad solicitada" rendered="#{verSolicitudBarajasBean.orden.estado != 'CREADA' and verSolicitudBarajasBean.orden.estado != 'ENTREGADA'}">
-                                            <span id="cantidad#{status}">
-                                                <h:outputText value="#{detalle.cantidad}">
-                                                    <f:converter  converterId="numberSeparationConverter"  />
-                                                </h:outputText>
-                                            </span>
-                                        </p:column>
                                     </p:dataTable>
                                 </div>
+                            </div>
+                            <div class="panel-footer panel-footer-landing text-right">
+                                <h:commandLink  action="#{sessionBean.go(&quot;solicitudbaraja&quot;)}" class="btn btn-primary">volver</h:commandLink>
                             </div>
                         </div>
                     </div>
@@ -223,10 +219,10 @@
             </div>
         </h:form>
         <h:form>
-            <p:confirmDialog id="ennu" message="Entreg&oacute; las barajas nuevas #{label['cierrepregunta']}"  
+            <p:confirmDialog id="ennu" message="Entregar barajas, Confirmar#{label['cierrepregunta']}"  
                              header="Entregar nuevas" severity="alert" widgetVar="ennu" closable="false">  
 
-                <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
+                <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
                                  action="#{verSolicitudBarajasBean.entregarNuevas()}" oncomplete="PF('ennu').hide()"/>  
                 <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('ennu').hide()" type="button" />   
 

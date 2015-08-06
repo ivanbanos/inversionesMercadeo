@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: /Gesti&oacute;n de barajas/Deposito de Barajas en Sala</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Gesti&oacute;n de barajas/Stock de Barajas en Sala</label>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
                         <div class="panel-heading">
 
                             <div class="clickable">
-                                <h3 class="panel-title">Deposito de Barajas en Sala</h3> 
+                                <h3 class="panel-title">Stock de Barajas en Sala</h3> 
                                 <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
                             </div>
                         </div>
@@ -46,31 +46,29 @@
                             </div>
 
                             <p:dataTable value="#{inventarioBarajasBean.inventario.inventario}" var="inventario" >
-                                <p:column headerText="Baraja">
+                                <p:column headerText="Baraja" >
                                     #{inventario.baraja.material.nombre} #{inventario.baraja.material.descripcion} #{inventario.baraja.color}  #{inventario.baraja.marca}
                                 </p:column>
-                                <p:column headerText="Minimo">
+                                <p:column headerText="M&iacute;nimo" style="background-color: #DEDEDE; text-align: center;">
                                     #{inventario.min}
                                 </p:column>
-                                <p:column headerText="Maximo">
+                                <p:column headerText="M&aacute;ximo" style="background-color: #DEDEDE; text-align: center;">
                                     #{inventario.max}
                                 </p:column>
-                                <p:column headerText="Precio estimado">
-                                    #{inventario.baraja.valorpromedio}
-                                </p:column>
-                                <p:column headerText="Inventario inicial">
+                                
+                                <p:column headerText="Inventario inicial" style="text-align: center;">
                                     #{inventario.cantidad}
                                 </p:column>
-                                <p:column headerText="En uso">
+                                <p:column headerText="En uso" style="text-align: center;">
                                     #{inventario.uso}
                                 </p:column>
-                                <p:column headerText="Por destruir">
+                                <p:column headerText="Por destruir" style="text-align: center;">
                                     #{inventario.pordestruir}
                                 </p:column>
-                                <p:column headerText="Destruidas">
+                                <p:column headerText="Destruidas" style="text-align: center;">
                                     #{inventario.destruidas}
                                 </p:column>
-                                <p:column headerText="Inventario disponible">
+                                <p:column headerText="Inventario disponible" style="background-color: #4da309;text-align: center;">
                                     <p id="cantbar#{inventario.baraja.id}" > #{inventario.cantidad - inventario.uso -inventario.destruidas-inventario.pordestruir}
                                     </p>
                                 </p:column>

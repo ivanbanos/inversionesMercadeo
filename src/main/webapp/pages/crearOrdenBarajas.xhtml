@@ -74,6 +74,7 @@
 
                             <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" style="margin:0" 
                                              onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('add').show();"/>
+                            <h:commandLink  action="#{sessionBean.go(&quot;ordenesComprabaraja&quot;)}" class="btn btn-primary">volver</h:commandLink>
 
                         </div>
                     </div>

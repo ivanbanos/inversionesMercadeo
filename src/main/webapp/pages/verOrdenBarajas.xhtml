@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: /Barajas/Ordenes de compra de lotes de barajas</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Barajas/Requerimiento de compra de lotes de barajas</label>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
                 <div class="row clearfix">
                     <div class="col-md-12 ">
                         <div class="panel panel-primary">
-                            <div class="panel-heading"><h4>Ordenes de compra de lotes de barajas</h4></div>
+                            <div class="panel-heading"><h4>Requerimiento de compra de lotes de barajas</h4></div>
                             <div class="panel-body">
                                 <div class="row">
 
@@ -130,6 +130,13 @@
                                         <p:column headerText="Valor promedio" style="text-align: center;">
                                             <h:outputText value="$#{detalle.baraja.valorpromedio}">
                                             </h:outputText>
+                                             <f:facet name="footer">
+                                                 Total #{verOrdenCompraBarajas.total}
+                                            </f:facet>
+                                        </p:column>
+                                        <p:column headerText="Cantidad disponible" style="text-align: center;">
+                                            <h:outputText value="#{detalle.min}">
+                                            </h:outputText>
                                         </p:column>
                                         <p:column headerText="Cantidad solicitada" width="25%" style="text-align: center;">
                                             <span id="cantidad#{status}">
@@ -145,7 +152,7 @@
                                                 Total #{verOrdenCompraBarajas.orden.cantidadBarajas}
                                             </f:facet>
                                         </p:column>
-                                        <p:column headerText="Cantidad recibidas"  width="25%"  rendered="#{verOrdenCompraBarajas.orden.estado != 'GENERADA'}">
+                                        <p:column headerText="Cantidad recibidas"  width="25%"  rendered="#{verOrdenCompraBarajas.orden.estado != 'GENERADA' and verOrdenCompraBarajas.orden.estado != 'PREGENERADA'}">
                                             <span id="cantidad#{status}">
                                                 <p:spinner min="0" stepFactor="1"
                                                            value="#{detalle.cantidadR}" rendered="#{verOrdenCompraBarajas.orden.estado == 'APROBADA'}">
@@ -163,7 +170,7 @@
                                 </div>
                             </div>
                             <div class="panel-footer panel-footer-landing text-right">
-                                <h:commandButton id="btncre" value="Ordenar" style="margin:0" onclick="PF('crear').show();"
+                                <h:commandButton id="btncre" value="Generar" style="margin:0" onclick="PF('crear').show();"
                                                  class="btn btn-primary" 
                                                  rendered="#{sessionBean.perfilViewMatch(&quot;generarOrdenBarajas&quot;)
                                                              and verOrdenCompraBarajas.orden.estado == 'PREGENERADA'}">
@@ -175,6 +182,8 @@
                                                              and verOrdenCompraBarajas.orden.estado == 'GENERADA'}">
                                     <f:ajax execute="@form" render="@none" />
                                 </h:commandButton>
+
+                                <h:commandLink  action="#{sessionBean.go(&quot;ordenesComprabaraja&quot;)}" class="btn btn-primary">volver</h:commandLink>
                             </div>
                         </div>
                     </div>
@@ -184,7 +193,7 @@
 
         <h:form>
             <p:confirmDialog id="crear" message="Quiere generar la orden #{label['cierrepregunta']}"  
-                             header="Borrar" severity="alert" widgetVar="crear" closable="false">  
+                             header="Generar" severity="alert" widgetVar="crear" closable="false">  
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
                                  action="#{verOrdenCompraBarajas.crearrOrden()}"/>  
@@ -194,7 +203,7 @@
         </h:form>
         <h:form>
             <p:confirmDialog id="aprobar" message="Quiere aprobar la orden #{label['cierrepregunta']}"  
-                             header="Borrar" severity="alert" widgetVar="aprobar" closable="false">  
+                             header="Aprobar" severity="alert" widgetVar="aprobar" closable="false">  
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
                                  action="#{verOrdenCompraBarajas.aprobarOrden()}"/>  
@@ -204,7 +213,7 @@
         </h:form>
         <h:form>
             <p:confirmDialog id="recibir" message="Quiere recibir la orden #{label['cierrepregunta']}"  
-                             header="Borrar" severity="alert" widgetVar="recibir" closable="false">  
+                             header="Recibir" severity="alert" widgetVar="recibir" closable="false">  
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
                                  action="#{verOrdenCompraBarajas.recibirOrden()}"/>  

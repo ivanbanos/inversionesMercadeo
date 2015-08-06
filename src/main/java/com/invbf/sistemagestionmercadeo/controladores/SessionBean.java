@@ -29,6 +29,7 @@ import com.invbf.sistemagestionmercadeo.facade.impl.BarajasFacadeImpl;
 import com.invbf.sistemagestionmercadeo.facade.impl.HostessFacadeImpl;
 import com.invbf.sistemagestionmercadeo.facade.impl.ManagerUserFacadeImpl;
 import com.invbf.sistemagestionmercadeo.facade.impl.MarketingUserFacadeImpl;
+import com.invbf.sistemagestionmercadeo.facade.impl.RegalosFacadeImpl;
 import com.invbf.sistemagestionmercadeo.facade.impl.SystemFacadeImpl;
 import com.invbf.sistemagestionmercadeo.observer.Observer;
 import com.invbf.sistemagestionmercadeo.observer.Subject;
@@ -108,6 +109,7 @@ public class SessionBean implements Serializable, Subject {
         hostessFacade = new HostessFacadeImpl();
         managerUserFacade = new ManagerUserFacadeImpl();
         barajasFacade = new BarajasFacadeImpl();
+        regalosFacade = new RegalosFacadeImpl();
         usuario = new Usuario();
         observers = new ArrayList<Observer>();
         Configuracion configuracion = sessionFacade.getConfiguracionByName("paginacion");
@@ -360,7 +362,11 @@ public class SessionBean implements Serializable, Subject {
     }
 
     public String go(String page) {
-        if (page.equals("destruirBarajas")) {
+        if (page.equals("verRegalos")) {
+            active = "regalos";
+            ruta = "/Inicio";
+            return "/pages/CrudRegalosView.xhtml";
+        }if (page.equals("destruirBarajas")) {
             active = "barajas";
             ruta = "/Inicio";
             return "/pages/ListaDestruccionBarajas.xhtml";

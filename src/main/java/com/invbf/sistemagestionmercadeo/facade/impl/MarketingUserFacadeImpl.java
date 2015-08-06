@@ -1029,12 +1029,12 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     }
 
     @Override
-    public Controlsalidabono guardarControlSalidaBonosLista(Controlsalidabono elemento, boolean enviar) {
+    public Controlsalidabono guardarControlSalidaBonosLista(Controlsalidabono elemento, boolean enviar, List<Bono> bonosAGuardar) {
         System.out.println("Vamos a ver que pasa aqui");
         System.out.println("Control " + elemento.getId());
         System.out.println("Control " + elemento.getEstado());
-        elemento = ControlsalidabonosDao.edit(elemento);
-
+        elemento = ControlsalidabonosDao.editConBonos(elemento, bonosAGuardar);
+        
         return elemento;
     }
 
@@ -1136,11 +1136,11 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
 
                 }
                 if (!bono.getEstado().equals("ANULADO")) {
-                    System.out.println("Bono den "+bono.getDenominacion().getValor());
+                    System.out.println("Bono den " + bono.getDenominacion().getValor());
                     if (bono.getEstado().equals("CANJEADO")) {
-                        bonosPorFecha.get(bonosPorFecha.indexOf(b)).sumarCantidad2(c.get(Calendar.MONTH), c.get(Calendar.YEAR),bono.getDenominacion().getValor());
+                        bonosPorFecha.get(bonosPorFecha.indexOf(b)).sumarCantidad2(c.get(Calendar.MONTH), c.get(Calendar.YEAR), bono.getDenominacion().getValor());
                     } else {
-                        bonosPorFecha.get(bonosPorFecha.indexOf(b)).sumarCantidad(c.get(Calendar.MONTH), c.get(Calendar.YEAR),bono.getDenominacion().getValor());
+                        bonosPorFecha.get(bonosPorFecha.indexOf(b)).sumarCantidad(c.get(Calendar.MONTH), c.get(Calendar.YEAR), bono.getDenominacion().getValor());
                     }
                 }
             }

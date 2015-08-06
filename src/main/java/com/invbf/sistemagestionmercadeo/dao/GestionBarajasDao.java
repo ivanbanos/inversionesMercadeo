@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.dao;
 import com.invbf.sistemagestionmercadeo.dto.ActaDestruccionDTO;
 import com.invbf.sistemagestionmercadeo.dto.BarajasCantidad;
 import com.invbf.sistemagestionmercadeo.dto.InventarioBarajasDTO;
+import com.invbf.sistemagestionmercadeo.dto.SolicitudBarajasDTO;
 import com.invbf.sistemagestionmercadeo.entity.Actasdestruccionbarajas;
 import com.invbf.sistemagestionmercadeo.entity.Barajas;
 import com.invbf.sistemagestionmercadeo.entity.Bono;
@@ -446,6 +447,14 @@ public class GestionBarajasDao {
         tx.begin();
         try {
             Ordencomprabaraja orden = em.find(Ordencomprabaraja.class, idOrden);
+            for (Iterator<Ordencomprabarajadetalle> iterator = orden.getOrdencomprabarajadetalleList().iterator(); iterator.hasNext();) {
+                Ordencomprabarajadetalle next = iterator.next();
+                if (next.getCantidad() == 0) {
+                    iterator.remove();
+                    em.remove(em.merge(next));
+                }
+
+            }
             orden.setEsatdo("GENERADA");
             orden.setCreador(usuario);
             orden.setFechaCreacion(new Date());
@@ -589,13 +598,14 @@ public class GestionBarajasDao {
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
+        boolean creeOrden = false;
         tx.begin();
         try {
             Solicitudbarajas orden = em.find(Solicitudbarajas.class, idOrden);
             orden.setEstado("ENTREGADAS/Pendientes por devolver");
             orden.setAceptador(usuario);
             orden.setFechentrega(new Date());
-            boolean creeOrden = false;
+
             for (Solicitudbarajadetalle detalle : orden.getSolicitudbarajadetalleList()) {
                 Inventarobarajas inventario = em.find(Inventarobarajas.class, detalle.getInventarobarajas().getId());
                 inventario.setUso(inventario.getUso() + detalle.getCantidad());
@@ -609,15 +619,36 @@ public class GestionBarajasDao {
             }
             orden.setEntregadasNuevas(new Date());
             em.merge(orden);
+
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+        if (creeOrden) {
+            crearNuevaOrdenPregenerada();
+        }
+        em.clear();
+        em.close();
+        emf.close();
+    }
+
+    public static void crearNuevaOrdenPregenerada() {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        try {
             javax.persistence.criteria.CriteriaQuery cq2 = em.getCriteriaBuilder().createQuery();
             Root<Ordencomprabaraja> c2 = cq2.from(Ordencomprabaraja.class);
             cq2.select(c2);
-            Expression<String> name = c2.get("estado");
+            Expression<String> name = c2.get("esatdo");
             cq2.where(
                     em.getCriteriaBuilder().notLike(name, "RECIBIDA"));
             int cant = em.createQuery(cq2).getResultList().size();
-            creeOrden = cant == 0 ? creeOrden : false;
-            tx.commit();
+            boolean creeOrden = cant == 0;
+
             if (creeOrden) {
                 Ordencomprabaraja ordencompra = new Ordencomprabaraja();
                 ordencompra.setEsatdo("PREGENERADA");
@@ -643,7 +674,7 @@ public class GestionBarajasDao {
                 em.merge(ordencompra);
                 em.flush();
                 Notificador.notificar(Notificador.correoLimiteAlcanzadoBarajas,
-                        "Se ha pregenerado el requerimiento de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de requerimientos de compra de barajas.",
+                        "Se ha pregenerado el requerimiento de compra de barajas con el n&uacute;mero de acta " + ordencompra.getId() + ". Favor revisar la lista de requerimientos de compra de barajas.",
                         "Se ha pregenerado un requerimiento de compra de barajas", "");
             }
             tx.commit();
@@ -688,24 +719,27 @@ public class GestionBarajasDao {
         emf.close();
     }
 
-    public static void entregarUsadasSolicitud(Integer idOrden, Usuario usuario) {
+    public static void entregarUsadasSolicitud(SolicitudBarajasDTO idOrden, Usuario usuario) {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Solicitudbarajas orden = em.find(Solicitudbarajas.class, idOrden);
+            Solicitudbarajas orden = em.find(Solicitudbarajas.class, idOrden.getId());
             orden.setEstado("Pendiente por recibir usadas");
             for (Solicitudbarajadetalle detalle : orden.getSolicitudbarajadetalleList()) {
-                Inventarobarajas inventario = em.find(Inventarobarajas.class, detalle.getInventarobarajas().getId());
-                inventario.setUso(inventario.getUso() - detalle.getCantidad());
-
-                inventario.setPordestruir(inventario.getPordestruir() + detalle.getCantidad());
-
-                orden.setEntregadasUsadas(new Date());
-                em.merge(inventario);
+                for (BarajasCantidad det : idOrden.getCantidades()) {
+                    System.out.println("Detalle");
+                    System.out.println(det.getDevueltas());
+                    System.out.println(detalle.getDevueltas());
+                    if(detalle.getInventarobarajas().getId()==det.getId().intValue()){
+                        detalle.setDevueltas(det.getDevueltas());
+                    }
+                    em.merge(detalle);
+                }
             }
+            orden.setRecibidor(usuario);
             em.merge(orden);
 
             tx.commit();
@@ -728,7 +762,15 @@ public class GestionBarajasDao {
         try {
             Solicitudbarajas orden = em.find(Solicitudbarajas.class, idOrden);
             orden.setEstado("TERMINADA");
+            for (Solicitudbarajadetalle detalle : orden.getSolicitudbarajadetalleList()) {
+                Inventarobarajas inventario = em.find(Inventarobarajas.class, detalle.getInventarobarajas().getId());
+                inventario.setUso(inventario.getUso() - detalle.getDevueltas());
 
+                inventario.setPordestruir(inventario.getPordestruir() + detalle.getDevueltas());
+
+                orden.setEntregadasUsadas(new Date());
+                em.merge(inventario);
+            }
             orden.setRecibidasUsadas(new Date());
 
             em.merge(orden);
@@ -879,6 +921,7 @@ public class GestionBarajasDao {
                         invent.setMax(dto.getMax());
                         invent.setMin(dto.getMin());
                         invent.setUso(dto.getUso());
+                        invent.setCantidadbarajas(invent.getCantidadbarajas() + dto.getUso());
                         em.merge(invent);
                     }
                 }
@@ -1323,7 +1366,8 @@ public class GestionBarajasDao {
         em.close();
         emf.close();
         return cargos;
-    } 
+    }
+
     public static List<Destruccionbarajasmaestro> getDestruccionDesdeHasta(Integer ano, Integer mes, Integer annodesde, Integer mesdesde) {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");

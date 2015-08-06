@@ -110,8 +110,8 @@
             </div>
         </h:form>
         <h:form >
-            <p:confirmDialog id="nueva" message="Va a guardar los cambios en la bodega. ¿Desea continuar?"  
-                             header="guardar cambios" severity="alert" widgetVar="nueva" closable="false">  
+            <p:confirmDialog id="nueva" message="Va a guardar los cambios en el deposito. ¿Desea continuar?"  
+                             header="Guardar cambios" severity="alert" widgetVar="nueva" closable="false">  
 
                 <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" 
                                  action="#{inventarioBarajasBean.guardarCambios()}"  ajax="false"/>  

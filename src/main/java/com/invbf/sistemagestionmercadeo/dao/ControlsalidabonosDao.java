@@ -85,7 +85,7 @@ public class ControlsalidabonosDao {
     }
 
     public static long countPorDiligenciar() {
-         EntityManagerFactory emf
+        EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -103,7 +103,7 @@ public class ControlsalidabonosDao {
         emf.close();
 
         return cargos;
-       
+
     }
 
     public static long countconfirmarrecepcion() {
@@ -127,7 +127,8 @@ public class ControlsalidabonosDao {
         return cargos;
     }
 
-    public static long countconfimacionordenretiro() {EntityManagerFactory emf
+    public static long countconfimacionordenretiro() {
+        EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -145,6 +146,41 @@ public class ControlsalidabonosDao {
         emf.close();
 
         return cargos;
+    }
+
+    public static Controlsalidabono editConBonos(Controlsalidabono cargo, List<Bono> bonosAGuardar) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<ControlsalidabonosHasLotesbonos> csbhlb = cargo.getControlsalidabonosHasLotesbonosList() != null ? cargo.getControlsalidabonosHasLotesbonosList() : new ArrayList<ControlsalidabonosHasLotesbonos>();
+
+        tx.begin();
+        try {
+            System.out.println("Sigue todo");
+            System.out.println(cargo.getSolicitudEntregaid().getFecha());
+            if (cargo.getId() == null) {
+                em.persist(cargo);
+            }
+            em.merge(cargo);
+            for (Bono bono : bonosAGuardar) {
+                System.out.println("Consecutivo " + bono.getConsecutivo());
+                if (bono.getId() == null) {
+                    em.persist(bono);
+                } else {
+                    em.merge(bono);
+                }
+            }
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return cargo;
     }
 
     public ControlsalidabonosDao() {

@@ -76,7 +76,7 @@
                             </p:dataTable>
 
                             <p:confirmDialog id="deleteDialog" message="¿Quier&eacute; rechazar el cambio?"  
-                                             header="Borrar" severity="alert" widgetVar="deleteDialog" closable="false">  
+                                             header="Rechazar" severity="alert" widgetVar="deleteDialog" closable="false">  
 
                                 <p:commandButton  value="Aceptar" oncomplete="PF('deleteDialog').hide()"  
                                                   action="#{notificaciones.eliminarPermiso()}" update=":#{p:component('detailsTableUsuarios')} :#{p:component('messages')}"/>  
@@ -84,7 +84,7 @@
 
                             </p:confirmDialog> 
                             <p:confirmDialog id="editDialog" message="¿Quier&eacute; aprobar el cambio?"  
-                                             header="Borrar" severity="alert" widgetVar="editDialog" closable="false">  
+                                             header="Aprobar" severity="alert" widgetVar="editDialog" closable="false">  
 
                                 <p:commandButton  value="Aceptar" oncomplete="PF('editDialog').hide()"  
                                                   action="#{notificaciones.ejecutarPermiso()}" update=":#{p:component('detailsTableUsuarios')} :#{p:component('messages')}"/>  

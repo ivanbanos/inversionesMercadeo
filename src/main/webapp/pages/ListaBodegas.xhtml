@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}:/Barajas/Lista de Depositos de Barajas en Salas</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}:/Barajas/Lista de Salas con deposito de Barajas</label>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
                         <div class="panel-heading">
 
                             <div class="clickable">
-                                <h3 class="panel-title">Lista de Depositos de Barajas en Salas</h3>
+                                <h3 class="panel-title">Lista de Salas con deposito de Barajas</h3>
                                 <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
                             </div>
                         </div>
@@ -38,12 +38,10 @@
                                 </p:column>
 
                                 <p:column>
-                                    <p:commandButton id="addButton" action="#{listaBodegasBean.goBodega(bodegas.id)}" onclick="PF('ajaxWaitingDialog').show();"
-                                                      icon="ui-icon-gear" title="Configurar" 
-                                                     />   
-                                    <p:commandButton id="goVer" action="#{listaBodegasBean.goBodegaVer(bodegas.id)}" onclick="PF('ajaxWaitingDialog').show();"
-                                                      icon="ui-icon-search" title="Ver" 
-                                                     />   
+                                    <h:commandLink  action="#{listaBodegasBean.goBodega(bodegas.id)}" class="btn btn-primary btn-peque"><i class="fa fa-wrench fa-1x"></i> 
+                                        <br/>Configurar </h:commandLink>
+                                    <h:commandLink  action="#{listaBodegasBean.goBodegaVer(bodegas.id)}" class="btn btn-primary btn-peque"><i class="fa fa-university fa-1x"></i> 
+                                        <br/>Stock </h:commandLink> 
                                 </p:column>
 
                             </p:dataTable>

@@ -5,13 +5,15 @@
  */
 package com.invbf.sistemagestionmercadeo.dto;
 
+import com.invbf.sistemagestionmercadeo.entity.Categorias;
 import com.invbf.sistemagestionmercadeo.entity.Regalos;
+import java.io.Serializable;
 
 /**
  *
  * @author ivan
  */
-public class RegaloDTO {
+public class RegaloDTO implements Serializable{
 
     private Integer id;
     private String nombre;
@@ -75,6 +77,15 @@ public class RegaloDTO {
 
     public void setCategoria(CategoriaDTO categoria) {
         this.categoria = categoria;
+    }
+
+    public Regalos getRegalo() {
+        Regalos regalo = new Regalos();
+        regalo.setCategoria(new Categorias(categoria.getId()));
+        regalo.setDescripcion(descripcion);
+        regalo.setNombre(nombre);
+        regalo.setGenero(genero);
+                return regalo;
     }
     
     

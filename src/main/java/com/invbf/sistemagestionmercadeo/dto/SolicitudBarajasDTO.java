@@ -29,6 +29,7 @@ public class SolicitudBarajasDTO implements Serializable {
     private String usuarioCreado;
     private String usuarioAceptador;
     private String usuarioREcibidor;
+    private String correoUsuarioREcibidor;
     private String usuarioDestructor;
     private List<BarajasCantidad> cantidades;
 
@@ -162,6 +163,14 @@ public class SolicitudBarajasDTO implements Serializable {
 
     public void setRecibidasusadas(Date recibidasusadas) {
         this.recibidasusadas = recibidasusadas;
+    }
+
+    public String getCorreoUsuarioREcibidor() {
+        return correoUsuarioREcibidor;
+    }
+
+    public void setCorreoUsuarioREcibidor(String correoUsuarioREcibidor) {
+        this.correoUsuarioREcibidor = correoUsuarioREcibidor;
     }
     
 }

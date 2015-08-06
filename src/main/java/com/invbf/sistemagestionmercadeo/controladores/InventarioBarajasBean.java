@@ -98,7 +98,8 @@ public class InventarioBarajasBean implements Serializable {
             }
         } else {
 
-            sessionBean.putMensaje(new Mensajes(Mensajes.ERROR, "ERROR!", "Maximos y minimos no pueden esatr en cero!"));
+            sessionBean.putMensaje(new Mensajes(Mensajes.ERROR, "ERROR!", "Maximos y minimos no pueden estar en cero!"));
+            sessionBean.printMensajes();
         }
     }
 }

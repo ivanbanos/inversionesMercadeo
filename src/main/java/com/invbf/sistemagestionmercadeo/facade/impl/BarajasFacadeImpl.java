@@ -87,7 +87,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         bodegadto.setId(bodega.getIdCasino());
         bodegadto.setNombre(bodega.getNombre());
         for (Inventarobarajas item : bodega.getInventarobarajasList()) {
-            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), item.getCantidadbarajas(), item.getCantidadbarajas(), item.getUso(), item.getPordestruir(), item.getDestruidas(), item.getMax(), item.getMin(), bodegadto.getNombre()));
+            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), item.getCantidadbarajas(), item.getCantidadbarajas(), item.getUso(), item.getPordestruir(), item.getDestruidas(), item.getMax(), item.getMin(), bodegadto.getNombre(),0));
         }
         return bodegadto;
     }
@@ -98,7 +98,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         bodegadto.setId(bodega.getIdCasino());
         bodegadto.setNombre(bodega.getNombre());
         for (Inventarobarajas item : bodega.getInventarobarajasList()) {
-            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), item.getCantidadbarajas(), item.getCantidadbarajas(), item.getUso(), item.getPordestruir(), item.getDestruidas(), item.getMax(), item.getMin(), bodegadto.getNombre()));
+            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), item.getCantidadbarajas(), item.getCantidadbarajas(), item.getUso(), item.getPordestruir(), item.getDestruidas(), item.getMax(), item.getMin(), bodegadto.getNombre(),0));
         }
         return bodegadto;
     }
@@ -109,7 +109,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         bodegadto.setId(bodega.getIdCasino());
         bodegadto.setNombre(bodega.getNombre());
         for (Inventarobarajas item : bodega.getInventarobarajasList()) {
-            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), 0, (item.getCantidadbarajas() - item.getDestruidas() - item.getPordestruir() - item.getUso()), 0, 0, 0, 0, 0, bodegadto.getNombre()));
+            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), 0, (item.getCantidadbarajas() - item.getDestruidas() - item.getPordestruir() - item.getUso()), 0, 0, 0, 0, 0, bodegadto.getNombre(),0));
         }
         return bodegadto;
     }
@@ -120,7 +120,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         bodegadto.setId(bodega.getIdCasino());
         bodegadto.setNombre(bodega.getNombre());
         for (Inventarobarajas item : bodega.getInventarobarajasList()) {
-            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), 0, 0, 0, item.getPordestruir(), 0, 0, 0, bodegadto.getNombre()));
+            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), 0, 0, 0, item.getPordestruir(), 0, 0, 0, bodegadto.getNombre(),0));
         }
         return bodegadto;
     }
@@ -160,7 +160,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         orden.setUsuarioAceptador(item.getAceptador() == null ? "" : item.getAceptador().getNombreUsuario());
         orden.setUsuarioREcibidor(item.getRecibidor() == null ? "" : item.getRecibidor().getNombreUsuario());
         for (Ordencomprabarajadetalle detalle : item.getOrdencomprabarajadetalleList()) {
-            orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getInventarobarajas().getCasino().getNombre()));
+            orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), (detalle.getInventarobarajas().getCantidadbarajas() - detalle.getInventarobarajas().getUso() - detalle.getInventarobarajas().getPordestruir() - detalle.getInventarobarajas().getDestruidas()), detalle.getInventarobarajas().getCasino().getNombre(),0));
         }
         return orden;
     }
@@ -178,11 +178,12 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         orden.setRecibidasnuevas(item.getRecibidasNuevas());
         orden.setRecibidasusadas(item.getRecibidasUsadas());
         orden.setUsuarioCreado(item.getCreador() == null ? "" : item.getCreador().getNombreUsuario());
+        orden.setCorreoUsuarioREcibidor(item.getCreador() == null ? "" : item.getCreador().getUsuariodetalle().getCorreo());
         orden.setUsuarioAceptador(item.getAceptador() == null ? "" : item.getAceptador().getNombreUsuario());
         orden.setUsuarioREcibidor(item.getRecibidor() == null ? "" : item.getRecibidor().getNombreUsuario());
         orden.setUsuarioDestructor(item.getDestructor() == null ? "" : item.getDestructor().getNombreUsuario());
         for (Solicitudbarajadetalle detalle : item.getSolicitudbarajadetalleList()) {
-            orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getInventarobarajas().getCasino().getNombre()));
+            orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getInventarobarajas().getCasino().getNombre(), detalle.getDevueltas()));
         }
         return orden;
     }
@@ -273,9 +274,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     private List<Solicitudbarajadetalle> getDetallesSolicitud(InventarioBarajasDTO inventario, Integer id) {
         List<Solicitudbarajadetalle> detalles = new ArrayList<Solicitudbarajadetalle>();
         for (BarajasCantidad barajas : inventario.getInventario()) {
-            if (barajas.getCantidad() > 0) {
-                detalles.add(getDettaleSolicitud(barajas, id));
-            }
+            detalles.add(getDettaleSolicitud(barajas, id));
         }
         return detalles;
     }
@@ -290,6 +289,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     private Solicitudbarajadetalle getDettaleSolicitud(BarajasCantidad barajas, Integer id) {
         Solicitudbarajadetalle detalle = new Solicitudbarajadetalle(id, barajas.getId());
         detalle.setCantidad(barajas.getCantidad());
+        detalle.setDevueltas(barajas.getDevueltas());
         return detalle;
     }
 
@@ -346,7 +346,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     }
 
     @Override
-    public void entregarUsadasSolicitud(Integer idOrden, Usuario usuario) {
+    public void entregarUsadasSolicitud(SolicitudBarajasDTO idOrden, Usuario usuario) {
         GestionBarajasDao.entregarUsadasSolicitud(idOrden, usuario);
     }
 
@@ -439,7 +439,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         List<BarajasCantidad> lista = new ArrayList<BarajasCantidad>();
         for (Casino bodega : bodegas) {
             for (Inventarobarajas inventario : bodega.getInventarobarajasList()) {
-                lista.add(new BarajasCantidad(inventario.getId(), transformarBaraja(inventario.getBaraja()), inventario.getPordestruir(), Integer.MIN_VALUE, Integer.SIZE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.SIZE, Integer.SIZE, null));
+                lista.add(new BarajasCantidad(inventario.getId(), transformarBaraja(inventario.getBaraja()), inventario.getPordestruir(), Integer.MIN_VALUE, Integer.SIZE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.SIZE, Integer.SIZE, null,0));
 
             }
         }
@@ -473,7 +473,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         Calendar c = Calendar.getInstance();
         for (SolicitudBarajasDTO solicitud : solicitudes) {
             c.setTime(solicitud.getFechaCreacion());
-            if(!solicitudesPorMeses.contains(new SolicitudesPorMes(c.get(Calendar.MONTH), c.get(Calendar.YEAR)))){
+            if (!solicitudesPorMeses.contains(new SolicitudesPorMes(c.get(Calendar.MONTH), c.get(Calendar.YEAR)))) {
                 solicitudesPorMeses.add(new SolicitudesPorMes(c.get(Calendar.MONTH), c.get(Calendar.YEAR)));
             }
             solicitudesPorMeses.get(solicitudesPorMeses.indexOf(new SolicitudesPorMes(c.get(Calendar.MONTH), c.get(Calendar.YEAR)))).getSolicitudes().add(solicitud);
@@ -485,11 +485,11 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     public List<DestruccionPorMes> getDestruidasMes(Integer ano, Integer mes, Integer annodesde, Integer mesdesde) {
         List<ActaDestruccionDTO> solicitudes = transformarActasDestruccion(GestionBarajasDao.getDestruccionDesdeHasta(ano, mes, annodesde, mesdesde));
         List<DestruccionPorMes> solicitudesPorMeses = new ArrayList<DestruccionPorMes>();
-        
+
         Calendar c = Calendar.getInstance();
         for (ActaDestruccionDTO solicitud : solicitudes) {
             c.setTime(solicitud.getFecha());
-            if(!solicitudesPorMeses.contains(new DestruccionPorMes(c.get(Calendar.MONTH), c.get(Calendar.YEAR)))){
+            if (!solicitudesPorMeses.contains(new DestruccionPorMes(c.get(Calendar.MONTH), c.get(Calendar.YEAR)))) {
                 solicitudesPorMeses.add(new DestruccionPorMes(c.get(Calendar.MONTH), c.get(Calendar.YEAR)));
             }
             solicitudesPorMeses.get(solicitudesPorMeses.indexOf(new DestruccionPorMes(c.get(Calendar.MONTH), c.get(Calendar.YEAR)))).getSolicitudes().add(solicitud);

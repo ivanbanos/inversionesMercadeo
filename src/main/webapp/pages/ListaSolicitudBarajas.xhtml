@@ -62,10 +62,12 @@
                                         </p:column>
 
                                         <p:column headerText="#{label['acciones']}" >   
-                                            <p:commandButton id="verCaja" action="#{listaSolicitudesBarajasBean.goOrdenver(element.id)}" icon="ui-icon-pencil" onclick="PF('ajaxWaitingDialog').show();"
-                                                             title="Acciones Caja" rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;) }"/> 
-                                            <p:commandButton id="verSala" action="#{listaSolicitudesBarajasBean.goOrdenversala(element.id)}" icon="ui-icon-pencil" onclick="PF('ajaxWaitingDialog').show();"
-                                                             title="Acciones jefe de sala" rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;) }"/> 
+                                            <p:commandButton id="verCaja" action="#{listaSolicitudesBarajasBean.goOrdenver(element.id)}" icon="ui-icon-check" onclick="PF('ajaxWaitingDialog').show();"
+                                                             title="Entregar" rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;) and element.estado=='SOLICITADA'}"/> 
+                                            <p:commandButton id="verrea" action="#{listaSolicitudesBarajasBean.goOrdenver(element.id)}" icon="ui-icon-notice" onclick="PF('ajaxWaitingDialog').show();"
+                                                             title="Recibir" rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;) and element.estado=='Pendiente por recibir usadas'}"/> 
+                                            <p:commandButton id="verSala" action="#{listaSolicitudesBarajasBean.goOrdenversala(element.id)}" icon="ui-icon-arrow-1-w" onclick="PF('ajaxWaitingDialog').show();"
+                                                             title="Devolver" rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;) and element.estado=='ENTREGADAS/Pendientes por devolver'}"/> 
                                             <p:commandButton id="ver" action="#{listaSolicitudesBarajasBean.goOrdenversalanadaMas(element.id)}" icon="ui-icon-search" onclick="PF('ajaxWaitingDialog').show();"
                                                              title="Ver"/> 
                                             </p:column>

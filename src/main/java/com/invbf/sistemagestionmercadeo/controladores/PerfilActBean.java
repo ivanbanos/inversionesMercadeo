@@ -224,6 +224,12 @@ public class PerfilActBean implements Serializable{
     private VistaBoolean actualizarBodegas;
     private VistaBoolean eliminarBodega;
     
+    
+    private VistaBoolean verRegalos;
+    private FormularioBoolean Regaloscrear;
+    private FormularioBoolean Regalosactualizar;
+    private FormularioBoolean Regaloseliminar;
+    
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
     }
@@ -298,6 +304,13 @@ public class PerfilActBean implements Serializable{
                         agregarBarajas = new FormularioBoolean(f, true);
                     } else {
                         agregarBarajas = new FormularioBoolean(f, false);
+                    }
+                }if (f.getTabla().equals("Regalos")) {
+
+                    if (elemento.getFormularioList().contains(f)) {
+                        Regaloscrear = new FormularioBoolean(f, true);
+                    } else {
+                        Regaloscrear = new FormularioBoolean(f, false);
                     }
                 }if (f.getTabla().equals("PeticionesCupo")) {
 
@@ -488,6 +501,13 @@ public class PerfilActBean implements Serializable{
                     } else {
                         actualizarBarajas = new FormularioBoolean(f, false);
                     }
+                }if (f.getTabla().equals("Regalos")) {
+
+                    if (elemento.getFormularioList().contains(f)) {
+                        Regalosactualizar = new FormularioBoolean(f, true);
+                    } else {
+                        Regalosactualizar = new FormularioBoolean(f, false);
+                    }
                 }
                 if (f.getTabla().equals("Propositos")) {
 
@@ -647,6 +667,13 @@ public class PerfilActBean implements Serializable{
                         eliminarPeticionesCupo = new FormularioBoolean(f, true);
                     } else {
                         eliminarPeticionesCupo = new FormularioBoolean(f, false);
+                    }
+                }if (f.getTabla().equals("Regalos")) {
+
+                    if (elemento.getFormularioList().contains(f)) {
+                        Regaloseliminar = new FormularioBoolean(f, true);
+                    } else {
+                        Regaloseliminar = new FormularioBoolean(f, false);
                     }
                 }
                 if (f.getTabla().equals("Barajas")) {
@@ -1089,6 +1116,14 @@ public class PerfilActBean implements Serializable{
                     verBodegas = new VistaBoolean(v, true);
                 } else {
                     verBodegas = new VistaBoolean(v, false);
+                }
+            }
+            
+            if (v.getNombreVista().equals("verRegalos")) {
+                if (elemento.getVistaList().contains(v)) {
+                    verRegalos = new VistaBoolean(v, true);
+                } else {
+                    verRegalos = new VistaBoolean(v, false);
                 }
             }if (v.getNombreVista().equals("crearBodegas")) {
                 if (elemento.getVistaList().contains(v)) {
@@ -1627,6 +1662,10 @@ public class PerfilActBean implements Serializable{
         if (verBodegas.isSelected()) {
             elemento.getVistaList().add(verBodegas.getVista());
         }
+        
+        if (verRegalos.isSelected()) {
+            elemento.getVistaList().add(verRegalos.getVista());
+        }
         if (crearBodegas.isSelected()) {
             elemento.getVistaList().add(crearBodegas.getVista());
         }
@@ -2122,6 +2161,15 @@ public class PerfilActBean implements Serializable{
         }
         if (eliminarBarajas.isSelected()) {
             elemento.getFormularioList().add(eliminarBarajas.getFormulario());
+        }
+        if (Regaloscrear.isSelected()) {
+            elemento.getFormularioList().add(Regaloscrear.getFormulario());
+        }
+        if (Regaloseliminar.isSelected()) {
+            elemento.getFormularioList().add(Regaloseliminar.getFormulario());
+        }
+        if (Regalosactualizar.isSelected()) {
+            elemento.getFormularioList().add(Regalosactualizar.getFormulario());
         }
         if (agregarLoteBono.isSelected()) {
             elemento.getFormularioList().add(agregarLoteBono.getFormulario());
@@ -3538,6 +3586,38 @@ public class PerfilActBean implements Serializable{
 
     public void setEliminarBodega(VistaBoolean eliminarBodega) {
         this.eliminarBodega = eliminarBodega;
+    }
+
+    public VistaBoolean getVerRegalos() {
+        return verRegalos;
+    }
+
+    public void setVerRegalos(VistaBoolean verRegalos) {
+        this.verRegalos = verRegalos;
+    }
+
+    public FormularioBoolean getRegaloscrear() {
+        return Regaloscrear;
+    }
+
+    public void setRegaloscrear(FormularioBoolean Regaloscrear) {
+        this.Regaloscrear = Regaloscrear;
+    }
+
+    public FormularioBoolean getRegalosactualizar() {
+        return Regalosactualizar;
+    }
+
+    public void setRegalosactualizar(FormularioBoolean Regalosactualizar) {
+        this.Regalosactualizar = Regalosactualizar;
+    }
+
+    public FormularioBoolean getRegaloseliminar() {
+        return Regaloseliminar;
+    }
+
+    public void setRegaloseliminar(FormularioBoolean Regaloseliminar) {
+        this.Regaloseliminar = Regaloseliminar;
     }
 
 }

@@ -96,13 +96,13 @@ public class CrudRegalosBean implements Serializable {
         this.categoria = categoria;
     }
 
-    public void actualizarBaraja() {
+    public void actualizarRegalo() {
         elemento = sessionBean.regalosFacade.addRegalo(elemento);
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "OK!", "Regalo Agregado con exito!"));
         inicializar();
     }
 
-    public void eliminarBaraja() {
+    public void eliminarRegalo() {
         if (elemento.getId() == null) {
             sessionBean.putMensaje(new Mensajes(Mensajes.ADVERTENCIA, "Advertencia!", "Debe seleccionar un regalo primero"));
         } else {
@@ -112,7 +112,7 @@ public class CrudRegalosBean implements Serializable {
         inicializar();
     }
 
-    public void nuevaBaraja() {
+    public void nuevoRegalo() {
         inicializar();
     }
 

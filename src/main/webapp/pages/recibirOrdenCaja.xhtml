@@ -113,7 +113,7 @@
                                     <p:dataTable value="#{recibirOrdenBarajaBean.orden.cantidades}" var="detalle" rowIndexVar="status"
                                                  emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
 
-                                        <p:column headerText="Bodega" style="text-align: center;">
+                                        <p:column headerText="Sala" style="text-align: center;">
                                             <h:outputText value="#{detalle.bodega}">
                                             </h:outputText>
                                         </p:column>
@@ -157,7 +157,7 @@
 
         <h:form>
             <p:confirmDialog id="recibir" message="Quiere recibir las barajas #{label['cierrepregunta']}"  
-                             header="Borrar" severity="alert" widgetVar="recibir" closable="false">  
+                             header="Recibir en caja" severity="alert" widgetVar="recibir" closable="false">  
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
                                  action="#{recibirOrdenBarajaBean.recibirOrden()}"/>  

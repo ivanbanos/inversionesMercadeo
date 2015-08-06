@@ -48,6 +48,7 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
     private Usuario usuario;
     private Usuariodetalle usuariosdetalles;
     private List<Casino> casinos;
+    private List<Bono> bonosAGuardar;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -150,8 +151,9 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
     public void retirar() {
         elemento.setEstado("BONOS LISTOS PARA SER DILIGENCIADOS");
         elemento.getSolicitudEntregaid().setEstado("BONOS LISTOS PARA SER DILIGENCIADOS");
+        bonosAGuardar = new ArrayList<Bono>();
         crearBonos();
-        sessionBean.marketingUserFacade.guardarControlSalidaBonosLista(elemento, true);
+        sessionBean.marketingUserFacade.guardarControlSalidaBonosLista(elemento, true, bonosAGuardar);
         String cuerpo = "Orden de retiro de bonos de inventario con número de acta " + elemento.getId() + " procesada. Los bonos se encuentran listos para ser diligenciados.";
         String titulo = "Orden de retiro de bonos de inventario procesada";
         Notificador.notificar(Notificador.SOLICITUD_CONTROL_SALIDA_APROBADA, cuerpo, titulo, "");
@@ -166,7 +168,7 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
     public void recoger() {
         elemento.setEstado("BONOS EN PROCESO DE DILIGENCIAMIENTO");
         elemento.getSolicitudEntregaid().setEstado("BONOS EN PROCESO DE DILIGENCIAMIENTO");
-        sessionBean.marketingUserFacade.guardarControlSalidaBonosLista(elemento, true);
+        sessionBean.marketingUserFacade.guardarControlSalidaBonosLista(elemento, true, new ArrayList<Bono>());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Bonos recibidos para diligenciamiento!", ""));
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudSalidaBonos.xhtml");
@@ -217,7 +219,6 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
 
     private void crearBonos() {
         List<ControlsalidabonosHasLotesbonos> bonosControlSalida = elemento.getControlsalidabonosHasLotesbonosList();
-        List<Bono> bonosAGuardar = new ArrayList<Bono>();
         System.out.println(elemento.getSolicitudEntregaid().getIdCasino());
         Casino casino = sessionBean.adminFacade.findCasino(elemento.getSolicitudEntregaid().getIdCasino().getIdCasino());
         List<Lotebono> lotes = sessionBean.marketingUserFacade.getLotesBonosCasinoTipoBono(elemento.getSolicitudEntregaid().getIdCasino().getIdCasino(), elemento.getSolicitudEntregaid().getTipoBono());
@@ -281,7 +282,6 @@ public class AceptarSolicitudSalidaBonosBean implements Serializable {
         
             }
         }
-        sessionBean.marketingUserFacade.guardarBonos(bonosAGuardar);
 
     }
 

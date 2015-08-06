@@ -34,6 +34,8 @@ public class Solicitudbarajadetalle implements Serializable {
     protected SolicitudbarajadetallePK solicitudbarajadetallePK;
     @Column(name = "cantidad")
     private Integer cantidad;
+    @Column(name = "devueltas")
+    private Integer devueltas;
     @JoinColumn(name = "inventario", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Inventarobarajas inventarobarajas;
@@ -107,6 +109,14 @@ public class Solicitudbarajadetalle implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.controladores.Solicitudbarajadetalle[ solicitudbarajadetallePK=" + solicitudbarajadetallePK + " ]";
+    }
+
+    public Integer getDevueltas() {
+        return devueltas;
+    }
+
+    public void setDevueltas(Integer devueltas) {
+        this.devueltas = devueltas;
     }
     
 }

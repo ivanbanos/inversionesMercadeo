@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+
+        <div class="row">
+
+            <div class="control-group">
+                <!-- Username -->
+                <div class="form-group">
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Gesti&oacute;n de barajas/Configuraci&oacute;n de Barajas</label>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row clearfix">
+                <div class="row clearfix">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+
+                            <div class="clickable">
+                                <h3 class="panel-title">Regalos</h3>
+                                <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <h:form class="form-horizontal">
+                                <p:dataTable id="detailsTablebarajas" var="element" value="#{crudRegalosBean.lista}"  
+                                             emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTablebarajas">
+
+                                    <f:facet name="header">
+
+                                    </f:facet>
+
+                                    <p:column headerText="Nombre" >
+                                        <h:outputText value="#{element.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Categoria" sortBy="#{element.categoria.nombre}" filterBy="#{element.categoria.nombre}" filterMatchMode="contains" >
+                                        <h:outputText value="#{element.categoria.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Sexo" sortBy="#{element.genero}" filterBy="#{element.genero}" filterMatchMode="contains" >
+                                        <h:outputText value="#{element.genero}" />
+                                    </p:column>
+
+                                    <p:column  rendered="#{sessionBean.perfilFormMatch(&quot;Regalos&quot; , &quot;actualizar&quot;)
+                                                           or sessionBean.perfilFormMatch(&quot;Regalos&quot; , &quot;eliminar&quot;)}">
+                                        <p:commandButton  icon="ui-icon-pencil" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                                          title="#{label['lb_btn.editarPerfiles']}" 
+                                                          update=":#{p:component('formregalocrud')}">
+                                            <f:setPropertyActionListener value="#{element}" target="#{crudRegalosBean.elemento}" />    
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+                    <h:form id="formregalocrud">
+                        <div class="row clearfix">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <div class="clickable">
+                                        <h3 class="panel-title">Regalo</h3>
+                                        <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-3 control-label" >id:</label></b>
+                                            <b><label class="col-md-3 control-label" >#{crudRegalosBean.elemento.id}</label></b>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-3 control-label" >Nombre:</label></b>
+                                            <div class="col-md-9">
+                                                <p:inputText id="nombre" value="#{crudRegalosBean.elemento.nombre}"/>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-3 control-label" >Descripci&oacute;n</label></b>
+                                            <div class="col-md-9">
+                                                <p:inputTextarea id="descrpicion" value="#{crudRegalosBean.elemento.descripcion}"/>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-3 control-label" >Genero:</label></b>
+                                            <div class="col-md-9">
+                                                <p:selectOneMenu id="sexo" value="#{crudRegalosBean.elemento.genero}" required="true" requiredMessage="#{label['msj.req.tipotarea']}" >
+                                                    <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
+                                                    <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                                    <f:selectItem itemLabel="Femenino" itemValue="F" />
+                                                    <f:selectItem itemLabel="Sin genero" itemValue="S" />
+                                                </p:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+                                            <b><label class="col-md-3 control-label" >Categoria:</label></b>
+                                            <div class="col-md-9">
+                                                <p:selectOneMenu id="Categoria" value="#{crudRegalosBean.elemento.categoria.id}" required="true" requiredMessage="#{label['msj.req.tipotarea']}" >
+                                                    <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
+                                                    <f:selectItems value="#{crudRegalosBean.categorias}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.id}"/> 
+                                                </p:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    <p:commandButton  value="Nuevo regalo" onstart="PF('ajaxWaitingDialog').show();" 
+                                                      oncomplete="PF('ajaxWaitingDialog').hide();PF('nueva').show();"
+                                                      title="#{label['lb_btn.editarPerfiles']}">   
+                                    </p:commandButton>
+                                    <p:commandButton value="Guardar regalo" icon="ui-icon-pencil" onstart="PF('ajaxWaitingDialog').show();" 
+                                                     oncomplete="PF('ajaxWaitingDialog').hide();PF('guardar').show();"
+                                                     title="#{label['lb_btn.editarPerfiles']}">   
+                                    </p:commandButton>
+                                    <p:commandButton value="Eliminar regalo" icon="ui-icon-pencil" onstart="PF('ajaxWaitingDialog').show();" 
+                                                     oncomplete="PF('ajaxWaitingDialog').hide();PF('eliminarba').show();"
+                                                     title="#{label['lb_btn.editarPerfiles']}">   
+                                    </p:commandButton>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+
+
+
+        <h:form >
+            <p:confirmDialog id="nueva" message="Va a crear un nuevo regalo, se perderan todos los cambios no guardados. ¿Desea continuar?"  
+                             header="Vueva baraja" severity="alert" widgetVar="nueva" closable="false">  
+
+                <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" 
+                                 action="#{crudRegalosBean.nuevoRegalo()}"  ajax="false"/>  
+                <p:commandButton id="decline" value="No" onclick="PF('nueva').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+
+        <h:form >
+            <p:confirmDialog id="guardar" message="¿Está seguro que desea guardar el regalo?"  
+                             header="Guardar baraja" severity="alert" widgetVar="guardar" closable="false">  
+
+                <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();"  
+                                 action="#{crudRegalosBean.actualizarRegalo()}"  ajax="false"/>  
+                <p:commandButton id="decline" value="No" onclick="PF('guardar').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+        <h:form >
+            <p:confirmDialog id="eliminarba" message="¿Está seguro que desea eliminar el regalo?"  
+                             header="Eliminar baraja" severity="alert" widgetVar="eliminarba" closable="false">  
+
+                <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" 
+                                 action="#{crudRegalosBean.eliminarRegalo()}"  ajax="false"/>  
+                <p:commandButton id="decline" value="No" onclick="PF('eliminarba').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+        
+
+    </ui:define>            
+</ui:composition>

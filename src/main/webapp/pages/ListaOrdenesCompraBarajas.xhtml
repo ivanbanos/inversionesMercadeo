@@ -65,7 +65,9 @@
                                             <p:commandButton id="ver" action="#{listaOrdenesCompraBarajasBean.goOrdenvernadaMas(element.id, element.estado)}" icon="ui-icon-search" onclick="PF('ajaxWaitingDialog').show();"
                                                              title="Ver"/>  
                                             <p:commandButton id="recibirsala" action="#{listaOrdenesCompraBarajasBean.goOrdenver(element.id, element.estado)}" icon="ui-icon-check" onclick="PF('ajaxWaitingDialog').show();"
-                                                             title="Aprobar" rendered="#{sessionBean.perfilViewMatch(&quot;aceptarOrdenBarajas&quot;) and element.estado == 'GENERADA' }"/>  
+                                                             title="Generar" rendered="#{sessionBean.perfilViewMatch(&quot;aceptarOrdenBarajas&quot;) and (element.estado == 'PREGENERADA') }"/>  
+                                            <p:commandButton id="aprobar" action="#{listaOrdenesCompraBarajasBean.goOrdenver(element.id, element.estado)}" icon="ui-icon-check" onclick="PF('ajaxWaitingDialog').show();"
+                                                             title="Aprobar" rendered="#{sessionBean.perfilViewMatch(&quot;aceptarOrdenBarajas&quot;) and (element.estado == 'GENERADA' ) }"/>  
                                             <p:commandButton id="recibircaja" action="#{listaOrdenesCompraBarajasBean.goOrdenrecibircaja(element.id, element.estado)}" icon="ui-icon-arrowthickstop-1-s" onclick="PF('ajaxWaitingDialog').show();"
                                                              title="Recibir" rendered="#{sessionBean.perfilViewMatch(&quot;recibirOrdenBarajas&quot;) and (element.estado == 'APROBADA' or element.estado == 'RECIBIDA')}"/> 
                                             </p:column>

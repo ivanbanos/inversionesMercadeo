@@ -5,6 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.controladores;
 
+import com.invbf.sistemagestionmercadeo.dto.BarajasCantidad;
 import com.invbf.sistemagestionmercadeo.dto.SolicitudBarajasDTO;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
@@ -83,7 +84,9 @@ public class verSolicitudBarajasBean implements Serializable {
             Notificador.notificar(Notificador.correoSolicitudBarajaEntregada, 
                     "Se han entregado las barajas nuevas de la solicitud con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.",
                     "Se  han entregado barajas nuevas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
-            
+            Notificador.notificar(Notificador.correoLibre, 
+                    "Tiene que entregar las barajas usadas de la solicitud con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.",
+                    "Aviso de entrega de barajas usadas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
             idOrden = (Integer) sessionBean.getAttributes("solicitudBaraja");
             orden = sessionBean.barajasFacade.getSolicitud(idOrden);
             sessionBean.printMensajes();
@@ -111,7 +114,11 @@ public class verSolicitudBarajasBean implements Serializable {
 
     public void entregarUsadas() {
         try {
-            sessionBean.barajasFacade.entregarUsadasSolicitud(idOrden, sessionBean.getUsuario());
+            for (BarajasCantidad det : orden.getCantidades()) {
+                    System.out.println("Detalle");
+                    System.out.println(det.getDevueltas());
+                }
+            sessionBean.barajasFacade.entregarUsadasSolicitud(orden, sessionBean.getUsuario());
             sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han entregado las barajas usadas con exito", "Acta de orden #" + orden.getId()));
             Notificador.notificar(Notificador.correoSolicitudBarajaRecibida, 
                     "Se han entregado las barajas usadas de la solicitud con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.",

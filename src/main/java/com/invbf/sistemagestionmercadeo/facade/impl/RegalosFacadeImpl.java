@@ -20,7 +20,7 @@ import java.util.List;
  * @author ivan
  */
 public class RegalosFacadeImpl implements RegalosFacade, Serializable {
-
+    
     @Override
     public List<CategoriaDTO> getListaCategorias() {
         List<Categorias> categorias = GestionRegaloDao.getListaCategorias();
@@ -30,7 +30,7 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
         }
         return categoriasDto;
     }
-
+    
     @Override
     public List<RegaloDTO> getListaRegalos() {
         List<Regalos> regalos = GestionRegaloDao.getListaRegalos();
@@ -38,17 +38,18 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
         for (Regalos regalo : regalos) {
             regaloDTOs.add(new RegaloDTO(regalo));
         }
+        System.out.println(regaloDTOs);
         return regaloDTOs;
     }
-
+    
     @Override
     public RegaloDTO deleteRegalo(RegaloDTO elemento) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public RegaloDTO addRegalo(RegaloDTO elemento) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new RegaloDTO(GestionRegaloDao.addRegalo(elemento.getRegalo()));
     }
-
+    
 }

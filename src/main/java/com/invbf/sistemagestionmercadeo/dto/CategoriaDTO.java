@@ -5,11 +5,13 @@
  */
 package com.invbf.sistemagestionmercadeo.dto;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ivan
  */
-public class CategoriaDTO {
+public class CategoriaDTO implements Serializable{
     private int id;
     private String nombre;
 

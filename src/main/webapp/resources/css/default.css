@@ -116,6 +116,12 @@ label{padding-left:20px;}
     border-radius: 4px
 }
 
+.btn-peque{
+    
+    color:white!important;
+    width: 120px;
+}
+
 .panel-heading span
 {
     margin-top: -23px;

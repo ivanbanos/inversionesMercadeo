@@ -28,7 +28,7 @@
                             <div class="panel panel-primary">
                                 <div class="panel-heading">
                                     <div class="clickable">
-                                        <h3 class="panel-title">Materiales</h3>
+                                        <h3 class="panel-title">Configuraci&oacute;n de Materiales</h3>
                                         <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
                                     </div>
                                 </div>
@@ -56,16 +56,16 @@
                                             </p:column>
                                             <p:column headerText="Material" sortBy="#{element.material.nombre}" filterBy="#{element.material.nombre}" filterMatchMode="contains" >
                                                 <p:commandButton  icon="ui-icon-closethick" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('elimat').show();"
-                                                                  title="#{label['lb_btn.editarPerfiles']}">
+                                                                  title="Eliminar">
                                                     <f:setPropertyActionListener value="#{element}" target="#{crudBarajasBean.material}" />    
                                                 </p:commandButton>
                                                 <p:commandButton  icon="ui-icon-pencil" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('edimat').show();"
-                                                                  title="#{label['lb_btn.editarPerfiles']}">
+                                                                  title="Editar">
                                                     <f:setPropertyActionListener value="#{element}" target="#{crudBarajasBean.material}" />    
                                                 </p:commandButton>
                                                 <f:facet name="footer">
                                                     <p:commandButton  icon="ui-icon-plusthick" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('addmat').show();"
-                                                                      title="#{label['lb_btn.editarPerfiles']}">   
+                                                                      title="Agregar">   
                                                     </p:commandButton>
                                                 </f:facet>
                                             </p:column>
@@ -90,7 +90,7 @@
                             <div class="panel panel-primary">
                                 <div class="panel-heading">
                                     <div class="clickable">
-                                        <h3 class="panel-title">Baraja</h3>
+                                        <h3 class="panel-title">Configuraci&oacute;n  de Baraja</h3>
                                         <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
                                     </div>
                                 </div>
@@ -107,7 +107,7 @@
                                             <div class="col-md-9">
                                                 <p:selectOneMenu id="material" value="#{crudBarajasBean.elemento.material.id}" required="true" requiredMessage="#{label['msj.req.tipotarea']}" >
                                                     <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
-                                                    <f:selectItems value="#{crudBarajasBean.materiales}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.id}"/> 
+                                                    <f:selectItems value="#{crudBarajasBean.materiales}" var="var" itemLabel="#{var.nombre} #{var.descripcion}" itemValue="#{var.id}"/> 
                                                 </p:selectOneMenu>
                                             </div>
                                         </div>
@@ -166,7 +166,7 @@
                     <div class="panel-heading">
 
                         <div class="clickable">
-                            <h3 class="panel-title">Barajas</h3>
+                            <h3 class="panel-title">Tipos de Barajas</h3>
                             <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
                         </div>
                     </div>
