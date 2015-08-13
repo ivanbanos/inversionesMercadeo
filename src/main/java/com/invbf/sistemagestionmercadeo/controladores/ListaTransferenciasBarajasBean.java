@@ -5,7 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.controladores;
 
-import com.invbf.sistemagestionmercadeo.dto.InventarioBarajasDTO;
+import com.invbf.sistemagestionmercadeo.dto.TrasladoDTO;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -23,12 +23,11 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class ListaBodegasBean implements Serializable {
+public class ListaTransferenciasBarajasBean implements Serializable {
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
-    private List<InventarioBarajasDTO> bodegas;
-    private String nombre;
+    private List<TrasladoDTO> items;
 
     /**
      * @return the sessionBean
@@ -44,59 +43,60 @@ public class ListaBodegasBean implements Serializable {
         this.sessionBean = sessionBean;
     }
 
-    public ListaBodegasBean() {
+    public ListaTransferenciasBarajasBean() {
     }
 
     @PostConstruct
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("barajas");
-        if (!sessionBean.perfilViewMatch("verBodegas")) {
+        if (!sessionBean.perfilViewMatch("verTransferencias")  && !sessionBean.perfilViewMatch("enviarTransferencia") && !sessionBean.perfilViewMatch("recibirTransferencia")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
             }
         }
-        if (sessionBean.perfilViewMatch("actualizarBodegas")) {
-            bodegas = sessionBean.barajasFacade.getBodegas();
+        if (sessionBean.perfilViewMatch("verTransferencias")) {
+            items = sessionBean.barajasFacade.getTransferencias();
         } else {
-            bodegas = sessionBean.barajasFacade.getBodegas(sessionBean.getUsuario());
+            items = sessionBean.barajasFacade.getTransferencias(sessionBean.getUsuario());
         }
         sessionBean.printMensajes();
     }
 
-    public List<InventarioBarajasDTO> getBodegas() {
-        return bodegas;
-    }
-
-    public void setBodegas(List<InventarioBarajasDTO> bodegas) {
-        this.bodegas = bodegas;
-    }
-
-    public void goBodega(Integer id) {
+    public void goTraslado(Integer id) {
         try {
-            sessionBean.setAttribute("bodega", id);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("InventarioBarajas.xhtml");
+            sessionBean.setAttribute("traslado", id);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("TransferenciaBarajas.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void goBodegaVer(Integer id) {
+    public void goVer(Integer id) {
         try {
-            sessionBean.setAttribute("bodega", id);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("InventarioBarajasVer.xhtml");
+            sessionBean.setAttribute("traslado", id);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("TransferenciaBarajasVer.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public String getNombre() {
-        return nombre;
+    public void goCrearTraslado(Integer id) {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("TransferenciaBarajasCrear.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public List<TrasladoDTO> getItems() {
+        return items;
     }
+
+    public void setItems(List<TrasladoDTO> items) {
+        this.items = items;
+    }
+
 
 }

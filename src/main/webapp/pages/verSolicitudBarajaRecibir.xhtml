@@ -128,6 +128,13 @@
                                             <h:outputText value="#{detalle.baraja.marca}">
                                             </h:outputText>
                                         </p:column>
+                                        <p:column headerText="Cantidad de barajas nuevas" >
+                                            <span id="cantidad#{status}">
+                                                <p:spinner min="0" stepFactor="1" id="devueltas"
+                                                           value="#{detalle.cantidad}">
+                                                </p:spinner>
+                                            </span>
+                                        </p:column>
                                         <p:column headerText="Cantidad a entregar" rendered="#{verSolicitudBarajasBean.orden.estado != 'CREADA' and verSolicitudBarajasBean.orden.estado != 'ENTREGADA'}">
                                             <span id="cantidad#{status}">
                                                 <p:spinner min="0" stepFactor="1" id="devueltas"

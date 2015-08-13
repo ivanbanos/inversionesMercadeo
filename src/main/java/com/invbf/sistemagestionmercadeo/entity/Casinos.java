@@ -15,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -38,6 +40,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Casinos.findByNombre", query = "SELECT c FROM Casinos c WHERE c.nombre = :nombre"),
     @NamedQuery(name = "Casinos.findByDireccion", query = "SELECT c FROM Casinos c WHERE c.direccion = :direccion")})
 public class Casinos implements Serializable {
+    
+    
     
     private static final long serialVersionUID = 1L;
     @Id
@@ -136,6 +140,8 @@ public class Casinos implements Serializable {
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Casinos[ idCasino=" + idCasino + " ]";
     }
+
+
 
 
 }

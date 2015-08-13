@@ -72,7 +72,10 @@ public class Casino implements Serializable {
     private List<Cliente> clienteList;
     @OneToMany(mappedBy = "casino")
     private List<Inventarobarajas> inventarobarajasList;
-    
+    @OneToMany(mappedBy = "salaenviadora")
+    private List<Trasladobarajas> trasladobarajasList;
+    @OneToMany(mappedBy = "salareceptora")
+    private List<Trasladobarajas> trasladobarajasList1;
  
     public Casino() {
     }
@@ -204,5 +207,23 @@ public class Casino implements Serializable {
 
     public void setInventarobarajasList(List<Inventarobarajas> inventarobarajasList) {
         this.inventarobarajasList = inventarobarajasList;
+    }
+    
+    @XmlTransient
+    public List<Trasladobarajas> getTrasladobarajasList() {
+        return trasladobarajasList;
+    }
+
+    public void setTrasladobarajasList(List<Trasladobarajas> trasladobarajasList) {
+        this.trasladobarajasList = trasladobarajasList;
+    }
+
+    @XmlTransient
+    public List<Trasladobarajas> getTrasladobarajasList1() {
+        return trasladobarajasList1;
+    }
+
+    public void setTrasladobarajasList1(List<Trasladobarajas> trasladobarajasList1) {
+        this.trasladobarajasList1 = trasladobarajasList1;
     }
 }

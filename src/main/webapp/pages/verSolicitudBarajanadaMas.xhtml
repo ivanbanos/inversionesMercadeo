@@ -171,41 +171,19 @@
                                                 Recibo #{verSolicitudBarajasBean.orden.cantidadBarajas} usadas
                                             </f:facet>
                                         </p:column>
-                                        <p:column headerText="Nuevas" rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
-                                                                                          and verSolicitudBarajasBean.orden.entregadasnuevas == null}">
+                                        <p:column headerText="Cantidad solicitada" rendered="#{verSolicitudBarajasBean.orden.estado != 'CREADA' and verSolicitudBarajasBean.orden.estado != 'ENTREGADA'}">
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidad}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                 </h:outputText>
                                             </span>
-                                            <f:facet name="footer">
-                                                Entrego #{verSolicitudBarajasBean.orden.cantidadBarajas} nuevas
-                                            </f:facet>
                                         </p:column>
-
-                                        <p:column headerText="Nuevas" rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
-                                                                                         and verSolicitudBarajasBean.orden.entregadasnuevas != null
-                                                                                         and verSolicitudBarajasBean.orden.recibidasnuevas == null}">
-                                            <span id="cantidad#{status}">
-                                                <h:outputText value="#{detalle.cantidad}">
-                                                    <f:converter  converterId="numberSeparationConverter"  />
-                                                </h:outputText>
-                                            </span>
-                                            <f:facet name="footer">
-                                                Recibo #{verSolicitudBarajasBean.orden.cantidadBarajas} nuevas
-                                            </f:facet>
-                                        </p:column>
-                                        <p:column headerText="Usadas" rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
-                                                                                          and verSolicitudBarajasBean.orden.recibidasusadas != null
-                                                                                          and verSolicitudBarajasBean.orden.entregadasusadas == null}">
+                                        <p:column headerText="Cantidad devuelta" rendered="#{verSolicitudBarajasBean.orden.estado != 'CREADA'}">
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.devueltas}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                 </h:outputText>
                                             </span>
-                                            <f:facet name="footer">
-                                                Entrego #{verSolicitudBarajasBean.orden.cantidadBarajas} usadas
-                                            </f:facet>
                                         </p:column>
                                     </p:dataTable>
                                 </div>

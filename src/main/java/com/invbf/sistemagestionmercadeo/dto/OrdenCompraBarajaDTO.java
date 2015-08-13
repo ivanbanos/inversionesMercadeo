@@ -23,6 +23,7 @@ public class OrdenCompraBarajaDTO implements Serializable {
     private String usuarioCreado;
     private String usuarioAceptador;
     private String usuarioREcibidor;
+    private String observaciones;
     private List<BarajasCantidad> cantidades;
 
     public OrdenCompraBarajaDTO() {
@@ -115,4 +116,13 @@ public class OrdenCompraBarajaDTO implements Serializable {
         }
         return cantitadBarajas;
     }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+    
 }

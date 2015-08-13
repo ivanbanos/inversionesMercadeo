@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -163,5 +164,4 @@ public class Usuarios implements Serializable {
         return "com.invbf.sistemagestionmercadeo.entity.Usuarios[ idUsuario=" + idUsuario + " ]";
     }
 
-    
 }

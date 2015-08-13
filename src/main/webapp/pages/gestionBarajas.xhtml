@@ -27,13 +27,12 @@
                             <h:commandLink  action="#{sessionBean.go(&quot;barajas&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-wrench fa-5x"></i> 
                                 <br/>Configuraci&oacute;n de <br/>barajas</h:commandLink>
                         </c:if>
-                        
+
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verBodegas&quot;)
-                        or  sessionBean.perfilViewMatch(&quot;crearBodegas&quot;)
-                        or  sessionBean.perfilViewMatch(&quot;actualizarBodegas&quot;)
-                        or  sessionBean.perfilViewMatch(&quot;eliminarBodega&quot;)}">
+                                      or  sessionBean.perfilViewMatch(&quot;actualizarBodegas&quot;)
+                                      or  sessionBean.perfilViewMatch(&quot;verStockBarajas&quot;)}">
                             <h:commandLink  action="#{sessionBean.go(&quot;bodegas&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
-                                <br/>Lista de Salas con <br />deposito de Barajas </h:commandLink>
+                                <br/>Lista de Salas con <br />stock de Barajas </h:commandLink>
                         </c:if>
 
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;recibirOrdenBarajas&quot;)
@@ -58,8 +57,15 @@
                                 <br/>Acta de destrucci&oacute;n <br/>de barajas</h:commandLink>
 
                         </c:if>
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;verTransferencias&quot;) 
+                                      or sessionBean.perfilViewMatch(&quot;enviarTransferencia&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;recibirTransferencia&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;ListaTransferenciasBarajas&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-exchange fa-5x"></i> 
+                                <br/>Transferencias <br/>de barajas</h:commandLink>
+
+                        </c:if>
                         
-                                      
+
                     </div>
                 </h:form>
             </div>

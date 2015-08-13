@@ -74,11 +74,6 @@
                                             <h:outputText value="#{detalle.baraja.marca}">
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Valor promedio" style="text-align: center;">
-                                            <h:outputText value="#{detalle.baraja.valorpromedio}">
-                                                <f:converter  converterId="numberSeparationConverter"  />
-                                            </h:outputText>
-                                        </p:column>
                                         <p:column headerText="Cantidad a destruir" >
                                             <span id="cantidad#{status}"> 
                                                 <p:spinner min="0" stepFactor="1" max="#{detalle.cantidad}"

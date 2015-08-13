@@ -80,11 +80,11 @@ public class VerOrdenCompraBarajas implements Serializable {
     }
 
     public void crearrOrden() {
-        sessionBean.barajasFacade.crearOrden(idOrden, sessionBean.getUsuario());
-        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha generado la orden con exito", "Acta de orden #" + orden.getId()));
+        sessionBean.barajasFacade.crearOrden(orden, sessionBean.getUsuario());
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha generado el requerimiento con exito", "Acta de orden #" + orden.getId()));
         Notificador.notificar(Notificador.correoOrdenBarajasCreada,
-                "Se ha generado la orden de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
-                "Se ha generado una orden de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                "Se ha generado el requerimiento de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
+                "Se ha generado un requerimiento de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaOrdenesCompraBarajas.xhtml");
         } catch (IOException ex) {
@@ -92,11 +92,11 @@ public class VerOrdenCompraBarajas implements Serializable {
     }
 
     public void aprobarOrden() {
-        sessionBean.barajasFacade.aprobarOrden(idOrden, sessionBean.getUsuario());
-        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha aprobado la orden con exito", "Acta de orden #" + orden.getId()));
+        sessionBean.barajasFacade.aprobarOrden(orden, sessionBean.getUsuario());
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha aprobado el requerimiento con exito", "Acta de orden #" + orden.getId()));
         Notificador.notificar(Notificador.correoOrdenBarajasAprobada,
-                "Se ha aprobado la orden de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
-                "Se ha aprobado una orden de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                "Se ha aprobado el requerimiento de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
+                "Se ha aprobado un requerimiento de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaOrdenesCompraBarajas.xhtml");
         } catch (IOException ex) {
@@ -105,10 +105,10 @@ public class VerOrdenCompraBarajas implements Serializable {
 
     public void recibirOrden() {
         sessionBean.barajasFacade.recibirOrden(idOrden, sessionBean.getUsuario());
-        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha recibido la orden con exito", "Acta de orden #" + orden.getId()));
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha recibido el requerimiento con exito", "Acta de orden #" + orden.getId()));
         Notificador.notificar(Notificador.correoOrdenBarajasRecibida,
-                "Se ha recibido la orden de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
-                "Se ha recibido una orden de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                "Se ha recibido el requerimiento de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
+                "Se ha recibido un requerimiento de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaOrdenesCompraBarajas.xhtml");
         } catch (IOException ex) {

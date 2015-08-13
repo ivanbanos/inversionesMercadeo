@@ -16,6 +16,7 @@ import com.invbf.sistemagestionmercadeo.dto.MaterialesDTO;
 import com.invbf.sistemagestionmercadeo.dto.OrdenCompraBarajaDTO;
 import com.invbf.sistemagestionmercadeo.dto.SolicitudBarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.SolicitudesPorMes;
+import com.invbf.sistemagestionmercadeo.dto.TrasladoDTO;
 import com.invbf.sistemagestionmercadeo.entity.Actasdestruccionbarajas;
 import com.invbf.sistemagestionmercadeo.entity.Barajas;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
@@ -26,6 +27,7 @@ import com.invbf.sistemagestionmercadeo.entity.Ordencomprabaraja;
 import com.invbf.sistemagestionmercadeo.entity.Ordencomprabarajadetalle;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudbarajadetalle;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudbarajas;
+import com.invbf.sistemagestionmercadeo.entity.Trasladobarajas;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.facade.BarajasFacade;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
@@ -87,7 +89,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         bodegadto.setId(bodega.getIdCasino());
         bodegadto.setNombre(bodega.getNombre());
         for (Inventarobarajas item : bodega.getInventarobarajasList()) {
-            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), item.getCantidadbarajas(), item.getCantidadbarajas(), item.getUso(), item.getPordestruir(), item.getDestruidas(), item.getMax(), item.getMin(), bodegadto.getNombre(),0));
+            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), item.getCantidadbarajas(), item.getCantidadbarajas(), item.getUso(), item.getPordestruir(), item.getDestruidas(), item.getMax(), item.getMin(), bodegadto.getNombre(), 0));
         }
         return bodegadto;
     }
@@ -98,7 +100,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         bodegadto.setId(bodega.getIdCasino());
         bodegadto.setNombre(bodega.getNombre());
         for (Inventarobarajas item : bodega.getInventarobarajasList()) {
-            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), item.getCantidadbarajas(), item.getCantidadbarajas(), item.getUso(), item.getPordestruir(), item.getDestruidas(), item.getMax(), item.getMin(), bodegadto.getNombre(),0));
+            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), item.getCantidadbarajas(), item.getCantidadbarajas(), item.getUso(), item.getPordestruir(), item.getDestruidas(), item.getMax(), item.getMin(), bodegadto.getNombre(), 0));
         }
         return bodegadto;
     }
@@ -109,7 +111,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         bodegadto.setId(bodega.getIdCasino());
         bodegadto.setNombre(bodega.getNombre());
         for (Inventarobarajas item : bodega.getInventarobarajasList()) {
-            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), 0, (item.getCantidadbarajas() - item.getDestruidas() - item.getPordestruir() - item.getUso()), 0, 0, 0, 0, 0, bodegadto.getNombre(),0));
+            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), 0, (item.getCantidadbarajas() - item.getDestruidas() - item.getPordestruir() - item.getUso()), 0, 0, 0, 0, 0, bodegadto.getNombre(), 0));
         }
         return bodegadto;
     }
@@ -120,7 +122,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         bodegadto.setId(bodega.getIdCasino());
         bodegadto.setNombre(bodega.getNombre());
         for (Inventarobarajas item : bodega.getInventarobarajasList()) {
-            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), 0, 0, 0, item.getPordestruir(), 0, 0, 0, bodegadto.getNombre(),0));
+            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), 0, 0, 0, item.getPordestruir(), 0, 0, 0, bodegadto.getNombre(), 0));
         }
         return bodegadto;
     }
@@ -160,7 +162,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         orden.setUsuarioAceptador(item.getAceptador() == null ? "" : item.getAceptador().getNombreUsuario());
         orden.setUsuarioREcibidor(item.getRecibidor() == null ? "" : item.getRecibidor().getNombreUsuario());
         for (Ordencomprabarajadetalle detalle : item.getOrdencomprabarajadetalleList()) {
-            orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), (detalle.getInventarobarajas().getCantidadbarajas() - detalle.getInventarobarajas().getUso() - detalle.getInventarobarajas().getPordestruir() - detalle.getInventarobarajas().getDestruidas()), detalle.getInventarobarajas().getCasino().getNombre(),0));
+            orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), (detalle.getInventarobarajas().getCantidadbarajas() - detalle.getInventarobarajas().getUso() - detalle.getInventarobarajas().getPordestruir() - detalle.getInventarobarajas().getDestruidas()), detalle.getInventarobarajas().getCasino().getNombre(), 0));
         }
         return orden;
     }
@@ -182,8 +184,14 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         orden.setUsuarioAceptador(item.getAceptador() == null ? "" : item.getAceptador().getNombreUsuario());
         orden.setUsuarioREcibidor(item.getRecibidor() == null ? "" : item.getRecibidor().getNombreUsuario());
         orden.setUsuarioDestructor(item.getDestructor() == null ? "" : item.getDestructor().getNombreUsuario());
-        for (Solicitudbarajadetalle detalle : item.getSolicitudbarajadetalleList()) {
-            orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getInventarobarajas().getCasino().getNombre(), detalle.getDevueltas()));
+        if (orden.getEstado().equals("ENTREGADAS/Pendientes por devolver")) {
+            for (Solicitudbarajadetalle detalle : item.getSolicitudbarajadetalleList()) {
+                orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getInventarobarajas().getCasino().getNombre(), detalle.getCantidad()));
+            }
+        } else {
+            for (Solicitudbarajadetalle detalle : item.getSolicitudbarajadetalleList()) {
+                orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getInventarobarajas().getCasino().getNombre(), detalle.getDevueltas()));
+            }
         }
         return orden;
     }
@@ -299,7 +307,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     }
 
     @Override
-    public void aprobarOrden(Integer idOrden, Usuario usuario) {
+    public void aprobarOrden(OrdenCompraBarajaDTO idOrden, Usuario usuario) {
         GestionBarajasDao.aprobarOrden(idOrden, usuario);
     }
 
@@ -430,7 +438,9 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         acta.setUsuario(actasDestruccion1.getUsuario().getNombreUsuario());
         acta.setFecha(actasDestruccion1.getFechaDestruccion());
         for (Actasdestruccionbarajas detalle : actasDestruccion1.getActasdestruccionbarajasList()) {
-            acta.getDetalle().add(transformarDetalledestruccion(detalle));
+            if (detalle.getInventario().getPordestruir() != 0) {
+                acta.getDetalle().add(transformarDetalledestruccion(detalle));
+            }
         }
         return acta;
     }
@@ -439,7 +449,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         List<BarajasCantidad> lista = new ArrayList<BarajasCantidad>();
         for (Casino bodega : bodegas) {
             for (Inventarobarajas inventario : bodega.getInventarobarajasList()) {
-                lista.add(new BarajasCantidad(inventario.getId(), transformarBaraja(inventario.getBaraja()), inventario.getPordestruir(), Integer.MIN_VALUE, Integer.SIZE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.SIZE, Integer.SIZE, null,0));
+                lista.add(new BarajasCantidad(inventario.getId(), transformarBaraja(inventario.getBaraja()), inventario.getPordestruir(), Integer.MIN_VALUE, Integer.SIZE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.SIZE, Integer.SIZE, null, 0));
 
             }
         }
@@ -447,7 +457,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     }
 
     @Override
-    public void crearOrden(Integer idOrden, Usuario usuario) {
+    public void crearOrden(OrdenCompraBarajaDTO idOrden, Usuario usuario) {
         GestionBarajasDao.crearOrden(idOrden, usuario);
     }
 
@@ -495,6 +505,48 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
             solicitudesPorMeses.get(solicitudesPorMeses.indexOf(new DestruccionPorMes(c.get(Calendar.MONTH), c.get(Calendar.YEAR)))).getSolicitudes().add(solicitud);
         }
         return solicitudesPorMeses;
+    }
+
+    @Override
+    public List<TrasladoDTO> getTransferencias() {
+        List<Trasladobarajas> traslados = GestionBarajasDao.getListaTraslados();
+        List<TrasladoDTO> trasladosDto = new ArrayList<TrasladoDTO>();
+        for (Trasladobarajas traslado : traslados) {
+            trasladosDto.add(new TrasladoDTO(traslado));
+        }
+        return trasladosDto;
+    }
+
+    @Override
+    public List<TrasladoDTO> getTransferencias(Usuario usuario) {
+        List<Trasladobarajas> traslados = GestionBarajasDao.getListaTraslados(usuario);
+        List<TrasladoDTO> trasladosDto = new ArrayList<TrasladoDTO>();
+        for (Trasladobarajas traslado : traslados) {
+            trasladosDto.add(new TrasladoDTO(traslado));
+        }
+        return trasladosDto;
+    }
+
+    @Override
+    public TrasladoDTO getTransferencia(Integer idOrden) {
+        return new TrasladoDTO(GestionBarajasDao.getTraslado(idOrden));
+    }
+
+    @Override
+    public TrasladoDTO getTransferenciaNueva() {
+        return new TrasladoDTO();
+    }
+
+    @Override
+    public TrasladoDTO getTransferenciaNueva(int casinoenviador, int casinoreceptor) {
+        Casino casinoenv = GestionBarajasDao.getListaInvenratioBarajas(casinoenviador);
+        Casino casinorec = GestionBarajasDao.getListaInvenratioBarajas(casinoreceptor);
+        return new TrasladoDTO(casinoenv, casinorec);
+    }
+
+    @Override
+    public Integer guardarTransferencia(TrasladoDTO item) {
+        return GestionBarajasDao.saveTraslado(item);
     }
 
 }

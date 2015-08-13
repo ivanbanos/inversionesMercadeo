@@ -5,6 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.dto;
 
+import com.invbf.sistemagestionmercadeo.entity.Materialesbarajas;
 import java.io.Serializable;
 
 /**
@@ -25,6 +26,12 @@ public class MaterialesDTO implements Serializable {
         this.descripcion = descripcion;
     }
 
+    public MaterialesDTO(Materialesbarajas m){
+        this.id = m.getId();
+        this.nombre = m.getNombre();
+        this.descripcion = m.getDescripcion();
+    }
+    
     public Integer getId() {
         return id;
     }

@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}:/Barajas/Lista de Salas con deposito de Barajas</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}:/Barajas/Lista de Salas con stock de Barajas</label>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
                         <div class="panel-heading">
 
                             <div class="clickable">
-                                <h3 class="panel-title">Lista de Salas con deposito de Barajas</h3>
+                                <h3 class="panel-title">Lista de Salas con stock de Barajas</h3>
                                 <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
                             </div>
                         </div>
@@ -38,9 +38,9 @@
                                 </p:column>
 
                                 <p:column>
-                                    <h:commandLink  action="#{listaBodegasBean.goBodega(bodegas.id)}" class="btn btn-primary btn-peque"><i class="fa fa-wrench fa-1x"></i> 
+                                    <h:commandLink rendered="#{sessionBean.perfilViewMatch(&quot;actualizarBodegas&quot;)}"  action="#{listaBodegasBean.goBodega(bodegas.id)}" class="btn btn-primary btn-peque"><i class="fa fa-wrench fa-1x"></i> 
                                         <br/>Configurar </h:commandLink>
-                                    <h:commandLink  action="#{listaBodegasBean.goBodegaVer(bodegas.id)}" class="btn btn-primary btn-peque"><i class="fa fa-university fa-1x"></i> 
+                                    <h:commandLink rendered="#{sessionBean.perfilViewMatch(&quot;verStockBarajas&quot;)}" action="#{listaBodegasBean.goBodegaVer(bodegas.id)}" class="btn btn-primary btn-peque"><i class="fa fa-university fa-1x"></i> 
                                         <br/>Stock </h:commandLink> 
                                 </p:column>
 

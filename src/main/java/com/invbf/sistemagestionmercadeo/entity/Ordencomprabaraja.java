@@ -66,6 +66,9 @@ public class Ordencomprabaraja implements Serializable {
     @Size(max = 100)
     @Column(name = "Esatdo")
     private String esatdo;
+    @Size(max = 1000)
+    @Column(name = "observaciones")
+    private String observaciones;
     @Column(name = "fechaCreacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCreacion;
@@ -197,6 +200,14 @@ public class Ordencomprabaraja implements Serializable {
 
     public void setVerificador(Usuario verificador) {
         this.verificador = verificador;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 
 }

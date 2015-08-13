@@ -162,20 +162,16 @@
                                 </div>
                             </div>
                             <div class="panel-footer panel-footer-landing text-right">
-                                <h:commandButton id="btnen" value="Entregar barajas nuevas" style="margin:5px" onclick="PF('ennu').show();"
-                                                 class="btn btn-primary" 
+                                <p:commandButton id="btnen" value="Entregar barajas nuevas" style="margin:5px" onclick="PF('ennu').show();"
                                                  rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
                                                              and verSolicitudBarajasBean.orden.entregadasnuevas == null}">
-                                    <f:ajax execute="@form" render="@none" />
-                                </h:commandButton>
+                                </p:commandButton>
 
-                                <h:commandButton id="btnru" value="Recibir barajas usadas" style="margin:5px" onclick="PF('reus').show();"
-                                                 class="btn btn-primary"
+                                <p:commandButton id="btnru" value="Recibir barajas usadas" style="margin:5px" onclick="PF('reus').show();"
                                                  rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
                                                              and verSolicitudBarajasBean.orden.recibidasusadas == null
                                                              and verSolicitudBarajasBean.orden.entregadasnuevas != null }">
-                                    <f:ajax execute="@form" render="@none" />
-                                </h:commandButton>
+                                </p:commandButton>
                                 <h:commandLink  action="#{sessionBean.go(&quot;solicitudbaraja&quot;)}" class="btn btn-primary">volver</h:commandLink>
                             </div>
                         </div>

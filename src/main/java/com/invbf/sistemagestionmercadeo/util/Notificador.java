@@ -129,7 +129,7 @@ public class Notificador implements Serializable {
                 sendEmail("correoSolicitudBarajaEntregada", subject, body, false, correosolicitantes);
                 break;
             case correoSolicitudBarajaCreada:
-                sendEmail("correoSolicitudBarajaCreada", subject, body, false, correosolicitantes);
+                sendEmail("correoSolicitudBarajaCreada", subject, body, true, correosolicitantes);
                 break;
             case correoOrdenBarajasRecibida:
                 sendEmail("correoOrdenBarajasRecibida", subject, body, true, correosolicitantes);

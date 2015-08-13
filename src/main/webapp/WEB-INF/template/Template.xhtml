@@ -266,9 +266,11 @@
                                           or  sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
                                           or  sessionBean.perfilViewMatch(&quot;destruirBarajas&quot;)
                                           or  sessionBean.perfilViewMatch(&quot;verBodegas&quot;)
-                                          or  sessionBean.perfilViewMatch(&quot;crearBodegas&quot;)
                                           or  sessionBean.perfilViewMatch(&quot;actualizarBodegas&quot;)
-                                          or  sessionBean.perfilViewMatch(&quot;eliminarBodega&quot;)}">
+                                          or  sessionBean.perfilViewMatch(&quot;verStockBarajas&quot;)
+                                          or sessionBean.perfilViewMatch(&quot;verTransferencias&quot;) 
+                                          or sessionBean.perfilViewMatch(&quot;enviarTransferencia&quot;)
+                                          or sessionBean.perfilViewMatch(&quot;recibirTransferencia&quot;)}">
                                 <li class="dropdown ">
                                     <a href="#" class="dropdown-toggle #{sessionBean.isActive(&quot;barajas&quot;)}" data-toggle="dropdown">Gesti&oacute;n de Barajas<span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
@@ -279,11 +281,10 @@
                                             </li>
                                         </c:if>
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verBodegas&quot;)
-                                                      or  sessionBean.perfilViewMatch(&quot;crearBodegas&quot;)
                                                       or  sessionBean.perfilViewMatch(&quot;actualizarBodegas&quot;)
-                                                      or  sessionBean.perfilViewMatch(&quot;eliminarBodega&quot;)}">
+                                                      or  sessionBean.perfilViewMatch(&quot;verStockBarajas&quot;)}">
                                             <li >
-                                                <h:commandLink  action="#{sessionBean.go(&quot;bodegas&quot;)}" value="Lista de Salas con deposito de Barajas"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;bodegas&quot;)}" value="Lista de Salas con stock de Barajas"/>
                                             </li>
                                         </c:if>
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;recibirOrdenBarajas&quot;)
@@ -306,6 +307,13 @@
                                                 <h:commandLink  action="#{sessionBean.go(&quot;destruirBarajas&quot;)}" value="Actas de destrucci&oacute;n de barajas"/>
                                             </li>
                                         </c:if>
+                                        <c:if test="#{sessionBean.perfilViewMatch(&quot;verTransferencias&quot;) 
+                                      or sessionBean.perfilViewMatch(&quot;enviarTransferencia&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;recibirTransferencia&quot;)}">
+                                            <li >
+                                                <h:commandLink  action="#{sessionBean.go(&quot;ListaTransferenciasBarajas&quot;)}" value="Transferencias de barajas"/>
+                                            </li>
+                                        </c:if>
                                     </ul>
                                 </li>
                             </c:if>
@@ -320,7 +328,7 @@
                                                 <h:commandLink  action="#{sessionBean.go(&quot;verRegalos&quot;)}" value="Regalos"/>
                                             </li>
                                         </c:if>
-                                        
+
                                     </ul>
                                 </li>
                             </c:if>

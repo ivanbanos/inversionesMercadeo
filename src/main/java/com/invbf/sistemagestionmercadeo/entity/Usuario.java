@@ -139,6 +139,12 @@ public class Usuario implements Serializable {
     private List<Solicitudregalos> solicitudregalosList3;
     @OneToMany(mappedBy = "usuario")
     private List<Destruccionbarajasmaestro> destruccionbarajasmaestroList;
+    @OneToMany(mappedBy = "creador")
+    private List<Trasladobarajas> trasladobarajasList;
+    @OneToMany(mappedBy = "enviador")
+    private List<Trasladobarajas> trasladobarajasList1;
+    @OneToMany(mappedBy = "recibidor")
+    private List<Trasladobarajas> trasladobarajasList2;
     
     @OneToMany(mappedBy = "recibidor")
     private List<Ordencomprabarajadetalle> ordencomprabarajadetalleList;
@@ -513,4 +519,33 @@ public class Usuario implements Serializable {
     public void setOrdencomprabarajadetalleList(List<Ordencomprabarajadetalle> ordencomprabarajadetalleList) {
         this.ordencomprabarajadetalleList = ordencomprabarajadetalleList;
     }
+    
+    @XmlTransient
+    public List<Trasladobarajas> getTrasladobarajasList() {
+        return trasladobarajasList;
+    }
+
+    public void setTrasladobarajasList(List<Trasladobarajas> trasladobarajasList) {
+        this.trasladobarajasList = trasladobarajasList;
+    }
+
+    @XmlTransient
+    public List<Trasladobarajas> getTrasladobarajasList1() {
+        return trasladobarajasList1;
+    }
+
+    public void setTrasladobarajasList1(List<Trasladobarajas> trasladobarajasList1) {
+        this.trasladobarajasList1 = trasladobarajasList1;
+    }
+
+    @XmlTransient
+    public List<Trasladobarajas> getTrasladobarajasList2() {
+        return trasladobarajasList2;
+    }
+
+    public void setTrasladobarajasList2(List<Trasladobarajas> trasladobarajasList2) {
+        this.trasladobarajasList2 = trasladobarajasList2;
+    }
+
+    
 }

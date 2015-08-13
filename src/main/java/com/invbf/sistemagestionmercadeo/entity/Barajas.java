@@ -39,6 +39,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Barajas.findByMarca", query = "SELECT b FROM Barajas b WHERE b.marca = :marca"),
     @NamedQuery(name = "Barajas.findByValorpromedio", query = "SELECT b FROM Barajas b WHERE b.valorpromedio = :valorpromedio")})
 public class Barajas implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "barajas")
+    private List<Trasladobarajadetalle> trasladobarajadetalleList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -156,6 +158,15 @@ public class Barajas implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Barajas[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Trasladobarajadetalle> getTrasladobarajadetalleList() {
+        return trasladobarajadetalleList;
+    }
+
+    public void setTrasladobarajadetalleList(List<Trasladobarajadetalle> trasladobarajadetalleList) {
+        this.trasladobarajadetalleList = trasladobarajadetalleList;
     }
     
 }

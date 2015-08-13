@@ -10,6 +10,8 @@ import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -65,13 +67,14 @@ public class verDestruccionBarajasBean implements Serializable {
 
     public void destruir() {
         idOrden = sessionBean.barajasFacade.destruir(acta, sessionBean.getUsuario());
-        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han entregado las barajas con exito", "Acta de orden #" + idOrden));
-        Notificador.notificar(Notificador.correoSolicitudBarajaEntregada,
-                "Se han entregado las barajas de la solicitud con el n&uacute;mero de acta " + idOrden + ". Favor revisar la lista de solicitudes de barajas.",
-                "Se  han entregado barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
-        acta = sessionBean.barajasFacade.getBodegasParaDesPorId(sessionBean.getUsuario(), idOrden);
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han destruido las barajas con exito", "Acta de orden #" + idOrden));
         
-        sessionBean.printMensajes();
+        acta = sessionBean.barajasFacade.getBodegasParaDesPorId(sessionBean.getUsuario(), idOrden);
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaDestruccionBarajas.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public ActaDestruccionDTO getActa() {

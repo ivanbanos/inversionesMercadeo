@@ -220,9 +220,15 @@ public class PerfilActBean implements Serializable{
     
     
     private VistaBoolean verBodegas;
+    private VistaBoolean verStockBarajas;
     private VistaBoolean crearBodegas;
     private VistaBoolean actualizarBodegas;
     private VistaBoolean eliminarBodega;
+    
+    
+    private VistaBoolean verTransferencias;
+    private VistaBoolean enviarTransferencia;
+    private VistaBoolean recibirTransferencia;
     
     
     private VistaBoolean verRegalos;
@@ -1119,6 +1125,14 @@ public class PerfilActBean implements Serializable{
                 }
             }
             
+            if (v.getNombreVista().equals("verStockBarajas")) {
+                if (elemento.getVistaList().contains(v)) {
+                    verStockBarajas = new VistaBoolean(v, true);
+                } else {
+                    verStockBarajas = new VistaBoolean(v, false);
+                }
+            }
+            
             if (v.getNombreVista().equals("verRegalos")) {
                 if (elemento.getVistaList().contains(v)) {
                     verRegalos = new VistaBoolean(v, true);
@@ -1142,6 +1156,27 @@ public class PerfilActBean implements Serializable{
                     eliminarBodega = new VistaBoolean(v, true);
                 } else {
                     eliminarBodega = new VistaBoolean(v, false);
+                }
+            }
+            
+            
+            if (v.getNombreVista().equals("verTransferencias")) {
+                if (elemento.getVistaList().contains(v)) {
+                    verTransferencias = new VistaBoolean(v, true);
+                } else {
+                    verTransferencias = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("enviarTransferencia")) {
+                if (elemento.getVistaList().contains(v)) {
+                    enviarTransferencia = new VistaBoolean(v, true);
+                } else {
+                    enviarTransferencia = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("recibirTransferencia")) {
+                if (elemento.getVistaList().contains(v)) {
+                    recibirTransferencia = new VistaBoolean(v, true);
+                } else {
+                    recibirTransferencia = new VistaBoolean(v, false);
                 }
             }
             
@@ -1663,6 +1698,10 @@ public class PerfilActBean implements Serializable{
             elemento.getVistaList().add(verBodegas.getVista());
         }
         
+        if (verStockBarajas.isSelected()) {
+            elemento.getVistaList().add(verStockBarajas.getVista());
+        }
+        
         if (verRegalos.isSelected()) {
             elemento.getVistaList().add(verRegalos.getVista());
         }
@@ -1674,6 +1713,18 @@ public class PerfilActBean implements Serializable{
         }
         if (eliminarBodega.isSelected()) {
             elemento.getVistaList().add(eliminarBodega.getVista());
+        }
+        
+        
+        
+        if (verTransferencias.isSelected()) {
+            elemento.getVistaList().add(verTransferencias.getVista());
+        }
+        if (enviarTransferencia.isSelected()) {
+            elemento.getVistaList().add(enviarTransferencia.getVista());
+        }
+        if (recibirTransferencia.isSelected()) {
+            elemento.getVistaList().add(recibirTransferencia.getVista());
         }
         
         
@@ -3564,6 +3615,14 @@ public class PerfilActBean implements Serializable{
         this.verBodegas = verBodegas;
     }
 
+    public VistaBoolean getVerStockBarajas() {
+        return verStockBarajas;
+    }
+
+    public void setVerStockBarajas(VistaBoolean verStockBarajas) {
+        this.verStockBarajas = verStockBarajas;
+    }
+
     public VistaBoolean getCrearBodegas() {
         return crearBodegas;
     }
@@ -3618,6 +3677,30 @@ public class PerfilActBean implements Serializable{
 
     public void setRegaloseliminar(FormularioBoolean Regaloseliminar) {
         this.Regaloseliminar = Regaloseliminar;
+    }
+
+    public VistaBoolean getVerTransferencias() {
+        return verTransferencias;
+    }
+
+    public void setVerTransferencias(VistaBoolean verTransferencias) {
+        this.verTransferencias = verTransferencias;
+    }
+
+    public VistaBoolean getEnviarTransferencia() {
+        return enviarTransferencia;
+    }
+
+    public void setEnviarTransferencia(VistaBoolean enviarTransferencia) {
+        this.enviarTransferencia = enviarTransferencia;
+    }
+
+    public VistaBoolean getRecibirTransferencia() {
+        return recibirTransferencia;
+    }
+
+    public void setRecibirTransferencia(VistaBoolean recibirTransferencia) {
+        this.recibirTransferencia = recibirTransferencia;
     }
 
 }

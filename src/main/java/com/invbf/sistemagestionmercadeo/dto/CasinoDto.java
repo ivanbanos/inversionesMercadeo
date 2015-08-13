@@ -5,6 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.dto;
 
+import com.invbf.sistemagestionmercadeo.entity.Casino;
 import java.io.Serializable;
 
 /**
@@ -21,6 +22,11 @@ public class CasinoDto implements Serializable{
     }
 
     public CasinoDto() {
+    }
+
+    public CasinoDto(Casino casino) {
+        idCasino = casino.getIdCasino();
+        nombre = casino.getNombre();
     }
 
     public Integer getIdCasino() {

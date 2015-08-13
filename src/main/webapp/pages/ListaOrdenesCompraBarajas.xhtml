@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: /Barajas/Requerimientos de lotes de barajas</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Barajas/Requerimientos de compra de lotes de barajas</label>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
 
                 <div class="col-md-12 ">
                     <div class="panel panel-primary">
-                        <div class="panel-heading"><h4>Requerimientos de lotes de barajas</h4></div>
+                        <div class="panel-heading"><h4>Requerimientos de compra de lotes de barajas</h4></div>
                         <div class="panel-body">
                             <div class="row">
 
@@ -74,7 +74,7 @@
 
                                         <f:facet name="footer"> 
                                             <p:commandButton id="addButton" action="#{listaOrdenesCompraBarajasBean.goOrdenCrear()}" onclick="PF('ajaxWaitingDialog').show();"
-                                                             value="Agregar Nueva Orden de Compra de Barajas" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
+                                                             value="Agregar Nuevo requerimiento de Compra de Barajas" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
                                                              rendered="#{sessionBean.perfilViewMatch(&quot;generarOrdenBarajas&quot;) }"/>   
                                         </f:facet>
 

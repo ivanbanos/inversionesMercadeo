@@ -5,6 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.dto;
 
+import com.invbf.sistemagestionmercadeo.entity.Barajas;
 import java.io.Serializable;
 
 /**
@@ -27,6 +28,14 @@ public class BarajasDTO implements Serializable {
         this.marca = marca;
         this.valorpromedio = valorpromedio;
         this.material = material;
+    }
+    
+    public BarajasDTO(Barajas b){
+        this.id = b.getId();
+        this.color = b.getColor();
+        this.marca = b.getMarca();
+        this.valorpromedio = b.getValorpromedio();
+        this.material = new MaterialesDTO(b.getMaterial());
     }
 
     public Integer getId() {

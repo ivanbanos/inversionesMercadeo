@@ -7,12 +7,14 @@ package com.invbf.sistemagestionmercadeo.facade;
 
 import com.invbf.sistemagestionmercadeo.dto.ActaDestruccionDTO;
 import com.invbf.sistemagestionmercadeo.dto.BarajasDTO;
+import com.invbf.sistemagestionmercadeo.dto.CasinoDto;
 import com.invbf.sistemagestionmercadeo.dto.DestruccionPorMes;
 import com.invbf.sistemagestionmercadeo.dto.InventarioBarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.MaterialesDTO;
 import com.invbf.sistemagestionmercadeo.dto.OrdenCompraBarajaDTO;
 import com.invbf.sistemagestionmercadeo.dto.SolicitudBarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.SolicitudesPorMes;
+import com.invbf.sistemagestionmercadeo.dto.TrasladoDTO;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import java.util.Date;
 import java.util.List;
@@ -43,7 +45,7 @@ public interface BarajasFacade {
 
     public OrdenCompraBarajaDTO getOrden(Integer idOrden);
 
-    public void aprobarOrden(Integer idOrden, Usuario usuario);
+    public void aprobarOrden(OrdenCompraBarajaDTO idOrden, Usuario usuario);
 
     public void recibirOrden(Integer idOrden, Usuario usuario);
 
@@ -83,7 +85,7 @@ public interface BarajasFacade {
 
     public MaterialesDTO editMaterial(MaterialesDTO material);
 
-    public void crearOrden(Integer idOrden, Usuario usuario);
+    public void crearOrden(OrdenCompraBarajaDTO idOrden, Usuario usuario);
 
     public OrdenCompraBarajaDTO getOrdenRecibir(Integer idOrden, Usuario usuario);
 
@@ -94,5 +96,19 @@ public interface BarajasFacade {
     public List<SolicitudesPorMes> getSolicitudesSolicitudesMes(Integer ano, Integer mes, Integer annodesde, Integer mesdesde);
 
     public List<DestruccionPorMes> getDestruidasMes(Integer ano, Integer mes, Integer annodesde, Integer mesdesde);
+
+    public List<TrasladoDTO> getTransferencias();
+
+    public List<TrasladoDTO> getTransferencias(Usuario usuario);
+
+    public TrasladoDTO getTransferencia(Integer idOrden);
+
+    public TrasladoDTO getTransferenciaNueva();
+
+    public TrasladoDTO getTransferenciaNueva(int casinoenviador, int casinoreceptor);
+
+    public Integer guardarTransferencia(TrasladoDTO item);
+
+
 
 }

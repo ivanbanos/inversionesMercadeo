@@ -57,15 +57,14 @@ public class CrearOrdenBarajasBean implements Serializable {
             } catch (IOException ex) {
             }
         }
-        if (sessionBean.getAttributes("orden") == null) {
-            invent = sessionBean.barajasFacade.getBodegas();
-            for (InventarioBarajasDTO iventario : invent) {
-                for (BarajasCantidad baraja : iventario.getInventario()) {
-                    baraja.setCantidad(0);
-                    baraja.setCantidadR(0);
-                }
+        invent = sessionBean.barajasFacade.getBodegas();
+        for (InventarioBarajasDTO iventario : invent) {
+            for (BarajasCantidad baraja : iventario.getInventario()) {
+                baraja.setCantidad(0);
+                baraja.setCantidadR(0);
             }
         }
+
     }
 
     public void crear() {

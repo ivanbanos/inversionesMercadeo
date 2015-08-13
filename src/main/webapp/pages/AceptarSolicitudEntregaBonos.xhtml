@@ -137,11 +137,11 @@
                         </div>
                         <div class="panel-footer text-right"> 
                             <p:commandButton id="aceptar" value="Aceptar" actionListener="#{aceptarSolicitudEntregaBonosBean.aceptar()}" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
-                                             update=" :#{p:component('messages')}" style="margin:0" rendered="#{sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;) and aceptarSolicitudEntregaBonosBean.elemento.estado == &quot;LOTE RECIBIDO&quot;}"/>
+                                             update=" :#{p:component('messages')}" style="margin:0" rendered="#{sessionBean.perfilViewMatch(&quot;SolicitudLotes&quot;) and aceptarSolicitudEntregaBonosBean.elemento.estado == &quot;ENVIADO A CAJA&quot;}"/>
                             <p:commandButton id="devolver" value="devolver" actionListener="#{aceptarSolicitudEntregaBonosBean.devolver()}" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
-                                             update=" :#{p:component('messages')}" style="margin:0" rendered="#{sessionBean.perfilViewMatch(&quot;devolverSolLote&quot;) and aceptarSolicitudEntregaBonosBean.elemento.estado == &quot;LOTE RECIBIDO&quot;}"/>
+                                             update=" :#{p:component('messages')}" style="margin:0" rendered="#{sessionBean.perfilViewMatch(&quot;devolverSolLote&quot;) and aceptarSolicitudEntregaBonosBean.elemento.estado == &quot;ENVIADO A CAJA&quot;}"/>
                             <p:commandButton id="enviar" value="Recibir" actionListener="#{aceptarSolicitudEntregaBonosBean.enviar()}" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
-                                             update=" :#{p:component('messages')}" style="margin:0" rendered="#{sessionBean.perfilViewMatch(&quot;enviarSolLote&quot;) and aceptarSolicitudEntregaBonosBean.elemento.estado != &quot;INGRESADO A INVENTARIO&quot;}"/>
+                                             update=" :#{p:component('messages')}" style="margin:0" rendered="#{sessionBean.perfilViewMatch(&quot;enviarSolLote&quot;) and aceptarSolicitudEntregaBonosBean.elemento.estado != &quot;ENVIADO A CAJA&quot; and aceptarSolicitudEntregaBonosBean.elemento.estado != &quot;INGRESADO A INVENTARIO&quot;}"/>
                         </div>
                     </div>
                 </h:form>

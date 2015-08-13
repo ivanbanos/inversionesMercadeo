@@ -372,13 +372,6 @@
                                             <th>#{label['borrar']}</th>
                                         </tr>
                                         <tr>
-                                            <td>Bodegas</td>
-                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.verBodegas.selected}"/></td>
-                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.crearBodegas.selected}"/></td>
-                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.actualizarBodegas.selected}"/></td>
-                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.eliminarBodega.selected}"/></td>
-                                        </tr>
-                                        <tr>
                                             <td>Barajas</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.vistaBarajas.selected}"/></td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.agregarBarajas.selected}"/></td>
@@ -393,15 +386,31 @@
                                             <th>Ejecutar</th>
                                         </tr>
                                         <tr>
-                                            <td>Generar orden de compra de lote de barajas</td>
+                                            <td>Ver lista de salas con stock de barajas</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.verBodegas.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Configurar Stock</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.actualizarBodegas.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ver stock de barajas</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.verStockBarajas.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Generar requerimiento de compra de lote de barajas</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.generarOrdenBarajas.selected}"/></td>
                                         </tr>
                                         <tr>
-                                            <td>Aprobar orden de compra de lote de barajas</td>
+                                            <td>Generar requerimiento de compra de lote de barajas</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.generarOrdenBarajas.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Aprobar requerimiento de compra de lote de barajas</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.aceptarOrdenBarajas.selected}"/></td>
                                         </tr>
                                         <tr>
-                                            <td>Recibir orden de compra de lote de barajas</td>
+                                            <td>Recibir requerimiento de compra de lote de barajas</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.recibirOrdenBarajas.selected}"/></td>
                                         </tr>
                                         <tr>
@@ -423,6 +432,18 @@
                                         <tr>
                                             <td>Destruir barajas</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.destruirBarajas.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ver lista de transferencias de barajas completa</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.verTransferencias.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Enviar barajas a otra sala</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.enviarTransferencia.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Recibir barajas de otra sala</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.recibirTransferencia.selected}"/></td>
                                         </tr>
                                     </table>
                                 </div>

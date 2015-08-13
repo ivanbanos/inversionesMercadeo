@@ -91,11 +91,11 @@
                                             <h:link outcome="/pages/GenerarReporteGestionView.xhtml" >Tienes pendientes por generar #{notificacionesBean.pendientereporte} reporte(s) de gesti&oacute;n de bonos</h:link>
                                         </div>
                                     </c:if>
-                                    
-                                    
-                                    
-                                    
-                                    
+
+
+
+
+
                                     <c:if test="#{notificacionesBean.ordenGenerar !=0}">
                                         <div class="row">
                                             <h:link outcome="/pages/ListaOrdenesCompraBarajas.xhtml" >Tienes pendientes por revisar #{notificacionesBean.ordenGenerar} ordenes de barajas pregenradas</h:link>
@@ -111,9 +111,9 @@
                                             <h:link outcome="/pages/ListaOrdenesCompraBarajas.xhtml" >Tienes pendientes por recibir en sala #{notificacionesBean.recibirBarajaCaja} ordenes de barajas</h:link>
                                         </div>
                                     </c:if>
-                                    
-                                    
-                                    
+
+
+
                                     <c:if test="#{notificacionesBean.solicitudEntregadasNuevas !=0}">
                                         <div class="row">
                                             <h:link outcome="/pages/ListaSolicitudBarajas.xhtml" >Tienes pendientes por entregar barajas nuevas de #{notificacionesBean.solicitudEntregadasNuevas} solicitudes de barajas</h:link>
@@ -208,9 +208,11 @@
                                       or  sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
                                       or  sessionBean.perfilViewMatch(&quot;destruirBarajas&quot;)
                                       or sessionBean.perfilViewMatch(&quot;verBodegas&quot;)
-                                      or  sessionBean.perfilViewMatch(&quot;crearBodegas&quot;)
                                       or  sessionBean.perfilViewMatch(&quot;actualizarBodegas&quot;)
-                                      or  sessionBean.perfilViewMatch(&quot;eliminarBodega&quot;)}">
+                                      or  sessionBean.perfilViewMatch(&quot;verStockBarajas&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;verTransferencias&quot;) 
+                                      or sessionBean.perfilViewMatch(&quot;enviarTransferencia&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;recibirTransferencia&quot;)}">
                             <h:link outcome="/pages/gestionBarajas.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-columns fa-5x"></i> 
                                 <br/>Gesti&oacute;n de barajas</h:link>
                         </c:if>
