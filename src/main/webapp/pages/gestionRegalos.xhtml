@@ -27,6 +27,14 @@
                             <h:commandLink  action="#{sessionBean.go(&quot;verRegalos&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-wrench fa-5x"></i> 
                                 <br/>Configuraci&oacute;n de <br/>regalos</h:commandLink>
                         </c:if>
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;configuracionInvRegalo&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;configuracionInvRegalo&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-gears fa-5x"></i> 
+                                <br/>Configuraci&oacute;n de Inventario<br/>de regalos</h:commandLink>
+                        </c:if>
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;verInvRegalo&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;verInvRegalo&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
+                                <br/>Stock<br/>de regalos</h:commandLink>
+                        </c:if>
                         
                         
                                       

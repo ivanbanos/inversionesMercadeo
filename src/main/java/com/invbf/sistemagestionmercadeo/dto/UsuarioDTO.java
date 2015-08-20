@@ -17,7 +17,7 @@ public class UsuarioDTO implements Serializable {
     private String nombre;
     
 
-    UsuarioDTO(Usuario usuario) {
+    public UsuarioDTO(Usuario usuario) {
         id = usuario.getIdUsuario();
         nombre = usuario.getNombre();
     }
@@ -26,6 +26,7 @@ public class UsuarioDTO implements Serializable {
         id= 0;
         nombre = "no usuario";
     }
+
 
     public Integer getId() {
         return id;

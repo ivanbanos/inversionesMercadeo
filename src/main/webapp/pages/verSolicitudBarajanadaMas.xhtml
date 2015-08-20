@@ -149,7 +149,7 @@
                                                  emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
 
                                         <p:column headerText="Material" style="text-align: center;">
-                                            <h:outputText value="#{detalle.baraja.material.nombre}">
+                                            <h:outputText value="#{detalle.baraja.material.nombre} #{detalle.baraja.material.descripcion}">
                                             </h:outputText>
                                         </p:column>
                                         <p:column headerText="Color" style="text-align: center;">

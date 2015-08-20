@@ -6,6 +6,7 @@
 package com.invbf.sistemagestionmercadeo.facade;
 
 import com.invbf.sistemagestionmercadeo.dto.CategoriaDTO;
+import com.invbf.sistemagestionmercadeo.dto.InventarioRegalosDTO;
 import com.invbf.sistemagestionmercadeo.dto.RegaloDTO;
 import java.util.List;
 
@@ -22,5 +23,9 @@ public interface RegalosFacade {
     public RegaloDTO deleteRegalo(RegaloDTO elemento);
 
     public RegaloDTO addRegalo(RegaloDTO elemento);
+
+    public InventarioRegalosDTO getInventario();
+
+    public void guardarInventario(InventarioRegalosDTO inventario);
 
 }

@@ -5,23 +5,19 @@
  */
 package com.invbf.sistemagestionmercadeo.dto;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ivan
  */
-public class RegalosCantidadDTO {
+public class RegalosCantidadDTO implements Serializable {
     private Integer id;
     private RegaloDTO regalo;
     private Integer cantidad;
     private Integer cantidadR;
-
-    public RegaloDTO getBaraja() {
-        return regalo;
-    }
-
-    public void setBaraja(RegaloDTO regalo) {
-        this.regalo = regalo;
-    }
+    private Integer min;
+    private Integer max;
 
     public Integer getCantidad() {
         return cantidad;
@@ -34,11 +30,13 @@ public class RegalosCantidadDTO {
     public RegalosCantidadDTO() {
     }
 
-    public RegalosCantidadDTO(Integer id, RegaloDTO regalo, Integer cantidad, Integer cantidadR) {
+    public RegalosCantidadDTO(Integer id, RegaloDTO regalo, Integer cantidad, Integer cantidadR, Integer min, Integer max) {
         this.regalo = regalo;
         this.cantidad = cantidad;
         this.id = id;
         this.cantidadR = cantidadR;
+        this.min = min;
+        this.max = max;
     }
     public RegalosCantidadDTO(Integer id, RegaloDTO regalo) {
         this.regalo = regalo;
@@ -61,4 +59,29 @@ public class RegalosCantidadDTO {
     public void setCantidadR(Integer cantidadR) {
         this.cantidadR = cantidadR;
     }
+
+    public RegaloDTO getRegalo() {
+        return regalo;
+    }
+
+    public void setRegalo(RegaloDTO regalo) {
+        this.regalo = regalo;
+    }
+
+    public Integer getMin() {
+        return min;
+    }
+
+    public void setMin(Integer min) {
+        this.min = min;
+    }
+
+    public Integer getMax() {
+        return max;
+    }
+
+    public void setMax(Integer max) {
+        this.max = max;
+    }
+    
 }

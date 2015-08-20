@@ -51,9 +51,10 @@ public class CrearSolicitudBarajasBean implements Serializable {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("barajas");
-        if (!sessionBean.perfilViewMatch("recibirOrdenBarajas")
-                && !sessionBean.perfilViewMatch("generarOrdenBarajas")
-                && !sessionBean.perfilViewMatch("aceptarOrdenBarajas")) {
+        if (!sessionBean.perfilViewMatch("verSolicitudesBarajas")
+                && !sessionBean.perfilViewMatch("solicitasBarajas")
+                && !sessionBean.perfilViewMatch("entregarBarajas")
+                && !sessionBean.perfilViewMatch("recibirBarajas")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {

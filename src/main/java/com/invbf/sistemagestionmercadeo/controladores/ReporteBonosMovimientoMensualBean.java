@@ -8,8 +8,10 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.dto.BonosAprobadosCanjeados;
 import com.invbf.sistemagestionmercadeo.dto.MesesCantFloat;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
+import com.invbf.sistemagestionmercadeo.entity.Propositoentrega;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
+import com.invbf.sistemagestionmercadeo.util.PropositosBoolean;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ public class ReporteBonosMovimientoMensualBean implements Serializable {
     private List<BonosAprobadosCanjeados> bonosCantidad;
     private List<LineChartModel> lineModels;
     private long max;
+    private List<PropositosBoolean> propositos;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -70,6 +73,11 @@ public class ReporteBonosMovimientoMensualBean implements Serializable {
             casinos.add(new CasinoBoolean(casinosNormale, true));
         }
 
+        List<Propositoentrega> proposotos = sessionBean.adminFacade.findAllPropositosentrega();
+        propositos = new ArrayList<PropositosBoolean>();
+        for (Propositoentrega proposito : proposotos) {
+            propositos.add(new PropositosBoolean(proposito, true));
+        }
         anos = new ArrayList<Integer>();
         Calendar c = Calendar.getInstance();
         ano = c.get(Calendar.YEAR);
@@ -91,7 +99,7 @@ public class ReporteBonosMovimientoMensualBean implements Serializable {
         if (annodesde > ano || ((annodesde == ano) && (mesdesde > mes))) {
             sessionBean.putMensaje(new Mensajes(Mensajes.ERROR, "Error en las fechas", "La fecha desde debe ser menor a la fecha hasta"));
         } else {
-            bonosCantidad = sessionBean.marketingUserFacade.getBonosPorCantidadMesuales(casinos, ano, mes, annodesde, mesdesde);
+            bonosCantidad = sessionBean.marketingUserFacade.getBonosPorCantidadMesuales(casinos,propositos, ano, mes, annodesde, mesdesde);
             System.out.println("Cantidad de graficos = " + bonosCantidad.size());
             resolverbonos();
         }
@@ -192,6 +200,14 @@ public class ReporteBonosMovimientoMensualBean implements Serializable {
 
     public void setLineModels(List<LineChartModel> lineModels) {
         this.lineModels = lineModels;
+    }
+
+    public List<PropositosBoolean> getPropositos() {
+        return propositos;
+    }
+
+    public void setPropositos(List<PropositosBoolean> propositos) {
+        this.propositos = propositos;
     }
 
 }

@@ -1104,8 +1104,8 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     }
 
     @Override
-    public List<BonosCantidadMes> getBonosPorCantidad(List<CasinoBoolean> casinos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde) {
-        List<Bono> bonos = BonoDao.getBonosPorCasino(casinos, ano, mes, annodesde, mesdesde);
+    public List<BonosCantidadMes> getBonosPorCantidad(List<CasinoBoolean> casinos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde, List<PropositosBoolean> propositos) {
+        List<Bono> bonos = BonoDao.getBonosporCasinoPropositoTipoFecha(casinos, propositos,null, ano, mes, annodesde, mesdesde);
         List<BonosCantidadMes> bonosPorFecha = new ArrayList<BonosCantidadMes>();
         Calendar c = Calendar.getInstance();
         for (Bono bono : bonos) {
@@ -1123,8 +1123,8 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     }
 
     @Override
-    public List<BonosAprobadosCanjeados> getBonosPorCantidadMesuales(List<CasinoBoolean> casinos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde) {
-        List<Bono> bonos = BonoDao.getBonosPorCasino(casinos, ano, mes, annodesde, mesdesde);
+    public List<BonosAprobadosCanjeados> getBonosPorCantidadMesuales(List<CasinoBoolean> casinos,List<PropositosBoolean> propositos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde) {
+        List<Bono> bonos = BonoDao.getBonosporCasinoPropositoTipoFecha(casinos,propositos,null, ano, mes, annodesde, mesdesde);
         List<BonosAprobadosCanjeados> bonosPorFecha = new ArrayList<BonosAprobadosCanjeados>();
         Calendar c = Calendar.getInstance();
         for (Bono bono : bonos) {

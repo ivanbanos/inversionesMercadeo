@@ -44,6 +44,10 @@ public class Regalosinventario implements Serializable {
     private Integer id;
     @Column(name = "cantidad")
     private Integer cantidad;
+    @Column(name = "min")
+    private Integer min;
+    @Column(name = "max")
+    private Integer max;
     @JoinColumn(name = "regalo", referencedColumnName = "id")
     @ManyToOne
     private Regalos regalo;
@@ -124,6 +128,22 @@ public class Regalosinventario implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Regalosinventario[ id=" + id + " ]";
+    }
+
+    public Integer getMin() {
+        return min;
+    }
+
+    public void setMin(Integer min) {
+        this.min = min;
+    }
+
+    public Integer getMax() {
+        return max;
+    }
+
+    public void setMax(Integer max) {
+        this.max = max;
     }
     
 }

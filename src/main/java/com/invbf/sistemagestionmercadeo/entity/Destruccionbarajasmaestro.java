@@ -44,6 +44,8 @@ public class Destruccionbarajasmaestro implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Column(name = "estado")
+    private String estado;
     @Column(name = "fechaDestruccion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaDestruccion;
@@ -116,6 +118,14 @@ public class Destruccionbarajasmaestro implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Destruccionbarajasmaestro[ id=" + id + " ]";
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
     
 }

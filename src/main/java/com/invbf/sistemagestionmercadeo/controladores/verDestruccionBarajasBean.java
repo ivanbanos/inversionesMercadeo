@@ -6,6 +6,7 @@
 package com.invbf.sistemagestionmercadeo.controladores;
 
 import com.invbf.sistemagestionmercadeo.dto.ActaDestruccionDTO;
+import com.invbf.sistemagestionmercadeo.dto.UsuarioDTO;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
@@ -47,9 +48,7 @@ public class verDestruccionBarajasBean implements Serializable {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("barajas");
-        if (!sessionBean.perfilViewMatch("recibirOrdenBarajas")
-                && !sessionBean.perfilViewMatch("generarOrdenBarajas")
-                && !sessionBean.perfilViewMatch("aceptarOrdenBarajas")) {
+        if (!sessionBean.perfilViewMatch("destruirBarajas")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
@@ -57,19 +56,15 @@ public class verDestruccionBarajasBean implements Serializable {
         }
         sessionBean.printMensajes();
         idOrden = (Integer) sessionBean.getAttributes("destruirbarajas");
-        if (idOrden == null) {
-            acta = sessionBean.barajasFacade.getBodegasParaDes(sessionBean.getUsuario());
-            
-        } else {
-            acta = sessionBean.barajasFacade.getBodegasParaDesPorId(sessionBean.getUsuario(), idOrden);
-        }
+
+        acta = sessionBean.barajasFacade.getBodegasParaDesPorId(sessionBean.getUsuario(), idOrden);
+
     }
 
     public void destruir() {
         idOrden = sessionBean.barajasFacade.destruir(acta, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han destruido las barajas con exito", "Acta de orden #" + idOrden));
-        
-        acta = sessionBean.barajasFacade.getBodegasParaDesPorId(sessionBean.getUsuario(), idOrden);
+
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaDestruccionBarajas.xhtml");
         } catch (IOException ex) {
@@ -85,7 +80,6 @@ public class verDestruccionBarajasBean implements Serializable {
         this.acta = acta;
     }
 
-
     public Integer getIdOrden() {
         return idOrden;
     }
@@ -94,5 +88,4 @@ public class verDestruccionBarajasBean implements Serializable {
         this.idOrden = idOrden;
     }
 
-    
 }

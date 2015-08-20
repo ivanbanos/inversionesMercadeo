@@ -5,6 +5,9 @@
  */
 package com.invbf.sistemagestionmercadeo.dao;
 
+import com.invbf.sistemagestionmercadeo.dto.InventarioRegalosDTO;
+import com.invbf.sistemagestionmercadeo.dto.RegalosCantidadDTO;
+import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Regalos;
 import com.invbf.sistemagestionmercadeo.entity.Regalosinventario;
 import com.invbf.sistemagestionmercadeo.entity.Categorias;
@@ -15,6 +18,7 @@ import com.invbf.sistemagestionmercadeo.entity.Solicitudregalos;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -87,7 +91,7 @@ public class GestionRegaloDao {
 
         tx.begin();
         try {
-            if (regalo.getId() == null) {
+            if (regalo.getId() == null||regalo.getId() == 0) {
                 em.persist(regalo);
                 em.flush();
                 Regalosinventario inventario = new Regalosinventario();
@@ -100,7 +104,6 @@ public class GestionRegaloDao {
                 regaloc.setDescripcion(regalo.getDescripcion());
                 regaloc.setGenero(regalo.getGenero());
                 regaloc.setCategoria(regalo.getCategoria());
-                
                 em.merge(regaloc);
             }
             tx.commit();
@@ -125,6 +128,8 @@ public class GestionRegaloDao {
             Regalosinventario ib = new Regalosinventario();
             ib.setRegalo(regalo);
             ib.setCantidad(0);
+            ib.setMax(0);
+            ib.setMin(0);
             em.persist(ib);
 
             tx.commit();
@@ -138,29 +143,7 @@ public class GestionRegaloDao {
         return regalo;
     }
 
-    public static void deleteBaraja(Regalos transformarBaraja) {
-        EntityManagerFactory emf
-                = Persistence.createEntityManagerFactory("AdminClientesPU");
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-
-        tx.begin();
-        try {
-
-            transformarBaraja = em.find(Regalos.class, transformarBaraja.getId());
-            em.remove(transformarBaraja);
-            tx.commit();
-        } catch (Exception e) {
-            System.out.println(e);
-            tx.rollback();
-        }
-
-        em.clear();
-        em.close();
-        emf.close();
-    }
-
-    public static List<Regalosinventario> getListaInvenratioBarajas() {
+    public static List<Regalosinventario> getListaInvenratioRegalos() {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
@@ -185,7 +168,7 @@ public class GestionRegaloDao {
         return lista;
     }
 
-    public static List<Ordencompraregalos> getListaOrdenesCompraBarajas() {
+    public static List<Ordencompraregalos> getListaOrdenesCompraRegalo() {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
@@ -209,7 +192,7 @@ public class GestionRegaloDao {
         return lista;
     }
 
-    public static List<Solicitudregalos> getListaSoliciudesBarajas() {
+    public static List<Solicitudregalos> getListaSoliciudesRegalo() {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
@@ -273,7 +256,7 @@ public class GestionRegaloDao {
         return orden;
     }
 
-    public static Ordencompraregalos getOrdenCompraBaraja(Integer idOrden) {
+    public static Ordencompraregalos getOrdenCompra(Integer idOrden) {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
@@ -346,7 +329,7 @@ public class GestionRegaloDao {
         emf.close();
     }
 
-    public static Solicitudregalos crearSolicitudBarajas(Solicitudregalos orden) {
+    public static Solicitudregalos crearSolicitud(Solicitudregalos orden) {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
@@ -366,7 +349,7 @@ public class GestionRegaloDao {
         return orden;
     }
 
-    public static Solicitudregalos guardarSolicitudBarajas(Solicitudregalos orden) {
+    public static Solicitudregalos guardarSolicitud(Solicitudregalos orden) {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
@@ -386,7 +369,7 @@ public class GestionRegaloDao {
         return orden;
     }
 
-    public static Solicitudregalos getSolicitudBaraja(Integer idOrden) {
+    public static Solicitudregalos getSolicitud(Integer idOrden) {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
@@ -459,7 +442,7 @@ public class GestionRegaloDao {
         emf.close();
     }
 
-    public static List<Solicitudregalos> getListaSoliciudesBarajas(int idUsuario) {
+    public static List<Solicitudregalos> getListaSoliciudes(Usuario idUsuario) {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
@@ -471,8 +454,11 @@ public class GestionRegaloDao {
             javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Solicitudregalos> c = cq.from(Solicitudregalos.class);
             cq.select(c);
-            cq.where(em.getCriteriaBuilder().equal(c.get("solicitante"), new Usuario(idUsuario)));
             lista = em.createQuery(cq).getResultList();
+            //for (Iterator<Solicitudregalos> iterator = lista.iterator(); iterator.hasNext();) {
+            //    Solicitudregalos next = iterator.next();
+            //    if(idUsuario.getCasinoList().contains(next.))
+            //}
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -482,5 +468,51 @@ public class GestionRegaloDao {
         em.close();
         emf.close();
         return lista;
+    }
+
+    public static Regalos removeRegalo(Regalos regalo) {
+        regalo.setNombre(regalo.getNombre().toUpperCase());
+        regalo.setDescripcion(regalo.getDescripcion().toUpperCase());
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+
+        tx.begin();
+        try {
+            em.remove(em.merge(regalo));
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return regalo;
+    }
+
+    public static void saveInvenratioRegalos(InventarioRegalosDTO inventario) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+
+        tx.begin();
+        try {
+            for (RegalosCantidadDTO regalo : inventario.getInventario()) {
+                Regalosinventario inventarioO = em.find(Regalosinventario.class, regalo.getId());
+                inventarioO.setMin(regalo.getMin());
+                inventarioO.setMax(regalo.getMax());
+                em.merge(inventarioO);
+            }
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
     }
 }

@@ -617,7 +617,7 @@ public class PreaprobarSolicitudBonos implements Serializable {
                     b.setEstado("EN SALA");
                 }
             }
-            Notificador.notificar(Notificador.SOLICITUD_RECIBO_BONOS, "Bonos recibidos en sala", "Bonos recibidos en sala", "");
+            Notificador.notificar(Notificador.SOLICITUD_RECIBO_BONOS, "Bonos recibidos en la sala "+control.getSolicitudEntregaid().getIdCasino().getNombre(), "Bonos recibidos en sala", "");
             sessionBean.marketingUserFacade.saveBonos(control, tipo);
             sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Bonos recibidos en sala", ""));
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBono.xhtml");

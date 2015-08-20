@@ -30,7 +30,6 @@ import com.invbf.sistemagestionmercadeo.entity.Solicitudbarajas;
 import com.invbf.sistemagestionmercadeo.entity.Trasladobarajas;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.facade.BarajasFacade;
-import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -317,7 +316,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     }
 
     @Override
-    public List<SolicitudBarajasDTO> getSolicitudesBarajas(boolean getTodas, int idUsuario) {
+    public List<SolicitudBarajasDTO> getSolicitudesBarajas(boolean getTodas, Usuario idUsuario) {
         if (getTodas) {
             return transformarSolicitudesBarajas(GestionBarajasDao.getListaSoliciudesBarajas());
         } else {
@@ -434,13 +433,17 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
 
     private ActaDestruccionDTO tranformarActaDestruccion(Destruccionbarajasmaestro actasDestruccion1) {
         ActaDestruccionDTO acta = new ActaDestruccionDTO();
-        acta.setId(actasDestruccion1.getId());
-        acta.setUsuario(actasDestruccion1.getUsuario().getNombreUsuario());
+        if (actasDestruccion1.getId() != null) {
+            acta.setId(actasDestruccion1.getId());
+        }
+        if (actasDestruccion1.getUsuario() != null) {
+            acta.setUsuario(actasDestruccion1.getUsuario().getNombreUsuario());
+        }
         acta.setFecha(actasDestruccion1.getFechaDestruccion());
+        acta.setEstado(actasDestruccion1.getEstado());
         for (Actasdestruccionbarajas detalle : actasDestruccion1.getActasdestruccionbarajasList()) {
-            if (detalle.getInventario().getPordestruir() != 0) {
-                acta.getDetalle().add(transformarDetalledestruccion(detalle));
-            }
+            acta.getDetalle().add(transformarDetalledestruccion(detalle));
+
         }
         return acta;
     }
@@ -449,8 +452,9 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         List<BarajasCantidad> lista = new ArrayList<BarajasCantidad>();
         for (Casino bodega : bodegas) {
             for (Inventarobarajas inventario : bodega.getInventarobarajasList()) {
-                lista.add(new BarajasCantidad(inventario.getId(), transformarBaraja(inventario.getBaraja()), inventario.getPordestruir(), Integer.MIN_VALUE, Integer.SIZE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.SIZE, Integer.SIZE, null, 0));
-
+                if (inventario.getPordestruir() != 0) {
+                    lista.add(new BarajasCantidad(inventario.getId(), transformarBaraja(inventario.getBaraja()), inventario.getPordestruir(), Integer.MIN_VALUE, Integer.SIZE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.SIZE, Integer.SIZE, null, 0));
+                }
             }
         }
         return lista;
@@ -547,6 +551,16 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     @Override
     public Integer guardarTransferencia(TrasladoDTO item) {
         return GestionBarajasDao.saveTraslado(item);
+    }
+
+    @Override
+    public Integer enviarTransferencia(TrasladoDTO item) {
+        return GestionBarajasDao.sendTraslado(item);
+    }
+
+    @Override
+    public Integer recibirTransferencia(TrasladoDTO item) {
+        return GestionBarajasDao.receiveTraslado(item);
     }
 
 }

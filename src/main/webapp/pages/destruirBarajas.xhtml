@@ -43,15 +43,8 @@
                                                     <div class="controle-panel-heading panel-heading panel-heading-landing-box">
                                                         Destruidas en #{verDestruccionBarajasBean.acta.fecha}
                                                     </div>
-                                                    <div class="panel-body panel-body-landing">
-                                                        
-                                                    </div>
                                                     <div class="panel-footer panel-footer-landing">
-                                                        <h:commandButton id="btnen" value="Destruir" style="margin:0" onclick="PF('ennu').show();"
-                                                                         class="btn btn-primary" >
-                                                            <f:ajax execute="@form" render="@none" />
-                                                        </h:commandButton>
-                                                        
+                                                        Por #{verDestruccionBarajasBean.acta.usuario}
                                                     </div>
                                                 </div>
                                             </div>
@@ -63,27 +56,40 @@
                                                  emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
 
                                         <p:column headerText="Material" style="text-align: center;">
-                                            <h:outputText value="#{detalle.baraja.material.nombre}">
+                                            <h:outputText value="#{detalle.baraja.material.nombre} #{detalle.baraja.material.descripcion}">
                                             </h:outputText>
                                         </p:column>
                                         <p:column headerText="Color" style="text-align: center;">
                                             <h:outputText value="#{detalle.baraja.color}">
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Marca" style="text-align: center;">
+                                        <p:column headerText="Juego" style="text-align: center;">
                                             <h:outputText value="#{detalle.baraja.marca}">
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Cantidad a destruir" >
+                                        <p:column headerText="Cantidad a destruir" rendered="#{verDestruccionBarajasBean.acta.estado == 'POR DESTRUIR'}">
                                             <span id="cantidad#{status}"> 
                                                 <p:spinner min="0" stepFactor="1" max="#{detalle.cantidad}"
-                                                               value="#{detalle.cantidad}">
-                                                    </p:spinner>
+                                                           value="#{detalle.cantidad}">
+                                                </p:spinner>
                                             </span>
                                         </p:column>
-                                        
+                                        <p:column headerText="Cantidad destruida" rendered="#{verDestruccionBarajasBean.acta.estado != 'POR DESTRUIR'}">
+                                            <span id="cantidad#{status}"> 
+                                                <h:outputText value="#{detalle.cantidad}">
+                                                </h:outputText>
+                                            </span>
+                                        </p:column>
+
                                     </p:dataTable>
                                 </div>
+                            </div>
+                            <div class="panel-footer panel-footer-landing">
+                                <h:commandButton id="btnen" value="Destruir" style="margin:0" onclick="PF('ennu').show();"
+                                                 class="btn btn-primary" rendered="#{verDestruccionBarajasBean.acta.estado == 'POR DESTRUIR'}" >
+                                    <f:ajax execute="@form" render="@none" />
+                                </h:commandButton>
+
                             </div>
                         </div>
                     </div>
@@ -98,6 +104,6 @@
 
             </p:confirmDialog> 
         </h:form>
-        
+
     </ui:define>            
 </ui:composition>

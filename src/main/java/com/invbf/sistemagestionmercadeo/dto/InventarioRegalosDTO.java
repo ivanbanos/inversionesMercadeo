@@ -5,6 +5,8 @@
  */
 package com.invbf.sistemagestionmercadeo.dto;
 
+import com.invbf.sistemagestionmercadeo.entity.Regalosinventario;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +14,18 @@ import java.util.List;
  *
  * @author ivan
  */
-public class InventarioRegalosDTO {
+public class InventarioRegalosDTO implements Serializable{
     private List<RegalosCantidadDTO> inventario;
 
     public InventarioRegalosDTO() {
         inventario = new ArrayList<RegalosCantidadDTO>();
+    }
+
+    public InventarioRegalosDTO(List<Regalosinventario> listaInvenratioRegalos) {
+        inventario = new ArrayList<RegalosCantidadDTO>();
+        for (Regalosinventario item : listaInvenratioRegalos) {
+            inventario.add(new RegalosCantidadDTO(item.getId(), new RegaloDTO(item.getRegalo()), item.getCantidad(), item.getCantidad(), item.getMin(), item.getMax()));
+        }
     }
 
     public List<RegalosCantidadDTO> getInventario() {

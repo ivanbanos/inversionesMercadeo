@@ -117,7 +117,7 @@
                                                  emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
 
                                         <p:column headerText="Material" style="text-align: center;">
-                                            <h:outputText value="#{detalle.baraja.material.nombre}">
+                                            <h:outputText value="#{detalle.baraja.material.nombre} #{detalle.baraja.material.descripcion}">
                                             </h:outputText>
                                         </p:column>
                                         <p:column headerText="Color" style="text-align: center;">
@@ -130,9 +130,9 @@
                                         </p:column>
                                         <p:column headerText="Cantidad de barajas nuevas" >
                                             <span id="cantidad#{status}">
-                                                <p:spinner min="0" stepFactor="1" id="devueltas"
+                                                <h:outputText id="cantnuevas"
                                                            value="#{detalle.cantidad}">
-                                                </p:spinner>
+                                                </h:outputText>
                                             </span>
                                         </p:column>
                                         <p:column headerText="Cantidad a entregar" rendered="#{verSolicitudBarajasBean.orden.estado != 'CREADA' and verSolicitudBarajasBean.orden.estado != 'ENTREGADA'}">
@@ -152,7 +152,7 @@
                                                              and verSolicitudBarajasBean.orden.entregadasusadas == null}"
                                              onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('enus').show();"/>
                                 
-                                <p:commandButton  action="#{sessionBean.go(&quot;solicitudbaraja&quot;)}" >volver</p:commandButton>
+                                <p:commandButton  action="#{sessionBean.go(&quot;solicitudbaraja&quot;)}" value="volver" />
                             </div>
                         </div>
                     </div>

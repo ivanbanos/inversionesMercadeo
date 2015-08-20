@@ -216,7 +216,9 @@
                             <h:link outcome="/pages/gestionBarajas.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-columns fa-5x"></i> 
                                 <br/>Gesti&oacute;n de barajas</h:link>
                         </c:if>
-                        <c:if test="#{sessionBean.perfilViewMatch(&quot;verRegalos&quot;)}">
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;verRegalos&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;configuracionInvRegalo&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;verInvRegalo&quot;)}">
                             <h:link outcome="/pages/gestionRegalos.xhtml" class="btn btn-primary btn-lg"><i class="fa fa-gift fa-5x"></i> 
                                 <br/>Gesti&oacute;n de regalos</h:link>
                         </c:if>

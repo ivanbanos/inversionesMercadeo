@@ -308,8 +308,8 @@
                                             </li>
                                         </c:if>
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verTransferencias&quot;) 
-                                      or sessionBean.perfilViewMatch(&quot;enviarTransferencia&quot;)
-                                      or sessionBean.perfilViewMatch(&quot;recibirTransferencia&quot;)}">
+                                                      or sessionBean.perfilViewMatch(&quot;enviarTransferencia&quot;)
+                                                      or sessionBean.perfilViewMatch(&quot;recibirTransferencia&quot;)}">
                                             <li >
                                                 <h:commandLink  action="#{sessionBean.go(&quot;ListaTransferenciasBarajas&quot;)}" value="Transferencias de barajas"/>
                                             </li>
@@ -318,7 +318,9 @@
                                 </li>
                             </c:if>
 
-                            <c:if test="#{sessionBean.perfilViewMatch(&quot;verRegalos&quot;) }">
+                            <c:if test="#{sessionBean.perfilViewMatch(&quot;verRegalos&quot;) 
+                                          or sessionBean.perfilViewMatch(&quot;configuracionInvRegalo&quot;)
+                                          or sessionBean.perfilViewMatch(&quot;verInvRegalo&quot;)}">
                                 <li class="dropdown ">
                                     <a href="#" class="dropdown-toggle #{sessionBean.isActive(&quot;regalos&quot;)}" data-toggle="dropdown">Gesti&oacute;n de Regalos<span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
@@ -326,6 +328,16 @@
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verRegalos&quot;)}">
                                             <li >
                                                 <h:commandLink  action="#{sessionBean.go(&quot;verRegalos&quot;)}" value="Regalos"/>
+                                            </li>
+                                        </c:if>
+                                        <c:if test="#{sessionBean.perfilViewMatch(&quot;configuracionInvRegalo&quot;)}">
+                                            <li >
+                                                <h:commandLink  action="#{sessionBean.go(&quot;configuracionInvRegalo&quot;)}" value="Configuraci&oacute;n de inventario"/>
+                                            </li>
+                                        </c:if>
+                                        <c:if test="#{sessionBean.perfilViewMatch(&quot;verInvRegalo&quot;)}">
+                                            <li >
+                                                <h:commandLink  action="#{sessionBean.go(&quot;verInvRegalo&quot;)}" value="Stock de regalos"/>
                                             </li>
                                         </c:if>
 
@@ -349,7 +361,7 @@
                                             <h:commandLink  action="#{sessionBean.go(&quot;reportesbonos&quot;)}" value="Reporte de Gesti&oacute;n de Bonos"/>
                                         </li>
                                         <li>
-                                            <h:commandLink  action="#{sessionBean.go(&quot;reportesbonosUtilizados&quot;)}" value="Reporte de Bonos aprobados"/>
+                                            <h:commandLink  action="#{sessionBean.go(&quot;reportesbonosUtilizados&quot;)}" value="Reporte de Bonos sacados de caja"/>
                                         </li>
                                         <li>
                                             <h:commandLink  action="#{sessionBean.go(&quot;ReporteBonosMovimientoMensual&quot;)}" value="Reporte de Gesti&oacute;n de Bonos Mensuales"/>

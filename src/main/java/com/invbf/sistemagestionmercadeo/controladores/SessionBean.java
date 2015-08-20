@@ -362,7 +362,16 @@ public class SessionBean implements Serializable, Subject {
     }
 
     public String go(String page) {
-        if (page.equals("verRegalos")) {
+        if (page.equals("verInvRegalo")) {
+            active = "regalos";
+            ruta = "/Inicio";
+            return "/pages/InventarioRegalos.xhtml";
+        }
+        if (page.equals("configuracionInvRegalo")) {
+            active = "regalos";
+            ruta = "/Inicio";
+            return "/pages/ConfiguracionInventarioRegalos.xhtml";
+        }if (page.equals("verRegalos")) {
             active = "regalos";
             ruta = "/Inicio";
             return "/pages/CrudRegalosView.xhtml";

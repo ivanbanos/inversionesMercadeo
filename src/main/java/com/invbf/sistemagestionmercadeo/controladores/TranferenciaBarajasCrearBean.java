@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.dto.CasinoDto;
 import com.invbf.sistemagestionmercadeo.dto.InventarioBarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.TrasladoDTO;
+import com.invbf.sistemagestionmercadeo.dto.UsuarioDTO;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import java.io.IOException;
 import java.io.Serializable;
@@ -69,6 +70,7 @@ public class TranferenciaBarajasCrearBean implements Serializable {
     }
 
     public void crearTransferencia() {
+        item.setCreador(new UsuarioDTO(sessionBean.getUsuario()));
         Integer id = sessionBean.barajasFacade.guardarTransferencia(item);
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Transferencia creada con exito", "Acta N " + id + "."));
 
@@ -83,7 +85,7 @@ public class TranferenciaBarajasCrearBean implements Serializable {
             System.out.println("Creando transferencia");
             System.out.println(casinoenviador);
             System.out.println(casinoreceptor);
-            if (casinoenviador != 0 && casinoreceptor == 0) {
+            if (casinoenviador != 0 && casinoreceptor != 0) {
                 if (casinoenviador != casinoreceptor) {
                     item = sessionBean.barajasFacade.getTransferenciaNueva(casinoenviador, casinoreceptor);
                 } else {

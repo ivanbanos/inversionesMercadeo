@@ -7,6 +7,7 @@ package com.invbf.sistemagestionmercadeo.facade.impl;
 
 import com.invbf.sistemagestionmercadeo.dao.GestionRegaloDao;
 import com.invbf.sistemagestionmercadeo.dto.CategoriaDTO;
+import com.invbf.sistemagestionmercadeo.dto.InventarioRegalosDTO;
 import com.invbf.sistemagestionmercadeo.dto.RegaloDTO;
 import com.invbf.sistemagestionmercadeo.entity.Categorias;
 import com.invbf.sistemagestionmercadeo.entity.Regalos;
@@ -44,12 +45,22 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
     
     @Override
     public RegaloDTO deleteRegalo(RegaloDTO elemento) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new RegaloDTO(GestionRegaloDao.removeRegalo(elemento.getRegalo()));
     }
     
     @Override
     public RegaloDTO addRegalo(RegaloDTO elemento) {
         return new RegaloDTO(GestionRegaloDao.addRegalo(elemento.getRegalo()));
+    }
+
+    @Override
+    public InventarioRegalosDTO getInventario() {
+        return new InventarioRegalosDTO(GestionRegaloDao.getListaInvenratioRegalos());
+    }
+
+    @Override
+    public void guardarInventario(InventarioRegalosDTO inventario) {
+        GestionRegaloDao.saveInvenratioRegalos(inventario);
     }
     
 }

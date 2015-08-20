@@ -236,6 +236,13 @@ public class PerfilActBean implements Serializable{
     private FormularioBoolean Regalosactualizar;
     private FormularioBoolean Regaloseliminar;
     
+    
+    private VistaBoolean configuracionInvRegalo;
+    private VistaBoolean verInvRegalo;
+    private VistaBoolean generarOrdenRegalo;
+    private VistaBoolean aprobarOrdenRegalo;
+    private VistaBoolean recibirOrdenRegalo;
+    
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
     }
@@ -1133,6 +1140,40 @@ public class PerfilActBean implements Serializable{
                 }
             }
             
+            
+            if (v.getNombreVista().equals("configuracionInvRegalo")) {
+                if (elemento.getVistaList().contains(v)) {
+                    configuracionInvRegalo = new VistaBoolean(v, true);
+                } else {
+                    configuracionInvRegalo = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("verInvRegalo")) {
+                if (elemento.getVistaList().contains(v)) {
+                    verInvRegalo = new VistaBoolean(v, true);
+                } else {
+                    verInvRegalo = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("generarOrdenRegalo")) {
+                if (elemento.getVistaList().contains(v)) {
+                    generarOrdenRegalo = new VistaBoolean(v, true);
+                } else {
+                    generarOrdenRegalo = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("aprobarOrdenRegalo")) {
+                if (elemento.getVistaList().contains(v)) {
+                    aprobarOrdenRegalo = new VistaBoolean(v, true);
+                } else {
+                    aprobarOrdenRegalo = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("recibirOrdenRegalo")) {
+                if (elemento.getVistaList().contains(v)) {
+                    recibirOrdenRegalo = new VistaBoolean(v, true);
+                } else {
+                    recibirOrdenRegalo = new VistaBoolean(v, false);
+                }
+            }
+            
+            
             if (v.getNombreVista().equals("verRegalos")) {
                 if (elemento.getVistaList().contains(v)) {
                     verRegalos = new VistaBoolean(v, true);
@@ -1700,6 +1741,21 @@ public class PerfilActBean implements Serializable{
         
         if (verStockBarajas.isSelected()) {
             elemento.getVistaList().add(verStockBarajas.getVista());
+        }
+        if (configuracionInvRegalo.isSelected()) {
+            elemento.getVistaList().add(configuracionInvRegalo.getVista());
+        }
+        if (verInvRegalo.isSelected()) {
+            elemento.getVistaList().add(verInvRegalo.getVista());
+        }
+        if (generarOrdenRegalo.isSelected()) {
+            elemento.getVistaList().add(generarOrdenRegalo.getVista());
+        }
+        if (aprobarOrdenRegalo.isSelected()) {
+            elemento.getVistaList().add(aprobarOrdenRegalo.getVista());
+        }
+        if (recibirOrdenRegalo.isSelected()) {
+            elemento.getVistaList().add(recibirOrdenRegalo.getVista());
         }
         
         if (verRegalos.isSelected()) {
@@ -3701,6 +3757,46 @@ public class PerfilActBean implements Serializable{
 
     public void setRecibirTransferencia(VistaBoolean recibirTransferencia) {
         this.recibirTransferencia = recibirTransferencia;
+    }
+
+    public VistaBoolean getConfiguracionInvRegalo() {
+        return configuracionInvRegalo;
+    }
+
+    public void setConfiguracionInvRegalo(VistaBoolean configuracionInvRegalo) {
+        this.configuracionInvRegalo = configuracionInvRegalo;
+    }
+
+    public VistaBoolean getVerInvRegalo() {
+        return verInvRegalo;
+    }
+
+    public void setVerInvRegalo(VistaBoolean verInvRegalo) {
+        this.verInvRegalo = verInvRegalo;
+    }
+
+    public VistaBoolean getGenerarOrdenRegalo() {
+        return generarOrdenRegalo;
+    }
+
+    public void setGenerarOrdenRegalo(VistaBoolean generarOrdenRegalo) {
+        this.generarOrdenRegalo = generarOrdenRegalo;
+    }
+
+    public VistaBoolean getAprobarOrdenRegalo() {
+        return aprobarOrdenRegalo;
+    }
+
+    public void setAprobarOrdenRegalo(VistaBoolean aprobarOrdenRegalo) {
+        this.aprobarOrdenRegalo = aprobarOrdenRegalo;
+    }
+
+    public VistaBoolean getRecibirOrdenRegalo() {
+        return recibirOrdenRegalo;
+    }
+
+    public void setRecibirOrdenRegalo(VistaBoolean recibirOrdenRegalo) {
+        this.recibirOrdenRegalo = recibirOrdenRegalo;
     }
 
 }

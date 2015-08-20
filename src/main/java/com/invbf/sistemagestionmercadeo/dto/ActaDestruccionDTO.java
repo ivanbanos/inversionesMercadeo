@@ -18,6 +18,7 @@ public class ActaDestruccionDTO implements Serializable{
     private Integer id;
     private Date fecha;
     private String usuario;
+    private String estado;
     private List<BarajasCantidad> detalle;
 
     public ActaDestruccionDTO() {
@@ -54,6 +55,14 @@ public class ActaDestruccionDTO implements Serializable{
 
     public void setDetalle(List<BarajasCantidad> detalle) {
         this.detalle = detalle;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
     
 }

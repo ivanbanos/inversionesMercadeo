@@ -60,7 +60,7 @@ public class ListaSolicitudesBarajasBean implements Serializable {
             } catch (IOException ex) {
             }
         }
-        lista = sessionBean.barajasFacade.getSolicitudesBarajas(sessionBean.perfilViewMatch("verSolicitudesBarajas"), sessionBean.getUsuario().getIdUsuario());
+        lista = sessionBean.barajasFacade.getSolicitudesBarajas(sessionBean.perfilViewMatch("verSolicitudesBarajas"), sessionBean.getUsuario());
         Collections.reverse(lista);
         sessionBean.printMensajes();
     }

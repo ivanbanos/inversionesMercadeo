@@ -6,6 +6,8 @@
 package com.invbf.sistemagestionmercadeo.controladores;
 
 import com.invbf.sistemagestionmercadeo.dto.TrasladoDTO;
+import com.invbf.sistemagestionmercadeo.dto.UsuarioDTO;
+import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -61,4 +63,39 @@ public class TransferenciasBarajasBean implements Serializable{
         Integer idOrden = (Integer) sessionBean.getAttributes("traslado");
         item = sessionBean.barajasFacade.getTransferencia(idOrden);
     }
+
+    public TrasladoDTO getItem() {
+        return item;
+    }
+
+    public void setItem(TrasladoDTO item) {
+        this.item = item;
+    }
+    
+     public void enviar() {
+        item.setEnviador(new UsuarioDTO(sessionBean.getUsuario()));
+        Integer id = sessionBean.barajasFacade.enviarTransferencia(item);
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Transferencia enviada con exito", "Acta N " + id + "."));
+
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaTransferenciasBarajas.xhtml");
+        } catch (IOException ex) {
+        }
+    }
+     
+      public void recibir() {
+        item.setRecibidor(new UsuarioDTO(sessionBean.getUsuario()));
+        Integer id = sessionBean.barajasFacade.recibirTransferencia(item);
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Transferencia recibida con exito", "Acta N " + id + "."));
+
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaTransferenciasBarajas.xhtml");
+        } catch (IOException ex) {
+        }
+    }
+    
+    
+    
+            
+            
 }

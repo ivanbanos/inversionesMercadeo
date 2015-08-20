@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+
+        <div class="row">
+
+            <div class="control-group">
+                <!-- Username -->
+                <div class="form-group">
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Gesti&oacute;n de regalos/Configuraci&oacute;n de stock de Regalos</label>
+                </div>
+            </div>
+        </div>
+        <h:form>
+            <div class="container">
+                <div class="row clearfix">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+
+                            <div class="clickable">
+                                <h3 class="panel-title">Configuraci&oacute;n de stock de Regalos</h3> 
+                                <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+
+                            <p:dataScroller value="#{configuracionInventarioRegalosBean.inventario.inventario}" var="inventario" chunkSize="10">
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                                    <label>Regalo</label>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                                    #{inventario.regalo.nombre} #{inventario.regalo.descripcion} 
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                                    <label>Min</label>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                                    <p:spinner min="0" stepFactor="10"
+                                                               value="#{inventario.min}">
+                                                    </p:spinner>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                                    <label>Max</label>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
+                                                    <p:spinner min="0" stepFactor="10"
+                                                               value="#{inventario.max}">
+                                                    </p:spinner>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <hr />
+                                </div>
+                                <script>setStyle("cantbar#{inventario.regalo.id}", #{inventario.cantidad}, #{inventario.min})</script>
+                            </p:dataScroller>
+                        </div>
+                        <div class="panel-footer">
+                            <p:commandButton  value="Guardar cambios" onstart="PF('ajaxWaitingDialog').show();" 
+                                              oncomplete="PF('ajaxWaitingDialog').hide();PF('nueva').show();"
+                                              title="#{label['lb_btn.editarPerfiles']}">   
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </h:form>
+        <h:form >
+            <p:confirmDialog id="nueva" message="Va a guardar los cambios en el deposito. ¿Desea continuar?"  
+                             header="Guardar cambios" severity="alert" widgetVar="nueva" closable="false">  
+
+                <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" 
+                                 action="#{configuracionInventarioRegalosBean.guardarCambios()}"  ajax="false"/>  
+                <p:commandButton id="decline" value="No" onclick="PF('nueva').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+    </ui:define>            
+</ui:composition>

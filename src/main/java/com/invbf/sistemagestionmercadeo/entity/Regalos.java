@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -60,7 +61,7 @@ public class Regalos implements Serializable {
     @JoinColumn(name = "categoria", referencedColumnName = "idCategorias")
     @ManyToOne(optional = false)
     private Categorias categoria;
-    @OneToMany(mappedBy = "regalo")
+    @OneToMany(mappedBy = "regalo",cascade = CascadeType.REMOVE)
     private List<Regalosinventario> regalosinventarioList;
 
     public Regalos() {

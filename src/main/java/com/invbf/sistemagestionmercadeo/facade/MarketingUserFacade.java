@@ -255,8 +255,8 @@ public interface MarketingUserFacade {
 
     public void rechazar(Solicitudentrega elemento);
 
-    public List<BonosCantidadMes> getBonosPorCantidad(List<CasinoBoolean> casinos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde);
+    public List<BonosCantidadMes> getBonosPorCantidad(List<CasinoBoolean> casinos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde, List<PropositosBoolean> propositos);
 
-    public List<BonosAprobadosCanjeados> getBonosPorCantidadMesuales(List<CasinoBoolean> casinos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde);
+    public List<BonosAprobadosCanjeados> getBonosPorCantidadMesuales(List<CasinoBoolean> casinos,List<PropositosBoolean> propositos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde);
 
 }

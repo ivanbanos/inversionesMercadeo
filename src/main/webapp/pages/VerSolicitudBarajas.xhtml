@@ -31,6 +31,7 @@
 
 
 
+
                                     <div class="row text-center">
                                         <div class="col-md-12" style="margin-top: 20px;">
                                             <div class="pricing-table">
@@ -58,6 +59,21 @@
                                                                     <h:outputText value="#{verSolicitudBarajasBean.orden.usuarioCreado}"/>
                                                                 </td>
                                                             </tr>
+                                                            <c:if test="#{verSolicitudBarajasBean.orden.entregadasnuevas != null}">
+                                                                <tr>
+                                                                    <td width="50px"><i class="fa fa-check"></i></td>
+                                                                    <td>Entregadas nuevas en</td>
+                                                                    <td>
+                                                                        <h:outputText value="#{verSolicitudBarajasBean.orden.entregadasnuevas}">
+                                                                            <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                        </h:outputText>
+                                                                    </td>
+                                                                    <td>Por</td>
+                                                                    <td>
+                                                                        <h:outputText value="#{verSolicitudBarajasBean.orden.usuarioAceptador}"/>
+                                                                    </td>
+                                                                </tr>
+                                                            </c:if>
                                                             <c:if test="#{verSolicitudBarajasBean.orden.recibidasnuevas != null}">
                                                                 <tr>
                                                                     <td width="50px"><i class="fa fa-check"></i></td>
@@ -103,27 +119,15 @@
                                                                     </td>
                                                                 </tr>
                                                             </c:if>
+
                                                         </table>
                                                     </div>
-
+                                                    <div class="panel-footer panel-footer-landing">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                                 </div>
@@ -132,7 +136,7 @@
                                                  emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
 
                                         <p:column headerText="Material" style="text-align: center;">
-                                            <h:outputText value="#{detalle.baraja.material.nombre}">
+                                            <h:outputText value="#{detalle.baraja.material.nombre} #{detalle.baraja.material.descripcion}">
                                             </h:outputText>
                                         </p:column>
                                         <p:column headerText="Color" style="text-align: center;">

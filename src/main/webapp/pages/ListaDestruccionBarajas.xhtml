@@ -48,20 +48,22 @@
 
                                         <p:column headerText="#{label['fechacreacion']}" sortBy="#{element.fecha}" filterBy="#{element.fecha}" filterMatchMode="contains" >
                                             <h:outputText value="#{element.fecha}" >
-                                               <f:convertDateTime pattern="dd/MMMMM/yyyy HH:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                <f:convertDateTime pattern="dd/MMMMM/yyyy HH:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="Estado" sortBy="#{element.estado}" >
+                                            <h:outputText value="#{element.estado}" >
                                             </h:outputText>
                                         </p:column>
 
                                         <p:column headerText="#{label['acciones']}" >   
                                             <p:commandButton id="ver" action="#{listaActasDestruccionBarajasBean.goOrdenver(element.id)}" icon="ui-icon-search" onclick="PF('ajaxWaitingDialog').show();"
-                                                             title="Ver"/> 
-                                            </p:column>
+                                                             title="Ver" rendered="#{element.estado == 'DESTRUIDAS'}"/>  
+                                            <p:commandButton id="destruir" action="#{listaActasDestruccionBarajasBean.goOrdenver(element.id)}" icon="ui-icon-trash" onclick="PF('ajaxWaitingDialog').show();"
+                                                             title="Destruir"  rendered="#{element.estado != 'DESTRUIDAS'}"/> 
+                                        </p:column>
 
-                                        <f:facet name="footer"> 
-                                            <p:commandButton id="addButton" action="#{listaActasDestruccionBarajasBean.goOrdenCrear()}" onclick="PF('ajaxWaitingDialog').show();"
-                                                             value="Destruir barajas" title="#{label['lb_btn.agregar']}" 
-                                                             rendered="#{sessionBean.perfilViewMatch(&quot;destruirBarajas&quot;) }"/>   
-                                        </f:facet>
+
 
                                     </p:dataTable>
 

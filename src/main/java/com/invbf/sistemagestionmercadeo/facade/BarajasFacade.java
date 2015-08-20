@@ -49,7 +49,7 @@ public interface BarajasFacade {
 
     public void recibirOrden(Integer idOrden, Usuario usuario);
 
-    public List<SolicitudBarajasDTO> getSolicitudesBarajas(boolean todas, int idUsuario);
+    public List<SolicitudBarajasDTO> getSolicitudesBarajas(boolean todas, Usuario idUsuario);
 
     public int crearSolicitudBarajas(InventarioBarajasDTO inventario, Usuario usuario);
 
@@ -108,6 +108,10 @@ public interface BarajasFacade {
     public TrasladoDTO getTransferenciaNueva(int casinoenviador, int casinoreceptor);
 
     public Integer guardarTransferencia(TrasladoDTO item);
+
+    public Integer enviarTransferencia(TrasladoDTO item);
+
+    public Integer recibirTransferencia(TrasladoDTO item);
 
 
 

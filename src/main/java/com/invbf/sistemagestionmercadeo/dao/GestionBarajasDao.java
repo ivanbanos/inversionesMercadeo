@@ -781,19 +781,38 @@ public class GestionBarajasDao {
         try {
             Solicitudbarajas orden = em.find(Solicitudbarajas.class, idOrden);
             orden.setEstado("TERMINADA");
+
+            List<Actasdestruccionbarajas> actas = new ArrayList<Actasdestruccionbarajas>();
             for (Solicitudbarajadetalle detalle : orden.getSolicitudbarajadetalleList()) {
                 Inventarobarajas inventario = em.find(Inventarobarajas.class, detalle.getInventarobarajas().getId());
                 inventario.setUso(inventario.getUso() - detalle.getDevueltas());
 
                 inventario.setPordestruir(inventario.getPordestruir() + detalle.getDevueltas());
-
+                if (detalle.getDevueltas() > 0) {
+                    Actasdestruccionbarajas adb = new Actasdestruccionbarajas();
+                    adb.setInventario(inventario);
+                    adb.setCantidad(detalle.getDevueltas());
+                    actas.add(adb);
+                }
                 orden.setEntregadasUsadas(new Date());
                 em.merge(inventario);
             }
             orden.setRecibidasUsadas(new Date());
 
             em.merge(orden);
-
+            if (!actas.isEmpty()) {
+                Destruccionbarajasmaestro destruccionbarajasmaestro = new Destruccionbarajasmaestro();
+                destruccionbarajasmaestro.setEstado("POR DESTRUIR");
+                destruccionbarajasmaestro.setActasdestruccionbarajasList(new ArrayList<Actasdestruccionbarajas>());
+                em.persist(destruccionbarajasmaestro);
+                em.flush();
+                for (Actasdestruccionbarajas acta : actas) {
+                    acta.setActa(destruccionbarajasmaestro);
+                    em.persist(acta);
+                    destruccionbarajasmaestro.getActasdestruccionbarajasList().add(acta);
+                }
+                em.merge(destruccionbarajasmaestro);
+            }
             tx.commit();
         } catch (Exception e) {
             System.out.println(e);
@@ -805,7 +824,7 @@ public class GestionBarajasDao {
         emf.close();
     }
 
-    public static List<Solicitudbarajas> getListaSoliciudesBarajas(int idUsuario) {
+    public static List<Solicitudbarajas> getListaSoliciudesBarajas(Usuario idUsuario) {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
@@ -817,8 +836,21 @@ public class GestionBarajasDao {
             javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Solicitudbarajas> c = cq.from(Solicitudbarajas.class);
             cq.select(c);
-            cq.where(em.getCriteriaBuilder().equal(c.get("solicitante"), new Usuario(idUsuario)));
+            cq.where(em.getCriteriaBuilder().notEqual(c.get("estado"), "TERMINADA"));
             lista = em.createQuery(cq).getResultList();
+            for (Iterator<Solicitudbarajas> iterator = lista.iterator(); iterator.hasNext();) {
+                Solicitudbarajas next = iterator.next();
+                boolean sacar = true;
+                for (Solicitudbarajadetalle soldet : next.getSolicitudbarajadetalleList()) {
+                    if (idUsuario.getCasinoList().contains(soldet.getInventarobarajas().getCasino())) {
+                        sacar = false;
+                        break;
+                    }
+                }
+                if (sacar) {
+                    iterator.remove();
+                }
+            }
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -966,26 +998,19 @@ public class GestionBarajasDao {
         Destruccionbarajasmaestro dbm = null;
         tx.begin();
         try {
-            for (BarajasCantidad invent : acta.getDetalle()) {
+            dbm = em.find(Destruccionbarajasmaestro.class, acta.getId());
+            for (Actasdestruccionbarajas invent : dbm.getActasdestruccionbarajasList()) {
                 System.out.println(invent.getCantidad());
-                Inventarobarajas inventario = em.find(Inventarobarajas.class, invent.getId());
+                Inventarobarajas inventario = invent.getInventario();
                 inventario.setDestruidas(inventario.getDestruidas() + invent.getCantidad());
                 inventario.setPordestruir(inventario.getPordestruir() - invent.getCantidad());
                 em.merge(inventario);
             }
-            dbm = new Destruccionbarajasmaestro();
+            dbm = em.find(Destruccionbarajasmaestro.class, acta.getId());
             dbm.setFechaDestruccion(new Date());
             dbm.setUsuario(usuario);
-            em.persist(dbm);
-            em.flush();
-            dbm.setActasdestruccionbarajasList(new ArrayList<Actasdestruccionbarajas>());
-            for (BarajasCantidad bc : acta.getDetalle()) {
-                Actasdestruccionbarajas adb = new Actasdestruccionbarajas();
-                adb.setActa(dbm);
-                adb.setCantidad(bc.getCantidad());
-                adb.setInventario(new Inventarobarajas(bc.getId()));
-                dbm.getActasdestruccionbarajasList().add(adb);
-            }
+            dbm.setEstado("DESTRUIDAS");
+           
             em.merge(dbm);
             tx.commit();
         } catch (Exception e) {
@@ -1504,18 +1529,94 @@ public class GestionBarajasDao {
         Trasladobarajas orden = item.getTraslado();
         tx.begin();
         try {
-            if (orden.getId() == null) {
-                List<Trasladobarajadetalle> detalle = orden.getTrasladobarajadetalleList();
+            if (item.getId() == null) {
+                orden.setSalaenviadora(new Casino(item.getSalaenviadora().getIdCasino()));
+                orden.setSalareceptora(new Casino(item.getSalareceptora().getIdCasino()));
+                orden.setCreador(new Usuario(item.getCreador().getId()));
+                orden.setFechacreada(new Date());
+                orden.setEstado("POR ENVIAR");
+                List<Trasladobarajadetalle> detalle = new ArrayList<Trasladobarajadetalle>();
                 orden.setTrasladobarajadetalleList(null);
                 em.persist(orden);
                 em.flush();
-                for (Trasladobarajadetalle detalle1 : detalle) {
-                    detalle1.setTrasladobarajas(orden);
+                for (BarajasCantidad bc : item.getDetalle()) {
+                    if (bc.getCantidad() != 0) {
+                        Trasladobarajadetalle tbd = new Trasladobarajadetalle(orden.getId(), bc.getId());
+                        tbd.setCantidad(bc.getCantidad());
+                        em.persist(tbd);
+                        detalle.add(tbd);
+                    }
                 }
                 orden.setTrasladobarajadetalleList(detalle);
             }
             em.merge(orden);
 
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return orden.getId();
+    }
+
+    public static Integer sendTraslado(TrasladoDTO item) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        Trasladobarajas orden = item.getTraslado();
+        tx.begin();
+        try {
+            orden = em.find(Trasladobarajas.class, item.getId());
+            orden.setEnviador(new Usuario(item.getCreador().getId()));
+            orden.setFechaenviada(new Date());
+            orden.setEstado("POR RECIBIR");
+            em.merge(orden);
+            for (Trasladobarajadetalle i : orden.getTrasladobarajadetalleList()) {
+                for (Inventarobarajas inventario : orden.getSalaenviadora().getInventarobarajasList()) {
+                    if (inventario.getBaraja().equals(i.getBarajas())) {
+                        inventario.setCantidadbarajas(inventario.getCantidadbarajas() - i.getCantidad());
+                        em.merge(inventario);
+                    }
+                }
+            }
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return orden.getId();
+    }
+
+    public static Integer receiveTraslado(TrasladoDTO item) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        Trasladobarajas orden = item.getTraslado();
+        tx.begin();
+        try {
+            orden = em.find(Trasladobarajas.class, item.getId());
+            orden.setRecibidor(new Usuario(item.getCreador().getId()));
+            orden.setFecharecibida(new Date());
+            orden.setEstado("RECIBIDA");
+            em.merge(orden);
+            for (Trasladobarajadetalle i : orden.getTrasladobarajadetalleList()) {
+                for (Inventarobarajas inventario : orden.getSalareceptora().getInventarobarajasList()) {
+                    if (inventario.getBaraja().equals(i.getBarajas())) {
+                        inventario.setCantidadbarajas(inventario.getCantidadbarajas() + i.getCantidad());
+                        em.merge(inventario);
+                    }
+                }
+            }
             tx.commit();
         } catch (Exception e) {
             System.out.println(e);

@@ -97,6 +97,7 @@ public class CrudRegalosBean implements Serializable {
     }
 
     public void actualizarRegalo() {
+        System.out.println("Regalo id:"+elemento.getId());
         elemento = sessionBean.regalosFacade.addRegalo(elemento);
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "OK!", "Regalo Agregado con exito!"));
         inicializar();
