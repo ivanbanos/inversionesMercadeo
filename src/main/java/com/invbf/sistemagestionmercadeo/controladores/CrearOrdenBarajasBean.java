@@ -33,6 +33,7 @@ public class CrearOrdenBarajasBean implements Serializable {
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
     List<InventarioBarajasDTO> invent;
+    private String observaciones;
 
     public CrearOrdenBarajasBean() {
     }
@@ -69,7 +70,7 @@ public class CrearOrdenBarajasBean implements Serializable {
 
     public void crear() {
         try {
-            int i = sessionBean.barajasFacade.crearOrdenBarajas(invent, sessionBean.getUsuario());
+            int i = sessionBean.barajasFacade.crearOrdenBarajas(invent, sessionBean.getUsuario(), observaciones);
             sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha generado el requerimiento con exito", "Acta de orden #" + i));
 
             Notificador.notificar(Notificador.correoOrdenBarajasCreada,
@@ -88,6 +89,14 @@ public class CrearOrdenBarajasBean implements Serializable {
 
     public void setInvent(List<InventarioBarajasDTO> invent) {
         this.invent = invent;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 
 }

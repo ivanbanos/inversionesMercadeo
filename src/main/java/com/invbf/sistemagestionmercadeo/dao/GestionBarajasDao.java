@@ -13,6 +13,7 @@ import com.invbf.sistemagestionmercadeo.dto.SolicitudBarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.TrasladoDTO;
 import com.invbf.sistemagestionmercadeo.entity.Actasdestruccionbarajas;
 import com.invbf.sistemagestionmercadeo.entity.Barajas;
+import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Destruccionbarajasmaestro;
 import com.invbf.sistemagestionmercadeo.entity.Inventarobarajas;
@@ -24,7 +25,9 @@ import com.invbf.sistemagestionmercadeo.entity.Solicitudbarajas;
 import com.invbf.sistemagestionmercadeo.entity.Trasladobarajadetalle;
 import com.invbf.sistemagestionmercadeo.entity.Trasladobarajas;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
+import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
+import com.invbf.sistemagestionmercadeo.util.PropositosBoolean;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -637,6 +640,9 @@ public class GestionBarajasDao {
                 em.merge(inventario);
             }
             orden.setEntregadasNuevas(new Date());
+            Notificador.notificar(Notificador.correoLibre,
+                    "Tiene que entregar las barajas usadas de la solicitud con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de solicitudes de barajas.",
+                    "Aviso de entrega de barajas usadas", orden.getCreador().getUsuariodetalle().getCorreo());
             em.merge(orden);
 
             tx.commit();
@@ -685,7 +691,7 @@ public class GestionBarajasDao {
                         d.setCantidad(inventariob.getMax() - (inventariob.getCantidadbarajas() - inventariob.getDestruidas() - inventariob.getPordestruir() - inventariob.getUso()));
 
                     } else {
-                        d.setCantidad(0);
+                        continue;
                     }
                     em.merge(d);
                     ordencompra.getOrdencomprabarajadetalleList().add(d);
@@ -1010,7 +1016,7 @@ public class GestionBarajasDao {
             dbm.setFechaDestruccion(new Date());
             dbm.setUsuario(usuario);
             dbm.setEstado("DESTRUIDAS");
-           
+
             em.merge(dbm);
             tx.commit();
         } catch (Exception e) {
@@ -1627,5 +1633,47 @@ public class GestionBarajasDao {
         em.close();
         emf.close();
         return orden.getId();
+    }
+
+    public static List<Solicitudbarajadetalle> getListaSoliciudesBarajasRepo(List<CasinoBoolean> casinos, Integer ano, Integer mes, Integer anodesde, Integer mesdesde) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Solicitudbarajadetalle> cargos = new ArrayList<Solicitudbarajadetalle>();
+        tx.begin();
+        Calendar desde = Calendar.getInstance();
+        Calendar hasta = Calendar.getInstance();
+
+        hasta.set(Calendar.YEAR, ano);
+        hasta.set(Calendar.MONTH, mes);
+        hasta.add(Calendar.MONTH, 1);
+        hasta.set(Calendar.DAY_OF_MONTH, 1);
+
+        desde.set(Calendar.YEAR, anodesde);
+        desde.set(Calendar.MONTH, mesdesde);
+        desde.set(Calendar.DAY_OF_MONTH, 1);
+        try {
+            for (CasinoBoolean cb : casinos) {
+                if (cb.isSelected()) {
+                    cargos.addAll(em.createNamedQuery("Solicitudbarajadetalle.getReporte")
+                            .setParameter("desde", desde.getTime())
+                            .setParameter("hasta", hasta.getTime())
+                            .setParameter("casino", cb.getCasino())
+                            .getResultList());
+                }
+            }
+
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return cargos;
+
     }
 }

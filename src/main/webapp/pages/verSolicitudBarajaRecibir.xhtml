@@ -137,7 +137,7 @@
                                         </p:column>
                                         <p:column headerText="Cantidad a entregar" rendered="#{verSolicitudBarajasBean.orden.estado != 'CREADA' and verSolicitudBarajasBean.orden.estado != 'ENTREGADA'}">
                                             <span id="cantidad#{status}">
-                                                <p:spinner min="0" stepFactor="1" id="devueltas"
+                                                <p:spinner min="0" stepFactor="1" id="devueltas" max="#{detalle.uso}"
                                                            value="#{detalle.devueltas}">
                                                 </p:spinner>
                                             </span>

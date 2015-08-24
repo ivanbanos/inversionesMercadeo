@@ -23,7 +23,7 @@
 
                 <h:form id="form">
                     <div class="panel panel-primary">
-                        <div class="panel-heading"><h3>Reporte de reemplazo de barajas</h3></div>
+                        <div class="panel-heading"><h3>Indicador de consumo de barajas</h3></div>
                         <div class="panel-body">
 
                             <div class="panel panel-primary">
@@ -35,7 +35,7 @@
 
                                             <div class="row">
                                                 <h:outputLabel class="col-md-6 control-label" value="Mes desde:" />
-                                                <p:selectOneMenu id="mesd" value="#{reporteBarajasSolicitadasBean.mesdesde}" > 
+                                                <p:selectOneMenu id="mesd" value="#{indicadoresConsumoBarajas.mesdesde}" > 
                                                     <f:selectItem itemLabel="Enero" itemValue="0" />    
                                                     <f:selectItem itemLabel="Febrero" itemValue="1" />    
                                                     <f:selectItem itemLabel="Marzo" itemValue="2" />    
@@ -53,13 +53,13 @@
                                             <div class="row">
 
                                                 <h:outputLabel class="col-md-6 control-label" value="A&ntilde;o desde:" /> 
-                                                <p:selectOneMenu id="and" value="#{reporteBarajasSolicitadasBean.annodesde}" >
-                                                    <f:selectItems value="#{reporteBarajasSolicitadasBean.anos}" var="ano" itemLabel="#{ano}" itemValue="#{ano}"/>  
+                                                <p:selectOneMenu id="and" value="#{indicadoresConsumoBarajas.annodesde}" >
+                                                    <f:selectItems value="#{indicadoresConsumoBarajas.anos}" var="ano" itemLabel="#{ano}" itemValue="#{ano}"/>  
                                                 </p:selectOneMenu>
                                             </div>
                                             <div class="row">
                                                 <h:outputLabel class="col-md-6 control-label" value="Mes hasta:" />
-                                                <p:selectOneMenu id="mesa" value="#{reporteBarajasSolicitadasBean.mes}" > 
+                                                <p:selectOneMenu id="mesa" value="#{indicadoresConsumoBarajas.mes}" > 
                                                     <f:selectItem itemLabel="Enero" itemValue="0" />    
                                                     <f:selectItem itemLabel="Febrero" itemValue="1" />    
                                                     <f:selectItem itemLabel="Marzo" itemValue="2" />    
@@ -76,19 +76,37 @@
                                             </div>
                                             <div class="row">
                                                 <h:outputLabel class="col-md-6 control-label" value="a&ntilde;o hasta:" /> 
-                                                <p:selectOneMenu id="ana" value="#{reporteBarajasSolicitadasBean.ano}" >
-                                                    <f:selectItems value="#{reporteBarajasSolicitadasBean.anos}" var="ano" itemLabel="#{ano}" itemValue="#{ano}"/>  
+                                                <p:selectOneMenu id="ana" value="#{indicadoresConsumoBarajas.ano}" >
+                                                    <f:selectItems value="#{indicadoresConsumoBarajas.anos}" var="ano" itemLabel="#{ano}" itemValue="#{ano}"/>  
                                                 </p:selectOneMenu>
                                             </div>
 
                                         </div>
+                                        <div class="col-md-3">
+                                            <div class="panel panel-primary">
 
+                                                <div class="panel-heading">
+                                                    #{label['casinos']}
+                                                </div>
+                                                <div class="panel-body">
+                                                    <ul >
 
+                                                        <c:forEach var="itemcas" items="#{indicadoresConsumoBarajas.casinos}">
+                                                            <li>
+                                                                <h:selectBooleanCheckbox value="#{itemcas.selected}"/>&nbsp;
+                                                                <label>#{itemcas.casino.nombre}</label>
+                                                            </li>
+                                                        </c:forEach>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="panel-footer">
                                     <p:commandButton id="addButton" icon="ui-icon-search" value="#{label['lb_btn.Buscar']}" onstart="PF('ajaxWaitingDialog').show();"
-                                                     title="Buscar" action="#{reporteBarajasSolicitadasBean.buscarSolicitudes()}"
+                                                     title="Buscar" action="#{indicadoresConsumoBarajas.buscarBonos()}"
                                                      ajax="false" oncomplete="PF('ajaxWaitingDialog').hide();">
                                     </p:commandButton> 
                                 </div>
@@ -98,47 +116,8 @@
 
 
                             <div class="container">
-                                <c:forEach items="#{reporteBarajasSolicitadasBean.solicitudes}" var="solicitud">
-                                    <div class="row">
-                                        <label>#{solicitud.mesanio}</label>
-                                        <table class="table table-hover table-bordered">
-                                            <tr>
-                                                <th>Acta</th>
-                                                <th>Sala</th>
-                                                <th>Baraja</th>
-                                                <th>Usuario que entreg&oacute; barajas nuevas</th>
-                                                <th>Fecha entrega</th>
-                                                <th>Usuario que recibi&oacute; barajas nuevas</th>
-                                                <th>fecha recibo</th>
-                                                <th>Cantidad</th>
-                                            </tr>
-                                            <c:forEach items="#{solicitud.solicitudes}" var="detalle">
-                                                <tr>
-                                                    <td>#{detalle.id}</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>#{detalle.usuarioAceptador}</td>
-                                                    <td>#{detalle.fechaAceptada}</td>
-                                                    <td>#{detalle.usuarioREcibidor}</td>
-                                                    <td>#{detalle.fechaRecibida}</td>
-                                                    <td></td>
-                                                </tr>
-                                                <c:forEach items="#{detalle.cantidades}" var="cantidades">
-                                                    <tr>
-                                                        <td></td>
-                                                        <td>#{cantidades.bodega}</td>
-                                                        <td>#{cantidades.baraja.toString()}</td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td>#{cantidades.cantidad}</td>
-                                                    </tr>
-                                                </c:forEach>
-                                            </c:forEach>
-
-                                        </table>
-                                    </div>
+                                <c:forEach var="model" items="#{indicadoresConsumoBarajas.lineModels}">
+                                    <p:chart type="bar" model="#{model}" style="height:300px;"/>
                                 </c:forEach>
                             </div>
                         </div>

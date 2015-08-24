@@ -96,7 +96,7 @@
                 </div>
             </div>
             <p:confirmDialog id="ennu" message="Seguro quiere destruir las barajas #{label['cierrepregunta']}"  
-                             header="Entregar nuevas" severity="alert" widgetVar="ennu" closable="false">  
+                             header="Destruir" severity="alert" widgetVar="ennu" closable="false">  
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
                                  action="#{verDestruccionBarajasBean.destruir()}" oncomplete="PF('ennu').hide()"/>  

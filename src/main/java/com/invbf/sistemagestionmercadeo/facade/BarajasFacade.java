@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.facade;
 import com.invbf.sistemagestionmercadeo.dto.ActaDestruccionDTO;
 import com.invbf.sistemagestionmercadeo.dto.BarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.CasinoDto;
+import com.invbf.sistemagestionmercadeo.dto.ConsumoBarajas;
 import com.invbf.sistemagestionmercadeo.dto.DestruccionPorMes;
 import com.invbf.sistemagestionmercadeo.dto.InventarioBarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.MaterialesDTO;
@@ -16,6 +17,7 @@ import com.invbf.sistemagestionmercadeo.dto.SolicitudBarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.SolicitudesPorMes;
 import com.invbf.sistemagestionmercadeo.dto.TrasladoDTO;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
+import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import java.util.Date;
 import java.util.List;
 
@@ -41,7 +43,7 @@ public interface BarajasFacade {
 
     public List<OrdenCompraBarajaDTO> getOrdenesCompra();
 
-    public int crearOrdenBarajas(List<InventarioBarajasDTO> inventari, Usuario usuario);
+    public int crearOrdenBarajas(List<InventarioBarajasDTO> inventari, Usuario usuario, String observaciones);
 
     public OrdenCompraBarajaDTO getOrden(Integer idOrden);
 
@@ -112,6 +114,8 @@ public interface BarajasFacade {
     public Integer enviarTransferencia(TrasladoDTO item);
 
     public Integer recibirTransferencia(TrasladoDTO item);
+
+    public List<ConsumoBarajas> getConsumoPorMEs(List<CasinoBoolean> casinos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde);
 
 
 

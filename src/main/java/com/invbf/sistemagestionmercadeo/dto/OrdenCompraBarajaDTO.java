@@ -124,5 +124,13 @@ public class OrdenCompraBarajaDTO implements Serializable {
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
     }
+
+    public float getTotal() {
+        float total = 0f;
+        for (BarajasCantidad cantidad : cantidades) {
+            total+=cantidad.getCantidad()*cantidad.getBaraja().getValorpromedio();
+        }
+        return total;
+    }
     
 }

@@ -10,6 +10,7 @@ import com.invbf.sistemagestionmercadeo.dto.ActaDestruccionDTO;
 import com.invbf.sistemagestionmercadeo.dto.BarajasCantidad;
 import com.invbf.sistemagestionmercadeo.dto.BarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.CasinoDto;
+import com.invbf.sistemagestionmercadeo.dto.ConsumoBarajas;
 import com.invbf.sistemagestionmercadeo.dto.DestruccionPorMes;
 import com.invbf.sistemagestionmercadeo.dto.InventarioBarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.MaterialesDTO;
@@ -30,6 +31,7 @@ import com.invbf.sistemagestionmercadeo.entity.Solicitudbarajas;
 import com.invbf.sistemagestionmercadeo.entity.Trasladobarajas;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.facade.BarajasFacade;
+import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -185,11 +187,11 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         orden.setUsuarioDestructor(item.getDestructor() == null ? "" : item.getDestructor().getNombreUsuario());
         if (orden.getEstado().equals("ENTREGADAS/Pendientes por devolver")) {
             for (Solicitudbarajadetalle detalle : item.getSolicitudbarajadetalleList()) {
-                orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getInventarobarajas().getCasino().getNombre(), detalle.getCantidad()));
+                orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(), detalle.getCantidad(), detalle.getInventarobarajas().getUso(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getInventarobarajas().getCasino().getNombre(), detalle.getCantidad()));
             }
         } else {
             for (Solicitudbarajadetalle detalle : item.getSolicitudbarajadetalleList()) {
-                orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getInventarobarajas().getCasino().getNombre(), detalle.getDevueltas()));
+                orden.getCantidades().add(new BarajasCantidad(detalle.getInventarobarajas().getId(), transformarBaraja(detalle.getInventarobarajas().getBaraja()), detalle.getCantidad(), detalle.getCantidad(), detalle.getInventarobarajas().getUso(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getCantidad(), detalle.getInventarobarajas().getCasino().getNombre(), detalle.getDevueltas()));
             }
         }
         return orden;
@@ -255,11 +257,12 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     }
 
     @Override
-    public int crearOrdenBarajas(List<InventarioBarajasDTO> inventario, Usuario usuario) {
+    public int crearOrdenBarajas(List<InventarioBarajasDTO> inventario, Usuario usuario, String observaciones) {
         Ordencomprabaraja orden = new Ordencomprabaraja();
         orden.setFechaCreacion(new Date());
         orden.setCreador(usuario);
         orden.setEsatdo("GENERADA");
+        orden.setObservaciones(observaciones);
         orden = GestionBarajasDao.crearOrdenCompra(orden);
         for (InventarioBarajasDTO inventario1 : inventario) {
             orden.getOrdencomprabarajadetalleList().addAll(getDetallesOrden(inventario1, orden.getId()));
@@ -561,6 +564,26 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     @Override
     public Integer recibirTransferencia(TrasladoDTO item) {
         return GestionBarajasDao.receiveTraslado(item);
+    }
+
+    @Override
+    public List<ConsumoBarajas> getConsumoPorMEs(List<CasinoBoolean> casinos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde) {
+        List<Solicitudbarajadetalle> lista;
+        lista = GestionBarajasDao.getListaSoliciudesBarajasRepo(casinos, ano, mes, annodesde, mesdesde);
+        Calendar c = Calendar.getInstance();
+        List<ConsumoBarajas> consumo = new ArrayList<ConsumoBarajas>();
+        for (Solicitudbarajadetalle bono : lista) {
+            c.setTime(bono.getSolicitudbarajas().getFechacreacion());
+            ConsumoBarajas b = new ConsumoBarajas(new BarajasDTO(bono.getInventarobarajas().getBaraja()));
+            if (!consumo.contains(b)) {
+                consumo.add(b);
+
+            }
+                consumo.get(consumo.indexOf(b)).sumarCantidad(c.get(Calendar.MONTH), c.get(Calendar.YEAR), bono.getCantidad());
+            
+
+        }
+        return consumo;
     }
 
 }

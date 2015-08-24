@@ -57,7 +57,7 @@ public class VerOrdenCompraBarajas implements Serializable {
         }
         if (sessionBean.getAttributes("orden") == null) {
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("ListaOrdenesCompraBarajasBean.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("ListaOrdenesCompraBarajas.xhtml");
             } catch (IOException ex) {
             }
         }
