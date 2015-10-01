@@ -7,17 +7,12 @@ package com.invbf.sistemagestionmercadeo.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -38,11 +33,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Casinos.findAll", query = "SELECT c FROM Casinos c"),
     @NamedQuery(name = "Casinos.findByIdCasino", query = "SELECT c FROM Casinos c WHERE c.idCasino = :idCasino"),
     @NamedQuery(name = "Casinos.findByNombre", query = "SELECT c FROM Casinos c WHERE c.nombre = :nombre"),
-    @NamedQuery(name = "Casinos.findByDireccion", query = "SELECT c FROM Casinos c WHERE c.direccion = :direccion")})
+    @NamedQuery(name = "Casinos.findByDireccion", query = "SELECT c FROM Casinos c WHERE c.direccion = :direccion"),
+    @NamedQuery(name = "Casinos.findByCorreo", query = "SELECT c FROM Casinos c WHERE c.correo = :correo")})
 public class Casinos implements Serializable {
-    
-    
-    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,7 +50,7 @@ public class Casinos implements Serializable {
     @Size(max = 45)
     @Column(name = "direccion")
     private String direccion;
-    @Size(max = 500)
+    @Size(max = 45)
     @Column(name = "correo")
     private String correo;
     @OneToMany(mappedBy = "idCasinoPreferencial")
@@ -99,6 +92,14 @@ public class Casinos implements Serializable {
         this.direccion = direccion;
     }
 
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
     @XmlTransient
     public Collection<Clientes> getClientesCollection() {
         return clientesCollection;
@@ -106,14 +107,6 @@ public class Casinos implements Serializable {
 
     public void setClientesCollection(Collection<Clientes> clientesCollection) {
         this.clientesCollection = clientesCollection;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
     }
 
     @Override
@@ -140,8 +133,5 @@ public class Casinos implements Serializable {
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Casinos[ idCasino=" + idCasino + " ]";
     }
-
-
-
-
+    
 }

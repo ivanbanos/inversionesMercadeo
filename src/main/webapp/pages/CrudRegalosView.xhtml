@@ -21,47 +21,7 @@
         </div>
         <div class="container">
             <div class="row clearfix">
-                <div class="row clearfix">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
 
-                            <div class="clickable">
-                                <h3 class="panel-title">Regalos</h3>
-                                <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <h:form class="form-horizontal">
-                                <p:dataTable id="detailsTablebarajas" var="element" value="#{crudRegalosBean.lista}"  
-                                             emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTablebarajas">
-
-                                    <f:facet name="header">
-
-                                    </f:facet>
-
-                                    <p:column headerText="Nombre" >
-                                        <h:outputText value="#{element.nombre}" />
-                                    </p:column>
-                                    <p:column headerText="Categoria" sortBy="#{element.categoria.nombre}" filterBy="#{element.categoria.nombre}" filterMatchMode="contains" >
-                                        <h:outputText value="#{element.categoria.nombre}" />
-                                    </p:column>
-                                    <p:column headerText="Sexo" sortBy="#{element.genero}" filterBy="#{element.genero}" filterMatchMode="contains" >
-                                        <h:outputText value="#{element.genero}" />
-                                    </p:column>
-
-                                    <p:column  rendered="#{sessionBean.perfilFormMatch(&quot;Regalos&quot; , &quot;actualizar&quot;)
-                                                           or sessionBean.perfilFormMatch(&quot;Regalos&quot; , &quot;eliminar&quot;)}">
-                                        <p:commandButton  icon="ui-icon-pencil" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
-                                                          title="#{label['lb_btn.editarPerfiles']}" 
-                                                          update=":#{p:component('formregalocrud')}">
-                                            <f:setPropertyActionListener value="#{element}" target="#{crudRegalosBean.elemento}" />    
-                                        </p:commandButton>
-                                    </p:column>
-                                </p:dataTable>
-                            </h:form>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
                     <h:form id="formregalocrud">
@@ -69,7 +29,7 @@
                             <div class="panel panel-primary">
                                 <div class="panel-heading">
                                     <div class="clickable">
-                                        <h3 class="panel-title">Regalo</h3>
+                                        <h3 class="panel-title">Configuraci&oacute;n  de regalo</h3>
                                         <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
                                     </div>
                                 </div>
@@ -85,7 +45,7 @@
                                             <b><label class="col-md-3 control-label" >Nombre:</label></b>
                                             <div class="col-md-9">
                                                 <p:inputText id="nombre" value="#{crudRegalosBean.elemento.nombre}"/>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -94,7 +54,7 @@
                                             <b><label class="col-md-3 control-label" >Descripci&oacute;n</label></b>
                                             <div class="col-md-9">
                                                 <p:inputTextarea id="descrpicion" value="#{crudRegalosBean.elemento.descripcion}"/>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -122,6 +82,26 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+                                    <div class="row clearfix">
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <p:fileUpload fileUploadListener="#{crudRegalosBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                                                              update=":#{p:component('messages')} :#{p:component('imagenact')}" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <h:graphicImage id="imagenact" value="http://regalos.ibfcolombia.com/#{crudRegalosBean.elemento.fileName}" style="width: 300px;"/>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
                                 </div>
                                 <div class="panel-footer">
                                     <p:commandButton  value="Nuevo regalo" onstart="PF('ajaxWaitingDialog').show();" 
@@ -145,7 +125,47 @@
             </div>
 
 
+            <div class="row clearfix">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
 
+                        <div class="clickable">
+                            <h3 class="panel-title">Lista de regalos</h3>
+                            <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <h:form class="form-horizontal">
+                            <p:dataTable id="detailsTablebarajas" var="element" value="#{crudRegalosBean.lista}"  
+                                         emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTablebarajas">
+
+                                <f:facet name="header">
+
+                                </f:facet>
+
+                                <p:column headerText="Nombre" >
+                                    <h:outputText value="#{element.nombre}" />
+                                </p:column>
+                                <p:column headerText="Categoria" sortBy="#{element.categoria.nombre}" filterBy="#{element.categoria.nombre}" filterMatchMode="contains" >
+                                    <h:outputText value="#{element.categoria.nombre}" />
+                                </p:column>
+                                <p:column headerText="Sexo" sortBy="#{element.genero}" filterBy="#{element.genero}" filterMatchMode="contains" >
+                                    <h:outputText value="#{element.genero}" />
+                                </p:column>
+
+                                <p:column  rendered="#{sessionBean.perfilFormMatch(&quot;Regalos&quot; , &quot;actualizar&quot;)
+                                                       or sessionBean.perfilFormMatch(&quot;Regalos&quot; , &quot;eliminar&quot;)}">
+                                    <p:commandButton  icon="ui-icon-pencil" onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();"
+                                                      title="#{label['lb_btn.editarPerfiles']}" 
+                                                      update=":#{p:component('formregalocrud')}">
+                                        <f:setPropertyActionListener value="#{element}" target="#{crudRegalosBean.elemento}" />    
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
 
         </div>
 
@@ -153,7 +173,7 @@
 
         <h:form >
             <p:confirmDialog id="nueva" message="Va a crear un nuevo regalo, se perderan todos los cambios no guardados. ¿Desea continuar?"  
-                             header="Vueva baraja" severity="alert" widgetVar="nueva" closable="false">  
+                             header="Nuevo regalo" severity="alert" widgetVar="nueva" closable="false">  
 
                 <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" 
                                  action="#{crudRegalosBean.nuevoRegalo()}"  ajax="false"/>  
@@ -164,7 +184,7 @@
 
         <h:form >
             <p:confirmDialog id="guardar" message="¿Está seguro que desea guardar el regalo?"  
-                             header="Guardar baraja" severity="alert" widgetVar="guardar" closable="false">  
+                             header="Guardar regalo" severity="alert" widgetVar="guardar" closable="false">  
 
                 <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();"  
                                  action="#{crudRegalosBean.actualizarRegalo()}"  ajax="false"/>  
@@ -174,7 +194,7 @@
         </h:form>
         <h:form >
             <p:confirmDialog id="eliminarba" message="¿Está seguro que desea eliminar el regalo?"  
-                             header="Eliminar baraja" severity="alert" widgetVar="eliminarba" closable="false">  
+                             header="Eliminar regalo" severity="alert" widgetVar="eliminarba" closable="false">  
 
                 <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" 
                                  action="#{crudRegalosBean.eliminarRegalo()}"  ajax="false"/>  
@@ -182,7 +202,7 @@
 
             </p:confirmDialog> 
         </h:form>
-        
+
 
     </ui:define>            
 </ui:composition>

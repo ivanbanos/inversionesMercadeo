@@ -32,9 +32,22 @@
                         </div>
                         <div class="panel-body">
 
-                            <p:dataTable value="#{inventarioBarajasBean.inventario.inventario}" var="inventario" >
-                                <p:column headerText="Baraja" >
-                                    #{inventario.baraja.material.nombre} #{inventario.baraja.material.descripcion} #{inventario.baraja.color}  #{inventario.baraja.marca}
+                            <p:dataTable value="#{configuracionInventarioRegalosBean.inventario.inventario}" var="inventario" >
+                                <p:column headerText="Nombre del regalo" >
+                                    #{inventario.regalo.nombre} 
+                                </p:column>
+                                <p:column headerText="Imagen" >
+                                    <h:graphicImage id="imagenact" value="http://regalos.ibfcolombia.com/#{inventario.regalo.fileName}"/>
+
+                                </p:column>
+                                <p:column headerText="Genero" >
+                                    #{inventario.regalo.genero} 
+                                </p:column>
+                                <p:column headerText="Categoria" >
+                                    #{inventario.regalo.categoria.nombre} 
+                                </p:column>
+                                <p:column headerText="Descripci&oacute;n" >
+                                    #{inventario.regalo.descripcion} 
                                 </p:column>
                                 <p:column headerText="M&iacute;nimo" style="background-color: #DEDEDE; text-align: center;">
                                     #{inventario.min}
@@ -43,24 +56,12 @@
                                     #{inventario.max}
                                 </p:column>
                                 
-                                <p:column headerText="Inventario inicial" style="text-align: center;">
-                                    #{inventario.cantidad}
-                                </p:column>
-                                <p:column headerText="En uso" style="text-align: center;">
-                                    #{inventario.uso}
-                                </p:column>
-                                <p:column headerText="Por destruir" style="text-align: center;">
-                                    #{inventario.pordestruir}
-                                </p:column>
-                                <p:column headerText="Destruidas" style="text-align: center;">
-                                    #{inventario.destruidas}
-                                </p:column>
                                 <p:column headerText="Inventario disponible" style="background-color: #4da309;text-align: center;">
-                                    <p id="cantbar#{inventario.baraja.id}" > #{inventario.cantidad - inventario.uso -inventario.destruidas-inventario.pordestruir}
+                                    <p id="cantbar#{inventario.regalo.id}" > #{inventario.cantidad}
                                     </p>
                                 </p:column>
 
-                                <script>setStyle("cantbar#{inventario.baraja.id}", #{inventario.cantidad - inventario.uso -inventario.destruidas-inventario.pordestruir}, #{inventario.min})</script>
+                                <script>setStyle("cantbar#{inventario.regalo.id}", #{inventario.cantidad}, #{inventario.min});</script>
                             </p:dataTable>
                         </div>
                         <div class="panel-footer">

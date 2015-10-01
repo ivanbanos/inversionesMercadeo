@@ -925,7 +925,7 @@ public class GeneradorSolicitudBonos implements Serializable {
     }
 
     public void BuscarClientes() {
-        clientesBuscados = sessionBean.marketingUserFacade.findAllClientesCasinos(elemento.getIdCasino(), nombreBusqueda, apellidosBusqueda, identificacionBusqueda, null,"");
+        clientesBuscados = sessionBean.marketingUserFacade.findAllClientesCasinos(elemento.getIdCasino(), categoriaBooleans, nombreBusqueda, apellidosBusqueda, identificacionBusqueda, null,"");
         for (Iterator<Cliente> it = clientesBuscados.iterator(); it.hasNext();) {
             Cliente cliente = it.next();
 

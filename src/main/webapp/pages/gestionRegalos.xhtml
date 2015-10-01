@@ -35,9 +35,29 @@
                             <h:commandLink  action="#{sessionBean.go(&quot;verInvRegalo&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
                                 <br/>Stock<br/>de regalos</h:commandLink>
                         </c:if>
-                        
-                        
-                                      
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;verOrdenRegalo&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;generarOrdenRegalo&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;aprobarOrdenRegalo&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;recibirOrdenRegalo&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;verOrdenRegalo&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
+                                <br/>Requerimiento<br/>de regalos</h:commandLink>
+                        </c:if>
+
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;RegaloVerSolicitud&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;RegaloCrearSolicitud&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;RegaloAprobarSolicitud&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;RegaloEnviarSolicitud&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;RegaloRecibirSolicitud&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;verSolicitudRegaloRegalo&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
+                                <br/>Lista de solicitudes<br/> de regalo</h:commandLink>
+                            
+                        </c:if>
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;RegaloCanjear&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;regaloCanjear&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
+                                <br/>Entrega de regalos<br/><br/></h:commandLink>
+                            
+                        </c:if>
+
                     </div>
                 </h:form>
             </div>

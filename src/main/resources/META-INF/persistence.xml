@@ -60,7 +60,6 @@
     <class>com.invbf.sistemagestionmercadeo.entity.Ordencompraregalodetalle</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Solicitudregalodetalle</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Ordencompraregalos</class>
-    <class>com.invbf.sistemagestionmercadeo.entity.Perfiles</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Actasdestruccionbarajas</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Destruccionbarajasmaestro</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Trasladobarajas</class>

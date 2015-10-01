@@ -57,7 +57,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Cliente.findByCasinoYNoCupo", query = "SELECT c FROM Cliente c WHERE c.idCasinoPreferencial.idCasino = :casino ORDER BY c.nombres"),
     @NamedQuery(name = "Cliente.findByIdent", query = "SELECT c FROM Cliente c WHERE c.identificacion = :identificacion"),
     @NamedQuery(name = "Cliente.findByCasinoNombreYApellidos", query = "SELECT c FROM Cliente c WHERE c.idCasinoPreferencial.idCasino = :casino AND c.nombres LIKE :nombres AND c.apellidos LIKE :apellidos AND c.identificacion LIKE :identificacion AND c.genero like :sexo ORDER BY c.nombres"),
+    @NamedQuery(name = "Cliente.findByCasinoNombreYApellidosYCat", query = "SELECT c FROM Cliente c WHERE c.idCasinoPreferencial.idCasino = :casino AND c.nombres LIKE :nombres AND c.apellidos LIKE :apellidos AND c.identificacion LIKE :identificacion AND c.genero like :sexo AND c.idCategorias.idCategorias = :cat ORDER BY c.nombres"),
+    @NamedQuery(name = "Cliente.findByCasinoSexoCatDiaMes", query = "SELECT c FROM Cliente c WHERE c.idCasinoPreferencial.idCasino = :casino AND c.genero like :sexo AND c.idCategorias.idCategorias = :cat ORDER BY c.nombres"),
     @NamedQuery(name = "Cliente.findByCasinoNombreYApellidosYtipo", query = "SELECT c FROM Cliente c WHERE c.idCasinoPreferencial.idCasino = :casino AND c.nombres LIKE :nombres AND c.apellidos LIKE :apellidos AND c.identificacion LIKE :identificacion AND c.idTipoDocumento = :idTipo AND c.genero like :sexo ORDER BY c.nombres"),
+    @NamedQuery(name = "Cliente.findByCasinoNombreYApellidosYtipoYCat", query = "SELECT c FROM Cliente c WHERE c.idCasinoPreferencial.idCasino = :casino AND c.nombres LIKE :nombres AND c.apellidos LIKE :apellidos AND c.identificacion LIKE :identificacion AND c.idTipoDocumento = :idTipo AND c.genero like :sexo AND c.idCategorias.idCategorias = :cat ORDER BY c.nombres"),
     @NamedQuery(name = "Cliente.findByAttr", query = "SELECT c FROM Cliente c WHERE c.nombres LIKE :nombres AND c.apellidos LIKE :apellidos AND c.identificacion LIKE :identificacion")})
 public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -193,6 +196,8 @@ public class Cliente implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
     private List<ControlsalidabonosHasLotesbonosHasClientes> controlsalidabonosHasLotesbonosHasClientesList;
 
+    @OneToMany(mappedBy = "cliente")
+    private List<Solicitudregalodetalle> solicitudregalodetalleList;
     public Cliente() {
     }
 
@@ -542,5 +547,12 @@ public class Cliente implements Serializable {
     public void setSendEmail(Integer sendEmail) {
         this.sendEmail = sendEmail;
     }
-    
+    @XmlTransient
+    public List<Solicitudregalodetalle> getSolicitudregalodetalleList() {
+        return solicitudregalodetalleList;
+    }
+
+    public void setSolicitudregalodetalleList(List<Solicitudregalodetalle> solicitudregalodetalleList) {
+        this.solicitudregalodetalleList = solicitudregalodetalleList;
+    }
 }

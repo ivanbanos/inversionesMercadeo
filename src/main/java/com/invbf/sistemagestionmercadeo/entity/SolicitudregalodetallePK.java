@@ -25,13 +25,18 @@ public class SolicitudregalodetallePK implements Serializable {
     @NotNull
     @Column(name = "inventario")
     private int inventario;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "cliente")
+    private int cliente;
 
     public SolicitudregalodetallePK() {
     }
 
-    public SolicitudregalodetallePK(int solicitud, int inventario) {
+    public SolicitudregalodetallePK(int solicitud, int inventario, int cliente) {
         this.solicitud = solicitud;
         this.inventario = inventario;
+        this.cliente = cliente;
     }
 
     public int getSolicitud() {
@@ -50,11 +55,20 @@ public class SolicitudregalodetallePK implements Serializable {
         this.inventario = inventario;
     }
 
+    public int getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(int cliente) {
+        this.cliente = cliente;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (int) solicitud;
         hash += (int) inventario;
+        hash += (int) cliente;
         return hash;
     }
 
@@ -71,12 +85,15 @@ public class SolicitudregalodetallePK implements Serializable {
         if (this.inventario != other.inventario) {
             return false;
         }
+        if (this.cliente != other.cliente) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "com.invbf.sistemagestionmercadeo.entity.SolicitudregalodetallePK[ solicitud=" + solicitud + ", inventario=" + inventario + " ]";
+        return "com.invbf.sistemagestionmercadeo.entity.SolicitudregalodetallePK[ solicitud=" + solicitud + ", inventario=" + inventario + ", cliente=" + cliente + " ]";
     }
     
 }

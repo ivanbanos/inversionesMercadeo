@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+
+        <div class="row">
+
+            <div class="control-group">
+                <!-- Username -->
+                <div class="form-group">
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Regalos/Solicitud de regalos</label>
+                </div>
+            </div>
+        </div>
+        <h:form>
+            <div class="container">
+                <div class="row clearfix">
+                    <div class="col-md-12 ">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading"><h4>Solicitud de regalos</h4></div>
+                            <div class="panel-body">
+                                <div class="row">
+
+
+
+
+                                    <div class="row text-center">
+                                        <div class="col-md-12" style="margin-top: 20px;">
+                                            <div class="pricing-table">
+                                                <div class="panel panel-primary" style="border: none;">
+                                                    <div class="controle-header panel-heading panel-heading-landing">
+                                                        <h4 >
+                                                            Acta # #{regaloVerSolicitud.solicitud.id}
+                                                        </h4>
+                                                    </div>
+                                                    <div class="controle-panel-heading panel-heading panel-heading-landing-box">
+                                                        #{regaloVerSolicitud.solicitud.estado}
+                                                    </div>
+                                                    <div class="panel-body panel-body-landing">
+                                                        <table class="table">
+                                                            <tr>
+                                                                <td width="50px"><i class="fa fa-check"></i></td>
+                                                                <td>Generada en</td>
+                                                                <td>
+                                                                    <h:outputText value="#{regaloVerSolicitud.solicitud.fechaCreacion}">
+                                                                        <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                    </h:outputText>
+                                                                </td>
+                                                                <td>Por</td>
+                                                                <td>
+                                                                    <h:outputText value="#{regaloVerSolicitud.solicitud.usuarioCreado}"/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <c:choose>
+                                                                    <c:when test="#{regaloVerSolicitud.solicitud.estado == 'GENERADA'}">
+                                                                        <td width="50px"></td>
+                                                                        <td>Por aprobar</td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                    </c:when>
+                                                                    <c:otherwise >
+                                                                        <td width="50px"><i class="fa fa-check"></i></td>
+                                                                        <td>Aprobada en</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{regaloVerSolicitud.solicitud.fechaAceptada}">
+                                                                                <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                            </h:outputText>
+                                                                        </td>
+                                                                        <td>Por</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{regaloVerSolicitud.solicitud.usuarioAceptador}"/>
+                                                                        </td>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </tr>
+                                                            <c:choose>
+                                                                <tr>
+                                                                    <c:when test="#{regaloVerSolicitud.solicitud.fechaEnviada != null}">
+                                                                        <td width="50px"></td>
+                                                                        <td>Enviada en</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{regaloVerSolicitud.solicitud.fechaEnviada}">
+                                                                                <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                            </h:outputText>
+                                                                        </td>
+                                                                        <td>Por</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{regaloVerSolicitud.solicitud.usuarioEnviador}"/>
+                                                                        </td>
+                                                                    </c:when>
+                                                                </tr>
+                                                            </c:choose>
+                                                            <c:choose>
+                                                                <tr>
+                                                                    <c:when test="#{regaloVerSolicitud.solicitud.fechaRecibida != null}">
+                                                                        <td width="50px"></td>
+                                                                        <td>Recibido en</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{regaloVerSolicitud.solicitud.fechaRecibida}">
+                                                                                <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                            </h:outputText>
+                                                                        </td>
+                                                                        <td>Por</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{regaloVerSolicitud.solicitud.usuarioREcibidor}"/>
+                                                                        </td>
+                                                                    </c:when>
+                                                                </tr>
+                                                            </c:choose>
+
+                                                        </table>
+                                                    </div>
+                                                    <div class="panel-footer panel-footer-landing">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <p:dataTable value="#{regaloVerSolicitud.solicitud.cantidades}" var="detallec" rowIndexVar="status"
+                                                 emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
+
+
+                                        <p:column headerText="Regalo" style="text-align: center;">
+                                            <h:outputText value="#{detallec.regalo.nombre}">
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="Cliente" style="text-align: center;">
+                                            <h:outputText value="#{detallec.cliente.nombres} #{detalle.cliente.apellidos}">
+                                            </h:outputText>
+                                        </p:column>
+                                    </p:dataTable>
+                                </div>
+
+                                <div class="row">
+                                    <p:dataTable value="#{regaloVerSolicitud.regalocantidad}" var="detalle" rowIndexVar="status"
+                                                 emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
+
+                                        <f:facet name="header">
+                                            Resumen
+                                        </f:facet>
+                                        <p:column headerText="Regalo" style="text-align: center;">
+                                            <h:outputText value="#{detalle.regalo.nombre}">
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="Cantidad" style="text-align: center;">
+                                            <h:outputText value="#{detalle.cantidad}">
+                                            </h:outputText>
+                                        </p:column>
+                                    </p:dataTable>
+                                </div>
+                            </div>
+                            <div class="panel-footer panel-footer-landing text-right">
+                                <p:commandButton id="btnrec" value="Recibir" style="margin:0" 
+                                                 onclick="PF('recibir').show();"/>
+                                <h:commandLink  action="#{sessionBean.go(&quot;verSolicitudRegaloRegalo&quot;)}" class="btn btn-primary">volver</h:commandLink>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+        <h:form>
+            <p:confirmDialog id="recibir" message="Va a recibir los regalos #{label['cierrepregunta']}"  
+                             header="Recibir" severity="alert" widgetVar="recibir" closable="false">  
+
+                <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
+                                 action="#{regaloVerSolicitud.recibir()}"/>  
+                <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('recibir').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+    </ui:define>            
+</ui:composition>
+

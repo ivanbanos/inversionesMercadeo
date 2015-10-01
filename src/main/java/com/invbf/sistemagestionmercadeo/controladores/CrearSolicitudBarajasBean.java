@@ -7,6 +7,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 
 import com.invbf.sistemagestionmercadeo.dto.BarajasCantidad;
 import com.invbf.sistemagestionmercadeo.dto.InventarioBarajasDTO;
+import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
@@ -70,12 +71,25 @@ public class CrearSolicitudBarajasBean implements Serializable {
 
     public void crear() {
         try {
-            int i = sessionBean.barajasFacade.crearSolicitudBarajas(invent, sessionBean.getUsuario());
-            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha generado la solicitud con exito", "Acta de orden #" + i));
-            Notificador.notificar(Notificador.correoSolicitudBarajaCreada,
-                    "Se ha creado la solicitud de barajas con el n&uacute;mero de acta " + i + ". Favor revisar la lista de solicitudes de barajas.",
-                    "Se ha creado una solicitud de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
-            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBarajas.xhtml");
+            boolean todosCero = true;
+            for (BarajasCantidad baraja : invent.getInventario()) {
+                if (baraja.getCantidad() != 0) {
+                    todosCero = false;
+                    break;
+                }
+            }
+            if (todosCero) {
+                sessionBean.putMensaje(new Mensajes(Mensajes.ADVERTENCIA, "Todas las cantidades estan en 0.", "No se puede guardar una solicitud con todas las cantidades en 0." ));
+                sessionBean.printMensajes();
+            } else {
+                int i = sessionBean.barajasFacade.crearSolicitudBarajas(invent, sessionBean.getUsuario());
+                sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha generado la solicitud con exito", "Acta de orden #" + i));
+                Notificador.notificar(Notificador.correoSolicitudBarajaCreada,
+                        "Se ha creado la solicitud de barajas con el n&uacute;mero de acta " + i + ". Favor revisar la lista de solicitudes de barajas.",
+                        "Se ha creado una solicitud de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo()
+                        ,new Casino(invent.getId()));
+                FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBarajas.xhtml");
+            }
         } catch (IOException ex) {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }

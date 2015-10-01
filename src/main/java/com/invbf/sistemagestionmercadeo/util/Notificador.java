@@ -9,6 +9,7 @@ import com.invbf.sistemagestionmercadeo.dao.ConfiguracionDao;
 import com.invbf.sistemagestionmercadeo.dao.PerfilDao;
 import com.invbf.sistemagestionmercadeo.dao.UsuarioDao;
 import com.invbf.sistemagestionmercadeo.dao.VistaDao;
+import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Perfil;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.entity.Vista;
@@ -122,15 +123,7 @@ public class Notificador implements Serializable {
             case correoLimiteAlcanzadoBarajas:
                 sendEmail("correoLimiteAlcanzadoBarajas", subject, body, false, correosolicitantes);
                 break;
-            case correoSolicitudBarajaRecibida:
-                sendEmail("correoSolicitudBarajaRecibida", subject, body, false, correosolicitantes);
-                break;
-            case correoSolicitudBarajaEntregada:
-                sendEmail("correoSolicitudBarajaEntregada", subject, body, false, correosolicitantes);
-                break;
-            case correoSolicitudBarajaCreada:
-                sendEmail("correoSolicitudBarajaCreada", subject, body, true, correosolicitantes);
-                break;
+           
             case correoOrdenBarajasRecibida:
                 sendEmail("correoOrdenBarajasRecibida", subject, body, true, correosolicitantes);
                 break;
@@ -145,7 +138,24 @@ public class Notificador implements Serializable {
                 break;
         }
     }
+    
+    public static void notificar(int tipo, String body, String subject, String correosolicitantes, Casino sala) {
+        switch (tipo) {
+            case correoSolicitudBarajaRecibida:
+                sendEmail("correoSolicitudBarajaRecibida", subject, body, false, correosolicitantes, sala);
+                break;
+            case correoSolicitudBarajaEntregada:
+                sendEmail("correoSolicitudBarajaEntregada", subject, body, false, correosolicitantes, sala);
+                break;
+            case correoSolicitudBarajaCreada:
+                sendEmail("correoSolicitudBarajaCreada", subject, body, true, correosolicitantes, sala);
+                break;
+        }
+    }
+    
 
+     
+    
     private static void sendEmail(String permiso, String subject, String mesaje, boolean enviarSol, String correo) {
         EmailSender es = new EmailSender();
         es.setAuth(true);
@@ -168,6 +178,52 @@ public class Notificador implements Serializable {
                     System.out.println(usuarios.size());
                     for (Usuario usuario : usuarios) {
                         if (usuario.getUsuariodetalle() != null && usuario.getUsuariodetalle().getCorreo() != null && !usuario.getUsuariodetalle().getCorreo().equals("")) {
+                            System.out.println(usuario.getUsuariodetalle().getCorreo());
+
+                            es.sendEmailNotificador(usuario.getUsuariodetalle().getCorreo(), subject, mesaje);
+                        }
+                    }
+                }
+            }
+            if (enviarSol) {
+                es.sendEmailNotificador(correo, subject, mesaje);
+            }
+        } catch (MessagingException ex) {
+            Logger.getLogger(Notificador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Notificador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private static void sendEmail(String permiso, String subject, String mesaje, boolean enviarSol, String correo, Casino sala) {
+        EmailSender es = new EmailSender();
+        es.setAuth(true);
+        es.setDebug(true);
+        es.setFrom(ConfiguracionDao.findByNombre("correo").getValor());
+        es.setHost(ConfiguracionDao.findByNombre("host").getValor());
+        es.setPort(Integer.parseInt(ConfiguracionDao.findByNombre("port").getValor()));
+        es.setProtocol(ConfiguracionDao.findByNombre("protocol").getValor());
+        es.setUsername(ConfiguracionDao.findByNombre("username").getValor());
+        es.setPassword(ConfiguracionDao.findByNombre("contrasena").getValor());
+
+        try {
+            Vista v = VistaDao.findByNombre(permiso);
+            System.out.println(v.getNombreVista());
+            List<Perfil> perfiles = PerfilDao.findAll();
+            for (Perfil perfil : perfiles) {
+                System.out.println(perfil.getVistaList().contains(v));
+                if (perfil.getVistaList().contains(v)) {
+                    List<Usuario> usuarios = UsuarioDao.findByPerfil(perfil);
+                    System.out.println(usuarios.size());
+                    for (Usuario usuario : usuarios) {
+                        
+                            System.out.println("Sala: "+sala.getIdCasino());
+                            System.out.println("Sala: "+sala.getIdCasino());
+                            System.out.println("Sala: "+usuario.getCasinoList().contains(sala));
+                        if (usuario.getUsuariodetalle() != null 
+                                && usuario.getUsuariodetalle().getCorreo() != null 
+                                && !usuario.getUsuariodetalle().getCorreo().equals("")
+                                && usuario.getCasinoList().contains(sala)) {
                             System.out.println(usuario.getUsuariodetalle().getCorreo());
 
                             es.sendEmailNotificador(usuario.getUsuariodetalle().getCorreo(), subject, mesaje);

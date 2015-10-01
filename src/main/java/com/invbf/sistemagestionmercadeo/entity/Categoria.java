@@ -49,6 +49,8 @@ public class Categoria implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategorias")
     private List<Cliente> clienteList;
 
+    @OneToMany(mappedBy = "categoria",cascade = CascadeType.REMOVE)
+    private List<Regalos> regalos;
     public Categoria() {
     }
 
@@ -110,5 +112,12 @@ public class Categoria implements Serializable {
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Categoria[ idCategorias=" + idCategorias + " ]";
     }
-    
+    @XmlTransient
+    public List<Regalos> getRegalos() {
+        return regalos;
+    }
+
+    public void setRegalos(List<Regalos> regalos) {
+        this.regalos = regalos;
+    }
 }

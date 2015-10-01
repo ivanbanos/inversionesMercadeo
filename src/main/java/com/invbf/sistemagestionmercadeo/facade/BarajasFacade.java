@@ -117,6 +117,8 @@ public interface BarajasFacade {
 
     public List<ConsumoBarajas> getConsumoPorMEs(List<CasinoBoolean> casinos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde);
 
+    public void rechazarOrden(OrdenCompraBarajaDTO orden, Usuario usuario);
+
 
 
 }

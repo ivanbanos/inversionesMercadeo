@@ -31,6 +31,7 @@ public class VerOrdenCompraBarajas implements Serializable {
     private OrdenCompraBarajaDTO orden;
     private Integer idOrden;
     private Float total;
+    private String observaciones;
 
     public VerOrdenCompraBarajas() {
     }
@@ -79,7 +80,8 @@ public class VerOrdenCompraBarajas implements Serializable {
         this.orden = orden;
     }
 
-    public void crearrOrden() {
+    public void crearrOrden() {orden.setObservaciones(orden.getObservaciones()+sessionBean.getUsuario().getNombreUsuario()+":"+observaciones+".");
+        
         sessionBean.barajasFacade.crearOrden(orden, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha generado el requerimiento con exito", "Acta de orden #" + orden.getId()));
         Notificador.notificar(Notificador.correoOrdenBarajasCreada,
@@ -92,6 +94,7 @@ public class VerOrdenCompraBarajas implements Serializable {
     }
 
     public void aprobarOrden() {
+        orden.setObservaciones(orden.getObservaciones()+sessionBean.getUsuario().getNombreUsuario()+":"+observaciones+".");
         sessionBean.barajasFacade.aprobarOrden(orden, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha aprobado el requerimiento con exito", "Acta de orden #" + orden.getId()));
         Notificador.notificar(Notificador.correoOrdenBarajasAprobada,
@@ -101,9 +104,21 @@ public class VerOrdenCompraBarajas implements Serializable {
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaOrdenesCompraBarajas.xhtml");
         } catch (IOException ex) {
         }
+    }public void rechazarOrden() {orden.setObservaciones(orden.getObservaciones()+sessionBean.getUsuario().getNombreUsuario()+":"+observaciones+".");
+        
+        sessionBean.barajasFacade.rechazarOrden(orden, sessionBean.getUsuario());
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha rechazado el requerimiento con exito", "Acta de orden #" + orden.getId()));
+        Notificador.notificar(Notificador.correoOrdenBarajasAprobada,
+                "Se ha rechazado el requerimiento de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
+                "Se ha rechazado un requerimiento de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaOrdenesCompraBarajas.xhtml");
+        } catch (IOException ex) {
+        }
     }
 
-    public void recibirOrden() {
+    public void recibirOrden() {orden.setObservaciones(orden.getObservaciones()+sessionBean.getUsuario().getNombreUsuario()+":"+observaciones+".");
+        
         sessionBean.barajasFacade.recibirOrden(idOrden, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha recibido el requerimiento con exito", "Acta de orden #" + orden.getId()));
         Notificador.notificar(Notificador.correoOrdenBarajasRecibida,
@@ -129,6 +144,14 @@ public class VerOrdenCompraBarajas implements Serializable {
 
     public void setTotal(Float total) {
         this.total = total;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 
 }

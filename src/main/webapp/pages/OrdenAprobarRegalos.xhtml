@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+
+        <div class="row">
+
+            <div class="control-group">
+                <!-- Username -->
+                <div class="form-group">
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Regalos/Requerimiento de compra de lotes de regalos</label>
+                </div>
+            </div>
+        </div>
+        <h:form>
+            <div class="container">
+                <div class="row clearfix">
+                    <div class="col-md-12 ">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading"><h4>Requerimiento de compra de lotes de regalos</h4></div>
+                            <div class="panel-body">
+                                <div class="row">
+
+
+
+
+                                    <div class="row text-center">
+                                        <div class="col-md-12" style="margin-top: 20px;">
+                                            <div class="pricing-table">
+                                                <div class="panel panel-primary" style="border: none;">
+                                                    <div class="controle-header panel-heading panel-heading-landing">
+                                                        <h4 >
+                                                            Acta # #{verOrdenCompraRegalos.orden.id}
+                                                        </h4>
+                                                    </div>
+                                                    <div class="controle-panel-heading panel-heading panel-heading-landing-box">
+                                                        #{verOrdenCompraRegalos.orden.estado}
+                                                    </div>
+                                                    <div class="panel-body panel-body-landing">
+                                                        <table class="table">
+                                                            <tr>
+                                                                <c:choose>
+                                                                    <c:when test="#{verOrdenCompraRegalos.orden.estado == 'PREGENERADO'}">
+                                                                        <td width="50px"></td>
+                                                                        <td>Por generar</td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                    </c:when>
+                                                                    <c:otherwise >
+                                                                        <td width="50px"><i class="fa fa-check"></i></td>
+                                                                        <td>Generada en</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{verOrdenCompraRegalos.orden.fechaCreacion}">
+                                                                                <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                            </h:outputText>
+                                                                        </td>
+                                                                        <td>Por</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{verOrdenCompraRegalos.orden.usuarioCreado}"/>
+                                                                        </td>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </tr>
+                                                            <tr>
+                                                                <c:choose>
+                                                                    <c:when test="#{verOrdenCompraRegalos.orden.estado == 'GENERADO'}">
+                                                                        <td width="50px"></td>
+                                                                        <td>Por aprobar</td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                    </c:when>
+                                                                    <c:when test="#{verOrdenCompraRegalos.orden.estado == 'PREGENERADO'}">
+
+                                                                    </c:when>
+                                                                    <c:otherwise >
+                                                                        <td width="50px"><i class="fa fa-check"></i></td>
+                                                                        <td>Aprobada en</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{verOrdenCompraRegalos.orden.fechaAceptada}">
+                                                                                <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                            </h:outputText>
+                                                                        </td>
+                                                                        <td>Por</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{verOrdenCompraRegalos.orden.usuarioAceptador}"/>
+                                                                        </td>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </tr>
+
+                                                            <c:choose>
+                                                                <tr>
+                                                                    <c:when test="#{verOrdenCompraRegalos.orden.estado == 'RECIBIDO'}">
+                                                                        <td width="50px"></td>
+                                                                        <td>Recibido en</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{verOrdenCompraRegalos.orden.fechaRecibida}">
+                                                                                <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                            </h:outputText>
+                                                                        </td>
+                                                                        <td>Por</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{verOrdenCompraRegalos.orden.usuarioREcibidor}"/>
+                                                                        </td>
+                                                                    </c:when>
+                                                                </tr>
+                                                            </c:choose>
+
+                                                        </table>
+                                                    </div>
+                                                    <div class="panel-footer panel-footer-landing">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <p:dataTable value="#{verOrdenCompraRegalos.orden.cantidades}" var="detalle" rowIndexVar="status"
+                                                 emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
+
+
+                                        <p:column headerText="Regalo" style="text-align: center;">
+                                            <h:outputText value="#{detalle.regalo.nombre}">
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="Cantidad solicitada" width="25%" style="text-align: center;">
+                                            <span id="cantidad#{status}">
+                                                <h:outputText value="#{detalle.cantidad}">
+                                                </h:outputText>
+                                            </span>
+                                        </p:column>
+                                        <p:column headerText="Cantidad a aprobar"  width="25%" >
+                                            <span id="cantidad#{status}">
+                                                <p:spinner min="0" stepFactor="10"
+                                                           value="#{detalle.cantidadAprobada}">
+                                                </p:spinner>
+                                            </span>
+
+                                        </p:column>
+                                    </p:dataTable>
+                                </div>
+
+                                <div class="row">
+                                    <div class="control-group">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" >Observaciones</label>
+                                            <div class="col-md-9">
+                                                <h:outputLabel id="just2" value="#{verOrdenCompraRegalos.orden.observaciones}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer panel-footer-landing">
+                                <p:commandButton id="btnapr" value="Aprobar" style="margin:0" 
+                                                 onclick="PF('aprobar').show();"/>
+                                <p:commandButton id="btnrec" value="Rechazar" style="margin:0" 
+                                                 onclick="PF('rechazar').show();"/>
+                                <h:commandLink  action="#{sessionBean.go(&quot;verOrdenRegalo&quot;)}" class="btn btn-primary">volver</h:commandLink>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+        <h:form>
+            <p:confirmDialog id="aprobar" message="Quiere aprobar la orden #{label['cierrepregunta']}"  
+                             header="Aprobar" severity="alert" widgetVar="aprobar" closable="false">  
+
+                <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
+                                 action="#{verOrdenCompraRegalos.aprobar()}"/>  
+                <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('recibir').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+        <h:form>
+            <p:confirmDialog id="rechazar" message="Quiere rechazar la orden #{label['cierrepregunta']}"  
+                             header="Rechazar" severity="alert" widgetVar="rechazar" closable="false">  
+
+                <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
+                                 action="#{verOrdenCompraRegalos.rechazar()}"/>  
+                <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('recibir').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+    </ui:define>            
+</ui:composition>
+

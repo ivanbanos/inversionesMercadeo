@@ -40,4 +40,27 @@ public class PermisoCliente  implements Serializable{
 
     public PermisoCliente() {
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 61 * hash + (this.permiso != null ? this.permiso.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PermisoCliente other = (PermisoCliente) obj;
+        if (this.permiso != other.permiso && (this.permiso == null || !this.permiso.equals(other.permiso))) {
+            return false;
+        }
+        return true;
+    }
+    
 }

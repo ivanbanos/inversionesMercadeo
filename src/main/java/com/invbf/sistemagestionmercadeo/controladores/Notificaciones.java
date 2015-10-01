@@ -23,7 +23,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class Notificaciones implements Serializable{
+public class Notificaciones implements Serializable {
 
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -72,9 +72,9 @@ public class Notificaciones implements Serializable{
 
     public void ejecutarPermiso() {
         try {
-            
+
             String message = sessionBean.managerUserFacade.ejecutarPermiso(permiso.getPermiso());
-        sessionBean.registrarlog(null, null, "Permiso para cambiar el cliente "+permiso.getCliente().toString()+"campo:"+permiso.getPermiso().getCampo()+":ACEPTADO");
+            sessionBean.registrarlog(null, null, "Permiso para cambiar el cliente " + permiso.getCliente().toString() + "campo:" + permiso.getPermiso().getCampo() + ":ACEPTADO");
             FacesUtil.addInfoMessage("Acción realizada con éxito", message);
         } catch (clienteInexistenteException ex) {
             FacesUtil.addInfoMessage("Problemas al realizar la accion", "El cliente ya no existe");
@@ -92,11 +92,38 @@ public class Notificaciones implements Serializable{
             }
         }
         permiso = new PermisoCliente();
+        listaselected = new ArrayList<PermisoCliente>();
+    }
+
+    public void ejecutarPermisos() {
+        try {
+            for (PermisoCliente permisoc : listaselected) {
+                String message = sessionBean.managerUserFacade.ejecutarPermiso(permisoc.getPermiso());
+
+                sessionBean.managerUserFacade.eliminarPermiso(permisoc.getPermiso());
+                sessionBean.registrarlog(null, null, "Permiso para cambiar el cliente " + permisoc.getCliente().toString() + "campo:" + permisoc.getPermiso().getCampo() + ":ACEPTADO");
+                FacesUtil.addInfoMessage("Acción realizada con éxito", message);
+            }
+        } catch (clienteInexistenteException ex) {
+            FacesUtil.addInfoMessage("Problemas al realizar la accion", "El cliente ya no existe");
+        }
+
+        permisos = sessionBean.managerUserFacade.getAllPermisos();
+        lista = new ArrayList<PermisoCliente>();
+        for (Permiso p : permisos) {
+            Cliente c = sessionBean.marketingUserFacade.findCliente(Integer.parseInt(p.getId()));
+            if (c != null) {
+                lista.add(new PermisoCliente(p, c));
+            } else {
+                sessionBean.managerUserFacade.eliminarPermiso(p);
+            }
+        }
+        permiso = new PermisoCliente();
     }
 
     public void eliminarPermiso() {
         sessionBean.managerUserFacade.eliminarPermiso(permiso.getPermiso());
-        sessionBean.registrarlog(null, null, "Permiso para cambiar el cliente "+permiso.getCliente().toString()+"campo:"+permiso.getPermiso().getCampo()+":RECHAZADO");
+        sessionBean.registrarlog(null, null, "Permiso para cambiar el cliente " + permiso.getCliente().toString() + "campo:" + permiso.getPermiso().getCampo() + ":RECHAZADO");
         FacesUtil.addInfoMessage("Cambio Rechazado", "");
         permisos = sessionBean.managerUserFacade.getAllPermisos();
         lista = new ArrayList<PermisoCliente>();
@@ -118,4 +145,13 @@ public class Notificaciones implements Serializable{
     public void setLista(List<PermisoCliente> lista) {
         this.lista = lista;
     }
+
+    public List<PermisoCliente> getListaselected() {
+        return listaselected;
+    }
+
+    public void setListaselected(List<PermisoCliente> listaselected) {
+        this.listaselected = listaselected;
+    }
+
 }

@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+
+        <div class="row">
+
+            <div class="control-group">
+                <!-- Username -->
+                <div class="form-group">
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Regalos/Crear solicitud de regalos</label>
+                </div>
+            </div>
+        </div>
+
+        <h:form>
+
+
+
+            <div class="row clearfix">
+
+                <div class="col-md-12 ">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h4>Creaci&oacute;n de solicitud de regalos</h4></div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="container">
+
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                                <h3 class="panel-title">Busqueda de clientes</h3>
+
+                                            
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row clearfix">
+
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                        <h:outputLabel class="col-md-6 control-label" value="Mes de cumplea&ntilde;o:" />
+                                                        <p:selectOneMenu id="mes" value="#{regalosCrearSolicitudBean.mes}" >
+                                                            <f:selectItem itemLabel="Mes" itemValue="12" />  
+                                                            <f:selectItem itemLabel="Enero" itemValue="0" />    
+                                                            <f:selectItem itemLabel="Febrero" itemValue="1" />    
+                                                            <f:selectItem itemLabel="Marzo" itemValue="2" />    
+                                                            <f:selectItem itemLabel="Abril" itemValue="3" />    
+                                                            <f:selectItem itemLabel="Mayo" itemValue="4" />    
+                                                            <f:selectItem itemLabel="Junio" itemValue="5" />    
+                                                            <f:selectItem itemLabel="Julio" itemValue="6" />    
+                                                            <f:selectItem itemLabel="Agosto" itemValue="7" />    
+                                                            <f:selectItem itemLabel="Septiembre" itemValue="8" />    
+                                                            <f:selectItem itemLabel="Octubre" itemValue="9" />    
+                                                            <f:selectItem itemLabel="Noviembre" itemValue="10" />    
+                                                            <f:selectItem itemLabel="Diciembre" itemValue="11" />  
+                                                        </p:selectOneMenu>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                        <h:outputLabel class="col-md-6 control-label" value="Genero" />
+                                                        <p:selectOneMenu id="sexo" value="#{regalosCrearSolicitudBean.sexo}">
+                                                            <f:selectItem itemLabel="Select One" itemValue="" />
+                                                            <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                                            <f:selectItem itemLabel="Femenino" itemValue="F" />
+                                                        </p:selectOneMenu>
+                                                    </div>
+                                                </div>
+                                                <div id="clientes" class="row clearfix">
+                                                    <div class="form-group col-md-12">
+                                                        <div class="col-md-3">
+                                                            <div class="panel panel-primary">
+
+                                                                <div class="panel-heading">
+                                                                    #{label['categorias']}
+                                                                </div>
+                                                                <div class="panel-body">
+                                                                    <ul id="categoriaslist">
+
+                                                                        <c:forEach var="itemcat" items="#{regalosCrearSolicitudBean.categoriaBooleans}">
+                                                                            <li>
+                                                                                <h:selectBooleanCheckbox value="#{itemcat.selected}" />&nbsp;
+                                                                                <label>#{itemcat.categoria.nombre}</label>
+                                                                            </li>
+                                                                        </c:forEach>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12 ">
+                                                            <b><label class="col-md-3 control-label" >Seleccionar sala</label></b>
+                                                            <div class="col-md-9">
+                                                                <p:selectOneMenu id="inv" value="#{regalosCrearSolicitudBean.casino.idCasino}" >
+                                                                    <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
+                                                                    <f:selectItems value="#{regalosCrearSolicitudBean.casinos}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.idCasino}"/> 
+
+                                                                </p:selectOneMenu>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <p:commandButton id="addButton" icon="ui-icon-search" value="#{label['lb_btn.Buscar']}" onstart="PF('ajaxWaitingDialog').show();"
+                                                                     title="#{label['lb_btn.Go']}" action="#{regalosCrearSolicitudBean.busquedaAvanzada()}"
+                                                                     update="@form" oncomplete="PF('ajaxWaitingDialog').hide();">
+                                                    </p:commandButton> 
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+                                    <div class="row">
+                                        <p:dataTable id="tablaInv" value="#{regalosCrearSolicitudBean.lista}" var="detalle" rowIndexVar="status"
+                                                     emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
+
+                                            <p:column headerText="Cliente" style="text-align: center;">
+                                                <h:outputText value="#{detalle.nombres}">
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Categoria" style="text-align: center;">
+                                                <h:outputText value="#{detalle.categoria}">
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Genero" style="text-align: center;">
+                                                <h:outputText value="#{detalle.sexo}">
+                                                </h:outputText>
+                                            </p:column>
+                                             <p:column headerText="Regalo" style="text-align: center;">
+                                                  - #{detalle.sexo} -  - 
+                                            <p:selectOneMenu id="inv" value="#{detalle.regalo.id}" >
+                                                <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
+                                                <f:selectItems value="#{regalosCrearSolicitudBean.inventario.inventario}" var="regalos" itemLabel="#{regalos.regalo.nombre} #{regalos.regalo.categoria.nombre} #{regalos.regalo.genero}" itemValue="#{regalos.id}"
+                                                               itemDisabled="#{detalle.categoria != regalos.regalo.categoria.nombre
+                                                                           or (detalle.sexo!='N' and regalos.regalo.genero!='S' and detalle.sexo != regalos.regalo.genero)}"/> 
+
+                                            </p:selectOneMenu>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer text-right">
+
+
+                            <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" style="margin:0" 
+                                             onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('add').show();"/>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </h:form>
+        <h:form>
+            <p:confirmDialog id="add" message="Quiere guardar la solicitud #{label['cierrepregunta']}"  
+                             header="Guardar" severity="alert" widgetVar="add" closable="false">  
+
+                <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
+                                 action="#{regalosCrearSolicitudBean.crearSolicitud()}"/>  
+                <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('add').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+
+    </ui:define>            
+</ui:composition>

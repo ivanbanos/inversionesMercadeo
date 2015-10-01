@@ -34,6 +34,7 @@ import com.invbf.sistemagestionmercadeo.exceptions.CasinoHaveSolicitudCreadaExce
 import com.invbf.sistemagestionmercadeo.exceptions.ExistenBonosFisicosException;
 import com.invbf.sistemagestionmercadeo.exceptions.LoteBonosExistenteException;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
+import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
 import com.invbf.sistemagestionmercadeo.util.PropositosBoolean;
 import com.invbf.sistemagestionmercadeo.util.TipoBonoBoolean;
 import java.util.Date;
@@ -258,5 +259,7 @@ public interface MarketingUserFacade {
     public List<BonosCantidadMes> getBonosPorCantidad(List<CasinoBoolean> casinos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde, List<PropositosBoolean> propositos);
 
     public List<BonosAprobadosCanjeados> getBonosPorCantidadMesuales(List<CasinoBoolean> casinos,List<PropositosBoolean> propositos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde);
+
+    public List<Cliente> findAllClientesCasinos(Casino idCasino, List<CategoriaBoolean> categoriaBooleans, String nombreBusqueda, String apellidosBusqueda, String identificacionBusqueda, Tipodocumento object, String string);
 
 }

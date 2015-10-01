@@ -31,7 +31,7 @@
                             <div class="panel-heading"><h4>Crear transferencia de Barajas</h4></div>
                             <div class="panel-body">
                                 <div class="row">
-                                    <p:wizard flowListener="#{tranferenciaBarajasCrearBean.onFlowProcess}">
+                                    <p:wizard flowListener="#{tranferenciaBarajasCrearBean.onFlowProcess}" backLabel="Atras" nextLabel="Siguiente">
                                         <p:tab id="salas" title="Sel. Sala">
                                             <div class="col-md-12 ">
                                                 <b><label class="col-md-3 control-label" >Seleccionar sala que env&iacute;a</label></b>
@@ -136,10 +136,10 @@
                                                     </span>
                                                 </p:column>
                                             </p:dataTable>
-
-                                            <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" style="margin:0" 
-                                                             onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('add').show();"/>
-
+                                            <div class="text-right">
+                                                <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" style="margin:0" 
+                                                                 onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('add').show();"/>
+                                            </div>
                                         </p:tab>
                                     </p:wizard>
                                 </div>

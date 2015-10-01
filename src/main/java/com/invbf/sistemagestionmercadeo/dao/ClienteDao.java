@@ -7,8 +7,10 @@ package com.invbf.sistemagestionmercadeo.dao;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
 import com.invbf.sistemagestionmercadeo.entity.Tipodocumento;
+import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -105,8 +107,8 @@ public class ClienteDao {
             cargos = (List<Cliente>) em.createNamedQuery("Cliente.findByCasinoYNoCupo")
                     .setParameter("casino", idCasino.getIdCasino())
                     .getResultList();
-            
-        System.out.println(cargos.size());
+
+            System.out.println(cargos.size());
             for (Iterator<Cliente> iterator = cargos.iterator(); iterator.hasNext();) {
                 Cliente next = iterator.next();
                 try {
@@ -125,6 +127,124 @@ public class ClienteDao {
         em.clear();
         em.close();
         emf.close();
+        return cargos;
+    }
+
+    public static List<Cliente> findByIdCasinoAndCat(Integer idCasino, List<CategoriaBoolean> categoriaBooleans, String nombre, String apellidos, String ident, Tipodocumento tipodocumento, String sexo) {
+
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Cliente> cargos = null;
+        if (nombre == null) {
+            nombre = "";
+        } else {
+            nombre = nombre.toUpperCase();
+        }
+        if (apellidos == null) {
+            apellidos = "";
+        } else {
+            apellidos = apellidos.toUpperCase();
+        }
+        if (ident == null) {
+            ident = "";
+        } else {
+            ident = ident.toUpperCase();
+        }
+        if (sexo == null) {
+            sexo = "";
+        } else {
+            sexo = sexo.toUpperCase();
+        }
+        tx.begin();
+        try {
+            cargos = new ArrayList<Cliente>();
+            if (tipodocumento == null || tipodocumento.getIdTipoDocumento() == null || tipodocumento.getIdTipoDocumento() == 0) {
+                for (CategoriaBoolean cat : categoriaBooleans) {
+                    if (cat.isSelected()) {
+                        cargos.addAll((List<Cliente>) em.createNamedQuery("Cliente.findByCasinoNombreYApellidosYCat")
+                                .setParameter("casino", idCasino)
+                                .setParameter("nombres", nombre + "%")
+                                .setParameter("apellidos", apellidos + "%")
+                                .setParameter("identificacion", ident + "%")
+                                .setParameter("sexo", sexo + "%")
+                                .setParameter("cat", cat.getCategoria().getIdCategorias())
+                                .getResultList());
+                    }
+                }
+            } else {
+                for (CategoriaBoolean cat : categoriaBooleans) {
+                    if (cat.isSelected()) {
+                        cargos.addAll((List<Cliente>) em.createNamedQuery("Cliente.findByCasinoNombreYApellidosYtipoYCat")
+                                .setParameter("casino", idCasino)
+                                .setParameter("nombres", nombre + "%")
+                                .setParameter("apellidos", apellidos + "%")
+                                .setParameter("identificacion", ident + "%")
+                                .setParameter("sexo", sexo + "%")
+                                .setParameter("idTipo", tipodocumento)
+                                .setParameter("cat", cat.getCategoria().getIdCategorias())
+                                .getResultList());
+                    }
+                }
+            }
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        System.out.println(cargos.size());
+        return cargos;
+    }
+
+    public static List<Cliente> findByIdCasinoAndCat(Integer idCasino, List<CategoriaBoolean> categoriaBooleans, Integer mes, String sexo) {
+
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Cliente> cargos = null;
+
+        if (sexo == null) {
+            sexo = "";
+        } else {
+            sexo = sexo.toUpperCase();
+        }
+        tx.begin();
+        try {
+            cargos = new ArrayList<Cliente>();
+
+            for (CategoriaBoolean cat : categoriaBooleans) {
+                if (cat.isSelected()) {
+                    cargos.addAll((List<Cliente>) em.createNamedQuery("Cliente.findByCasinoSexoCatDiaMes")
+                            .setParameter("casino", idCasino)
+                            .setParameter("sexo", sexo + "%")
+                            .setParameter("cat", cat.getCategoria().getIdCategorias())
+                            .getResultList());
+                }
+            }
+            if (mes != 12) {
+                for (Iterator<Cliente> iterator = cargos.iterator(); iterator.hasNext();) {
+                    Cliente next = iterator.next();
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(next.getCumpleanos());
+                    if (calendar.get(Calendar.MONTH) != mes - 1) {
+                        iterator.remove();
+                    }
+                }
+            }
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        System.out.println(cargos.size());
         return cargos;
     }
 

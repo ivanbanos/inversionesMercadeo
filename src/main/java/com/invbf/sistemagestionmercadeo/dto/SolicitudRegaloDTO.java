@@ -5,6 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,18 +14,19 @@ import java.util.List;
  *
  * @author ivan
  */
-public class SolicitudRegaloDTO {
+public class SolicitudRegaloDTO implements Serializable{
     private Integer id;
     private String estado;
     private Date fechaCreacion;
     private Date fechaAceptada;
     private Date fechaRecibida;
-    private Date fechaDestruccion;
+    private Date fechaEnviada;
     private String usuarioCreado;
     private String usuarioAceptador;
     private String usuarioREcibidor;
-    private String usuarioDestructor;
+    private String usuarioEnviador;
     private List<RegalosCantidadDTO> cantidades;
+    private CasinoDto casino; 
     
     
     public SolicitudRegaloDTO() {
@@ -71,12 +73,12 @@ public class SolicitudRegaloDTO {
         this.fechaRecibida = fechaRecibida;
     }
 
-    public Date getFechaDestruccion() {
-        return fechaDestruccion;
+    public Date getFechaEnviada() {
+        return fechaEnviada;
     }
 
-    public void setFechaDestruccion(Date fechaDestruccion) {
-        this.fechaDestruccion = fechaDestruccion;
+    public void setFechaEnviada(Date fechaEnviada) {
+        this.fechaEnviada = fechaEnviada;
     }
 
     public String getUsuarioCreado() {
@@ -103,12 +105,12 @@ public class SolicitudRegaloDTO {
         this.usuarioREcibidor = usuarioREcibidor;
     }
 
-    public String getUsuarioDestructor() {
-        return usuarioDestructor;
+    public String getUsuarioEnviador() {
+        return usuarioEnviador;
     }
 
-    public void setUsuarioDestructor(String usuarioDestructor) {
-        this.usuarioDestructor = usuarioDestructor;
+    public void setUsuarioEnviador(String usuarioEnviador) {
+        this.usuarioEnviador = usuarioEnviador;
     }
 
     public List<RegalosCantidadDTO> getCantidades() {
@@ -126,4 +128,13 @@ public class SolicitudRegaloDTO {
         }
         return cantitadBarajas;
     }
+
+    public CasinoDto getCasino() {
+        return casino;
+    }
+
+    public void setCasino(CasinoDto casino) {
+        this.casino = casino;
+    }
+
 }

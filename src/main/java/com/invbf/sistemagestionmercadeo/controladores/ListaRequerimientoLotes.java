@@ -5,7 +5,6 @@
  */
 package com.invbf.sistemagestionmercadeo.controladores;
 
-import com.invbf.sistemagestionmercadeo.controladores.SessionBean;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregalotesmaestro;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import java.io.IOException;

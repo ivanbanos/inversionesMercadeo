@@ -51,13 +51,14 @@ public class ListaOrdenesCompraBarajasBean implements Serializable {
         sessionBean.setActive("barajas");
         if (!sessionBean.perfilViewMatch("recibirOrdenBarajas")
                 && !sessionBean.perfilViewMatch("generarOrdenBarajas")
-                && !sessionBean.perfilViewMatch("aceptarOrdenBarajas")) {
+                && !sessionBean.perfilViewMatch("aceptarOrdenBarajas")
+                && !sessionBean.perfilViewMatch("verRequerimientosBarajas")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
             }
         }
-        if (sessionBean.perfilViewMatch("generarOrdenBarajas") || sessionBean.perfilViewMatch("aceptarOrdenBarajas")) {
+        if (sessionBean.perfilViewMatch("verRequerimientosBarajas") ||sessionBean.perfilViewMatch("generarOrdenBarajas") || sessionBean.perfilViewMatch("aceptarOrdenBarajas")) {
             lista = sessionBean.barajasFacade.getOrdenesCompra();
         } else {
             if (sessionBean.perfilViewMatch("recibirOrdenBarajas")) {

@@ -160,25 +160,14 @@
                                             <h:outputText value="#{detalle.baraja.marca}">
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Usadas" rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
-                                                                                         and verSolicitudBarajasBean.orden.recibidasusadas == null}">
-                                            <span id="cantidad#{status}">
-                                                <h:outputText value="#{detalle.devueltas}">
-                                                    <f:converter  converterId="numberSeparationConverter"  />
-                                                </h:outputText>
-                                            </span>
-                                            <f:facet name="footer">
-                                                Recibo #{verSolicitudBarajasBean.orden.cantidadBarajas} usadas
-                                            </f:facet>
-                                        </p:column>
-                                        <p:column headerText="Cantidad solicitada" rendered="#{verSolicitudBarajasBean.orden.estado != 'CREADA' and verSolicitudBarajasBean.orden.estado != 'ENTREGADA'}">
+                                        <p:column headerText="Cantidad solicitada" >
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidad}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                 </h:outputText>
                                             </span>
                                         </p:column>
-                                        <p:column headerText="Cantidad devuelta" rendered="#{verSolicitudBarajasBean.orden.estado != 'CREADA'}">
+                                        <p:column headerText="Cantidad devuelta" rendered="#{verSolicitudBarajasBean.orden.estado == 'TERMINADA'}">
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.devueltas}">
                                                     <f:converter  converterId="numberSeparationConverter"  />

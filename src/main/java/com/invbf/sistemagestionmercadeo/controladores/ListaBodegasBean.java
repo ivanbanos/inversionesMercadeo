@@ -51,13 +51,13 @@ public class ListaBodegasBean implements Serializable {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("barajas");
-        if (!sessionBean.perfilViewMatch("verBodegas")) {
+        if (!sessionBean.perfilViewMatch("verBodegas")&&!sessionBean.perfilViewMatch("actualizarBodegas")&&!sessionBean.perfilViewMatch("verStockBarajas")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
             }
         }
-        if (sessionBean.perfilViewMatch("actualizarBodegas")) {
+        if (sessionBean.perfilViewMatch("verBodegas")) {
             bodegas = sessionBean.barajasFacade.getBodegas();
         } else {
             bodegas = sessionBean.barajasFacade.getBodegas(sessionBean.getUsuario());

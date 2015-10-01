@@ -32,6 +32,7 @@ import com.invbf.sistemagestionmercadeo.entity.Trasladobarajas;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.facade.BarajasFacade;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -159,6 +160,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         orden.setFechaAceptada(item.getFechaAceptada());
         orden.setFechaCreacion(item.getFechaCreacion());
         orden.setFechaRecibida(item.getFechaRecibida());
+        orden.setObservaciones(item.getObservaciones());
         orden.setUsuarioCreado(item.getCreador() == null ? "" : item.getCreador().getNombreUsuario());
         orden.setUsuarioAceptador(item.getAceptador() == null ? "" : item.getAceptador().getNombreUsuario());
         orden.setUsuarioREcibidor(item.getRecibidor() == null ? "" : item.getRecibidor().getNombreUsuario());
@@ -579,11 +581,25 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
                 consumo.add(b);
 
             }
-                consumo.get(consumo.indexOf(b)).sumarCantidad(c.get(Calendar.MONTH), c.get(Calendar.YEAR), bono.getCantidad());
-            
+            consumo.get(consumo.indexOf(b)).sumarCantidad(c.get(Calendar.MONTH), c.get(Calendar.YEAR), bono.getCantidad());
 
         }
         return consumo;
+    }
+
+    @Override
+    public void rechazarOrden(OrdenCompraBarajaDTO orden, Usuario usuario) {
+        GestionBarajasDao.rechazarOrden(orden, usuario);
+    }
+
+    public void verificarSolicitudesPendientesEntregar() {
+        List<Solicitudbarajas> solicitudesPendientes = GestionBarajasDao.getListaSoliciudesBarajasPendientes();
+        for (Solicitudbarajas orden : solicitudesPendientes) {
+            Notificador.notificar(Notificador.correoSolicitudBarajaEntregada,
+                    "Tiene pendiente por entregar las barajas usadas de la solicitud con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de solicitudes de barajas.",
+                    "Pendiente por entregar barajas usadas", null, new Casino(orden.getSolicitudbarajadetalleList().get(0).getInventarobarajas().getCasino().getIdCasino()));
+
+        }
     }
 
 }

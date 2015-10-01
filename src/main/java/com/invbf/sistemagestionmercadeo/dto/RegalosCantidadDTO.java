@@ -5,6 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.dto;
 
+import com.invbf.sistemagestionmercadeo.util.ClienteDTO;
 import java.io.Serializable;
 
 /**
@@ -16,8 +17,11 @@ public class RegalosCantidadDTO implements Serializable {
     private RegaloDTO regalo;
     private Integer cantidad;
     private Integer cantidadR;
+    private Integer cantidadAprobada;
     private Integer min;
     private Integer max;
+    private ClienteDTO cliente;
+    private String estado;
 
     public Integer getCantidad() {
         return cantidad;
@@ -28,6 +32,10 @@ public class RegalosCantidadDTO implements Serializable {
     }
 
     public RegalosCantidadDTO() {
+    }
+
+    public RegalosCantidadDTO(Integer id) {
+        this.id = id;
     }
 
     public RegalosCantidadDTO(Integer id, RegaloDTO regalo, Integer cantidad, Integer cantidadR, Integer min, Integer max) {
@@ -82,6 +90,52 @@ public class RegalosCantidadDTO implements Serializable {
 
     public void setMax(Integer max) {
         this.max = max;
+    }
+
+    public Integer getCantidadAprobada() {
+        return cantidadAprobada;
+    }
+
+    public void setCantidadAprobada(Integer cantidadAprobada) {
+        this.cantidadAprobada = cantidadAprobada;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 17 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RegalosCantidadDTO other = (RegalosCantidadDTO) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    public ClienteDTO getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(ClienteDTO cliente) {
+        this.cliente = cliente;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
     
 }

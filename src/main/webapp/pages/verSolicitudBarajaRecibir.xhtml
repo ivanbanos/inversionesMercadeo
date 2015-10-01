@@ -148,7 +148,7 @@
 
                             <div class="panel-footer panel-footer-landing text-right">
                                 <p:commandButton id="btnconfirm" value="#{label['Confirmar']}" style="margin:0" 
-                                                 rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
+                                                 rendered="#{sessionBean.perfilViewMatch(&quot;devolverBarajas&quot;)
                                                              and verSolicitudBarajasBean.orden.entregadasusadas == null}"
                                              onstart="PF('ajaxWaitingDialog').show();" oncomplete="PF('ajaxWaitingDialog').hide();PF('enus').show();"/>
                                 

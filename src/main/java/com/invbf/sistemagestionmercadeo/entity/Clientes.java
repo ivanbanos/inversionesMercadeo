@@ -53,7 +53,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Clientes.findByDiaSemanaVisita", query = "SELECT c FROM Clientes c WHERE c.diaSemanaVisita = :diaSemanaVisita"),
     @NamedQuery(name = "Clientes.findByAcompananteHabitual", query = "SELECT c FROM Clientes c WHERE c.acompananteHabitual = :acompananteHabitual"),
     @NamedQuery(name = "Clientes.findByDescripcionPersonalidad", query = "SELECT c FROM Clientes c WHERE c.descripcionPersonalidad = :descripcionPersonalidad"),
-    @NamedQuery(name = "Clientes.findByGustosPreferencias", query = "SELECT c FROM Clientes c WHERE c.gustosPreferencias = :gustosPreferencias")})
+    @NamedQuery(name = "Clientes.findByGustosPreferencias", query = "SELECT c FROM Clientes c WHERE c.gustosPreferencias = :gustosPreferencias"),
+    @NamedQuery(name = "Clientes.findByBebida", query = "SELECT c FROM Clientes c WHERE c.bebida = :bebida"),
+    @NamedQuery(name = "Clientes.findByComida", query = "SELECT c FROM Clientes c WHERE c.comida = :comida"),
+    @NamedQuery(name = "Clientes.findByFuma", query = "SELECT c FROM Clientes c WHERE c.fuma = :fuma"),
+    @NamedQuery(name = "Clientes.findBySendEmail", query = "SELECT c FROM Clientes c WHERE c.sendEmail = :sendEmail"),
+    @NamedQuery(name = "Clientes.findByPorActualizar", query = "SELECT c FROM Clientes c WHERE c.porActualizar = :porActualizar"),
+    @NamedQuery(name = "Clientes.findByObservacionesAct", query = "SELECT c FROM Clientes c WHERE c.observacionesAct = :observacionesAct")})
 public class Clientes implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -125,15 +131,31 @@ public class Clientes implements Serializable {
     @Size(max = 1000)
     @Column(name = "gustosPreferencias")
     private String gustosPreferencias;
-    @JoinColumn(name = "idTipoDocumento", referencedColumnName = "idTipoDocumento")
-    @ManyToOne
-    private Tiposdocumento idTipoDocumento;
-    @JoinColumn(name = "idCategorias", referencedColumnName = "idCategorias")
-    @ManyToOne(optional = false)
-    private Categorias idCategorias;
+    @Size(max = 45)
+    @Column(name = "bebida")
+    private String bebida;
+    @Size(max = 45)
+    @Column(name = "comida")
+    private String comida;
+    @Size(max = 45)
+    @Column(name = "fuma")
+    private String fuma;
+    @Column(name = "sendEmail")
+    private Integer sendEmail;
+    @Column(name = "porActualizar")
+    private Integer porActualizar;
+    @Size(max = 500)
+    @Column(name = "observacionesAct")
+    private String observacionesAct;
     @JoinColumn(name = "idCasinoPreferencial", referencedColumnName = "idCasino")
     @ManyToOne
     private Casinos idCasinoPreferencial;
+    @JoinColumn(name = "idCategorias", referencedColumnName = "idCategorias")
+    @ManyToOne(optional = false)
+    private Categorias idCategorias;
+    @JoinColumn(name = "idTipoDocumento", referencedColumnName = "idTipoDocumento")
+    @ManyToOne
+    private Tiposdocumento idTipoDocumento;
 
     public Clientes() {
     }
@@ -316,12 +338,60 @@ public class Clientes implements Serializable {
         this.gustosPreferencias = gustosPreferencias;
     }
 
-    public Tiposdocumento getIdTipoDocumento() {
-        return idTipoDocumento;
+    public String getBebida() {
+        return bebida;
     }
 
-    public void setIdTipoDocumento(Tiposdocumento idTipoDocumento) {
-        this.idTipoDocumento = idTipoDocumento;
+    public void setBebida(String bebida) {
+        this.bebida = bebida;
+    }
+
+    public String getComida() {
+        return comida;
+    }
+
+    public void setComida(String comida) {
+        this.comida = comida;
+    }
+
+    public String getFuma() {
+        return fuma;
+    }
+
+    public void setFuma(String fuma) {
+        this.fuma = fuma;
+    }
+
+    public Integer getSendEmail() {
+        return sendEmail;
+    }
+
+    public void setSendEmail(Integer sendEmail) {
+        this.sendEmail = sendEmail;
+    }
+
+    public Integer getPorActualizar() {
+        return porActualizar;
+    }
+
+    public void setPorActualizar(Integer porActualizar) {
+        this.porActualizar = porActualizar;
+    }
+
+    public String getObservacionesAct() {
+        return observacionesAct;
+    }
+
+    public void setObservacionesAct(String observacionesAct) {
+        this.observacionesAct = observacionesAct;
+    }
+
+    public Casinos getIdCasinoPreferencial() {
+        return idCasinoPreferencial;
+    }
+
+    public void setIdCasinoPreferencial(Casinos idCasinoPreferencial) {
+        this.idCasinoPreferencial = idCasinoPreferencial;
     }
 
     public Categorias getIdCategorias() {
@@ -332,12 +402,12 @@ public class Clientes implements Serializable {
         this.idCategorias = idCategorias;
     }
 
-    public Casinos getIdCasinoPreferencial() {
-        return idCasinoPreferencial;
+    public Tiposdocumento getIdTipoDocumento() {
+        return idTipoDocumento;
     }
 
-    public void setIdCasinoPreferencial(Casinos idCasinoPreferencial) {
-        this.idCasinoPreferencial = idCasinoPreferencial;
+    public void setIdTipoDocumento(Tiposdocumento idTipoDocumento) {
+        this.idTipoDocumento = idTipoDocumento;
     }
 
     @Override

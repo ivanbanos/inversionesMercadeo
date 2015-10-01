@@ -64,6 +64,7 @@ import com.invbf.sistemagestionmercadeo.exceptions.ExistenBonosFisicosException;
 import com.invbf.sistemagestionmercadeo.exceptions.LoteBonosExistenteException;
 import com.invbf.sistemagestionmercadeo.facade.MarketingUserFacade;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
+import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
 import com.invbf.sistemagestionmercadeo.util.DBConnection;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import com.invbf.sistemagestionmercadeo.util.PropositosBoolean;
@@ -1146,5 +1147,10 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
             }
         }
         return bonosPorFecha;
+    }
+
+    @Override
+    public List<Cliente> findAllClientesCasinos(Casino idCasino, List<CategoriaBoolean> categoriaBooleans, String nombre, String apellidos, String ident, Tipodocumento tipodocumento, String sexo) {
+        return ClienteDao.findByIdCasinoAndCat(idCasino.getIdCasino(),categoriaBooleans, nombre, apellidos, ident, tipodocumento, sexo);
     }
 }

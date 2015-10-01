@@ -5,7 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.dto;
 
-import com.invbf.sistemagestionmercadeo.entity.Categorias;
+import com.invbf.sistemagestionmercadeo.entity.Categoria;
 import com.invbf.sistemagestionmercadeo.entity.Regalos;
 import java.io.Serializable;
 
@@ -19,6 +19,7 @@ public class RegaloDTO implements Serializable {
     private String nombre;
     private String genero;
     private String descripcion;
+    private String fileName;
     private CategoriaDTO categoria;
     
     public RegaloDTO() {
@@ -30,14 +31,16 @@ public class RegaloDTO implements Serializable {
         this.genero = regalo.getGenero();
         this.descripcion = regalo.getDescripcion();
         this.categoria = new CategoriaDTO(regalo.getCategoria().getIdCategorias(), regalo.getCategoria().getNombre());
+    this.fileName = regalo.getFoto();
     }
     
-    public RegaloDTO(Integer id, String nombre, String genero, String descripcion, CategoriaDTO categoria) {
+    public RegaloDTO(Integer id, String nombre, String genero, String descripcion, CategoriaDTO categoria, String fileName) {
         this.id = id;
         this.nombre = nombre;
         this.genero = genero;
         this.descripcion = descripcion;
         this.categoria = categoria;
+        this.fileName = fileName;
     }
     
     public Integer getId() {
@@ -83,11 +86,42 @@ public class RegaloDTO implements Serializable {
     public Regalos getRegalo() {
         Regalos regalo = new Regalos();
         regalo.setId(id);
-        regalo.setCategoria(new Categorias(categoria.getId()));
+        regalo.setCategoria(new Categoria(categoria.getId()));
         regalo.setDescripcion(descripcion);
         regalo.setNombre(nombre);
         regalo.setGenero(genero);
+        regalo.setFoto(fileName);
         return regalo;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 71 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RegaloDTO other = (RegaloDTO) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
     
 }

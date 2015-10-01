@@ -37,7 +37,8 @@
 
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;recibirOrdenBarajas&quot;)
                                       or  sessionBean.perfilViewMatch(&quot;generarOrdenBarajas&quot;)
-                                      or  sessionBean.perfilViewMatch(&quot;aceptarOrdenBarajas&quot;)}">
+                                      or  sessionBean.perfilViewMatch(&quot;aceptarOrdenBarajas&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;verRequerimientosBarajas&quot;)}">
                             <h:commandLink  action="#{sessionBean.go(&quot;ordenesComprabaraja&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-truck fa-5x"></i> 
                                 <br/>Requerimientos de compra de <br/>lote de barajas</h:commandLink>
 
@@ -47,7 +48,8 @@
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verSolicitudesBarajas&quot;)
                                       or  sessionBean.perfilViewMatch(&quot;solicitasBarajas&quot;)
                                       or  sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
-                                      or  sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)}">
+                                      or  sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
+                                      or  sessionBean.perfilViewMatch(&quot;devolverBarajas&quot;)}">
                             <h:commandLink  action="#{sessionBean.go(&quot;solicitudbaraja&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-edit fa-5x"></i> 
                                 <br/>Solicitudes de barajas<br/><br/></h:commandLink>
 
@@ -64,7 +66,7 @@
                                 <br/>Transferencias <br/>de barajas</h:commandLink>
 
                         </c:if>
-                        
+
 
                     </div>
                 </h:form>

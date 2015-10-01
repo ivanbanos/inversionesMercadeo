@@ -853,6 +853,31 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-3">
+                                    <div class="panel panel-primary">
+
+                                        <div class="panel-heading">
+                                            #{label['categorias']}
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul id="categoriaslist">
+                                                <li>
+                                                    <h:selectBooleanCheckbox value="#{generadorSolicitudBonos.todosCat}" onclick="toggle('categoriaslist')">
+                                                    </h:selectBooleanCheckbox>
+                                                    <label>Todos</label>
+                                                </li>
+
+                                                <c:forEach var="itemcat" items="#{generadorSolicitudBonos.categoriaBooleans}">
+                                                    <li>
+                                                        <h:selectBooleanCheckbox value="#{itemcat.selected}" onclick="deselecttodo('categoriaslist')"/>&nbsp;
+                                                        <label>#{itemcat.categoria.nombre}</label>
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="control-group">
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" >Mes de cumplea&ntilde;os:</label>

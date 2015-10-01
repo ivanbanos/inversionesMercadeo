@@ -372,7 +372,7 @@
                                             <th>#{label['borrar']}</th>
                                         </tr>
                                         <tr>
-                                            <td>Barajas</td>
+                                            <td>Configuraci&oacute;n de Barajas</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.vistaBarajas.selected}"/></td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.agregarBarajas.selected}"/></td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.actualizarBarajas.selected}"/></td>
@@ -398,6 +398,10 @@
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.verStockBarajas.selected}"/></td>
                                         </tr>
                                         <tr>
+                                            <td>Ver requerimientos de compra de lote de barajas</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.verRequerimientosBarajas.selected}"/></td>
+                                        </tr>
+                                        <tr>
                                             <td>Generar requerimiento de compra de lote de barajas</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.generarOrdenBarajas.selected}"/></td>
                                         </tr>
@@ -418,11 +422,15 @@
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.solicitasBarajas.selected}"/></td>
                                         </tr>
                                         <tr>
-                                            <td>Entregar barajas</td>
+                                            <td>Entregar barajas nuevas</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.entregarBarajas.selected}"/></td>
                                         </tr>
                                         <tr>
-                                            <td>Recibir barajas</td>
+                                            <td>Devolver barajas usadas</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.devolverBarajas.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Recibir barajas usadas</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.recibirBarajas.selected}"/></td>
                                         </tr>
                                         <tr>
@@ -483,6 +491,10 @@
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.verInvRegalo.selected}"/></td>
                                         </tr>
                                         <tr>
+                                            <td>ver requerimiento de regalos</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.verOrdenRegalo.selected}"/></td>
+                                        </tr>
+                                        <tr>
                                             <td>Generar requerimiento de regalos</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.generarOrdenRegalo.selected}"/></td>
                                         </tr>
@@ -493,6 +505,30 @@
                                         <tr>
                                             <td>Recibir requerimiento de regalo</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.recibirOrdenRegalo.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ver solicitudes de regalo</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.regaloVerSolicitud.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Crear solicitud de regalo</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.regaloCrearSolicitud.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Aprobar solicitud de regalo</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.regaloAprobarSolicitud.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Enviar solicitud de regalo</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.regaloEnviarSolicitud.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Recibir solicitud de regalo</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.regaloRecibirSolicitud.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Entregar regalo</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.regaloCanjear.selected}"/></td>
                                         </tr>
                                     </table>
                                 </div>

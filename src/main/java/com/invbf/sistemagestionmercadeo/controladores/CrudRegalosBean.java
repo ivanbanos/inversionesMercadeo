@@ -16,6 +16,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -32,6 +34,9 @@ public class CrudRegalosBean implements Serializable {
     private RegaloDTO elemento;
     private List<CategoriaDTO> categorias;
     private CategoriaDTO categoria;
+    
+    private String filename;
+    private UploadedFile file;
 
     /**
      * @return the sessionBean
@@ -98,6 +103,7 @@ public class CrudRegalosBean implements Serializable {
 
     public void actualizarRegalo() {
         System.out.println("Regalo id:"+elemento.getId());
+        System.out.println("Regalo id:"+elemento.getFileName());
         elemento = sessionBean.regalosFacade.addRegalo(elemento);
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "OK!", "Regalo Agregado con exito!"));
         inicializar();
@@ -124,5 +130,43 @@ public class CrudRegalosBean implements Serializable {
         lista = sessionBean.regalosFacade.getListaRegalos();
         categorias = sessionBean.regalosFacade.getListaCategorias();
         sessionBean.printMensajes();
+    }
+    
+    public void upload() {
+        filename = file.getFileName().replace(" ", "");
+        System.out.println(filename.replace(" ", ""));
+        sessionBean.regalosFacade.guardarImagen(file.getContents(), filename);
+        System.out.println("File name: " + filename);
+        file = null;
+        elemento.setFileName(filename);
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+    public void handleFileUpload(FileUploadEvent event) {
+        if (event != null) {
+            file = event.getFile();
+            sessionBean.regalosFacade.guardarImagen(file.getContents(), file.getFileName());
+            sessionBean.setAttribute("imagen", file.getContents());
+            
+        filename = file.getFileName().replace(" ", "");
+elemento.setFileName(filename);
+            System.out.println("File name: " + file.getFileName());
+            System.out.println("File name: " + elemento.getFileName());
+            System.out.println("File name: " + elemento.getNombre());
+        }
     }
 }

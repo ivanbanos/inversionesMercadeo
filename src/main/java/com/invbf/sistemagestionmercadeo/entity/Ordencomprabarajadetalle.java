@@ -32,7 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Ordencomprabarajadetalle.findByOrden", query = "SELECT o FROM Ordencomprabarajadetalle o WHERE o.ordencomprabarajadetallePK.orden = :orden"),
     @NamedQuery(name = "Ordencomprabarajadetalle.findByInventario", query = "SELECT o FROM Ordencomprabarajadetalle o WHERE o.ordencomprabarajadetallePK.inventario = :inventario"),
     @NamedQuery(name = "Ordencomprabarajadetalle.findByCantidad", query = "SELECT o FROM Ordencomprabarajadetalle o WHERE o.cantidad = :cantidad"),
-    @NamedQuery(name = "Ordencomprabarajadetalle.findByCantidadAprobada", query = "SELECT o FROM Ordencomprabarajadetalle o WHERE o.cantidadAprobada = :cantidadAprobada")})
+    @NamedQuery(name = "Ordencomprabarajadetalle.findByCantidadAprobada", query = "SELECT o FROM Ordencomprabarajadetalle o WHERE o.cantidadAprobada = :cantidadAprobada"),
+    @NamedQuery(name = "Ordencomprabarajadetalle.getByOrdenOrderByMaterial", query = "SELECT o FROM Ordencomprabarajadetalle o WHERE o.ordencomprabaraja.id = :orden ORDER BY o.inventarobarajas.baraja.material")})
 public class Ordencomprabarajadetalle implements Serializable {
     @Column(name = "fecharecibida")
     @Temporal(TemporalType.TIMESTAMP)

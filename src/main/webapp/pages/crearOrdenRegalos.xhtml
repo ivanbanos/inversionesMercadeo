@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+
+        <div class="row">
+
+            <div class="control-group">
+                <!-- Username -->
+                <div class="form-group">
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Gesti&oacute;n de regalos/Requerimiento de compra de Regalos</label>
+                </div>
+            </div>
+        </div>
+        <h:form>
+            <div class="container">
+                <div class="row clearfix">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+
+                            <div class="clickable">
+                                <h3 class="panel-title">Requerimiento de compra de Regalos</h3> 
+                                <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+
+                            <p:dataTable value="#{generarRequerimientoRegalosBean.inventario.inventario}" var="detalle" rowIndexVar="status"
+                                         emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
+
+
+                                <p:column headerText="Nombre" style="text-align: center;">
+                                    <h:outputText value="#{detalle.regalo.nombre} ">
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Descripci&oacute;n" style="text-align: center;">
+                                    <h:outputText value="#{detalle.regalo.descripcion} ">
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Genero" style="text-align: center;">
+                                    <h:outputText value="#{detalle.regalo.genero} ">
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Categoria" style="text-align: center;">
+                                    <h:outputText value="#{detalle.regalo.categoria.nombre} ">
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Cantidad solicitada" width="30%">
+                                    
+                                        <p:spinner min="0" stepFactor="10"
+                                                   value="#{detalle.cantidad}">
+                                        </p:spinner>
+                                   
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                        <div class="panel-footer">
+                            <p:commandButton  value="Generar requerimiento de compra" onstart="PF('ajaxWaitingDialog').show();" 
+                                              oncomplete="PF('ajaxWaitingDialog').hide();PF('nueva').show();"
+                                              title="#{label['lb_btn.editarPerfiles']}">   
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </h:form>
+        <h:form >
+            <p:confirmDialog id="nueva" message="Va a Generar  un requerimiento de compra de regalos. ¿Desea continuar?"  
+                             header="Generar requerimiento" severity="alert" widgetVar="nueva" closable="false">  
+
+                <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" 
+                                 action="#{generarRequerimientoRegalosBean.crearRequerimientoDeOrdenCompra()}"  ajax="false"/>  
+                <p:commandButton id="decline" value="No" onclick="PF('nueva').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+    </ui:define>            
+</ui:composition>

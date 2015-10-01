@@ -5,6 +5,7 @@
  */
 package com.invbf.sistemagestionmercadeo.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author ivan
  */
-public class OrdenCompraRegaloDTO {
+public class OrdenCompraRegaloDTO implements Serializable{
     private Integer id;
     private String estado;
     private Date fechaCreacion;
@@ -23,6 +24,7 @@ public class OrdenCompraRegaloDTO {
     private String usuarioAceptador;
     private String usuarioREcibidor;
     private List<RegalosCantidadDTO> cantidades;
+    public String observaciones;
 
     public OrdenCompraRegaloDTO() {
         cantidades = new ArrayList<RegalosCantidadDTO>();
@@ -107,4 +109,13 @@ public class OrdenCompraRegaloDTO {
         }
         return cantitadBarajas;
     }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+    
 }

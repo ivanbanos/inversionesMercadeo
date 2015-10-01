@@ -52,6 +52,9 @@ public class Ordencompraregalos implements Serializable {
     @Size(max = 100)
     @Column(name = "Estado")
     private String estado;
+    @Size(max = 1000)
+    @Column(name = "observaciones")
+    private String observaciones;
     @Column(name = "fechaCreacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCreacion;
@@ -198,6 +201,14 @@ public class Ordencompraregalos implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Ordencompraregalos[ id=" + id + " ]";
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
     
 }

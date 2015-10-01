@@ -70,14 +70,28 @@ public class CrearOrdenBarajasBean implements Serializable {
 
     public void crear() {
         try {
-            int i = sessionBean.barajasFacade.crearOrdenBarajas(invent, sessionBean.getUsuario(), observaciones);
-            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha generado el requerimiento con exito", "Acta de orden #" + i));
+            boolean todosCero = true;
+            for (InventarioBarajasDTO inventario : invent) {
+                for (BarajasCantidad baraja : inventario.getInventario()) {
+                    if (baraja.getCantidad() != 0) {
+                        todosCero = false;
+                        break;
+                    }
+                }
+            }
+            if (todosCero) {
+                sessionBean.putMensaje(new Mensajes(Mensajes.ADVERTENCIA, "Todas las cantidades estan en 0.", "No se puede guardar una solicitud con todas las cantidades en 0."));
+                sessionBean.printMensajes();
+            } else {
+                int i = sessionBean.barajasFacade.crearOrdenBarajas(invent, sessionBean.getUsuario(), observaciones);
+                sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha generado el requerimiento con exito", "Acta de orden #" + i));
 
-            Notificador.notificar(Notificador.correoOrdenBarajasCreada,
-                    "Se ha creado el requerimiento de compra de barajas con el n&uacute;mero de acta " + i + ". Favor revisar la lista de requerimientos de compra de barajas.",
-                    "Se ha creado un requerimiento de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                Notificador.notificar(Notificador.correoOrdenBarajasCreada,
+                        "Se ha creado el requerimiento de compra de barajas con el n&uacute;mero de acta " + i + ". Favor revisar la lista de requerimientos de compra de barajas.",
+                        "Se ha creado un requerimiento de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
 
-            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaOrdenesCompraBarajas.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("ListaOrdenesCompraBarajas.xhtml");
+            }
         } catch (IOException ex) {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }

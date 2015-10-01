@@ -41,8 +41,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Solicitudregalos.findByFechacreacion", query = "SELECT s FROM Solicitudregalos s WHERE s.fechacreacion = :fechacreacion"),
     @NamedQuery(name = "Solicitudregalos.findByFechentrega", query = "SELECT s FROM Solicitudregalos s WHERE s.fechentrega = :fechentrega"),
     @NamedQuery(name = "Solicitudregalos.findByFecharecepcion", query = "SELECT s FROM Solicitudregalos s WHERE s.fecharecepcion = :fecharecepcion"),
-    @NamedQuery(name = "Solicitudregalos.findByFechaDestruccion", query = "SELECT s FROM Solicitudregalos s WHERE s.fechaDestruccion = :fechaDestruccion")})
+    @NamedQuery(name = "Solicitudregalos.findBySala", query = "SELECT s FROM Solicitudregalos s WHERE s.sala.idCasino = :casino")})
 public class Solicitudregalos implements Serializable {
+    @JoinColumn(name = "sala", referencedColumnName = "idCasino")
+    @ManyToOne
+    private Casino sala;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,13 +66,13 @@ public class Solicitudregalos implements Serializable {
     private Date fecharecepcion;
     @Column(name = "fechaDestruccion")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaDestruccion;
+    private Date fechaAprobacion;
     @JoinColumn(name = "recibidor", referencedColumnName = "idUsuario")
     @ManyToOne
     private Usuario recibidor;
     @JoinColumn(name = "destructor", referencedColumnName = "idUsuario")
     @ManyToOne
-    private Usuario destructor;
+    private Usuario enviador;
     @JoinColumn(name = "creador", referencedColumnName = "idUsuario")
     @ManyToOne
     private Usuario creador;
@@ -126,12 +129,12 @@ public class Solicitudregalos implements Serializable {
         this.fecharecepcion = fecharecepcion;
     }
 
-    public Date getFechaDestruccion() {
-        return fechaDestruccion;
+    public Date getFechaAprobacion() {
+        return fechaAprobacion;
     }
 
-    public void setFechaDestruccion(Date fechaDestruccion) {
-        this.fechaDestruccion = fechaDestruccion;
+    public void setFechaAprobacion(Date fechaDestruccion) {
+        this.fechaAprobacion = fechaDestruccion;
     }
 
     public Usuario getRecibidor() {
@@ -142,12 +145,12 @@ public class Solicitudregalos implements Serializable {
         this.recibidor = recibidor;
     }
 
-    public Usuario getDestructor() {
-        return destructor;
+    public Usuario getEnviador() {
+        return enviador;
     }
 
-    public void setDestructor(Usuario destructor) {
-        this.destructor = destructor;
+    public void setEnviador(Usuario enviador) {
+        this.enviador = enviador;
     }
 
     public Usuario getCreador() {
@@ -198,6 +201,14 @@ public class Solicitudregalos implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Solicitudregalos[ id=" + id + " ]";
+    }
+
+    public Casino getSala() {
+        return sala;
+    }
+
+    public void setSala(Casino sala) {
+        this.sala = sala;
     }
     
 }

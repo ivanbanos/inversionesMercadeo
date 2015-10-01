@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Solicitudbarajadetalle.findAll", query = "SELECT s FROM Solicitudbarajadetalle s"),
     @NamedQuery(name = "Solicitudbarajadetalle.findBySolicitud", query = "SELECT s FROM Solicitudbarajadetalle s WHERE s.solicitudbarajadetallePK.solicitud = :solicitud"),
     @NamedQuery(name = "Solicitudbarajadetalle.findByInventario", query = "SELECT s FROM Solicitudbarajadetalle s WHERE s.solicitudbarajadetallePK.inventario = :inventario"),
+    @NamedQuery(name = "Solicitudbarajadetalle.findBySolicitudOrderByMaterial", query = "SELECT s FROM Solicitudbarajadetalle s WHERE s.solicitudbarajas.id = :solicitud ORDER BY s.inventarobarajas.baraja.material"),
     @NamedQuery(name = "Solicitudbarajadetalle.getReporte", query = "SELECT s FROM Solicitudbarajadetalle s WHERE s.inventarobarajas.casino = :casino AND s.solicitudbarajas.fechacreacion >= :desde AND s.solicitudbarajas.fechacreacion <= :hasta"),
     @NamedQuery(name = "Solicitudbarajadetalle.findByCantidad", query = "SELECT s FROM Solicitudbarajadetalle s WHERE s.cantidad = :cantidad")})
 public class Solicitudbarajadetalle implements Serializable {

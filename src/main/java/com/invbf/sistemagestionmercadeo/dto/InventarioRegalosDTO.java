@@ -14,7 +14,8 @@ import java.util.List;
  *
  * @author ivan
  */
-public class InventarioRegalosDTO implements Serializable{
+public class InventarioRegalosDTO implements Serializable {
+
     private List<RegalosCantidadDTO> inventario;
 
     public InventarioRegalosDTO() {
@@ -28,6 +29,15 @@ public class InventarioRegalosDTO implements Serializable{
         }
     }
 
+    public InventarioRegalosDTO(List<Regalosinventario> listaInvenratioRegalos, int action) {
+        if (action == 1) {
+            inventario = new ArrayList<RegalosCantidadDTO>();
+            for (Regalosinventario item : listaInvenratioRegalos) {
+                inventario.add(new RegalosCantidadDTO(item.getId(), new RegaloDTO(item.getRegalo()), item.getCantidad(), 0, 0, 0));
+            }
+        }
+    }
+
     public List<RegalosCantidadDTO> getInventario() {
         return inventario;
     }
@@ -35,5 +45,5 @@ public class InventarioRegalosDTO implements Serializable{
     public void setInventario(List<RegalosCantidadDTO> inventario) {
         this.inventario = inventario;
     }
-    
+
 }

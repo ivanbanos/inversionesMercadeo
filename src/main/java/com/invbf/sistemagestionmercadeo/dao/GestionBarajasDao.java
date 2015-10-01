@@ -264,6 +264,9 @@ public class GestionBarajasDao {
         tx.begin();
         try {
             bodega = em.find(Casino.class, id);
+            bodega.setInventarobarajasList(em.createNamedQuery("Inventarobarajas.findBySalaOrderByMaterial")
+                    .setParameter("casino", id)
+                    .getResultList());
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -373,6 +376,9 @@ public class GestionBarajasDao {
         try {
 
             orden = em.find(Ordencomprabaraja.class, idOrden);
+            orden.setOrdencomprabarajadetalleList(em.createNamedQuery("Inventarobarajas.findBySalaOrderByMaterial")
+                    .setParameter("orden", idOrden)
+                    .getResultList());
             tx.commit();
         } catch (Exception e) {
             System.out.println(e);
@@ -603,6 +609,10 @@ public class GestionBarajasDao {
         try {
 
             orden = em.find(Solicitudbarajas.class, idOrden);
+                orden.setSolicitudbarajadetalleList(em.createNamedQuery("Solicitudbarajadetalle.findBySolicitudOrderByMaterial")
+                        .setParameter("solicitud", orden.getId())
+                        .getResultList());
+            
             tx.commit();
         } catch (Exception e) {
             System.out.println(e);
@@ -641,7 +651,7 @@ public class GestionBarajasDao {
             }
             orden.setEntregadasNuevas(new Date());
             Notificador.notificar(Notificador.correoLibre,
-                    "Tiene que entregar las barajas usadas de la solicitud con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de solicitudes de barajas.",
+                    "Recuerde que debe entregar las barajas usadas de la solicitud con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de solicitudes de barajas.",
                     "Aviso de entrega de barajas usadas", orden.getCreador().getUsuariodetalle().getCorreo());
             em.merge(orden);
 
@@ -881,6 +891,11 @@ public class GestionBarajasDao {
             Root<Casino> c = cq.from(Casino.class);
             cq.select(c);
             lista = em.createQuery(cq).getResultList();
+            for (Casino casino : lista) {
+                casino.setInventarobarajasList(em.createNamedQuery("Inventarobarajas.findBySalaOrderByMaterial")
+                        .setParameter("casino", casino.getIdCasino())
+                        .getResultList());
+            }
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -916,6 +931,11 @@ public class GestionBarajasDao {
                 if (sacar) {
                     iterator.remove();
                 }
+            }
+            for (Casino casino : lista) {
+                casino.setInventarobarajasList(em.createNamedQuery("Inventarobarajas.findBySalaOrderByMaterial")
+                        .setParameter("casino", casino.getIdCasino())
+                        .getResultList());
             }
             tx.commit();
         } catch (Exception e) {
@@ -978,7 +998,6 @@ public class GestionBarajasDao {
                         invent.setMax(dto.getMax());
                         invent.setMin(dto.getMin());
                         invent.setUso(dto.getUso());
-                        invent.setCantidadbarajas(invent.getCantidadbarajas() + dto.getUso());
                         em.merge(invent);
                     }
                 }
@@ -1226,6 +1245,7 @@ public class GestionBarajasDao {
                 if (detalle.getRecibidor() == null) {
                     if (usuario.getCasinoList().contains(detalle.getInventarobarajas().getCasino())) {
                         count++;
+                        break;
                     }
 
                 }
@@ -1243,7 +1263,7 @@ public class GestionBarajasDao {
         long count = 0;
         tx.begin();
         try {
-            String query = "SELECT s FROM Solicitudbarajas s WHERE s.entregadasNuevas != null";
+            String query = "SELECT s FROM Solicitudbarajas s WHERE s.estado = 'SOLICITADA'";
             solicitudes = (List<Solicitudbarajas>) em.createQuery(query).getResultList();
             tx.commit();
         } catch (Exception e) {
@@ -1258,6 +1278,7 @@ public class GestionBarajasDao {
             for (Solicitudbarajadetalle detalle : ordene.getSolicitudbarajadetalleList()) {
                 if (usuario.getCasinoList().contains(detalle.getInventarobarajas().getCasino())) {
                     count++;
+                    break;
                 }
 
             }
@@ -1274,7 +1295,7 @@ public class GestionBarajasDao {
         long count = 0;
         tx.begin();
         try {
-            String query = "SELECT s FROM Solicitudbarajas s WHERE s.recibidasUsadas != null";
+            String query = "SELECT s FROM Solicitudbarajas s WHERE s.estado = 'Pendiente por recibir usadas'";
             solicitudes = (List<Solicitudbarajas>) em.createQuery(query).getResultList();
             tx.commit();
         } catch (Exception e) {
@@ -1289,6 +1310,7 @@ public class GestionBarajasDao {
             for (Solicitudbarajadetalle detalle : ordene.getSolicitudbarajadetalleList()) {
                 if (usuario.getCasinoList().contains(detalle.getInventarobarajas().getCasino())) {
                     count++;
+                    break;
                 }
             }
         }
@@ -1304,7 +1326,7 @@ public class GestionBarajasDao {
         long count = 0;
         tx.begin();
         try {
-            String query = "SELECT s FROM Solicitudbarajas s WHERE s.entregadasUsadas != null";
+            String query = "SELECT s FROM Solicitudbarajas s WHERE s.estado = 'ENTREGADAS/Pendientes por devolver'";
             solicitudes = (List<Solicitudbarajas>) em.createQuery(query).getResultList();
             tx.commit();
         } catch (Exception e) {
@@ -1319,6 +1341,7 @@ public class GestionBarajasDao {
             for (Solicitudbarajadetalle detalle : ordene.getSolicitudbarajadetalleList()) {
                 if (usuario.getCasinoList().contains(detalle.getInventarobarajas().getCasino())) {
                     count++;
+                    break;
                 }
             }
         }
@@ -1675,5 +1698,66 @@ public class GestionBarajasDao {
         emf.close();
         return cargos;
 
+    }
+
+    public static void rechazarOrden(OrdenCompraBarajaDTO idOrden, Usuario usuario) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        try {
+            Ordencomprabaraja orden = em.find(Ordencomprabaraja.class, idOrden.getId());
+            for (Iterator<Ordencomprabarajadetalle> iterator = orden.getOrdencomprabarajadetalleList().iterator(); iterator.hasNext();) {
+                Ordencomprabarajadetalle next = iterator.next();
+                for (BarajasCantidad barajas : idOrden.getCantidades()) {
+                    if (barajas.getId().intValue() == next.getInventarobarajas().getId()) {
+                        if (barajas.getCantidadR() == 0) {
+                            iterator.remove();
+                            em.remove(em.merge(next));
+                        } else {
+                            next.setCantidadAprobada(barajas.getCantidadR());
+                        }
+                    }
+                }
+            }
+            orden.setEsatdo("RECHAZADA");
+            orden.setAceptador(usuario);
+            orden.setFechaAceptada(new Date());
+            em.merge(orden);
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+    }
+
+    public static List<Solicitudbarajas> getListaSoliciudesBarajasPendientes() {
+         EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Solicitudbarajas> ordenes = new ArrayList<Solicitudbarajas>();
+        tx.begin();
+        try {
+
+                ordenes.addAll(em.createNamedQuery("Solicitudbarajas.findByEstado")
+                        .setParameter("estado", "ENTREGADAS/Pendientes por devolver")
+                        .getResultList());
+            
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return ordenes;
     }
 }

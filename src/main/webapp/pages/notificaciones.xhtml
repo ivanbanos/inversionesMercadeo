@@ -35,8 +35,9 @@
                                          rows="#{sessionBean.paginacion}"
                                          paginator="true"
                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         selection="#{notificaciones.listaselected}" rowKey="#{element.permiso}"
                                          >
-
+                                <p:column selectionMode="multiple" style="width:32px;text-align:center"/>
                                 <p:column headerText="Tipo" sortBy="#{element.permiso.tipo}" filterBy="#{element.permiso.tipo}" filterMatchMode="contains" >
                                     <h:outputText value="#{element.permiso.tipo}" />
                                 </p:column>
@@ -73,6 +74,11 @@
                                         <f:setPropertyActionListener value="#{element}" target="#{notificaciones.permiso}" /> 
                                     </p:commandButton> 
                                 </p:column>
+                                <f:facet name="footer">
+                                     <p:commandButton id="ejecutarGrupo" oncomplete="PF('editList').show();" value="Aprobar grupo"
+                                                     icon="ui-icon-check" title="Aprobar" >
+                                    </p:commandButton> 
+                                </f:facet>
                             </p:dataTable>
 
                             <p:confirmDialog id="deleteDialog" message="¿Quier&eacute; rechazar el cambio?"  
@@ -89,6 +95,14 @@
                                 <p:commandButton  value="Aceptar" oncomplete="PF('editDialog').hide()"  
                                                   action="#{notificaciones.ejecutarPermiso()}" update=":#{p:component('detailsTableUsuarios')} :#{p:component('messages')}"/>  
                                 <p:commandButton  value="Cancelar" onclick="PF('editDialog').hide()" type="button" />   
+
+                            </p:confirmDialog> 
+                            <p:confirmDialog id="editList" message="¿Quier&eacute; aprobar los cambios?"  
+                                             header="Aprobar" severity="alert" widgetVar="editList" closable="false">  
+
+                                <p:commandButton  value="Aceptar" oncomplete="PF('editList').hide()" ajax="false"
+                                                  action="#{notificaciones.ejecutarPermisos()}" update=":#{p:component('detailsTableUsuarios')} :#{p:component('messages')}"/>  
+                                <p:commandButton  value="Cancelar" onclick="PF('editList').hide()" type="button" />   
 
                             </p:confirmDialog> 
                         </h:form>

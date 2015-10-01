@@ -37,6 +37,8 @@ public class Ordencompraregalodetalle implements Serializable {
     private Integer cantidad;
     @Column(name = "cantidadRecibida")
     private Integer cantidadRecibida;
+    @Column(name = "cantidadAprobada")
+    private Integer cantidadAprobada;
     @JoinColumn(name = "orden", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Ordencompraregalos ordencompraregalos;
@@ -118,6 +120,14 @@ public class Ordencompraregalodetalle implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Ordencompraregalodetalle[ ordencompraregalodetallePK=" + ordencompraregalodetallePK + " ]";
+    }
+
+    public Integer getCantidadAprobada() {
+        return cantidadAprobada;
+    }
+
+    public void setCantidadAprobada(Integer cantidadAprobada) {
+        this.cantidadAprobada = cantidadAprobada;
     }
     
 }

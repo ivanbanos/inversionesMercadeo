@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Regalos.findByGenero", query = "SELECT r FROM Regalos r WHERE r.genero = :genero"),
     @NamedQuery(name = "Regalos.findByDescripcion", query = "SELECT r FROM Regalos r WHERE r.descripcion = :descripcion")})
 public class Regalos implements Serializable {
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,9 +59,12 @@ public class Regalos implements Serializable {
     @Size(max = 500)
     @Column(name = "descripcion")
     private String descripcion;
+    @Size(max = 500)
+    @Column(name = "foto")
+    private String foto;
     @JoinColumn(name = "categoria", referencedColumnName = "idCategorias")
     @ManyToOne(optional = false)
-    private Categorias categoria;
+    private Categoria categoria;
     @OneToMany(mappedBy = "regalo",cascade = CascadeType.REMOVE)
     private List<Regalosinventario> regalosinventarioList;
 
@@ -109,11 +113,11 @@ public class Regalos implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Categorias getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(Categorias categoria) {
+    public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
 
@@ -149,6 +153,14 @@ public class Regalos implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Regalos[ id=" + id + " ]";
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
     
 }

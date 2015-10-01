@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.entity;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,6 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tiposdocumento.findByIdTipoDocumento", query = "SELECT t FROM Tiposdocumento t WHERE t.idTipoDocumento = :idTipoDocumento"),
     @NamedQuery(name = "Tiposdocumento.findByNombre", query = "SELECT t FROM Tiposdocumento t WHERE t.nombre = :nombre")})
 public class Tiposdocumento implements Serializable {
+    @OneToMany(mappedBy = "idTipoDocumento")
+    private Collection<Clientes> clientesCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,8 +48,6 @@ public class Tiposdocumento implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "nombre")
     private String nombre;
-    @OneToMany(mappedBy = "idTipoDocumento")
-    private Collection<Clientes> clientesCollection;
 
     public Tiposdocumento() {
     }
@@ -76,15 +77,6 @@ public class Tiposdocumento implements Serializable {
         this.nombre = nombre;
     }
 
-    @XmlTransient
-    public Collection<Clientes> getClientesCollection() {
-        return clientesCollection;
-    }
-
-    public void setClientesCollection(Collection<Clientes> clientesCollection) {
-        this.clientesCollection = clientesCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -108,6 +100,15 @@ public class Tiposdocumento implements Serializable {
     @Override
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Tiposdocumento[ idTipoDocumento=" + idTipoDocumento + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Clientes> getClientesCollection() {
+        return clientesCollection;
+    }
+
+    public void setClientesCollection(Collection<Clientes> clientesCollection) {
+        this.clientesCollection = clientesCollection;
     }
     
 }

@@ -55,18 +55,11 @@
                                 <p:column headerText="M&aacute;ximo" style="background-color: #DEDEDE; text-align: center;">
                                     #{inventario.max}
                                 </p:column>
-                                
-                                <p:column headerText="Inventario inicial" style="text-align: center;">
-                                    #{inventario.cantidad}
-                                </p:column>
                                 <p:column headerText="En uso" style="text-align: center;">
                                     #{inventario.uso}
                                 </p:column>
                                 <p:column headerText="Por destruir" style="text-align: center;">
                                     #{inventario.pordestruir}
-                                </p:column>
-                                <p:column headerText="Destruidas" style="text-align: center;">
-                                    #{inventario.destruidas}
                                 </p:column>
                                 <p:column headerText="Inventario disponible" style="background-color: #4da309;text-align: center;">
                                     <p id="cantbar#{inventario.baraja.id}" > #{inventario.cantidad - inventario.uso -inventario.destruidas-inventario.pordestruir}
