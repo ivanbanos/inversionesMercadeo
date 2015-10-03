@@ -245,6 +245,7 @@ public class PerfilActBean implements Serializable{
     private VistaBoolean generarOrdenRegalo;
     private VistaBoolean aprobarOrdenRegalo;
     private VistaBoolean recibirOrdenRegalo;
+    private VistaBoolean ingresarOrdenRegalo;
     
     private VistaBoolean RegaloCrearSolicitud;
     private VistaBoolean RegaloAprobarSolicitud;
@@ -252,6 +253,17 @@ public class PerfilActBean implements Serializable{
     private VistaBoolean RegaloRecibirSolicitud;
     private VistaBoolean RegaloCanjear;
     private VistaBoolean RegaloVerSolicitud;
+    
+    
+    private VistaBoolean correoRegaloOrdenCreada;
+    private VistaBoolean correoRegaloOrdenAprobada;
+    private VistaBoolean correoRegaloOrdenRecibida;
+    private VistaBoolean correoRegaloSolicitudCreada;
+    private VistaBoolean correoRegaloSolicitudAprobada;
+    private VistaBoolean correoRegaloSolicitudEnviada;
+    private VistaBoolean correoRegaloSolicitudRecibida;
+    private VistaBoolean correoRegaloMinimoAlcanzado;
+    private VistaBoolean correoRegaloEntregado;
     
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -1187,6 +1199,12 @@ public class PerfilActBean implements Serializable{
                 } else {
                     recibirOrdenRegalo = new VistaBoolean(v, false);
                 }
+            }if (v.getNombreVista().equals("ingresarOrdenRegalo")) {
+                if (elemento.getVistaList().contains(v)) {
+                    ingresarOrdenRegalo = new VistaBoolean(v, true);
+                } else {
+                    ingresarOrdenRegalo = new VistaBoolean(v, false);
+                }
             }
             
             if (v.getNombreVista().equals("RegaloCrearSolicitud")) {
@@ -1226,6 +1244,67 @@ public class PerfilActBean implements Serializable{
                     RegaloVerSolicitud = new VistaBoolean(v, false);
                 }
             }
+            
+            
+            
+            if (v.getNombreVista().equals("correoRegaloOrdenCreada")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoRegaloOrdenCreada = new VistaBoolean(v, true);
+                } else {
+                    correoRegaloOrdenCreada = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoRegaloOrdenAprobada")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoRegaloOrdenAprobada = new VistaBoolean(v, true);
+                } else {
+                    correoRegaloOrdenAprobada = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoRegaloOrdenRecibida")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoRegaloOrdenRecibida = new VistaBoolean(v, true);
+                } else {
+                    correoRegaloOrdenRecibida = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoRegaloSolicitudCreada")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoRegaloSolicitudCreada = new VistaBoolean(v, true);
+                } else {
+                    correoRegaloSolicitudCreada = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoRegaloSolicitudAprobada")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoRegaloSolicitudAprobada = new VistaBoolean(v, true);
+                } else {
+                    correoRegaloSolicitudAprobada = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoRegaloSolicitudEnviada")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoRegaloSolicitudEnviada = new VistaBoolean(v, true);
+                } else {
+                    correoRegaloSolicitudEnviada = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoRegaloSolicitudRecibida")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoRegaloSolicitudRecibida = new VistaBoolean(v, true);
+                } else {
+                    correoRegaloSolicitudRecibida = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoRegaloMinimoAlcanzado")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoRegaloMinimoAlcanzado = new VistaBoolean(v, true);
+                } else {
+                    correoRegaloMinimoAlcanzado = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoRegaloEntregado")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoRegaloEntregado = new VistaBoolean(v, true);
+                } else {
+                    correoRegaloEntregado = new VistaBoolean(v, false);
+                }
+            }
+            
+            
+            
             
             if (v.getNombreVista().equals("verRegalos")) {
                 if (elemento.getVistaList().contains(v)) {
@@ -1825,6 +1904,9 @@ public class PerfilActBean implements Serializable{
         if (recibirOrdenRegalo.isSelected()) {
             elemento.getVistaList().add(recibirOrdenRegalo.getVista());
         }
+        if (ingresarOrdenRegalo.isSelected()) {
+            elemento.getVistaList().add(ingresarOrdenRegalo.getVista());
+        }
         
         
         if (RegaloCrearSolicitud.isSelected()) {
@@ -1840,6 +1922,28 @@ public class PerfilActBean implements Serializable{
         }if (RegaloVerSolicitud.isSelected()) {
             elemento.getVistaList().add(RegaloVerSolicitud.getVista());
         }
+        
+        
+        if (RegaloVerSolicitud.isSelected()) {
+            elemento.getVistaList().add(correoRegaloOrdenCreada.getVista());
+        }if (RegaloVerSolicitud.isSelected()) {
+            elemento.getVistaList().add(correoRegaloOrdenAprobada.getVista());
+        }if (RegaloVerSolicitud.isSelected()) {
+            elemento.getVistaList().add(correoRegaloOrdenRecibida.getVista());
+        }if (RegaloVerSolicitud.isSelected()) {
+            elemento.getVistaList().add(correoRegaloSolicitudCreada.getVista());
+        }if (RegaloVerSolicitud.isSelected()) {
+            elemento.getVistaList().add(correoRegaloSolicitudAprobada.getVista());
+        }if (RegaloVerSolicitud.isSelected()) {
+            elemento.getVistaList().add(correoRegaloSolicitudEnviada.getVista());
+        }if (RegaloVerSolicitud.isSelected()) {
+            elemento.getVistaList().add(correoRegaloSolicitudRecibida.getVista());
+        }if (RegaloVerSolicitud.isSelected()) {
+            elemento.getVistaList().add(correoRegaloMinimoAlcanzado.getVista());
+        }if (RegaloVerSolicitud.isSelected()) {
+            elemento.getVistaList().add(correoRegaloEntregado.getVista());
+        }
+        
         
         
         if (verRegalos.isSelected()) {
@@ -3959,6 +4063,86 @@ public class PerfilActBean implements Serializable{
 
     public void setRegaloVerSolicitud(VistaBoolean RegaloVerSolicitud) {
         this.RegaloVerSolicitud = RegaloVerSolicitud;
+    }
+
+    public VistaBoolean getCorreoRegaloOrdenCreada() {
+        return correoRegaloOrdenCreada;
+    }
+
+    public void setCorreoRegaloOrdenCreada(VistaBoolean correoRegaloOrdenCreada) {
+        this.correoRegaloOrdenCreada = correoRegaloOrdenCreada;
+    }
+
+    public VistaBoolean getCorreoRegaloOrdenAprobada() {
+        return correoRegaloOrdenAprobada;
+    }
+
+    public void setCorreoRegaloOrdenAprobada(VistaBoolean correoRegaloOrdenAprobada) {
+        this.correoRegaloOrdenAprobada = correoRegaloOrdenAprobada;
+    }
+
+    public VistaBoolean getCorreoRegaloOrdenRecibida() {
+        return correoRegaloOrdenRecibida;
+    }
+
+    public void setCorreoRegaloOrdenRecibida(VistaBoolean correoRegaloOrdenRecibida) {
+        this.correoRegaloOrdenRecibida = correoRegaloOrdenRecibida;
+    }
+
+    public VistaBoolean getCorreoRegaloSolicitudCreada() {
+        return correoRegaloSolicitudCreada;
+    }
+
+    public void setCorreoRegaloSolicitudCreada(VistaBoolean correoRegaloSolicitudCreada) {
+        this.correoRegaloSolicitudCreada = correoRegaloSolicitudCreada;
+    }
+
+    public VistaBoolean getCorreoRegaloSolicitudAprobada() {
+        return correoRegaloSolicitudAprobada;
+    }
+
+    public void setCorreoRegaloSolicitudAprobada(VistaBoolean correoRegaloSolicitudAprobada) {
+        this.correoRegaloSolicitudAprobada = correoRegaloSolicitudAprobada;
+    }
+
+    public VistaBoolean getCorreoRegaloSolicitudEnviada() {
+        return correoRegaloSolicitudEnviada;
+    }
+
+    public void setCorreoRegaloSolicitudEnviada(VistaBoolean correoRegaloSolicitudEnviada) {
+        this.correoRegaloSolicitudEnviada = correoRegaloSolicitudEnviada;
+    }
+
+    public VistaBoolean getCorreoRegaloSolicitudRecibida() {
+        return correoRegaloSolicitudRecibida;
+    }
+
+    public void setCorreoRegaloSolicitudRecibida(VistaBoolean correoRegaloSolicitudRecibida) {
+        this.correoRegaloSolicitudRecibida = correoRegaloSolicitudRecibida;
+    }
+
+    public VistaBoolean getCorreoRegaloMinimoAlcanzado() {
+        return correoRegaloMinimoAlcanzado;
+    }
+
+    public void setCorreoRegaloMinimoAlcanzado(VistaBoolean correoRegaloMinimoAlcanzado) {
+        this.correoRegaloMinimoAlcanzado = correoRegaloMinimoAlcanzado;
+    }
+
+    public VistaBoolean getCorreoRegaloEntregado() {
+        return correoRegaloEntregado;
+    }
+
+    public void setCorreoRegaloEntregado(VistaBoolean correoRegaloEntregado) {
+        this.correoRegaloEntregado = correoRegaloEntregado;
+    }
+
+    public VistaBoolean getIngresarOrdenRegalo() {
+        return ingresarOrdenRegalo;
+    }
+
+    public void setIngresarOrdenRegalo(VistaBoolean ingresarOrdenRegalo) {
+        this.ingresarOrdenRegalo = ingresarOrdenRegalo;
     }
 
 }

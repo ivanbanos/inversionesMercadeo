@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: /Regalos/Requerimiento de compra de lotes de regalos</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Obsequios corporativos/Requerimiento de compra de lotes de obsequios corporativos</label>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
                 <div class="row clearfix">
                     <div class="col-md-12 ">
                         <div class="panel panel-primary">
-                            <div class="panel-heading"><h4>Requerimiento de compra de lotes de regalos</h4></div>
+                            <div class="panel-heading"><h4>Requerimiento de compra de lotes de obsequios corporativos</h4></div>
                             <div class="panel-body">
                                 <div class="row">
 
@@ -96,11 +96,11 @@
                                                                     </c:otherwise>
                                                                 </c:choose>
                                                             </tr>
-                                                            
+                                                            <tr>
                                                                 <c:choose>
-                                                                    <tr>
-                                                                    <c:when test="#{verOrdenCompraRegalos.orden.estado == 'RECIBIDO'}">
-                                                                        <td width="50px"></td>
+
+                                                                    <c:when test="#{verOrdenCompraRegalos.orden.fechaRecibida != null}">
+                                                                        <td width="50px"><i class="fa fa-check"></i></td>
                                                                         <td>Recibido en</td>
                                                                         <td>
                                                                             <h:outputText value="#{verOrdenCompraRegalos.orden.fechaRecibida}">
@@ -112,9 +112,28 @@
                                                                             <h:outputText value="#{verOrdenCompraRegalos.orden.usuarioREcibidor}"/>
                                                                         </td>
                                                                     </c:when>
-                                                                    </tr>
+
                                                                 </c:choose>
-                                                            
+                                                            </tr>
+                                                            <tr>
+                                                                <c:choose>
+
+                                                                    <c:when test="#{verOrdenCompraRegalos.orden.fechaIngresada != null}">
+                                                                        <td width="50px"><i class="fa fa-check"></i></td>
+                                                                        <td>Ingresado en</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{verOrdenCompraRegalos.orden.fechaIngresada}">
+                                                                                <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
+                                                                            </h:outputText>
+                                                                        </td>
+                                                                        <td>Por</td>
+                                                                        <td>
+                                                                            <h:outputText value="#{verOrdenCompraRegalos.orden.usuarioIngresador}"/>
+                                                                        </td>
+                                                                    </c:when>
+
+                                                                </c:choose>
+                                                            </tr>
                                                         </table>
                                                     </div>
                                                     <div class="panel-footer panel-footer-landing">
@@ -130,17 +149,21 @@
                                                  emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
 
 
-                                        <p:column headerText="Regalo" style="text-align: center;">
+                                        <p:column headerText="Obsequio" style="text-align: center;">
                                             <h:outputText value="#{detalle.regalo.nombre}">
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Cantidad solicitada" width="25%" style="text-align: center;">
+                                        <p:column headerText="Imagen" >
+                                            <h:graphicImage id="imagenact" value="http://regalos.ibfcolombia.com/#{detalle.regalo.fileName}" style="width:100%;"/>
+
+                                        </p:column>
+                                        <p:column headerText="Cantidad solicitada"  style="text-align: center;">
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidad}">
                                                 </h:outputText>
                                             </span>
                                         </p:column>
-                                        <p:column headerText="Cantidad aprobadas"  width="25%" rendered="#{verOrdenCompraRegalos.orden.estado == 'RECIBIDO' or verOrdenCompraRegalos.orden.estado == 'APROBADO'}" >
+                                        <p:column headerText="Cantidad aprobadas"   >
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidadAprobada}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
@@ -148,9 +171,17 @@
                                             </span>
 
                                         </p:column>
-                                        <p:column headerText="Cantidad recibidas"  width="25%" rendered="#{verOrdenCompraRegalos.orden.estado == 'RECIBIDO'}" >
+                                        <p:column headerText="Cantidad recibidas"   >
                                             <span id="cantidad#{status}">
                                                 <h:outputText value="#{detalle.cantidadR}">
+                                                    <f:converter  converterId="numberSeparationConverter"  />
+                                                </h:outputText>
+                                            </span>
+
+                                        </p:column>
+                                        <p:column headerText="Justificaci&oacute;n"  >
+                                            <span id="cantidad#{status}">
+                                                <h:outputText value="#{detalle.justificacion}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
                                                 </h:outputText>
                                             </span>
@@ -170,7 +201,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel-footer panel-footer-landing">
+                            <div class="panel-footer panel-footer-landing text-right">
 
                                 <h:commandLink  action="#{sessionBean.go(&quot;verOrdenRegalo&quot;)}" class="btn btn-primary">volver</h:commandLink>
                             </div>

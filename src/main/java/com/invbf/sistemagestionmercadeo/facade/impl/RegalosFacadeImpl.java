@@ -105,11 +105,14 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
         ordendto.setFechaAceptada(orden.getFechaAceptada());
         ordendto.setFechaCreacion(orden.getFechaCreacion());
         ordendto.setFechaRecibida(orden.getFechaRecibida());
+        ordendto.setFechaIngresada(orden.getFechaIngresada());
         ordendto.setUsuarioAceptador(orden.getAceptador() == null ? "" : orden.getAceptador().getNombreUsuario());
         ordendto.setUsuarioCreado(orden.getCreador().getNombreUsuario());
         ordendto.setUsuarioREcibidor(orden.getRecibidor() == null ? "" : orden.getRecibidor().getNombreUsuario());
+        ordendto.setUsuarioIngresador(orden.getIngresador()== null ? "" : orden.getIngresador().getNombreUsuario());
         ordendto.setObservaciones(orden.getObservaciones());
         ordendto.setCantidades(new ArrayList<RegalosCantidadDTO>());
+        
         for (Ordencompraregalodetalle detalle : orden.getOrdencompraregalodetalleList()) {
             ordendto.getCantidades().add(transformarDetalleOrdenDTO(detalle));
 
@@ -124,6 +127,7 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
         detalledto.setCantidadAprobada(detalle.getCantidadAprobada());
         detalledto.setCantidadR(detalle.getCantidadRecibida());
         detalledto.setRegalo(new RegaloDTO(detalle.getRegalosinventario().getRegalo()));
+        detalledto.setJustificacion(detalle.getJustificacion());
         return detalledto;
     }
 
@@ -138,19 +142,22 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
     }
 
     @Override
-    public void generarOrdenRegalos(InventarioRegalosDTO inventario, Usuario usuairo) {
+    public void generarOrdenRegalos(InventarioRegalosDTO inventario, String observaciones, Usuario usuairo) {
         Ordencompraregalos orden = new Ordencompraregalos();
         orden.setCreador(usuairo);
         orden.setFechaCreacion(new Date());
         orden.setEstado("GENERADO");
+        orden.setObservaciones(observaciones);
         orden.setOrdencompraregalodetalleList(new ArrayList<Ordencompraregalodetalle>());
         for (RegalosCantidadDTO regalo : inventario.getInventario()) {
-            Ordencompraregalodetalle detalle = new Ordencompraregalodetalle();
-            detalle.setCantidad(regalo.getCantidad());
-            detalle.setCantidadAprobada(regalo.getCantidad());
-            detalle.setCantidadRecibida(regalo.getCantidad());
-            detalle.setRegalosinventario(new Regalosinventario(regalo.getId()));
-            orden.getOrdencompraregalodetalleList().add(detalle);
+            if (regalo.getCantidad() > 0) {
+                Ordencompraregalodetalle detalle = new Ordencompraregalodetalle();
+                detalle.setCantidad(regalo.getCantidad());
+                detalle.setCantidadAprobada(regalo.getCantidad());
+                detalle.setCantidadRecibida(regalo.getCantidad());
+                detalle.setRegalosinventario(new Regalosinventario(regalo.getId()));
+                orden.getOrdencompraregalodetalleList().add(detalle);
+            }
         }
         GestionRegaloDao.guardarOrdenCompra(orden);
     }
@@ -205,7 +212,7 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
         solicitudDto.setFechaRecibida(solicitud.getFecharecepcion());
         solicitudDto.setUsuarioAceptador(solicitud.getAceptador() == null ? "" : solicitud.getAceptador().getNombreUsuario());
         solicitudDto.setUsuarioCreado(solicitud.getCreador() == null ? "" : solicitud.getCreador().getNombreUsuario());
-        solicitudDto.setUsuarioEnviador(solicitud.getEnviador()== null ? "" : solicitud.getEnviador().getNombreUsuario());
+        solicitudDto.setUsuarioEnviador(solicitud.getEnviador() == null ? "" : solicitud.getEnviador().getNombreUsuario());
         solicitudDto.setUsuarioREcibidor(solicitud.getRecibidor() == null ? "" : solicitud.getRecibidor().getNombreUsuario());
         solicitudDto.setCantidades(new ArrayList<RegalosCantidadDTO>());
         for (Solicitudregalodetalle detalle : solicitud.getSolicitudregalodetalleList()) {
@@ -251,7 +258,7 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
 
     @Override
     public void rechazarSolicitud(SolicitudRegaloDTO solicitud, Usuario usuario) {
-         GestionRegaloDao.rechazarSolicitud(solicitud, usuario);
+        GestionRegaloDao.rechazarSolicitud(solicitud, usuario);
     }
 
     @Override
@@ -265,24 +272,24 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
     }
 
     @Override
-    public List<RegaloCanje> buscarRegalos(String buscar,Usuario usuario) {
+    public List<RegaloCanje> buscarRegalos(String buscar, Usuario usuario) {
         List<Solicitudregalodetalle> soldet = GestionRegaloDao.buscar(buscar, usuario);
-        
-        System.out.println("Tamaño "+soldet.size());
+
+        System.out.println("Tamaño " + soldet.size());
         List<RegaloCanje> regalos = new ArrayList<RegaloCanje>();
         for (Solicitudregalodetalle soldet1 : soldet) {
-            RegaloCanje regalo = new RegaloCanje(new RegaloDTO(soldet1.getRegalosinventario().getRegalo()), 
+            RegaloCanje regalo = new RegaloCanje(new RegaloDTO(soldet1.getRegalosinventario().getRegalo()),
                     new ClienteDTO(soldet1.getClientes()), soldet1.getSolicitudregalos().getId());
             regalo.getRegalo().setId(soldet1.getRegalosinventario().getId());
             regalos.add(regalo);
         }
-        
+
         return regalos;
     }
 
     @Override
     public void guardarImagen(byte[] contents, String fileName) {
-         FTPClient client = new FTPClient();
+        FTPClient client = new FTPClient();
         try {
             System.out.println("entra");
             String sFTP = ConfiguracionDao.findByNombre("FTP").getValor();
@@ -325,11 +332,22 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
                 client.disconnect();
             } catch (IOException ex) {
             }
-        }}
+        }
+    }
 
     @Override
     public void entregar(RegaloCanje regalo, Usuario usuario) {
         GestionRegaloDao.entregarRegalo(regalo, usuario);
+    }
+
+    @Override
+    public InventarioRegalosDTO getInventarioRequerimiento() {
+        return new InventarioRegalosDTO(GestionRegaloDao.getListaInvenratioRegalos(), 2);
+    }
+
+    @Override
+    public void ingresarOrden(OrdenCompraRegaloDTO orden, Usuario usuario) {
+        GestionRegaloDao.ingresarOrden(orden, usuario);
     }
 
 }

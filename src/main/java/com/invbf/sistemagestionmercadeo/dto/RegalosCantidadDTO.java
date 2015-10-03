@@ -22,6 +22,7 @@ public class RegalosCantidadDTO implements Serializable {
     private Integer max;
     private ClienteDTO cliente;
     private String estado;
+    private String justificacion;
 
     public Integer getCantidad() {
         return cantidad;
@@ -137,5 +138,13 @@ public class RegalosCantidadDTO implements Serializable {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
+
+    public String getJustificacion() {
+        return justificacion;
+    }
+
+    public void setJustificacion(String justificacion) {
+        this.justificacion = justificacion;
+    }
+
 }

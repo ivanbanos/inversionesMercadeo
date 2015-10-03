@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: /Gesti&oacute;n de barajas/Configuraci&oacute;n de Barajas</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Gesti&oacute;n de obsequios corporativos/Configuraci&oacute;n de obsequios corporativos</label>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                             <div class="panel panel-primary">
                                 <div class="panel-heading">
                                     <div class="clickable">
-                                        <h3 class="panel-title">Configuraci&oacute;n  de regalo</h3>
+                                        <h3 class="panel-title">Configuraci&oacute;n  de obsequios corporativos</h3>
                                         <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
                                     </div>
                                 </div>
@@ -64,9 +64,9 @@
                                             <div class="col-md-9">
                                                 <p:selectOneMenu id="sexo" value="#{crudRegalosBean.elemento.genero}" required="true" requiredMessage="#{label['msj.req.tipotarea']}" >
                                                     <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
-                                                    <f:selectItem itemLabel="Masculino" itemValue="M" />
-                                                    <f:selectItem itemLabel="Femenino" itemValue="F" />
-                                                    <f:selectItem itemLabel="Sin genero" itemValue="S" />
+                                                    <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                                                    <f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+                                                    <f:selectItem itemLabel="Unisex" itemValue="Unisex" />
                                                 </p:selectOneMenu>
                                             </div>
                                         </div>
@@ -87,8 +87,8 @@
                                     <div class="row clearfix">
                                         <div class="form-group col-md-12">
                                             <div class="col-md-5">
-                                                <p:fileUpload fileUploadListener="#{crudRegalosBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
-                                                              update=":#{p:component('messages')} :#{p:component('imagenact')}" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                                                <p:fileUpload fileUploadListener="#{crudRegalosBean.handleFileUpload}" mode="advanced" dragDropSupport="false" cancelLabel="Cancelar" label="Seleccionar" uploadLabel="Subir"
+                                                              update=":#{p:component('messages')} :#{p:component('imagenact')}" sizeLimit="100000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
                                             </div>
                                         </div>
                                     </div>
@@ -104,15 +104,15 @@
 
                                 </div>
                                 <div class="panel-footer">
-                                    <p:commandButton  value="Nuevo regalo" onstart="PF('ajaxWaitingDialog').show();" 
+                                    <p:commandButton  value="Nuevo obsequio" onstart="PF('ajaxWaitingDialog').show();" 
                                                       oncomplete="PF('ajaxWaitingDialog').hide();PF('nueva').show();"
                                                       title="#{label['lb_btn.editarPerfiles']}">   
                                     </p:commandButton>
-                                    <p:commandButton value="Guardar regalo" icon="ui-icon-pencil" onstart="PF('ajaxWaitingDialog').show();" 
+                                    <p:commandButton value="Guardar obsequio" icon="ui-icon-pencil" onstart="PF('ajaxWaitingDialog').show();" 
                                                      oncomplete="PF('ajaxWaitingDialog').hide();PF('guardar').show();"
                                                      title="#{label['lb_btn.editarPerfiles']}">   
                                     </p:commandButton>
-                                    <p:commandButton value="Eliminar regalo" icon="ui-icon-pencil" onstart="PF('ajaxWaitingDialog').show();" 
+                                    <p:commandButton value="Eliminar obsequio" icon="ui-icon-pencil" onstart="PF('ajaxWaitingDialog').show();" 
                                                      oncomplete="PF('ajaxWaitingDialog').hide();PF('eliminarba').show();"
                                                      title="#{label['lb_btn.editarPerfiles']}">   
                                     </p:commandButton>
@@ -130,7 +130,7 @@
                     <div class="panel-heading">
 
                         <div class="clickable">
-                            <h3 class="panel-title">Lista de regalos</h3>
+                            <h3 class="panel-title">Lista de obsequios corporativos</h3>
                             <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
                         </div>
                     </div>
@@ -172,8 +172,8 @@
 
 
         <h:form >
-            <p:confirmDialog id="nueva" message="Va a crear un nuevo regalo, se perderan todos los cambios no guardados. ¿Desea continuar?"  
-                             header="Nuevo regalo" severity="alert" widgetVar="nueva" closable="false">  
+            <p:confirmDialog id="nueva" message="Va a crear un nuevo obsequio corporativo, se perderan todos los cambios no guardados. ¿Desea continuar?"  
+                             header="Nuevo obsequio corporativo" severity="alert" widgetVar="nueva" closable="false">  
 
                 <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" 
                                  action="#{crudRegalosBean.nuevoRegalo()}"  ajax="false"/>  
@@ -183,8 +183,8 @@
         </h:form>
 
         <h:form >
-            <p:confirmDialog id="guardar" message="¿Está seguro que desea guardar el regalo?"  
-                             header="Guardar regalo" severity="alert" widgetVar="guardar" closable="false">  
+            <p:confirmDialog id="guardar" message="¿Está seguro que desea guardar el obsequio corporativo?"  
+                             header="Guardar obsequio corporativo" severity="alert" widgetVar="guardar" closable="false">  
 
                 <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();"  
                                  action="#{crudRegalosBean.actualizarRegalo()}"  ajax="false"/>  
@@ -193,8 +193,8 @@
             </p:confirmDialog> 
         </h:form>
         <h:form >
-            <p:confirmDialog id="eliminarba" message="¿Está seguro que desea eliminar el regalo?"  
-                             header="Eliminar regalo" severity="alert" widgetVar="eliminarba" closable="false">  
+            <p:confirmDialog id="eliminarba" message="¿Está seguro que desea eliminar el obsequio corporativo?"  
+                             header="Eliminar obsequio corporativo" severity="alert" widgetVar="eliminarba" closable="false">  
 
                 <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" 
                                  action="#{crudRegalosBean.eliminarRegalo()}"  ajax="false"/>  

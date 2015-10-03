@@ -54,7 +54,17 @@ public class Notificador implements Serializable {
     public static final int correoOrdenBarajasRecibida = 26;
     public static final int correoOrdenBarajasAprobada = 27;
     public static final int correoOrdenBarajasCreada = 28;
-    public static final int correoLibre=29;
+    public static final int correoLibre = 29;
+
+    public static final int correoRegaloOrdenCreada = 30;
+    public static final int correoRegaloOrdenAprobada = 31;
+    public static final int correoRegaloOrdenRecibida = 32;
+    public static final int correoRegaloSolicitudCreada = 33;
+    public static final int correoRegaloSolicitudAprobada = 34;
+    public static final int correoRegaloSolicitudEnviada = 35;
+    public static final int correoRegaloSolicitudRecibida = 36;
+    public static final int correoRegaloMinimoAlcanzado = 37;
+    public static final int correoRegaloEntregado = 38;
 
     public static void notificar(int tipo, String body, String subject, String correosolicitantes) {
         switch (tipo) {
@@ -123,7 +133,7 @@ public class Notificador implements Serializable {
             case correoLimiteAlcanzadoBarajas:
                 sendEmail("correoLimiteAlcanzadoBarajas", subject, body, false, correosolicitantes);
                 break;
-           
+
             case correoOrdenBarajasRecibida:
                 sendEmail("correoOrdenBarajasRecibida", subject, body, true, correosolicitantes);
                 break;
@@ -138,7 +148,7 @@ public class Notificador implements Serializable {
                 break;
         }
     }
-    
+
     public static void notificar(int tipo, String body, String subject, String correosolicitantes, Casino sala) {
         switch (tipo) {
             case correoSolicitudBarajaRecibida:
@@ -150,12 +160,37 @@ public class Notificador implements Serializable {
             case correoSolicitudBarajaCreada:
                 sendEmail("correoSolicitudBarajaCreada", subject, body, true, correosolicitantes, sala);
                 break;
+
+            case correoRegaloOrdenCreada:
+                sendEmail("correoRegaloOrdenCreada", subject, body, true, correosolicitantes, sala);
+                break;
+            case correoRegaloOrdenAprobada:
+                sendEmail("correoRegaloOrdenAprobada", subject, body, true, correosolicitantes, sala);
+                break;
+            case correoRegaloOrdenRecibida:
+                sendEmail("correoRegaloOrdenRecibida", subject, body, true, correosolicitantes, sala);
+                break;
+            case correoRegaloSolicitudCreada:
+                sendEmail("correoRegaloSolicitudCreada", subject, body, true, correosolicitantes, sala);
+                break;
+            case correoRegaloSolicitudAprobada:
+                sendEmail("correoRegaloSolicitudAprobada", subject, body, true, correosolicitantes, sala);
+                break;
+            case correoRegaloSolicitudEnviada:
+                sendEmail("correoRegaloSolicitudEnviada", subject, body, true, correosolicitantes, sala);
+                break;
+            case correoRegaloSolicitudRecibida:
+                sendEmail("correoRegaloSolicitudRecibida", subject, body, true, correosolicitantes, sala);
+                break;
+            case correoRegaloMinimoAlcanzado:
+                sendEmail("correoRegaloMinimoAlcanzado", subject, body, true, correosolicitantes, sala);
+                break;
+            case correoRegaloEntregado:
+                sendEmail("correoRegaloEntregado", subject, body, true, correosolicitantes, sala);
+                break;
         }
     }
-    
 
-     
-    
     private static void sendEmail(String permiso, String subject, String mesaje, boolean enviarSol, String correo) {
         EmailSender es = new EmailSender();
         es.setAuth(true);
@@ -194,7 +229,7 @@ public class Notificador implements Serializable {
             Logger.getLogger(Notificador.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private static void sendEmail(String permiso, String subject, String mesaje, boolean enviarSol, String correo, Casino sala) {
         EmailSender es = new EmailSender();
         es.setAuth(true);
@@ -216,12 +251,12 @@ public class Notificador implements Serializable {
                     List<Usuario> usuarios = UsuarioDao.findByPerfil(perfil);
                     System.out.println(usuarios.size());
                     for (Usuario usuario : usuarios) {
-                        
-                            System.out.println("Sala: "+sala.getIdCasino());
-                            System.out.println("Sala: "+sala.getIdCasino());
-                            System.out.println("Sala: "+usuario.getCasinoList().contains(sala));
-                        if (usuario.getUsuariodetalle() != null 
-                                && usuario.getUsuariodetalle().getCorreo() != null 
+
+                        System.out.println("Sala: " + sala.getIdCasino());
+                        System.out.println("Sala: " + sala.getIdCasino());
+                        System.out.println("Sala: " + usuario.getCasinoList().contains(sala));
+                        if (usuario.getUsuariodetalle() != null
+                                && usuario.getUsuariodetalle().getCorreo() != null
                                 && !usuario.getUsuariodetalle().getCorreo().equals("")
                                 && usuario.getCasinoList().contains(sala)) {
                             System.out.println(usuario.getUsuariodetalle().getCorreo());
@@ -240,7 +275,7 @@ public class Notificador implements Serializable {
             Logger.getLogger(Notificador.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private static void sendEmail(String subject, String mesaje, String correo) {
         EmailSender es = new EmailSender();
         es.setAuth(true);
@@ -253,8 +288,8 @@ public class Notificador implements Serializable {
         es.setPassword(ConfiguracionDao.findByNombre("contrasena").getValor());
 
         try {
-                es.sendEmailNotificador(correo, subject, mesaje);
-            
+            es.sendEmailNotificador(correo, subject, mesaje);
+
         } catch (MessagingException ex) {
             Logger.getLogger(Notificador.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

@@ -127,26 +127,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <p:dataTable value="#{regaloVerSolicitud.solicitud.cantidades}" var="detallec" rowIndexVar="status"
-                                                 emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
-
-
-                                        <p:column headerText="Regalo" style="text-align: center;">
-                                            <h:outputText value="#{detallec.regalo.nombre}">
-                                            </h:outputText>
-                                        </p:column>
-                                        <p:column headerText="Imagen" style="text-align: center;">
-                                             <h:graphicImage id="imagenact" value="http://regalos.ibfcolombia.com/#{inventario.regalo.fileName}" />
-
-                                        </p:column>
-                                       
-                                        <p:column headerText="Cliente" style="text-align: center;">
-                                            <h:outputText value="#{detallec.cliente.nombres} #{detalle.cliente.apellidos}">
-                                            </h:outputText>
-                                        </p:column>
-                                    </p:dataTable>
-                                </div>
+                                
 
                                 <div class="row">
                                     <p:dataTable value="#{regaloVerSolicitud.regalocantidad}" var="detalle" rowIndexVar="status"

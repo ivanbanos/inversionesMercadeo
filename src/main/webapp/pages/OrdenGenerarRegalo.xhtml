@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: /Regalos/Requerimiento de compra de lotes de regalos</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Obsequios corporativos/Requerimiento de compra de lotes de obsequios corporativos</label>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
                 <div class="row clearfix">
                     <div class="col-md-12 ">
                         <div class="panel panel-primary">
-                            <div class="panel-heading"><h4>Requerimiento de compra de lotes de regalos</h4></div>
+                            <div class="panel-heading"><h4>Requerimiento de compra de lotes de obsequios corporativos</h4></div>
                             <div class="panel-body">
                                 <div class="row">
 
@@ -130,9 +130,13 @@
                                                  emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
 
 
-                                        <p:column headerText="Regalo" style="text-align: center;">
+                                        <p:column headerText="Obsequio" style="text-align: center;">
                                             <h:outputText value="#{detalle.regalo.nombre}">
                                             </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="Imagen" width="10%">
+                                            <h:graphicImage id="imagenact" value="http://regalos.ibfcolombia.com/#{detalle.regalo.fileName}" style="width:100%;"/>
+
                                         </p:column>
                                         <p:column headerText="Cantidad solicitada" width="25%" style="text-align: center;">
                                             <span id="cantidad#{status}">
@@ -162,7 +166,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel-footer panel-footer-landing">
+                            <div class="panel-footer panel-footer-landing text-right">
 
                                 <p:commandButton id="btnrec" value="Generar" style="margin:0" 
                                                  onclick="PF('generar').show();"/>
@@ -176,7 +180,7 @@
             </div>
         </h:form>
         <h:form>
-            <p:confirmDialog id="generar" message="Quiere generar la orden #{label['cierrepregunta']}"  
+            <p:confirmDialog id="generar" message="Quiere generar el requerimiento #{label['cierrepregunta']}"  
                              header="Generar" severity="alert" widgetVar="generar" closable="false">  
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"

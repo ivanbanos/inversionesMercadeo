@@ -20,9 +20,11 @@ public class OrdenCompraRegaloDTO implements Serializable{
     private Date fechaCreacion;
     private Date fechaAceptada;
     private Date fechaRecibida;
+    private Date fechaIngresada;
     private String usuarioCreado;
     private String usuarioAceptador;
     private String usuarioREcibidor;
+    private String usuarioIngresador;
     private List<RegalosCantidadDTO> cantidades;
     public String observaciones;
 
@@ -116,6 +118,22 @@ public class OrdenCompraRegaloDTO implements Serializable{
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    public Date getFechaIngresada() {
+        return fechaIngresada;
+    }
+
+    public void setFechaIngresada(Date fechaIngresada) {
+        this.fechaIngresada = fechaIngresada;
+    }
+
+    public String getUsuarioIngresador() {
+        return usuarioIngresador;
+    }
+
+    public void setUsuarioIngresador(String usuarioIngresador) {
+        this.usuarioIngresador = usuarioIngresador;
     }
     
 }

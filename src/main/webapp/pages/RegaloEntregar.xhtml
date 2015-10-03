@@ -52,38 +52,33 @@
                                 <div class="panel-body">
                                     <div class="row">
 
+                                        <p:dataTable id="detailsTableCasinos" var="regalo" value="#{regaloEntregarBean.regalos}"  
+                                                     emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTableCasinos" 
+                                                     rows="#{sessionBean.paginacion}"
+                                                     paginator="true"
+                                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                     >
 
-                                        <c:choose>
 
-                                            <c:when test="#{regaloEntregarBean.regalos.size() == 0}">
-                                                <div class="input-group col-md-offset-1 col-md-10">
-                                                    No hay regalos
-                                                </div>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <c:forEach items="#{regaloEntregarBean.regalos}" var="regalo" varStatus="index">
-                                                    <div class="col-sm-3">
-                                                        <div class="card">
-                                                            <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
-                                                            <div class="avatar">
-                                                                <img src="http://regalos.ibfcolombia.com/#{regalo.regalo.fileName}" alt="" />
-                                                            </div>
-                                                            <div class="content">
-                                                                <p>#{regalo.regalo.nombre} <br />
-                                                                    #{regalo.cliente.nombres} #{regalo.cliente.apellidos}</p>
-                                                                <p><p:commandButton value="Entregar" actionListener="#{regaloEntregarBean.setRegaloById(index)}" 
-                                                                                    update=":#{p:component('entregar')}" oncomplete="PF('entregar').show();" icon="ui-icon-search" style="margin:0" />
-                                                                </p>
-                                                            </div>
-                                                        </div>
+                                            <p:column headerText="Regalos" >
+                                                <div class="card">
+                                                    <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
+                                                    <div class="avatar">
+                                                        <img src="http://regalos.ibfcolombia.com/#{regalo.regalo.fileName}" alt="" />
                                                     </div>
-                                                </c:forEach>
+                                                    <div class="content">
+                                                        <p>#{regalo.regalo.nombre} <br />
+                                                            #{regalo.cliente.nombres} #{regalo.cliente.apellidos}</p>
+                                                        <p><p:commandButton value="Entregar" 
+                                                                            update=":#{p:component('entregar')}" oncomplete="PF('entregar').show();" icon="ui-icon-check" style="margin:0">
+                                                                <f:setPropertyActionListener value="#{regalo}" target="#{regaloEntregarBean.regalo}" />  
+                                                            </p:commandButton>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </p:column>
+                                        </p:dataTable>
 
-
-
-
-                                            </c:otherwise>
-                                        </c:choose>
 
 
                                     </div>
@@ -109,7 +104,7 @@
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
                                  action="#{regaloEntregarBean.entregarRegalo()}"/>  
-                <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('recibir').hide()" type="button" />   
+                <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('entregar').hide()" type="button" />   
 
             </p:confirmDialog> 
         </h:form>

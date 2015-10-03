@@ -35,6 +35,11 @@ public class InventarioRegalosDTO implements Serializable {
             for (Regalosinventario item : listaInvenratioRegalos) {
                 inventario.add(new RegalosCantidadDTO(item.getId(), new RegaloDTO(item.getRegalo()), item.getCantidad(), 0, 0, 0));
             }
+        }if (action == 2) {
+            inventario = new ArrayList<RegalosCantidadDTO>();
+            for (Regalosinventario item : listaInvenratioRegalos) {
+                inventario.add(new RegalosCantidadDTO(item.getId(), new RegaloDTO(item.getRegalo()), 0, 0, 0, 0));
+            }
         }
     }
 

@@ -43,6 +43,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Ordencompraregalos.findByFechaRecibida", query = "SELECT o FROM Ordencompraregalos o WHERE o.fechaRecibida = :fechaRecibida"),
     @NamedQuery(name = "Ordencompraregalos.findByFechaVerificacion", query = "SELECT o FROM Ordencompraregalos o WHERE o.fechaVerificacion = :fechaVerificacion")})
 public class Ordencompraregalos implements Serializable {
+    @Column(name = "fechaIngresada")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaIngresada;
+    @JoinColumn(name = "ingresador", referencedColumnName = "idUsuario")
+    @ManyToOne
+    private Usuario ingresador;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -209,6 +215,22 @@ public class Ordencompraregalos implements Serializable {
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+    
+    public Date getFechaIngresada() {
+        return fechaIngresada;
+    }
+
+    public void setFechaIngresada(Date fechaIngresada) {
+        this.fechaIngresada = fechaIngresada;
+    }
+
+    public Usuario getIngresador() {
+        return ingresador;
+    }
+
+    public void setIngresador(Usuario ingresador) {
+        this.ingresador = ingresador;
     }
     
 }

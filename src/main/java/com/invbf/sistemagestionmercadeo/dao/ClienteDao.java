@@ -226,12 +226,20 @@ public class ClienteDao {
                             .getResultList());
                 }
             }
+            System.out.println("Mes " + mes);
             if (mes != 12) {
+                System.out.println("Mes " + mes);
                 for (Iterator<Cliente> iterator = cargos.iterator(); iterator.hasNext();) {
+
                     Cliente next = iterator.next();
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(next.getCumpleanos());
-                    if (calendar.get(Calendar.MONTH) != mes - 1) {
+                    if (next.getCumpleanos() != null) {
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(next.getCumpleanos());
+                        System.out.println("cumple " + calendar.get(Calendar.MONTH));
+                        if (calendar.get(Calendar.MONTH) != mes) {
+                            iterator.remove();
+                        }
+                    } else {
                         iterator.remove();
                     }
                 }

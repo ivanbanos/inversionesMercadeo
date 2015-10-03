@@ -43,6 +43,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Solicitudregalos.findByFecharecepcion", query = "SELECT s FROM Solicitudregalos s WHERE s.fecharecepcion = :fecharecepcion"),
     @NamedQuery(name = "Solicitudregalos.findBySala", query = "SELECT s FROM Solicitudregalos s WHERE s.sala.idCasino = :casino")})
 public class Solicitudregalos implements Serializable {
+    @Column(name = "fechaaprobacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaaprobacion;
+    @JoinColumn(name = "enviador", referencedColumnName = "idUsuario")
+    @ManyToOne
+    private Usuario enviador;
     @JoinColumn(name = "sala", referencedColumnName = "idCasino")
     @ManyToOne
     private Casino sala;
@@ -70,9 +76,6 @@ public class Solicitudregalos implements Serializable {
     @JoinColumn(name = "recibidor", referencedColumnName = "idUsuario")
     @ManyToOne
     private Usuario recibidor;
-    @JoinColumn(name = "destructor", referencedColumnName = "idUsuario")
-    @ManyToOne
-    private Usuario enviador;
     @JoinColumn(name = "creador", referencedColumnName = "idUsuario")
     @ManyToOne
     private Usuario creador;
@@ -209,6 +212,14 @@ public class Solicitudregalos implements Serializable {
 
     public void setSala(Casino sala) {
         this.sala = sala;
+    }
+
+    public Date getFechaaprobacion() {
+        return fechaaprobacion;
+    }
+
+    public void setFechaaprobacion(Date fechaaprobacion) {
+        this.fechaaprobacion = fechaaprobacion;
     }
     
 }

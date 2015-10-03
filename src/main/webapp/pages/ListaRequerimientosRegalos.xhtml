@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: /Regalos/Requerimientos de compra de lotes de regalos</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Obsequios corporativos/Requerimientos de compra de lotes de obsequios corporativos</label>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
 
                 <div class="col-md-12 ">
                     <div class="panel panel-primary">
-                        <div class="panel-heading"><h4>Requerimientos de compra de lotes de regalos</h4></div>
+                        <div class="panel-heading"><h4>Requerimientos de compra de lotes de obsequios corporativos</h4></div>
                         <div class="panel-body">
                             <div class="row">
 
@@ -69,12 +69,14 @@
                                             <p:commandButton id="aprobar" action="#{listaRequerimientoRegalosBean.goOrdenaprobarr(element.id, element.estado)}" icon="ui-icon-check" onclick="PF('ajaxWaitingDialog').show();"
                                                              title="Aprobar" rendered="#{sessionBean.perfilViewMatch(&quot;aprobarOrdenRegalo&quot;) and (element.estado == 'GENERADO' ) }"/>  
                                             <p:commandButton id="recibircaja" action="#{listaRequerimientoRegalosBean.goOrdenrecibircaja(element.id, element.estado)}" icon="ui-icon-arrowthickstop-1-s" onclick="PF('ajaxWaitingDialog').show();"
-                                                             title="Recibir" rendered="#{sessionBean.perfilViewMatch(&quot;recibirOrdenRegalo&quot;) and (element.estado == 'APROBADO' )}"/> 
+                                                             title="Recibir" rendered="#{sessionBean.perfilViewMatch(&quot;recibirOrdenRegalo&quot;) and (element.estado == 'APROBADO' )}"/>  
+                                            <p:commandButton id="ingresar" action="#{listaRequerimientoRegalosBean.goOrdeningresarcaja(element.id, element.estado)}" icon="ui-icon-arrowreturnthick-1-s" onclick="PF('ajaxWaitingDialog').show();"
+                                                             title="Ingresar" rendered="#{sessionBean.perfilViewMatch(&quot;ingresarOrdenRegalo&quot;) and (element.estado == 'RECIBIDO POR EL ADMINISTRADOR' )}"/> 
                                             </p:column>
 
                                         <f:facet name="footer"> 
                                             <p:commandButton id="addButton" action="#{listaRequerimientoRegalosBean.goOrdenCrear()}" onclick="PF('ajaxWaitingDialog').show();"
-                                                             value="Agregar Nuevo requerimiento de Compra de Regalos" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
+                                                             value="Agregar Nuevo requerimiento de Compra de obsequios corporativos" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
                                                              rendered="#{sessionBean.perfilViewMatch(&quot;generarOrdenRegalo&quot;) }"/>   
                                         </f:facet>
 

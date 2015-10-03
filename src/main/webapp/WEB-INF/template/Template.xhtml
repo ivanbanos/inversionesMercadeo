@@ -13,7 +13,7 @@
 
         <h:outputStylesheet library="css" name="default.css" />
         <h:outputStylesheet library="css" name="bootstrap.min.css" />
-        <h:outputStylesheet library="font-awesome/css" name="font-awesome.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
         <h:outputStylesheet library="css/blitzer" name="jquery-ui-1.10.3.custom.css" />
         <h:outputScript library="js" name="bootstrap.min.js"/>
         <h:outputScript library="js" name="toggeablePanelScript.js"/>
@@ -330,6 +330,7 @@
                                           or sessionBean.perfilViewMatch(&quot;generarOrdenRegalo&quot;)
                                           or sessionBean.perfilViewMatch(&quot;aprobarOrdenRegalo&quot;)
                                           or sessionBean.perfilViewMatch(&quot;recibirOrdenRegalo&quot;)
+                                          or sessionBean.perfilViewMatch(&quot;ingresarOrdenRegalo&quot;)
                                           or sessionBean.perfilViewMatch(&quot;RegaloVerSolicitud&quot;)
                                           or sessionBean.perfilViewMatch(&quot;RegaloCrearSolicitud&quot;)
                                           or sessionBean.perfilViewMatch(&quot;RegaloAprobarSolicitud&quot;)
@@ -337,44 +338,45 @@
                                           or sessionBean.perfilViewMatch(&quot;RegaloRecibirSolicitud&quot;)
                                           or sessionBean.perfilViewMatch(&quot;RegaloCanjear&quot;)}">
                                 <li class="dropdown ">
-                                    <a href="#" class="dropdown-toggle #{sessionBean.isActive(&quot;regalos&quot;)}" data-toggle="dropdown">Gesti&oacute;n de Regalos<span class="caret"></span></a>
+                                    <a href="#" class="dropdown-toggle #{sessionBean.isActive(&quot;regalos&quot;)}" data-toggle="dropdown">Gesti&oacute;n de obsequios corporativos<span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
 
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verRegalos&quot;)}">
                                             <li >
-                                                <h:commandLink  action="#{sessionBean.go(&quot;verRegalos&quot;)}" value="Configuraci&oacute;n de regalos"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;verRegalos&quot;)}" value="Configuraci&oacute;n de obsequios corporativos"/>
                                             </li>
                                         </c:if>
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;configuracionInvRegalo&quot;)}">
                                             <li >
-                                                <h:commandLink  action="#{sessionBean.go(&quot;configuracionInvRegalo&quot;)}" value="Configuraci&oacute;n de inventario de regalos"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;configuracionInvRegalo&quot;)}" value="Configuraci&oacute;n de stock de obsequios corporativos"/>
                                             </li>
                                         </c:if>
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verInvRegalo&quot;)}">
                                             <li >
-                                                <h:commandLink  action="#{sessionBean.go(&quot;verInvRegalo&quot;)}" value="Stock de regalos"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;verInvRegalo&quot;)}" value="Stock de obsequios corporativos"/>
                                             </li>
                                         </c:if>
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verOrdenRegalo&quot;)
                                                       or sessionBean.perfilViewMatch(&quot;generarOrdenRegalo&quot;)
                                                       or sessionBean.perfilViewMatch(&quot;aprobarOrdenRegalo&quot;)
-                                                      or sessionBean.perfilViewMatch(&quot;recibirOrdenRegalo&quot;)}">
+                                                      or sessionBean.perfilViewMatch(&quot;recibirOrdenRegalo&quot;)
+                                                      or sessionBean.perfilViewMatch(&quot;ingresarOrdenRegalo&quot;)}">
                                             <li >
-                                                <h:commandLink  action="#{sessionBean.go(&quot;verOrdenRegalo&quot;)}" value="Requerimiento de regalos"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;verOrdenRegalo&quot;)}" value="Requerimiento de obsequios corporativos"/>
                                             </li>
                                         </c:if>
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;RegaloVerSolicitud&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;RegaloCrearSolicitud&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;RegaloAprobarSolicitud&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;RegaloEnviarSolicitud&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;RegaloRecibirSolicitud&quot;)}">
+                                                      or sessionBean.perfilViewMatch(&quot;RegaloCrearSolicitud&quot;)
+                                                      or sessionBean.perfilViewMatch(&quot;RegaloAprobarSolicitud&quot;)
+                                                      or sessionBean.perfilViewMatch(&quot;RegaloEnviarSolicitud&quot;)
+                                                      or sessionBean.perfilViewMatch(&quot;RegaloRecibirSolicitud&quot;)}">
                                             <li >
-                                                <h:commandLink  action="#{sessionBean.go(&quot;verSolicitudRegaloRegalo&quot;)}" value="Lista de solicitudes de regalo"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;verSolicitudRegaloRegalo&quot;)}" value="Lista de solicitudes de obsequios corporativos"/>
                                             </li>
                                         </c:if>
                                         <c:if test="#{sessionBean.perfilViewMatch(&quot;RegaloCanjear&quot;)}">
                                             <li >
-                                                <h:commandLink  action="#{sessionBean.go(&quot;regaloCanjear&quot;)}" value="Entrega de regalos"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;regaloCanjear&quot;)}" value="Entrega de obsequios corporativos"/>
                                             </li>
                                         </c:if>
 

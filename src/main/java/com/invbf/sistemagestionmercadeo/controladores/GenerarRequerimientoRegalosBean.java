@@ -30,6 +30,7 @@ public class GenerarRequerimientoRegalosBean implements Serializable {
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
     private InventarioRegalosDTO inventario;
+    private String observaciones;
 
     public SessionBean getSessionBean() {
         return sessionBean;
@@ -55,7 +56,7 @@ public class GenerarRequerimientoRegalosBean implements Serializable {
             } catch (IOException ex) {
             }
         }
-        inventario = sessionBean.regalosFacade.getInventario();
+        inventario = sessionBean.regalosFacade.getInventarioRequerimiento();
         
         sessionBean.printMensajes();
     }
@@ -68,6 +69,15 @@ public class GenerarRequerimientoRegalosBean implements Serializable {
         this.inventario = inventario;
     }
 
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+    
+
     public void crearRequerimientoDeOrdenCompra() {
         boolean guardar = false;
         for (RegalosCantidadDTO regalo : inventario.getInventario()) {
@@ -78,7 +88,7 @@ public class GenerarRequerimientoRegalosBean implements Serializable {
         }
         if (guardar) {
             try {
-                sessionBean.regalosFacade.generarOrdenRegalos(inventario, sessionBean.getUsuario());
+                sessionBean.regalosFacade.generarOrdenRegalos(inventario, observaciones, sessionBean.getUsuario());
                 sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Requerimeinto generado con exito!", ""));
                 
                 FacesContext.getCurrentInstance().getExternalContext().redirect("ListaRequerimientosRegalos.xhtml");

@@ -141,12 +141,12 @@
                                                 </h:outputText>
                                             </p:column>
                                              <p:column headerText="Regalo" style="text-align: center;">
-                                                  - #{detalle.sexo} -  - 
-                                            <p:selectOneMenu id="inv" value="#{detalle.regalo.id}" >
+                                            <p:selectOneMenu id="inv" value="#{detalle.regalo.id}" style="width:100%" >
                                                 <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
                                                 <f:selectItems value="#{regalosCrearSolicitudBean.inventario.inventario}" var="regalos" itemLabel="#{regalos.regalo.nombre} #{regalos.regalo.categoria.nombre} #{regalos.regalo.genero}" itemValue="#{regalos.id}"
                                                                itemDisabled="#{detalle.categoria != regalos.regalo.categoria.nombre
-                                                                           or (detalle.sexo!='N' and regalos.regalo.genero!='S' and detalle.sexo != regalos.regalo.genero)}"/> 
+                                                                           or (detalle.sexo!='N' and regalos.regalo.genero!='Unisex' and 
+                                                                           ((detalle.sexo == 'M' and regalos.regalo.genero=='Femenino')or(detalle.sexo == 'F' and regalos.regalo.genero=='Masculino')))}"/> 
 
                                             </p:selectOneMenu>
                                             </p:column>

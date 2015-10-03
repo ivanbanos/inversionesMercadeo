@@ -82,19 +82,19 @@
                                                                     </c:otherwise>
                                                                 </c:choose>
                                                             </tr>
-<c:choose>
+                                                            <c:choose>
                                                                 <tr>
-                                                                    <c:when test="#{regaloVerSolicitud.solicitud.fechaDestruccion != null}">
+                                                                    <c:when test="#{regaloVerSolicitud.solicitud.fechaEnviada != null}">
                                                                         <td width="50px"></td>
                                                                         <td>Enviada en</td>
                                                                         <td>
-                                                                            <h:outputText value="#{regaloVerSolicitud.solicitud.fechaDestruccion}">
+                                                                            <h:outputText value="#{regaloVerSolicitud.solicitud.fechaEnviada}">
                                                                                 <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
                                                                             </h:outputText>
                                                                         </td>
                                                                         <td>Por</td>
                                                                         <td>
-                                                                            <h:outputText value="#{regaloVerSolicitud.solicitud.usuarioDestructor}"/>
+                                                                            <h:outputText value="#{regaloVerSolicitud.solicitud.usuarioEnviador}"/>
                                                                         </td>
                                                                     </c:when>
                                                                 </tr>
@@ -142,7 +142,7 @@
                                         </p:column>
                                     </p:dataTable>
                                 </div>
-                                
+
                                 <div class="row">
                                     <p:dataTable value="#{regaloVerSolicitud.regalocantidad}" var="detalle" rowIndexVar="status"
                                                  emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >

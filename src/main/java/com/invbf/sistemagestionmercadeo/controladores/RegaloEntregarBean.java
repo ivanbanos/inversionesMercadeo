@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.dto.ClienteRegaloDTO;
 import com.invbf.sistemagestionmercadeo.dto.RegaloCanje;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class RegaloEntregarBean implements Serializable {
     public void setBuscar(String buscar) {
         this.buscar = buscar;
     }
-    
+
     public List<RegaloCanje> getRegalos() {
         return regalos;
     }
@@ -82,18 +83,21 @@ public class RegaloEntregarBean implements Serializable {
     public void setRegalo(RegaloCanje regalo) {
         this.regalo = regalo;
     }
-    
-    public void setRegaloById(int i){
+
+    public void setRegaloById(int i) {
+        System.out.println("id" + i);
         regalo = regalos.get(i);
     }
-    
-    public void entregarRegalo(){
+
+    public void entregarRegalo() {
+        System.out.println("id" + regalo.getRegalo().getNombre());
         sessionBean.regalosFacade.entregar(regalo, sessionBean.getUsuario());
-        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha entregado el regalos con exito", "Regalo " + regalo.getRegalo().getNombre()+" Cliente "+ regalo.getCliente().getNombres()+" "+regalo.getCliente().getApellidos()));
-        //Notificador.notificar(Notificador.correoOrdenBarajasRecibida,
-        //        "Se ha recibido el requerimiento de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
-        //        "Se ha recibido un requerimiento de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
-        
-    
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha entregado el regalos con exito", "Regalo " + regalo.getRegalo().getNombre() + " Cliente " + regalo.getCliente().getNombres() + " " + regalo.getCliente().getApellidos()));
+        Notificador.notificar(Notificador.correoRegaloEntregado,
+                "Se ha entregado el regalo "+regalo.getRegalo().getNombre()+" de "+regalo.getCliente().getNombres()+" "+regalo.getCliente().getApellidos()+" con exito.",
+                "Se ha entregado un regalo", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+
+        regalos = new ArrayList<RegaloCanje>();
+        regalo = new RegaloCanje();
     }
 }

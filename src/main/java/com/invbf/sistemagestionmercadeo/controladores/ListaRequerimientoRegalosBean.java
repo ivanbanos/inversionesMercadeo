@@ -46,7 +46,8 @@ public class ListaRequerimientoRegalosBean implements Serializable {
         if (!sessionBean.perfilViewMatch("verOrdenRegalo")
                 && !sessionBean.perfilViewMatch("generarOrdenRegalo")
                 && !sessionBean.perfilViewMatch("aprobarOrdenRegalo")
-                && !sessionBean.perfilViewMatch("recibirOrdenRegalo")) {
+                && !sessionBean.perfilViewMatch("recibirOrdenRegalo")
+                && !sessionBean.perfilViewMatch("ingresarOrdenRegalo")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
@@ -93,6 +94,14 @@ public class ListaRequerimientoRegalosBean implements Serializable {
         try {
             sessionBean.setAttribute("orden", i);
             FacesContext.getCurrentInstance().getExternalContext().redirect("OrdenRecibirRegalos.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void goOrdeningresarcaja(Integer i, String estado) {
+        try {
+            sessionBean.setAttribute("orden", i);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("OrdenIngresarRegalos.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(ListaSolicitudesEntregaLotesBonosBean.class.getName()).log(Level.SEVERE, null, ex);
         }

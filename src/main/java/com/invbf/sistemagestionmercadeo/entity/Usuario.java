@@ -150,6 +150,10 @@ public class Usuario implements Serializable {
     
     @OneToMany(mappedBy = "recibidor")
     private List<Ordencomprabarajadetalle> ordencomprabarajadetalleList;
+    
+    @OneToMany(mappedBy = "ingresador")
+    private List<Ordencompraregalos> ordenesRegalosingresados;
+    
     public Usuario() {
     }
 
@@ -557,5 +561,14 @@ public class Usuario implements Serializable {
 
     public void setSolicitudregalodetalleList(List<Solicitudregalodetalle> solicitudregalodetalleList) {
         this.solicitudregalodetalleList = solicitudregalodetalleList;
+    }
+
+    @XmlTransient
+    public List<Ordencompraregalos> getOrdenesRegalosingresados() {
+        return ordenesRegalosingresados;
+    }
+
+    public void setOrdenesRegalosingresados(List<Ordencompraregalos> ordenesRegalosingresados) {
+        this.ordenesRegalosingresados = ordenesRegalosingresados;
     }
 }

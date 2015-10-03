@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: /Gesti&oacute;n de regalos/Requerimiento de compra de Regalos</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Gesti&oacute;n de obsequios corporativos/Requerimiento de compra de obsequios corporativos</label>
                 </div>
             </div>
         </div>
@@ -26,42 +26,61 @@
                         <div class="panel-heading">
 
                             <div class="clickable">
-                                <h3 class="panel-title">Requerimiento de compra de Regalos</h3> 
+                                <h3 class="panel-title">Requerimiento de compra de obsequios corporativos</h3> 
                                 <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
                             </div>
                         </div>
                         <div class="panel-body">
+                            <div class="row">
+                                <p:dataTable value="#{generarRequerimientoRegalosBean.inventario.inventario}" var="detalle" rowIndexVar="status"
+                                             emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
 
-                            <p:dataTable value="#{generarRequerimientoRegalosBean.inventario.inventario}" var="detalle" rowIndexVar="status"
-                                         emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
 
+                                    <p:column headerText="Nombre" style="text-align: center;">
+                                        <h:outputText value="#{detalle.regalo.nombre} ">
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Imagen" >
+                                        <h:graphicImage id="imagenact" value="http://regalos.ibfcolombia.com/#{detalle.regalo.fileName}" style="width:100%;"/>
 
-                                <p:column headerText="Nombre" style="text-align: center;">
-                                    <h:outputText value="#{detalle.regalo.nombre} ">
-                                    </h:outputText>
-                                </p:column>
-                                <p:column headerText="Descripci&oacute;n" style="text-align: center;">
-                                    <h:outputText value="#{detalle.regalo.descripcion} ">
-                                    </h:outputText>
-                                </p:column>
-                                <p:column headerText="Genero" style="text-align: center;">
-                                    <h:outputText value="#{detalle.regalo.genero} ">
-                                    </h:outputText>
-                                </p:column>
-                                <p:column headerText="Categoria" style="text-align: center;">
-                                    <h:outputText value="#{detalle.regalo.categoria.nombre} ">
-                                    </h:outputText>
-                                </p:column>
-                                <p:column headerText="Cantidad solicitada" width="30%">
-                                    
+                                    </p:column>
+                                    <p:column headerText="Descripci&oacute;n" style="text-align: center;">
+                                        <h:outputText value="#{detalle.regalo.descripcion} ">
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Genero" style="text-align: center;">
+                                        <h:outputText value="#{detalle.regalo.genero} ">
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Categoria" style="text-align: center;">
+                                        <h:outputText value="#{detalle.regalo.categoria.nombre} ">
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Cantidad solicitada" width="30%">
+
                                         <p:spinner min="0" stepFactor="10"
                                                    value="#{detalle.cantidad}">
                                         </p:spinner>
-                                   
-                                </p:column>
-                            </p:dataTable>
+
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <div class="row">
+                                <div class="control-group">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" >Observaciones</label>
+                                        <div class="col-md-9">
+
+                                            <h:inputTextarea class="form-control" rows="5" value="#{generarRequerimientoRegalosBean.observaciones}">
+
+                                            </h:inputTextarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
-                        <div class="panel-footer">
+                        <div class="panel-footer text-right">
                             <p:commandButton  value="Generar requerimiento de compra" onstart="PF('ajaxWaitingDialog').show();" 
                                               oncomplete="PF('ajaxWaitingDialog').hide();PF('nueva').show();"
                                               title="#{label['lb_btn.editarPerfiles']}">   
@@ -73,7 +92,7 @@
             </div>
         </h:form>
         <h:form >
-            <p:confirmDialog id="nueva" message="Va a Generar  un requerimiento de compra de regalos. ¿Desea continuar?"  
+            <p:confirmDialog id="nueva" message="Va a Generar  un requerimiento de compra de obsequios corporativos. ¿Desea continuar?"  
                              header="Generar requerimiento" severity="alert" widgetVar="nueva" closable="false">  
 
                 <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" 

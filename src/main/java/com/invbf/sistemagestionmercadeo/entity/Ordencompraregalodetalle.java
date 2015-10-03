@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -39,6 +40,9 @@ public class Ordencompraregalodetalle implements Serializable {
     private Integer cantidadRecibida;
     @Column(name = "cantidadAprobada")
     private Integer cantidadAprobada;
+    @Size(max = 500)
+    @Column(name = "justificacion")
+    private String justificacion;
     @JoinColumn(name = "orden", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Ordencompraregalos ordencompraregalos;
@@ -128,6 +132,14 @@ public class Ordencompraregalodetalle implements Serializable {
 
     public void setCantidadAprobada(Integer cantidadAprobada) {
         this.cantidadAprobada = cantidadAprobada;
+    }
+
+    public String getJustificacion() {
+        return justificacion;
+    }
+
+    public void setJustificacion(String justificacion) {
+        this.justificacion = justificacion;
     }
     
 }

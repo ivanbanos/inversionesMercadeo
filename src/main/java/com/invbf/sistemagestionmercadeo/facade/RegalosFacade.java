@@ -43,7 +43,7 @@ public interface RegalosFacade {
 
     public List<OrdenCompraRegaloDTO> getOrdenesCompra(Usuario usuario);
 
-    public void generarOrdenRegalos(InventarioRegalosDTO inventario, Usuario usuairo);
+    public void generarOrdenRegalos(InventarioRegalosDTO inventario, String observaciones,  Usuario usuairo);
 
     public OrdenCompraRegaloDTO getOrden(Integer idOrden);
 
@@ -76,6 +76,10 @@ public interface RegalosFacade {
     public void guardarImagen(byte[] contents, String filename);
 
     public void entregar(RegaloCanje regalo, Usuario usuario);
+
+    public InventarioRegalosDTO getInventarioRequerimiento();
+
+    public void ingresarOrden(OrdenCompraRegaloDTO orden, Usuario usuario);
 
     
 

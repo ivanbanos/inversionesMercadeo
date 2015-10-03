@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: /Gesti&oacute;n de regalos/Stock de Regalos</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Gesti&oacute;n de obsequios corporativos/Stock de obsequios corporativos</label>
                 </div>
             </div>
         </div>
@@ -26,27 +26,27 @@
                         <div class="panel-heading">
 
                             <div class="clickable">
-                                <h3 class="panel-title">Stock de Regalos</h3> 
+                                <h3 class="panel-title">Stock de obsequios corporativos</h3> 
                                 <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
                             </div>
                         </div>
                         <div class="panel-body">
 
                             <p:dataTable value="#{configuracionInventarioRegalosBean.inventario.inventario}" var="inventario" >
-                                <p:column headerText="Nombre del regalo" >
+                                <p:column headerText="Nombre del obsequio" style="text-align: center;">
                                     #{inventario.regalo.nombre} 
                                 </p:column>
                                 <p:column headerText="Imagen" >
-                                    <h:graphicImage id="imagenact" value="http://regalos.ibfcolombia.com/#{inventario.regalo.fileName}"/>
+                                    <h:graphicImage id="imagenact" value="http://regalos.ibfcolombia.com/#{inventario.regalo.fileName}" style="width:100%;"/>
 
                                 </p:column>
-                                <p:column headerText="Genero" >
+                                <p:column headerText="Genero" style="text-align: center;">
                                     #{inventario.regalo.genero} 
                                 </p:column>
-                                <p:column headerText="Categoria" >
+                                <p:column headerText="Categoria" style="text-align: center;">
                                     #{inventario.regalo.categoria.nombre} 
                                 </p:column>
-                                <p:column headerText="Descripci&oacute;n" >
+                                <p:column headerText="Descripci&oacute;n" style="text-align: center;">
                                     #{inventario.regalo.descripcion} 
                                 </p:column>
                                 <p:column headerText="M&iacute;nimo" style="background-color: #DEDEDE; text-align: center;">

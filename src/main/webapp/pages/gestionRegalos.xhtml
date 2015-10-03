@@ -25,22 +25,22 @@
                     <div class="col-xs-12 col-md-12 panel-body panel-bodyindex">
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verRegalos&quot;)}">
                             <h:commandLink  action="#{sessionBean.go(&quot;verRegalos&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-wrench fa-5x"></i> 
-                                <br/>Configuraci&oacute;n de <br/>regalos</h:commandLink>
+                                <br/>Configuraci&oacute;n de <br/>obsequios corporativos</h:commandLink>
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;configuracionInvRegalo&quot;)}">
                             <h:commandLink  action="#{sessionBean.go(&quot;configuracionInvRegalo&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-gears fa-5x"></i> 
-                                <br/>Configuraci&oacute;n de Inventario<br/>de regalos</h:commandLink>
+                                <br/>Configuraci&oacute;n de stock<br/>de obsequios corporativos</h:commandLink>
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verInvRegalo&quot;)}">
                             <h:commandLink  action="#{sessionBean.go(&quot;verInvRegalo&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
-                                <br/>Stock<br/>de regalos</h:commandLink>
+                                <br/>Stock de <br/>obsequios corporativos</h:commandLink>
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verOrdenRegalo&quot;)
                                       or sessionBean.perfilViewMatch(&quot;generarOrdenRegalo&quot;)
                                       or sessionBean.perfilViewMatch(&quot;aprobarOrdenRegalo&quot;)
                                       or sessionBean.perfilViewMatch(&quot;recibirOrdenRegalo&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;verOrdenRegalo&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
-                                <br/>Requerimiento<br/>de regalos</h:commandLink>
+                            <h:commandLink  action="#{sessionBean.go(&quot;verOrdenRegalo&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-truck fa-5x"></i> 
+                                <br/>Requerimiento de <br/>obsequios corporativos</h:commandLink>
                         </c:if>
 
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;RegaloVerSolicitud&quot;)
@@ -48,13 +48,13 @@
                                       or sessionBean.perfilViewMatch(&quot;RegaloAprobarSolicitud&quot;)
                                       or sessionBean.perfilViewMatch(&quot;RegaloEnviarSolicitud&quot;)
                                       or sessionBean.perfilViewMatch(&quot;RegaloRecibirSolicitud&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;verSolicitudRegaloRegalo&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
-                                <br/>Lista de solicitudes<br/> de regalo</h:commandLink>
+                            <h:commandLink  action="#{sessionBean.go(&quot;verSolicitudRegaloRegalo&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-edit fa-5x"></i> 
+                                <br/>Lista de solicitudes<br/> de obsequios corporativos</h:commandLink>
                             
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;RegaloCanjear&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;regaloCanjear&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-archive fa-5x"></i> 
-                                <br/>Entrega de regalos<br/><br/></h:commandLink>
+                            <h:commandLink  action="#{sessionBean.go(&quot;regaloCanjear&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-hand-paper-o fa-5x"></i> 
+                                <br/>Entrega de obsequios <br/>corporativos<br/></h:commandLink>
                             
                         </c:if>
 

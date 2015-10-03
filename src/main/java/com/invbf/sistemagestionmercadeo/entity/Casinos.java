@@ -7,12 +7,16 @@ package com.invbf.sistemagestionmercadeo.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -36,6 +40,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Casinos.findByDireccion", query = "SELECT c FROM Casinos c WHERE c.direccion = :direccion"),
     @NamedQuery(name = "Casinos.findByCorreo", query = "SELECT c FROM Casinos c WHERE c.correo = :correo")})
 public class Casinos implements Serializable {
+    @JoinTable(name = "usuarios_has_casinos", joinColumns = {
+        @JoinColumn(name = "Casinos_idCasino", referencedColumnName = "idCasino")}, inverseJoinColumns = {
+        @JoinColumn(name = "Usuarios_idUsuario", referencedColumnName = "idUsuario")})
+    @ManyToMany
+    private List<Usuarios> usuariosList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -133,5 +142,15 @@ public class Casinos implements Serializable {
     public String toString() {
         return "com.invbf.sistemagestionmercadeo.entity.Casinos[ idCasino=" + idCasino + " ]";
     }
+
+    @XmlTransient
+    public List<Usuarios> getUsuariosList() {
+        return usuariosList;
+    }
+
+    public void setUsuariosList(List<Usuarios> usuariosList) {
+        this.usuariosList = usuariosList;
+    }
+
     
 }

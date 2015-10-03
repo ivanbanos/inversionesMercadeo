@@ -64,6 +64,7 @@
     <class>com.invbf.sistemagestionmercadeo.entity.Destruccionbarajasmaestro</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Trasladobarajas</class>
     <class>com.invbf.sistemagestionmercadeo.entity.Trasladobarajadetalle</class>
+    <class>com.invbf.sistemagestionmercadeo.entity.Perfiles</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>

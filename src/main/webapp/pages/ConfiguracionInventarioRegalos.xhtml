@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: /Gesti&oacute;n de regalos/Configuraci&oacute;n de stock de Regalos</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Gesti&oacute;n de obsequios corporativos/Configuraci&oacute;n de stock de obsequios corporativos</label>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
                         <div class="panel-heading">
 
                             <div class="clickable">
-                                <h3 class="panel-title">Configuraci&oacute;n de stock de Regalos</h3> 
+                                <h3 class="panel-title">Configuraci&oacute;n de stock de obsequios corporativos</h3> 
                                 <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
 
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
-                                                    <label>Regalo</label>
+                                                    <label>Obsequio</label>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 column">
                                                     #{inventario.regalo.nombre} #{inventario.regalo.descripcion} 
@@ -92,7 +92,7 @@
             </div>
         </h:form>
         <h:form >
-            <p:confirmDialog id="nueva" message="Va a guardar los cambios en el deposito. ¿Desea continuar?"  
+            <p:confirmDialog id="nueva" message="Va a guardar los cambios en la configuraci&oacute;n de stock. ¿Desea continuar?"  
                              header="Guardar cambios" severity="alert" widgetVar="nueva" closable="false">  
 
                 <p:commandButton id="confirm" value="Si" onclick="PF('ajaxWaitingDialog').show();" 

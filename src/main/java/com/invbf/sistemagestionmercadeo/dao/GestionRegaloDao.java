@@ -526,16 +526,17 @@ public class GestionRegaloDao {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Ordencompraregalos orden = em.find(Ordencompraregalos.class, idOrden);
-            orden.setEstado("RECIBIDO");
+            Ordencompraregalos orden = em.find(Ordencompraregalos.class, idOrden.getId());
+            orden.setEstado("RECIBIDO POR EL ADMINISTRADOR");
             orden.setRecibidor(usuario);
             orden.setFechaRecibida(new Date());
             for (Ordencompraregalodetalle detalle : orden.getOrdencompraregalodetalleList()) {
                 detalle.setCantidadRecibida(idOrden.getCantidades().get(idOrden.getCantidades().indexOf(new RegalosCantidadDTO(detalle.getRegalosinventario().getId()))).getCantidadR());
+                detalle.setJustificacion(idOrden.getCantidades().get(idOrden.getCantidades().indexOf(new RegalosCantidadDTO(detalle.getRegalosinventario().getId()))).getJustificacion());
                 em.merge(detalle);
-                Regalosinventario inventario = em.find(Regalosinventario.class, detalle.getRegalosinventario().getId());
-                inventario.setCantidad(inventario.getCantidad() + detalle.getCantidadRecibida());
-                em.merge(inventario);
+                //Regalosinventario inventario = em.find(Regalosinventario.class, detalle.getRegalosinventario().getId());
+                //inventario.setCantidad(inventario.getCantidad() + detalle.getCantidadRecibida());
+                //em.merge(inventario);
             }
             em.merge(orden);
             tx.commit();
@@ -728,6 +729,7 @@ public class GestionRegaloDao {
         try {
             regalosol = em.find(Solicitudregalodetalle.class, new SolicitudregalodetallePK(regalo.getSolicitud(), regalo.getRegalo().getId(), regalo.getCliente().getIdCliente()));
             regalosol.setEstado("ENTREGADO");
+            regalosol.setEntregador(usuario);
             regalosol.setFechaEntrega(new Date());
             em.merge(regalosol);
             tx.commit();
@@ -740,4 +742,32 @@ public class GestionRegaloDao {
         em.close();
         emf.close();
     }
+
+    public static void ingresarOrden(OrdenCompraRegaloDTO idOrden, Usuario usuario) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        try {
+            Ordencompraregalos orden = em.find(Ordencompraregalos.class, idOrden.getId());
+            orden.setEstado("INGRESADO A STOCK");
+            orden.setIngresador(usuario);
+            orden.setFechaIngresada(new Date());
+            for (Ordencompraregalodetalle detalle : orden.getOrdencompraregalodetalleList()) {
+                
+                Regalosinventario inventario = em.find(Regalosinventario.class, detalle.getRegalosinventario().getId());
+                inventario.setCantidad(inventario.getCantidad() + detalle.getCantidadRecibida());
+                em.merge(inventario);
+            }
+            em.merge(orden);
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();}
 }
