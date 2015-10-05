@@ -264,6 +264,7 @@ public class PerfilActBean implements Serializable{
     private VistaBoolean correoRegaloSolicitudRecibida;
     private VistaBoolean correoRegaloMinimoAlcanzado;
     private VistaBoolean correoRegaloEntregado;
+    private VistaBoolean reporteEntregaObsequios;
     
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -1301,6 +1302,12 @@ public class PerfilActBean implements Serializable{
                 } else {
                     correoRegaloEntregado = new VistaBoolean(v, false);
                 }
+            }if (v.getNombreVista().equals("reporteEntregaObsequios")) {
+                if (elemento.getVistaList().contains(v)) {
+                    reporteEntregaObsequios = new VistaBoolean(v, true);
+                } else {
+                    reporteEntregaObsequios = new VistaBoolean(v, false);
+                }
             }
             
             
@@ -1942,6 +1949,8 @@ public class PerfilActBean implements Serializable{
             elemento.getVistaList().add(correoRegaloMinimoAlcanzado.getVista());
         }if (RegaloVerSolicitud.isSelected()) {
             elemento.getVistaList().add(correoRegaloEntregado.getVista());
+        }if (reporteEntregaObsequios.isSelected()) {
+            elemento.getVistaList().add(reporteEntregaObsequios.getVista());
         }
         
         
@@ -4143,6 +4152,14 @@ public class PerfilActBean implements Serializable{
 
     public void setIngresarOrdenRegalo(VistaBoolean ingresarOrdenRegalo) {
         this.ingresarOrdenRegalo = ingresarOrdenRegalo;
+    }
+
+    public VistaBoolean getReporteEntregaObsequios() {
+        return reporteEntregaObsequios;
+    }
+
+    public void setReporteEntregaObsequios(VistaBoolean reporteEntregaObsequios) {
+        this.reporteEntregaObsequios = reporteEntregaObsequios;
     }
 
 }

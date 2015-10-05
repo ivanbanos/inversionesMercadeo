@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+        <div class="row">
+
+            <div class="control-group">
+                <!-- Username -->
+                <div class="form-group">
+                    <label class="col-md-12 control-label" >#{label['ruta']}: Reportes/Reporte de gesti&oacute;n de entrega de obsequios corporativos</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 ">
+
+                <h:form id="form">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h3>Reporte de gesti&oacute;n de entrega de obsequios corporativos</h3></div>
+                        <div class="panel-body">
+
+                            <div class="panel panel-primary">
+                                <div class="panel-heading"><h3>Criterios de busqueda</h3></div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+
+
+                                            <div class="row">
+                                                <h:outputLabel class="col-md-6 control-label" value="Mes:" />
+                                                <p:selectOneMenu id="mesd" value="#{reporteGestionRegalosBean.mes}" > 
+                                                    <f:selectItem itemLabel="Enero" itemValue="0" />    
+                                                    <f:selectItem itemLabel="Febrero" itemValue="1" />    
+                                                    <f:selectItem itemLabel="Marzo" itemValue="2" />    
+                                                    <f:selectItem itemLabel="Abril" itemValue="3" />    
+                                                    <f:selectItem itemLabel="Mayo" itemValue="4" />    
+                                                    <f:selectItem itemLabel="Junio" itemValue="5" />    
+                                                    <f:selectItem itemLabel="Julio" itemValue="6" />    
+                                                    <f:selectItem itemLabel="Agosto" itemValue="7" />    
+                                                    <f:selectItem itemLabel="Septiembre" itemValue="8" />    
+                                                    <f:selectItem itemLabel="Octubre" itemValue="9" />    
+                                                    <f:selectItem itemLabel="Noviembre" itemValue="10" />    
+                                                    <f:selectItem itemLabel="Diciembre" itemValue="11" />  
+                                                </p:selectOneMenu>
+                                            </div>
+                                            <div class="row">
+
+                                                <h:outputLabel class="col-md-6 control-label" value="A&ntilde;o:" /> 
+                                                <p:selectOneMenu id="and" value="#{reporteGestionRegalosBean.ano}" >
+                                                    <f:selectItems value="#{reporteGestionRegalosBean.anos}" var="ano" itemLabel="#{ano}" itemValue="#{ano}"/>  
+                                                </p:selectOneMenu>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="panel panel-primary">
+
+                                                <div class="panel-heading">
+                                                    #{label['casinos']}
+                                                </div>
+                                                <div class="panel-body">
+                                                    <ul >
+
+                                                        <c:forEach var="itemcas" items="#{reporteGestionRegalosBean.casinos}">
+                                                            <li>
+                                                                <h:selectBooleanCheckbox value="#{itemcas.selected}"/>&nbsp;
+                                                                <label>#{itemcas.casino.nombre}</label>
+                                                            </li>
+                                                        </c:forEach>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    <p:commandButton id="addButton" icon="ui-icon-search" value="#{label['lb_btn.Buscar']}" onstart="PF('ajaxWaitingDialog').show();"
+                                                     title="Buscar" action="#{reporteGestionRegalosBean.buscarBonosPorCasinosYFecha()}"
+                                                     ajax="false" oncomplete="PF('ajaxWaitingDialog').hide();">
+                                    </p:commandButton> 
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="container">
+                                <table class="table" style="border: 4px solid #dddddd!important;">
+                                    <tr style="border-top:none!important;border-bottom:none!important;background-color: #444343!important;">
+                                        <td colspan="4" style="text-align: center;border-top:none!important;border-bottom:none!important;">
+                                            <h3 >Reporte de gesti&oacute;n de entrega de obsequios corporativos</h3>
+                                        </td>
+                                    </tr>
+
+                                    <tr style="border: 2px solid #dddddd!important;">
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h4 style="color: black!important;">Obsequios recibidos</h4>
+                                        </td>
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h4 style="color: black!important;">Obsequios pendientes por entregar de meses anteriores</h4>
+                                        </td>
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h4 style="color: black!important;">Total obsequios por entregar</h4>
+                                        </td>
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            <h4 style="color: black!important;">Total de obsequios entregados en el mes</h4>
+                                        </td>
+                                    </tr>
+
+                                    <tr style="border: 2px solid #dddddd!important;">
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            #{reporteGestionRegalosBean.reporte.obsequiosRecibidos}
+                                        </td>
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            #{reporteGestionRegalosBean.reporte.pendientes}
+                                        </td>
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            #{reporteGestionRegalosBean.reporte.totalEntregar}
+                                        </td>
+                                        <td style="text-align: center;border: 2px solid #dddddd!important;">
+                                            #{reporteGestionRegalosBean.reporte.totalEntregados}
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                </h:form>
+
+            </div>
+        </div>
+    </ui:define>            
+</ui:composition>

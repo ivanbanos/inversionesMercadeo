@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: /Regalos/Solicitud de regalos</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Obsequios corporativos/Solicitud de obsequios corporativos</label>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
 
                 <div class="col-md-12 ">
                     <div class="panel panel-primary">
-                        <div class="panel-heading"><h4>Solicitudes de regalos</h4></div>
+                        <div class="panel-heading"><h4>Solicitudes de obsequios corporativos</h4></div>
                         <div class="panel-body">
                             <div class="row">
 
@@ -73,13 +73,13 @@
                                             <p:commandButton id="enviar" action="#{listaSolicitudesRegalosBean.goOrdenenviar(element.id)}" icon="ui-icon-arrowstop-1-e" onclick="PF('ajaxWaitingDialog').show();"
                                                              title="enviar" rendered="#{element.estado == 'APROBADA' and sessionBean.perfilViewMatch(&quot;RegaloEnviarSolicitud&quot;)}"/> 
                                             <p:commandButton id="recibir" action="#{listaSolicitudesRegalosBean.goOrdenrecibir(element.id)}" icon="ui-icon-arrowstop-1-s" onclick="PF('ajaxWaitingDialog').show();"
-                                                             title="recibir" rendered="#{element.estado == 'ENTREGADA' and sessionBean.perfilViewMatch(&quot;RegaloRecibirSolicitud&quot;)}"/> 
+                                                             title="recibir" rendered="#{element.estado == 'ENVIADA A SALA' and sessionBean.perfilViewMatch(&quot;RegaloRecibirSolicitud&quot;)}"/> 
                                             
                                             </p:column>
 
                                         <f:facet name="footer"> 
                                             <p:commandButton id="addButton" action="#{listaSolicitudesRegalosBean.goOrdenCrear()}" onclick="PF('ajaxWaitingDialog').show();"
-                                                             value="Agregar Nueva Solicitud de Regalos" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
+                                                             value="Agregar Nueva Solicitud de obsequios corporativos" icon="ui-icon-plusthick" title="#{label['lb_btn.agregar']}" 
                                                              rendered="#{sessionBean.perfilViewMatch(&quot;RegaloCrearSolicitud&quot;) }"/>   
                                         </f:facet>
 

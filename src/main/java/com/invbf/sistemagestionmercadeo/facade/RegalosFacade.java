@@ -12,8 +12,10 @@ import com.invbf.sistemagestionmercadeo.dto.InventarioRegalosDTO;
 import com.invbf.sistemagestionmercadeo.dto.OrdenCompraRegaloDTO;
 import com.invbf.sistemagestionmercadeo.dto.RegaloCanje;
 import com.invbf.sistemagestionmercadeo.dto.RegaloDTO;
+import com.invbf.sistemagestionmercadeo.dto.ReporteGestionEntregaRegalos;
 import com.invbf.sistemagestionmercadeo.dto.SolicitudRegaloDTO;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
+import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
 import com.invbf.sistemagestionmercadeo.util.ClienteDTO;
 import java.util.Collection;
@@ -80,6 +82,8 @@ public interface RegalosFacade {
     public InventarioRegalosDTO getInventarioRequerimiento();
 
     public void ingresarOrden(OrdenCompraRegaloDTO orden, Usuario usuario);
+
+    public ReporteGestionEntregaRegalos getReporte(List<CasinoBoolean> casinos, Integer ano, Integer mes);
 
     
 

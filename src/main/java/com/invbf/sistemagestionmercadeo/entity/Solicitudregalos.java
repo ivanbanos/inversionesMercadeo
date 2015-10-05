@@ -70,9 +70,6 @@ public class Solicitudregalos implements Serializable {
     @Column(name = "fecharecepcion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecharecepcion;
-    @Column(name = "fechaDestruccion")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaAprobacion;
     @JoinColumn(name = "recibidor", referencedColumnName = "idUsuario")
     @ManyToOne
     private Usuario recibidor;
@@ -130,14 +127,6 @@ public class Solicitudregalos implements Serializable {
 
     public void setFecharecepcion(Date fecharecepcion) {
         this.fecharecepcion = fecharecepcion;
-    }
-
-    public Date getFechaAprobacion() {
-        return fechaAprobacion;
-    }
-
-    public void setFechaAprobacion(Date fechaDestruccion) {
-        this.fechaAprobacion = fechaDestruccion;
     }
 
     public Usuario getRecibidor() {

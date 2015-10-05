@@ -32,9 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Solicitudregalodetalle.findBySolicitud", query = "SELECT s FROM Solicitudregalodetalle s WHERE s.solicitudregalodetallePK.solicitud = :solicitud"),
     @NamedQuery(name = "Solicitudregalodetalle.findByInventario", query = "SELECT s FROM Solicitudregalodetalle s WHERE s.solicitudregalodetallePK.inventario = :inventario"),
     @NamedQuery(name = "Solicitudregalodetalle.findByCliente", query = "SELECT s FROM Solicitudregalodetalle s WHERE s.solicitudregalodetallePK.cliente = :cliente"),
-    @NamedQuery(name = "Solicitudregalodetalle.findByCantidad", query = "SELECT s FROM Solicitudregalodetalle s WHERE s.cantidad = :cantidad"),
-    @NamedQuery(name = "Solicitudregalodetalle.findByCantidadArpobada", query = "SELECT s FROM Solicitudregalodetalle s WHERE s.cantidadArpobada = :cantidadArpobada"),
     @NamedQuery(name = "Solicitudregalodetalle.findByEstado", query = "SELECT s FROM Solicitudregalodetalle s WHERE s.estado = :estado"),
+    @NamedQuery(name = "Solicitudregalodetalle.findBySalaFecha", query = "SELECT s FROM Solicitudregalodetalle s WHERE s.solicitudregalos.sala.idCasino = :sala"),
     @NamedQuery(name = "Solicitudregalodetalle.findBySala", query = "SELECT s FROM Solicitudregalodetalle s WHERE s.estado = 'EN SALA' AND s.solicitudregalos.sala.idCasino = :sala AND (s.cliente.nombres like :buscar OR s.cliente.apellidos like :buscar OR s.cliente.identificacion like :buscar)")})
 public class Solicitudregalodetalle implements Serializable {
     @Column(name = "fechaEntrega")
@@ -46,10 +45,6 @@ public class Solicitudregalodetalle implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected SolicitudregalodetallePK solicitudregalodetallePK;
-    @Column(name = "cantidad")
-    private Integer cantidad;
-    @Column(name = "cantidadArpobada")
-    private Integer cantidadArpobada;
     @Size(max = 45)
     @Column(name = "estado")
     private String estado;
@@ -80,22 +75,6 @@ public class Solicitudregalodetalle implements Serializable {
 
     public void setSolicitudregalodetallePK(SolicitudregalodetallePK solicitudregalodetallePK) {
         this.solicitudregalodetallePK = solicitudregalodetallePK;
-    }
-
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public Integer getCantidadArpobada() {
-        return cantidadArpobada;
-    }
-
-    public void setCantidadArpobada(Integer cantidadArpobada) {
-        this.cantidadArpobada = cantidadArpobada;
     }
 
     public String getEstado() {

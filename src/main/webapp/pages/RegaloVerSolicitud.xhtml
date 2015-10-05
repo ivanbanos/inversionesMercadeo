@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: /Regalos/Solicitud de regalos</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Obsequios corporativos/Solicitud de obsequios corporativos</label>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
                 <div class="row clearfix">
                     <div class="col-md-12 ">
                         <div class="panel panel-primary">
-                            <div class="panel-heading"><h4>Solicitud de regalos</h4></div>
+                            <div class="panel-heading"><h4>Solicitud de obsequios corporativos</h4></div>
                             <div class="panel-body">
                                 <div class="row">
 
@@ -82,10 +82,11 @@
                                                                     </c:otherwise>
                                                                 </c:choose>
                                                             </tr>
-                                                            <c:choose>
-                                                                <tr>
+                                                            <tr>
+                                                                <c:choose>
+
                                                                     <c:when test="#{regaloVerSolicitud.solicitud.fechaEnviada != null}">
-                                                                        <td width="50px"></td>
+                                                                        <td width="50px"><i class="fa fa-check"></i></td>
                                                                         <td>Enviada en</td>
                                                                         <td>
                                                                             <h:outputText value="#{regaloVerSolicitud.solicitud.fechaEnviada}">
@@ -97,12 +98,13 @@
                                                                             <h:outputText value="#{regaloVerSolicitud.solicitud.usuarioEnviador}"/>
                                                                         </td>
                                                                     </c:when>
-                                                                </tr>
-                                                            </c:choose>
-                                                            <c:choose>
-                                                                <tr>
+
+                                                                </c:choose>
+                                                            </tr>
+                                                            <tr>
+                                                                <c:choose>
                                                                     <c:when test="#{regaloVerSolicitud.solicitud.fechaRecibida != null}">
-                                                                        <td width="50px"></td>
+                                                                        <td width="50px"><i class="fa fa-check"></i></td>
                                                                         <td>Recibido en</td>
                                                                         <td>
                                                                             <h:outputText value="#{regaloVerSolicitud.solicitud.fechaRecibida}">
@@ -114,9 +116,9 @@
                                                                             <h:outputText value="#{regaloVerSolicitud.solicitud.usuarioREcibidor}"/>
                                                                         </td>
                                                                     </c:when>
-                                                                </tr>
-                                                            </c:choose>
 
+                                                                </c:choose>
+                                                            </tr>
                                                         </table>
                                                     </div>
                                                     <div class="panel-footer panel-footer-landing">
@@ -126,44 +128,58 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div> <div class="row">
+                                    <div class="col-md-12" style="margin-top: 20px;">
+                                        <p:dataTable value="#{regaloVerSolicitud.solicitud.cantidades}" var="detallec" rowIndexVar="status"
+                                                     emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
+
+
+                                            <p:column headerText="Nombre cliente" style="text-align: center;">
+                                                <h:outputText value="#{detallec.cliente.nombres} #{detalle.cliente.apellidos}">
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Categoria" style="text-align: center;">
+                                                <h:outputText value="#{detallec.cliente.idCategorias}">
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Fecha de cumplea&ntilde;os" style="text-align: center;">
+                                                <h:outputText value="#{detallec.cliente.cumpleanos}">
+                                                    <f:convertDateTime pattern="dd/MMMMM" locale="es_CO" />
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Obsequio solicitado" style="text-align: center;">
+                                                <h:outputText value="#{detallec.regalo.nombre}">
+                                                </h:outputText>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
                                 </div>
-                                <div class="row">
-                                    <p:dataTable value="#{regaloVerSolicitud.solicitud.cantidades}" var="detalle" rowIndexVar="status"
-                                                 emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
-
-
-                                        <p:column headerText="Regalo" style="text-align: center;">
-                                            <h:outputText value="#{detalle.regalo.nombre}">
-                                            </h:outputText>
-                                        </p:column>
-                                        <p:column headerText="Cliente" style="text-align: center;">
-                                            <h:outputText value="#{detalle.cliente.nombres} #{detalle.cliente.apellidos}">
-                                            </h:outputText>
-                                        </p:column>
-                                    </p:dataTable>
-                                </div>
 
                                 <div class="row">
-                                    <p:dataTable value="#{regaloVerSolicitud.regalocantidad}" var="detalle" rowIndexVar="status"
-                                                 emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
+                                    <div class="col-md-12" style="margin-top: 20px;">
+                                        <p:dataTable value="#{regaloVerSolicitud.regalocantidad}" var="detalle" rowIndexVar="status"
+                                                     emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
 
-                                        <f:facet name="header">
-                                            Resumen
-                                        </f:facet>
-                                        <p:column headerText="Regalo" style="text-align: center;">
-                                            <h:outputText value="#{detalle.regalo.nombre}">
-                                            </h:outputText>
-                                        </p:column>
-                                        <p:column headerText="Cantidad" style="text-align: center;">
-                                            <h:outputText value="#{detalle.cantidad}">
-                                            </h:outputText>
-                                        </p:column>
-                                    </p:dataTable>
+                                            <f:facet name="header">
+                                                Resumen
+                                            </f:facet>
+                                            <p:column headerText="Obsequio" style="text-align: center;">
+                                                <h:outputText value="#{detalle.regalo.nombre}">
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Foto" width="10%" style="text-align: center;">
+                                                <h:graphicImage id="imagenact" value="http://regalos.ibfcolombia.com/#{detalle.regalo.fileName}" style="width:100%;"/>
+
+                                            </p:column>
+                                            <p:column headerText="Cantidad" style="text-align: center;">
+                                                <h:outputText value="#{detalle.cantidad}">
+                                                </h:outputText>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
                                 </div>
                             </div>
                             <div class="panel-footer panel-footer-landing text-right">
-                                <p:commandButton id="btnrec" value="Recibir" style="margin:0" 
-                                                 onclick="PF('recibir').show();"/>
                                 <h:commandLink  action="#{sessionBean.go(&quot;verSolicitudRegaloRegalo&quot;)}" class="btn btn-primary">volver</h:commandLink>
                             </div>
                         </div>
@@ -172,16 +188,7 @@
             </div>
         </h:form>
 
-        <h:form>
-            <p:confirmDialog id="recibir" message="Quiere recibir la solicitud #{label['cierrepregunta']}"  
-                             header="Recibir" severity="alert" widgetVar="recibir" closable="false">  
-
-                <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
-                                 action="#{regaloVerSolicitud.recibir()}"/>  
-                <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('recibir').hide()" type="button" />   
-
-            </p:confirmDialog> 
-        </h:form>
+        
     </ui:define>            
 </ui:composition>
 

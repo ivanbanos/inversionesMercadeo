@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: /Regalos/Solicitud de regalos</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Obsequios corporativos/Solicitud de obsequios corporativos</label>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
                 <div class="row clearfix">
                     <div class="col-md-12 ">
                         <div class="panel panel-primary">
-                            <div class="panel-heading"><h4>Solicitud de regalos</h4></div>
+                            <div class="panel-heading"><h4>Solicitud de obsequios corporativos</h4></div>
                             <div class="panel-body">
                                 <div class="row">
 
@@ -127,26 +127,32 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div class="row">
-                                    <p:dataTable value="#{regaloVerSolicitud.regalocantidad}" var="detalle" rowIndexVar="status"
-                                                 emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
 
-                                        <f:facet name="header">
-                                            Resumen
-                                        </f:facet>
-                                        <p:column headerText="Regalo" style="text-align: center;">
-                                            <h:outputText value="#{detalle.regalo.nombre}">
-                                            </h:outputText>
-                                        </p:column>
-                                        <p:column headerText="Cantidad" style="text-align: center;">
-                                            <h:outputText value="#{detalle.cantidad}">
-                                            </h:outputText>
-                                        </p:column>
-                                    </p:dataTable>
+
+                                <div class="row">
+
+                                    <div class="col-md-12" style="margin-top: 20px;">
+                                        <p:dataTable value="#{regaloVerSolicitud.regalocantidad}" var="detalle" rowIndexVar="status"
+                                                     emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" >
+
+                                            <f:facet name="header">
+                                                Resumen
+                                            </f:facet>
+                                            <p:column headerText="Regalo" style="text-align: center;">
+                                                <h:outputText value="#{detalle.regalo.nombre}">
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Foto" width="10%" style="text-align: center;">
+                                                <h:graphicImage id="imagenact" value="http://regalos.ibfcolombia.com/#{detalle.regalo.fileName}" style="width:100%;"/>
+
+                                            </p:column>
+                                            <p:column headerText="Cantidad" style="text-align: center;">
+                                                <h:outputText value="#{detalle.cantidad}">
+                                                </h:outputText>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
                                 </div>
-                                
-                                
                             </div>
                             <div class="panel-footer panel-footer-landing text-right">
                                 <p:commandButton id="btnrec" value="Recibir" style="margin:0" 

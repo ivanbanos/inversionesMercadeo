@@ -9,6 +9,7 @@ import com.invbf.sistemagestionmercadeo.dto.RegaloCantidad;
 import com.invbf.sistemagestionmercadeo.dto.RegalosCantidadDTO;
 import com.invbf.sistemagestionmercadeo.dto.SolicitudRegaloDTO;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -80,9 +81,9 @@ public class RegaloVerSolicitud implements Serializable {
     public void aprobar() {
         sessionBean.regalosFacade.aprobarSolicitud(solicitud, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha aprobado la solicitud con exito", "Acta de solicitud #" + solicitud.getId()));
-        //Notificador.notificar(Notificador.correoOrdenBarajasAprobada,
-        //        "Se ha aprobado el requerimiento de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
-        //        "Se ha aprobado un requerimiento de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+        Notificador.notificar(Notificador.correoRegaloSolicitudAprobada,
+                "Se ha aprobado la solicitud de obsequios con el n&uacute;mero de acta " + solicitud.getId() + ". Favor revisar la lista de solicitudes de obsequios.",
+                "Se ha aprobado la solicitud de obsequios", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("RegaloListaSolicitudes.xhtml");
         } catch (IOException ex) {
@@ -92,9 +93,9 @@ public class RegaloVerSolicitud implements Serializable {
     public void rechazar() {
         sessionBean.regalosFacade.rechazarSolicitud(solicitud, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha rechazado la solicitud con exito", "Acta de solicitud #" + solicitud.getId()));
-        //Notificador.notificar(Notificador.correoOrdenBarajasAprobada,
-        //        "Se ha rechazado el requerimiento de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
-        //        "Se ha rechazado un requerimiento de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+        Notificador.notificar(Notificador.correoRegaloSolicitudAprobada,
+                "Se ha rechazado la solicitud de obsequios con el n&uacute;mero de acta " + solicitud.getId() + ". Favor revisar la lista de solicitudes de obsequios.",
+                "Se ha rechazado la solicitud de obsequios", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("RegaloListaSolicitudes.xhtml");
         } catch (IOException ex) {
@@ -104,9 +105,9 @@ public class RegaloVerSolicitud implements Serializable {
     public void recibir() {
         sessionBean.regalosFacade.recibirSolicitud(solicitud, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han recibido los regalos con exito", "Acta de solicitud #" + solicitud.getId()));
-        //Notificador.notificar(Notificador.correoOrdenBarajasRecibida,
-        //        "Se ha recibido el requerimiento de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
-        //        "Se ha recibido un requerimiento de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+        Notificador.notificar(Notificador.correoRegaloSolicitudRecibida,
+                "Se ha recibido la solicitud de obsequios con el n&uacute;mero de acta " + solicitud.getId() + ". Favor revisar la lista de solicitudes de obsequios.",
+                "Se ha recibido la solicitud de obsequios", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("RegaloListaSolicitudes.xhtml");
         } catch (IOException ex) {
@@ -116,9 +117,9 @@ public class RegaloVerSolicitud implements Serializable {
     public void enviar() {
         sessionBean.regalosFacade.enviarSolicitud(solicitud, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han enviado los regalos con exito", "Acta de solicitud #" + solicitud.getId()));
-        //Notificador.notificar(Notificador.correoOrdenBarajasRecibida,
-        //        "Se ha recibido el requerimiento de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
-        //        "Se ha recibido un requerimiento de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+        Notificador.notificar(Notificador.correoRegaloSolicitudEnviada,
+                "Se ha enviado la solicitud de obsequios con el n&uacute;mero de acta " + solicitud.getId() + ". Favor revisar la lista de solicitudes de obsequios.",
+                "Se ha enviado la solicitud de obsequios", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("RegaloListaSolicitudes.xhtml");
         } catch (IOException ex) {

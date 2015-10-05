@@ -16,6 +16,7 @@ import com.invbf.sistemagestionmercadeo.dto.OrdenCompraRegaloDTO;
 import com.invbf.sistemagestionmercadeo.dto.RegaloCanje;
 import com.invbf.sistemagestionmercadeo.dto.RegaloDTO;
 import com.invbf.sistemagestionmercadeo.dto.RegalosCantidadDTO;
+import com.invbf.sistemagestionmercadeo.dto.ReporteGestionEntregaRegalos;
 import com.invbf.sistemagestionmercadeo.dto.SolicitudRegaloDTO;
 import com.invbf.sistemagestionmercadeo.entity.Categoria;
 import com.invbf.sistemagestionmercadeo.entity.Cliente;
@@ -27,6 +28,7 @@ import com.invbf.sistemagestionmercadeo.entity.Solicitudregalodetalle;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudregalos;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
 import com.invbf.sistemagestionmercadeo.facade.RegalosFacade;
+import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
 import com.invbf.sistemagestionmercadeo.util.ClienteDTO;
 import java.io.BufferedInputStream;
@@ -35,6 +37,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.net.ftp.FTP;
@@ -109,10 +112,10 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
         ordendto.setUsuarioAceptador(orden.getAceptador() == null ? "" : orden.getAceptador().getNombreUsuario());
         ordendto.setUsuarioCreado(orden.getCreador().getNombreUsuario());
         ordendto.setUsuarioREcibidor(orden.getRecibidor() == null ? "" : orden.getRecibidor().getNombreUsuario());
-        ordendto.setUsuarioIngresador(orden.getIngresador()== null ? "" : orden.getIngresador().getNombreUsuario());
+        ordendto.setUsuarioIngresador(orden.getIngresador() == null ? "" : orden.getIngresador().getNombreUsuario());
         ordendto.setObservaciones(orden.getObservaciones());
         ordendto.setCantidades(new ArrayList<RegalosCantidadDTO>());
-        
+
         for (Ordencompraregalodetalle detalle : orden.getOrdencompraregalodetalleList()) {
             ordendto.getCantidades().add(transformarDetalleOrdenDTO(detalle));
 
@@ -206,7 +209,7 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
         solicitudDto.setId(solicitud.getId());
         solicitudDto.setCasino(new CasinoDto(solicitud.getSala()));
         solicitudDto.setEstado(solicitud.getEstado());
-        solicitudDto.setFechaAceptada(solicitud.getFechaAprobacion());
+        solicitudDto.setFechaAceptada(solicitud.getFechaaprobacion());
         solicitudDto.setFechaCreacion(solicitud.getFechacreacion());
         solicitudDto.setFechaEnviada(solicitud.getFechentrega());
         solicitudDto.setFechaRecibida(solicitud.getFecharecepcion());
@@ -217,7 +220,7 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
         solicitudDto.setCantidades(new ArrayList<RegalosCantidadDTO>());
         for (Solicitudregalodetalle detalle : solicitud.getSolicitudregalodetalleList()) {
             RegalosCantidadDTO detaleDto = new RegalosCantidadDTO(detalle.getSolicitudregalodetallePK().getInventario(),
-                    new RegaloDTO(detalle.getRegalosinventario().getRegalo()), detalle.getCantidad(), detalle.getCantidadArpobada(), 0, 0);
+                    new RegaloDTO(detalle.getRegalosinventario().getRegalo()), 0, 0, 0, 0);
             detaleDto.setCliente(new ClienteDTO(detalle.getClientes()));
             detaleDto.setEstado(detalle.getEstado());
             solicitudDto.getCantidades().add(detaleDto);
@@ -348,6 +351,45 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
     @Override
     public void ingresarOrden(OrdenCompraRegaloDTO orden, Usuario usuario) {
         GestionRegaloDao.ingresarOrden(orden, usuario);
+    }
+
+    @Override
+    public ReporteGestionEntregaRegalos getReporte(List<CasinoBoolean> casinos, Integer ano, Integer mes) {
+        List<Solicitudregalodetalle> detalles = GestionRegaloDao.getReporte(casinos, ano, mes);
+        Calendar fecha = Calendar.getInstance();
+        fecha.set(Calendar.MONTH, mes);
+        fecha.set(Calendar.YEAR, ano);
+        fecha.set(Calendar.DAY_OF_MONTH, 1);
+        ReporteGestionEntregaRegalos reporte = new ReporteGestionEntregaRegalos();
+        for (Solicitudregalodetalle detalle : detalles) {
+            if (!detalle.getEstado().equals("POR APROBAR")) {
+                Calendar fechames = Calendar.getInstance();
+                fechames.setTime(detalle.getSolicitudregalos().getFecharecepcion());
+                if (fecha.get(Calendar.MONTH) == fechames.get(Calendar.MONTH)
+                        && fecha.get(Calendar.YEAR) == fechames.get(Calendar.YEAR)) {
+                    reporte.sumarObsequiosRecibidos();
+                    
+                }
+
+                if (detalle.getFechaEntrega() != null) {
+                    Calendar fechaent = Calendar.getInstance();
+                    fechaent.setTime(detalle.getFechaEntrega());
+
+                    if (fecha.get(Calendar.MONTH) == fechaent.get(Calendar.MONTH)
+                            && fecha.get(Calendar.YEAR) == fechaent.get(Calendar.YEAR)) {
+                        reporte.sumarEntregados();
+                    }
+                    if (fecha.after(fechames) && ((fecha.get(Calendar.YEAR) < fechaent.get(Calendar.YEAR)) || ((fecha.get(Calendar.YEAR) == fechaent.get(Calendar.YEAR)) && (fecha.get(Calendar.MONTH) < fechaent.get(Calendar.MONTH))))) {
+                        reporte.sumarPendientes();
+                    }
+                } else {
+                    if (fecha.after(fechames) && (!detalle.getEstado().equals("ENTREGADO"))) {
+                        reporte.sumarPendientes();
+                    }
+                }
+            }
+        }
+        return reporte;
     }
 
 }

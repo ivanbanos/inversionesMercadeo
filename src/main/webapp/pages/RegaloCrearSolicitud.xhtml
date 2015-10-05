@@ -15,7 +15,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: /Regalos/Crear solicitud de regalos</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: /Obsequios corporativos/Crear solicitud de obsequios corporativos</label>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
 
                 <div class="col-md-12 ">
                     <div class="panel panel-primary">
-                        <div class="panel-heading"><h4>Creaci&oacute;n de solicitud de regalos</h4></div>
+                        <div class="panel-heading"><h4>Creaci&oacute;n de solicitud de obsequios corporativos</h4></div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="container">
@@ -140,7 +140,7 @@
                                                 <h:outputText value="#{detalle.sexo}">
                                                 </h:outputText>
                                             </p:column>
-                                             <p:column headerText="Regalo" style="text-align: center;">
+                                             <p:column headerText="Obsequio" style="text-align: center;">
                                             <p:selectOneMenu id="inv" value="#{detalle.regalo.id}" style="width:100%" >
                                                 <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
                                                 <f:selectItems value="#{regalosCrearSolicitudBean.inventario.inventario}" var="regalos" itemLabel="#{regalos.regalo.nombre} #{regalos.regalo.categoria.nombre} #{regalos.regalo.genero}" itemValue="#{regalos.id}"

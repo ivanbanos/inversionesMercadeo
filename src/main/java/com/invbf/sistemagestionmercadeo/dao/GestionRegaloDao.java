@@ -24,7 +24,9 @@ import com.invbf.sistemagestionmercadeo.entity.Solicitudregalodetalle;
 import com.invbf.sistemagestionmercadeo.entity.SolicitudregalodetallePK;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudregalos;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
+import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -209,12 +211,12 @@ public class GestionRegaloDao {
 
         tx.begin();
         try {
+            System.out.println(perfilViewMatch);
             if (perfilViewMatch) {
                 javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
                 Root<Solicitudregalos> c = cq.from(Solicitudregalos.class);
                 cq.select(c);
                 lista = em.createQuery(cq).getResultList();
-                tx.commit();
 
             } else {
                 for (Casino casino : usuario.getCasinoList()) {
@@ -223,6 +225,8 @@ public class GestionRegaloDao {
                             .getResultList());
                 }
             }
+            System.out.println(lista.size());
+            tx.commit();
         } catch (Exception e) {
             tx.rollback();
         }
@@ -568,7 +572,6 @@ public class GestionRegaloDao {
             for (ClienteRegaloDTO cliente : lista) {
                 if (cliente.getRegalo().getId() != 0) {
                     Solicitudregalodetalle detalle = new Solicitudregalodetalle();
-                    detalle.setCantidad(1);
                     detalle.setClientes(new Cliente(cliente.getIdCliente()));
                     detalle.setEstado("POR APROBAR");
                     detalle.setSolicitudregalos(solicitud);
@@ -599,7 +602,7 @@ public class GestionRegaloDao {
             Solicitudregalos solicitud = em.find(Solicitudregalos.class, solicitudDto.getId());
             solicitud.setEstado("APROBADA");
             solicitud.setAceptador(usuario);
-            solicitud.setFechaAprobacion(new Date());
+            solicitud.setFechaaprobacion(new Date());
 
             em.merge(solicitud);
             tx.commit();
@@ -621,13 +624,13 @@ public class GestionRegaloDao {
         tx.begin();
         try {
             Solicitudregalos orden = em.find(Solicitudregalos.class, idOrden);
-            orden.setEstado("ENTREGADA");
+            orden.setEstado("ENVIADA A SALA");
             orden.setEnviador(usuario);
             orden.setFechentrega(new Date());
 
             for (Solicitudregalodetalle detalle : orden.getSolicitudregalodetalleList()) {
                 Regalosinventario inventario = em.find(Regalosinventario.class, detalle.getRegalosinventario().getId());
-                inventario.setCantidad(inventario.getCantidad() - detalle.getCantidad());
+                inventario.setCantidad(inventario.getCantidad() - 1);
                 em.merge(inventario);
             }
             em.merge(orden);
@@ -650,7 +653,7 @@ public class GestionRegaloDao {
         tx.begin();
         try {
             Solicitudregalos orden = em.find(Solicitudregalos.class, idOrden);
-            orden.setEstado("RECIBIDA");
+            orden.setEstado("RECIBIDA EN SALA");
             orden.setRecibidor(usuario);
             orden.setFecharecepcion(new Date());
             for (Solicitudregalodetalle detalle : orden.getSolicitudregalodetalleList()) {
@@ -679,7 +682,7 @@ public class GestionRegaloDao {
             Solicitudregalos solicitud = em.find(Solicitudregalos.class, solicitudDto.getId());
             solicitud.setEstado("RECHAZADA");
             solicitud.setAceptador(usuario);
-            solicitud.setFechaAprobacion(new Date());
+            solicitud.setFechaaprobacion(new Date());
 
             em.merge(solicitud);
             tx.commit();
@@ -706,7 +709,7 @@ public class GestionRegaloDao {
             for (Casino casino : usuario.getCasinoList()) {
                 lista.addAll(em.createNamedQuery("Solicitudregalodetalle.findBySala")
                         .setParameter("sala", casino.getIdCasino())
-                        .setParameter("buscar",'%' + buscar + '%' )
+                        .setParameter("buscar", '%' + buscar + '%')
                         .getResultList());
             }
         } catch (Exception e) {
@@ -755,7 +758,7 @@ public class GestionRegaloDao {
             orden.setIngresador(usuario);
             orden.setFechaIngresada(new Date());
             for (Ordencompraregalodetalle detalle : orden.getOrdencompraregalodetalleList()) {
-                
+
                 Regalosinventario inventario = em.find(Regalosinventario.class, detalle.getRegalosinventario().getId());
                 inventario.setCantidad(inventario.getCantidad() + detalle.getCantidadRecibida());
                 em.merge(inventario);
@@ -769,5 +772,32 @@ public class GestionRegaloDao {
 
         em.clear();
         em.close();
-        emf.close();}
+        emf.close();
+    }
+
+    public static List<Solicitudregalodetalle> getReporte(List<CasinoBoolean> casinos, Integer ano, Integer mes) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Solicitudregalodetalle> lista = new ArrayList<Solicitudregalodetalle>();
+
+        tx.begin();
+        try {
+            for (CasinoBoolean casino : casinos) {
+                if(casino.isSelected()){
+                lista.addAll(em.createNamedQuery("Solicitudregalodetalle.findBySalaFecha")
+                        .setParameter("sala", casino.getCasino().getIdCasino())
+                        .getResultList());
+                }
+            }
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return lista;
+    }
 }

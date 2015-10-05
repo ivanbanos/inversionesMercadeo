@@ -16,7 +16,7 @@
             <div class="control-group">
                 <!-- Username -->
                 <div class="form-group">
-                    <label class="col-md-12 control-label" >#{label['ruta']}: Regalos/Entregar regalos</label>
+                    <label class="col-md-12 control-label" >#{label['ruta']}: Obsequios corporativos/Entregar obsequios corporativos</label>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
                 <h:form>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h4>Entregar regalos</h4>
+                            <h4>Entregar obsequios corporativos</h4>
                         </div>
                         <div class="panel-body">
 
@@ -47,37 +47,32 @@
 
                             <div class="panel panel-primary">
                                 <div class="panel-heading">
-                                    <h4>Regalos</h4>
+                                    <h4>Obsequios por entregar</h4>
                                 </div>
                                 <div class="panel-body">
                                     <div class="row">
 
-                                        <p:dataTable id="detailsTableCasinos" var="regalo" value="#{regaloEntregarBean.regalos}"  
+                                        <p:dataGrid  id="detailsTableCasinos" var="regalo" value="#{regaloEntregarBean.regalos}"  
                                                      emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTableCasinos" 
-                                                     rows="#{sessionBean.paginacion}"
-                                                     paginator="true"
+                                                     paginator="true" columns="3" rows="12"
                                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                      >
 
+                                            <p:panel header="#{regalo.cliente.nombres} #{regalo.cliente.apellidos}" style="text-align:center">
+                                                <h:panelGrid columns="1" style="width:100%">
+                                                    <p:graphicImage url="http://regalos.ibfcolombia.com/#{regalo.regalo.fileName}" style="width: 30%;"/> 
 
-                                            <p:column headerText="Regalos" >
-                                                <div class="card">
-                                                    <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
-                                                    <div class="avatar">
-                                                        <img src="http://regalos.ibfcolombia.com/#{regalo.regalo.fileName}" alt="" />
-                                                    </div>
-                                                    <div class="content">
-                                                        <p>#{regalo.regalo.nombre} <br />
-                                                            #{regalo.cliente.nombres} #{regalo.cliente.apellidos}</p>
-                                                        <p><p:commandButton value="Entregar" 
-                                                                            update=":#{p:component('entregar')}" oncomplete="PF('entregar').show();" icon="ui-icon-check" style="margin:0">
-                                                                <f:setPropertyActionListener value="#{regalo}" target="#{regaloEntregarBean.regalo}" />  
-                                                            </p:commandButton>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </p:column>
-                                        </p:dataTable>
+                                                    <h:outputText value="#{regalo.regalo.nombre}" />
+
+                                                    <p:commandButton value="Entregar" 
+                                                                     update=":#{p:component('entregar')}" oncomplete="PF('entregar').show();" icon="ui-icon-check" style="margin:0">
+                                                        <f:setPropertyActionListener value="#{regalo}" target="#{regaloEntregarBean.regalo}" />  
+                                                    </p:commandButton>
+                                                </h:panelGrid>
+                                            </p:panel>
+
+
+                                        </p:dataGrid >
 
 
 

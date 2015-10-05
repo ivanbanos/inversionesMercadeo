@@ -15,6 +15,7 @@ import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
 import com.invbf.sistemagestionmercadeo.util.ClienteDTO;
 import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -161,7 +162,10 @@ public class RegalosCrearSolicitudBean implements Serializable{
         try {
             sessionBean.regalosFacade.generarSolicitudRegalos(casino, lista, sessionBean.getUsuario());
             sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Solicitud generada con exito!", ""));
-
+Notificador.notificar(Notificador.correoRegaloSolicitudCreada,
+                "Se ha creado la solicitud de obsequios. Favor revisar la lista de solicitudes de obsequios.",
+                "Se ha creado la solicitud de obsequios", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+        
             FacesContext.getCurrentInstance().getExternalContext().redirect("RegaloListaSolicitudes.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(GenerarRequerimientoRegalosBean.class.getName()).log(Level.SEVERE, null, ex);
