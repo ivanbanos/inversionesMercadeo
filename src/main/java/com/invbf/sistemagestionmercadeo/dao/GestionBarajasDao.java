@@ -402,18 +402,7 @@ public class GestionBarajasDao {
 
             orden = em.find(Ordencomprabaraja.class, idOrden);
             List<Ordencomprabarajadetalle> detalles = orden.getOrdencomprabarajadetalleList();
-            for (Iterator<Ordencomprabarajadetalle> iterator = detalles.iterator(); iterator.hasNext();) {
-                Ordencomprabarajadetalle inventario = iterator.next();
-                boolean sedeja = false;
-                if (usuario.getCasinoList().contains(inventario.getInventarobarajas().getCasino())) {
-                    sedeja = true;
-                    break;
-                }
-
-                if (!sedeja) {
-                    iterator.remove();
-                }
-            }
+            
             tx.commit();
         } catch (Exception e) {
             System.out.println(e);
@@ -526,25 +515,21 @@ public class GestionBarajasDao {
         emf.close();
     }
 
-    public static void recibirOrdenCaja(Integer idOrden, Usuario usuario) {
+    public static void recibirOrdenCaja(OrdenCompraBarajaDTO idOrden, Usuario usuario) {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Ordencomprabaraja orden = em.find(Ordencomprabaraja.class, idOrden);
+            Ordencomprabaraja orden = em.find(Ordencomprabaraja.class, idOrden.getId());
             orden.setEsatdo("RECIBIDA");
+            orden.setRecibidor(usuario);
+                orden.setFechaRecibida(new Date());
             for (Ordencomprabarajadetalle detalle : orden.getOrdencomprabarajadetalleList()) {
-                Inventarobarajas inventario = em.find(Inventarobarajas.class, detalle.getInventarobarajas().getId());
-
-                if (usuario.getCasinoList().contains(inventario.getCasino())) {
-                    inventario.setCantidadbarajas(inventario.getCantidadbarajas() + detalle.getCantidad());
-                    em.merge(inventario);
-                    detalle.setRecibidor(usuario);
-                    detalle.setFecharecibida(new Date());
-                    em.merge(detalle);
-                }
+                BarajasCantidad bc = idOrden.getCantidades().get(idOrden.getCantidades().indexOf(new BarajasCantidad(detalle.getOrdencomprabarajadetallePK().getInventario(), null)));
+                detalle.setCantidadRecibida(bc.getCantidadR());
+                em.merge(detalle);
 
             }
             em.merge(orden);
@@ -609,10 +594,10 @@ public class GestionBarajasDao {
         try {
 
             orden = em.find(Solicitudbarajas.class, idOrden);
-                orden.setSolicitudbarajadetalleList(em.createNamedQuery("Solicitudbarajadetalle.findBySolicitudOrderByMaterial")
-                        .setParameter("solicitud", orden.getId())
-                        .getResultList());
-            
+            orden.setSolicitudbarajadetalleList(em.createNamedQuery("Solicitudbarajadetalle.findBySolicitudOrderByMaterial")
+                    .setParameter("solicitud", orden.getId())
+                    .getResultList());
+
             tx.commit();
         } catch (Exception e) {
             System.out.println(e);
@@ -1049,7 +1034,7 @@ public class GestionBarajasDao {
 
     }
 
-    public static List<Destruccionbarajasmaestro> getActasDestruccion() {
+    public static List<Destruccionbarajasmaestro> getActasDestruccion(Usuario usuario) {
         EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
@@ -1062,6 +1047,15 @@ public class GestionBarajasDao {
             Root<Destruccionbarajasmaestro> c = cq.from(Destruccionbarajasmaestro.class);
             cq.select(c);
             lista = em.createQuery(cq).getResultList();
+            for (Iterator<Destruccionbarajasmaestro> iterator = lista.iterator(); iterator.hasNext();) {
+                Destruccionbarajasmaestro next = iterator.next();
+                for (Actasdestruccionbarajas acta : next.getActasdestruccionbarajasList()) {
+                    if(!usuario.getCasinoList().contains(acta.getInventario().getCasino())){
+                        iterator.remove();
+                        break;
+                    }
+                }
+            }
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -1737,7 +1731,7 @@ public class GestionBarajasDao {
     }
 
     public static List<Solicitudbarajas> getListaSoliciudesBarajasPendientes() {
-         EntityManagerFactory emf
+        EntityManagerFactory emf
                 = Persistence.createEntityManagerFactory("AdminClientesPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -1745,10 +1739,10 @@ public class GestionBarajasDao {
         tx.begin();
         try {
 
-                ordenes.addAll(em.createNamedQuery("Solicitudbarajas.findByEstado")
-                        .setParameter("estado", "ENTREGADAS/Pendientes por devolver")
-                        .getResultList());
-            
+            ordenes.addAll(em.createNamedQuery("Solicitudbarajas.findByEstado")
+                    .setParameter("estado", "ENTREGADAS/Pendientes por devolver")
+                    .getResultList());
+
             tx.commit();
         } catch (Exception e) {
             System.out.println(e);
@@ -1759,5 +1753,40 @@ public class GestionBarajasDao {
         em.close();
         emf.close();
         return ordenes;
+    }
+
+    public static void ingresarOrdenCaja(Integer idOrden, Usuario usuario) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        try {
+            Ordencomprabaraja orden = em.find(Ordencomprabaraja.class, idOrden);
+            orden.setEsatdo("INGRESADA");
+            orden.setVerificador(usuario);
+            orden.setFechaVerificacion(new Date());
+            for (Ordencomprabarajadetalle detalle : orden.getOrdencomprabarajadetalleList()) {
+                Inventarobarajas inventario = em.find(Inventarobarajas.class, detalle.getInventarobarajas().getId());
+
+                if (usuario.getCasinoList().contains(inventario.getCasino())) {
+                    inventario.setCantidadbarajas(inventario.getCantidadbarajas() + detalle.getCantidad());
+                    em.merge(inventario);
+                    detalle.setRecibidor(usuario);
+                    detalle.setFecharecibida(new Date());
+                    em.merge(detalle);
+                }
+
+            }
+            em.merge(orden);
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
     }
 }

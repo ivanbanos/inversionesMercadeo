@@ -46,5 +46,27 @@ public class CategoriaBoolean  implements Serializable{
         }
         return true;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 73 * hash + (this.categoria != null ? this.categoria.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final CategoriaBoolean other = (CategoriaBoolean) obj;
+        if (this.categoria != other.categoria && (this.categoria == null || !this.categoria.equals(other.categoria))) {
+            return false;
+        }
+        return true;
+    }
     
 }

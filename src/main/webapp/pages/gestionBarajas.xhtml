@@ -38,7 +38,8 @@
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;recibirOrdenBarajas&quot;)
                                       or  sessionBean.perfilViewMatch(&quot;generarOrdenBarajas&quot;)
                                       or  sessionBean.perfilViewMatch(&quot;aceptarOrdenBarajas&quot;)
-                                      or sessionBean.perfilViewMatch(&quot;verRequerimientosBarajas&quot;)}">
+                                      or sessionBean.perfilViewMatch(&quot;verRequerimientosBarajas&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;ingresarOrdenBarajas&quot;)}">
                             <h:commandLink  action="#{sessionBean.go(&quot;ordenesComprabaraja&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-truck fa-5x"></i> 
                                 <br/>Requerimientos de compra de <br/>lote de barajas</h:commandLink>
 

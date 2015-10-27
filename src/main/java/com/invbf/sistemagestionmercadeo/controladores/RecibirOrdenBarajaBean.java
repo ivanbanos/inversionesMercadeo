@@ -61,6 +61,7 @@ public class RecibirOrdenBarajaBean implements Serializable {
         }
         idOrden = (Integer) sessionBean.getAttributes("orden");
         orden = sessionBean.barajasFacade.getOrdenRecibir(idOrden, sessionBean.getUsuario());
+        System.out.println(orden.getCantidades().size());
     }
 
     public OrdenCompraBarajaDTO getOrden() {
@@ -70,13 +71,26 @@ public class RecibirOrdenBarajaBean implements Serializable {
     public void setOrden(OrdenCompraBarajaDTO orden) {
         this.orden = orden;
     }
+    
 
     public void recibirOrden() {
-        sessionBean.barajasFacade.recibirOrdenCaja(idOrden, sessionBean.getUsuario());
+        sessionBean.barajasFacade.recibirOrdenCaja(orden, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha recibido la orden con exito", "Acta de orden #" + orden.getId()));
         Notificador.notificar(Notificador.correoOrdenBarajasRecibida,
                 "Se ha recibido la orden de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
                 "Se ha recibido una orden de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaOrdenesCompraBarajas.xhtml");
+        } catch (IOException ex) {
+        }
+    }
+    
+    public void ingresarOrden() {
+        sessionBean.barajasFacade.ingresarOrdenCaja(idOrden, sessionBean.getUsuario());
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha ingresado la orden con exito", "Acta de orden #" + orden.getId()));
+        Notificador.notificar(Notificador.correoOrdenBarajasIngresada,
+                "Se ha ingresado la orden de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
+                "Se ha ingresado una orden de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaOrdenesCompraBarajas.xhtml");
         } catch (IOException ex) {

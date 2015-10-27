@@ -52,6 +52,7 @@ public class Notificador implements Serializable {
     public static final int correoSolicitudBarajaEntregada = 24;
     public static final int correoSolicitudBarajaCreada = 25;
     public static final int correoOrdenBarajasRecibida = 26;
+    public static final int correoOrdenBarajasIngresada = 40;
     public static final int correoOrdenBarajasAprobada = 27;
     public static final int correoOrdenBarajasCreada = 28;
     public static final int correoLibre = 29;
@@ -65,6 +66,7 @@ public class Notificador implements Serializable {
     public static final int correoRegaloSolicitudRecibida = 36;
     public static final int correoRegaloMinimoAlcanzado = 37;
     public static final int correoRegaloEntregado = 38;
+    public static final int correoCumpleanos = 39;
 
     public static void notificar(int tipo, String body, String subject, String correosolicitantes) {
         switch (tipo) {
@@ -137,6 +139,9 @@ public class Notificador implements Serializable {
             case correoOrdenBarajasRecibida:
                 sendEmail("correoOrdenBarajasRecibida", subject, body, true, correosolicitantes);
                 break;
+            case correoOrdenBarajasIngresada:
+                sendEmail("correoOrdenBarajasIngresada", subject, body, true, correosolicitantes);
+                break;
             case correoOrdenBarajasAprobada:
                 sendEmail("correoOrdenBarajasAprobada", subject, body, false, correosolicitantes);
                 break;
@@ -145,6 +150,15 @@ public class Notificador implements Serializable {
                 break;
             case correoLibre:
                 sendEmail(subject, body, correosolicitantes);
+                break;
+            case correoRegaloOrdenCreada:
+                sendEmail("correoRegaloOrdenCreada", subject, body, true, correosolicitantes);
+                break;
+            case correoRegaloOrdenAprobada:
+                sendEmail("correoRegaloOrdenAprobada", subject, body, true, correosolicitantes);
+                break;
+            case correoRegaloOrdenRecibida:
+                sendEmail("correoRegaloOrdenRecibida", subject, body, true, correosolicitantes);
                 break;
         }
     }
@@ -187,6 +201,9 @@ public class Notificador implements Serializable {
                 break;
             case correoRegaloEntregado:
                 sendEmail("correoRegaloEntregado", subject, body, true, correosolicitantes, sala);
+                break;
+            case correoCumpleanos:
+                sendEmail("correoCumpleanos", subject, body, true, correosolicitantes, sala);
                 break;
         }
     }
@@ -240,7 +257,7 @@ public class Notificador implements Serializable {
         es.setProtocol(ConfiguracionDao.findByNombre("protocol").getValor());
         es.setUsername(ConfiguracionDao.findByNombre("username").getValor());
         es.setPassword(ConfiguracionDao.findByNombre("contrasena").getValor());
-
+        System.out.println("Sending email");
         try {
             Vista v = VistaDao.findByNombre(permiso);
             System.out.println(v.getNombreVista());

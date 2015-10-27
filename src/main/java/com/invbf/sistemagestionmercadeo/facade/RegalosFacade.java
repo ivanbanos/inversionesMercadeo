@@ -45,7 +45,7 @@ public interface RegalosFacade {
 
     public List<OrdenCompraRegaloDTO> getOrdenesCompra(Usuario usuario);
 
-    public void generarOrdenRegalos(InventarioRegalosDTO inventario, String observaciones,  Usuario usuairo);
+    public int generarOrdenRegalos(InventarioRegalosDTO inventario, String observaciones,  Usuario usuairo);
 
     public OrdenCompraRegaloDTO getOrden(Integer idOrden);
 
@@ -83,7 +83,7 @@ public interface RegalosFacade {
 
     public void ingresarOrden(OrdenCompraRegaloDTO orden, Usuario usuario);
 
-    public ReporteGestionEntregaRegalos getReporte(List<CasinoBoolean> casinos, Integer ano, Integer mes);
+    public ReporteGestionEntregaRegalos getReporte(List<CasinoBoolean> casinos, Integer ano, Integer mes, List<CategoriaBoolean> categorias, String sexo);
 
     
 

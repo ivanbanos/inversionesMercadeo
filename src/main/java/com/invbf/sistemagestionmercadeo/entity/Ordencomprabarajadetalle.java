@@ -5,7 +5,6 @@
  */
 package com.invbf.sistemagestionmercadeo.entity;
 
-import com.invbf.sistemagestionmercadeo.entity.Inventarobarajas;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
@@ -48,6 +47,8 @@ public class Ordencomprabarajadetalle implements Serializable {
     private Integer cantidad;
     @Column(name = "cantidadAprobada")
     private Integer cantidadAprobada;
+    @Column(name = "cantidadRecibida")
+    private Integer cantidadRecibida;
     @JoinColumn(name = "inventario", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Inventarobarajas inventarobarajas;
@@ -145,6 +146,14 @@ public class Ordencomprabarajadetalle implements Serializable {
 
     public void setRecibidor(Usuario recibidor) {
         this.recibidor = recibidor;
+    }
+
+    public Integer getCantidadRecibida() {
+        return cantidadRecibida;
+    }
+
+    public void setCantidadRecibida(Integer cantidadRecibida) {
+        this.cantidadRecibida = cantidadRecibida;
     }
     
 }

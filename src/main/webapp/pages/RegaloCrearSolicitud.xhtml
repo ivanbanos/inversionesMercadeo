@@ -140,6 +140,11 @@
                                                 <h:outputText value="#{detalle.sexo}">
                                                 </h:outputText>
                                             </p:column>
+                                            <p:column headerText="Fecha de cumplea&ntilde;os" style="text-align: center;">
+                                                <h:outputText value="#{detalle.cumpleanos}">
+                                                    <f:convertDateTime pattern="dd/MMMMM" locale="es_CO" />
+                                                </h:outputText>
+                                            </p:column>
                                              <p:column headerText="Obsequio" style="text-align: center;">
                                             <p:selectOneMenu id="inv" value="#{detalle.regalo.id}" style="width:100%" >
                                                 <f:selectItem itemLabel="Seleccionar uno" itemValue="" />

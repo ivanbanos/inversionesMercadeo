@@ -256,6 +256,32 @@ public class ClienteDao {
         return cargos;
     }
 
+    public static List<Cliente> getCumpeaneros(Casino casino) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Cliente> cargos = null;
+        tx.begin();
+        try {
+            cargos = new ArrayList<Cliente>();
+
+            cargos.addAll((List<Cliente>) em.createNamedQuery("Cliente.findByCasino")
+                    .setParameter("casino", casino.getIdCasino())
+                    .getResultList());
+
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        System.out.println(cargos.size());
+        return cargos;
+    }
+
     public ClienteDao() {
     }
 

@@ -37,17 +37,17 @@
                                                 <div class="panel panel-primary" style="border: none;">
                                                     <div class="controle-header panel-heading panel-heading-landing">
                                                         <h4 >
-                                                            Acta # #{verOrdenCompraBarajas.orden.id}
+                                                            Acta # #{recibirOrdenBarajaBean.orden.id}
                                                         </h4>
                                                     </div>
                                                     <div class="controle-panel-heading panel-heading panel-heading-landing-box">
-                                                        #{verOrdenCompraBarajas.orden.estado}
+                                                        #{recibirOrdenBarajaBean.orden.estado}
                                                     </div>
                                                     <div class="panel-body panel-body-landing">
                                                         <table class="table">
                                                             <tr>
                                                                 <c:choose>
-                                                                    <c:when test="#{verOrdenCompraBarajas.orden.estado == 'PREGENERADA'}">
+                                                                    <c:when test="#{recibirOrdenBarajaBean.orden.estado == 'PREGENERADA'}">
                                                                         <td width="50px"></td>
                                                                         <td>Por generar</td>
                                                                         <td></td>
@@ -58,40 +58,40 @@
                                                                         <td width="50px"><i class="fa fa-check"></i></td>
                                                                         <td>Generada en</td>
                                                                         <td>
-                                                                            <h:outputText value="#{verOrdenCompraBarajas.orden.fechaCreacion}">
+                                                                            <h:outputText value="#{recibirOrdenBarajaBean.orden.fechaCreacion}">
                                                                                 <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
                                                                             </h:outputText>
                                                                         </td>
                                                                         <td>Por</td>
                                                                         <td>
-                                                                            <h:outputText value="#{verOrdenCompraBarajas.orden.usuarioCreado}"/>
+                                                                            <h:outputText value="#{recibirOrdenBarajaBean.orden.usuarioCreado}"/>
                                                                         </td>
                                                                     </c:otherwise>
                                                                 </c:choose>
                                                             </tr>
                                                             <tr>
                                                                 <c:choose>
-                                                                    <c:when test="#{verOrdenCompraBarajas.orden.estado == 'GENERADA'}">
+                                                                    <c:when test="#{recibirOrdenBarajaBean.orden.estado == 'GENERADA'}">
                                                                         <td width="50px"></td>
                                                                         <td>Por aprobar</td>
                                                                         <td></td>
                                                                         <td></td>
                                                                         <td></td>
                                                                     </c:when>
-                                                                    <c:when test="#{verOrdenCompraBarajas.orden.estado == 'PREGENERADA'}">
+                                                                    <c:when test="#{recibirOrdenBarajaBean.orden.estado == 'PREGENERADA'}">
 
                                                                     </c:when>
                                                                     <c:otherwise >
                                                                         <td width="50px"><i class="fa fa-check"></i></td>
                                                                         <td>Aprobada en</td>
                                                                         <td>
-                                                                            <h:outputText value="#{verOrdenCompraBarajas.orden.fechaAceptada}">
+                                                                            <h:outputText value="#{recibirOrdenBarajaBean.orden.fechaAceptada}">
                                                                                 <f:convertDateTime pattern="dd/MMMMM/yyyy hh:mm:ss" locale="es_CO" type="both" timeZone="America/Bogota"/>
                                                                             </h:outputText>
                                                                         </td>
                                                                         <td>Por</td>
                                                                         <td>
-                                                                            <h:outputText value="#{verOrdenCompraBarajas.orden.usuarioAceptador}"/>
+                                                                            <h:outputText value="#{recibirOrdenBarajaBean.orden.usuarioAceptador}"/>
                                                                         </td>
                                                                     </c:otherwise>
                                                                 </c:choose>
@@ -131,8 +131,10 @@
                                         </p:column>
                                         <p:column headerText="Cantidad recibidas"  width="25%"  >
                                             <span id="cantidad#{status}">
-                                                <p:spinner value="#{detalle.cantidadR}"  >
+                                                <p:spinner value="#{detalle.cantidadR}" rendered="#{recibirOrdenBarajaBean.orden.estado != 'RECIBIDA'}" >
                                                 </p:spinner>
+                                                <h:outputText value="#{detalle.cantidadR}" rendered="#{recibirOrdenBarajaBean.orden.estado == 'RECIBIDA'}" >
+                                                </h:outputText>
                                             </span>
 
                                             <f:facet name="footer">
@@ -144,8 +146,12 @@
                             </div>
                             <div class="panel-footer panel-footer-landing  text-right">
 
-                                <p:commandButton id="btnrec" value="Ingresar barajas recibidas al inventario" style="margin:0" onclick="PF('recibir').show();">
+                                <p:commandButton id="btning" value="Ingresar barajas recibidas al inventario" rendered="#{recibirOrdenBarajaBean.orden.estado == 'RECIBIDA'}" style="margin:0" onclick="PF('ingresar').show();">
                                 </p:commandButton>
+                                <p:commandButton id="btnrec" value="Recibir barajas " rendered="#{recibirOrdenBarajaBean.orden.estado != 'RECIBIDA'}" style="margin:0" onclick="PF('recibir').show();">
+                                </p:commandButton>
+                                <h:commandLink  action="#{sessionBean.go(&quot;ordenesComprabaraja&quot;)}" class="btn btn-primary">volver</h:commandLink>
+                           
                             </div>
                         </div>
                     </div>
@@ -159,6 +165,17 @@
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
                                  action="#{recibirOrdenBarajaBean.recibirOrden()}"/>  
+                <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('recibir').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+
+        <h:form>
+            <p:confirmDialog id="ingresar" message="Quiere ingresar las barajas #{label['cierrepregunta']}"  
+                             header="Ingresar en caja" severity="alert" widgetVar="ingresar" closable="false">  
+
+                <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
+                                 action="#{recibirOrdenBarajaBean.ingresarOrden()}"/>  
                 <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('recibir').hide()" type="button" />   
 
             </p:confirmDialog> 

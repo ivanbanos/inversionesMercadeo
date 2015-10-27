@@ -415,6 +415,10 @@ public class SessionBean implements Serializable, Subject {
             active = "barajas";
             ruta = "/Inicio";
             return "/pages/ListaOrdenesCompraBarajas.xhtml";
+        }if (page.equals("entregaObsequios")) {
+            active = "reportes";
+            ruta = "/Inicio";
+            return "/pages/ReporteGestionEntregaRegalos.xhtml";
         }
         if (page.equals("inicio")) {
             active = "inicio";

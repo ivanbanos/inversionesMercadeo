@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.dto.RegaloCantidad;
 import com.invbf.sistemagestionmercadeo.dto.RegalosCantidadDTO;
 import com.invbf.sistemagestionmercadeo.dto.SolicitudRegaloDTO;
+import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
@@ -69,6 +70,7 @@ public class RegaloVerSolicitud implements Serializable {
         solicitud = sessionBean.regalosFacade.getSolicitud(idOrden);
         regalocantidad = new ArrayList<RegaloCantidad>();
         for (RegalosCantidadDTO regalo : solicitud.getCantidades()) {
+            System.out.println(regalo.getCliente().getApellidos());
             RegaloCantidad regaloC = new RegaloCantidad(regalo.getRegalo(), 1);
             if (regalocantidad.contains(regaloC)) {
                 regalocantidad.get(regalocantidad.indexOf(regaloC)).sumarUno();
@@ -83,7 +85,7 @@ public class RegaloVerSolicitud implements Serializable {
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha aprobado la solicitud con exito", "Acta de solicitud #" + solicitud.getId()));
         Notificador.notificar(Notificador.correoRegaloSolicitudAprobada,
                 "Se ha aprobado la solicitud de obsequios con el n&uacute;mero de acta " + solicitud.getId() + ". Favor revisar la lista de solicitudes de obsequios.",
-                "Se ha aprobado la solicitud de obsequios", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                "Se ha aprobado la solicitud de obsequios", sessionBean.getUsuario().getUsuariodetalle().getCorreo(), new Casino(solicitud.getCasino().getIdCasino()));
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("RegaloListaSolicitudes.xhtml");
         } catch (IOException ex) {
@@ -95,7 +97,7 @@ public class RegaloVerSolicitud implements Serializable {
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha rechazado la solicitud con exito", "Acta de solicitud #" + solicitud.getId()));
         Notificador.notificar(Notificador.correoRegaloSolicitudAprobada,
                 "Se ha rechazado la solicitud de obsequios con el n&uacute;mero de acta " + solicitud.getId() + ". Favor revisar la lista de solicitudes de obsequios.",
-                "Se ha rechazado la solicitud de obsequios", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                "Se ha rechazado la solicitud de obsequios", sessionBean.getUsuario().getUsuariodetalle().getCorreo(), new Casino(solicitud.getCasino().getIdCasino()));
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("RegaloListaSolicitudes.xhtml");
         } catch (IOException ex) {
@@ -107,7 +109,7 @@ public class RegaloVerSolicitud implements Serializable {
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han recibido los regalos con exito", "Acta de solicitud #" + solicitud.getId()));
         Notificador.notificar(Notificador.correoRegaloSolicitudRecibida,
                 "Se ha recibido la solicitud de obsequios con el n&uacute;mero de acta " + solicitud.getId() + ". Favor revisar la lista de solicitudes de obsequios.",
-                "Se ha recibido la solicitud de obsequios", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                "Se ha recibido la solicitud de obsequios", sessionBean.getUsuario().getUsuariodetalle().getCorreo(), new Casino(solicitud.getCasino().getIdCasino()));
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("RegaloListaSolicitudes.xhtml");
         } catch (IOException ex) {
@@ -119,7 +121,7 @@ public class RegaloVerSolicitud implements Serializable {
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se han enviado los regalos con exito", "Acta de solicitud #" + solicitud.getId()));
         Notificador.notificar(Notificador.correoRegaloSolicitudEnviada,
                 "Se ha enviado la solicitud de obsequios con el n&uacute;mero de acta " + solicitud.getId() + ". Favor revisar la lista de solicitudes de obsequios.",
-                "Se ha enviado la solicitud de obsequios", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                "Se ha enviado la solicitud de obsequios", sessionBean.getUsuario().getUsuariodetalle().getCorreo(), new Casino(solicitud.getCasino().getIdCasino()));
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("RegaloListaSolicitudes.xhtml");
         } catch (IOException ex) {

@@ -145,7 +145,7 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
     }
 
     @Override
-    public void generarOrdenRegalos(InventarioRegalosDTO inventario, String observaciones, Usuario usuairo) {
+    public int generarOrdenRegalos(InventarioRegalosDTO inventario, String observaciones, Usuario usuairo) {
         Ordencompraregalos orden = new Ordencompraregalos();
         orden.setCreador(usuairo);
         orden.setFechaCreacion(new Date());
@@ -162,7 +162,7 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
                 orden.getOrdencompraregalodetalleList().add(detalle);
             }
         }
-        GestionRegaloDao.guardarOrdenCompra(orden);
+        return GestionRegaloDao.guardarOrdenCompra(orden).getId();
     }
 
     @Override
@@ -222,6 +222,7 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
             RegalosCantidadDTO detaleDto = new RegalosCantidadDTO(detalle.getSolicitudregalodetallePK().getInventario(),
                     new RegaloDTO(detalle.getRegalosinventario().getRegalo()), 0, 0, 0, 0);
             detaleDto.setCliente(new ClienteDTO(detalle.getClientes()));
+            System.out.println(detaleDto.getCliente().getApellidos());
             detaleDto.setEstado(detalle.getEstado());
             solicitudDto.getCantidades().add(detaleDto);
 
@@ -234,7 +235,7 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
         List<Cliente> clientes = ClienteDao.findByIdCasinoAndCat(casino.getIdCasino(), categoriaBooleans, mes, sexo);
         List<ClienteRegaloDTO> clientesDto = new ArrayList<ClienteRegaloDTO>();
         for (Cliente cliente : clientes) {
-            clientesDto.add(new ClienteRegaloDTO(cliente.getIdCliente(), cliente.getNombres() + " " + cliente.getApellidos(), cliente.getIdCategorias().getNombre(), cliente.getGenero()));
+            clientesDto.add(new ClienteRegaloDTO(cliente.getIdCliente(), cliente.getNombres() + " " + cliente.getApellidos(), cliente.getIdCategorias().getNombre(), cliente.getGenero(), cliente.getCumpleanos()));
         }
         return clientesDto;
     }
@@ -354,7 +355,7 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
     }
 
     @Override
-    public ReporteGestionEntregaRegalos getReporte(List<CasinoBoolean> casinos, Integer ano, Integer mes) {
+    public ReporteGestionEntregaRegalos getReporte(List<CasinoBoolean> casinos, Integer ano, Integer mes, List<CategoriaBoolean> categorias, String sexo) {
         List<Solicitudregalodetalle> detalles = GestionRegaloDao.getReporte(casinos, ano, mes);
         Calendar fecha = Calendar.getInstance();
         fecha.set(Calendar.MONTH, mes);
@@ -362,6 +363,12 @@ public class RegalosFacadeImpl implements RegalosFacade, Serializable {
         fecha.set(Calendar.DAY_OF_MONTH, 1);
         ReporteGestionEntregaRegalos reporte = new ReporteGestionEntregaRegalos();
         for (Solicitudregalodetalle detalle : detalles) {
+            if(!sexo.equals("")&&!detalle.getClientes().getGenero().equals(sexo)){
+                continue;
+            }
+            if(!categorias.contains(new CategoriaBoolean(detalle.getClientes().getIdCategorias(), true))){
+                continue;
+            }
             if (!detalle.getEstado().equals("POR APROBAR")) {
                 Calendar fechames = Calendar.getInstance();
                 fechames.setTime(detalle.getSolicitudregalos().getFecharecepcion());

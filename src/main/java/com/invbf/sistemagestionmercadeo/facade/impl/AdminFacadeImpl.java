@@ -41,10 +41,12 @@ import com.invbf.sistemagestionmercadeo.exceptions.PerfilExistenteException;
 import com.invbf.sistemagestionmercadeo.facade.AdminFacade;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.EncryptUtil;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import com.invbf.sistemagestionmercadeo.util.UsuarioDTO;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -428,6 +430,52 @@ public class AdminFacadeImpl implements AdminFacade, Serializable {
     @Override
     public void deleteMaq(CommputadorRegistrado elemento) {
         CommputadorRegistradoDao.eliminarMaq(elemento);
+    }
+
+    public void enviarCorreoCumpeanos() {
+        List<Casino> casinos = CasinoDao.findAll();
+
+        for (Casino casino : casinos) {
+            List<Cliente> clientes = ClienteDao.getCumpeaneros(casino);
+            Calendar hoy = Calendar.getInstance();
+            System.out.println("Hoy");
+            System.out.println(hoy.getTime());
+            for (Iterator<Cliente> iterator = clientes.iterator(); iterator.hasNext();) {
+                Cliente next = iterator.next();
+                if (next.getCumpleanos() != null) {
+                    Calendar cumpleanos = Calendar.getInstance();
+                    cumpleanos.setTime(next.getCumpleanos());
+                    System.out.println(cumpleanos.getTime());
+                    System.out.println(cumpleanos.get(Calendar.DAY_OF_MONTH));
+                    System.out.println(hoy.get(Calendar.DAY_OF_MONTH));
+                    System.out.println(cumpleanos.get(Calendar.MONTH));
+                    System.out.println(hoy.get(Calendar.MONTH));
+                    System.out.println(cumpleanos.get(Calendar.DAY_OF_MONTH)!=hoy.get(Calendar.DAY_OF_MONTH)
+                            ||cumpleanos.get(Calendar.MONTH)!=hoy.get(Calendar.MONTH));
+                    if(cumpleanos.get(Calendar.DAY_OF_MONTH)!=hoy.get(Calendar.DAY_OF_MONTH)
+                            ||cumpleanos.get(Calendar.MONTH)!=hoy.get(Calendar.MONTH)){
+                        iterator.remove();
+                    }
+                }else{iterator.remove();}
+            }
+            System.out.println("Cantidad");
+            System.out.println(clientes.size());
+            if (!clientes.isEmpty()) {
+                String body = "En la sala "+casino.getNombre()+" se encuentran de cumplea&ntilde;os hoy:<br />";
+                body += "<table>";
+                body += "<tr><th>Nombre</th><th>Categoria</th></tr>";
+
+                for (Cliente cliente : clientes) {
+                    body += "<tr><th>" + cliente.getNombres() + " " + cliente.getApellidos() + "</th>"
+                            + "<th>" + cliente.getIdCategorias().getNombre() + "</th>"
+                            + "</tr>";
+                }
+                body += "</table>"
+                        + "<br />"
+                        + "Debe llamar a estos clientes para felicitarlos, invitarlos a la sala y hacerle entrega de su obsequio (si fue solicitado y aprobado).";
+                Notificador.notificar(Notificador.correoCumpleanos, body, "Cumpleaños de hoy", "", casino);
+            }
+        }
     }
 
 }

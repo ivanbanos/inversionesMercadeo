@@ -18,6 +18,18 @@
                 <cron-expression>0 0 0/2 1/1 * ? *</cron-expression>
             </cron>
         </trigger>
+        <job>
+            <name>RecordadorCumpleanos</name>
+            <job-class>com.invbf.sistemagestionmercadeo.scheduledtask.RecordadorCumpleanos</job-class>
+        </job>
+        <trigger>
+            <cron>
+                <name>RecordadorCumpleanos</name>
+                <job-name>RecordadorCumpleanos</job-name>
+                <!--cron-expression>0 0/1 * 1/1 * ? *</cron-expression-->
+                <cron-expression>0 0 0 1/1 * ? *</cron-expression>
+            </cron>
+        </trigger>
     </schedule>
 
 </job-scheduling-data>

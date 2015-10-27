@@ -52,6 +52,7 @@ public class ListaOrdenesCompraBarajasBean implements Serializable {
         if (!sessionBean.perfilViewMatch("recibirOrdenBarajas")
                 && !sessionBean.perfilViewMatch("generarOrdenBarajas")
                 && !sessionBean.perfilViewMatch("aceptarOrdenBarajas")
+                && !sessionBean.perfilViewMatch("ingresarOrdenBarajas")
                 && !sessionBean.perfilViewMatch("verRequerimientosBarajas")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
@@ -61,7 +62,7 @@ public class ListaOrdenesCompraBarajasBean implements Serializable {
         if (sessionBean.perfilViewMatch("verRequerimientosBarajas") ||sessionBean.perfilViewMatch("generarOrdenBarajas") || sessionBean.perfilViewMatch("aceptarOrdenBarajas")) {
             lista = sessionBean.barajasFacade.getOrdenesCompra();
         } else {
-            if (sessionBean.perfilViewMatch("recibirOrdenBarajas")) {
+            if (sessionBean.perfilViewMatch("recibirOrdenBarajas")||sessionBean.perfilViewMatch("ingresarOrdenBarajas")) {
                 lista = sessionBean.barajasFacade.getOrdenesCompra(sessionBean.getUsuario());
             } else {
                 lista = new ArrayList<OrdenCompraBarajaDTO>();

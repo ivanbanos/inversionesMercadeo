@@ -70,6 +70,8 @@
                                                              title="Aprobar" rendered="#{sessionBean.perfilViewMatch(&quot;aceptarOrdenBarajas&quot;) and (element.estado == 'GENERADA' ) }"/>  
                                             <p:commandButton id="recibircaja" action="#{listaOrdenesCompraBarajasBean.goOrdenrecibircaja(element.id, element.estado)}" icon="ui-icon-arrowthickstop-1-s" onclick="PF('ajaxWaitingDialog').show();"
                                                              title="Recibir" rendered="#{sessionBean.perfilViewMatch(&quot;recibirOrdenBarajas&quot;) and (element.estado == 'APROBADA' )}"/> 
+                                            <p:commandButton id="ingresarcaja" action="#{listaOrdenesCompraBarajasBean.goOrdenrecibircaja(element.id, element.estado)}" icon="ui-icon-arrowthickstop-1-s" onclick="PF('ajaxWaitingDialog').show();"
+                                                             title="ingresar" rendered="#{sessionBean.perfilViewMatch(&quot;ingresarOrdenBarajas&quot;) and (element.estado == 'RECIBIDA' )}"/> 
                                             </p:column>
 
                                         <f:facet name="footer"> 

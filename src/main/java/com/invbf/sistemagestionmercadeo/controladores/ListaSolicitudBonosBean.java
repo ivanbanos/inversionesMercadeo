@@ -50,13 +50,17 @@ public class ListaSolicitudBonosBean implements Serializable{
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("solicitudbonos");
         sessionBean.marketingUserFacade.verificarEstadoSolicitudes();
-        if (!sessionBean.perfilViewMatch("GenerarSolicitudBono") &&!sessionBean.perfilViewMatch("vistaSolicitudesCasino") && !sessionBean.perfilViewMatch("PreAprobarSolicitudBono") && !sessionBean.perfilViewMatch("AprobarSolicitudBono")) {
+        if (!sessionBean.perfilViewMatch("verTodasSOlicitudesBonosFin") && !sessionBean.perfilViewMatch("GenerarSolicitudBono") &&!sessionBean.perfilViewMatch("vistaSolicitudesCasino") && !sessionBean.perfilViewMatch("PreAprobarSolicitudBono") && !sessionBean.perfilViewMatch("AprobarSolicitudBono")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
             }
         }
-        if (sessionBean.perfilViewMatch("AprobarSolicitudBono") || sessionBean.perfilViewMatch("PreAprobarSolicitudBono")) {
+        if(sessionBean.perfilViewMatch("verTodasSOlicitudesBonosFin")){
+            
+            lista = sessionBean.marketingUserFacade.getAllSolicitudentrega();
+        }
+        else if (sessionBean.perfilViewMatch("vistaSolicitudesCasino") || sessionBean.perfilViewMatch("AprobarSolicitudBono") || sessionBean.perfilViewMatch("PreAprobarSolicitudBono")) {
 
             lista = sessionBean.marketingUserFacade.getAllSolicitudentreganovenc();
         } else {

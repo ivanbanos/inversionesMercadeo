@@ -8,13 +8,17 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.dto.ReporteGestionEntregaRegalos;
 import com.invbf.sistemagestionmercadeo.entity.Bono;
 import com.invbf.sistemagestionmercadeo.entity.Casino;
+import com.invbf.sistemagestionmercadeo.entity.Categoria;
 import com.invbf.sistemagestionmercadeo.entity.Propositoentrega;
 import com.invbf.sistemagestionmercadeo.entity.Tipobono;
+import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import com.invbf.sistemagestionmercadeo.util.AnalisisBono;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
+import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.PropositosBoolean;
 import com.invbf.sistemagestionmercadeo.util.TipoBonoBoolean;
+import com.invbf.sistemagestionmercadeo.util.TipoJuegoBoolean;
 import com.invbf.sistemagestionmercadeo.util.estadisticaBonos;
 import java.io.IOException;
 import java.io.Serializable;
@@ -42,6 +46,9 @@ public class ReporteGestionRegalosBean implements Serializable {
     private Integer ano;
     private Integer mes;
     private ReporteGestionEntregaRegalos reporte;
+    private String sexo;
+    
+    private List<CategoriaBoolean> categoriaBooleans;
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -64,6 +71,13 @@ public class ReporteGestionRegalosBean implements Serializable {
         for (Casino casinosNormale : casinosNormales) {
             casinos.add(new CasinoBoolean(casinosNormale, true));
         }
+        
+        List<Categoria> categorias = sessionBean.marketingUserFacade.findAllCategorias();
+        categoriaBooleans = new ArrayList<CategoriaBoolean>();
+        for (Categoria categoria : categorias) {
+            categoriaBooleans.add(new CategoriaBoolean(categoria, true));
+        }
+        
         anos = new ArrayList<Integer>();
         Calendar c = Calendar.getInstance();
         ano = c.get(Calendar.YEAR);
@@ -71,12 +85,13 @@ public class ReporteGestionRegalosBean implements Serializable {
         for (int i = 2015; i <= c.get(Calendar.YEAR); i++) {
             anos.add(i);
         }
+        sexo = "";
         buscarBonosPorCasinosYFecha();
 
     }
 
     public void buscarBonosPorCasinosYFecha() {
-        reporte = sessionBean.regalosFacade.getReporte(casinos, ano, mes);
+        reporte = sessionBean.regalosFacade.getReporte(casinos, ano, mes, categoriaBooleans, sexo);
         System.gc();
     }
 
@@ -120,4 +135,20 @@ public class ReporteGestionRegalosBean implements Serializable {
         this.reporte = reporte;
     }
 
+    public List<CategoriaBoolean> getCategoriaBooleans() {
+        return categoriaBooleans;
+    }
+
+    public void setCategoriaBooleans(List<CategoriaBoolean> categoriaBooleans) {
+        this.categoriaBooleans = categoriaBooleans;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+    
 }

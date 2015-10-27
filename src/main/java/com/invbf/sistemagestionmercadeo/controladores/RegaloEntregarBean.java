@@ -94,8 +94,8 @@ public class RegaloEntregarBean implements Serializable {
         sessionBean.regalosFacade.entregar(regalo, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha entregado el regalos con exito", "Regalo " + regalo.getRegalo().getNombre() + " Cliente " + regalo.getCliente().getNombres() + " " + regalo.getCliente().getApellidos()));
         Notificador.notificar(Notificador.correoRegaloEntregado,
-                "Se ha entregado el regalo "+regalo.getRegalo().getNombre()+" de "+regalo.getCliente().getNombres()+" "+regalo.getCliente().getApellidos()+" con exito.",
-                "Se ha entregado un regalo", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+                "Se ha entregado el obsequio "+regalo.getRegalo().getNombre()+" de "+regalo.getCliente().getNombres()+" "+regalo.getCliente().getApellidos()+" con exito.",
+                "Se ha entregado un obsequio", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
 
         regalos = new ArrayList<RegaloCanje>();
         regalo = new RegaloCanje();

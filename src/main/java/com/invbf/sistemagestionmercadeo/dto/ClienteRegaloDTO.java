@@ -6,6 +6,7 @@
 package com.invbf.sistemagestionmercadeo.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -17,13 +18,15 @@ public class ClienteRegaloDTO implements Serializable{
     private String categoria;
     private String sexo;
     private RegaloDTO regalo;
+    private Date cumpleanos;
 
-    public ClienteRegaloDTO(Integer idCliente, String nombres, String categoria, String sexo) {
+    public ClienteRegaloDTO(Integer idCliente, String nombres, String categoria, String sexo, Date cumpleanos) {
         this.idCliente = idCliente;
         this.nombres = nombres;
         this.categoria = categoria;
         this.sexo = sexo;
         regalo = new RegaloDTO();
+        this.cumpleanos = cumpleanos;
     }
 
     public Integer getIdCliente() {
@@ -64,6 +67,14 @@ public class ClienteRegaloDTO implements Serializable{
 
     public void setSexo(String sexo) {
         this.sexo = sexo;
+    }
+
+    public Date getCumpleanos() {
+        return cumpleanos;
+    }
+
+    public void setCumpleanos(Date cumpleanos) {
+        this.cumpleanos = cumpleanos;
     }
     
 }

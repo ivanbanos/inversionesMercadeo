@@ -9,6 +9,7 @@ import com.invbf.sistemagestionmercadeo.dto.BarajasCantidad;
 import com.invbf.sistemagestionmercadeo.dto.OrdenCompraBarajaDTO;
 import com.invbf.sistemagestionmercadeo.dto.OrdenCompraRegaloDTO;
 import com.invbf.sistemagestionmercadeo.dto.RegalosCantidadDTO;
+import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
@@ -33,6 +34,7 @@ public class VerOrdenCompraRegalos implements Serializable {
     private OrdenCompraRegaloDTO orden;
     private Integer idOrden;
     private String observaciones;
+    private String observaciones2;
 
     public VerOrdenCompraRegalos() {
     }
@@ -49,9 +51,10 @@ public class VerOrdenCompraRegalos implements Serializable {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("regalos");
-        if (!sessionBean.perfilViewMatch("recibirOrdenBarajas")
-                && !sessionBean.perfilViewMatch("generarOrdenBarajas")
-                && !sessionBean.perfilViewMatch("aceptarOrdenBarajas")) {
+        if (!sessionBean.perfilViewMatch("aprobarOrdenRegalo")
+                && !sessionBean.perfilViewMatch("recibirOrdenRegalo")
+                && !sessionBean.perfilViewMatch("verOrdenRegalo")
+                && !sessionBean.perfilViewMatch("ingresarOrdenRegalo")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
@@ -83,11 +86,28 @@ public class VerOrdenCompraRegalos implements Serializable {
     }
 
     public void aprobar() {
-        orden.setObservaciones(orden.getObservaciones() + sessionBean.getUsuario().getNombreUsuario() + ":" + observaciones + ".");
+        orden.setObservaciones(orden.getObservaciones() + sessionBean.getUsuario().getNombreUsuario() + ":" + observaciones);
         sessionBean.regalosFacade.aprobarOrden(orden, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha aprobado el requerimiento con exito", "Acta de orden #" + orden.getId()));
+        String body = "Se ha aprobado el requerimiento de compra de obsequios con el n&uacute;mero de acta " + orden.getId();
+        
+        body += "<br /><table style=\"border: 1px solid black;\">";
+        body += "<tr><th style=\"border: 1px solid black;\">Obsequio</th><th style=\"border: 1px solid black;\">Descripci&oacute;n</th><th style=\"border: 1px solid black;\">Imagen</th><th style=\"border: 1px solid black;\">Cantidad</th></tr>";
+        for(RegalosCantidadDTO regalo : orden.getCantidades()){
+        
+        body += "<tr>"
+                + "<td style=\"border: 1px solid black;\">"+regalo.getRegalo().getNombre()+"</td>"
+                + "<td style=\"border: 1px solid black;\">"+regalo.getRegalo().getDescripcion()+"</td>"
+                + "<td style=\"border: 1px solid black;\"><img src=\"http://regalos.ibfcolombia.com/"+regalo.getRegalo().getFileName()+"\" alt=\"Regalo\" style=\"width:100px;\"></td>"
+                + "<td style=\"border: 1px solid black;\">"+regalo.getCantidadAprobada()+"</td></tr>";
+        }
+        body += "</table>";
+        
+        
+        body+= "<br />Observaciones: "+orden.getObservaciones()+"<br/>Favor revisar la lista de ordenes de compra de regalos.";
+        
         Notificador.notificar(Notificador.correoRegaloOrdenAprobada,
-                "Se ha aprobado el requerimiento de compra de regalos con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de regalos.",
+                body,
                 "Se ha aprobado un requerimiento de compra de regalos", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaRequerimientosRegalos.xhtml");
@@ -112,7 +132,7 @@ public class VerOrdenCompraRegalos implements Serializable {
     public void recibir() {
         boolean seguarda = true;
         for (RegalosCantidadDTO regalos : orden.getCantidades()) {
-            if (regalos.getCantidadAprobada() != regalos.getCantidadR() && (regalos.getJustificacion() == null || "".equals(regalos.getJustificacion()))) {
+            if (regalos.getCantidadAprobada().intValue() != regalos.getCantidadR() && (regalos.getJustificacion() == null || "".equals(regalos.getJustificacion()))) {
                 seguarda = false;
 
             }
@@ -172,6 +192,14 @@ public class VerOrdenCompraRegalos implements Serializable {
 
     public void setOrden(OrdenCompraRegaloDTO orden) {
         this.orden = orden;
+    }
+
+    public String getObservaciones2() {
+        return observaciones2;
+    }
+
+    public void setObservaciones2(String observaciones2) {
+        this.observaciones2 = observaciones2;
     }
 
 }

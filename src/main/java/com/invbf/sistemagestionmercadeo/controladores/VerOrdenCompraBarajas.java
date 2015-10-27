@@ -7,6 +7,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 
 import com.invbf.sistemagestionmercadeo.dto.BarajasCantidad;
 import com.invbf.sistemagestionmercadeo.dto.OrdenCompraBarajaDTO;
+import com.invbf.sistemagestionmercadeo.dto.RegalosCantidadDTO;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
@@ -80,8 +81,9 @@ public class VerOrdenCompraBarajas implements Serializable {
         this.orden = orden;
     }
 
-    public void crearrOrden() {orden.setObservaciones(orden.getObservaciones()+sessionBean.getUsuario().getNombreUsuario()+":"+observaciones+".");
-        
+    public void crearrOrden() {
+        orden.setObservaciones(orden.getObservaciones() + sessionBean.getUsuario().getNombreUsuario() + ":" + observaciones + ".");
+
         sessionBean.barajasFacade.crearOrden(orden, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha generado el requerimiento con exito", "Acta de orden #" + orden.getId()));
         Notificador.notificar(Notificador.correoOrdenBarajasCreada,
@@ -94,18 +96,36 @@ public class VerOrdenCompraBarajas implements Serializable {
     }
 
     public void aprobarOrden() {
-        orden.setObservaciones(orden.getObservaciones()+sessionBean.getUsuario().getNombreUsuario()+":"+observaciones+".");
+        orden.setObservaciones(orden.getObservaciones() + sessionBean.getUsuario().getNombreUsuario() + ":" + observaciones + ".");
         sessionBean.barajasFacade.aprobarOrden(orden, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha aprobado el requerimiento con exito", "Acta de orden #" + orden.getId()));
+        String body = "Se ha aprobado el requerimiento de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". ";
+        
+        body += "<br /><table style=\"border: 1px solid black;\">";
+        body += "<tr><th style=\"border: 1px solid black;\">Baraja</th><th style=\"border: 1px solid black;\">Cantidad</th></tr>";
+        for(BarajasCantidad baraja : orden.getCantidades()){
+        
+        body += "<tr>"
+                + "<td style=\"border: 1px solid black;\">"+baraja.getBaraja().getMaterial().getNombre()+" "+baraja.getBaraja().getMaterial().getDescripcion()==null?"":baraja.getBaraja().getMaterial().getDescripcion()+" "+baraja.getBaraja().getColor()+"</td>"
+                + "<td style=\"border: 1px solid black;\">"+baraja.getCantidadR()+"</td></tr>";
+        }
+        body += "</table>";
+        body+= "<br />Observaciones: "+orden.getObservaciones()+"<br/>Favor revisar la lista de ordenes de compra de barajas.";
+        
+        
+
         Notificador.notificar(Notificador.correoOrdenBarajasAprobada,
-                "Se ha aprobado el requerimiento de compra de barajas con el n&uacute;mero de acta " + orden.getId() + ". Favor revisar la lista de ordenes de compra de barajas.",
+                body,
                 "Se ha aprobado un requerimiento de compra de barajas", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaOrdenesCompraBarajas.xhtml");
         } catch (IOException ex) {
         }
-    }public void rechazarOrden() {orden.setObservaciones(orden.getObservaciones()+sessionBean.getUsuario().getNombreUsuario()+":"+observaciones+".");
-        
+    }
+
+    public void rechazarOrden() {
+        orden.setObservaciones(orden.getObservaciones() + sessionBean.getUsuario().getNombreUsuario() + ":" + observaciones + ".");
+
         sessionBean.barajasFacade.rechazarOrden(orden, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha rechazado el requerimiento con exito", "Acta de orden #" + orden.getId()));
         Notificador.notificar(Notificador.correoOrdenBarajasAprobada,
@@ -117,8 +137,9 @@ public class VerOrdenCompraBarajas implements Serializable {
         }
     }
 
-    public void recibirOrden() {orden.setObservaciones(orden.getObservaciones()+sessionBean.getUsuario().getNombreUsuario()+":"+observaciones+".");
-        
+    public void recibirOrden() {
+        orden.setObservaciones(orden.getObservaciones() + sessionBean.getUsuario().getNombreUsuario() + ":" + observaciones + ".");
+
         sessionBean.barajasFacade.recibirOrden(idOrden, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha recibido el requerimiento con exito", "Acta de orden #" + orden.getId()));
         Notificador.notificar(Notificador.correoOrdenBarajasRecibida,

@@ -57,8 +57,6 @@
                                                     <f:selectItems value="#{reporteGestionRegalosBean.anos}" var="ano" itemLabel="#{ano}" itemValue="#{ano}"/>  
                                                 </p:selectOneMenu>
                                             </div>
-
-
                                         </div>
                                         <div class="col-md-3">
                                             <div class="panel panel-primary">
@@ -79,6 +77,37 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                                            <h:outputLabel class="col-md-6 control-label" value="Genero" />
+                                            <p:selectOneMenu id="sexo" value="#{reporteGestionRegalosBean.sexo}">
+                                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                                <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                                <f:selectItem itemLabel="Femenino" itemValue="F" />
+                                                <f:selectItem itemLabel="No digitado" itemValue="N" />
+                                            </p:selectOneMenu>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="panel panel-primary">
+
+                                                <div class="panel-heading">
+                                                    #{label['casinos']}
+                                                </div>
+                                                <div class="panel-body">
+                                                    <ul id="categoriaslist">
+
+                                                        <c:forEach var="itemcat" items="#{reporteGestionRegalosBean.categoriaBooleans}">
+                                                            <li>
+                                                                <h:selectBooleanCheckbox value="#{itemcat.selected}" onclick="deselecttodo('categoriaslist')"/>&nbsp;
+                                                                <label>#{itemcat.categoria.nombre}</label>
+                                                            </li>
+                                                        </c:forEach>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
 
 
 

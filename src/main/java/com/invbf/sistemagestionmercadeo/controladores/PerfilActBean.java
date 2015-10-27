@@ -195,6 +195,8 @@ public class PerfilActBean implements Serializable{
     
     
     private VistaBoolean recibirOrdenBarajas;
+    
+    private VistaBoolean ingresarOrdenBarajas;
     private VistaBoolean generarOrdenBarajas;
     private VistaBoolean verRequerimientosBarajas;
     private VistaBoolean aceptarOrdenBarajas;
@@ -215,6 +217,8 @@ public class PerfilActBean implements Serializable{
     private VistaBoolean correoOrdenBarajasCreada;
     private VistaBoolean correoOrdenBarajasAprobada;
     private VistaBoolean correoOrdenBarajasRecibida;
+    private VistaBoolean correoOrdenBarajasIngresada;
+    
     private VistaBoolean correoSolicitudBarajaCreada;
     private VistaBoolean correoSolicitudBarajaEntregada;
     private VistaBoolean correoSolicitudBarajaRecibida;
@@ -266,6 +270,8 @@ public class PerfilActBean implements Serializable{
     private VistaBoolean correoRegaloEntregado;
     private VistaBoolean reporteEntregaObsequios;
     
+    private VistaBoolean correoCumpleanos;
+    private VistaBoolean verTodasSOlicitudesBonosFin;
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
     }
@@ -1113,6 +1119,13 @@ public class PerfilActBean implements Serializable{
                 } else {
                     correoOrdenBarajasAprobada = new VistaBoolean(v, false);
                 }
+            }
+            if (v.getNombreVista().equals("correoOrdenBarajasIngresada")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoOrdenBarajasIngresada = new VistaBoolean(v, true);
+                } else {
+                    correoOrdenBarajasIngresada = new VistaBoolean(v, false);
+                }
             }if (v.getNombreVista().equals("correoOrdenBarajasRecibida")) {
                 if (elemento.getVistaList().contains(v)) {
                     correoOrdenBarajasRecibida = new VistaBoolean(v, true);
@@ -1308,6 +1321,18 @@ public class PerfilActBean implements Serializable{
                 } else {
                     reporteEntregaObsequios = new VistaBoolean(v, false);
                 }
+            }if (v.getNombreVista().equals("correoCumpleanos")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoCumpleanos = new VistaBoolean(v, true);
+                } else {
+                    correoCumpleanos = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("verTodasSOlicitudesBonosFin")) {
+                if (elemento.getVistaList().contains(v)) {
+                    verTodasSOlicitudesBonosFin = new VistaBoolean(v, true);
+                } else {
+                    verTodasSOlicitudesBonosFin = new VistaBoolean(v, false);
+                }
             }
             
             
@@ -1399,7 +1424,13 @@ public class PerfilActBean implements Serializable{
                 }
             }
             
-            if (v.getNombreVista().equals("recibirOrdenBarajas")) {
+            if (v.getNombreVista().equals("ingresarOrdenBarajas")) {
+                if (elemento.getVistaList().contains(v)) {
+                    ingresarOrdenBarajas = new VistaBoolean(v, true);
+                } else {
+                    ingresarOrdenBarajas = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("recibirOrdenBarajas")) {
                 if (elemento.getVistaList().contains(v)) {
                     recibirOrdenBarajas = new VistaBoolean(v, true);
                 } else {
@@ -1871,6 +1902,9 @@ public class PerfilActBean implements Serializable{
         if (correoOrdenBarajasRecibida.isSelected()) {
             elemento.getVistaList().add(correoOrdenBarajasRecibida.getVista());
         }
+        if (correoOrdenBarajasIngresada.isSelected()) {
+            elemento.getVistaList().add(correoOrdenBarajasIngresada.getVista());
+        }
         if (correoSolicitudBarajaCreada.isSelected()) {
             elemento.getVistaList().add(correoSolicitudBarajaCreada.getVista());
         }
@@ -1931,26 +1965,30 @@ public class PerfilActBean implements Serializable{
         }
         
         
-        if (RegaloVerSolicitud.isSelected()) {
+        if (correoRegaloOrdenCreada.isSelected()) {
             elemento.getVistaList().add(correoRegaloOrdenCreada.getVista());
-        }if (RegaloVerSolicitud.isSelected()) {
+        }if (correoRegaloOrdenAprobada.isSelected()) {
             elemento.getVistaList().add(correoRegaloOrdenAprobada.getVista());
-        }if (RegaloVerSolicitud.isSelected()) {
+        }if (correoRegaloOrdenRecibida.isSelected()) {
             elemento.getVistaList().add(correoRegaloOrdenRecibida.getVista());
-        }if (RegaloVerSolicitud.isSelected()) {
+        }if (correoRegaloSolicitudCreada.isSelected()) {
             elemento.getVistaList().add(correoRegaloSolicitudCreada.getVista());
-        }if (RegaloVerSolicitud.isSelected()) {
+        }if (correoRegaloSolicitudAprobada.isSelected()) {
             elemento.getVistaList().add(correoRegaloSolicitudAprobada.getVista());
-        }if (RegaloVerSolicitud.isSelected()) {
+        }if (correoRegaloSolicitudEnviada.isSelected()) {
             elemento.getVistaList().add(correoRegaloSolicitudEnviada.getVista());
-        }if (RegaloVerSolicitud.isSelected()) {
+        }if (correoRegaloSolicitudRecibida.isSelected()) {
             elemento.getVistaList().add(correoRegaloSolicitudRecibida.getVista());
-        }if (RegaloVerSolicitud.isSelected()) {
+        }if (correoRegaloMinimoAlcanzado.isSelected()) {
             elemento.getVistaList().add(correoRegaloMinimoAlcanzado.getVista());
-        }if (RegaloVerSolicitud.isSelected()) {
+        }if (correoRegaloEntregado.isSelected()) {
             elemento.getVistaList().add(correoRegaloEntregado.getVista());
         }if (reporteEntregaObsequios.isSelected()) {
             elemento.getVistaList().add(reporteEntregaObsequios.getVista());
+        }if (correoCumpleanos.isSelected()) {
+            elemento.getVistaList().add(correoCumpleanos.getVista());
+        }if (verTodasSOlicitudesBonosFin.isSelected()) {
+            elemento.getVistaList().add(verTodasSOlicitudesBonosFin.getVista());
         }
         
         
@@ -2009,6 +2047,9 @@ public class PerfilActBean implements Serializable{
         }
         if (vistaBarajas.isSelected()) {
             elemento.getVistaList().add(vistaBarajas.getVista());
+        }
+        if (ingresarOrdenBarajas.isSelected()) {
+            elemento.getVistaList().add(ingresarOrdenBarajas.getVista());
         }
         if (recibirOrdenBarajas.isSelected()) {
             elemento.getVistaList().add(recibirOrdenBarajas.getVista());
@@ -3750,6 +3791,14 @@ public class PerfilActBean implements Serializable{
         return recibirOrdenBarajas;
     }
 
+    public VistaBoolean getIngresarOrdenBarajas() {
+        return ingresarOrdenBarajas;
+    }
+
+    public void setIngresarOrdenBarajas(VistaBoolean ingresarOrdenBarajas) {
+        this.ingresarOrdenBarajas = ingresarOrdenBarajas;
+    }
+
     public void setRecibirOrdenBarajas(VistaBoolean recibirOrdenBarajas) {
         this.recibirOrdenBarajas = recibirOrdenBarajas;
     }
@@ -3848,6 +3897,14 @@ public class PerfilActBean implements Serializable{
 
     public void setCorreoOrdenBarajasRecibida(VistaBoolean correoOrdenBarajasRecibida) {
         this.correoOrdenBarajasRecibida = correoOrdenBarajasRecibida;
+    }
+
+    public VistaBoolean getCorreoOrdenBarajasIngresada() {
+        return correoOrdenBarajasIngresada;
+    }
+
+    public void setCorreoOrdenBarajasIngresada(VistaBoolean correoOrdenBarajasIngresada) {
+        this.correoOrdenBarajasIngresada = correoOrdenBarajasIngresada;
     }
 
     public VistaBoolean getCorreoSolicitudBarajaCreada() {
@@ -4160,6 +4217,22 @@ public class PerfilActBean implements Serializable{
 
     public void setReporteEntregaObsequios(VistaBoolean reporteEntregaObsequios) {
         this.reporteEntregaObsequios = reporteEntregaObsequios;
+    }
+
+    public VistaBoolean getCorreoCumpleanos() {
+        return correoCumpleanos;
+    }
+
+    public void setCorreoCumpleanos(VistaBoolean correoCumpleanos) {
+        this.correoCumpleanos = correoCumpleanos;
+    }
+
+    public VistaBoolean getVerTodasSOlicitudesBonosFin() {
+        return verTodasSOlicitudesBonosFin;
+    }
+
+    public void setVerTodasSOlicitudesBonosFin(VistaBoolean verTodasSOlicitudesBonosFin) {
+        this.verTodasSOlicitudesBonosFin = verTodasSOlicitudesBonosFin;
     }
 
 }

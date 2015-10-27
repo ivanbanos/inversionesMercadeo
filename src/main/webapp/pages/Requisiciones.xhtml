@@ -36,7 +36,8 @@
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;AprobarSolicitudBono&quot;)
                                       or sessionBean.perfilViewMatch(&quot;PreAprobarSolicitudBono&quot;)
                                       or sessionBean.perfilViewMatch(&quot;GenerarSolicitudBono&quot;)
-                                      or sessionBean.perfilViewMatch(&quot;vistaSolicitudesCasino&quot;)}">
+                                      or sessionBean.perfilViewMatch(&quot;vistaSolicitudesCasino&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;verTodasSOlicitudesBonosFin&quot;)}">
                             <h:commandLink  action="#{sessionBean.go(&quot;solicitudesbonos&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-edit fa-5x"></i> 
                                 <br/>#{label['solicitudesbonos']}<br/><br/></h:commandLink>
                         </c:if>

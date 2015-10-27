@@ -301,6 +301,10 @@
                                                         <th>Ejecutar</th>
                                                     </tr>
                                                     <tr>
+                                                        <td>Ver todas las solicitudes de bonos:</td>
+                                                        <td><h:selectBooleanCheckbox value="#{perfilActBean.verTodasSOlicitudesBonosFin.selected}"/></td>
+                                                    </tr>
+                                                    <tr>
                                                         <td>Ver las solicitudes de bonos de los casinos asignados:</td>
                                                         <td><h:selectBooleanCheckbox value="#{perfilActBean.vistaSolicitudesCasino.selected}"/></td>
                                                     </tr>
@@ -412,6 +416,10 @@
                                         <tr>
                                             <td>Recibir requerimiento de compra de lote de barajas</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.recibirOrdenBarajas.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ingresar requerimiento de compra de lote de barajas</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.ingresarOrdenBarajas.selected}"/></td>
                                         </tr>
                                         <tr>
                                             <td>Ver todas las solicitudes de barajas</td>
@@ -617,6 +625,10 @@
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.correoOrdenBarajasRecibida.selected}"/></td>
                                         </tr>
                                         <tr>
+                                            <td>Orden de compra de lotes de barajas ingresada</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.correoOrdenBarajasIngresada.selected}"/></td>
+                                        </tr>
+                                        <tr>
                                             <td>Solicitud de barajas creada</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.correoSolicitudBarajaCreada.selected}"/></td>
                                         </tr>
@@ -670,6 +682,10 @@
                                         <tr>
                                             <td>Obsequio corporativo entregado</td>
                                             <td><h:selectBooleanCheckbox value="#{perfilActBean.correoRegaloEntregado.selected}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Correo con los cumplea&ntilde;os del mes</td>
+                                            <td><h:selectBooleanCheckbox value="#{perfilActBean.correoCumpleanos.selected}"/></td>
                                         </tr>
 
                                     </table>

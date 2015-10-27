@@ -398,8 +398,8 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     }
 
     @Override
-    public List<ActaDestruccionDTO> getActasDestruccion() {
-        return transformarActasDestruccion(GestionBarajasDao.getActasDestruccion());
+    public List<ActaDestruccionDTO> getActasDestruccion(Usuario usuario) {
+        return transformarActasDestruccion(GestionBarajasDao.getActasDestruccion(usuario));
     }
 
     private List<ActaDestruccionDTO> transformarActasDestruccion(List<Destruccionbarajasmaestro> actasDestruccion) {
@@ -414,6 +414,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
 
     private BarajasCantidad transformarDetalledestruccion(Actasdestruccionbarajas detalle) {
         BarajasCantidad detalled = new BarajasCantidad();
+        detalled.setBodega(detalle.getInventario().getCasino().getNombre());
         detalled.setBaraja(transformarBaraja(detalle.getInventario().getBaraja()));
         detalled.setCantidad(detalle.getCantidad());
         return detalled;
@@ -476,7 +477,7 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     }
 
     @Override
-    public void recibirOrdenCaja(Integer idOrden, Usuario usuario) {
+    public void recibirOrdenCaja(OrdenCompraBarajaDTO idOrden, Usuario usuario) {
         GestionBarajasDao.recibirOrdenCaja(idOrden, usuario);
     }
 
@@ -600,6 +601,11 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
                     "Pendiente por entregar barajas usadas", null, new Casino(orden.getSolicitudbarajadetalleList().get(0).getInventarobarajas().getCasino().getIdCasino()));
 
         }
+    }
+    
+    @Override
+    public void ingresarOrdenCaja(Integer idOrden, Usuario usuario) {
+        GestionBarajasDao.ingresarOrdenCaja(idOrden, usuario);
     }
 
 }

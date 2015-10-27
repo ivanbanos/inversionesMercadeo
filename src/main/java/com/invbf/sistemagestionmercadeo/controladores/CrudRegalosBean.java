@@ -60,7 +60,7 @@ public class CrudRegalosBean implements Serializable {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("regalos");
-        if (!sessionBean.perfilViewMatch("verBarajas")) {
+        if (!sessionBean.perfilViewMatch("verRegalos")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {

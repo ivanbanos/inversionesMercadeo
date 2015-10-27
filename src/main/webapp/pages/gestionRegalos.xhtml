@@ -38,7 +38,8 @@
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;verOrdenRegalo&quot;)
                                       or sessionBean.perfilViewMatch(&quot;generarOrdenRegalo&quot;)
                                       or sessionBean.perfilViewMatch(&quot;aprobarOrdenRegalo&quot;)
-                                      or sessionBean.perfilViewMatch(&quot;recibirOrdenRegalo&quot;)}">
+                                      or sessionBean.perfilViewMatch(&quot;recibirOrdenRegalo&quot;)
+                                      or sessionBean.perfilViewMatch(&quot;ingresarOrdenRegalo&quot;)}">
                             <h:commandLink  action="#{sessionBean.go(&quot;verOrdenRegalo&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-truck fa-5x"></i> 
                                 <br/>Requerimiento de <br/>obsequios corporativos</h:commandLink>
                         </c:if>
@@ -49,7 +50,7 @@
                                       or sessionBean.perfilViewMatch(&quot;RegaloEnviarSolicitud&quot;)
                                       or sessionBean.perfilViewMatch(&quot;RegaloRecibirSolicitud&quot;)}">
                             <h:commandLink  action="#{sessionBean.go(&quot;verSolicitudRegaloRegalo&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-edit fa-5x"></i> 
-                                <br/>Lista de solicitudes<br/> de obsequios corporativos</h:commandLink>
+                                <br/>Solicitudes de<br/>obsequios corporativos</h:commandLink>
                             
                         </c:if>
                         <c:if test="#{sessionBean.perfilViewMatch(&quot;RegaloCanjear&quot;)}">

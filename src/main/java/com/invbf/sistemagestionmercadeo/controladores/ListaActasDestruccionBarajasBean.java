@@ -56,7 +56,7 @@ public class ListaActasDestruccionBarajasBean implements Serializable {
             } catch (IOException ex) {
             }
         }
-        lista = sessionBean.barajasFacade.getActasDestruccion();
+        lista = sessionBean.barajasFacade.getActasDestruccion(sessionBean.getUsuario());
         Collections.reverse(lista);
         sessionBean.printMensajes();
     }

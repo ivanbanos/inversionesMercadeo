@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.Date;
 import java.util.Properties;
 import javax.activation.DataHandler;
@@ -495,7 +496,7 @@ public class EmailSender implements Serializable {
             // add it
             multipart.addBodyPart(messageBodyPart);
 
-            InputStream iStream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/images/mastersemail.png");
+            InputStream iStream = new URL("http://regalos.ibfcolombia.com/mastersemail.png").openStream();
             byte[] bytesArray = IOUtils.toByteArray(iStream);
             // second part (the image)
             messageBodyPart = new MimeBodyPart();

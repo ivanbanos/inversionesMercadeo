@@ -9,6 +9,7 @@ import com.invbf.sistemagestionmercadeo.dto.BarajasCantidad;
 import com.invbf.sistemagestionmercadeo.dto.InventarioRegalosDTO;
 import com.invbf.sistemagestionmercadeo.dto.RegalosCantidadDTO;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
@@ -50,7 +51,7 @@ public class GenerarRequerimientoRegalosBean implements Serializable {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.setActive("regalos");
-        if (!sessionBean.perfilViewMatch("generarOrdenBarajas")) {
+        if (!sessionBean.perfilViewMatch("generarOrdenRegalo")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {
@@ -88,9 +89,13 @@ public class GenerarRequerimientoRegalosBean implements Serializable {
         }
         if (guardar) {
             try {
-                sessionBean.regalosFacade.generarOrdenRegalos(inventario, observaciones, sessionBean.getUsuario());
+                observaciones=sessionBean.getUsuario().getNombreUsuario()+": "+observaciones+"\n";
+                int i = sessionBean.regalosFacade.generarOrdenRegalos(inventario, observaciones, sessionBean.getUsuario());
                 sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Requerimeinto generado con exito!", ""));
-                
+                Notificador.notificar(Notificador.correoRegaloOrdenCreada,
+                "Se ha generado el requerimiento de compra de regalos con el n&uacute;mero de acta " + i + ". Favor revisar la lista de requerimientos de compra de regalos.",
+                "Se ha generado un requerimiento de compra de regalos", sessionBean.getUsuario().getUsuariodetalle().getCorreo());
+        
                 FacesContext.getCurrentInstance().getExternalContext().redirect("ListaRequerimientosRegalos.xhtml");
             } catch (IOException ex) {
                 Logger.getLogger(GenerarRequerimientoRegalosBean.class.getName()).log(Level.SEVERE, null, ex);

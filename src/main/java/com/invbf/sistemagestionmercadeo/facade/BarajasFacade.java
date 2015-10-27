@@ -83,7 +83,7 @@ public interface BarajasFacade {
 
     public Date getFechaDestruccion(Integer idOrden);
 
-    public List<ActaDestruccionDTO> getActasDestruccion();
+    public List<ActaDestruccionDTO> getActasDestruccion(Usuario usuario);
 
     public MaterialesDTO editMaterial(MaterialesDTO material);
 
@@ -91,7 +91,7 @@ public interface BarajasFacade {
 
     public OrdenCompraBarajaDTO getOrdenRecibir(Integer idOrden, Usuario usuario);
 
-    public void recibirOrdenCaja(Integer idOrden, Usuario usuario);
+    public void recibirOrdenCaja(OrdenCompraBarajaDTO idOrden, Usuario usuario);
 
     public List<OrdenCompraBarajaDTO> getOrdenesCompra(Usuario usuario);
 
@@ -119,6 +119,6 @@ public interface BarajasFacade {
 
     public void rechazarOrden(OrdenCompraBarajaDTO orden, Usuario usuario);
 
-
+    public void ingresarOrdenCaja(Integer idOrden, Usuario usuario);
 
 }
