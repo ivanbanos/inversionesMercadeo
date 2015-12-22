@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Inventarobarajas.findAll", query = "SELECT i FROM Inventarobarajas i"),
     @NamedQuery(name = "Inventarobarajas.findById", query = "SELECT i FROM Inventarobarajas i WHERE i.id = :id"),
     @NamedQuery(name = "Inventarobarajas.findByCantidadbarajas", query = "SELECT i FROM Inventarobarajas i WHERE i.cantidadbarajas = :cantidadbarajas"),
-    @NamedQuery(name = "Inventarobarajas.findBySalaOrderByMaterial", query = "SELECT i FROM Inventarobarajas i WHERE i.casino.idCasino = :casino ORDER BY i.baraja.material")})
+    @NamedQuery(name = "Inventarobarajas.findBySalaOrderByMaterial", query = "SELECT i FROM Inventarobarajas i WHERE i.casino.idCasino = :casino ORDER BY i.baraja.material, i.baraja.color")})
 public class Inventarobarajas implements Serializable {
     @JoinColumn(name = "casino", referencedColumnName = "idCasino")
     @ManyToOne

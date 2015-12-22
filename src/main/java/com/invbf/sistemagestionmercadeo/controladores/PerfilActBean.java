@@ -167,6 +167,9 @@ public class PerfilActBean implements Serializable{
     
     private VistaBoolean verTodosCasinos;
     private VistaBoolean cambioEstadoBono;
+    private VistaBoolean validarBonosCliente;
+    
+    
     
     
     private VistaBoolean correoRequerimientoLoteCreado;
@@ -272,6 +275,10 @@ public class PerfilActBean implements Serializable{
     
     private VistaBoolean correoCumpleanos;
     private VistaBoolean verTodasSOlicitudesBonosFin;
+    
+    private VistaBoolean correoOrdenTransferenciaCreada;
+    private VistaBoolean correoOrdenTransferenciaEnviada;
+    private VistaBoolean correoOrdenTransferenciaRecibida;
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
     }
@@ -1034,6 +1041,12 @@ public class PerfilActBean implements Serializable{
                 } else {
                     cambioEstadoBono = new VistaBoolean(v, false);
                 }
+            }if (v.getNombreVista().equals("validarBonosCliente")) {
+                if (elemento.getVistaList().contains(v)) {
+                    validarBonosCliente = new VistaBoolean(v, true);
+                } else {
+                    validarBonosCliente = new VistaBoolean(v, false);
+                }
             }
             
             
@@ -1335,6 +1348,27 @@ public class PerfilActBean implements Serializable{
                 }
             }
             
+            
+            
+            if (v.getNombreVista().equals("correoOrdenTransferenciaCreada")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoOrdenTransferenciaCreada = new VistaBoolean(v, true);
+                } else {
+                    correoOrdenTransferenciaCreada = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoOrdenTransferenciaEnviada")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoOrdenTransferenciaEnviada = new VistaBoolean(v, true);
+                } else {
+                    correoOrdenTransferenciaEnviada = new VistaBoolean(v, false);
+                }
+            }if (v.getNombreVista().equals("correoOrdenTransferenciaRecibida")) {
+                if (elemento.getVistaList().contains(v)) {
+                    correoOrdenTransferenciaRecibida = new VistaBoolean(v, true);
+                } else {
+                    correoOrdenTransferenciaRecibida = new VistaBoolean(v, false);
+                }
+            }
             
             
             
@@ -1991,6 +2025,14 @@ public class PerfilActBean implements Serializable{
             elemento.getVistaList().add(verTodasSOlicitudesBonosFin.getVista());
         }
         
+        if (correoOrdenTransferenciaCreada.isSelected()) {
+            elemento.getVistaList().add(correoOrdenTransferenciaCreada.getVista());
+        }if (correoOrdenTransferenciaEnviada.isSelected()) {
+            elemento.getVistaList().add(correoOrdenTransferenciaEnviada.getVista());
+        }if (correoOrdenTransferenciaRecibida.isSelected()) {
+            elemento.getVistaList().add(correoOrdenTransferenciaRecibida.getVista());
+        }
+        
         
         
         if (verRegalos.isSelected()) {
@@ -2199,6 +2241,9 @@ public class PerfilActBean implements Serializable{
         }
         if (cambioEstadoBono.isSelected()) {
             elemento.getVistaList().add(cambioEstadoBono.getVista());
+        }
+        if (validarBonosCliente.isSelected()) {
+            elemento.getVistaList().add(validarBonosCliente.getVista());
         }
         
         count = 0;
@@ -3511,6 +3556,14 @@ public class PerfilActBean implements Serializable{
         return cambioEstadoBono;
     }
 
+    public VistaBoolean getValidarBonosCliente() {
+        return validarBonosCliente;
+    }
+
+    public void setValidarBonosCliente(VistaBoolean validarBonosCliente) {
+        this.validarBonosCliente = validarBonosCliente;
+    }
+
     public void setCambioEstadoBono(VistaBoolean cambioEstadoBono) {
         this.cambioEstadoBono = cambioEstadoBono;
     }
@@ -4233,6 +4286,30 @@ public class PerfilActBean implements Serializable{
 
     public void setVerTodasSOlicitudesBonosFin(VistaBoolean verTodasSOlicitudesBonosFin) {
         this.verTodasSOlicitudesBonosFin = verTodasSOlicitudesBonosFin;
+    }
+
+    public VistaBoolean getCorreoOrdenTransferenciaCreada() {
+        return correoOrdenTransferenciaCreada;
+    }
+
+    public void setCorreoOrdenTransferenciaCreada(VistaBoolean correoOrdenTransferenciaCreada) {
+        this.correoOrdenTransferenciaCreada = correoOrdenTransferenciaCreada;
+    }
+
+    public VistaBoolean getCorreoOrdenTransferenciaEnviada() {
+        return correoOrdenTransferenciaEnviada;
+    }
+
+    public void setCorreoOrdenTransferenciaEnviada(VistaBoolean correoOrdenTransferenciaEnviada) {
+        this.correoOrdenTransferenciaEnviada = correoOrdenTransferenciaEnviada;
+    }
+
+    public VistaBoolean getCorreoOrdenTransferenciaRecibida() {
+        return correoOrdenTransferenciaRecibida;
+    }
+
+    public void setCorreoOrdenTransferenciaRecibida(VistaBoolean correoOrdenTransferenciaRecibida) {
+        this.correoOrdenTransferenciaRecibida = correoOrdenTransferenciaRecibida;
     }
 
 }

@@ -67,6 +67,9 @@ public class Notificador implements Serializable {
     public static final int correoRegaloMinimoAlcanzado = 37;
     public static final int correoRegaloEntregado = 38;
     public static final int correoCumpleanos = 39;
+    public static final int correoOrdenTransferenciaCreada = 40;
+    public static final int correoOrdenTransferenciaEnviada = 41;
+    public static final int correoOrdenTransferenciaRecibida = 42;
 
     public static void notificar(int tipo, String body, String subject, String correosolicitantes) {
         switch (tipo) {
@@ -160,6 +163,9 @@ public class Notificador implements Serializable {
             case correoRegaloOrdenRecibida:
                 sendEmail("correoRegaloOrdenRecibida", subject, body, true, correosolicitantes);
                 break;
+            case correoOrdenTransferenciaRecibida:
+                sendEmail("correoOrdenTransferenciaRecibida", subject, body, true, correosolicitantes);
+                break;
         }
     }
 
@@ -204,6 +210,12 @@ public class Notificador implements Serializable {
                 break;
             case correoCumpleanos:
                 sendEmail("correoCumpleanos", subject, body, true, correosolicitantes, sala);
+                break;
+            case correoOrdenTransferenciaCreada:
+                sendEmail("correoOrdenTransferenciaCreada", subject, body, true, correosolicitantes, sala);
+                break;
+            case correoOrdenTransferenciaEnviada:
+                sendEmail("correoOrdenTransferenciaEnviada", subject, body, true, correosolicitantes, sala);
                 break;
         }
     }

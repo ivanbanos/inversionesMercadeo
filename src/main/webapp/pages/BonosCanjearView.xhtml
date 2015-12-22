@@ -103,12 +103,23 @@
                                         </h:outputText>
                                     </p:column>
                                     <p:column headerText="Acciones" >  
+                                        
                                         <p:commandButton value="Validar y Autorizar"  onstart="PF('ajaxWaitingDialog').show();"  
-                                                         oncomplete="PF('ajaxWaitingDialog').hide();PF('canjearOk').show();" icon="ui-icon-check" rendered="#{bono.estado == 'EN SALA'
-                                                                                                                                                              and sessionBean.perfilViewMatch(&quot;Canjearbono&quot;)}"
+                                                         oncomplete="PF('ajaxWaitingDialog').hide();PF('canjearOk').show();" icon="ui-icon-check" 
+                                                         rendered="#{bono.estado == 'EN SALA' 
+                                                                     and sessionBean.perfilViewMatch(&quot;Canjearbono&quot;)
+                                                                     and ((bono.nombreCliente!=null and !bono.nombreCliente.equals(&quot;&quot;) 
+                                                                     and !bono.nombreCliente.equals(&quot; &quot;))or(
+                                                                     bono.controlSalidaBonosid.solicitudEntregaid.propositoEntrega.id==5
+                                                                     ))}"
                                                          update=":#{p:component('canjearOk')} :#{p:component('messages')}" style="margin:0" >
                                             <f:setPropertyActionListener value="#{bono}" target="#{bonoCanjeCliente.elemento}" /> 
-                                        </p:commandButton>     
+                                        </p:commandButton>   
+                                        <h:outputLabel value="Bono no se encuentra aun en sala." rendered="#{bono.estado != 'EN SALA'}"></h:outputLabel>
+                                        <h:outputLabel value="No puede canjear bonos." rendered="#{!sessionBean.perfilViewMatch(&quot;Canjearbono&quot;)}"></h:outputLabel>
+                                        <h:outputLabel value="El bono no ha sido justificado." rendered="#{(bono.nombreCliente==null 
+                                                                                                           or bono.nombreCliente.equals(&quot;&quot;) 
+                                                                                                           or bono.nombreCliente.equals(&quot; &quot;)) and bono.controlSalidaBonosid.solicitudEntregaid.propositoEntrega.id!=5}"></h:outputLabel>
                                     </p:column>
 
                                 </p:dataTable>

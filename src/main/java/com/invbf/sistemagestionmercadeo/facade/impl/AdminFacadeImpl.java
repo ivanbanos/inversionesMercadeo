@@ -461,7 +461,7 @@ public class AdminFacadeImpl implements AdminFacade, Serializable {
             System.out.println("Cantidad");
             System.out.println(clientes.size());
             if (!clientes.isEmpty()) {
-                String body = "En la sala "+casino.getNombre()+" se encuentran de cumplea&ntilde;os hoy:<br />";
+                String body = "En la sala "+casino.getNombre()+" se encuentran de cumpleanos hoy:<br />";
                 body += "<table>";
                 body += "<tr><th>Nombre</th><th>Categoria</th></tr>";
 
@@ -473,7 +473,7 @@ public class AdminFacadeImpl implements AdminFacade, Serializable {
                 body += "</table>"
                         + "<br />"
                         + "Debe llamar a estos clientes para felicitarlos, invitarlos a la sala y hacerle entrega de su obsequio (si fue solicitado y aprobado).";
-                Notificador.notificar(Notificador.correoCumpleanos, body, "Cumpleaños de hoy", "", casino);
+                Notificador.notificar(Notificador.correoCumpleanos, body, "Cumpleanos de hoy", "", casino);
             }
         }
     }

@@ -49,7 +49,12 @@
                             <h:commandLink  action="#{sessionBean.go(&quot;ControlSalidaBono&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-sign-out fa-5x"></i> 
                                 <br/>Ordenes de retiro de bonos<br/> de inventario</h:commandLink>
                         </c:if>
-                        <c:if test="#{sessionBean.perfilViewMatch(&quot;Canjearbono&quot;)}">
+                                     
+                        <c:if test="#{sessionBean.perfilViewMatch(&quot;validarBonosCliente&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;validarBonosCliente&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-exchange fa-5x"></i> 
+                                <br/>Justificar bonos<br/><br/></h:commandLink>
+                        </c:if>
+                                      <c:if test="#{sessionBean.perfilViewMatch(&quot;Canjearbono&quot;)}">
                             <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporcanjear&quot;)}" class="btn btn-primary btn-lg"><i class="fa fa-exchange fa-5x"></i> 
                                 <br/>Canje de bonos<br/><br/></h:commandLink>
                         </c:if>

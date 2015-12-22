@@ -91,7 +91,10 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
         bodegadto.setId(bodega.getIdCasino());
         bodegadto.setNombre(bodega.getNombre());
         for (Inventarobarajas item : bodega.getInventarobarajasList()) {
-            bodegadto.getInventario().add(new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), item.getCantidadbarajas(), item.getCantidadbarajas(), item.getUso(), item.getPordestruir(), item.getDestruidas(), item.getMax(), item.getMin(), bodegadto.getNombre(), 0));
+            BarajasCantidad bc = new BarajasCantidad(item.getId(), transformarBaraja(item.getBaraja()), item.getCantidadbarajas(), item.getCantidadbarajas(), item.getUso(), item.getPordestruir(), item.getDestruidas(), item.getMax(), item.getMin(), bodegadto.getNombre(), 0);
+            bc.setCantidadActual(item.getCantidadbarajas()-item.getUso()-item.getPordestruir()-item.getDestruidas());
+            bc.setTotalASumar(item.getCantidadbarajas()-item.getUso()-item.getPordestruir()-item.getDestruidas());
+            bodegadto.getInventario().add(bc);
         }
         return bodegadto;
     }
@@ -606,6 +609,11 @@ public class BarajasFacadeImpl implements BarajasFacade, Serializable {
     @Override
     public void ingresarOrdenCaja(Integer idOrden, Usuario usuario) {
         GestionBarajasDao.ingresarOrdenCaja(idOrden, usuario);
+    }
+
+    @Override
+    public void anularSolicitud(Integer idOrden, Usuario usuario) {
+        GestionBarajasDao.anularSolicitud(idOrden, usuario);
     }
 
 }

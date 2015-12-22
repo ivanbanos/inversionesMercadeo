@@ -16,7 +16,7 @@
                 <div class="control-group">
                     <!-- Username -->
                     <div class="form-group">
-                        <label class="col-md-12 control-label" >#{label['ruta']}: /Barajas/Crear transferencia de Barajas</label>
+                        <label class="col-md-12 control-label" >#{label['ruta']}: /Barajas/Crear orden de transferencia de Barajas</label>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
 
                     <div class="col-md-12 ">
                         <div class="panel panel-primary">
-                            <div class="panel-heading"><h4>Crear transferencia de Barajas</h4></div>
+                            <div class="panel-heading"><h4>Crear orden de transferencia de Barajas</h4></div>
                             <div class="panel-body">
                                 <div class="row">
                                     <p:wizard flowListener="#{tranferenciaBarajasCrearBean.onFlowProcess}" backLabel="Atras" nextLabel="Siguiente">
@@ -153,8 +153,8 @@
 
                 </div>
             </div>
-            <p:confirmDialog id="add" message="Quiere guardar la transferencia #{label['cierrepregunta']}"  
-                             header="Guardar" severity="alert" widgetVar="add" closable="false">  
+            <p:confirmDialog id="add" message="Quiere crear la orden de transferencia #{label['cierrepregunta']}"  
+                             header="Crear" severity="alert" widgetVar="add" closable="false">  
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
                                  action="#{tranferenciaBarajasCrearBean.crearTransferencia()}"/>  

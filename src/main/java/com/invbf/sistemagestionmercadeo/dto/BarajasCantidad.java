@@ -23,6 +23,8 @@ public class BarajasCantidad implements Serializable{
     private Integer min;
     private String bodega;
     private Integer devueltas;
+    private Integer cantidadActual;
+    private Integer totalASumar;
 
     public BarajasDTO getBaraja() {
         return baraja;
@@ -157,6 +159,22 @@ public class BarajasCantidad implements Serializable{
             return false;
         }
         return true;
+    }
+
+    public Integer getCantidadActual() {
+        return cantidadActual;
+    }
+
+    public void setCantidadActual(Integer cantidadActual) {
+        this.cantidadActual = cantidadActual;
+    }
+
+    public Integer getTotalASumar() {
+        return totalASumar;
+    }
+
+    public void setTotalASumar(Integer totalASumar) {
+        this.totalASumar = totalASumar;
     }
     
 }

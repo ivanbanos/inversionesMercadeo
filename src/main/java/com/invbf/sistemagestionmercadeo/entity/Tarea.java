@@ -90,7 +90,7 @@ public class Tarea implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Usuario> usuarioList;
     @JoinColumn(name = "idEvento", referencedColumnName = "idEvento")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Evento idEvento;
     @JoinColumn(name = "tipo", referencedColumnName = "idTipotarea")
     @ManyToOne(optional = false)

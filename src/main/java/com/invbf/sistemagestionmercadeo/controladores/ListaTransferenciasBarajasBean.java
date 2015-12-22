@@ -8,6 +8,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 import com.invbf.sistemagestionmercadeo.dto.TrasladoDTO;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,6 +62,8 @@ public class ListaTransferenciasBarajasBean implements Serializable {
         } else {
             items = sessionBean.barajasFacade.getTransferencias(sessionBean.getUsuario());
         }
+        
+        Collections.reverse(items);
         sessionBean.printMensajes();
     }
 

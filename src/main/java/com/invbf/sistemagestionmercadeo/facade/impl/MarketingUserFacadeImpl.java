@@ -28,6 +28,7 @@ import com.invbf.sistemagestionmercadeo.dao.TipoDocumentoDao;
 import com.invbf.sistemagestionmercadeo.dao.TipoJuegoDao;
 import com.invbf.sistemagestionmercadeo.dao.TipostareasDao;
 import com.invbf.sistemagestionmercadeo.dao.UsuarioDao;
+import com.invbf.sistemagestionmercadeo.dao.VistaDao;
 import com.invbf.sistemagestionmercadeo.dto.BonosAprobadosCanjeados;
 import com.invbf.sistemagestionmercadeo.dto.BonosCantidadMes;
 import com.invbf.sistemagestionmercadeo.entity.Accion;
@@ -59,12 +60,14 @@ import com.invbf.sistemagestionmercadeo.entity.Tipodocumento;
 import com.invbf.sistemagestionmercadeo.entity.Tipojuego;
 import com.invbf.sistemagestionmercadeo.entity.Tipotarea;
 import com.invbf.sistemagestionmercadeo.entity.Usuario;
+import com.invbf.sistemagestionmercadeo.entity.Vista;
 import com.invbf.sistemagestionmercadeo.exceptions.CasinoHaveSolicitudCreadaException;
 import com.invbf.sistemagestionmercadeo.exceptions.ExistenBonosFisicosException;
 import com.invbf.sistemagestionmercadeo.exceptions.LoteBonosExistenteException;
 import com.invbf.sistemagestionmercadeo.facade.MarketingUserFacade;
 import com.invbf.sistemagestionmercadeo.util.CasinoBoolean;
 import com.invbf.sistemagestionmercadeo.util.CategoriaBoolean;
+import com.invbf.sistemagestionmercadeo.util.ClienteDTO;
 import com.invbf.sistemagestionmercadeo.util.DBConnection;
 import com.invbf.sistemagestionmercadeo.util.Notificador;
 import com.invbf.sistemagestionmercadeo.util.PropositosBoolean;
@@ -1035,7 +1038,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
         System.out.println("Control " + elemento.getId());
         System.out.println("Control " + elemento.getEstado());
         elemento = ControlsalidabonosDao.editConBonos(elemento, bonosAGuardar);
-        
+
         return elemento;
     }
 
@@ -1106,7 +1109,7 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
 
     @Override
     public List<BonosCantidadMes> getBonosPorCantidad(List<CasinoBoolean> casinos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde, List<PropositosBoolean> propositos) {
-        List<Bono> bonos = BonoDao.getBonosporCasinoPropositoTipoFecha(casinos, propositos,null, ano, mes, annodesde, mesdesde);
+        List<Bono> bonos = BonoDao.getBonosporCasinoPropositoTipoFecha(casinos, propositos, null, ano, mes, annodesde, mesdesde);
         List<BonosCantidadMes> bonosPorFecha = new ArrayList<BonosCantidadMes>();
         Calendar c = Calendar.getInstance();
         for (Bono bono : bonos) {
@@ -1124,8 +1127,8 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
     }
 
     @Override
-    public List<BonosAprobadosCanjeados> getBonosPorCantidadMesuales(List<CasinoBoolean> casinos,List<PropositosBoolean> propositos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde) {
-        List<Bono> bonos = BonoDao.getBonosporCasinoPropositoTipoFecha(casinos,propositos,null, ano, mes, annodesde, mesdesde);
+    public List<BonosAprobadosCanjeados> getBonosPorCantidadMesuales(List<CasinoBoolean> casinos, List<PropositosBoolean> propositos, Integer ano, Integer mes, Integer annodesde, Integer mesdesde) {
+        List<Bono> bonos = BonoDao.getBonosporCasinoPropositoTipoFecha(casinos, propositos, null, ano, mes, annodesde, mesdesde);
         List<BonosAprobadosCanjeados> bonosPorFecha = new ArrayList<BonosAprobadosCanjeados>();
         Calendar c = Calendar.getInstance();
         for (Bono bono : bonos) {
@@ -1151,6 +1154,56 @@ public class MarketingUserFacadeImpl implements MarketingUserFacade, Serializabl
 
     @Override
     public List<Cliente> findAllClientesCasinos(Casino idCasino, List<CategoriaBoolean> categoriaBooleans, String nombre, String apellidos, String ident, Tipodocumento tipodocumento, String sexo) {
-        return ClienteDao.findByIdCasinoAndCat(idCasino.getIdCasino(),categoriaBooleans, nombre, apellidos, ident, tipodocumento, sexo);
+        return ClienteDao.findByIdCasinoAndCat(idCasino.getIdCasino(), categoriaBooleans, nombre, apellidos, ident, tipodocumento, sexo);
+    }
+
+    @Override
+    public List<Bono> getBonosSinCliente(Casino casinoSelected) {
+        return BonoDao.getBonosCasinoSinJustificacion(casinoSelected);
+    }
+
+    @Override
+    public void justificarBonos(List<Bono> bonosSinCliente, String justificacion) {
+        BonoDao.justificarBonos(bonosSinCliente, justificacion);
+    }
+
+    @Override
+    public void MakeTareaSolicitud(Solicitudentrega solicitudEntregaid) {
+
+        System.out.println("Generamos tareas");
+        Tarea t = new Tarea();
+        t.setNombre("ENTREGA DE BONOS DE FIDELIZACIÓN. ACTA #" + solicitudEntregaid.getId() + "");
+        t.setDescripcion("Tarea para comunicar a los clientes que tienen un bono de fidelización en la sala " + solicitudEntregaid.getIdCasino().getNombre() + ".");
+        t.setEstado("ACTIVA");
+        t.setIdEvento(new Evento());
+        t.getIdEvento().setNombre("GENÉRICO");
+        t.setFechaInicio(new Date());
+        t.setFechaFinalizacion(solicitudEntregaid.getFechavencimientobonos());
+        t.setTipo(new Tipotarea(4));
+        t.setSpeech("Estimado sr(a) XXXXX. En la sala de juegos " + solicitudEntregaid.getIdCasino().getNombre()
+                + " tiene un bono de fidelización el cual puede ser reclamado ddesde ya.");
+        List<Usuario> usuarios = UsuarioDao.findAll();
+        Vista v = VistaDao.findByNombre("ManejadorEventosHostess");
+        for (Iterator<Usuario> it = usuarios.iterator(); it.hasNext();) {
+            Usuario usuario = it.next();
+            if (!usuario.getIdPerfil().getVistaList().contains(v)) {
+                it.remove();
+            }
+        }
+        t.setUsuarioList(new ArrayList<Usuario>());
+        for (Usuario usuario : usuarios) {
+            if (usuario.getCasinoList().contains(solicitudEntregaid.getIdCasino())) {
+                t.getUsuarioList().add(usuario);
+            }
+        }
+        t.setListasclientestareasList(new ArrayList<Listasclientestareas>());
+
+        Accion estadoscliente = findByNombreAccion("INICIAL");
+
+        System.out.println("Enviamos tareas");
+        t = TareasDao.createBonoFide(t, solicitudEntregaid.getControlsalidabonoList().get(0).getBonoList(), estadoscliente);
+        for (Usuario s : t.getUsuarioList()) {
+            Notificador.notificar(Notificador.AVISO_TAREA_ASIGNADA, "Se le ha asignado la tarea " + t.getNombre() + " #" + t.getIdTarea() + " para ser ejecutada.", "Tarea Asignada", s.getUsuariodetalle().getCorreo());
+        }
     }
 }

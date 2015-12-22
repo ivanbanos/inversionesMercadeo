@@ -170,6 +170,10 @@
                                                  rendered="#{sessionBean.perfilViewMatch(&quot;entregarBarajas&quot;)
                                                              and verSolicitudBarajasBean.orden.entregadasnuevas == null}">
                                 </p:commandButton>
+                                <p:commandButton id="btnanu" value="Anular solicitud" style="margin:5px" onclick="PF('anul').show();"
+                                                 rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
+                                                             and verSolicitudBarajasBean.orden.estado == 'SOLICITADA'}">
+                                </p:commandButton>
 
                                 <p:commandButton id="btnru" value="Recibir barajas usadas" style="margin:5px" onclick="PF('reus').show();"
                                                  rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;)
@@ -215,10 +219,20 @@
         </h:form>
         <h:form>
             <p:confirmDialog id="enus" message="Entreg&oacute; las barajas usadas #{label['cierrepregunta']}"  
-                             header="Borrar" severity="alert" widgetVar="enus" closable="false">  
+                             header="Entregar usadas" severity="alert" widgetVar="enus" closable="false">  
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
                                  action="#{verSolicitudBarajasBean.entregarUsadas()}" oncomplete="PF('enus').hide()"/>  
+                <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('recibir').hide()" type="button" />   
+
+            </p:confirmDialog> 
+        </h:form>
+        <h:form>
+            <p:confirmDialog id="anul" message="Est&aacute; seguro que desea anular la solicitud?"  
+                             header="Anular" severity="alert" widgetVar="anul" closable="false">  
+
+                <p:commandButton id="confirm" value="#{label['aceptar']}" onclick="PF('ajaxWaitingDialog').show();" ajax="false"
+                                 action="#{verSolicitudBarajasBean.anularSolicitud()}" oncomplete="PF('enus').hide()"/>  
                 <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('recibir').hide()" type="button" />   
 
             </p:confirmDialog> 

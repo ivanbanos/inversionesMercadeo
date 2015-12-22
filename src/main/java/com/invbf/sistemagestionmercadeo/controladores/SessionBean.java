@@ -362,6 +362,11 @@ public class SessionBean implements Serializable, Subject {
     }
 
     public String go(String page) {
+        if (page.equals("validarBonosCliente")) {
+            active = "requisiciones";
+            ruta = "/Inicio";
+            return "/pages/BonosValidarClienteView.xhtml";
+        }
         if (page.equals("regaloCanjear")) {
             active = "regalos";
             ruta = "/Inicio";
@@ -419,6 +424,10 @@ public class SessionBean implements Serializable, Subject {
             active = "reportes";
             ruta = "/Inicio";
             return "/pages/ReporteGestionEntregaRegalos.xhtml";
+        }if (page.equals("ReporteJustificacionBonos")) {
+            active = "reportes";
+            ruta = "/Inicio";
+            return "/pages/ReporteBonosCasosEspeciales.xhtml";
         }
         if (page.equals("inicio")) {
             active = "inicio";

@@ -68,6 +68,9 @@
                                                              title="Recibir" rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;) and element.estado=='Pendiente por recibir usadas'}"/> 
                                             <p:commandButton id="verSala" action="#{listaSolicitudesBarajasBean.goOrdenversala(element.id)}" icon="ui-icon-arrow-1-w" onclick="PF('ajaxWaitingDialog').show();"
                                                              title="Devolver" rendered="#{sessionBean.perfilViewMatch(&quot;devolverBarajas&quot;) and element.estado=='ENTREGADAS/Pendientes por devolver'}"/> 
+                                            <p:commandButton id="Anular" rendered="#{sessionBean.perfilViewMatch(&quot;recibirBarajas&quot;) and element.estado=='SOLICITADA'}"
+                                                             action="#{listaSolicitudesBarajasBean.goOrdenver(element.id)}" icon="ui-icon-trash" onclick="PF('ajaxWaitingDialog').show();"
+                                                             title="Anular"/> 
                                             <p:commandButton id="ver" action="#{listaSolicitudesBarajasBean.goOrdenversalanadaMas(element.id)}" icon="ui-icon-search" onclick="PF('ajaxWaitingDialog').show();"
                                                              title="Ver"/> 
                                             </p:column>

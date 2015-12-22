@@ -121,4 +121,6 @@ public interface BarajasFacade {
 
     public void ingresarOrdenCaja(Integer idOrden, Usuario usuario);
 
+    public void anularSolicitud(Integer idOrden, Usuario usuario);
+
 }

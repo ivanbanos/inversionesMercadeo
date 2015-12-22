@@ -7,6 +7,7 @@ package com.invbf.sistemagestionmercadeo.controladores;
 
 import com.invbf.sistemagestionmercadeo.dto.BarajasCantidad;
 import com.invbf.sistemagestionmercadeo.dto.InventarioBarajasDTO;
+import com.invbf.sistemagestionmercadeo.util.FacesUtil;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
 import java.io.IOException;
 import java.io.Serializable;
@@ -81,25 +82,14 @@ public class InventarioBarajasBean implements Serializable {
     }
 
     public void guardarCambios() {
-        boolean guardar = true;
-        for (BarajasCantidad barajas : inventario.getInventario()) {
-            if (barajas.getMin() == 0 || barajas.getMax() == 0 || barajas.getMin() >= barajas.getMax()) {
-                guardar = false;
-                break;
-            }
-        }
-        if (guardar) {
-            try {
-                sessionBean.barajasFacade.guardarBodega(inventario);
-                sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Cambios guardados con exito!", ""));
-                FacesContext.getCurrentInstance().getExternalContext().redirect("ListaBodegas.xhtml");
-            } catch (IOException ex) {
-                Logger.getLogger(InventarioBarajasBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-
-            sessionBean.putMensaje(new Mensajes(Mensajes.ERROR, "ERROR!", "Maximos y minimos no pueden estar en cero!"));
-            sessionBean.printMensajes();
+        try {
+            System.out.println("Empezamos");
+            sessionBean.barajasFacade.guardarBodega(inventario);
+            
+            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Cambios guardados con exito!", ""));
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaBodegas.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(InventarioBarajasBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

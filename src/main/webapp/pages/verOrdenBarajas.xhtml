@@ -142,11 +142,11 @@
                                             <span id="cantidad#{status}">
 
                                                 <p:spinner min="0" stepFactor="1"
-                                                           value="#{detalle.cantidad}" rendered="#{verOrdenCompraBarajas.orden.estado == 'PREGENERADA'}">
+                                                           value="#{detalle.cantidad}" rendered="#{verOrdenCompraBarajas.orden.estado != 'PREGENERADA'}">
                                                 </p:spinner>
-                                                <p:inputText value="#{detalle.cantidad}" rendered="#{verOrdenCompraBarajas.orden.estado != 'PREGENERADA'}">
+                                                <h:outputText value="#{detalle.cantidad}" rendered="#{verOrdenCompraBarajas.orden.estado == 'PREGENERADA'}">
                                                     <f:converter  converterId="numberSeparationConverter"  />
-                                                </p:inputText>
+                                                </h:outputText>
                                             </span>
                                             <f:facet name="footer">
                                                 Total #{verOrdenCompraBarajas.orden.cantidadBarajas}

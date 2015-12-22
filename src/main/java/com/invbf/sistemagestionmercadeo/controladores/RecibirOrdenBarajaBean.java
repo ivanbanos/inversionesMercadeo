@@ -47,7 +47,8 @@ public class RecibirOrdenBarajaBean implements Serializable {
         sessionBean.setActive("barajas");
         if (!sessionBean.perfilViewMatch("recibirOrdenBarajas")
                 && !sessionBean.perfilViewMatch("generarOrdenBarajas")
-                && !sessionBean.perfilViewMatch("aceptarOrdenBarajas")) {
+                && !sessionBean.perfilViewMatch("aceptarOrdenBarajas")
+                && !sessionBean.perfilViewMatch("ingresarOrdenBarajas")) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("InicioSession.xhtml");
             } catch (IOException ex) {

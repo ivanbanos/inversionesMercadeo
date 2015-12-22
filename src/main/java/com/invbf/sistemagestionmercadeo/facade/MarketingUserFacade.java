@@ -262,4 +262,11 @@ public interface MarketingUserFacade {
 
     public List<Cliente> findAllClientesCasinos(Casino idCasino, List<CategoriaBoolean> categoriaBooleans, String nombreBusqueda, String apellidosBusqueda, String identificacionBusqueda, Tipodocumento object, String string);
 
+    public List<Bono> getBonosSinCliente(Casino casinoSelected);
+
+    public void justificarBonos(List<Bono> bonosSinCliente, String justificacion);
+
+    public void MakeTareaSolicitud(Solicitudentrega solicitudEntregaid);
+
+
 }

@@ -14,6 +14,7 @@ import com.invbf.sistemagestionmercadeo.entity.ControlsalidabonosHasLotesbonosPK
 import com.invbf.sistemagestionmercadeo.entity.Lotebono;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentrega;
 import com.invbf.sistemagestionmercadeo.entity.Solicitudentregacliente;
+import com.invbf.sistemagestionmercadeo.entity.Tarea;
 import com.invbf.sistemagestionmercadeo.util.ClienteBlancoLotes;
 import com.invbf.sistemagestionmercadeo.util.ClienteMonto;
 import com.invbf.sistemagestionmercadeo.util.ClienteSGBDTO;
@@ -617,8 +618,11 @@ public class PreaprobarSolicitudBonos implements Serializable {
                     b.setEstado("EN SALA");
                 }
             }
-            Notificador.notificar(Notificador.SOLICITUD_RECIBO_BONOS, "Bonos recibidos en la sala "+control.getSolicitudEntregaid().getIdCasino().getNombre(), "Bonos recibidos en sala", "");
+            Notificador.notificar(Notificador.SOLICITUD_RECIBO_BONOS, "Bonos recibidos en la sala " + control.getSolicitudEntregaid().getIdCasino().getNombre(), "Bonos recibidos en sala", "");
             sessionBean.marketingUserFacade.saveBonos(control, tipo);
+            if (control.getSolicitudEntregaid().getPropositoEntrega().getId() == 1) {
+                generarTarea();
+            }
             sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Bonos recibidos en sala", ""));
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBono.xhtml");
         } catch (IOException ex) {
@@ -789,6 +793,18 @@ public class PreaprobarSolicitudBonos implements Serializable {
 
     public void setTotalMes3(Float totalMes3) {
         this.totalMes3 = totalMes3;
+    }
+
+    public void generarTarea() {
+        try {
+            System.out.println("Empezamos");
+            sessionBean.marketingUserFacade.MakeTareaSolicitud(control.getSolicitudEntregaid());
+            
+            FacesUtil.addInfoMessage("Tarea generada con exito!", "");
+            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Tarea", ""));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 
 }

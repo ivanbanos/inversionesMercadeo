@@ -151,4 +151,21 @@ public class verSolicitudBarajasBean implements Serializable {
             Logger.getLogger(verSolicitudBarajasBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void anularSolicitud(){
+        try {
+            sessionBean.barajasFacade.anularSolicitud(idOrden, sessionBean.getUsuario());
+            sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha anuado la solicitud con exito", "Acta de orden #" + orden.getId()));
+            Notificador.notificar(Notificador.correoSolicitudBarajaRecibida, 
+                    "Se ha anuado la solicitud con el n&uacute;mero de acta "+orden.getId()+". Favor revisar la lista de solicitudes de barajas.",
+                    "Se  ha anuado una solicitud", sessionBean.getUsuario().getUsuariodetalle().getCorreo(),new Casino(orden.getId()));
+            
+            idOrden = (Integer) sessionBean.getAttributes("solicitudBaraja");
+            orden = sessionBean.barajasFacade.getSolicitud(idOrden);
+            
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListaSolicitudBarajas.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(verSolicitudBarajasBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

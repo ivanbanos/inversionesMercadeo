@@ -206,7 +206,9 @@
                                           or sessionBean.perfilViewMatch(&quot;Canjearbono&quot;)
                                           or sessionBean.perfilViewMatch(&quot;Autorizarbono&quot;)
                                           or sessionBean.perfilViewMatch(&quot;LoteBono&quot;)
-                                          or sessionBean.perfilViewMatch(&quot;verTodasSOlicitudesBonosFin&quot;)}">
+                                          or sessionBean.perfilViewMatch(&quot;verTodasSOlicitudesBonosFin&quot;)
+                                          or sessionBean.perfilViewMatch(&quot;validarBonosCliente&quot;)
+}">
                                 <li class="dropdown ">
                                     <a href="#" class="dropdown-toggle #{sessionBean.isActive(&quot;requisiciones&quot;)}" data-toggle="dropdown">Gesti&oacute;n de bonos<span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
@@ -243,7 +245,11 @@
                                                 <h:commandLink  action="#{sessionBean.go(&quot;ControlSalidaBono&quot;)}" value="Ordenes de retiro de bonos de inventario"/>
                                             </li>
                                         </c:if>
-                                        <c:if test="#{sessionBean.perfilViewMatch(&quot;Canjearbono&quot;)}">
+                                        <c:if test="#{sessionBean.perfilViewMatch(&quot;validarBonosCliente&quot;)}">
+                                            <li >
+                                                <h:commandLink  action="#{sessionBean.go(&quot;validarBonosCliente&quot;)}" value="Justificar bonos"/>
+                                            </li>
+                                        </c:if><c:if test="#{sessionBean.perfilViewMatch(&quot;Canjearbono&quot;)}">
                                             <li >
                                                 <h:commandLink  action="#{sessionBean.go(&quot;Verbonosporcanjear&quot;)}" value="Canje de bonos"/>
                                             </li>
@@ -320,7 +326,7 @@
                                                       or sessionBean.perfilViewMatch(&quot;enviarTransferencia&quot;)
                                                       or sessionBean.perfilViewMatch(&quot;recibirTransferencia&quot;)}">
                                             <li >
-                                                <h:commandLink  action="#{sessionBean.go(&quot;ListaTransferenciasBarajas&quot;)}" value="Transferencias de barajas"/>
+                                                <h:commandLink  action="#{sessionBean.go(&quot;ListaTransferenciasBarajas&quot;)}" value="Lista de transferencias de barajas"/>
                                             </li>
                                         </c:if>
                                     </ul>
@@ -408,6 +414,9 @@
                                         </li>
                                         <li>
                                             <h:commandLink  action="#{sessionBean.go(&quot;ReporteBonosMovimientoMensual&quot;)}" value="Reporte de Gesti&oacute;n de Bonos Mensuales"/>
+                                        </li>
+                                        <li>
+                                            <h:commandLink  action="#{sessionBean.go(&quot;ReporteJustificacionBonos&quot;)}" value="Reporte de Justificaci&oacute;n de Bonos"/>
                                         </li>
                                         <li>
                                             <h:commandLink  action="#{sessionBean.go(&quot;ReporteBarajasSolicitadas&quot;)}" value="Reporte de  reemplazo de barajas"/>

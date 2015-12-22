@@ -349,6 +349,57 @@ public class BonoDao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public static List<Bono> getBonosCasinoSinJustificacion(Casino casinoSelected) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        List<Bono> cargos = null;
+        tx.begin();
+        try {
+            cargos = (List<Bono>) em.createNamedQuery("Bono.findByEstadoSinJustificacion")
+                    .setParameter("casino", casinoSelected)
+                    .setParameter("estado", "EN SALA")
+                    .setParameter("tipo", 4)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+        return cargos;
+    }
+
+    public static void justificarBonos(List<Bono> bonosSinCliente, String justificacion) {
+
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+
+        tx.begin();
+        try {
+            for (Bono b : bonosSinCliente) {
+                if (b.getNombreCliente() != null && !b.getNombreCliente().equals("") && !b.getNombreCliente().equals(" ")) {
+                    b.setJustificacion(justificacion);
+                }
+                em.merge(b);
+            }
+
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+    }
+
     public BonoDao() {
     }
 

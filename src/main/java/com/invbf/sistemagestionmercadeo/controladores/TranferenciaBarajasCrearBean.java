@@ -9,7 +9,9 @@ import com.invbf.sistemagestionmercadeo.dto.CasinoDto;
 import com.invbf.sistemagestionmercadeo.dto.InventarioBarajasDTO;
 import com.invbf.sistemagestionmercadeo.dto.TrasladoDTO;
 import com.invbf.sistemagestionmercadeo.dto.UsuarioDTO;
+import com.invbf.sistemagestionmercadeo.entity.Casino;
 import com.invbf.sistemagestionmercadeo.util.Mensajes;
+import com.invbf.sistemagestionmercadeo.util.Notificador;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -72,7 +74,8 @@ public class TranferenciaBarajasCrearBean implements Serializable {
     public void crearTransferencia() {
         item.setCreador(new UsuarioDTO(sessionBean.getUsuario()));
         Integer id = sessionBean.barajasFacade.guardarTransferencia(item);
-        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Transferencia creada con exito", "Acta N " + id + "."));
+        sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Orden de transferencia de barajas creada con exito", "Acta N " + id + "."));
+        Notificador.notificar(Notificador.correoOrdenTransferenciaCreada, "Se ha creado una orden de transferencias de barajas con el numero de acta "+id+". Favor revisar la lista de transferencias de barajas y prepare el paquete para el env&iacute;o.", "Orden de transferencia de barajas creada", "", new Casino(item.getSalaenviadora().getIdCasino()));
 
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("ListaTransferenciasBarajas.xhtml");
@@ -93,8 +96,9 @@ public class TranferenciaBarajasCrearBean implements Serializable {
                     sessionBean.printMensajes();
                     return event.getOldStep();
                 }
-            } else {sessionBean.putMensaje(new Mensajes(Mensajes.ADVERTENCIA, "No ha colocado la sala que envia o la receptora", "Debe selecionar una sala!"));
-                    sessionBean.printMensajes();
+            } else {
+                sessionBean.putMensaje(new Mensajes(Mensajes.ADVERTENCIA, "No ha colocado la sala que envia o la receptora", "Debe selecionar una sala!"));
+                sessionBean.printMensajes();
                 return event.getOldStep();
             }
         }

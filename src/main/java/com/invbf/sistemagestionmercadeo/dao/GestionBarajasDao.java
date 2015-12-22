@@ -402,7 +402,7 @@ public class GestionBarajasDao {
 
             orden = em.find(Ordencomprabaraja.class, idOrden);
             List<Ordencomprabarajadetalle> detalles = orden.getOrdencomprabarajadetalleList();
-            
+
             tx.commit();
         } catch (Exception e) {
             System.out.println(e);
@@ -525,7 +525,7 @@ public class GestionBarajasDao {
             Ordencomprabaraja orden = em.find(Ordencomprabaraja.class, idOrden.getId());
             orden.setEsatdo("RECIBIDA");
             orden.setRecibidor(usuario);
-                orden.setFechaRecibida(new Date());
+            orden.setFechaRecibida(new Date());
             for (Ordencomprabarajadetalle detalle : orden.getOrdencomprabarajadetalleList()) {
                 BarajasCantidad bc = idOrden.getCantidades().get(idOrden.getCantidades().indexOf(new BarajasCantidad(detalle.getOrdencomprabarajadetallePK().getInventario(), null)));
                 detalle.setCantidadRecibida(bc.getCantidadR());
@@ -983,6 +983,7 @@ public class GestionBarajasDao {
                         invent.setMax(dto.getMax());
                         invent.setMin(dto.getMin());
                         invent.setUso(dto.getUso());
+                        invent.setCantidadbarajas(invent.getCantidadbarajas() + dto.getCantidadActual() - dto.getTotalASumar());
                         em.merge(invent);
                     }
                 }
@@ -1050,7 +1051,7 @@ public class GestionBarajasDao {
             for (Iterator<Destruccionbarajasmaestro> iterator = lista.iterator(); iterator.hasNext();) {
                 Destruccionbarajasmaestro next = iterator.next();
                 for (Actasdestruccionbarajas acta : next.getActasdestruccionbarajasList()) {
-                    if(!usuario.getCasinoList().contains(acta.getInventario().getCasino())){
+                    if (!usuario.getCasinoList().contains(acta.getInventario().getCasino())) {
                         iterator.remove();
                         break;
                     }
@@ -1782,6 +1783,29 @@ public class GestionBarajasDao {
             tx.commit();
         } catch (Exception e) {
             System.out.println(e);
+            tx.rollback();
+        }
+
+        em.clear();
+        em.close();
+        emf.close();
+    }
+
+    public static void anularSolicitud(Integer idOrden, Usuario usuario) {
+        EntityManagerFactory emf
+                = Persistence.createEntityManagerFactory("AdminClientesPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+
+        try {
+            Solicitudbarajas orden = em.find(Solicitudbarajas.class, idOrden);
+            orden.setEstado("ANULADA");
+            em.merge(orden);
+
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
             tx.rollback();
         }
 

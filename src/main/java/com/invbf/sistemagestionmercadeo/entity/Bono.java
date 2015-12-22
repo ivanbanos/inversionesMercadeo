@@ -55,6 +55,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Bono.findByFechaEntrega", query = "SELECT b FROM Bono b WHERE b.fechaEntrega = :fechaEntrega"),
     @NamedQuery(name = "Bono.findByRangoFechas", query = "SELECT b FROM Bono b WHERE b.fechaExpiracion >= :desde AND b.fechaExpiracion <= :hasta"),
     @NamedQuery(name = "Bono.findBonoEsp", query = "SELECT b FROM Bono b WHERE b.casino = :casino AND b.denominacion = :denominacion AND b.consecutivo = :consecutivo"),
+    @NamedQuery(name = "Bono.findByEstadoSinJustificacion", query = "SELECT b FROM Bono b WHERE b.casino = :casino AND b.controlSalidaBonosid.solicitudEntregaid.propositoEntrega.id = :tipo AND b.estado = :estado AND (b.justificacion = NULL OR b.justificacion = '') AND (b.nombreCliente = NULL OR b.nombreCliente = '' OR b.nombreCliente = ' ') ORDER BY b.consecutivo ASC"),
+    
     @NamedQuery(name = "Bono.findByRangoFechasCasino", query = "SELECT b FROM Bono b WHERE b.fechaExpiracion >= :desde AND b.fechaExpiracion <= :hasta AND b.casino = :casino")})
 public class Bono implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -113,6 +115,9 @@ public class Bono implements Serializable {
     @Size(max = 400)
     @Column(name = "causadenocanje")
     private String causadenocanje;
+    @Size(max = 500)
+    @Column(name = "justificacion")
+    private String justificacion;
 
     public Bono() {
     }
@@ -285,6 +290,14 @@ public class Bono implements Serializable {
 
     public void setCausadenocanje(String causadenocanje) {
         this.causadenocanje = causadenocanje;
+    }
+
+    public String getJustificacion() {
+        return justificacion;
+    }
+
+    public void setJustificacion(String justificacion) {
+        this.justificacion = justificacion;
     }
     
 }

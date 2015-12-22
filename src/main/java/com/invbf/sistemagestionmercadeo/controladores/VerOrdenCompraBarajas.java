@@ -82,7 +82,7 @@ public class VerOrdenCompraBarajas implements Serializable {
     }
 
     public void crearrOrden() {
-        orden.setObservaciones(orden.getObservaciones() + sessionBean.getUsuario().getNombreUsuario() + ":" + observaciones + ".");
+        orden.setObservaciones(orden.getObservaciones() + sessionBean.getUsuario().getNombreUsuario() + ":" + observaciones + ". ");
 
         sessionBean.barajasFacade.crearOrden(orden, sessionBean.getUsuario());
         sessionBean.putMensaje(new Mensajes(Mensajes.INFORMACION, "Se ha generado el requerimiento con exito", "Acta de orden #" + orden.getId()));
