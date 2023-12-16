@@ -19,11 +19,11 @@
         <repository>	
             <id>prime-repo</id>	
             <name>Prime Repo</name>	
-            <url>http://repository.primefaces.org</url> 
+            <url>https://repository.primefaces.org</url> 
         </repository>
         
         <repository>
-            <url>http://download.eclipse.org/rt/eclipselink/maven.repo/</url>
+            <url>https://download.eclipse.org/rt/eclipselink/maven.repo/</url>
             <id>eclipselink</id>
             <layout>default</layout>
             <name>Repository for library EclipseLink (JPA 2.0)</name>
@@ -38,7 +38,7 @@
         <repository>
             <id>jaspersoft</id>
             <name>Jasper Soft</name>
-            <url>http://jasperforge.org/maven2/</url>
+            <url>https://jasperforge.org/maven2/</url>
         </repository>
         
     </repositories>
